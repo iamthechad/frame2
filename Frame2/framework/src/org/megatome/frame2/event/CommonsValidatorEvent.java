@@ -61,38 +61,18 @@ import org.megatome.frame2.validator.CommonsValidatorWrapper;
  * it is not necessary to override the validate method. 
  * @see org.megatome.frame2.event.Event
  */
-public abstract class CommonsValidatorEvent implements Event {
+public abstract class CommonsValidatorEvent extends AbstractEvent {
 	/**
  	 * Logger instance that may be used by this event.
  	 */
    protected static Logger LOGGER =
       LoggerFactory.instance(CommonsValidatorEvent.class.getName());
 
-   private String _name;
-
    /**
     * Constructor for CommonsValidatorEvent.
     */
    public CommonsValidatorEvent() {
       super();
-   }
-
-   /**
-    * Get this event's name
-    * @return Event name
-    * @see org.megatome.frame2.event.Event#getName()
-    */
-   public String getName() {
-      return _name;
-   }
-
-   /**
-    * Set this event's name.
-    * @param name The event name
-    * @see org.megatome.frame2.event.Event#setName(java.lang.String)
-    */
-   public void setName(String name) {
-      _name = name;
    }
 
    /**
