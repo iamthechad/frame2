@@ -39,8 +39,8 @@
             name="Frame2 Configuration Editor"
             icon="icons/frame2logo_small.jpg"
             filenames="frame2-config.xml"
-            class="org.megatome.frame2.editors.Frame2ConfigEditor"
             contributorClass="org.megatome.frame2.editors.XMLEditorContributor"
+            class="org.megatome.frame2.editors.Frame2ConfigEditor"
             id="org.megatome.frame2.editors.Frame2ConfigEditor">
       </editor>
    </extension>
@@ -56,6 +56,9 @@
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.GlobalForwardWizard"
             id="org.megatome.frame2.wizards.GlobalForwardWizard">
+         <description>
+            Create a new Frame2 Global Forward Entry
+         </description>
       </wizard>
       <wizard
             name="New Event"
@@ -63,6 +66,9 @@
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.NewEventWizard"
             id="org.megatome.frame2.wizards.NewEventWizard">
+         <description>
+            Create a new Frame2 Event
+         </description>
       </wizard>
       <wizard
             name="New Exception"
@@ -70,6 +76,9 @@
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.ExceptionWizard"
             id="org.megatome.frame2.wizards.ExceptionWizard">
+         <description>
+            Create a new Frame2 Exception handler mapping
+         </description>
       </wizard>
       <wizard
             name="New Event Handler"
@@ -77,6 +86,9 @@
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.EventHandlerWizard"
             id="org.megatome.frame2.wizards.EventHandlerWizard">
+         <description>
+            Create a new Frame2 Event Handler
+         </description>
       </wizard>
       <wizard
             name="New Event Mapping"
@@ -84,6 +96,9 @@
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.EventMappingWizard"
             id="org.megatome.frame2.wizards.EventMappingWizard">
+         <description>
+            Create a new Frame2 Event Mapping
+         </description>
       </wizard>
       <wizard
             name="Frame2 Web Application"
@@ -92,6 +107,9 @@
             class="org.megatome.frame2.wizards.Frame2ProjectWizard"
             project="true"
             id="org.megatome.frame2.wizards.Frame2ProjectWizard">
+         <description>
+            Create a new Web Application project with Frame2 support
+         </description>
       </wizard>
    </extension>
 
