@@ -23,6 +23,10 @@
 		
 		<patternset id="jstl-libs">
 			<include name="jstl.jar"/>
+			
+		</patternset>
+		
+		<patternset id="standard-libs">
 			<include name="standard.jar"/>
 		</patternset>
 			
@@ -210,6 +214,9 @@
 	         <!-- <lib dir="${lib-prefix}">
 	         	<patternset refid="ext-libs"/>
 	         </lib> -->
+			 <lib dir="${lib-prefix}">
+  	      	 	<patternset refid="standard-libs"/>
+  	      	 </lib>
 	         <lib dir="${frame2.lib}">
 	            <include name="**/*.jar"/>
 	         </lib>
@@ -253,9 +260,8 @@
          <classes dir="${war-dir}/WEB-INF/classes"/>
       	 <lib dir="${lib-prefix}">
       	 	<patternset refid="jstl-libs"/>
-      	 </lib>
-      	 <lib dir="${lib-prefix}">
-      		<patternset refid="commons-val-libs"/>
+      	 	<patternset refid="commons-val-libs"/>
+      	 	<patternset refid="standard-libs"/>
       	 </lib>
          <!--<lib dir="${lib-prefix}">
          	<patternset refid="ext-libs"/>
@@ -306,16 +312,11 @@
          <classes dir="${war-dir}/WEB-INF/classes"/>
          <lib dir="${lib-prefix}">
       	 	<patternset refid="jstl-libs"/>
-      	 </lib>
-      	 <lib dir="${lib-prefix}">
-      	 	<patternset refid="commons-val-libs"/>
-      	 </lib>
-         <lib dir="${lib-prefix}">
+         	<patternset refid="standard-libs"/>
+         	<patternset refid="commons-val-libs"/>
          	<patternset refid="ext-libs"/>
-         </lib>
-      	 <lib dir="${ws-lib-prefix}">
          	<patternset refid="soap-libs"/>
-         </lib>
+      	 </lib>
 		 <lib dir="${jwsdp-lib-prefix}">
          	<patternset refid="jwsdp-libs"/>
          </lib>
