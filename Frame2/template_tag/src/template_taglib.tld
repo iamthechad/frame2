@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib
+PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+"http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>1.2</jsp-version>
+  <short-name>template</short-name>
+  <uri>http://org.megatome.frame2.taglib.template.el</uri>
+  <small-icon>nothing.gif</small-icon>
+  <tag>
+    <name>insert</name>
+    <tag-class>org.megatome.frame2.taglib.template.el.InsertTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>definition</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+  </tag>
+  <tag>
+    <name>get</name>
+    <tag-class>org.megatome.frame2.taglib.template.el.GetTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+  </tag>
+  <tag>
+    <name>put</name>
+    <tag-class>org.megatome.frame2.taglib.template.el.PutTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>path</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>scope</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+  </tag>
+  <tag>
+    <name>param</name>
+    <tag-class>org.megatome.frame2.taglib.template.el.ParamTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>value</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute> 
+  </tag>   
+</taglib>
