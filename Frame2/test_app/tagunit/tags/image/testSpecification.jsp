@@ -4,7 +4,7 @@
 	<tagunit:assertAttribute name="align" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="alt" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="border" required="false" rtexprvalue="false" />
-	<tagunit:assertAttribute name="class" required="false" rtexprvalue="false" />
+	<tagunit:assertAttribute name="styleClass" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="dir" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="disabled" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="height" required="false" rtexprvalue="false" />

@@ -2,7 +2,7 @@
 	<tagunit:assertBodyContent name="empty"/>
 	<tagunit:assertAttribute name="accept" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="accesskey" required="false" rtexprvalue="false" />
-	<tagunit:assertAttribute name="class" required="false" rtexprvalue="false" />
+	<tagunit:assertAttribute name="styleClass" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="dir" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="disabled" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="id" required="false" rtexprvalue="false" />

@@ -4,7 +4,7 @@
 	<tagunit:assertAttribute name="acceptcharset" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="accesskey" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="action" required="true" rtexprvalue="false" />
-	<tagunit:assertAttribute name="class" required="false" rtexprvalue="false" />
+	<tagunit:assertAttribute name="styleClass" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="dir" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="disabled" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="enctype" required="false" rtexprvalue="false" />
