@@ -8,9 +8,6 @@
     <classpathentry kind="var" path="TOMCAT_HOME/common/lib/jsp-api.jar"/>
     <classpathentry kind="var" path="TOMCAT_HOME/common/lib/servlet-api.jar"/>
     <classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.junit_3.8.1/junit.jar"/>
-    <classpathentry kind="lib" path="/Frame2_Libraries/ext/http-client/HTTPClient.zip"/>
-    <classpathentry kind="lib" path="/Frame2_Libraries/ext/junit-addons-1.4/junit-addons.jar"/>
-    <classpathentry kind="lib" path="/Frame2_Libraries/ext/apache/strutstest/strutstest-2.1.0.jar"/>
     <classpathentry kind="lib" path="/Frame2_Libraries/ext/jwsdp-1.3/jaxb/lib/jaxb-api.jar"/>
     <classpathentry kind="lib" path="/Frame2_Libraries/ext/jwsdp-1.3/jaxb/lib/jaxb-impl.jar"/>
     <classpathentry kind="lib" path="/Frame2_Libraries/ext/jwsdp-1.3/jaxb/lib/jaxb-libs.jar"/>
@@ -25,5 +22,8 @@
     <classpathentry kind="lib" path="ext/framework/jstl.jar"/>
     <classpathentry kind="lib" path="ext/framework/log4j.jar"/>
     <classpathentry kind="lib" path="ext/framework/standard.jar"/>
+    <classpathentry kind="lib" path="ext/test/HTTPClient.zip"/>
+    <classpathentry kind="lib" path="ext/test/junit-addons.jar"/>
+    <classpathentry kind="lib" path="ext/test/strutstest-2.1.0.jar"/>
     <classpathentry kind="output" path="classes"/>
 </classpath>
