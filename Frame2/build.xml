@@ -238,7 +238,8 @@
     	<echo message="No tests defined for template tags - skipping compile"/>
 	</target>
 	
-	<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${junit-home}/junit.jar"/>
+	<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"
+		classpath="${junit-home}/junit.jar"/>
 	
 	<target name="test" depends="unit_tests, special_tests, container_tests, junit_report">
 	</target>
@@ -450,7 +451,7 @@
 		</copy>
 	</target>
 	
-	<target name="war" depends="dist, compile_test_app" if="run_container_tests">
+	<target name="war" depends="dist, compile_test, compile_test_app" if="run_container_tests">
 	<!--
 		<mkdir dir="${test-app-out}"/>
 		<copy todir="${test-app-out}">
@@ -519,7 +520,7 @@
       </war>
    </target>
    
-   <taskdef name="tagunit" classname="org.tagunit.ant.TagUnitTask"/>
+   <taskdef name="tagunit" classname="org.tagunit.ant.TagUnitTask" classpath="${tagunit-home}/tagunit.jar"/>
 
    <target name="tagunit_tests" depends="init" if="run_container_tests">
       <tagunit url="${tomcat-url}/${war-name}/test/servlet/RunTests?uri=/tagunit/tags/index.jsp"
@@ -565,16 +566,26 @@
    application is necessary because the reload management feature
    does not support apps deployed through the webapp path. -->
 
-   <taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"/>
-   <taskdef name="install"   classname="org.apache.catalina.ant.InstallTask"/>
-   <taskdef name="list"      classname="org.apache.catalina.ant.ListTask"/>
-   <taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask"/>
-   <taskdef name="remove"    classname="org.apache.catalina.ant.RemoveTask"/>
-   <taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask"/>
-   <taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask"/>
-   <taskdef name="start"     classname="org.apache.catalina.ant.StartTask"/>
-   <taskdef name="stop"      classname="org.apache.catalina.ant.StopTask"/>
-   <taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"/>
+   <taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="install"   classname="org.apache.catalina.ant.InstallTask"
+    classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="list"      classname="org.apache.catalina.ant.ListTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="remove"    classname="org.apache.catalina.ant.RemoveTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="start"     classname="org.apache.catalina.ant.StartTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="stop"      classname="org.apache.catalina.ant.StopTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+   <taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"
+	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
 <!--
    <target name="list" depends="init">
       <list url="${tomcat-url}/manager"
