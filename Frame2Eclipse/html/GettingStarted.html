@@ -1,18 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-  <title>Getting started With Frame2</title>
+  <title>Getting started With Frame2 for Eclipse</title>
 </head>
 <body>
-<h1>Getting Started With Frame2</h1>
+<h1>Getting Started With Frame2 for Eclipse</h1>
 <h2>Preface</h2>
 This document is intended to help developers become familiar with the Frame2
-framework by creating a very simple application.<br>
-This document assumes that you have downloaded the full binary distribution of
-Frame2. You may build Frame2 from the source distribution as well. Acquiring the
-full distribution is highly recommended as it includes all of the extra binaries
-required to run a Frame2 application.<br><br>
-This document also assumes knowledge of web applications and their directory
+framework by creating a very simple application using the Eclipse plugin.<br>
+This document assumes knowledge of web applications and their directory
 layouts. Information about web applications can be found at 
 <a href="http://java.sun.com/webservices/docs/1.0/tutorial/doc/WebApp.html">Sun's Website</a>.
 <br><br>
@@ -60,24 +56,38 @@ and via configuration, the response event is then chained to and executed.</li>
 <li>Basic validation - Use of custom data validation.</li>
 <li>Commons Validation - Use of automatic validations for a variety of conditions.</li>
 </ul>
+<h3>Frame2 Configuration</h3>
+The Frame2 wizards automatically update the Frame2 configuration file, but it
+is useful to see what kinds of entries are actually created. You should examine
+the configuration after executing different kinds of wizards to become familiar
+with the changes that are made.
+<h3>Running the Application</h3>
+This example should run in any web application container that supports the latest
+servlet and JSP specification. The Sysdeo plugin for Jakarta Tomcat was used when
+creating this tutorial, which provides Eclipse integration for launching and 
+debugging web applications through the IDE.
 <h2>Building the Example</h2>
-The following sections will show how to build the example application. The 
-source code files described need to be created within the directory structure 
-per the package definition.  Compile the Java classes any way you like.  Once 
-compiled, place them in the <i>/WEB-INF/classes</i> directory so they can be 
-found by the application.
-<h3>Build the blank Frame2 Application</h3>
-Follow the instructions given in the <i>samples</i> directory of the Frame2 
-distribution to build the blank WAR file, which is a great starting place for
-building Frame2 applications. Expand the WAR file so that files can be added and
-edited.
+The following sections will show how to build the example application.
+<h3>Create a new Frame2 Project</h3>
+From the File menu, select <code>New</code>-><code>Project...</code>. If necessary, 
+select the <code>Show All Wizards</code> box to show all available wizards. From 
+the <code>Frame2</code> menu, select <code>Frame2 Web Application</code>. The 
+following dialog is displayed:<br>
+<img src="images/new_project_wizard.jpg" width="533" height="500" alt="" border="0" align="">
+<br><u><b>New Project Selection</b></u><br>
+<br>
+Enter a name for the project and select <code>Finish</code>. A new project is 
+created in the workspace with the required file structure for a web application. 
+Take a few minutes to examine the files and folders created by the wizard.<br>
+<img src="images/project_layout.jpg" width="269" height="369" alt="" border="0" align="">
+<br><u><b>Frame2 Project Layout</b></u><br><br>
 <h4>Examine the web.xml file</h4>
 Open the <i>web.xml</i> file to see how Frame2 works as a web application. Pay 
 attention to the context parameters; Frame2 has many settings that can be 
 overridden using this method.
 <h4>Examine the Frame2 Configuration File</h4>
 Open the <i>frame2-config.xml</i> file, found in the <i>WEB-INF</i> directory. 
-The configuration file included with the blank application has placeholders for
+The configuration file created by the wizard has placeholders for
 the various elements. We will examine these in more detail during this tutorial.
 <h3>Displaying Current Users</h3>
 We will begin by creating the necessary files to view current users in our 
@@ -87,12 +97,21 @@ event, a JSP to display the list of users, and a simple object to hold users.
 <h4>Display Users Event</h4>
 The Display Users event will simply hold the list of users so that the Frame2 
 tags can iterate over the list and display all users.<br>
-Create a new class named <code>DisplayUsers</code> that extends the 
-<code>org.megatome.frame2.event.CommonsValidatorEvent</code> class. You may select
-any package you wish - for this example all files were created in the 
-<code>org.megatome.example</code> package.<br>
+Using <code>File</code>-><code>New</code>-><code>Other...</code>, select the 
+<code>New Event</code> wizard.<br>
+<img src="images/new_event_wizard.jpg" width="533" height="500" alt="" border="0" align="">
+<br><u><b>New Event Wizard Selection</b></u><br><br>
+In the New Event wizard, give the event the name <code>displayUsers</code>. The 
+source directory should be the <i>/WEB-INF/src</i> folder that was created by the
+Frame2 project Wizard. Use the package <code>org.example.megatome</code> and 
+name <code>DisplayUsers</code>. Select <code>Finish</code> to create the event. 
+A new Java source file is created and opened in the editor, and an entry is 
+automatically added to the Frame2 configuration file.<br>
+<img src="images/display_users_event1.jpg" width="533" height="500" alt="" border="0" align="">
+<br><u><b>Creating the displayUsers Event</b></u><br><br>
 Add a field to the class of type <code>List</code> that is named <code>users</code>. 
-Add a getter and setter for the field. The class should resemble the following:<br>
+Add a getter and setter for the field.<br>
+The class should resemble the following:<br>
 <pre>
 package org.megatome.example;
 
@@ -108,18 +127,15 @@ public class DisplayUsers extends CommonsValidatorEvent {
    public void setUsers(List users) { this.users = users; }
 }
 </pre>
-<h4>Frame2 Configuration</h4>
-In order for Frame2 to know about the event, it must be added to the configuration
-file. Add the following entry to <i>frame2-config.xml</i> (colored text is the 
-text to add)<br>
-<pre>&lt;events&gt;
-<font color="red">&lt;event name="displayUsers" type="org.megatome.example.DisplayUsers"/&gt;</font>
-&lt;/events&gt;</pre>
 <h4>User Object</h4>
 Create a new class named <code>User</code>. This class needs no superclass. We're
 going to keep this class simple, so add <code>String</code> fields for 
 <code>userName</code> and <code>email</code>, plus their associated getters 
 and setters.<br>
+<img src="images/user_class.jpg" width="533" height="556" alt="" border="0" align="">
+<br><u><b>Creating the User Class</b></u><br><br>
+<img src="images/user_getter_setter.jpg" width="432" height="581" alt="" border="0" align="">
+<br><u><b>Creating Getters and Setters</b></u><br><br>
 The class should resemble the following:<br>
 <pre>
 package org.megatome.example;
@@ -142,6 +158,8 @@ We will be using a simple static object to hold the user list. Create a class
 named <code>UserStorage</code> that has no superclass. This class should contain 
 a <code>List</code> for storage of <code>User</code> objects, an <code>addUser()</code> 
 method, and a <code>getUsers()</code> method, all declared static.<br>
+<img src="images/user_storage_class.jpg" width="533" height="556" alt="" border="0" align="">
+<br><u><b>Creating the UserStorage Class</b></u><br><br>
 The class should resemble the following:<br>
 <pre>
 package org.megatome.example;
@@ -164,9 +182,20 @@ with Frame2.
 <h4>Display Users Event Handler</h4>
 This event handler is responsible for getting the list of users from the storage
 object and populating the event with them.<br>
-Create a new class called <code>DisplayUsersHandler</code> that implements 
-the <code>org.megatome.frame2.event.EventHandler</code> interface. Implement the 
-required <code>handle()</code> method with the following code:<br>
+Select the <code>New Event Handler</code> wizard.<br>
+<img src="images/event_handler_wizard.jpg" width="533" height="500" alt="" border="0" align="">
+<br><u><b>Selecting Event Handler Wizard</b></u><br><br>
+In the first wizard page, enter <code>displayUsersHandler</code> for the handler name, 
+<i>/WEB-INF/src</i> as the source folder, <code>org.megatome.example</code> as 
+the package, and <code>DisplayUsersHandler</code> as the Name.<br>
+<img src="images/display_users_handler1.jpg" width="533" height="500" alt="" border="0" align="">
+<br><u><b>Event Handler Wizard Page 1</b></u><br><br>
+Event Handlers may have local forwards associated with them - none of the handlers
+in this example use local forwards. You may select <code>Finish</code> to create 
+the handler, or <code>Next</code> to view the page for specifying local forward 
+information.<br>
+A new class is created and opened in the editor. Add code so that the <code>handle()</code> 
+method resembles the following code:<br>
 <pre>
 public String handle(Event event, Context context) throws Exception {
 	DisplayUsers myEvent = (DisplayUsers)event;
@@ -176,16 +205,13 @@ public String handle(Event event, Context context) throws Exception {
 	return null;
 }
 </pre>
-<h4>Edit Frame2 Configuration</h4>
-The handler must be added to the Frame2 configuration. Add the following entry
-to <i>frame2-config.xml</i> (colored text is the text to be added):<br>
-<pre>&lt;event-handlers&gt;
-<font color="red">&lt;event-handler name="displayUsersHandler" type="org.megatome.example.DisplayUsersHandler"/&gt;</font>
-&lt;/event-handlers&gt;</pre>
 <h4>Display Users JSP</h4>
 We will now create the JSP used to display the list of users. We will use a mixture
 of JSTL tags and Frame2 custom tags to display the information.<br>
-In the root of the web application, create a file named <i>displayUsers.jsp</i>. 
+In the root of the web application, create a file named <i>displayUsers.jsp</i>.
+<br>
+<img src="images/display_users_jsp.jpg" width="438" height="579" alt="" border="0" align="">
+<br><u><b>Creating the Display Users JSP</b></u><br> <br>
 Copy the following code into it:<br>
 <pre>
 &lt;%@ page language="java" contentType="text/html" %&gt;
@@ -217,33 +243,44 @@ This JSP simply uses the JSTL to iterate through each user in the event and
 list the user's name and email in a table. If there are no defined users, a
 message is printed to that effect.<br>
 This page will be forwarded to as a result of calling the display users event,
-so it must be added to the Frame2 configuration as a view. Add the following entry
-to <i>frame2-config.xml</i> (colored text is the text to be added):<br>
-<pre>&lt;global-forwards&gt;
-<font color="red">&lt;forward name="displayUsersJSP" type="HTMLResource" path="/displayUsers.jsp"/&gt;</font>
-&lt;/global-forwards&gt;</pre>
-This entry tells Frame2 that the forward named "displayUsersJSP" is a resource
-that can be forwarded to like normal HTML/JSP resources. Other types of forwards
-include XML responders, XML resources, and direct event forwards.
+so it must be added to the Frame2 configuration as a view.<br>
+Select the <code>New Global Forward</code> wizard. Specify <code>displayUsersJSP</code>
+as the forward name, <code>HTMLResource</code> for the type, and 
+<code>/displayUsers.jsp</code> for the path. (The path can easily be specified by
+selecting the <code>Browse...</code> button, and entering the name of the file
+desired in the resulting dialog.)<br>
+<img src="images/display_users_forward.jpg" width="533" height="500" alt="" border="0" align="">
+<br><u><b>Creating a Global Forward</b></u><br><br>
+This entry tells Frame2 that the forward named <code>displayUsersJSP</code> is a 
+resource that can be forwarded to like normal HTML/JSP resources. Other types of 
+forwards include XML responders, XML resources, and direct event forwards.
 <h4>Event mapping</h4>
 Now that we have an event, event handler, and a global forward defined, it's time
 to tie them all together with what's known as an event mapping. Event mappings
 define what events are used with event handlers, and can also specify views to
 forward to on validation failure, user cancellation, and normal execution of all
 handlers in the mapping.<br>
-Add the following entry to <i>frame2-config.xml</i> (colored text is the text to be 
-added):<br>
-<pre>&lt;event-mappings&gt;<font color="red">
-&lt;event-mapping eventName="displayUsers"&gt;
-  &lt;handler name="displayUsersHandler"/&gt;
-  &lt;view type="HTML" forwardName="displayUsersJSP"/&gt;
-&lt;/event-mapping&gt;</font>
-&lt;/event-mappings&gt;
-</pre>
-This mapping tells Frame2 how to act when an event named "displayUsers" is called.
-Events may be called either through a link (<code>&lt;a href="displayUsers.f2"&gt;Link&lt;/a&gt;</code>),
-or as an action from a form (<code>&lt;form action="displayUsers.f2"&gt;</code>). 
-When the "displayUsers" event is called, Frame2 creates an instance of the 
+Select the <code>New Event Mapping</code> wizard. This is a multipage wizard.<br>
+On the first wizard page, select the <code>displayUsers</code> event from the drop down
+box to specify the Event that this mapping will be used with. We do not need to 
+specify input or cancel views at this point. Select <code>Next</code>.<br>
+<img src="images/display_users_mapping1.jpg" width="537" height="500" alt="" border="0" align="">
+<br><u><b>Event Mapping Wizard Page 1</b></u><br><br>
+On the second page, select <code>displayUsersHandler</code> from the left hand list and 
+select the single right arrow to move it to the right hand list. All handler 
+entries in the right hand list will be used in the mapping; if multiple handlers
+are selected, they can be arranged in the order they should be invoked. Select
+<code>Next</code>.<br>
+<img src="images/display_users_mapping2.jpg" width="537" height="500" alt="" border="0" align="">
+<br><u><b>Event Mapping Wizard Page 2</b></u><br><br>
+On the final page, HTML and XML views can be specified, as well as any security 
+roles that are required to access the mapping. The only option we need to set is
+the HTML view. This setting tells Frame2 where to forward to once all of the 
+handlers have completed. Select <code>displayUsersJSP</code> from the drop down to specify
+that the listing page is the final destination for this mapping.<br>
+<img src="images/display_users_mapping3.jpg" width="537" height="500" alt="" border="0" align="">
+<br><u><b>Event Mapping Wizard Page 3</b></u><br><br>
+When the <code>displayUsers</code> event is called, Frame2 creates an instance of the 
 <code>DisplayUsers</code> event and passes it to an instance of the 
 <code>DisplayUsersHandler</code> handler. The handler may return a string from 
 its <code>handle()</code> method; if this happens, Frame2 will forward to the 
@@ -277,11 +314,13 @@ We'll just modify it to be a Frame2 event and avoid having to create new code.<b
 Change the signature of the <code>User</code> class so that it extends 
 <code>org.megatome.frame2.event.CommonsValidatorEvent</code>. 
 Add a new event entry to the Frame2 configuration like the following:<br>
-<pre>&lt;event name="addUser" type="org.megatome.example.User"/&gt;</pre>
+<pre>&lt;event name='addUser' type='org.megatome.example.User'/&gt;</pre>
 <h4>Add User Handler</h4>
-Create a new class named <code>AddUserHandler</code> that implements the 
-<code>org.megatome.frame2.event.EventHandler</code> interface. Implement the 
-required <code>handle()</code> method with the following code:<br>
+Create a new Event Handler named <code>addUserHandler</code> with class name 
+<code>AddUserHandler</code>.
+<br><img src="images/add_user_handler.jpg" width="533" height="500" alt="" border="0" align="">
+<br><u><b>Creating the Add User Handler</b></u><br><br>
+Implement the <code>handle()</code> method with the following code:<br>
 <pre>
 public String handle(Event event, Context context) throws Exception {
 	User user = (User)event;
@@ -291,9 +330,7 @@ public String handle(Event event, Context context) throws Exception {
 }
 </pre>
 The <code>User</code> event will be automatically updated with the form data by 
-the framework, so we can add it directly to the user storage.<br>
-Add a new event handler entry to the Frame2 configuration:<br>
-<pre>&lt;event-handler name="addUserHandler" type="org.megatome.example.AddUserHandler"/&gt;</pre>
+the framework, so we can add it directly to the user storage.
 <h4>Add User JSP</h4>
 Create a file named <i>addUser.jsp</i> and copy the following code into it:<br>
 <pre>
@@ -306,7 +343,7 @@ Create a file named <i>addUser.jsp</i> and copy the following code into it:<br>
 &lt;table border="0"&gt;
 &lt;tr&gt;
 &lt;td align="left"&gt;User Name:&lt;/td&gt;
-&lt;td&gt;&lt;frame2:text name="name"/&gt;&lt;/td&gt;
+&lt;td&gt;&lt;frame2:text name="userName"/&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;tr&gt;
 &lt;td align="left"&gt;Email:&lt;/td&gt;
 &lt;td&gt;&lt;frame2:text name="email"/&gt;&lt;/td&gt;
@@ -328,19 +365,26 @@ file similar to:<br>
 <pre>&lt;br&gt;&lt;a href="addUser.jsp"&gt;Add New User:&lt;/a&gt;</pre>
 Now we just need to map everything together!
 <h4>Add User Event Mapping</h4>
-Since we are not performing any validation yet, this event mapping will fairly
+Since we are not performing any validation yet, this event mapping will be fairly
 simple. We want to tie the User event to the <code>AddUserHandler</code> handler, 
-and forward to the <code>DisplayUsers</code> event when we are finished. In 
-order to forward to an event, we will first need to create a new global forward 
-that points to the desired event:<br>
-<pre>&lt;forward name="displayUsersForward" type="event" path="displayUsers"/&gt;</pre>
-Now we can add our event mapping:<br>
-<pre>
-&lt;event-mapping eventName="addUser"&gt;
-  &lt;handler name="addUserHandler"/&gt;
-  &lt;view type="HTML" forwardName="displayUsersForward"/&gt;
-&lt;/event-mapping&gt;
-</pre>
+and forward to the <code>DisplayUsers</code> event when we are finished.<br>
+In order to forward to an event, we will first need to create a new global forward 
+that points to the desired event. In the Global Forward Wizard, enter 
+<code>displayUsersForward</code> as the name, select <code>event</code> as the 
+type, and select the <code>displayUsers</code> event from the drop-down box.<br>
+<img src="images/display_users_forward_event.jpg" width="533" height="500" alt="" border="0" align="">
+<br><u><b>Creating Global Forward to an Event</b></u><br><br>
+Now we can add our event mapping. In the first page of the Event Mapping wizard,
+select the <code>addUser</code> Event.<br>
+<img src="images/add_user_mapping1.jpg" width="537" height="500" alt="" border="0" align="">
+<br><u><b>Add User Event Mapping Page 1</b></u><br><br>
+In the second page of the wizard, move the <code>addUserHandler</code> entry to the
+selected list.<br>
+<img src="images/add_user_mapping2.jpg" width="537" height="500" alt="" border="0" align="">
+<br><u><b>Add User Event Mapping Page 2</b></u><br><br>
+In the final page of the wizard, select <code>displayUsersForward</code> for the HTML View.<br>
+<img src="images/add_user_mapping3.jpg" width="537" height="500" alt="" border="0" align="">
+<br><u><b>Add User Event Mapping Page 3</b></u><br> <br>
 <h4>Run the Application</h4>
 Run the web application as before. There should now be a link from the display
 users page to the add user page. Enter any name and email address, and select the
@@ -355,10 +399,18 @@ cancel tag to be used in JSPs, and the event mapping needs a very small tweak.
 In the add user JSP, add the following tag immediately after the reset tag:<br>
 <pre>&lt;frame2:cancel/&gt;</pre>
 <h4>Update the event mapping</h4>
-Event mappings have an attribute called "cancelView". This attribute tells the
-framework which view to forward to in the case of a cancel event. Add the following
-to the add user event mapping, right after the "eventName" attribute:<br>
-<pre>cancelView="displayUsersForward"</pre>
+Event mappings have an attribute called <code>cancelView</code>. This attribute 
+tells the framework which view to forward to in the case of a cancel event. We 
+could just edit the event mapping entry in the configuration file by hand, but 
+it's good to be familiar with how to specify the cancel view using the wizard.<br>
+Open the Frame2 configuration file in an editor, and remove the event mapping for
+the <code>addUser</code> event, then run the event mapping wizard again to 
+recreate the mapping.<br>
+In the first page of the wizard, again select <code>addUser</code> as the Event. This time,
+also select <code>displayUsersForward</code> for the Cancel View.<br>
+<img src="images/addUserMappingCancel.jpg" width="537" height="500" alt="" border="0" align="">
+<br><u><b>Add User Event Mapping with Cancel View</b></u><br><br>
+The values for the remaining pages of the wizard are the same as previously entered.
 <h4>Run the application</h4>
 Run the application, verifying that the add user JSP now has a Cancel button. 
 Verify that selecting the Cancel button returns to the display users page.
@@ -367,12 +419,8 @@ We'll add some very basic validation now. All we will check for at this point is
 that both fields are non-empty when a user submits the form.
 <h4>Create the error messages</h4>
 We need to create a file to hold the error messages that will be displayed.
-Create a new file named <i>frame2-app-bundle.properties</i> in a location that 
-will make sure it is in the classpath when the application is run. For this 
-example, this file will be placed at the root of the source tree. In order for 
-the properties file to be in the classpath, it will need to be in the 
-<i>WEB-INF/classes</i> folder when deployed. (Many IDEs will copy resource files 
-automatically to the correct location.)<br>
+Create a new file named <i>frame2-app-bundle.properties</i> in the <i>/WEB-INF/src</i>
+folder to ensure that the file will be moved by Eclipse into the classpath.<br>
 Note that the file name is the one specified in <i>web.xml</i> as a context parameter.<br>
 Add the following lines to the new file:<br>
 <pre>
@@ -417,11 +465,22 @@ Change this tag:
 <pre>&lt;frame2:text name="email"/&gt;</pre>
 to this:
 <pre>&lt;frame2:text name="email" value="${addUser.email}"/&gt;</pre>
+In order for the framework to return to this page when validation fails, we need
+to create a global forward that points to it. Using the wizard, create a new
+global forward named <code>addUserJSP</code> of type <code>HTMLResource</code> 
+that points to the <i>addUser.jsp</i> file.<br>
 <h4>Update Frame2 Configuration</h4>
 Once again, we must update the configuration file to inform Frame2 that we wish
-to have validation enabled and where to forward to when validation fails. Add the
-following to the add user event mapping after the "cancelView" attribute:<br>
-<pre>inputView="addUserJSP" validate="true"</pre>
+to have validation enabled and where to forward to when validation fails. We will
+again recreate the event mapping to become familiar with the wizard. Remove the 
+event mapping for the <code>addUser</code> event.<br>
+Create an event mapping using the wizard. On the first page, specify <code>addUser</code>
+for the event, and <code>displayUsersForward</code> for the Cancel View as before. This
+time, select <code>addUserJSP</code> for the Input View. This will tell Frame2 where to 
+forward when validation fails.<br>
+<img src="images/addUserMappingCancelValidate.jpg" width="537" height="500" alt="" border="0" align="">
+<br><u><b>Add User Event Mapping with Cancel and Input Views</b></u><br><br>
+The values for the remaining pages of the wizard are the same as previously entered.
 <h4>Run the application</h4>
 Run the application once again, and see what happens when you leave one or more
 of the form fields empty.
@@ -430,13 +489,11 @@ To enable Commons validation, we will need to follow several steps. The rules an
 mappings for validation must be added to the web application and modified, the 
 validator plugin must be enabled, and the User event needs to be modified.
 <h4>Copy Rules and Mappings</h4>
-You will need to copy some files from the source distribution of Frame2 into 
-your example web application. Copy the <i>commonsvalidator</i> folder and its 
-contents from the <i>framework/test/src/WEB-INF<i> folder in the source 
-distribution. There will be two files in this folder: <i>commons-validator-rules.xml</i> 
-and <i>commons-validation-mappings.xml</i>. We will need to modify the mappings 
-file to instruct the Commons Validator how to validate our form.<br>
-In order for error messages produced by the Commons validator to be properly
+Examine the <i>commonsvalidator</i> folder. There are two files in this folder: 
+<i>commons-validator-rules.xml</i> and <i>commons-validation-mappings.xml</i>. 
+We will need to modify the mappings file to instruct the Commons Validator how 
+to validate our form.<br>
+In order for error messages produced by the Commons Validator to be properly
 shown, we need to add them to the application's resource file. Copy the entries
 found at the top of the rules file into the <i>frame2-app-bundle.properties</i> 
 file. The messages should resemble the following:<br>
@@ -509,4 +566,3 @@ Run the application again, verifying that username and email are still required,
 and that a valid email address is now required.
 </body>
 </html>
-
