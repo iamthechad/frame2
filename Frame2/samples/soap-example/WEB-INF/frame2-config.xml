@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+
+<frame2-config>
+   <global-forwards>
+    <forward name="displayUsersJSP" type="HTMLResource" path="/displayUsers.jsp"/>
+    <forward name="addUserJSP" type="HTMLResource" path="/addUser.jsp"/>
+    <forward name="displayUsersForward" type="event" path="displayUsers"/>
+    <forward name="ack" type="XMLResponder" path="org.megatome.example.xmlhandlers.AckResponder"/>
+   </global-forwards>
+   
+   <events>
+   	<event name="displayUsers" type="org.megatome.example.DisplayUsers"/>
+   	<event name="addUser" type="org.megatome.example.User"/>
+   	<event name="addUserXML" resolveAs="children" type="org.megatome.example.jaxbgen.impl.UserImpl"/>
+   </events>
+
+   <event-mappings>
+	<event-mapping eventName="displayUsers">
+	  <handler name="displayUsersHandler"/>
+	  <view type="HTML" forwardName="displayUsersJSP"/>
+	</event-mapping>
+	<event-mapping eventName="addUser" cancelView="displayUsersForward" inputView="addUserJSP" validate="true">
+	  <handler name="addUserHandler"/>
+	  <view type="HTML" forwardName="displayUsersForward"/>
+	</event-mapping>
+	<event-mapping eventName="addUserXML" inputView="addUserJSP" validate="true">
+      <handler name="addUserHandler"/>
+	  <view type="HTML" forwardName="displayUsersForward"/>
+      <view type="XML" forwardName="ack"/>
+    </event-mapping>
+   </event-mappings>
+
+   <event-handlers>
+   	<event-handler name="displayUsersHandler" type="org.megatome.example.DisplayUsersHandler"/>
+   	<event-handler name="addUserHandler" type="org.megatome.example.AddUserHandler"/>
+   </event-handlers>
+
+   <exceptions>
+   </exceptions>
+   
+   <plugins>
+		<plugin name='CommonsValidator' type='org.megatome.frame2.validator.CommonsValidatorPlugin'/>
+	</plugins>
+</frame2-config>

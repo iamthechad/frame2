@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+<form-validation>
+	<formset>
+		<form name="addUser">
+			<field property="userName" depends="required">
+				<arg0 key="userName"/>
+			</field>
+			<field property="email" depends="required,email">
+				<arg0 key="email"/>
+			</field>
+		</form>
+	</formset>
+</form-validation>
