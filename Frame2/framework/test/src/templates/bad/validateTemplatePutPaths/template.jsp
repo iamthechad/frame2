@@ -1,1 +1,0 @@
-Placeholder jsp for valid put path
