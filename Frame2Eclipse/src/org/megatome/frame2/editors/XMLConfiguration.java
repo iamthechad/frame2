@@ -3,17 +3,21 @@ package org.megatome.frame2.editors;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.TextAttribute;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.swt.graphics.RGB;
 
 public class XMLConfiguration extends SourceViewerConfiguration {
 	private XMLDoubleClickStrategy doubleClickStrategy;
 	private XMLTagScanner tagScanner;
 	private XMLScanner scanner;
+	private XMLCompletionProcessor completionProcessor;
 	private ColorManager colorManager;
 
 	public XMLConfiguration(ColorManager colorManager) {
@@ -53,6 +57,12 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		}
 		return tagScanner;
 	}
+	protected XMLCompletionProcessor getXMLCompletionProcessor() {
+	   if (completionProcessor == null) {
+	      completionProcessor = new XMLCompletionProcessor();
+	   }
+	   return completionProcessor;
+	}
 
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		PresentationReconciler reconciler = new PresentationReconciler();
@@ -76,4 +86,16 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		return reconciler;
 	}
 
+   public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+      ContentAssistant assistant = new ContentAssistant();
+      assistant.setContentAssistProcessor(getXMLCompletionProcessor(), IDocument.DEFAULT_CONTENT_TYPE);
+      assistant.setContentAssistProcessor(getXMLCompletionProcessor(), XMLPartitionScanner.XML_TAG);
+      assistant.enableAutoActivation(true);
+      assistant.setAutoActivationDelay(500);
+      
+      assistant.setProposalPopupOrientation(assistant.CONTEXT_INFO_BELOW);
+      assistant.setContextInformationPopupOrientation(assistant.CONTEXT_INFO_BELOW);
+      assistant.setContextInformationPopupBackground(colorManager.getColor(new RGB(0, 191, 255)));
+      return assistant;
+   }
 }
