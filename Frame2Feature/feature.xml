@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.megatome.frame2.feature"
+      label="Frame2"
+      version="1.0.0"
+      provider-name="Megatome Technologies"
+      os="win32"
+      ws="win32"
+      nl="en"
+      arch="x86"
+      image="frame2logo.jpg">
+
+   <install-handler/>
+
+   <description>
+      Provides support for building Frame2 based web applications.
+   </description>
+
+   <copyright>
+      Copyright (C) 2004 Megatome Technologies
+   </copyright>
+
+   <license>
+      Frame2 Open Source License
+
+Copyright (c) 2004 Megatome Technologies.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. The end-user documentation included with the redistribution, if any, must include the following acknowlegement: &quot;This product includes software developed by Megatome Technologies.&quot; Alternately, this acknowlegement may appear in the software itself, if and wherever such third-party acknowlegements normally appear.
+
+4. The names &quot;The Frame2 Project&quot;, and &quot;Frame2&quot;, must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact iamthechad@sourceforge.net.
+
+5. Products derived from this software may not be called &quot;Frame2&quot; nor may &quot;Frame2&quot; appear in their names without prior written permission of Megatome Technologies.
+
+THIS SOFTWARE IS PROVIDED ``AS IS&apos;&apos; AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MEGATOME TECHNOLOGIES OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ 
+This product includes software developed by Virtuas Solutions, LLC.
+Frame2 is based upon the TurboM2 framework. For more information about TurboM2, visit http://www.turbom2.org
+   </license>
+
+   <url>
+      <update label="Frame2 Update Site" url="http://frame2.sourceforge.net/eclipse"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+   </requires>
+
+   <plugin
+         id="org.megatome.frame2"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"/>
+
+</feature>
