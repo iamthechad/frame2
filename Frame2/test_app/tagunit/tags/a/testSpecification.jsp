@@ -2,7 +2,6 @@
 	<tagunit:assertBodyContent name="JSP"/>
 	<tagunit:assertAttribute name="accesskey" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="charset" required="false" rtexprvalue="false" />
-	<tagunit:assertAttribute name="class" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="dir" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="disabled" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="displayvalue" required="false" rtexprvalue="false" />
@@ -29,6 +28,7 @@
 	<tagunit:assertAttribute name="rev" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="shape" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="style" required="false" rtexprvalue="false" />
+	<tagunit:assertAttribute name="styleClass" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="tabindex" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="target" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="title" required="false" rtexprvalue="false" />
