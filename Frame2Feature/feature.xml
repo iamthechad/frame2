@@ -4,10 +4,10 @@
       label="Frame2"
       version="1.0.0"
       provider-name="Megatome Technologies"
-      os="win32"
-      ws="win32"
+      os="linux,macosx,solaris,win32"
+      ws="carbon,gtk,motif,win32"
       nl="en"
-      arch="x86"
+      arch="amd64,ia64,ppc,sparc,x86"
       image="frame2logo.jpg">
 
    <install-handler/>
