@@ -80,9 +80,9 @@ public interface Context {
     * Returns the value of the named request attribute as an Object, or null if no attribute of the
     * given key exists.
     *
-    * @param key
+    * @param key The key of the request attribute to look up.
     *
-    * @return Object
+    * @return The value associated with the key, or null if there is none.
     */
    public Object getRequestAttribute(String key);
 
@@ -90,8 +90,8 @@ public interface Context {
     * Stores an attribute in the request. Attributes are reset between requests.  If an object of
     * the same name is already bound to the session, the object is replaced.
     *
-    * @param key
-    * @param value
+    * @param key The key this attribute will be stored under.
+    * @param value The value to associate with the key.
     */
    public void setRequestAttribute(String key, Object value);
 
@@ -100,16 +100,16 @@ public interface Context {
     * between requests.  If an object of the same name  is already bound to the session, the
     * object is replaced.
     *
-    * @param key
-    * @param value
-    * @param redirectAttr
+    * @param key The key this attribute will be stored under.
+    * @param value The value to associate with the key.
+    * @param redirectAttr If true, sets this key and value into the redirect attributes as well.
     */
    public void setRequestAttribute(String key, Object value, boolean redirectAttr);
 
    /**
     * Removes an attribute from the request.
     *
-    * @param key
+    * @param key The key of the object to remove.
     */
    public void removeRequestAttribute(String key);
 
@@ -117,9 +117,9 @@ public interface Context {
     * Returns the value of the named session attribute as an Object, or null if no attribute of the
     * given key exists.
     *
-    * @param key
+    * @param key The key of the attribute to look up.
     *
-    * @return Object
+    * @return The value associated with the key, or null if none found.
     */
    public Object getSessionAttribute(String key);
 
@@ -127,29 +127,31 @@ public interface Context {
     * Stores an attribute in the session. If an object of the same name is already bound to the
     * session, the object is replaced.  requests.
     *
-    * @param key
-    * @param value
+    * @param key The key the value is to be stored under.
+    * @param value The value to be associated with the key.
     */
    public void setSessionAttribute(String key, Object value);
 
    /**
     * Removes an attribute from the session.
     *
-    * @param key
+    * @param key The key of the attribute to remove.
     */
    public void removeSessionAttribute(String key);
 
    /**
     * Returns the errors object for this request.
     *
-    * @return Errors
+    * @return An Errors object
+    * @see org.megatome.frame2.errors.Errors
     */
    public Errors getRequestErrors();
    
    /**
     * Return the servlet context
     * 
-    * @return ServletContext
+    * @return The current servlet context
+    * @see javax.servlet.ServletContext
     */
    public ServletContext getServletContext();
 }

@@ -51,13 +51,11 @@
 package org.megatome.frame2;
 
 
-/*
- * This is the base exception type for all WAM framework code.  Each package
+/**
+ * This is the base exception type for all Frame2 framework code.  Each package
  * will define its own exception based on this.
  */
 public class Frame2Exception extends Exception {
-
-   private Throwable _throwable;
 
    /**
     * Constructor for Frame2Exception.
@@ -69,34 +67,28 @@ public class Frame2Exception extends Exception {
    /**
     * Constructor for Frame2Exception.
     *
-    * @param arg0
+    * @param message The message for this exception
     */
-   public Frame2Exception(String arg0) {
-      super(arg0);
+   public Frame2Exception(String message) {
+      super(message);
    }
 
    /**
     * Constructor for Frame2Exception.
     *
-    * @param arg0
-    * @param arg1
+    * @param message The message for this exception
+    * @param cause The cause of this exception
     */
-   public Frame2Exception(String arg0, Throwable arg1) {
-      super(arg0);
-      _throwable = arg1;
+   public Frame2Exception(String message, Throwable cause) {
+      super(message, cause);
    }
 
    /**
     * Constructor for Frame2Exception.
     *
-    * @param arg0
+    * @param cause The cause of this exception
     */
-   public Frame2Exception(Throwable arg0) {
-      super();
-      _throwable = arg0;
-   }
-   
-   public Throwable getCause() {
-      return _throwable;
-   }
+   public Frame2Exception(Throwable cause) {
+      super(cause);
+   }   
 }

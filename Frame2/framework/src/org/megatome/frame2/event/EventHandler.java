@@ -72,8 +72,8 @@ public interface EventHandler {
     * @param context The context of the request.  The handler may access the request and session
     *        attributes through the context, and the request errors object.
     *
-    * @return String The status token for the handler. It is allowed and common for handlers to
-    *         return a null token. Otherwise the token value corresponds to the  a view directive
+    * @return The status token for the handler. It is allowed and common for handlers to
+    *         return a null token. Otherwise the token value corresponds to a view directive
     *         as specified in the configuration file.
     *
     * @throws Exception

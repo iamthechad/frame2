@@ -62,23 +62,30 @@ import org.w3c.dom.Element;
 public class SimplePassthruEvent extends CommonsValidatorEvent implements PassthruEvent {
    private Element _passthruData;
 
+   /**
+    * Validate the event. This implementation will always return true.
+    * @param errors Errors object to be populated with errors discovered
+    * during validation.
+    * @return True
+    * @see org.megatome.frame2.event.Event#validate(org.megatome.frame2.errors.Errors)
+    */
    public boolean validate(Errors errors) {
       return true;
    }
 
    /**
-    * Returns the passthruData.
-    *
-    * @return Element
+    * Get the pass through data
+    * @return The passThru data
+    * @see org.megatome.frame2.event.xml.PassthruEvent#getPassthruData()
     */
    public Element getPassthruData() {
       return _passthruData;
    }
 
    /**
-    * Sets the passthruData.
-    *
-    * @param passthruData The passthruData to set
+    * Set the pass through data
+    * @param passthruData The data to set
+    * @see org.megatome.frame2.event.xml.PassthruEvent#setPassthruData(org.w3c.dom.Element)
     */
    public void setPassthruData(Element passthruData) {
       _passthruData = passthruData;

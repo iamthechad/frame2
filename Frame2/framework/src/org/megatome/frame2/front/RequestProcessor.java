@@ -54,21 +54,31 @@
  * The request processor is the delegate for use by servlets in processing HTTP requests.
  */
 public interface RequestProcessor {
+
    /**
-    * Method processRequest.
-    *
-    * @throws ServletException
-    * @throws IOException
+    * Process the current request.
+    * @return Always null. Reserved for future use.
+    * @throws Throwable
     */
    public Object processRequest() throws Throwable;
 
    /**
-    * Method release.
+    * Release any references held by the RequestProcessor.
     */
    public void release();
    
+   /**
+    * Called before the <code>processRequest()</code> method is
+    * called. Custom request processors can override this to perform
+    * specific actions before a request begins to process.
+    */
    public void preProcess();
    
+   /**
+    * Called after the <code>processRequest()</code> method is
+    * called. Custom request processors can override this to perform
+    * specific actions after a request has finished processing.
+    */
    public void postProcess();
 
 }

@@ -60,262 +60,267 @@ import java.util.TreeMap;
  * A container for Error objects, which can be stored and retrieved by key. The implementation
  * maintains ordering behaviors (results are returned sorted by key).
  */
-
-// NIT: an interface should probably be factored out from this implementation, as well as for
-// the  error object.
 final public class Errors {
-	private Map _errors = new TreeMap();
-	private int _count;
+   private Map _errors = new TreeMap();
+   private int _count;
 
-	static private Error[] _typeArray = new Error[0];
+   static private Error[] _typeArray = new Error[0];
 
-	/**
-	 * Returns a new error object.
-	 *
-	 * @return Errors
-	 */
-	public static Errors instance() {
-		return new Errors();
-	}
+   /**
+    * Creates a new errors object.
+    *
+    * @return Errors
+    */
+   public static Errors instance() {
+      return new Errors();
+   }
 
-	/**
-	* Add an error with the key only.
-	*
-	* @param key
-	* 
-	*/
-	public void add(String key) {
-		add(key, null, null, null);
-	}
+   /**
+   * Add an error with the key only.
+   *
+   * @param key Error key
+   * 
+   */
+   public void add(String key) {
+      add(key, null, null, null);
+   }
 
-	/**
-	 * Add an error with the key and value.
-	 *
-	 * @param key
-	 * @param value
-	 */
-	public void add(String key, Object value) {
-		add(key, value, null, null);
-	}
+   /**
+    * Add an error with the key and value.
+    *
+    * @param key Error key
+    * @param value Value to insert into message
+    */
+   public void add(String key, Object value) {
+      add(key, value, null, null);
+   }
 
-	/**
-	 * Add an error with the key and values.
-	 *
-	 * @param key
-	 * @param value1
-	 * @param value2
-	 */
-	public void add(String key, Object value1, Object value2) {
-		add(key, value1, value2, null);
-	}
+   /**
+    * Add an error with the key and values.
+    *
+    * @param key Error key
+    * @param value1 First value to insert into message
+    * @param value2 Second value to insert into message
+    */
+   public void add(String key, Object value1, Object value2) {
+      add(key, value1, value2, null);
+   }
 
-	/**
-	 * Add an error with the key and values.
-	 *
-	 * @param key
-	 * @param value1
-	 * @param value2
-	 * @param value3
-	 */
-	public void add(String key, Object value1, Object value2, Object value3) {
-		add(Error.create(key, value1, value2, value3));
-	}
+   /**
+    * Add an error with the key and values.
+    *
+    * @param key Error key
+    * @param value1 First value to insert into message
+    * @param value2 Second value to insert into message
+    * @param value3 Third value to insert into message
+    */
+   public void add(String key, Object value1, Object value2, Object value3) {
+      add(new Error(key, value1, value2, value3));
+   }
 
-	/**
-	* @param error
-	*/
-	public void add(Error error) {
-		Collection errorsForKey = errorsForKey(error.getKey());
+   /**
+    * Add an Error object to the collection
+   * @param error Error to add
+   */
+   public void add(Error error) {
+      Collection errorsForKey = errorsForKey(error.getKey());
 
-		if (errorsForKey == null) {
-			errorsForKey = new ArrayList();
-		}
+      if (errorsForKey == null) {
+         errorsForKey = new ArrayList();
+      }
 
-		errorsForKey.add(error);
-		_errors.put(error.getKey(), errorsForKey);
-		_count++;
-	}
+      errorsForKey.add(error);
+      _errors.put(error.getKey(), errorsForKey);
+      _count++;
+   }
 
-	/**
-	 * Test if the following error (key and values) is already in the Errors object.
-	 *
-	 * @param error
-	 *
-	 * @return boolean
-	 */
-	public boolean contains(Error error) {
-		Collection errorsForKey = errorsForKey(error.getKey());
+   /**
+    * Test if the following error (key and values) is already in the Errors object.
+    *
+    * @param error Error to look for
+    *
+    * @return boolean True if the error is in the collection
+    */
+   public boolean contains(Error error) {
+      Collection errorsForKey = errorsForKey(error.getKey());
 
-		return (errorsForKey != null) && errorsForKey.contains(error);
-	}
+      return (errorsForKey != null) && errorsForKey.contains(error);
+   }
 
-	private Collection errorsForKey(String key) {
-		return (Collection)_errors.get(key);
-	}
+   private Collection errorsForKey(String key) {
+      return (Collection)_errors.get(key);
+   }
 
-	/**
-	 * As with <code>add</code> but only adds the error if an equivalent error is not already in the
-	 * collection.
-	 *
-	 * @param key
-	 * @param value
-	 *
-	 * @see org.megatome.frame2.errors.Errors#add(String,Object)
-	 */
-	public void addIfUnique(String key, Object value) {
-		addIfUnique(key, value, null, null);
-	}
+   /**
+    * As with <code>add</code> but only adds the error if an equivalent error is not already in the
+    * collection.
+    *
+    * @param key Error key
+    * @param value Value to insert into message
+    *
+    * @see org.megatome.frame2.errors.Errors#add(String,Object)
+    */
+   public void addIfUnique(String key, Object value) {
+      addIfUnique(key, value, null, null);
+   }
 
-	/**
-	 * As with <code>add</code> but only adds the error if an equivalent error is not already in the
-	 * collection.
-	 *
-	 * @param key
-	 * @param value1
-	 * @param value2
-	 *
-	 * @see org.megatome.frame2.errors.Errors#add(String,Object,Object)
-	 */
-	public void addIfUnique(String key, Object value1, Object value2) {
-		addIfUnique(key, value1, value2, null);
-	}
+   /**
+    * As with <code>add</code> but only adds the error if an equivalent error is not already in the
+    * collection.
+    *
+    * @param key Error key
+    * @param value1 First value to insert into message
+    * @param value2 Second value to insert into message
+    *
+    * @see org.megatome.frame2.errors.Errors#add(String,Object,Object)
+    */
+   public void addIfUnique(String key, Object value1, Object value2) {
+      addIfUnique(key, value1, value2, null);
+   }
 
-	/**
-	 * As with <code>add</code> but only adds the error if an equivalent error is not already in the
-	 * collection.
-	 *
-	 * @param key
-	 * @param value1
-	 * @param value2
-	 * @param value3
-	 *
-	 * @see org.megatome.frame2.errors.Errors#add(String,Object,Object,Object)
-	 */
-	public void addIfUnique(
-		String key,
-		Object value1,
-		Object value2,
-		Object value3) {
-		Error error = Error.create(key, value1, value2, value3);
+   /**
+    * As with <code>add</code> but only adds the error if an equivalent error is not already in the
+    * collection.
+    *
+    * @param key Error key
+    * @param value1 First value to insert into message
+    * @param value2 Second value to insert into message
+    * @param value3 Third value to insert into message
+    *
+    * @see org.megatome.frame2.errors.Errors#add(String,Object,Object,Object)
+    */
+   public void addIfUnique(
+      String key,
+      Object value1,
+      Object value2,
+      Object value3) {
+      Error error = new Error(key, value1, value2, value3);
 
-		if (!contains(error)) {
-			add(error);
-		}
-	}
+      if (!contains(error)) {
+         add(error);
+      }
+   }
 
-	/**
-	 * Get an iterator of all errors for this key.
-	 *
-	 * @param key
-	 *
-	 * @return Iterator
-	 */
-	public Iterator iterator(String key) {
-		Collection errorsForKey = (Collection)_errors.get(key);
+   /**
+    * Get an iterator of all errors for this key.
+    *
+    * @param key Error key to retrieve Error objects for
+    *
+    * @return Iterator of all found Error
+    * objects, or null if none found.
+    */
+   public Iterator iterator(String key) {
+      Collection errorsForKey = (Collection)_errors.get(key);
 
-		return (errorsForKey == null) ? null : errorsForKey.iterator();
-	}
+      return (errorsForKey == null) ? null : errorsForKey.iterator();
+   }
 
-	/**
-	 * Get an iterator of all errors in this object.
-	 *
-	 * @return Iterator
-	 */
-	public Iterator iterator() {
-		return allErrors().iterator();
-	}
+   /**
+    * Get an iterator of all errors in this object.
+    *
+    * @return Iterator of all errors in this collection.
+    */
+   public Iterator iterator() {
+      return allErrors().iterator();
+   }
 
-	/**
-	* @return
-	*/
-	public Error[] get() {
-		return (Error[])allErrors().toArray(_typeArray);
-	}
+   /**
+    * Get all errors in the collection in an array
+   * @return Array of Error objects
+   */
+   public Error[] get() {
+      return (Error[])allErrors().toArray(_typeArray);
+   }
 
-	/**
-	* @param key
-	* @return
-	*/
-	public Error[] get(String key) {
-		if (key == null) {
-			return get();
-		} else {
-			Collection col = errorsForKey(key);
-			if (col != null) {
-				return (Error[])col.toArray(_typeArray);
-			} else {
-				return _typeArray;
-			}
-		}
-	}
+   /**
+    * Get all Error objects associated with the specified key
+   * @param key Key to search on. Passing null will return all
+   * Error objects in the collection.
+   * @return Array of Error objects
+   */
+   public Error[] get(String key) {
+      if (key == null) {
+         return get();
+      } else {
+         Collection col = errorsForKey(key);
+         if (col != null) {
+            return (Error[])col.toArray(_typeArray);
+         } else {
+            return _typeArray;
+         }
+      }
+   }
 
-	private Collection allErrors() {
-		Collection result = new ArrayList();
-		Iterator errorsForKeys = _errors.values().iterator();
+   private Collection allErrors() {
+      Collection result = new ArrayList();
+      Iterator errorsForKeys = _errors.values().iterator();
 
-		while (errorsForKeys.hasNext()) {
-			result.addAll((Collection)errorsForKeys.next());
-		}
+      while (errorsForKeys.hasNext()) {
+         result.addAll((Collection)errorsForKeys.next());
+      }
 
-		return result;
-	}
+      return result;
+   }
 
-	/**
-	 * Test to see if te object contains any errors.
-	 *
-	 * @return boolean Returns true if the object contains no errors, false otherwise.
-	 */
-	public boolean isEmpty() {
-		return _errors.isEmpty();
-	}
+   /**
+    * Test to see if te object contains any errors.
+    *
+    * @return boolean Returns true if the object contains no errors, false otherwise.
+    */
+   public boolean isEmpty() {
+      return _errors.isEmpty();
+   }
 
-	/**
-	 * Release this object and the underlying data.  This clears the object as well.
-	 */
-	public void release() {
-		clear();
-	}
+   /**
+    * Release this object and the underlying data.  This clears the object as well.
+    */
+   public void release() {
+      clear();
+   }
 
-	private void clear() {
-		Iterator errors = iterator();
+   private void clear() {
+      Iterator errors = iterator();
 
-		while (errors.hasNext()) {
-			Error error = (Error)errors.next();
+      while (errors.hasNext()) {
+         Error error = (Error)errors.next();
 
-			error.release();
-		}
+         error.release();
+      }
 
-		_errors.clear();
-		_count = 0;
-	}
+      _errors.clear();
+      _count = 0;
+   }
 
-	/**
-	 * Return the number of error objects in this object.
-	 *
-	 * @return int
-	 */
-	public int size() {
-		return _count;
-	}
+   /**
+    * Return the number of error objects in this object.
+    *
+    * @return Number of Error objects in the collection
+    */
+   public int size() {
+      return _count;
+   }
 
-	/**
-	* @see java.lang.Object#toString()
-	*/
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		Iterator errors = iterator();
+   /**
+    * Generate a human readable version of this collection. Useful
+    * for debugging during application development.
+    * @return String representation of all contained Errors
+   * @see java.lang.Object#toString()
+   */
+   public String toString() {
+      StringBuffer buffer = new StringBuffer();
+      Iterator errors = iterator();
 
-		while (errors.hasNext()) {
-			Error error = (Error)errors.next();
+      while (errors.hasNext()) {
+         Error error = (Error)errors.next();
 
-			buffer.append(
-				"Errors: Key["
-					+ error.getKey()
-					+ "] Value["
-					+ error.getValue()
-					+ "]\n");
-		}
+         buffer.append(
+            "Errors: Key["
+               + error.getKey()
+               + "] Value["
+               + error.getValue()
+               + "]\n");
+      }
 
-		return buffer.toString();
-	}
+      return buffer.toString();
+   }
 }

@@ -80,7 +80,9 @@ import org.megatome.frame2.plugin.PluginInterface;
  * configuration.
  */
 public class Configuration {
+	/** Token type used when processing forwards */
    public static final String XML_TOKEN = "xml";
+   /** Token type used when processing forwards */
    public static final String HTML_TOKEN = "html";
    private Map _globalXMLForwards;
    private Map _globalHTMLForwards;
@@ -94,7 +96,7 @@ public class Configuration {
    private Map _origEvents;
    private Map _origEventMappings;
    private Map _origEventHandlers;
-   private ArrayList _origExceptions;
+   private List _origExceptions;
    private Map _eventHandlerCache = new HashMap();
    private String _path;
    private Date _initTime;
@@ -110,7 +112,7 @@ public class Configuration {
     *
     * @param path The path of the configuration file to load from.
     *
-    * @throws Frame2Exception If loading the configuration fails.
+    * @throws ConfigException If loading the configuration fails.
     */
    public Configuration(String path) throws ConfigException {
       _reader = new EventConfigReader(path);
@@ -123,13 +125,17 @@ public class Configuration {
     *
     * @param is The InputStream of the configuration file.
     *
-    * @throws Frame2Exception If loading the configuration fails.
+    * @throws Exception If loading the configuration fails.
     */
    public Configuration(InputStream is) throws ConfigException {
       _reader = new EventConfigReader(is);
       processConfig();
    }
 
+   /**
+    * Process the configuration file.
+    * @throws ConfigException
+    */
    void processConfig() throws ConfigException {
       try {
          _reader.execute();
@@ -163,10 +169,18 @@ public class Configuration {
       _initTime = new Date();
    }
 
+   /**
+    * Get the path of the configuration file.
+    * @return Configuration file path
+    */
    String getPath() {
       return _path;
    }
 
+   /**
+    * Get the time the configuration was initialized
+    * @return Date
+    */
    Date getInitTime() {
       return _initTime;
    }
@@ -174,7 +188,7 @@ public class Configuration {
    /**
     * Method getGlobalForwards.
     *
-    * @return Map
+    * @return Map 
     */
    Map getGlobalXMLForwards() {
       return _globalXMLForwards;

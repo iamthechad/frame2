@@ -73,7 +73,7 @@ public interface Event {
     * @param errors If the event does not pass validation, the errors object should be populated by
     *        the method with error data describing the nature of the failure.
     *
-    * @return boolean True if the event passed validation, false if the validation failed (i.e. if
+    * @return True if the event passed validation, false if the validation failed (i.e. if
     *         there were errors).
     */
    public boolean validate(Errors errors);

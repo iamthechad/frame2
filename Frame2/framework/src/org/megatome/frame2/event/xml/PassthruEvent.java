@@ -66,7 +66,7 @@ public interface PassthruEvent extends Event {
 
    /**
     * Get the SOAP request body.
-    * @return Element the unprocessed, unfiltered, raw SOAP request body.
+    * @return The unprocessed, unfiltered, raw SOAP request body.
     */
    Element getPassthruData();
 

@@ -51,11 +51,13 @@
 package org.megatome.frame2;
 
 /**
- * Defines global data needed by extenders of the framework.
+ * Defines global data needed by extenders of the framework. These values can be
+ * changed by specify the appropriate name and value as context parameters in
+ * the web.xml file for the application.
  */
 public final class Globals {
 	/**
-	 * The CONFIG_FILE key is used to look up the desired path of the WAM configuration XML.
+	 * The CONFIG_FILE key is used to look up the desired path of the Frame2 configuration XML.
 	 */
 	public static final String CONFIG_FILE = "org.megatome.frame2.CONFIG_FILE";
 
@@ -66,48 +68,94 @@ public final class Globals {
 
 	/**
 	 * The LOGGER_TYPE key is used to specify through the context parameters what type of logger to
-	 * use for the WAM framework.
+	 * use for the Frame2 framework. Override the value "org.megatome.frame2.LOGGER_TYPE" in
+	 * web.xml to specify logger settings.
 	 */
 	public static final String LOGGER_TYPE = "org.megatome.frame2.LOGGER_TYPE";
+	
+	/**
+	 * The default configuration file: /WEB-INF/frame2-config.xml
+	 */
 	public static final String DEFAULT_CONFIG_FILE =
 		"/WEB-INF/frame2-config.xml";
 
 	/**
-	 * Constants for overriding file upload values.
+	 * Override the value "org.megatome.frame2.FILE_UPLOAD_DIR" in web.xml 
+	 * to specify the location uploaded files should be temporarily placed.
+	 * Defaults to the system temp directory.
 	 */
 	public static final String FILE_UPLOAD_DIR =
 		"org.megatome.frame2.FILE_UPLOAD_DIR";
+
+	/**
+	 * Override the value "org.megatome.frame2.MAX_FILE_SIZE" in web.xml 
+	 * to specify a maximum file size for uploaded files.
+	 */
 	public static final String MAX_FILE_SIZE =
 		"org.megatome.frame2.MAX_FILE_SIZE";
+		
+	/**
+	 * Override the value "org.megatome.frame2.FILE_BUFFER_SIZE" in web.xml
+	 * to specify a buffer size for dealing with uploaded files.
+	 */
 	public static final String FILE_BUFFER_SIZE =
 		"org.megatome.frame2.FILE_BUFFER_SIZE";
 
 	/**
-	 * The RESOURCE_BUNDLE key is used to specify the name of the resource bundle to use for the
-	 * application.  It should be set through the context parameters.
+	 * Override the value "org.megatome.frame2.RESOURCE_BUNDLE" in web.xml
+	 * to specify the properties file to be used by the application.
 	 */
 	public static final String RESOURCE_BUNDLE =
 		"org.megatome.frame2.RESOURCE_BUNDLE";
 
+	/**
+	 * Value used for indicating a request should be cancelled. Cannot be
+	 * overridden.
+	 */
 	public static final String CANCEL = "org.megatome.frame2.CANCEL";
 
+	/**
+	 * Value used when creating mapping errors in the introspector.
+	 * Cannot be overridden.
+	 */
 	public static final String MAPPING_KEY_PREFIX = "frame2.mapping.";
 
+	/**
+	 * The forward slash character. Not sure we need this.
+	 */
 	public static final String FORWARD_SLASH = "/";
 
 	/**
-	 * Specify the Public and System IDs for the framework. These are used by an internal 
-	 * entity resolver to avoid the setp of checking the web. 
+	 * The public ID to be used with the Frame2 Configuration DTD.
 	 */
 	public static final String FRAME2_DTD_PUBLIC_ID =
 		"-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN";
+	
+	/**
+	 * The system ID to be used with the Frame2 Configuration DTD
+	 */
 	public static final String FRAME2_DTD_SYSTEM_ID =
 		"http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd";
+		
+	/**
+	 * The public ID to be used with the Frame2 Template DTD
+	 */
 	public static final String FRAME2_TEMPLATE_DTD_PUBLIC_ID =
 		"-//Megatome Technologies//DTD Frame2 Template Plugin 1.0//EN";
+		
+	/**
+	 * The system ID to be used with the Frame2 Template DTD
+	 */
 	public static final String FRAME2_TEMPLATE_DTD_SYSTEM_ID =
 		"http://frame2.sourceforge.net/dtds/frame2-template_1_0.dtd";
 	
+	/**
+	 * The file name of the Frame2 Configuration DTD
+	 */
 	public static final String FRAME2_DTD_FILE = "frame2-config_1_0.dtd";
+	
+	/**
+	 * The file name of the Frame2 Template DTD
+	 */
 	public static final String FRAME2_TEMPLATE_DTD_FILE = "frame2-template_1_0.dtd";
 }
