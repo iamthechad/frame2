@@ -64,7 +64,7 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 
       if (model == null) {
          // Error
-         String errorMsg = "No valid Frame2 project selected. The wizard cannot continue.";
+         String errorMsg = Frame2Plugin.getResourceString("BaseFrame2Wizard.noFrame2ProjectSelected"); //$NON-NLS-1$
          Exception e = new Exception(errorMsg);
          MultiStatus info = new MultiStatus("org.megatome.frame2", //$NON-NLS-1$
                Status.ERROR, Frame2Plugin
@@ -122,8 +122,8 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
             // Ask for selection
             ElementListSelectionDialog dlg = new ElementListSelectionDialog(
                   getShell(), new WorkbenchLabelProvider());
-            dlg.setMessage("There are more than one Frame2 projects in the workspace.\nSelect the one you wish to change.");
-            dlg.setTitle("Select Project");
+            dlg.setMessage(Frame2Plugin.getResourceString("BaseFrame2Wizard.selectFrame2ProjectMessage")); //$NON-NLS-1$
+            dlg.setTitle(Frame2Plugin.getResourceString("BaseFrame2Wizard.selectFrame2ProjectTitle")); //$NON-NLS-1$
             dlg.setMultipleSelection(false);
             dlg.setElements(projects);
             dlg.setBlockOnOpen(true);

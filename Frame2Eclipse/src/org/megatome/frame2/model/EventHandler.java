@@ -55,6 +55,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class EventHandler extends XMLCommentPreserver {
 
@@ -67,8 +68,8 @@ public class EventHandler extends XMLCommentPreserver {
    private List _Forward = new ArrayList(); // List<Forward>
 
    public EventHandler() {
-      _Name = "";
-      _Type = "";
+      _Name = ""; //$NON-NLS-1$
+      _Type = ""; //$NON-NLS-1$
       clearComments();
    }
 
@@ -196,51 +197,51 @@ public class EventHandler extends XMLCommentPreserver {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
       // name is an attribute
       if (_Name != null) {
-         out.write(" name"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.nameAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Name, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
       // type is an attribute
       if (_Type != null) {
-         out.write(" type"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Type, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
-      out.write(">\n");
-      String nextIndent = indent + "	";
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
       for (Iterator it = _InitParam.iterator(); it.hasNext();) {
          InitParam element = (InitParam) it.next();
          if (element != null) {
-            element.writeNode(out, "init-param", nextIndent);
+            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.init-param"), nextIndent); //$NON-NLS-1$
          }
       }
       for (Iterator it = _Forward.iterator(); it.hasNext();) {
          Forward element = (Forward) it.next();
          if (element != null) {
-            element.writeNode(out, "forward", nextIndent);
+            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
          }
       }
 
       writeRemainingComments(out, indent);
       out.write(indent);
-      out.write("</" + nodeName + ">\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public void readNode(Node node) {
       if (node.hasAttributes()) {
          NamedNodeMap attrs = node.getAttributes();
          Attr attr;
-         attr = (Attr) attrs.getNamedItem("name");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.name")); //$NON-NLS-1$
          if (attr != null) {
             _Name = attr.getValue();
          }
-         attr = (Attr) attrs.getNamedItem("type");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.type")); //$NON-NLS-1$
          if (attr != null) {
             _Type = attr.getValue();
          }
@@ -250,21 +251,21 @@ public class EventHandler extends XMLCommentPreserver {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == "init-param") {
+         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.init-param")) { //$NON-NLS-1$
             InitParam aInitParam = new InitParam();
             aInitParam.readNode(childNode);
             _InitParam.add(aInitParam);
-         } else if (childNodeName == "forward") {
+         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.forward")) { //$NON-NLS-1$
             Forward aForward = new Forward();
             aForward.readNode(childNode);
             _Forward.add(aForward);
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == "#comment") {
+            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
                recordComment(childNode, i);
             }
          }
@@ -275,11 +276,11 @@ public class EventHandler extends XMLCommentPreserver {
       boolean restrictionFailure = false;
       // Validating property name
       if (getName() == null) { throw new Frame2Config.ValidateException(
-            "getName() == null", "name", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.eventHandlerNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
       // Validating property type
       if (getType() == null) { throw new Frame2Config.ValidateException(
-            "getType() == null", "type", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.eventHandlerTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
       // Validating property initParam
       for (int _index = 0; _index < sizeInitParam(); ++_index) {
@@ -303,30 +304,30 @@ public class EventHandler extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "name")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) //$NON-NLS-1$
          setName((String) value);
-      else if (name == "type")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.type")) //$NON-NLS-1$
          setType((String) value);
-      else if (name == "initParam")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.initParam")) //$NON-NLS-1$
          addInitParam((InitParam) value);
-      else if (name == "initParam[]")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.initParamArray")) //$NON-NLS-1$
          setInitParam((InitParam[]) value);
-      else if (name == "forward")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.forward")) //$NON-NLS-1$
          addForward((Forward) value);
-      else if (name == "forward[]")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.forwardArray")) //$NON-NLS-1$
          setForward((Forward[]) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for EventHandler");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidEventHandlerProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "name") return getName();
-      if (name == "type") return getType();
-      if (name == "initParam[]") return getInitParam();
-      if (name == "forward[]") return getForward();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) return getName(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) return getType(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.initParamArray")) return getInitParam(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.forwardArray")) return getForward(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for EventHandler");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidEventHandlerProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

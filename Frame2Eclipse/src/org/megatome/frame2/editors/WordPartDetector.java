@@ -4,7 +4,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
  
 public class WordPartDetector {
-	String wordPart = "";
+	String wordPart = ""; //$NON-NLS-1$
 	int docOffset;
 	
 	public WordPartDetector(ITextViewer viewer, int documentOffset) {

@@ -51,6 +51,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.w3c.dom.Node;
+import org.megatome.frame2.Frame2Plugin;
 
 public abstract class XMLCommentPreserver {
 
@@ -99,11 +100,11 @@ public abstract class XMLCommentPreserver {
 
    private void writeComment(Writer out, String indent, Node comment)
          throws IOException {
-      String commentIndent = indent + "   ";
+      String commentIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
       out.write(commentIndent);
-      out.write("<!-- ");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.commentStart")); //$NON-NLS-1$
       out.write(comment.getNodeValue().trim());
-      out.write(" -->\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.commentEnd")); //$NON-NLS-1$
    }
 
    protected Map getCommentMap() {

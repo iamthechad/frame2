@@ -53,6 +53,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class InitParam {
 
@@ -61,8 +62,8 @@ public class InitParam {
    private String _Value;
 
    public InitParam() {
-      _Name = "";
-      _Value = "";
+      _Name = ""; //$NON-NLS-1$
+      _Value = ""; //$NON-NLS-1$
    }
 
    // Deep copy
@@ -92,23 +93,23 @@ public class InitParam {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
       // name is an attribute
       if (_Name != null) {
-         out.write(" name"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.nameAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Name, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
       // value is an attribute
       if (_Value != null) {
-         out.write(" value"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.valueAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Value, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
-      out.write("/>\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
       //String nextIndent = indent + " ";
       //out.write(indent);
       //out.write("</"+nodeName+">\n");
@@ -118,11 +119,11 @@ public class InitParam {
       if (node.hasAttributes()) {
          NamedNodeMap attrs = node.getAttributes();
          Attr attr;
-         attr = (Attr) attrs.getNamedItem("name");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.name")); //$NON-NLS-1$
          if (attr != null) {
             _Name = attr.getValue();
          }
-         attr = (Attr) attrs.getNamedItem("value");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.value")); //$NON-NLS-1$
          if (attr != null) {
             _Value = attr.getValue();
          }
@@ -132,7 +133,7 @@ public class InitParam {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
@@ -143,31 +144,31 @@ public class InitParam {
       boolean restrictionFailure = false;
       // Validating property name
       if (getName() == null) { throw new Frame2Config.ValidateException(
-            "getName() == null", "name", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.getNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
       // Validating property value
       if (getValue() == null) { throw new Frame2Config.ValidateException(
-            "getValue() == null", "value", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.getValueNull"), Frame2Plugin.getResourceString("Frame2Model.value"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "name")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) //$NON-NLS-1$
          setName((String) value);
-      else if (name == "value")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.value")) //$NON-NLS-1$
          setValue((String) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for InitParam");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidInitParamProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "name") return getName();
-      if (name == "value") return getValue();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) return getName(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.value")) return getValue(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for InitParam");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidInitParamProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

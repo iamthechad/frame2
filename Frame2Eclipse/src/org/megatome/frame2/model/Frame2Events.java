@@ -53,6 +53,7 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2Events extends XMLCommentPreserver {
 
@@ -119,10 +120,10 @@ public class Frame2Events extends XMLCommentPreserver {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
-      out.write(">\n");
-      String nextIndent = indent + "	";
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
       int index = 0;
       for (Iterator it = _Frame2Event.iterator(); it.hasNext();) {
 
@@ -130,12 +131,12 @@ public class Frame2Events extends XMLCommentPreserver {
 
          Frame2Event element = (Frame2Event) it.next();
          if (element != null) {
-            element.writeNode(out, "event", nextIndent);
+            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.event"), nextIndent); //$NON-NLS-1$
          }
       }
       writeRemainingComments(out, indent);
       out.write(indent);
-      out.write("</" + nodeName + ">\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public void readNode(Node node) {
@@ -145,18 +146,18 @@ public class Frame2Events extends XMLCommentPreserver {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == "event") {
+         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.event")) { //$NON-NLS-1$
             Frame2Event aFrame2Event = new Frame2Event();
             aFrame2Event.readNode(childNode);
             _Frame2Event.add(aFrame2Event);
             elementCount++;
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == "#comment") {
+            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
                recordComment(childNode, elementCount++);
             }
          }
@@ -177,19 +178,19 @@ public class Frame2Events extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "Frame2Event")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2Event")) //$NON-NLS-1$
          addFrame2Event((Frame2Event) value);
-      else if (name == "Frame2Event[]")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2EventArray")) //$NON-NLS-1$
          setFrame2Event((Frame2Event[]) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for Frame2Events");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2EventsProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "Frame2Event[]") return getFrame2Event();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2EventArray")) return getFrame2Event(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for Frame2Events");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2EventsProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

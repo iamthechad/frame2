@@ -53,13 +53,14 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class SoapRequestProcessor {
 
    private String _Type;
 
    public SoapRequestProcessor() {
-      _Type = "";
+      _Type = ""; //$NON-NLS-1$
    }
 
    // Deep copy
@@ -79,16 +80,16 @@ public class SoapRequestProcessor {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
       // type is an attribute
       if (_Type != null) {
-         out.write(" type"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Type, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
-      out.write("/>\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
       //String nextIndent = indent + " ";
       //out.write(indent);
       //out.write("</"+nodeName+">\n");
@@ -98,7 +99,7 @@ public class SoapRequestProcessor {
       if (node.hasAttributes()) {
          NamedNodeMap attrs = node.getAttributes();
          Attr attr;
-         attr = (Attr) attrs.getNamedItem("type");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.type")); //$NON-NLS-1$
          if (attr != null) {
             _Type = attr.getValue();
          }
@@ -108,7 +109,7 @@ public class SoapRequestProcessor {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
@@ -119,24 +120,24 @@ public class SoapRequestProcessor {
       boolean restrictionFailure = false;
       // Validating property type
       if (getType() == null) { throw new Frame2Config.ValidateException(
-            "getType() == null", "type", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.getTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "type")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) //$NON-NLS-1$
          setType((String) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for SoapRequestProcessor");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidSoapRequestProcessorProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "type") return getType();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) return getType(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for SoapRequestProcessor");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidSoapRequestProcessorProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

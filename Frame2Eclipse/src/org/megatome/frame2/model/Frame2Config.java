@@ -65,6 +65,7 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2Config {
 
@@ -166,7 +167,7 @@ public class Frame2Config {
    public void write(OutputStream out, String encoding) throws IOException {
       Writer w;
       if (encoding == null) {
-         encoding = "UTF-8"; // NOI18N
+         encoding = Frame2Plugin.getResourceString("Frame2Model.utf8"); //$NON-NLS-1$
       }
       w = new BufferedWriter(new OutputStreamWriter(out, encoding));
       write(w, encoding);
@@ -176,50 +177,50 @@ public class Frame2Config {
    // Print this Java Bean to @param out including an XML header.
    // @param encoding is the encoding style that @param out was opened with.
    public void write(Writer out, String encoding) throws IOException {
-      out.write("<?xml version='1.0'"); // NOI18N
-      if (encoding != null) out.write(" encoding='" + encoding + "'"); // NOI18N
-      out.write(" ?>\n"); // NOI18N
+      out.write(Frame2Plugin.getResourceString("Frame2Model.xmlTagStart")); //$NON-NLS-1$
+      if (encoding != null) out.write(Frame2Plugin.getResourceString("Frame2Model.encodingAttribute") + encoding + Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$ //$NON-NLS-2$
+      out.write(Frame2Plugin.getResourceString("Frame2Model.xmlTagEnd")); //$NON-NLS-1$
 
       // We need to manually output the DTD - sigh
-      out.write("<!DOCTYPE frame2-config PUBLIC\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.frame2DocTypeStart")); //$NON-NLS-1$
       out
-            .write("   \"-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN\"\n");
+            .write(Frame2Plugin.getResourceString("Frame2Model.frame2DocTypeSystemID")); //$NON-NLS-1$
       out
-            .write("   \"http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd\">\n");
+            .write(Frame2Plugin.getResourceString("Frame2Model.frame2DocTypePublicID")); //$NON-NLS-1$
 
-      writeNode(out, "frame2-config", ""); // NOI18N
+      writeNode(out, Frame2Plugin.getResourceString("Frame2Model.frame2-config"), ""); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
-      out.write(">\n");
-      String nextIndent = indent + "	";
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
       if (_GlobalForwards != null) {
-         _GlobalForwards.writeNode(out, "global-forwards", nextIndent);
+         _GlobalForwards.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.global-forwards"), nextIndent); //$NON-NLS-1$
       }
       if (_Frame2Events != null) {
-         _Frame2Events.writeNode(out, "events", nextIndent);
+         _Frame2Events.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.events"), nextIndent); //$NON-NLS-1$
       }
       if (_EventMappings != null) {
-         _EventMappings.writeNode(out, "event-mappings", nextIndent);
+         _EventMappings.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.event-mappings"), nextIndent); //$NON-NLS-1$
       }
       if (_EventHandlers != null) {
-         _EventHandlers.writeNode(out, "event-handlers", nextIndent);
+         _EventHandlers.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.event-handlers"), nextIndent); //$NON-NLS-1$
       }
       if (_Exceptions != null) {
-         _Exceptions.writeNode(out, "exceptions", nextIndent);
+         _Exceptions.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.exceptions"), nextIndent); //$NON-NLS-1$
       }
       if (_Plugins != null) {
-         _Plugins.writeNode(out, "plugins", nextIndent);
+         _Plugins.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.plugins"), nextIndent); //$NON-NLS-1$
       }
       if (_RequestProcessors != null) {
-         _RequestProcessors.writeNode(out, "request-processors", nextIndent);
+         _RequestProcessors.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.request-processors"), nextIndent); //$NON-NLS-1$
       }
       out.write(indent);
-      out.write("</" + nodeName + ">\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public static Frame2Config read(InputStream in)
@@ -266,29 +267,29 @@ public class Frame2Config {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == "global-forwards") {
+         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.global-forwards")) { //$NON-NLS-1$
             _GlobalForwards = new GlobalForwards();
             _GlobalForwards.readNode(childNode);
-         } else if (childNodeName == "events") {
+         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.events")) { //$NON-NLS-1$
             _Frame2Events = new Frame2Events();
             _Frame2Events.readNode(childNode);
-         } else if (childNodeName == "event-mappings") {
+         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.event-mappings")) { //$NON-NLS-1$
             _EventMappings = new EventMappings();
             _EventMappings.readNode(childNode);
-         } else if (childNodeName == "event-handlers") {
+         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.event-handlers")) { //$NON-NLS-1$
             _EventHandlers = new EventHandlers();
             _EventHandlers.readNode(childNode);
-         } else if (childNodeName == "exceptions") {
+         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.exceptions")) { //$NON-NLS-1$
             _Exceptions = new Exceptions();
             _Exceptions.readNode(childNode);
-         } else if (childNodeName == "plugins") {
+         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.plugins")) { //$NON-NLS-1$
             _Plugins = new Plugins();
             _Plugins.readNode(childNode);
-         } else if (childNodeName == "request-processors") {
+         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.request-processors")) { //$NON-NLS-1$
             _RequestProcessors = new RequestProcessors();
             _RequestProcessors.readNode(childNode);
          } else {
@@ -316,19 +317,19 @@ public class Frame2Config {
    public static void writeXML(Writer out, char msg, boolean attribute)
          throws IOException {
       if (msg == '&')
-         out.write("&amp;");
+         out.write(Frame2Plugin.getResourceString("Frame2Model.ampersandEntity")); //$NON-NLS-1$
       else if (msg == '<')
-         out.write("&lt;");
+         out.write(Frame2Plugin.getResourceString("Frame2Model.ltEntity")); //$NON-NLS-1$
       else if (msg == '>')
-         out.write("&gt;");
+         out.write(Frame2Plugin.getResourceString("Frame2Model.gtEntity")); //$NON-NLS-1$
       else if (attribute && msg == '"')
-         out.write("&quot;");
+         out.write(Frame2Plugin.getResourceString("Frame2Model.quoteEntity")); //$NON-NLS-1$
       else if (attribute && msg == '\'')
-         out.write("&apos;");
+         out.write(Frame2Plugin.getResourceString("Frame2Model.apostropheEntity")); //$NON-NLS-1$
       else if (attribute && msg == '\n')
-         out.write("&#xA;");
+         out.write(Frame2Plugin.getResourceString("Frame2Model.newlineEntity")); //$NON-NLS-1$
       else if (attribute && msg == '\t')
-         out.write("&#x9;");
+         out.write(Frame2Plugin.getResourceString("Frame2Model.tabEntity")); //$NON-NLS-1$
       else
          out.write(msg);
    }
@@ -390,35 +391,35 @@ public class Frame2Config {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "globalForwards")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.globalForwards")) //$NON-NLS-1$
          setGlobalForwards((GlobalForwards) value);
-      else if (name == "Frame2Events")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2Events")) //$NON-NLS-1$
          setFrame2Events((Frame2Events) value);
-      else if (name == "eventMappings")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.eventMappings")) //$NON-NLS-1$
          setEventMappings((EventMappings) value);
-      else if (name == "eventHandlers")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.eventHandlers")) //$NON-NLS-1$
          setEventHandlers((EventHandlers) value);
-      else if (name == "exceptions")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.exceptions")) //$NON-NLS-1$
          setExceptions((Exceptions) value);
-      else if (name == "plugins")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.plugins")) //$NON-NLS-1$
          setPlugins((Plugins) value);
-      else if (name == "requestProcessors")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.requestProcessors")) //$NON-NLS-1$
          setRequestProcessors((RequestProcessors) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for Frame2Config");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2ConfigProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "globalForwards") return getGlobalForwards();
-      if (name == "Frame2Events") return getFrame2Events();
-      if (name == "eventMappings") return getEventMappings();
-      if (name == "eventHandlers") return getEventHandlers();
-      if (name == "exceptions") return getExceptions();
-      if (name == "plugins") return getPlugins();
-      if (name == "requestProcessors") return getRequestProcessors();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.globalForwards")) return getGlobalForwards(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2Events")) return getFrame2Events(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.eventMappings")) return getEventMappings(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.eventHandlers")) return getEventHandlers(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.exceptions")) return getExceptions(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.plugins")) return getPlugins(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.requestProcessors")) return getRequestProcessors(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for Frame2Config");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2ConfigProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

@@ -53,6 +53,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2Event {
 
@@ -63,7 +64,7 @@ public class Frame2Event {
    private String _Type;
 
    public Frame2Event() {
-      _Name = "";
+      _Name = ""; //$NON-NLS-1$
    }
 
    // Deep copy
@@ -103,30 +104,30 @@ public class Frame2Event {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
       // name is an attribute
       if (_Name != null) {
-         out.write(" name"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.nameAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attrbiuteValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Name, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
       // resolveAs is an attribute
       if (_ResolveAs != null) {
-         out.write(" resolveAs"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.resolveAsAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _ResolveAs, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
       // type is an attribute
       if (_Type != null) {
-         out.write(" type"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Type, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
-      out.write("/>\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
       //String nextIndent = indent + " ";
       //out.write(indent);
       //out.write("</"+nodeName+">\n");
@@ -136,15 +137,15 @@ public class Frame2Event {
       if (node.hasAttributes()) {
          NamedNodeMap attrs = node.getAttributes();
          Attr attr;
-         attr = (Attr) attrs.getNamedItem("name");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.name")); //$NON-NLS-1$
          if (attr != null) {
             _Name = attr.getValue();
          }
-         attr = (Attr) attrs.getNamedItem("resolveAs");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.resolveAs")); //$NON-NLS-1$
          if (attr != null) {
             _ResolveAs = attr.getValue();
          }
-         attr = (Attr) attrs.getNamedItem("type");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.type")); //$NON-NLS-1$
          if (attr != null) {
             _Type = attr.getValue();
          }
@@ -154,7 +155,7 @@ public class Frame2Event {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
@@ -165,7 +166,7 @@ public class Frame2Event {
       boolean restrictionFailure = false;
       // Validating property name
       if (getName() == null) { throw new Frame2Config.ValidateException(
-            "getName() == null", "name", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.getNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
       // Validating property resolveAs
       if (getResolveAs() != null) {
@@ -178,23 +179,23 @@ public class Frame2Event {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "name")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) //$NON-NLS-1$
          setName((String) value);
-      else if (name == "resolveAs")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.resolveAs")) //$NON-NLS-1$
          setResolveAs((String) value);
-      else if (name == "type")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.type")) //$NON-NLS-1$
          setType((String) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for Frame2Event");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2EventProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "name") return getName();
-      if (name == "resolveAs") return getResolveAs();
-      if (name == "type") return getType();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) return getName(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.resolveAs")) return getResolveAs(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) return getType(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for Frame2Event");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2EventProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

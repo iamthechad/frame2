@@ -53,6 +53,7 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class Security extends XMLCommentPreserver {
 
@@ -119,10 +120,10 @@ public class Security extends XMLCommentPreserver {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
-      out.write(">\n");
-      String nextIndent = indent + "	";
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
       int index = 0;
       for (Iterator it = _Role.iterator(); it.hasNext();) {
 
@@ -130,12 +131,12 @@ public class Security extends XMLCommentPreserver {
 
          Role element = (Role) it.next();
          if (element != null) {
-            element.writeNode(out, "role", nextIndent);
+            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.role"), nextIndent); //$NON-NLS-1$
          }
       }
       writeRemainingComments(out, indent);
       out.write(indent);
-      out.write("</" + nodeName + ">\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public void readNode(Node node) {
@@ -145,18 +146,18 @@ public class Security extends XMLCommentPreserver {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == "role") {
+         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.role")) { //$NON-NLS-1$
             Role aRole = new Role();
             aRole.readNode(childNode);
             _Role.add(aRole);
             elementCount++;
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == "#comment") {
+            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
                recordComment(childNode, elementCount++);
             }
          }
@@ -167,7 +168,7 @@ public class Security extends XMLCommentPreserver {
       boolean restrictionFailure = false;
       // Validating property role
       if (sizeRole() == 0) { throw new Frame2Config.ValidateException(
-            "sizeRole() == 0", "role", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.sizeRoleZero"), Frame2Plugin.getResourceString("Frame2Model.role"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
       for (int _index = 0; _index < sizeRole(); ++_index) {
          Role element = getRole(_index);
@@ -180,19 +181,19 @@ public class Security extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "role")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.role")) //$NON-NLS-1$
          addRole((Role) value);
-      else if (name == "role[]")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.roleArray")) //$NON-NLS-1$
          setRole((Role[]) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for Security");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "role[]") return getRole();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.roleArray")) return getRole(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for Security");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

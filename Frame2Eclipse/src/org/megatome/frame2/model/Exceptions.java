@@ -53,6 +53,7 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class Exceptions extends XMLCommentPreserver {
 
@@ -119,10 +120,10 @@ public class Exceptions extends XMLCommentPreserver {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
-      out.write(">\n");
-      String nextIndent = indent + "	";
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
       int index = 0;
       for (Iterator it = _Frame2Exception.iterator(); it.hasNext();) {
 
@@ -130,13 +131,13 @@ public class Exceptions extends XMLCommentPreserver {
 
          Frame2Exception element = (Frame2Exception) it.next();
          if (element != null) {
-            element.writeNode(out, "exception", nextIndent);
+            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.exception"), nextIndent); //$NON-NLS-1$
          }
       }
 
       writeRemainingComments(out, indent);
       out.write(indent);
-      out.write("</" + nodeName + ">\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public void readNode(Node node) {
@@ -146,18 +147,18 @@ public class Exceptions extends XMLCommentPreserver {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == "exception") {
+         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.exception")) { //$NON-NLS-1$
             Frame2Exception aFrame2Exception = new Frame2Exception();
             aFrame2Exception.readNode(childNode);
             _Frame2Exception.add(aFrame2Exception);
             elementCount++;
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == "#comment") {
+            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
                recordComment(childNode, elementCount++);
             }
          }
@@ -178,19 +179,19 @@ public class Exceptions extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "Frame2Exception")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2Exception")) //$NON-NLS-1$
          addFrame2Exception((Frame2Exception) value);
-      else if (name == "Frame2Exception[]")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2ExceptionArray")) //$NON-NLS-1$
          setFrame2Exception((Frame2Exception[]) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for Exceptions");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "Frame2Exception[]") return getFrame2Exception();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2ExceptionArray")) return getFrame2Exception(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for Exceptions");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

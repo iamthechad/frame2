@@ -53,6 +53,7 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class EventMappings extends XMLCommentPreserver {
 
@@ -119,10 +120,10 @@ public class EventMappings extends XMLCommentPreserver {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
-      out.write(">\n");
-      String nextIndent = indent + "	";
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
       int index = 0;
       for (Iterator it = _EventMapping.iterator(); it.hasNext();) {
 
@@ -130,13 +131,13 @@ public class EventMappings extends XMLCommentPreserver {
 
          EventMapping element = (EventMapping) it.next();
          if (element != null) {
-            element.writeNode(out, "event-mapping", nextIndent);
+            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.event-mapping"), nextIndent); //$NON-NLS-1$
          }
       }
 
       writeRemainingComments(out, indent);
       out.write(indent);
-      out.write("</" + nodeName + ">\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.engTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public void readNode(Node node) {
@@ -146,18 +147,18 @@ public class EventMappings extends XMLCommentPreserver {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == "event-mapping") {
+         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.event-mapping")) { //$NON-NLS-1$
             EventMapping aEventMapping = new EventMapping();
             aEventMapping.readNode(childNode);
             _EventMapping.add(aEventMapping);
             elementCount++;
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == "#comment") {
+            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
                recordComment(childNode, elementCount++);
             }
          }
@@ -179,19 +180,19 @@ public class EventMappings extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "eventMapping")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.eventMapping")) //$NON-NLS-1$
          addEventMapping((EventMapping) value);
-      else if (name == "eventMapping[]")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.eventMappingArray")) //$NON-NLS-1$
          setEventMapping((EventMapping[]) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for EventMappings");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidEventMappingsProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "eventMapping[]") return getEventMapping();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.eventMappingArray")) return getEventMapping(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for EventMappings");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidEventMappingsProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

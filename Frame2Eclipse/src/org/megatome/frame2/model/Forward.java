@@ -53,6 +53,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.megatome.frame2.Frame2Plugin;
 
 public class Forward {
 
@@ -63,9 +64,9 @@ public class Forward {
    private String _Path;
 
    public Forward() {
-      _Name = "";
-      _Type = "";
-      _Path = "";
+      _Name = ""; //$NON-NLS-1$
+      _Type = ""; //$NON-NLS-1$
+      _Path = ""; //$NON-NLS-1$
    }
 
    // Deep copy
@@ -105,30 +106,30 @@ public class Forward {
    public void writeNode(Writer out, String nodeName, String indent)
          throws IOException {
       out.write(indent);
-      out.write("<");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
       out.write(nodeName);
       // name is an attribute
       if (_Name != null) {
-         out.write(" name"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.nameAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Name, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
       // type is an attribute
       if (_Type != null) {
-         out.write(" type"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Type, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
       // path is an attribute
       if (_Path != null) {
-         out.write(" path"); // NOI18N
-         out.write("='"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.pathAttribute")); //$NON-NLS-1$
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
          Frame2Config.writeXML(out, _Path, true);
-         out.write("'"); // NOI18N
+         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
       }
-      out.write("/>\n");
+      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
       //String nextIndent = indent + " ";
       //out.write(indent);
       //out.write("</"+nodeName+">\n");
@@ -138,15 +139,15 @@ public class Forward {
       if (node.hasAttributes()) {
          NamedNodeMap attrs = node.getAttributes();
          Attr attr;
-         attr = (Attr) attrs.getNamedItem("name");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.name")); //$NON-NLS-1$
          if (attr != null) {
             _Name = attr.getValue();
          }
-         attr = (Attr) attrs.getNamedItem("type");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.type")); //$NON-NLS-1$
          if (attr != null) {
             _Type = attr.getValue();
          }
-         attr = (Attr) attrs.getNamedItem("path");
+         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.path")); //$NON-NLS-1$
          if (attr != null) {
             _Path = attr.getValue();
          }
@@ -156,7 +157,7 @@ public class Forward {
          Node childNode = children.item(i);
          String childNodeName = (childNode.getLocalName() == null ? childNode
                .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = "";
+         String childNodeValue = ""; //$NON-NLS-1$
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
@@ -167,38 +168,38 @@ public class Forward {
       boolean restrictionFailure = false;
       // Validating property name
       if (getName() == null) { throw new Frame2Config.ValidateException(
-            "getName() == null", "name", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.forwardNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
       // Validating property type
       if (getType() == null) { throw new Frame2Config.ValidateException(
-            "getType() == null", "type", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.forwardTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
       // Validating property path
       if (getPath() == null) { throw new Frame2Config.ValidateException(
-            "getPath() == null", "path", this); // NOI18N
+            Frame2Plugin.getResourceString("Frame2Model.forwardPathNull"), Frame2Plugin.getResourceString("Frame2Model.path"), this); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == "name")
+      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) //$NON-NLS-1$
          setName((String) value);
-      else if (name == "type")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.type")) //$NON-NLS-1$
          setType((String) value);
-      else if (name == "path")
+      else if (name == Frame2Plugin.getResourceString("Frame2Model.path")) //$NON-NLS-1$
          setPath((String) value);
       else
          throw new IllegalArgumentException(name
-               + " is not a valid property name for Forward");
+               + Frame2Plugin.getResourceString("Frame2Model.invalidForwardProperty")); //$NON-NLS-1$
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == "name") return getName();
-      if (name == "type") return getType();
-      if (name == "path") return getPath();
+      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) return getName(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) return getType(); //$NON-NLS-1$
+      if (name == Frame2Plugin.getResourceString("Frame2Model.path")) return getPath(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
-            + " is not a valid property name for Forward");
+            + Frame2Plugin.getResourceString("Frame2Model.invalidForwardProperty")); //$NON-NLS-1$
    }
 
    // Return an array of all of the properties that are beans and are set.

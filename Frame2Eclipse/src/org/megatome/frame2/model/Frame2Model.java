@@ -50,6 +50,7 @@ import java.io.FileOutputStream;
 
 import org.megatome.frame2.model.Frame2Config.ValidateException;
 import org.xml.sax.InputSource;
+import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2Model {
 
@@ -66,13 +67,13 @@ public class Frame2Model {
          fis = new FileInputStream(fileName);
       } catch (FileNotFoundException e) {
          throw new Frame2ModelException(
-               "Could not load Frame2 config file at: " + configFile, e);
+               Frame2Plugin.getResourceString("Frame2Model.errorLoadingConfig") + configFile, e); //$NON-NLS-1$
       }
       try {
          config = Frame2Config.read(new InputSource(fis), true, null,
                new Frame2ErrorHandler());
       } catch (Exception e1) {
-         throw new Frame2ModelException("Could not load Frame2 config file", e1);
+         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorLoadingConfig"), e1); //$NON-NLS-1$
       }
    }
 
@@ -93,7 +94,7 @@ public class Frame2Model {
          config.write(fos);
       } catch (Exception e) {
          throw new Frame2ModelException(
-               "Error persisting Frame2 configuration", e);
+               Frame2Plugin.getResourceString("Frame2Model.errorPersistingConfiguration"), e); //$NON-NLS-1$
       }
    }
 
@@ -136,7 +137,7 @@ public class Frame2Model {
       try {
          handlers.validate();
       } catch (ValidateException e) {
-         throw new Frame2ModelException("Error adding event handler", e);
+         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingEventHandler"), e); //$NON-NLS-1$
       }
    }
 
@@ -147,7 +148,7 @@ public class Frame2Model {
       try {
          mappings.validate();
       } catch (ValidateException e) {
-         throw new Frame2ModelException("Error adding event mapping", e);
+         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingEventMapping"), e); //$NON-NLS-1$
       }
    }
 
@@ -157,7 +158,7 @@ public class Frame2Model {
       try {
          events.validate();
       } catch (ValidateException e) {
-         throw new Frame2ModelException("Error adding event", e);
+         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingEvent"), e); //$NON-NLS-1$
       }
    }
 
@@ -168,7 +169,7 @@ public class Frame2Model {
       try {
          exceptions.validate();
       } catch (ValidateException e) {
-         throw new Frame2ModelException("Error adding Frame2 exception", e);
+         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingException"), e); //$NON-NLS-1$
       }
    }
 
@@ -178,7 +179,7 @@ public class Frame2Model {
       try {
          forwards.validate();
       } catch (ValidateException e) {
-         throw new Frame2ModelException("Error adding global forward", e);
+         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingGlobalForward"), e); //$NON-NLS-1$
       }
    }
 
