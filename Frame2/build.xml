@@ -71,6 +71,25 @@
 			<pathelement location="${template_build}"/>
 		</path>
 		
+		<path id="test-app-compile-class-path">
+			<pathelement location="${framework_build}"/>
+			<pathelement location="${taglib_build}"/>
+			<pathelement location="${framework_test_build}"/>
+			<pathelement location="${template_build}"/>
+			<pathelement location="${tomcat-common}/jsp-api.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
+			<!-- 
+			<pathelement location="${jwsdp-shared-home}/xsdlib.jar"/>
+			-->
+			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
+			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
+			<pathelement location="${cactus-home}/cactus-1.5.jar"/>
+		</path>
+		
 		<path id="run-class-path">
 			<pathelement location="${framework_build}"/>
 			<pathelement location="${framework_test_build}"/>
@@ -306,4 +325,109 @@
 			4) License files
 		-->
 	</target>
+	
+	<target name="compile_test_app" depends="init, dist">
+		<mkdir dir="test_app/WEB-INF/classes"/>
+		<javac deprecation="off"
+          destdir="test_app/WEB-INF/classes"
+          srcdir="./test_app/src"
+          classpathref="test-app-compile-class-path"
+        />
+        <copy todir="test_app/WEB-INF/classes">
+			<fileset dir="./test_app/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+        <javac deprecation="off"
+          destdir="test_app/WEB-INF/classes"
+          srcdir="./test_app/test/src"
+          classpathref="test-app-compile-class-path"
+        />
+        <copy todir="test_app/WEB-INF/classes">
+			<fileset dir="./test_app/test/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="war" depends="dist, compile_test_app">
+<!--   <property name="tagunit-src" value="${tagunit-home}/war/"/> -->
+      <delete file="${war}"/>
+      <war destfile="${war}" update="no" webxml="test_app/WEB-INF/web.xml">
+         <fileset dir="test_app">
+            <include name="**/*.jsp"/>
+            <include name="**/*.html"/>
+         </fileset>
+         <classes dir="test_app/WEB-INF/classes"/>
+         <!--
+         <fileset dir="test/tags/tagunit">
+            <include name="**/*.jsp"/>
+         </fileset>
+         -->
+         <webinf dir="test_app/WEB-INF">
+            <include name="**/*.xml"/>
+            <include name="*.wsdd"/>
+<!--            <include name="*.tld"/> -->
+            <exclude name="web.xml"/>
+         </webinf>
+         <webinf dir="tag/src">
+         	<include name="*.tld"/>
+         </webinf>
+         <webinf dir="template_tag/src">
+         	<include name="*.tld"/>
+         </webinf>
+         <!--
+         <webinf dir="${jstl-home}">
+            <include name="*.tld"/>
+         </webinf>
+         -->
+         <lib dir="${axis-home}">
+            <include name="axis.jar"/>
+            <include name="wsdl4j.jar"/>
+            <include name="commons-discovery.jar"/>
+         </lib>
+         <lib dir="${commons-logging-home}">
+         	<include name="commons-logging.jar"/>
+         </lib>
+         <lib dir="${junit-home}">
+            <include name="junit.jar"/>
+         </lib>
+         <lib dir="${jaxb-home}">
+            <include name="**/*.jar"/>
+         </lib>
+         <lib dir="${cactus-home}">
+            <include name="cactus-1.5.jar"/>
+            <include name="aspectjrt-1.1.1.jar"/>
+         </lib>
+         <lib dir="${taglibs-standard-home}">
+            <include name="jstl.jar"/>
+            <include name="standard.jar"/>
+         </lib>
+         <lib dir="${commons-fileupload-home}">
+         	<include name="commons-fileupload.jar"/>
+         </lib>
+         <lib dir="${commons-validator-home}">
+         	<include name="commons-validator.jar"/>
+         </lib>
+         <!--
+         <lib dir="${hsqldb-home}">
+            <include name="**/hsqldb.jar"/>
+         </lib>
+         -->
+         <lib dir="${dist.lib}">
+            <include name="**/*.jar"/>
+         </lib>
+         <!--
+         <lib dir="${test-lib}">
+            <include name="**/*.jar"/>
+         </lib>
+         -->
+         <lib dir="${log4j-home}">
+            <include name="log4j.jar"/>
+         </lib>
+         <lib dir="${tagunit-home}">
+            <include name="tagunit.jar"/>
+         </lib>
+      </war>
+   </target>
 </project>
