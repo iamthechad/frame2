@@ -4,7 +4,12 @@ In its default configuration (i.e. using the blank web application),
 Frame2 may behave strangely for certain actions. These configuration
 items are detailed below.
 
-1. File Uploading is disabled. In order to reduce the download size
+1. Frame2 tag libraries will not work without standard.jar. You will
+need to download the latest version of standard.jar from Jakarta, or
+use the blank.war web application as a starting point (highly
+recommended) in order for Frame2 tag libraries to work correctly.
+
+2. File Uploading is disabled. In order to reduce the download size
 and number of required libraries, file upload support is disabled
 by default. To enable file upload support, download the latest
 version of the Commons FileUpload component from Jakarta. Place the
@@ -14,15 +19,15 @@ is not present will result in a Frame2Exception being thrown. Of
 course, your application is configured with an error handler to catch
 these, right?)
 
-2. Form validation is disabled. Once again, in order to reduce download
-size and library count, the Commons Validation component is disabled by
-default. Events can still be validated by implementing custom validation
-methods. To enable Commons Validation support, download the latest version
-from Jakarta. Place commons-validator.jar, commons-digester.jar,
-commons-beanutils.jar, and jakarta-oro.jar into your web application's lib
-directory.
+3. Form validation (using the Commons Validator) is disabled. Once again, 
+in order to reduce download size and library count, the Commons Validation 
+component is disabled by default. Events can still be validated by 
+implementing custom validation methods. To enable Commons Validation 
+support, download the latest version from Jakarta. Place 
+commons-validator.jar, commons-digester.jar, commons-beanutils.jar, 
+and jakarta-oro.jar into your web application's lib directory.
 
-3. Standard Java logging is enabled. By default, Frame2 uses the built in
+4. Standard Java logging is enabled. By default, Frame2 uses the built in
 logging facilities of Java 1.4. If you wish to use log4j, download it and
 extract the jars into your web application's lib directory. Edit the web
 application's web.xml file to update the type of logger that is being used.
