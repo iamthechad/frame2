@@ -10,8 +10,6 @@
          <put name="header" path="defaultHeader.jsp"/>
          <put name="preBody" path="defaultPreBody.jsp"/>
       </template>
-      <template name="defaultBottomLayout" path="defaultTemplateBottom.jsp">
-         <put name="footer" path="defaultFooter.jsp"/>
-      </template>
+      <template name="defaultBottomLayout" path="defaultFooter.jsp"/>
    </templates>
 </template-config>
