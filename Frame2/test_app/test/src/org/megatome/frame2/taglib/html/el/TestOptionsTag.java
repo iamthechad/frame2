@@ -235,4 +235,98 @@ public class TestOptionsTag extends JspTestCase {
 
    }
    
+   /*
+    * This test verifies a bug fix. The bug involved the selected attribute
+    * for single values not being emitted, and being constructed incorrectly.
+    */
+   public void testLiveJspSelectedValue() throws Exception {
+      try {
+         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedValue.jsp");
+      } catch (Exception e) {
+         fail("Unexpected error parsing tag");
+      }
+   }
+   
+   public void endLiveJspSelectedValue(WebResponse webResponse) throws Exception {
+      String actual = webResponse.getText().trim();
+      actual = actual.replaceAll("\r\n", "");
+      
+      String expected = "<option value=\"1\">one</option>" +
+      "<option selected value=\"2\">two</option>" +
+      "<option value=\"3\">three</option>";
+      assertEquals(expected, actual);
+   }
+   
+   public void testLiveJspSelectedCollectionValue() throws Exception {
+      try {
+         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedCollectionValue.jsp");
+      } catch (Exception e) {
+         fail("Unexpected error parsing tag: " + e.getMessage());
+      }
+   }
+   
+   public void endLiveJspSelectedCollectionValue(WebResponse webResponse) throws Exception {
+      String actual = webResponse.getText().trim();
+      actual = actual.replaceAll("\r\n", "");
+      
+      String expected = "<option value=\"1\">one</option>" +
+      "<option selected value=\"2\">two</option>" +
+      "<option selected value=\"3\">three</option>";
+      assertEquals(expected, actual);
+   }
+   
+   public void testLiveJspSelectedCollectionValue2() throws Exception {
+      try {
+         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedCollectionValue2.jsp");
+      } catch (Exception e) {
+         fail("Unexpected error parsing tag: " + e.getMessage());
+      }
+   }
+   
+   public void endLiveJspSelectedCollectionValue2(WebResponse webResponse) throws Exception {
+      String actual = webResponse.getText().trim();
+      actual = actual.replaceAll("\r\n", "");
+      
+      String expected = "<option value=\"1\">one</option>" +
+      "<option selected value=\"2\">two</option>" +
+      "<option selected value=\"3\">three</option>";
+      assertEquals(expected, actual);
+   }
+   
+   public void testLiveJspSelectedArrayValue() throws Exception {
+      try {
+         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedArrayValue.jsp");
+      } catch (Exception e) {
+         fail("Unexpected error parsing tag: " + e.getMessage());
+      }
+   }
+   
+   public void endLiveJspSelectedArrayValue(WebResponse webResponse) throws Exception {
+      String actual = webResponse.getText().trim();
+      actual = actual.replaceAll("\r\n", "");
+      
+      String expected = "<option value=\"1\">one</option>" +
+      "<option selected value=\"2\">two</option>" +
+      "<option selected value=\"3\">three</option>";
+      assertEquals(expected, actual);
+   }
+   
+   public void testLiveJspSelectedArrayValue2() throws Exception {
+      try {
+         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedArrayValue2.jsp");
+      } catch (Exception e) {
+         fail("Unexpected error parsing tag: " + e.getMessage());
+      }
+   }
+   
+   public void endLiveJspSelectedArrayValue2(WebResponse webResponse) throws Exception {
+      String actual = webResponse.getText().trim();
+      actual = actual.replaceAll("\r\n", "");
+      
+      String expected = "<option value=\"1\">one</option>" +
+      "<option selected value=\"2\">two</option>" +
+      "<option selected value=\"3\">three</option>";
+      assertEquals(expected, actual);
+   }
+   
 }

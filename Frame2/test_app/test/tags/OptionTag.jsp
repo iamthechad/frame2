@@ -2,10 +2,8 @@
 <%@ page import="org.megatome.frame2.taglib.html.Constants" %>
 <% 
    pageContext.setAttribute ("value", "value");
-   pageContext.setAttribute (Constants.SELECT_KEY, "value");
-   pageContext.setAttribute ("x", "3");
-
 %>
- 
-<frame2:option value="${value}" displayvalue="displayValue" />
+<frame2:select name="select">
+<frame2:option value="${value}" displayvalue="displayValue"/>
+</frame2:select>
 

@@ -61,7 +61,10 @@ public class TestOptionTag extends BaseHtmlTagTest {
       super(theName);   
       _type = TagConstants.QUOTE + Constants.OPTION + TagConstants.QUOTE;
       _testJspName = "OptionTag.jsp";
-      _expectedLiveJsp = "<option selected=\"true\" value=\"value\">displayValue</option>"; 
+      _expectedLiveJsp = "<select name=\"select\">" +
+      	"<option value=\"value\">" +
+      	"displayValue</option>" +
+      	"</select>"; 
    }
 
    public  BaseHtmlTag createTag() {
@@ -84,6 +87,25 @@ public class TestOptionTag extends BaseHtmlTagTest {
       String expected =
          Constants.OPTION_TAG + TagConstants.RT_ANGLE;
       String actual = webResponse.getText();
+      assertEquals(expected, actual);
+   }
+   
+   public void testSelectedOptionTag() throws Exception {
+      try {
+         pageContext.forward(JSP_TEST_DIR + "OptionSelectedTag.jsp");
+      } catch (Exception e) {
+         fail("Unexpected failure");
+      } 
+   }
+   
+   public void endSelectedOptionTag(WebResponse webResponse) throws Exception {
+      String actual = webResponse.getText().trim();
+      actual = actual.replaceAll("\r\n", "");
+
+      String expected = "<select name=\"select\">" +
+      	"<option selected value=\"value\">" +
+      	"displayValue</option>" +
+      	"</select>";
       assertEquals(expected, actual);
    }
 
