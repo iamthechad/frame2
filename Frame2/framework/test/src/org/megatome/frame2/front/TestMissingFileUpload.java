@@ -1,30 +1,17 @@
 package org.megatome.frame2.front;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
-import junitx.framework.FileAssert;
-
-//import org.apache.commons.fileupload.FileItem;
 import org.megatome.frame2.Globals;
-import org.megatome.frame2.event.Event;
-import org.megatome.frame2.front.config.ViewType;
-import org.megatome.frame2.introspector.MappingException;
-import org.megatome.frame2.introspector.MappingsException;
 
-import servletunit.HttpServletRequestSimulator;
-import servletunit.HttpServletResponseSimulator;
-import servletunit.ServletContextSimulator;
 import servletunit.frame2.Frame2HttpServletRequestSimulator;
 import servletunit.frame2.MockFrame2TestCase;
 import HTTPClient.Codecs;
