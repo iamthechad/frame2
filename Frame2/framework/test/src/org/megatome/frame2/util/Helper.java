@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -29,7 +31,20 @@ public class Helper {
      * @return String
      */
     public static String calendarToString(Calendar cal) {
-        return new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+       Calendar now = Calendar.getInstance();
+       TimeZone tz = now.getTimeZone();
+       int offset = tz.getRawOffset();
+
+       if (tz.inDaylightTime(now.getTime())) {
+          offset -= tz.getDSTSavings();
+       }
+       
+       if (tz.inDaylightTime(cal.getTime())) {
+          offset += tz.getDSTSavings();
+       }
+
+       Date d = new Date(cal.getTimeInMillis() - offset);
+       return new SimpleDateFormat("yyyy-MM-dd").format(d);
     }
 
     static public Object unmarshall(String path,String pkg,ClassLoader loader) throws Exception {
