@@ -203,7 +203,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
     <tag-class>org.megatome.frame2.taglib.html.el.BodyTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -303,7 +303,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -428,7 +428,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -553,7 +553,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -708,7 +708,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -848,7 +848,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -923,7 +923,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
     <tag-class>org.megatome.frame2.taglib.html.el.HeadTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -1023,7 +1023,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -1203,7 +1203,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -1373,7 +1373,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -1493,7 +1493,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -1613,7 +1613,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -1758,7 +1758,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -1888,7 +1888,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -2013,7 +2013,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -2148,7 +2148,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -2273,7 +2273,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -2413,7 +2413,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>class</name>
+      <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>

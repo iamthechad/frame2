@@ -155,11 +155,13 @@ public abstract class BaseHtmlTag extends BaseFrame2Tag {
       setAttr(Constants.SIZE, size);
    }
    public void setStyleClass(String styleClass) {
-      setAttr(Constants.STYLE_CLASS, styleClass);
+      setAttr(Constants.CLASS, styleClass);
    }
+   /*
    public void setClass(String styleClass) {
       setAttr(Constants.STYLE_CLASS, styleClass);
    }
+   */
    public void setStyleId(String styleId) {
       setAttr(Constants.STYLE_ID, styleId);
    }

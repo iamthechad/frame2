@@ -123,7 +123,7 @@ public final class Constants {
    /** style attribute */
    public static final String STYLE          = "style";
    /** styleClass attribute */
-   public static final String STYLE_CLASS    = "styleClass";
+   //public static final String STYLE_CLASS    = "styleClass";
    /** styleId attribute */
    public static final String STYLE_ID       = "styleId";
    /** tabindex attribute */
