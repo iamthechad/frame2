@@ -39,6 +39,7 @@
 			<include name="commons-discovery.jar"/>
 			<include name="jaxrpc.jar"/>
 			<include name="saaj.jar"/>
+			<include name="wsdl4j.jar"/>
 		</patternset>
 			
 		<patternset id="jwsdp-libs">
@@ -78,7 +79,7 @@
 	</target>
 	
 	<target name="build-blankwar" depends="init">
-		<antcall target="war">
+		<antcall target="no-src-war">
 			<param name="war-file" value="${blankwar-name}"/>
 			<param name="web-xml" value="${blank-web-xml}"/>
 			<param name="war-dir" value="${blankwar-dir}"/>
@@ -110,6 +111,7 @@
 			<param name="war-dir" value="${examplewar-dir}"/>
 			<param name="commons-files" value="${examplewar-dir}/WEB-INF/commonsvalidator"/>
 			<param name="templates" value="${template-files}"/>
+			<param name="src-files" value="${examplewar-dir}/WEB-INF/src"/>
 		</antcall>
 	</target>
 	
@@ -138,6 +140,9 @@
 			<param name="war-dir" value="${soapexamplewar-dir}"/>
 			<param name="commons-files" value="${soapexamplewar-dir}/WEB-INF/commonsvalidator"/>
 			<param name="templates" value="${template-files}"/>
+			<param name="soap-xml-files" value="${soapexamplewar-dir}/WEB-INF/xml"/>
+			<param name="anteater-files" value="${soapexamplewar-dir}/xmlClient"/>
+			<param name="src-files" value="${soapexamplewar-dir}/WEB-INF/src"/>
 		</antcall>
 	</target>
 	
@@ -164,8 +169,47 @@
 			<param name="war-dir" value="${template-examplewar-dir}"/>
 			<param name="commons-files" value="${template-examplewar-dir}/WEB-INF/commonsvalidator"/>
 			<param name="templates" value="${template-examplewar-dir}/WEB-INF/templates"/>
+			<param name="src-files" value="${template-examplewar-dir}/WEB-INF/src"/>
 		</antcall>
 	</target>
+	
+	<target name="no-src-war" depends="init">
+		  <echo message="Building WAR: ${war-file}"/>
+	      <delete file="${webapp-dir}/${war-file}"/>
+	      <mkdir dir="${war-dir}/WEB-INF/classes"/>
+	      <war destfile="${webapp-dir}/${war-file}" update="no" webxml="${web-xml}" duplicate="preserve">
+	         <fileset dir="${war-dir}">
+	            <include name="**/*.jsp"/>
+	            <include name="**/*.html"/>
+	         </fileset>
+	         <zipfileset dir="${commons-files}"
+			    prefix="WEB-INF/commonsvalidator">
+			    <include name="**/*.xml"/>
+			 </zipfileset>
+			 <zipfileset dir="${templates}"
+			    prefix="WEB-INF/templates">
+			    <include name="**/*.xml"/>
+			 	<include name="**/*.jsp"/>
+			 </zipfileset>
+	         <webinf dir="${support-files}">
+	            <include name="${blank-config}"/>
+	         </webinf>
+	         <webinf dir="${war-dir}/WEB-INF">
+	            <include name="**/*.xml"/>
+	            <include name="*.wsdd"/>
+	            <exclude name="web.xml"/>
+	            <exclude name=".ignore"/>
+	         </webinf>
+	         <classes dir="${war-dir}/WEB-INF/classes"/>
+	         <lib dir="${lib-prefix}">
+	         	<patternset refid="ext-libs"/>
+	         </lib>
+	         <lib dir="${frame2.lib}">
+	            <include name="**/*.jar"/>
+	         </lib>
+	      </war>
+	      <delete dir="${war-dir}/WEB-INF/classes"/>
+	   </target>
 	
 	<target name="war" depends="init">
 	  <echo message="Building WAR: ${war-file}"/>
@@ -185,6 +229,9 @@
 		    <include name="**/*.xml"/>
 		 	<include name="**/*.jsp"/>
 		 </zipfileset>
+         <zipfileset dir="${src-files}"
+      	 	prefix="WEB-INF/src">
+  		 </zipfileset>
          <webinf dir="${support-files}">
             <include name="${blank-config}"/>
          </webinf>
@@ -221,6 +268,16 @@
 		 <zipfileset dir="${templates}"
 		    prefix="WEB-INF/templates">
 		    <include name="**/*.xml"/>
+		 </zipfileset>
+      	 <zipfileset dir="${soap-xml-files}"
+      	 	prefix="WEB-INF/xml">
+      	 </zipfileset>
+         <zipfileset dir="${anteater-files}"
+      	 	prefix="xmlClient">
+      	 	<include name="**/*.xml"/>
+      	 </zipfileset>
+      	 <zipfileset dir="${src-files}"
+      		prefix="WEB-INF/src">
 		 </zipfileset>
          <webinf dir="${support-files}">
             <include name="${blank-config}"/>
