@@ -67,15 +67,11 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Forward;
-import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.model.Frame2ModelException;
 
 
-public class GlobalForwardWizard extends BaseFrame2Wizard /*Wizard implements INewWizard*/ {
+public class GlobalForwardWizard extends BaseFrame2Wizard {
 	private GlobalForwardWizardPage1 page;
-	//private ISelection selection;
-    
-    //private Frame2Model model;
 
 	public GlobalForwardWizard() {
 		super();
@@ -96,24 +92,21 @@ public class GlobalForwardWizard extends BaseFrame2Wizard /*Wizard implements IN
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
                     monitor.beginTask(Frame2Plugin.getResourceString("GlobalForwardWizard.creatingStatus"), 1); //$NON-NLS-1$
-                    Frame2Model instance = Frame2Model.getInstance();
-                    if (instance != null) {
+                    if (model != null) {
                         Forward forward = new Forward();
                         forward.setName(forwardName);
                         forward.setType(forwardType);
                         forward.setPath(forwardPath);
 
                         try {
-                            instance.addGlobalForward(forward);
-                            instance.persistConfiguration();
+                            model.addGlobalForward(forward);
+                            model.persistConfiguration();
                         } catch (Frame2ModelException e) {
                             throw new InvocationTargetException(e);
                         }
                     }
                     monitor.worked(1);
-				} /*catch (CoreException e) {
-					throw new InvocationTargetException(e);
-				} */finally {
+				} finally {
 					monitor.done();
 				}
 			}
@@ -129,62 +122,4 @@ public class GlobalForwardWizard extends BaseFrame2Wizard /*Wizard implements IN
 		}
 		return true;
 	}
-/*
-	private void throwCoreException(String message) throws CoreException {
-		IStatus status =
-			new Status(IStatus.ERROR, "org.megatome.frame2", IStatus.OK, message, null); //$NON-NLS-1$
-		throw new CoreException(status);
-	}
-
-    private Frame2Model initFrame2Model(IStructuredSelection selection) throws Frame2ModelException {
-        Frame2Model mod = null;
-        if (selection != null && selection.isEmpty() == false) {
-            if (selection.size() > 1) {
-                throw new Frame2ModelException(Frame2Plugin.getResourceString("GlobalForwardWizard.errorMultSelection")); //$NON-NLS-1$
-            }
-                
-            Object obj = selection.getFirstElement();
-            if (obj instanceof IResource) {
-                IProject rootProject = ((IResource)obj).getProject();
-
-                IResource resource =
-                    rootProject.findMember(Frame2Plugin.getResourceString("GlobalForwardWizard.fullFrame2ConfigLocation")); //$NON-NLS-1$
-                if (resource == null) {
-                    throw new Frame2ModelException(Frame2Plugin.getResourceString("GlobalForwardWizard.ErrorNoConfigFound")); //$NON-NLS-1$
-                }
-                IPath path = resource.getLocation();
-                if (path == null) {
-                    throw new Frame2ModelException(Frame2Plugin.getResourceString("GlobalForwardWizard.ConfigFindError")); //$NON-NLS-1$
-                }
-                mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
-            }
-        }
-        
-        return mod;
-    }
-    
-    public Frame2Model getFrame2Model() {
-        return model;
-    }
-    
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		this.selection = selection;
-        setDefaultPageImageDescriptor(Frame2WizardSupport.getFrame2Logo());
-        try {
-            model = initFrame2Model(selection); 
-        } catch (Frame2ModelException e) {
-            String errorMsg;
-            if (e.getCause() != null) {
-                errorMsg = e.getCause().getMessage();
-            } else {
-                errorMsg = e.getMessage();
-            }
-            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, Frame2Plugin.getResourceString("GlobalForwardWizard.ConfigReadError"), e);  //$NON-NLS-1$//$NON-NLS-2$
-            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e); //$NON-NLS-1$
-            info.add(msg);
-            
-            ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("GlobalForwardWizard.wizardInitError"), null, info);             //$NON-NLS-1$
-        }           
-	}
-*/
 }

@@ -71,11 +71,8 @@ import org.megatome.frame2.model.Frame2Exception;
 import org.megatome.frame2.model.Frame2ModelException;
 import org.megatome.frame2.model.View;
 
-public class ExceptionWizard extends BaseFrame2Wizard /*Wizard implements INewWizard*/ {
+public class ExceptionWizard extends BaseFrame2Wizard {
 	private ExceptionWizardPage1 page;
-	//private ISelection selection;
-    
-    //private Frame2Model model = null;
 
 	public ExceptionWizard() {
 		super();
@@ -160,62 +157,4 @@ public class ExceptionWizard extends BaseFrame2Wizard /*Wizard implements INewWi
         
 		monitor.worked(1);
 	}
-/*
-	private void throwCoreException(String message) throws CoreException {
-		IStatus status =
-			new Status(IStatus.ERROR, "org.megatome.frame2", IStatus.OK, message, null); //$NON-NLS-1$
-		throw new CoreException(status);
-	}
-
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		this.selection = selection;
-        setDefaultPageImageDescriptor(Frame2WizardSupport.getFrame2Logo());
-        try {
-            model = initFrame2Model(selection); 
-        } catch (Frame2ModelException e) {
-            String errorMsg;
-            if (e.getCause() != null) {
-                errorMsg = e.getCause().getMessage();
-            } else {
-                errorMsg = e.getMessage();
-            }
-            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, Frame2Plugin.getResourceString("ExceptionWizard.errorReadingConfiguration"), e);  //$NON-NLS-1$//$NON-NLS-2$
-            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e); //$NON-NLS-1$
-            info.add(msg);
-            
-            ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("ExceptionWizard.wizardInitError"), null, info);             //$NON-NLS-1$
-        }  
-	}
-    
-    private Frame2Model initFrame2Model(IStructuredSelection selection) throws Frame2ModelException {
-        Frame2Model mod = null;
-        if (selection != null && selection.isEmpty() == false) {
-            if (selection.size() > 1) {
-                throw new Frame2ModelException(Frame2Plugin.getResourceString("ExceptionWizard.errorMultSelection")); //$NON-NLS-1$
-            }
-                
-            Object obj = selection.getFirstElement();
-            if (obj instanceof IResource) {
-                IProject rootProject = ((IResource)obj).getProject();
-
-                IResource resource =
-                    rootProject.findMember(Frame2Plugin.getResourceString("ExceptionWizard.configFullPath")); //$NON-NLS-1$
-                if (resource == null) {
-                    throw new Frame2ModelException(Frame2Plugin.getResourceString("ExceptionWizard.errorLocatingConfig")); //$NON-NLS-1$
-                }
-                IPath path = resource.getLocation();
-                if (path == null) {
-                    throw new Frame2ModelException(Frame2Plugin.getResourceString("ExceptionWizard.errorLocatingPath")); //$NON-NLS-1$
-                }
-                mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
-            }
-        }
-        
-        return mod;
-    }
-    
-    public Frame2Model getFrame2Model() {
-        return model;
-    }
-*/
 }

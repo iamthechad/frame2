@@ -61,7 +61,6 @@
 package org.megatome.frame2.wizards;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -87,12 +86,9 @@ import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2ModelException;
 import org.megatome.frame2.model.InitParam;
 
-public class EventHandlerWizard extends BaseFrame2Wizard /*Wizard implements INewWizard*/ {
+public class EventHandlerWizard extends BaseFrame2Wizard {
     private EventHandlerWizardPage1 page;
     private EventHandlerWizardPage2 page2;
-    //private ISelection selection;
-
-    //private Frame2Model model = null;
 
     public EventHandlerWizard() {
         super();
@@ -216,67 +212,4 @@ public class EventHandlerWizard extends BaseFrame2Wizard /*Wizard implements INe
 
         monitor.worked(1);
     }
-/*
-    private Frame2Model initFrame2Model(IStructuredSelection selection) throws Frame2ModelException {
-        Frame2Model mod = null;
-        if (selection != null && selection.isEmpty() == false) {
-            if (selection.size() > 1) {
-                throw new Frame2ModelException(Frame2Plugin.getResourceString("EventHandlerWizard.errorMultSelection")); //$NON-NLS-1$
-            }
-                
-            Object obj = selection.getFirstElement();
-            if (obj instanceof IResource) {
-                IProject rootProject = ((IResource)obj).getProject();
-
-                IResource resource =
-                    rootProject.findMember(Frame2Plugin.getResourceString("EventHandlerWizard.configFullPath")); //$NON-NLS-1$
-                if (resource == null) {
-                    throw new Frame2ModelException(Frame2Plugin.getResourceString("EventHandlerWizard.errorLocatingConfig")); //$NON-NLS-1$
-                }
-                IPath path = resource.getLocation();
-                if (path == null) {
-                    throw new Frame2ModelException(Frame2Plugin.getResourceString("EventHandlerWizard.errorLocatingConfigPath")); //$NON-NLS-1$
-                }
-                mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
-            }
-        }
-        
-        return mod;
-    }
-    
-    public Frame2Model getFrame2Model() {
-        return model;
-    }
-
-    private void throwCoreException(String message) throws CoreException {
-        IStatus status =
-            new Status(
-                IStatus.ERROR,
-                "org.megatome.frame2", //$NON-NLS-1$
-                IStatus.OK,
-                message,
-                null);
-        throw new CoreException(status);
-    }
-
-    public void init(IWorkbench workbench, IStructuredSelection selection) {
-        this.selection = selection;
-        setDefaultPageImageDescriptor(Frame2WizardSupport.getFrame2Logo());
-        try {
-            model = initFrame2Model(selection); 
-        } catch (Frame2ModelException e) {
-            String errorMsg;
-            if (e.getCause() != null) {
-                errorMsg = e.getCause().getMessage();
-            } else {
-                errorMsg = e.getMessage();
-            }
-            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, Frame2Plugin.getResourceString("EventHandlerWizard.errorReadingConfig"), e); //$NON-NLS-1$ //$NON-NLS-2$
-            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e); //$NON-NLS-1$
-            info.add(msg);
-            
-            ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("EventHandlerWizard.errorInitWizard"), null , info);             //$NON-NLS-1$
-        }  
-    }
-    */
 }
