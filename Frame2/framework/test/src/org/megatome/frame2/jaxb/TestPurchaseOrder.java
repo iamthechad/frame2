@@ -2,7 +2,6 @@ package org.megatome.frame2.jaxb;
 
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.util.Calendar;
 
 import junit.framework.TestCase;
 
@@ -25,8 +24,6 @@ public class TestPurchaseOrder extends TestCase {
       PurchaseOrder po = unmarshall();
 
       assertNotNull(po);
-
-      Calendar cal = Calendar.getInstance();
 
       assertEquals("1999-10-20", Helper.calendarToString(po.getOrderDate()));
 
