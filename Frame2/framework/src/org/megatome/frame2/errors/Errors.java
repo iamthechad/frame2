@@ -66,12 +66,13 @@ final public class Errors {
 
    static private Error[] _typeArray = new Error[0];
 
+   private Errors() {}
    /**
     * Creates a new errors object.
     *
     * @return Errors
     */
-   public static Errors instance() {
+   public static Errors newInstance() {
       return new Errors();
    }
 
@@ -81,7 +82,7 @@ final public class Errors {
    * @param key Error key
    * 
    */
-   public void add(String key) {
+   public void add(final String key) {
       add(key, null, null, null);
    }
 
@@ -91,7 +92,7 @@ final public class Errors {
     * @param key Error key
     * @param value Value to insert into message
     */
-   public void add(String key, Object value) {
+   public void add(final String key, final Object value) {
       add(key, value, null, null);
    }
 
@@ -102,7 +103,7 @@ final public class Errors {
     * @param value1 First value to insert into message
     * @param value2 Second value to insert into message
     */
-   public void add(String key, Object value1, Object value2) {
+   public void add(final String key, final Object value1, final Object value2) {
       add(key, value1, value2, null);
    }
 
@@ -114,7 +115,7 @@ final public class Errors {
     * @param value2 Second value to insert into message
     * @param value3 Third value to insert into message
     */
-   public void add(String key, Object value1, Object value2, Object value3) {
+   public void add(final String key, final Object value1, final Object value2, final Object value3) {
       add(new Error(key, value1, value2, value3));
    }
 
@@ -122,7 +123,7 @@ final public class Errors {
     * Add an Error object to the collection
    * @param error Error to add
    */
-   public void add(Error error) {
+   public void add(final Error error) {
       Collection errorsForKey = errorsForKey(error.getKey());
 
       if (errorsForKey == null) {
@@ -141,13 +142,13 @@ final public class Errors {
     *
     * @return boolean True if the error is in the collection
     */
-   public boolean contains(Error error) {
+   public boolean contains(final Error error) {
       Collection errorsForKey = errorsForKey(error.getKey());
 
       return (errorsForKey != null) && errorsForKey.contains(error);
    }
 
-   private Collection errorsForKey(String key) {
+   private Collection errorsForKey(final String key) {
       return (Collection)_errors.get(key);
    }
 
@@ -160,7 +161,7 @@ final public class Errors {
     *
     * @see org.megatome.frame2.errors.Errors#add(String,Object)
     */
-   public void addIfUnique(String key, Object value) {
+   public void addIfUnique(final String key, final Object value) {
       addIfUnique(key, value, null, null);
    }
 
@@ -174,7 +175,7 @@ final public class Errors {
     *
     * @see org.megatome.frame2.errors.Errors#add(String,Object,Object)
     */
-   public void addIfUnique(String key, Object value1, Object value2) {
+   public void addIfUnique(final String key, final Object value1, final Object value2) {
       addIfUnique(key, value1, value2, null);
    }
 
@@ -190,10 +191,10 @@ final public class Errors {
     * @see org.megatome.frame2.errors.Errors#add(String,Object,Object,Object)
     */
    public void addIfUnique(
-      String key,
-      Object value1,
-      Object value2,
-      Object value3) {
+      final String key,
+      final Object value1,
+      final Object value2,
+      final Object value3) {
       Error error = new Error(key, value1, value2, value3);
 
       if (!contains(error)) {
@@ -283,8 +284,7 @@ final public class Errors {
 
       while (errors.hasNext()) {
          Error error = (Error)errors.next();
-
-         error.release();
+         error = null;
       }
 
       _errors.clear();
