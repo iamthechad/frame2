@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+
+   <description url="http://frame2.sourceforge.net/eclipse">
+      Update site for Frame2 plugin.
+   </description>
+   <feature url="features/org.megatome.frame2.feature_1.0.0.jar" id="org.megatome.frame2.feature" version="1.0.0" os="win32" ws="win32" nl="en" arch="x86">
+      <category name="Frame2"/>
+   </feature>
+   <category-def name="Frame2" label="Frame2">
+      <description>
+         Support for building Frame2 based web applications.
+      </description>
+   </category-def>
+</site>
