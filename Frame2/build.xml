@@ -114,6 +114,8 @@
 			<pathelement location="${httpclient-home}/HTTPClient.zip"/>
 			<pathelement location="${junit-addons-home}/junit-addons.jar"/>
 			<pathelement location="${jakarta-oro-home}/jakarta-oro.jar"/>
+			<pathelement location="${jwsdp-shared-home}/xercesImpl.jar"/>
+			<pathelement location="${jwsdp-shared-home}/dom.jar"/>
 		</path>
 		
 		<path id="run-class-path">
@@ -153,6 +155,8 @@
 			<pathelement location="${cactus-home}/cactus-1.5.jar"/>
             <pathelement location="${cactus-home}/aspectjrt-1.1.1.jar"/>
             <pathelement location="${cactus-home}/commons-httpclient-2.0.jar"/>
+            <pathelement location="${jwsdp-shared-home}/xercesImpl.jar"/>
+			<pathelement location="${jwsdp-shared-home}/dom.jar"/>
 		</path>
 		
 		<mkdir dir="${local-out}"/>
