@@ -309,7 +309,7 @@
 	</target>
 	
 	<target name="javadoc" depends="compile">
-		<mkdir dir="${dist.docs}"/>
+		<mkdir dir="${dist.docs}/api"/>
 		<path id="doc-source-path">
 			<pathelement path="./framework/src"/>
 			<pathelement path="./tag/src"/>
@@ -335,7 +335,7 @@
             packagenames="org.*">
         -->
         <javadoc 
-			destdir="${dist.docs}"
+			destdir="${dist.docs}/api"
 			windowTitle="Frame2 API"
             doctitle="Frame2"
             classpathref="doc-classpath"
@@ -355,18 +355,27 @@
      			<exclude name="org/megatome/frame2/util/soap/SOAPException.java"/>
      			<exclude name="org/megatome/frame2/util/dom/DocumentException.java"/>
      			<exclude name="org/megatome/frame2/introspector/IntrospectorException.java"/>
+     			<exclude name="org/megatome/frame2/template/TemplateException.java"/>
+     			<exclude name="org/megatome/frame2/util/sax/ParserException.java"/>
      			<include name="org/megatome/frame2/Globals.java"/>
      			<include name="org/megatome/frame2/front/*RequestProcessor.java"/>
      			<include name="org/megatome/frame2/validator/CommonsFieldValidator.java"/>
-     			<include name="org/megatome/frame2/validator/CommonsValidatorPlugin.java"/>
 			</fileset>
-            
+			<!--
+			<packageset dir="./tag/src" defaultexcludes="yes">
+				<include name="org/megatome/frame2/**"/>
+			</packageset>
+			<packageset dir="./template_tag/src" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</packageset>
+            -->
 			<bottom>
 				<![CDATA[<em>Copyright (C) 2004, Megatome Technologies</em>
 				<br>All Rights Reserved]]>
 			</bottom>
 			<link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
 			<link href="http://java.sun.com/j2ee/1.4/docs/api/"/>
+			<link href="http://jakarta.apache.org/commons/validator/apidocs/"/>
 		</javadoc>
 	</target>
 	
@@ -583,7 +592,7 @@
    </target>
 <!-- ****************************************************************** -->
 
-<target name="build_images" depends="init">
+<target name="build_images" depends="init, javadoc">
 	<mkdir dir="${src_dist}"/>
 	<!-- Build "short" source image -->
 	<antcall target="source_image">
@@ -618,6 +627,7 @@
 			<exclude name="**/build/**"/>
 			<exclude name="**/dist/**"/>
 			<exclude name="**/classes/**"/>
+			<exclude name="**/samples/**"/>
 			<exclude name="**/ext/**" unless="INCLUDE_EXT"/>
 			<exclude name="**/.*"/>
 			<exclude name="override.properties"/>
@@ -646,6 +656,7 @@
 			<include name="**/lib/**"/>
 		</fileset>
 		<fileset dir="${proj-base}">
+			<include name="LICENSE.txt"/>
 			<include name="ext/**/commons-beanutils.jar" if="INCLUDE_EXT"/>
 			<include name="ext/**/commons-collections.jar" if="INCLUDE_EXT"/>
 			<include name="ext/**/commons-digester.jar" if="INCLUDE_EXT"/>
