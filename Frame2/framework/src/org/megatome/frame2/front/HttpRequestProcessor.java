@@ -68,8 +68,8 @@ import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
-import org.megatome.frame2.Globals;
 import org.megatome.frame2.Frame2Exception;
+import org.megatome.frame2.Globals;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.front.config.ViewType;
@@ -77,6 +77,7 @@ import org.megatome.frame2.introspector.IntrospectorException;
 import org.megatome.frame2.introspector.IntrospectorFactory;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
+import org.megatome.frame2.validator.CommonsValidatorException;
 
 /**
  * A request models the execution of an HTTP request through the Event and the EventHandlers.  It
@@ -153,14 +154,26 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 	 *
 	 * @return String
 	 */
-    boolean mapRequestToEvent(Event event, boolean validate) throws IntrospectorException {
+    boolean mapRequestToEvent(Event event, boolean validate) throws IntrospectorException,
+    CommonsValidatorException {
 
 	   IntrospectorFactory.instance().mapProperties(requestParams, event);
 
 		boolean passed = true;
 
-		if ((validate) && (event != null) ){
-			passed &= event.validate(_errors);
+		if ((validate) && (event != null) ) {
+		   try {
+		      passed &= event.validate(_errors);
+		   } catch (NoClassDefFoundError e) {
+		      // Bug Fix: 917752
+		      // Detect missing CommonsValidator and respond appropriately
+		      // Error is thrown only when plugin is specified
+		      PluginProxy cvp = getConfig().getPluginProxy("CommonsValidatorPlugin");
+		      if (cvp != null) {
+		         getLogger().warn("Cannot validate event", e);
+		         throw new CommonsValidatorException("CommonsValidator missing from classpath, but specified in configuration");
+		      }
+		   }
 		}
 		
 		// always put error in request.
