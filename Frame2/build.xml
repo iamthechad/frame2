@@ -297,4 +297,13 @@
 			<link href="http://java.sun.com/j2ee/1.4/docs/api/"/>
 		</javadoc>
 	</target>
+	
+	<target name="binary-dist" depends="all">
+		<!-- Create tar and zip containing:
+			1) Frame2 jars
+			2) Frame2 Api docs
+			3) Extra libs for Frame2
+			4) License files
+		-->
+	</target>
 </project>
