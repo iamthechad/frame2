@@ -584,26 +584,92 @@
 <!-- ****************************************************************** -->
 
 <target name="build_images" depends="init">
-	<mkdir dir="${bin_dist}"/>
+	<mkdir dir="${src_dist}"/>
 	<!-- Build "short" source image -->
-	<antcall target="source_image"/>
+	<antcall target="source_image">
+		<param name="dest_file_prefix" value="${src_dist_name}_small"/>
+	</antcall>
+	
 	<!-- Build full source image -->
+	<antcall target="source_image">
+		<param name="INCLUDE_EXT" value="true"/>
+		<param name="dest_file_prefix" value="${src_dist_name}"/>
+	</antcall>
+	<delete dir="${src_dist}"/>
+	
+	<mkdir dir="${bin_dist}"/>
 	<!-- Build "short" binary image -->
+	<antcall target="binary_image">
+		<param name="dest_file_prefix" value="${bin_dist_name}_small"/>
+	</antcall>
+	
 	<!-- Build full binary image -->
+	<antcall target="binary_image">
+		<param name="dest_file_prefix" value="${bin_dist_name}"/>
+		<param name="INCLUDE_EXT" value="true"/>
+	</antcall>
+	<delete dir="${bin_dist}"/>
 </target>
 
 <target name="source_image" depends="init">
-	<mkdir dir="${src_dist}"/>
 	<!-- Build "short" source image -->
 	<copy todir="${src_dist}" includeEmptyDirs="false">
 		<fileset dir="${proj-base}">
 			<exclude name="**/build/**"/>
 			<exclude name="**/dist/**"/>
+			<exclude name="**/classes/**"/>
 			<exclude name="**/ext/**" unless="INCLUDE_EXT"/>
 			<exclude name="**/.*"/>
 			<exclude name="override.properties"/>
 		</fileset>
 	</copy>
+	
+	<tar destfile="${dist}/${dest_file_prefix}.tar.gz"
+		compression="gzip"
+		longfile="gnu">
+		<tarfileset dir="${src_dist}"
+			preserveLeadingSlashes="true">
+		</tarfileset>
+	</tar>
+	
+	<zip destfile="${dist}/${dest_file_prefix}.zip">
+		<fileset dir="${src_dist}"/>
+	</zip>
+</target>
+
+<target name="binary_image" depends="init, dist">
+	<!-- Build "short" binary image -->
+	<copy todir="${bin_dist}" includeEmptyDirs="false">
+		<fileset dir="${dist}">
+			<exclude name="**/${product-name}*/**"/>
+			<include name="**/docs/**"/>
+			<include name="**/lib/**"/>
+		</fileset>
+		<fileset dir="${proj-base}">
+			<include name="ext/**/commons-beanutils.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/commons-collections.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/commons-digester.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/commons-fileupload.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/commons-logging.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/commons-validator.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/jakarta-oro.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/jstl.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/log4j.jar" if="INCLUDE_EXT"/>
+			<include name="ext/**/standard.jar" if="INCLUDE_EXT"/>
+		</fileset>
+	</copy>
+
+	<tar destfile="${dist}/${dest_file_prefix}.tar.gz"
+		compression="gzip"
+		longfile="gnu">
+		<tarfileset dir="${bin_dist}"
+			preserveLeadingSlashes="true">
+		</tarfileset>
+	</tar>
+	
+	<zip destfile="${dist}/${dest_file_prefix}.zip">
+		<fileset dir="${bin_dist}"/>
+	</zip>
 </target>
 
 </project>
