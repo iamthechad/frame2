@@ -119,6 +119,38 @@
 			<pathelement location="${jwsdp-endorsed-home}/xercesImpl.jar"/> -->
 		</path>
 		
+		<path id="cactus-run-class-path">
+			<pathelement location="${framework_build}"/>
+			<pathelement location="${framework_test_build}"/>
+			<pathelement location="${taglib_build}"/>
+			<pathelement location="${taglib_test_build}"/>
+			<!-- <pathelement location="${template_build}"/> -->
+			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
+			<pathelement location="${jwsdp-shared-home}/xsdlib.jar"/>
+			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
+			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
+			<pathelement location="${log4j-home}/log4j.jar"/>
+			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+			<pathelement location="${commons-logging-home}/commons-logging.jar"/>
+			<pathelement location="${commons-collections-home}/commons-collections.jar"/>
+			<pathelement location="${strutstest-home}/strutstest-2.1.0.jar"/>
+			<pathelement location="${commons-digester-home}/commons-digester.jar"/>
+			<pathelement location="${commons-beanutils-home}/commons-beanutils.jar"/>
+			<pathelement location="${httpclient-home}/HTTPClient.zip"/>
+			<pathelement location="${junit-addons-home}/junit-addons.jar"/>
+			<pathelement location="${jakarta-oro-home}/jakarta-oro.jar"/>
+			<!-- <pathelement location="${jwsdp-endorsed-home}/dom.jar"/>
+			<pathelement location="${jwsdp-endorsed-home}/xercesImpl.jar"/> -->
+			<pathelement location="${cactus-home}/cactus-1.5.jar"/>
+            <pathelement location="${cactus-home}/aspectjrt-1.1.1.jar"/>
+            <pathelement location="${cactus-home}/commons-httpclient-2.0.jar"/>
+		</path>
+		
 		<mkdir dir="${local-out}"/>
 	</target>
 	
@@ -195,20 +227,15 @@
 	</target>
 	
 	<target name="compile_template_test" depends="compile">
-	<!--
-		<mkdir dir="${template_test_build}"/>
-		<javac deprecation="on"
-          destdir="${template_test_build}"
-          srcdir="./template_tag/test/src"
-          classpathref="template-test-compile-class-path"
-        />
-    -->
     	<echo message="No tests defined for template tags - skipping compile"/>
 	</target>
 	
 	<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${junit-home}/junit.jar"/>
 	
-	<target name="test" depends="compile, compile_test" unless="TEST_CASE">
+	<target name="test" depends="unit_tests, container_tests, junit_report">
+	</target>
+	
+	<target name="unit_tests" depends="compile, compile_test, test-one" unless="TEST_CASE">
 		<mkdir dir="${reports}"/>
 		<junit printsummary="on" dir="."
 	          failureProperty="tests-failed"
@@ -236,7 +263,10 @@
 	      </classpath>
 	
 	   </junit>
-	   <junitreport todir="${reports}">
+	</target>
+	
+	<target name="junit_report" depends="init">
+		<junitreport todir="${reports}">
 	      <fileset dir="${reports}">
 	         <include name="TEST-*.xml"/>
 	      </fileset>
@@ -256,12 +286,6 @@
 				<path refid="run-class-path"/>
 	      	</classpath>
 		</junit>
-		<junitreport todir="${reports}">
-			<fileset dir="${reports}">
-				<include name="TEST-${TEST_CASE}*.xml"/>
-			</fileset>
-			<report format="frames" todir="${reports}/html"/>
-		</junitreport>
 	</target>
 	
 	<target name="dist" depends="compile">
@@ -355,6 +379,14 @@
 		-->
 	</target>
 	
+	<target name="container_tests" depends="init, dist" if="run_container_tests">
+		<!-- <antcall target="deploy_war"/> -->
+		<echo message="WAR must be manually deployed and Tomcat running for now..."/>
+		<antcall target="tagunit_tests"/>
+		<antcall target="cactus_tests"/>
+		<!-- <antcall target="undeploy"/> -->
+	</target>
+	
 	<target name="compile_test_app" depends="init, dist">
 		<mkdir dir="test_app/WEB-INF/classes"/>
 		<javac deprecation="off"
@@ -367,7 +399,7 @@
 				<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
-        <javac deprecation="off"
+		<javac deprecation="off"
           destdir="test_app/WEB-INF/classes"
           srcdir="./test_app/test/src"
           classpathref="test-app-compile-class-path"
@@ -379,24 +411,26 @@
 		</copy>
 	</target>
 	
-	<target name="war" depends="dist, compile_test_app">
-<!--   <property name="tagunit-src" value="${tagunit-home}/war/"/> -->
-      <delete file="${war}"/>
-      <war destfile="${war}" update="no" webxml="test_app/WEB-INF/web.xml">
+	<target name="war" depends="dist, compile_test_app" if="run_container_tests">
+	<!--
+		<mkdir dir="${test-app-out}"/>
+		<copy todir="${test-app-out}">
+    		<fileset dir="./test_app">
+      			<exclude name="**/*.java"/>
+    		</fileset>
+  		</copy>
+	-->
+      <delete file="${local-out}/${war}"/>
+      <war destfile="${local-out}/${war}" update="no" webxml="test_app/WEB-INF/web.xml">
          <fileset dir="test_app">
             <include name="**/*.jsp"/>
+            <include name="**/*.jspf"/>
             <include name="**/*.html"/>
          </fileset>
          <classes dir="test_app/WEB-INF/classes"/>
-         <!--
-         <fileset dir="test/tags/tagunit">
-            <include name="**/*.jsp"/>
-         </fileset>
-         -->
          <webinf dir="test_app/WEB-INF">
             <include name="**/*.xml"/>
             <include name="*.wsdd"/>
-<!--            <include name="*.tld"/> -->
             <exclude name="web.xml"/>
          </webinf>
          <webinf dir="tag/src">
@@ -405,11 +439,6 @@
          <webinf dir="template_tag/src">
          	<include name="*.tld"/>
          </webinf>
-         <!--
-         <webinf dir="${jstl-home}">
-            <include name="*.tld"/>
-         </webinf>
-         -->
          <lib dir="${axis-home}">
             <include name="axis.jar"/>
             <include name="wsdl4j.jar"/>
@@ -427,6 +456,7 @@
          <lib dir="${cactus-home}">
             <include name="cactus-1.5.jar"/>
             <include name="aspectjrt-1.1.1.jar"/>
+            <include name="commons-httpclient-2.0.jar"/>
          </lib>
          <lib dir="${taglibs-standard-home}">
             <include name="jstl.jar"/>
@@ -438,19 +468,9 @@
          <lib dir="${commons-validator-home}">
          	<include name="commons-validator.jar"/>
          </lib>
-         <!--
-         <lib dir="${hsqldb-home}">
-            <include name="**/hsqldb.jar"/>
-         </lib>
-         -->
          <lib dir="${dist.lib}">
             <include name="**/*.jar"/>
          </lib>
-         <!--
-         <lib dir="${test-lib}">
-            <include name="**/*.jar"/>
-         </lib>
-         -->
          <lib dir="${log4j-home}">
             <include name="log4j.jar"/>
          </lib>
@@ -458,5 +478,107 @@
             <include name="tagunit.jar"/>
          </lib>
       </war>
+   </target>
+   
+   <taskdef name="tagunit" classname="org.tagunit.ant.TagUnitTask"/>
+
+   <target name="tagunit_tests" depends="init" if="run_container_tests">
+      <tagunit url="${tomcat-url}/${war-name}/test/servlet/RunTests?uri=/tagunit/tags/index.jsp"
+               ignoreWarnings="true"
+               stopOnFail="true"/>
+   </target>      
+   
+   <target name="cactus_tests" depends="init" if="run_container_tests">
+   	  <mkdir dir="${reports}"/>
+		<junit printsummary="on" dir="."
+	          failureProperty="tests-failed"
+	          showoutput="${show-test-output}"
+	          haltonfailure="${halt-on-failure}"
+	          fork="yes">
+	      <sysproperty key="java.util.logging.config.file" value="${std-log-properties}"/> 
+	      <jvmarg value="-Xint"/>
+	      <formatter type="xml"/>
+	      <batchtest todir="${reports}">
+	         <fileset dir="./test_app/test/src">
+	            <include name="**/Test*.java" />
+	         </fileset>
+	      </batchtest>
+	      <classpath>
+			 <path refid="cactus-run-class-path"/>
+			 <pathelement location="./test_app/WEB-INF/classes"/>
+			 <pathelement location="${tomcat-common}/jsp-api.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${template_build}"/>
+	      </classpath>
+	
+	   </junit>
+   </target>
+   
+   <target name="clean-app" depends="init">
+      <echo message="Deleting ${war} from ${tomcat-home}"/>
+      <delete file="${tomcat-home}/webapps/${war}"/>
+      <delete dir="${tomcat-home}/webapps/${local-webapp}" failonerror="false"/>
+      <delete dir="${tomcat-home}/work/**/${local-webapp}/**" failonerror="false"/>
+      <delete dir="app/work/**/${local-webapp}/**" failonerror="false"/>
+   </target>
+
+   <!-- Note that this approach of removing and re-installing the
+   application is necessary because the reload management feature
+   does not support apps deployed through the webapp path. -->
+
+   <taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"/>
+   <taskdef name="install"   classname="org.apache.catalina.ant.InstallTask"/>
+   <taskdef name="list"      classname="org.apache.catalina.ant.ListTask"/>
+   <taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask"/>
+   <taskdef name="remove"    classname="org.apache.catalina.ant.RemoveTask"/>
+   <taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask"/>
+   <taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask"/>
+   <taskdef name="start"     classname="org.apache.catalina.ant.StartTask"/>
+   <taskdef name="stop"      classname="org.apache.catalina.ant.StopTask"/>
+   <taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"/>
+<!--
+   <target name="list" depends="init">
+      <list url="${tomcat-url}/manager"
+            username="${tomcat-username}"
+            password="${tomcat-password}"/>
+   </target>
+-->
+   <target name="remove" depends="init">
+      <remove url="${tomcat-url}/manager"
+              username="${admin-username}"
+              password="${admin-password}"
+              path="/${war-name}"/>
+   </target>
+   
+   <target name="undeploy" depends="init">
+      <undeploy url="${tomcat-url}/manager"
+              username="${admin-username}"
+              password="${admin-password}"
+              path="/${war-name}"/>
+   </target>
+
+	<target name="deploy_war" depends="init" if="run_container_tests">
+		<antcall target="war"/>
+		<antcall target="install"/>
+	</target>
+	
+   <target name="install" depends="init, war">
+   <echo message="war path: ${basedir}/${war}"/>
+   <copy file="${local-out}/${war}" tofile="${tomcat-home}/webapps/${war}"/>
+      <install url="${tomcat-url}/manager"
+               username="${admin-username}"
+               password="${admin-password}"
+               path="/${war-name}"
+               war="file:${war}"/>
+      <!-- Not sure if this is really needed -->
+      <echo message="sleeping ${sleeptime_secs} for context load"/>
+      <sleep seconds="${sleeptime_secs}"/>
+   </target>
+
+   <target name="reload" depends="compile">
+      <reload url="${tomcat-url}/manager"
+              username="${tomcat-username}"
+              password="${tomcat-password}"
+              path="/${war-name}"/>
    </target>
 </project>
