@@ -73,11 +73,6 @@
     <servlet-class>org.tagunit.controller.FrontController</servlet-class>
   </servlet>
 
-  <servlet-mapping>
-    <servlet-name>MultipartServlet</servlet-name>
-    <url-pattern>/multipart/*</url-pattern>
-  </servlet-mapping>
-  
   <!-- Action Servlet Mapping -->
   <servlet-mapping>
     <servlet-name>test</servlet-name>
@@ -114,6 +109,7 @@
     <servlet-name>TagUnitTestController</servlet-name>
     <url-pattern>/test/servlet/*</url-pattern>
   </servlet-mapping>
+  
  <!--
   <error-page> 
         <exception-type>javax.servlet.jsp.JspException</exception-type> 
