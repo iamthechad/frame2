@@ -104,4 +104,12 @@
      <taglib-uri>taglib.tld</taglib-uri>
      <taglib-location>/WEB-INF/lib/frame2-taglib.jar</taglib-location>
    </taglib>
+   
+   <!--
+	Configure Frame2 template taglib.
+	-->
+	<taglib>
+	  <taglib-uri>template_taglib.tld</taglib-uri>
+	  <taglib-location>/WEB-INF/lib/template-taglib.jar</taglib-location>
+	</taglib>
 </web-app>
