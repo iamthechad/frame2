@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="samples" default="all">
+   <property name="proj-base" value=".."/>
+
+	<target name="init">
+		<condition property="ext_loc" value="${proj-base}/ext/framework">
+			<and>
+				<available file="${proj-base}/ext/framework/commons-beanutils.jar"/>
+			</and>
+		</condition>
+	</target>
+	
+	<!--
+		1) Determine where the ext files are located
+		2) Find the Frame2 jars
+		3) Move all to the WAR
+		4) War it!
+	-->
+</project>
+
