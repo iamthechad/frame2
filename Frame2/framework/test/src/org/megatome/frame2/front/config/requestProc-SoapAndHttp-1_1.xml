@@ -16,9 +16,7 @@
    <plugins>
    </plugins>
    <request-processors>
-     <http-request-processor type="httpBaby">
-     </http-request-processor>
-     <soap-request-processor type="soap">
-     </soap-request-processor>
+     <http-request-processor type="httpBaby"/>
+     <soap-request-processor type="soap"/>
    </request-processors>
 </frame2-config>

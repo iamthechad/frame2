@@ -16,7 +16,6 @@
    <plugins>
    </plugins>
    <request-processors>
-     <http-request-processor type="org.megatome.frame2.front.HttpRequestProcessorCustom">
-     </http-request-processor>
+     <http-request-processor type="org.megatome.frame2.front.HttpRequestProcessorCustom"/>
    </request-processors>
 </frame2-config>

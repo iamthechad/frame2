@@ -16,7 +16,6 @@
    <plugins>
    </plugins>
    <request-processors>
-     <soap-request-processor type="org.megatome.frame2.front.SoapRequestProcessorCustom">
-     </soap-request-processor>
+     <soap-request-processor type="org.megatome.frame2.front.SoapRequestProcessorCustom"/>
    </request-processors>
 </frame2-config>
