@@ -48,3 +48,9 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
+ 
+/*
+ * Frame2 is based upon the TurboM2 framework. For more information
+ * about TurboM2, visit http://www.turbom2.org
+ */
+ 
