@@ -1,0 +1,6 @@
+These are anteater test scripts.
+
+anteater\bin is expected to be in your path.
+anteater -f <xmlfile> target
+
+use xpath expressions to query results.

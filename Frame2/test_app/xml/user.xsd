@@ -1,0 +1,46 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+            xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+            jaxb:version="1.0"
+            jaxb:extensionBindingPrefixes="xjc">
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">
+Example User schema.
+Copyright (c) 2004 Megatome Technologies.
+    </xsd:documentation>
+    <xsd:appinfo>
+      <jaxb:globalBindings>
+        <xjc:serializable uid="1"/>
+        <xjc:superClass name="org.megatome.frame2.jaxb.JaxbEventBase"/>
+      </jaxb:globalBindings>
+    </xsd:appinfo>
+  </xsd:annotation>
+
+  <xsd:element name="comment" type="xsd:string"/>
+
+  <xsd:element name="user">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="firstName" type="xsd:string"/>
+        <xsd:element name="lastName" type="xsd:string"/>
+        <xsd:element ref="comment" minOccurs="0"/>
+        <xsd:element name="email" type="EmailType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:simpleType name="EmailType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[\w.-]+@([\w.-]+\.)+[A-Za-z]{2,4}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- Acknowledge (success) request -->
+
+  <xsd:element name="ACK" type="xsd:string"/>
+
+  <!-- Achnowledge (not success) request -->
+
+  <xsd:element name="NACK" type="xsd:string"/>
+
+</xsd:schema>

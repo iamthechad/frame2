@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/1999/XMLSchema"
+  >
+
+  <SOAP-ENV:Body>
+
+    <ns1:getQuote
+      xmlns:ns1="urn:xmethods-delayed-quotes"
+      SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    >
+      <symbol xsi:type="xsd:string">HPQ</symbol>
+    </ns1:getQuote>
+
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

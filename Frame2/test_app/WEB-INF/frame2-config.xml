@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+
+<frame2-config>
+   <global-forwards>
+   	  <forward  name="addUserJSP" type="HTMLResource" path="/WEB-INF/jsp/adduser.jsp"/>
+   	  <forward name="displayUsersJSP" type="HTMLResource" path="/WEB-INF/jsp/displayusers.jsp"/>
+   	  <forward name="displayUsersEvent" type="event" path="displayUsers"/>
+        <forward name="ack" type="XMLResponder" path="org.megatome.app.handlers.AckResponder"/>
+        <forward name="testTagsJSP" type="HTMLResource" path="/WEB-INF/jsp/testTags.jsp"/>
+        <forward name="displayUsersMixedContentJSP" type="HTMLResource" path="/helptest/displayusersMixedContent.jsp"/>
+        <forward name="testTemplate2JSP" type="HTMLResource" path="/WEB-INF/jsp/testTemplate2.jsp"/>
+        <forward name="testTemplate3JSP" type="HTMLResource" path="/WEB-INF/jsp/testTemplate3.jsp"/>
+        <forward name="testTemplate4JSP" type="HTMLResource" path="/WEB-INF/jsp/testTemplate4.jsp"/>
+        <forward name="exceptionJSP" type="HTMLResource" path="/WEB-INF/jsp/exceptions.jsp"/>
+        
+   </global-forwards>
+   <events>
+      <event  name="addUser" type="org.megatome.app.jaxbgen.impl.UserImpl"/>
+      <event name="saveUser" resolveAs="children" type="org.megatome.app.jaxbgen.impl.UserImpl"/>
+      <event name="displayUsers" type="test.org.megatome.app.user.DisplayUsers"/>   
+      <event name="displayUsersMixedContent" type="test.org.megatome.app.user.DisplayUsers"/>   
+      <event name="testTags" type="test.org.megatome.app.user.TestTagEvent"/>  
+      <event name="testTemplate2" />    
+      <event name="testTemplate3" /> 
+      <event name="testTemplate4" /> 
+   </events>
+
+   <event-mappings>
+      <event-mapping 
+          eventName="testTags" cancelView="displayUsersEvent"
+          inputView="displayUsersJSP"
+          validate="true">           
+       <handler name="testTagsHandler"/>
+       <view type="HTML" forwardName="testTagsJSP"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="addUser"
+         inputView="displayUsersJSP"
+         validate="false">
+		 <view type="HTML" forwardName="addUserJSP"/>
+      </event-mapping>
+      <event-mapping 
+	      	eventName="saveUser"
+	         inputView="addUserJSP"
+	         validate="true">
+         <handler name="addUserHandler"/>
+		   <view type="HTML" forwardName="displayUsersEvent"/>
+         <view type="XML" forwardName="ack"/>
+      </event-mapping>            
+      <event-mapping 
+      	 eventName="displayUsers"
+         inputView="displayUsersJSP"
+         validate="false">
+         <handler name="displayUsersHandler"/>
+		 <view type="HTML" forwardName="displayUsersJSP"/>
+      </event-mapping>
+      <event-mapping 
+          eventName="displayUsersMixedContent">
+         <handler name="displayUsersHandler"/>
+       <view type="HTML" forwardName="displayUsersMixedContentJSP"/>
+      </event-mapping>
+      <event-mapping 
+          eventName="user"
+          validate="true">
+         <handler name="addUserHandler"/>
+         <handler name="addUser"/>
+         <security>
+            <role name="admin"/>
+            <role name="guest"/>
+         </security>
+      </event-mapping>
+      <event-mapping 
+          eventName="testTemplate2" >
+         <view type="HTML" forwardName="testTemplate2JSP"/>
+      </event-mapping>
+      <event-mapping 
+          eventName="testTemplate3" >
+         <view type="HTML" forwardName="testTemplate3JSP"/>
+      </event-mapping>
+      <event-mapping 
+          eventName="testTemplate4" >
+         <view type="HTML" forwardName="testTemplate4JSP"/>
+      </event-mapping>
+   </event-mappings>
+
+   <event-handlers>
+      <event-handler
+         name="displayUsersHandler"
+         type="test.org.megatome.app.user.DisplayUsersHandler">
+      </event-handler>
+      <event-handler
+         name="addUserHandler"
+         type="test.org.megatome.app.user.AddUserHandler">
+      </event-handler>
+      <event-handler
+         name="addUser"
+         type="org.megatome.app.handlers.AddUser">
+      </event-handler>
+      <event-handler
+         name="testTagsHandler"
+         type="test.org.megatome.app.user.TestTagsHandler">
+      </event-handler>
+   </event-handlers>
+
+   <plugins>
+   	  <plugin name="Templates" type="org.megatome.frame2.template.TemplatePlugin" />
+   </plugins>
+</frame2-config>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+
+  <SOAP-ENV:Body>
+   <saveUser>
+    <user>
+      <firstName>Fred</firstName>
+      <lastName>Flintstone</lastName>
+      <email>fred@bedrockcommunity.org</email>
+    </user>
+    <user>
+      <firstName>Barney</firstName>
+      <lastName>Rubble</lastName>
+      <email>brubble123@aol.net</email>
+    </user>
+   </saveUser>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

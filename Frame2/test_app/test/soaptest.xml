@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<project name="Anteater-test" default="simple">
+  <taskdef resource="META-INF/Anteater.tasks"/>
+  <typedef resource="META-INF/Anteater.types"/>
+
+  <target name="add-users">
+    <soapRequest description="Post a simple SOAP request"
+                 href="http://localhost:8080/frame2/services/AddUsers"
+                 content="add-users">
+      <namespace prefix="soap" uri="http://schemas.xmlsoap.org/soap/envelope/"/>
+      <namespace prefix="n" uri="urn:xmethods-delayed-quotes"/>
+      <match>
+        <responseCode value="200"/>
+        <xpath select="/soap:Envelope/soap:Body/saveUser/ack"/>
+        <regexp>ack</regexp>
+      </match>
+    </soapRequest>
+  </target>
+
+  <target name="add-bad-users">
+    <soapRequest description="Post a simple SOAP request"
+                 href="http://localhost:8080/frame2/services/AddUsers"
+                 content="add-bad-users">
+      <namespace prefix="soap" uri="http://schemas.xmlsoap.org/soap/envelope/"/>
+      <namespace prefix="n" uri="urn:xmethods-delayed-quotes"/>
+      <match>
+        <responseCode value="200"/>
+        <xpath select="/soap:Envelope/soap:Body/NACK"/>
+        <regexp>NACK</regexp>
+      </match>
+    </soapRequest>
+  </target>
+
+  <target name="example">
+    <soapRequest description="Post a simple SOAP request"
+                 href="http://services.xmethods.net:80/soap"
+                 content="get-quote">
+      <namespace prefix="soap" uri="http://schemas.xmlsoap.org/soap/envelope/"/>
+      <namespace prefix="n" uri="urn:xmethods-delayed-quotes"/>
+      <match>
+        <responseCode value="200"/>
+        <xpath select="/soap:Envelope/soap:Body/n:getQuoteResponse/Result"/>
+      </match>
+    </soapRequest>
+  </target>
+
+  <target name="simple">
+    <soapRequest description="Post a simple SOAP request"
+                 href="http://localhost:8080/frame2/services/MessageService"
+                 content="get-echo">
+      <namespace prefix="soap" uri="http://schemas.xmlsoap.org/soap/envelope/"/>
+      <namespace prefix="n" uri="urn:xmethods-delayed-quotes"/>
+      <match>
+        <responseCode value="200"/>
+        <regexp>Bob</regexp>
+      </match>
+    </soapRequest>
+  </target>
+
+  <!--
+  <property name="url" value="http://aft.sourceforge.net/index.html"/>
+
+  <target name="check-website">
+    <echo>Now downloading and testing ${url}</echo>
+    <httpRequest href="${url}">
+      <match>
+        <responseCode value="200"/>
+        <header name="Content-Type" assign="contenttype"/>
+        <regexp>Anteater</regexp>
+      </match>
+    </httpRequest>
+    <echo>URL has Content-Type: ${contenttype}</echo>
+  </target>
+
+  <target name="main" depends="check-website"/>
+  -->
+
+</project>

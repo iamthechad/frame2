@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+
+<frame2-config>
+   <global-forwards>
+      <forward name="success" type="XMLResource" path="ack"/>
+      <forward name="fail"    type="XMLResource" path="nack"/>
+   </global-forwards>
+   <events>
+      <event name="user" type="org.megatome.app.jaxbgen.impl.UserImpl"/>
+   </events>
+   <event-mappings>
+      <event-mapping 
+          eventName="user"
+          validate="true">
+         <handler name="addUser"/>
+         <security>
+            <role name="admin"/>
+            <role name="guest"/>
+         </security>
+      </event-mapping>
+   </event-mappings>
+   <event-handlers>
+      <event-handler
+         name="addUser"
+         type="org.megatome.app.handlers.AddUser">
+      </event-handler>
+   </event-handlers>
+</frame2-config>
