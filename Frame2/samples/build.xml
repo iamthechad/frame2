@@ -3,18 +3,111 @@
    <property name="proj-base" value=".."/>
 
 	<target name="init">
-		<condition property="ext_loc" value="${proj-base}/ext/framework">
+		<property file="override.properties"/>
+		<property file="env.properties"/>
+		
+		<condition property="frame2.lib" value="${src-dist.lib}">
 			<and>
-				<available file="${proj-base}/ext/framework/commons-beanutils.jar"/>
+				<available file="${src-dist.lib}/frame2.jar"/>
 			</and>
 		</condition>
+		
+		<condition property="frame2.lib" value="${bin-dist.lib}">
+			<and>
+				<available file="${bin-dist.lib}/frame2.jar"/>
+			</and>
+		</condition>
+		
+		<fail message="Could not locate the Frame2 jars. Cannot build sample." 
+			unless="frame2.lib"/>
+		
+		<patternset id="ext-libs">
+			<include name="commons-beanutils.jar"/>
+			<include name="commons-collections.jar"/>
+			<include name="commons-digester.jar"/>
+			<include name="commons-fileupload.jar"/>
+			<include name="commons-logging.jar"/>
+			<include name="commons-validator.jar"/>
+			<include name="jakarta-oro.jar"/>
+			<include name="jstl.jar"/>
+			<include name="log4j.jar"/>
+			<include name="standard.jar"/>
+		</patternset>
 	</target>
 	
-	<!--
-		1) Determine where the ext files are located
-		2) Find the Frame2 jars
-		3) Move all to the WAR
-		4) War it!
-	-->
+	<target name="all" depends="init, build-blankwar, build-examplewar"/>
+	
+	<target name="build-blankwar" depends="init">
+		<antcall target="war">
+			<param name="war-file" value="${blankwar-name}"/>
+			<param name="web-xml" value="${blank-web-xml}"/>
+			<param name="war-dir" value="${blankwar-dir}"/>
+			<param name="commons-files" value="${commonsvalidator-files}"/>
+			<param name="templates" value="${template-files}"/>
+		</antcall>
+	</target>
+	
+	<target name="build-examplewar" depends="init">
+		<mkdir dir="${examplewar-dir}/WEB-INF/classes"/>
+		
+		<javac deprecation="off"
+          destdir="${examplewar-dir}/WEB-INF/classes"
+          srcdir="${examplewar-dir}/WEB-INF/src">
+          <classpath>
+          	<fileset dir="${frame2.lib}">
+          		<include name="*.jar"/>
+          	</fileset>
+          </classpath>
+        </javac>
+        <copy todir="${examplewar-dir}/WEB-INF/classes">
+			<fileset dir="${examplewar-dir}/WEB-INF/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<antcall target="war">
+			<param name="war-file" value="${examplewar-name}"/>
+			<param name="web-xml" value="${blank-web-xml}"/>
+			<param name="war-dir" value="${examplewar-dir}"/>
+			<param name="commons-files" value="${examplewar-dir}/WEB-INF/commonsvalidator"/>
+			<param name="templates" value="${template-files}"/>
+		</antcall>
+	</target>
+	
+	<target name="war" depends="init">
+	  <echo message="Building WAR: ${war-file}"/>
+      <delete file="${war-file}"/>
+      <mkdir dir="${war-dir}/WEB-INF/classes"/>
+      <war destfile="${war-file}" update="no" webxml="${web-xml}" duplicate="preserve">
+         <fileset dir="${war-dir}">
+            <include name="**/*.jsp"/>
+            <include name="**/*.html"/>
+         </fileset>
+         <zipfileset dir="${commons-files}"
+		    prefix="WEB-INF/commonsvalidator">
+		    <include name="**/*.xml"/>
+		 </zipfileset>
+		 <zipfileset dir="${templates}"
+		    prefix="WEB-INF/templates">
+		    <include name="**/*.xml"/>
+		 </zipfileset>
+         <webinf dir="${support-files}">
+            <include name="${blank-config}"/>
+         </webinf>
+         <webinf dir="${war-dir}/WEB-INF">
+            <include name="**/*.xml"/>
+            <include name="*.wsdd"/>
+            <exclude name="web.xml"/>
+            <exclude name=".ignore"/>
+         </webinf>
+         <classes dir="${war-dir}/WEB-INF/classes"/>
+         <lib dir="${lib-prefix}">
+         	<patternset refid="ext-libs"/>
+         </lib>
+         <lib dir="${frame2.lib}">
+            <include name="**/*.jar"/>
+         </lib>
+      </war>
+      <delete dir="${war-dir}/WEB-INF/classes"/>
+   </target>
 </project>
 
