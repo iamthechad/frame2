@@ -1,231 +1,237 @@
 /*
  * ====================================================================
- *
+ * 
  * Frame2 Open Source License
- *
- * Copyright (c) 2004 Megatome Technologies.  All rights
- * reserved.
- *
+ * 
+ * Copyright (c) 2004 Megatome Technologies. All rights reserved.
+ * 
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- *
- * 3. The end-user documentation included with the redistribution, if
- *    any, must include the following acknowlegement:
- *       "This product includes software developed by
- *        Megatome Technologies."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
- *
- * 4. The names "The Frame2 Project", and "Frame2", 
- *    must not be used to endorse or promote products derived
- *    from this software without prior written permission. For written
- *    permission, please contact iamthechad@sourceforge.net.
- *
- * 5. Products derived from this software may not be called "Frame2"
- *    nor may "Frame2" appear in their names without prior written
- *    permission of Megatome Technologies.
- *
- * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED.  IN NO EVENT SHALL MEGATOME TECHNOLOGIES OR
- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
- * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * 
+ * 3. The end-user documentation included with the redistribution, if any, must
+ * include the following acknowlegement: "This product includes software
+ * developed by Megatome Technologies." Alternately, this acknowlegement may
+ * appear in the software itself, if and wherever such third-party
+ * acknowlegements normally appear.
+ * 
+ * 4. The names "The Frame2 Project", and "Frame2", must not be used to endorse
+ * or promote products derived from this software without prior written
+ * permission. For written permission, please contact
+ * iamthechad@sourceforge.net.
+ * 
+ * 5. Products derived from this software may not be called "Frame2" nor may
+ * "Frame2" appear in their names without prior written permission of Megatome
+ * Technologies.
+ * 
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL MEGATOME
+ * TECHNOLOGIES OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * ====================================================================
  */
 package org.megatome.frame2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 public class Forward {
-	private java.lang.String _Name;
-	private java.lang.String _Type;
-	private java.lang.String _Path;
 
-	public Forward() {
-		_Name = "";
-		_Type = "";
-		_Path = "";
-	}
+   private String _Name;
 
-	// Deep copy
-	public Forward(org.megatome.frame2.model.Forward source) {
-		_Name = source._Name;
-		_Type = source._Type;
-		_Path = source._Path;
-	}
+   private String _Type;
 
-	// This attribute is mandatory
-	public void setName(java.lang.String value) {
-		_Name = value;
-	}
+   private String _Path;
 
-	public java.lang.String getName() {
-		return _Name;
-	}
+   public Forward() {
+      _Name = "";
+      _Type = "";
+      _Path = "";
+   }
 
-	// This attribute is mandatory
-	public void setType(java.lang.String value) {
-		_Type = value;
-	}
+   // Deep copy
+   public Forward(Forward source) {
+      _Name = source._Name;
+      _Type = source._Type;
+      _Path = source._Path;
+   }
 
-	public java.lang.String getType() {
-		return _Type;
-	}
+   // This attribute is mandatory
+   public void setName(String value) {
+      _Name = value;
+   }
 
-	// This attribute is mandatory
-	public void setPath(java.lang.String value) {
-		_Path = value;
-	}
+   public String getName() {
+      return _Name;
+   }
 
-	public java.lang.String getPath() {
-		return _Path;
-	}
+   // This attribute is mandatory
+   public void setType(String value) {
+      _Type = value;
+   }
 
-	public void writeNode(java.io.Writer out, String nodeName, String indent) throws java.io.IOException {
-		out.write(indent);
-		out.write("<");
-		out.write(nodeName);
-		// name is an attribute
-		if (_Name != null) {
-			out.write(" name");	// NOI18N
-			out.write("='");	// NOI18N
-			org.megatome.frame2.model.Frame2Config.writeXML(out, _Name, true);
-			out.write("'");	// NOI18N
-		}
-		// type is an attribute
-		if (_Type != null) {
-			out.write(" type");	// NOI18N
-			out.write("='");	// NOI18N
-			org.megatome.frame2.model.Frame2Config.writeXML(out, _Type, true);
-			out.write("'");	// NOI18N
-		}
-		// path is an attribute
-		if (_Path != null) {
-			out.write(" path");	// NOI18N
-			out.write("='");	// NOI18N
-			org.megatome.frame2.model.Frame2Config.writeXML(out, _Path, true);
-			out.write("'");	// NOI18N
-		}
-		out.write("/>\n");
-		//String nextIndent = indent + "	";
-		//out.write(indent);
-		//out.write("</"+nodeName+">\n");
-	}
+   public String getType() {
+      return _Type;
+   }
 
-	public void readNode(org.w3c.dom.Node node) {
-		if (node.hasAttributes()) {
-			org.w3c.dom.NamedNodeMap attrs = node.getAttributes();
-			org.w3c.dom.Attr attr;
-			attr = (org.w3c.dom.Attr) attrs.getNamedItem("name");
-			if (attr != null) {
-				_Name = attr.getValue();
-			}
-			attr = (org.w3c.dom.Attr) attrs.getNamedItem("type");
-			if (attr != null) {
-				_Type = attr.getValue();
-			}
-			attr = (org.w3c.dom.Attr) attrs.getNamedItem("path");
-			if (attr != null) {
-				_Path = attr.getValue();
-			}
-		}
-		org.w3c.dom.NodeList children = node.getChildNodes();
-		for (int i = 0, size = children.getLength(); i < size; ++i) {
-			org.w3c.dom.Node childNode = children.item(i);
-			String childNodeName = (childNode.getLocalName() == null ? childNode.getNodeName().intern() : childNode.getLocalName().intern());
-			String childNodeValue = "";
-			if (childNode.getFirstChild() != null) {
-				childNodeValue = childNode.getFirstChild().getNodeValue();
-			}
-		}
-	}
+   // This attribute is mandatory
+   public void setPath(String value) {
+      _Path = value;
+   }
 
-	public void validate() throws org.megatome.frame2.model.Frame2Config.ValidateException {
-		boolean restrictionFailure = false;
-		// Validating property name
-		if (getName() == null) {
-			throw new org.megatome.frame2.model.Frame2Config.ValidateException("getName() == null", "name", this);	// NOI18N
-		}
-		// Validating property type
-		if (getType() == null) {
-			throw new org.megatome.frame2.model.Frame2Config.ValidateException("getType() == null", "type", this);	// NOI18N
-		}
-		// Validating property path
-		if (getPath() == null) {
-			throw new org.megatome.frame2.model.Frame2Config.ValidateException("getPath() == null", "path", this);	// NOI18N
-		}
-	}
+   public String getPath() {
+      return _Path;
+   }
 
-	public void changePropertyByName(String name, Object value) {
-		if (name == null) return;
-		name = name.intern();
-		if (name == "name")
-			setName((java.lang.String)value);
-		else if (name == "type")
-			setType((java.lang.String)value);
-		else if (name == "path")
-			setPath((java.lang.String)value);
-		else
-			throw new IllegalArgumentException(name+" is not a valid property name for Forward");
-	}
+   public void writeNode(Writer out, String nodeName, String indent)
+         throws IOException {
+      out.write(indent);
+      out.write("<");
+      out.write(nodeName);
+      // name is an attribute
+      if (_Name != null) {
+         out.write(" name"); // NOI18N
+         out.write("='"); // NOI18N
+         Frame2Config.writeXML(out, _Name, true);
+         out.write("'"); // NOI18N
+      }
+      // type is an attribute
+      if (_Type != null) {
+         out.write(" type"); // NOI18N
+         out.write("='"); // NOI18N
+         Frame2Config.writeXML(out, _Type, true);
+         out.write("'"); // NOI18N
+      }
+      // path is an attribute
+      if (_Path != null) {
+         out.write(" path"); // NOI18N
+         out.write("='"); // NOI18N
+         Frame2Config.writeXML(out, _Path, true);
+         out.write("'"); // NOI18N
+      }
+      out.write("/>\n");
+      //String nextIndent = indent + " ";
+      //out.write(indent);
+      //out.write("</"+nodeName+">\n");
+   }
 
-	public Object fetchPropertyByName(String name) {
-		if (name == "name")
-			return getName();
-		if (name == "type")
-			return getType();
-		if (name == "path")
-			return getPath();
-		throw new IllegalArgumentException(name+" is not a valid property name for Forward");
-	}
+   public void readNode(Node node) {
+      if (node.hasAttributes()) {
+         NamedNodeMap attrs = node.getAttributes();
+         Attr attr;
+         attr = (Attr) attrs.getNamedItem("name");
+         if (attr != null) {
+            _Name = attr.getValue();
+         }
+         attr = (Attr) attrs.getNamedItem("type");
+         if (attr != null) {
+            _Type = attr.getValue();
+         }
+         attr = (Attr) attrs.getNamedItem("path");
+         if (attr != null) {
+            _Path = attr.getValue();
+         }
+      }
+      NodeList children = node.getChildNodes();
+      for (int i = 0, size = children.getLength(); i < size; ++i) {
+         Node childNode = children.item(i);
+         String childNodeName = (childNode.getLocalName() == null ? childNode
+               .getNodeName().intern() : childNode.getLocalName().intern());
+         String childNodeValue = "";
+         if (childNode.getFirstChild() != null) {
+            childNodeValue = childNode.getFirstChild().getNodeValue();
+         }
+      }
+   }
 
-	// Return an array of all of the properties that are beans and are set.
-	public java.lang.Object[] childBeans(boolean recursive) {
-		java.util.List children = new java.util.LinkedList();
-		childBeans(recursive, children);
-		java.lang.Object[] result = new java.lang.Object[children.size()];
-		return (java.lang.Object[]) children.toArray(result);
-	}
+   public void validate() throws Frame2Config.ValidateException {
+      boolean restrictionFailure = false;
+      // Validating property name
+      if (getName() == null) { throw new Frame2Config.ValidateException(
+            "getName() == null", "name", this); // NOI18N
+      }
+      // Validating property type
+      if (getType() == null) { throw new Frame2Config.ValidateException(
+            "getType() == null", "type", this); // NOI18N
+      }
+      // Validating property path
+      if (getPath() == null) { throw new Frame2Config.ValidateException(
+            "getPath() == null", "path", this); // NOI18N
+      }
+   }
 
-	// Put all child beans into the beans list.
-	public void childBeans(boolean recursive, java.util.List beans) {
-	}
+   public void changePropertyByName(String name, Object value) {
+      if (name == null) return;
+      name = name.intern();
+      if (name == "name")
+         setName((String) value);
+      else if (name == "type")
+         setType((String) value);
+      else if (name == "path")
+         setPath((String) value);
+      else
+         throw new IllegalArgumentException(name
+               + " is not a valid property name for Forward");
+   }
 
-	public boolean equals(Object o) {
-		if (o == this)
-			return true;
-		if (!(o instanceof org.megatome.frame2.model.Forward))
-			return false;
-		org.megatome.frame2.model.Forward inst = (org.megatome.frame2.model.Forward) o;
-		if (!(_Name == null ? inst._Name == null : _Name.equals(inst._Name)))
-			return false;
-		if (!(_Type == null ? inst._Type == null : _Type.equals(inst._Type)))
-			return false;
-		if (!(_Path == null ? inst._Path == null : _Path.equals(inst._Path)))
-			return false;
-		return true;
-	}
+   public Object fetchPropertyByName(String name) {
+      if (name == "name") return getName();
+      if (name == "type") return getType();
+      if (name == "path") return getPath();
+      throw new IllegalArgumentException(name
+            + " is not a valid property name for Forward");
+   }
 
-	public int hashCode() {
-		int result = 17;
-		result = 37*result + (_Name == null ? 0 : _Name.hashCode());
-		result = 37*result + (_Type == null ? 0 : _Type.hashCode());
-		result = 37*result + (_Path == null ? 0 : _Path.hashCode());
-		return result;
-	}
+   // Return an array of all of the properties that are beans and are set.
+   public Object[] childBeans(boolean recursive) {
+      List children = new LinkedList();
+      childBeans(recursive, children);
+      Object[] result = new Object[children.size()];
+      return (Object[]) children.toArray(result);
+   }
+
+   // Put all child beans into the beans list.
+   public void childBeans(boolean recursive, List beans) {
+   }
+
+   public boolean equals(Object o) {
+      if (o == this) return true;
+      if (!(o instanceof Forward)) return false;
+      Forward inst = (Forward) o;
+      if (!(_Name == null ? inst._Name == null : _Name.equals(inst._Name)))
+            return false;
+      if (!(_Type == null ? inst._Type == null : _Type.equals(inst._Type)))
+            return false;
+      if (!(_Path == null ? inst._Path == null : _Path.equals(inst._Path)))
+            return false;
+      return true;
+   }
+
+   public int hashCode() {
+      int result = 17;
+      result = 37 * result + (_Name == null ? 0 : _Name.hashCode());
+      result = 37 * result + (_Type == null ? 0 : _Type.hashCode());
+      result = 37 * result + (_Path == null ? 0 : _Path.hashCode());
+      return result;
+   }
 
 }
