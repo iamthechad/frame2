@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--  Created with the CoffeeCup HTML Editor  -->
+<!--        http://www.coffeecup.com/         -->
+<!--      Brewed on 3/26/2004 7:13:09 AM      -->
+<head>
+  <title>Installing and Configuring Frame2 Distributions</title>
+</head>
+<body>
+<h1>Installing and Configuring Frame2 Distributions</h1>
+This guide explains the steps for installing and configuring the Frame2 
+distributions. Frame2 is an open-source J2EE servlet framework for creating web 
+applications and web services. More information can be found at: 
+<a href="http://frame2.sourceforge.net">http://frame2.sourceforge.net</a>.<br>
+At this website you can also download the binary and source distributions of 
+the framework. The binary distribution contains the pre-compiled framework 
+java archives and API documentation and is intended for users who are going to 
+use Frame2 to build an application or service. The source distribution includes 
+all source code and scripts needed to build and test the framework. It is 
+intended for developers who wish to extend or modify the framework and for 
+users who want a better understanding of the framework's implementation.
+<h2>Common Distribution Contents</h2>
+The binary and source distributions share some common content. This content includes:
+<table border="1">
+<th>File</th><th>Description</th>
+<tr><td>LICENSE.txt</td><td>The Frame2 Open Source License</td></tr>
+<tr><td>Samples</td><td>Sample web applications that use the Frame2 framework.</td></tr>
+<tr><td>support_files</td><td>Files commonly used by Frame2 applications.</td></tr>
+<tr><td>docs/WhatIsFrame2.html</td><td>Introductory document to Frame2</td></tr>
+<tr><td>docs/GettingStarted.html</td><td>Quick tutorial to building a Frame2 application</td></tr>
+</table><br>
+Additionally, the distributions include several third party files that are
+required to properly compile Frame2 and run Frame2 applications (the distributions
+with "small" in the name do not include any third party Java archives):
+<table border="1">
+<th>File</th><th>Description</th>
+<tr><td>ext/framework/commons-beanutils.jar</td><td>Commons bean utilities</td></tr>
+<tr><td>ext/framework/commons-collections.jar</td><td>Commons collection framework</td></tr>
+<tr><td>ext/framework/commons-digester.jar</td><td>Commons digester</td></tr>
+<tr><td>ext/framework/commons-fileupload.jar</td><td>Commons file upload support</td></tr>
+<tr><td>ext/framework/commons-logging.jar</td><td>Commons logging support</td></tr>
+<tr><td>ext/framework/commons-validator.jar</td><td>Commons Validator</td></tr>
+<tr><td>ext/framework/jakarta-oro.jar</td><td>Support file for the Commons Validator</td></tr>
+<tr><td>ext/framework/jstl.jar</td><td>JSTL Tag library</td></tr>
+<tr><td>ext/framework/log4j.jar</td><td>Logging framework</td></tr>
+<tr><td>ext/framework/standard.jar</td><td>Support file for JSTL</td></tr>
+</table><br>
+<h2>Binary Distribution Contents</h2>
+The binary distribution contains the pre-built Java archives, plus other specific files:
+<table border="1">
+<th>File</th><th>Description</th>
+<tr><td>lib/frame2.jar</td><td>The Frame2 Java archive.</td></tr>
+<tr><td>lib/frame2-taglib.jar</td><td>The Frame2 custom tag library Java archive, with embedded descriptor.</td></tr>
+<tr><td>lib/template-taglib.jar</td><td>The Frame2 template tag library Java archive, with embedded descriptor.</td></tr>
+<tr><td>docs/api</td><td>JavaDoc API, suitable for developers building web applications using Frame2</td></tr>
+</table><br>
+The Java archive files are directly usable as part of a J2EE web archive. The 
+user should refer to the Getting Started Guide for details for 
+configuring the web archive to initialize and tailor Frame2 as well as the 
+basics for configuring the framework itself.
+<h2>Source Distribution Contents</h2>
+The source distribution contains the following in addition to the common distribution elements:
+<table border="1">
+<th>File</th><th>Description</th>
+<tr><td>build.xml</td><td>The master ant build file. This build file generates 
+the distributions as well as running unit tests.</td></tr>
+<tr><td>env.properties</td><td>Environment properties used by the ant build. 
+These reference the 3rd-party libraries, tools and directory space. Developers 
+may override the given settings by re-declaring the properties in a file called 
+'override.properties'.</td></tr>
+<tr><td>framework</td><td>The core subproject that builds and unit tests the framework.</td></tr>
+<tr><td>tag</td><td>The subproject that builds and unit tests the framework 
+custom tag library. Note that many of the unit tests for the tags are run under 
+the test_app subproject container tests.</td></tr>
+<tr><td>template_tag</td><td>The subproject that builds and unit tests the framework
+template custom tag library. Note that many of the unit tests for the tag are run
+under the test_app subproject container tests.</td></tr>
+<tr><td>test_app</td><td>The test_app subproject that builds and unit tests the 
+framework in a container (Tomcat). This area acts as a scratch web application 
+and service for developers to host tests and minor demonstrations.</td></tr>
+</table><br>
+The source distribution also includes extra third party Java archive files used
+for compiling and running the test suites. These files include:
+<table border="1">
+<th>File</th><th>Description</th>
+<tr><td>ext/test/cactus-1.5.jar</td><td>Cactus test framework</td></tr>
+<tr><td>ext/test/aspectjrt-1.1.1.jar</td><td>Support file for Cactus</td></tr>
+<tr><td>ext/test/commons-httpclient-2.0.jar</td><td>Support file for Cactus</td></tr>
+<tr><td>ext/test/HTTPClient.jar</td><td>HTTP Test framework</td></tr>
+<tr><td>ext/test/junit.jar</td><td>Unit Test framework</td></tr>
+<tr><td>ext/test/junit-addons.jar</td><td>Junit addon for testing file contents</td></tr>
+<tr><td>ext/test/strutstest-2.1.0.jar</td><td>Web application test framework</td></tr>
+<tr><td>ext/test/tagunit.jar</td><td>Custom JSP tag test framework</td></tr>
+<tr><td>ext/ws/axis.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/commons-discovery.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jaxrpc.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/saaj.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/wsdl4j.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/jaxb-api.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/jaxb-impl.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/jaxb-libs.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/jax-qname.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/namespace.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/relaxngDatatype.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/xsdlib.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/dom.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/xercesImpl.jar</td><td>Web services support</td></tr>
+<tr><td>ext/ws/jwsdp/JWSDP_LICENSE.jar</td><td>License for files used from the Java Web Services Developer Pack</td></tr>
+</table><br>
+The framework subproject also contains the DTD files for the Frame2 and template 
+configuration files.<br>
+The source distribution may be used in-place once it is extracted from the distribution 
+package. There are no special requirements for placement of the distribution. As 
+is, the distribution assumes that third-party tools are installed and configured 
+on the development platform.
+<h2>Tools used by Frame2</h2>
+Tools used by distribution are as follows:<br>
+<table border="1">
+<th>Tool</th><th>Description</th>
+<tr><td>ant</td><td>The distribution uses ant for its build system. See the 
+release notes for the currently-used version. Ant may be downloaded from 
+<a href="http://ant.apache.org">http://ant.apache.org</a>. To execute all 
+elements of the build, the normal ant distribution will need to be augmented 
+with packages from the other third-party packages. Where this is necessary the 
+third-party packages listed below will indicate the dependency. The simplest 
+approach is to copy the associated jar file into the ant lib directory.</td></tr>
+<tr><td>Tomcat</td><td>The distribution was built using Tomcat for manual and in-container 
+unit testing, although any servlet container that supports the servlet 2.3 
+specification and the JSP 1.2 specification should work. Tomcat may be downloaded 
+from <a href="http://jakarta.apache.org/tomcat/">http://jakarta.apache.org/tomcat/</a>. 
+No special server or common packages are needed for the Tomcat installation. For 
+loading the in-container test web application it is required that a user in the 
+role of manager be configured.<br>
+To execute the in-container tests, the ant build system requires the Catalina 
+ant task jar.</td></tr>
+</table>
+<h2>Third-party Libraries</h2>
+The Frame2 distributions have two types of library dependencies. The first are 
+needed for using the framework, the second are needed for building and testing 
+the framework.
+<h3>Libraries for Using the Framework</h3>
+The Frame2 framework leverages the J2EE specification to minimize its 
+dependencies on third-party libraries when deployed. More detail is given in the 
+Getting Started Guide, but a brief outline is:
+<table border="1">
+<th>Library</th><th>Description</th>
+<tr><td>JSTL/EL</td><td>The framework uses the reference implementation of the 
+Java Standard Template Library as provided by Sun and the Apache Software 
+Foundation. The use is primarily of the Expression Language (EL).
+This implementation is available with the standard.jar, available from 
+<a href="http://java.sun.com/jstl">http://java.sun.com/jstl</a>. 
+It is recommended the full JSTL be use for JSP development; the framework tag 
+libraries are intended to complement the JSTL tags.
+</td></tr>
+<tr><td>JAXB</td><td>The implementation of the web service framework assumes 
+that all SOAP message bodies may be marshalled and unmarshalled using the JAXB 
+API and implementation. As such, users that wish to use Frame2 for implementing 
+their web services will need to use JAXB to generate their event classes as well 
+as provide JAXB to the service runtime. JAXB is available as part of the Java Web 
+Services Developer Pack	<a href="http://java.sun.com/jwsdp">http://java.sun.com/jwsdp</a>.
+JAXB can also be used to generate event classes for the web application portion 
+of the framework.</td></tr>
+<tr><td>log4j (optional)</td><td>The user may choose to use the pre-built 
+binding between the internal logging used by the framework code and log4j. 
+Log4j may be downloaded at <a href="http://jakarta.apache.org/log4j">http://jakarta.apache.org/log4j</a>.
+Log4j is not required to use the framework. By default the framework will use 
+logging based on the java.util.logging package.</td></tr>
+</table>
+<h3>Libraries for Developing the Framework</h3>
+The Frame2 baseline uses numerous open-source packages for its build and test 
+environment.
+<table border="1">
+<th>Package</th><th>Description</th>
+<tr><td>Apache AXIS</td><td>The test and example applications both use the Apache 
+AXIS SOAP. There is no Axis-depended code within the applications; however the web 
+application is configured through the deployment descriptors to use Axis. Axis 
+is available at <a href="http://ws.apache.org/axis">http://ws.apache.org/axis</a>.
+</td></tr>
+</table>
+<h3>Test packages</h3>	
+Test packages used in the baseline are:
+<table border="1">
+<th>Package</th><th>Description</th>
+<tr><td>junit</td><td>Most tests are based on the jUnit test framework. These 
+tests may be executed as part of the build or singularly. jUnit may be 
+downloaded from <a href="http://junit.org">http://junit.org</a>.<br>
+The ant build system requires the jUnit jar.</td></tr>
+<tr><td>strutstestcase</td><td>The strutstestcase contains a fairly complete set
+of Servlet mock objects in the servletunit. These are used for a JUnit based test 
+class provided in the distribution, MockFrame2TestCase. Strutstestcase may be 
+downloaded from	<a href="http://strutstestcase.sourceforge.net">http://strutstestcase.sourceforge.net</a>.</td></tr>
+<tr><td>cactus</td><td>The Cactus test framework is an extension of jUnit for 
+in-container testing. Cactus is available from <a href="http://jakarta.apache.org/cactus">http://jakarta.apache.org/cactus</a>.
+</td></tr>
+<tr><td>tagunit</td><td>The test_app subproject contains a full complement of 
+tag library tests based on the tagunit extension to jUnit. Tagunit may be 
+downloaded at <a href="http://tagunit.org">http://tagunit.org</a>.
+The ant build system requires the tagunit ant task jar.</td></tr>
+</table>
+<h2>Configuring the Distribution to use the Third-Party Resources</h2>
+The source distribution may be configured to point to the location of the 
+third-party packages. The mechanism to do so is provided through the env.properties 
+and override.properties files in the base directories. The env.properties 
+specifies the relative locations of the third-party packages as configured in 
+the baseline. Each entry may be overridden by pre-declaring it in the 
+override.properties file (create one as necessary). For example, to specify the 
+Tomcat location for the build make an entry in the override.properties, such as:
+<pre>tomcat-home    c:/tomcat_5.0</pre>
+By pre-declaring entries in the override file they will take precedence of the 
+configured values. The values in the env.properties reflect the structure of the 
+configured baseline.
+<h2>Building and Testing the Distribution</h2>
+Once the third-party packages have been installed and the override.properties 
+has been written to use them, the build system may be run to build the framework, 
+the test code, and run the tests. In general it is assumed the developer will 
+work within an IDE for most development. The build system supports development 
+in a more basic environment, for example, a shell and text editor, in that it 
+allows the automated build and execution of individual tests.<br>
+The primary purpose of the build system is to generate reference builds (that is, 
+builds conforming to specific dependency rules), execute single and full 
+regression tests, and to create deployments for the tests and the distributions.<br> 
+The primary targets of the master build.xml are described in the following table. 
+All derived elements are written into the output directory (specified by the 
+local-out property).
+<table border="1">
+<th>Target</th><th>Description</th>
+<tr><td>all</td><td>Compiles all source code and unit tests, generates JavaDoc, and runs all unit tests</td></tr>
+<tr><td>clean</td><td>Deletes the derived build elements.</td></tr>
+<tr><td>compile</td><td>Compiles all source code</td></tr>
+<tr><td>test</td><td>Compiles and runs all unit tests, special tests, and container 
+tests. Via the junitreport ant task, a summary report of the test results will 
+be written into the directory ${local-out}/test/reports/html.</td></tr>
+<tr><td>unit_tests</td><td>Compiles and runs unit tests</td></tr>
+<tr><td>special_tests</td><td>Compiles and runs special tests. (e.g. Tests requiring
+different classpaths than normal unit tests.</td></tr>
+<tr><td>test-one</td><td>Compile and run a single unit test. The test name is 
+specified with the argument -DTEST_CASE=fully.qualified.class.Name</td></tr>
+<tr><td>dist</td><td>Generates the Frame2 Java archive files</td></tr>
+<tr><td>javadoc</td><td>Generates the user JavaDoc</td></tr>
+<tr><td>container_tests</td><td>Run the container tests. Requires the 
+run_container_tests property to be set. Currently requires that the WAR be built
+and deployed to a running instance of Tomcat manually before running this target</td></tr>
+<tr><td>war</td><td>Build a WAR file containing the test_app application.</td></tr>
+<tr><td>tagunit_tests</td><td>Run the tagunit tests against the deployed WAR. Requires the 
+run_container_tests property to be set. Currently requires that the WAR be built
+and deployed to a running instance of Tomcat manually before running this target</td></tr>
+<tr><td>cactus_tests</td><td>Run the Cactus tests against the deployed WAR. Requires the 
+run_container_tests property to be set. Currently requires that the WAR be built
+and deployed to a running instance of Tomcat manually before running this target</td></tr>
+<tr><td>build_images</td><td>Creates the binary and source distribution images</td></tr>
+</table><br>
+All tests are identified by being configured under a test subproject's source 
+directory and beginning with the characters 'Test'.<br>
+It is required that Tomcat be running with versions of the test web applications 
+loaded prior to running the full regression tests.
+</body>
+</html>
