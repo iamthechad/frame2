@@ -51,10 +51,7 @@
 package org.megatome.frame2.front;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -64,10 +61,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.DiskFileUpload;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.fileupload.FileUploadException;
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.errors.Errors;
@@ -90,6 +83,10 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 	private HttpServletResponse _response;
 	
 	private Map requestParams;
+	private Exception fileUploadException = null;
+	
+	public static final String CONTENT_TYPE = "Content-type";
+	private static final String MULTIPART = "multipart/";
    
    private Logger getLogger() {
       return LoggerFactory.instance(HttpRequestProcessor.class.getName());
@@ -245,7 +242,18 @@ public class HttpRequestProcessor extends RequestProcessorBase {
       try {
          String eventName = getEventName(_request.getServletPath());
          Event event = getEvent();
-                 
+
+         if (requestParams == null) {
+             Frame2Exception e = null;
+             if (fileUploadException != null) {
+                 e = new Frame2Exception(fileUploadException);
+                 fileUploadException = null;
+             } else {
+                 e = new Frame2Exception("File Upload Error: There was an error parsing file upload parameters."); 
+             }
+         	throw e;
+         }
+         
          if (!isUserAuthorizedForEvent(eventName)) {
          	String login = _request.getRemoteUser();
          
@@ -253,9 +261,6 @@ public class HttpRequestProcessor extends RequestProcessorBase {
          	throw new AuthorizationException(
          		"User " + login + " not authorized for mapping " + eventName);
          }
-         
-         if (requestParams == null)
-         	throw new Frame2Exception("File Upload Error: There was an error parsing file upload parameters.");
          //requestParams = getRequestParameterMap(_request);
          
          //if (isCancelRequest(_request)) {
@@ -361,72 +366,43 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 	}
 	
 	private Map getRequestParameterMap(HttpServletRequest request) {
-		HashMap parameters = new HashMap();
+		Map parameters = new HashMap();
 		
-		if (FileUpload.isMultipartContent(request)) {
-			DiskFileUpload fileUpload = new DiskFileUpload();
-			fileUpload.setSizeMax(FileUploadConfig.getMaxFileSize());
-			fileUpload.setSizeThreshold(FileUploadConfig.getBufferSize());
-			fileUpload.setRepositoryPath(FileUploadConfig.getFileTempDir());
-			
-			List fileItems = null;
-			try {
-				fileItems = fileUpload.parseRequest(request);
-			} catch (FileUploadException fue) {
-				//throw new Frame2Exception("File Upload Exception", fue);
-				getLogger().severe("File Upload Error", fue);
-				return null;
-			}
-			
-			for (Iterator i = fileItems.iterator(); i.hasNext(); ) {
-				FileItem fi = (FileItem)i.next();
-				String fieldName = fi.getFieldName();
-				if (fi.isFormField()) {
-					if (parameters.containsKey(fieldName)) {
-						ArrayList tmpArray = new ArrayList();
-						if (parameters.get(fieldName) instanceof String[]) {
-							String[] origValues = (String[])parameters.get(fieldName);
-							for (int idx = 0; idx < origValues.length; idx++) {
-								tmpArray.add(origValues[idx]);
-							}
-							tmpArray.add(fi.getString());
-						} else {
-							tmpArray.add(parameters.get(fieldName));
-							tmpArray.add(fi.getString());
-						}
-						String[] newValues = new String[tmpArray.size()];
-						newValues = (String[])tmpArray.toArray(newValues);
-						parameters.put(fieldName, newValues);
-					} else {
-						parameters.put(fieldName, fi.getString());
-					}
-				} else {
-					if (parameters.containsKey(fieldName)) {
-						ArrayList tmpArray = new ArrayList();
-						if (parameters.get(fieldName) instanceof FileItem[]) {
-							FileItem[] origValues = (FileItem[])parameters.get(fieldName);
-							for (int idx = 0; idx < origValues.length; idx++) {
-								tmpArray.add(origValues[idx]);
-							}
-							tmpArray.add(fi);
-						} else {
-							tmpArray.add(parameters.get(fieldName));
-							tmpArray.add(fi);
-						}						
-						FileItem[] newValues = new FileItem[tmpArray.size()];
-						newValues = (FileItem[])tmpArray.toArray(newValues);
-						parameters.put(fieldName, newValues);
-					} else {
-						parameters.put(fieldName, fi);
-					}
-				}
-			}
+		if (isMultipartRequest(request)) {
+		    
+		    try {
+		        Class.forName("org.apache.commons.fileupload.DiskFileUpload");
+		    } catch (ClassNotFoundException e) {
+		        fileUploadException = new Frame2Exception("The Commons FileUpload library is missing." +
+                " It is required to process file uploads.");
+		        getLogger().severe("File Upload Error", fileUploadException);
+		        return null;
+		    }
+		    
+		    try {
+			    
+		        // Had to move this to a separate class to avoid NoClassDef errors
+		        // when trying to instantiate this class when the file upload
+		        // library is missing
+		        parameters = FileUploadSupport.processMultipartRequest(request);
+		    } catch (Frame2Exception e) {
+		        fileUploadException = e;
+		        return null;
+		    }
 		} else {
 			parameters.putAll(request.getParameterMap());
 		} 
-		
 		return parameters;
 	}
+	
+	private final boolean isMultipartRequest(final HttpServletRequest request)
+	{
+	    String contentType = request.getHeader(CONTENT_TYPE);
+	    if ((contentType == null) || (!contentType.startsWith(MULTIPART))) {
+	        return false;
+	    }
+	    return true;
+   }
 
 	private class ContextImpl implements ContextWrapper {
 		private Map _initParms;
