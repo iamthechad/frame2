@@ -24,7 +24,7 @@ public class TestErrors extends TestCase {
 	}
    
    protected void setUp( ) {
-      _errors = Errors.instance();
+      _errors = Errors.newInstance();
    }
    
    protected void tearDown()  {
