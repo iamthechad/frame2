@@ -4,17 +4,75 @@ Building Frame2
 Frame2 is built using the latest version of Ant
 and Tomcat.
 
-To prepare the build, create a file named override.properties
-with the location of Tomcat on your system.
-Running 'ant' at the top level will build the Frame2 jars, 
+There are two source distributions; one that includes all 
+required third party libraries, and one that contains only
+Frame2 source code. If you have the distribution that does
+not include the required libraries, they will need to be
+downloaded and configured into the build system.
+
+
+For Both Distributions:
+Create a file named override.properties in the same directory
+as build.xml. Add a property to this file named "tomcat-home"
+that points to the location of Tomcat on your system.
+
+Frame2 relies heavily on unit testing. By default, running
+'ant' at the top level will build the Frame2 jars, 
 create JavaDoc, and run all tests that do not require an
 application server. 
 
-To run all tests, add the line 'run_container_tests=true' 
-to override.properties. Run the 'ant war' target to create
-a web application file named frame2.war. Deploy this 
-application into Tomcat, and start Tomcat. Rerun the 
-'ant' task with the overridden property to run all tests,
-including tag related tests.
+To run the tests that require an app server, add the line 
+'run_container_tests=true' to override.properties. Run the 
+'ant war' target to create a web application file named 
+frame2.war. Deploy this application into Tomcat, and start 
+Tomcat. Rerun the 'ant' task with the overridden property 
+to run all tests, including tag related tests.
 
-Automatic deployment of the test WAR is planned.
+(Automatic deployment of the test WAR is planned.)
+
+
+Source Only Distribution:
+In order to successfully build the framework, a number of third
+party libraries are required. The following table explains these
+libraries.
+
+Library						Location in Build
+----------------------------------------------------------------
+commons-beanutils.jar		ext/framework
+commons-collections.jar 	ext/framework
+commons-digester.jar    	ext/framework
+commons-fileupload.jar  	ext/framework
+jakarta-oro.jar				ext/framework
+jstl.jar					ext/framework
+log4j.jar					ext/framework
+standard.jar				ext/framework
+aspectjrt.jar				ext/test
+cactus.jar					ext/test
+commons-httpclient.jar		ext/test
+HTTPClient.zip				ext/test
+junit.jar					ext/test
+junit-addons.jar			ext/test
+strutstest.jar				ext/test
+tagunit.jar					ext/test
+
+Libraries From Apache Axis
+Library						Location in Build
+-----------------------------------------------------------------
+axis.jar					ext/ws
+commons-discovery.jar		ext/ws
+jaxrpc.jar					ext/ws
+saaj.jar					ext/ws
+wsdl4j.jar					ext/ws
+
+Libraries From Sun's Java Web Services Developer Kit
+Library						Location in Build
+-----------------------------------------------------------------
+dom.jar						ext/ws/jwsdp
+jaxb-api.jar				ext/ws/jwsdp
+jaxb-impl.jar				ext/ws/jwsdp
+jaxb-libs.jar				ext/ws/jwsdp
+jax-qname.jar				ext/ws/jwsdp
+namespace.jar				ext/ws/jwsdp
+relaxngDatatype.jar			ext/ws/jwsdp
+xercesImpl.jar				ext/ws/jwsdp
+xsdlib.jar					ext/ws/jwsdp
