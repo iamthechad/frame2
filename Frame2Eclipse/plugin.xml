@@ -39,12 +39,12 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Frame2 Config Editor"
+            name="Frame2 Configuration Editor"
             icon="icons/frame2logo_small.jpg"
             filenames="frame2-config.xml"
-            class="org.megatome.frame2.editors.XMLEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            id="org.megatome.frame2.editors.XMLEditor">
+            class="org.megatome.frame2.editors.Frame2ConfigEditor"
+            id="org.megatome.frame2.editors.Frame2ConfigEditor">
       </editor>
    </extension>
    <extension
