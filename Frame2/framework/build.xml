@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+<!DOCTYPE project [
+   <!ENTITY common-insert SYSTEM "file:../common-insert.xml">
+   <!ENTITY prod-insert SYSTEM "file:../prod-insert.xml">
+]>
+-->
+<!-- 
+	Steps we need to take from this point:
+	
+	1) Build main src
+	2) Optional - Build and Run Tests
+	3) Build dist jar
+
+-->
+<project name="frame2" default="all">
+
+   <property name="proj-base" value=".."/>
+   
+	<target name="all" depends="clean, compile, test, dist, javadoc"/>
+	
+	<target name="init">
+		<property file="override.properties"/>
+		<property file="env.properties"/>
+		<property file="build.properties"/>
+		
+		<path id="compile-class-path">
+			<pathelement location="${tomcat-common}/jsp-api.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+			<pathelement location="${log4j-home}/log4j-1.2.8.jar"/>
+			<pathelement location="${taglibs-standard-home}/standard.jar"/>
+			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-fileupload-1.0.jar"/>
+		</path>
+	</target>
+	
+	<target name="clean" depends="init">
+		<delete dir="${build}"/>
+		<delete dir="${dist.lib}"/>
+		<delete dir="${dist.docs}"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<mkdir dir="${local-out}"/>
+		<mkdir dir="${build}"/>
+		
+		<javac deprecation="on"
+          destdir="${build}"
+          srcdir="./src"
+          classpathref="compile-class-path"
+        />
+		<copy todir="${build}">
+			<fileset dir="./src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="test" depends="compile">
+		<echo message="Testing will go here"/>
+	</target>
+	
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist.lib}"/>
+		<jar jarfile="${dist.lib}/frame2.jar"
+			basedir="${build}"/>		
+	</target>
+	
+	<target name="javadoc" depends="compile">
+		<mkdir dir="${dist.docs}"/>
+		<javadoc destdir="${dist.docs}"
+			windowTitle="Frame2 API">
+			<package name="org.megatome.*"/>
+			<sourcepath location="./src"/>
+			<classpath location="${build}"/>
+			<bottom>
+				<![CDATA[<em>Copyright (C) 2004, Megatome Technologies</em>
+				<br>All Rights Reserved]]>
+			</bottom>
+		</javadoc>
+	</target>
+<!--
+   &common-insert;
+   &prod-insert;
+-->
+<!--
+   <target name="init" depends="set-props">
+      <tstamp/>
+      <property name="local-out"     value="${proj-base}/build"/>
+      <property name="build"         value="${local-out}/classes"/>
+      <property name="jar-file"      value="${frame2-jar}"/>
+      <path id="compile-class-path">
+         <path refid="common-compile-class-path"/>
+         <pathelement location="${standard-home}/standard.jar"/>
+      </path>
+   </target>
+
+   <target name="prepare-test"/>
+
+   <target name="prepare-package"/>
+-->
+</project>

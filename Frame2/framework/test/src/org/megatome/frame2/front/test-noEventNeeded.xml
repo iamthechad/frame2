@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+
+<frame2-config>
+   <global-forwards>
+      <forward name="view4" type="HTMLResource" path="/view4.jsp"/>
+   </global-forwards>
+   <events>
+      <event name="noEventNeeded"/> 
+   </events>
+   <event-mappings>
+      <event-mapping 
+          eventName="noEventNeeded">
+       <view type="HTML" forwardName="view4"/>
+      </event-mapping> 
+   </event-mappings>
+   <event-handlers>
+   </event-handlers>
+   <exceptions>
+   </exceptions>
+</frame2-config>

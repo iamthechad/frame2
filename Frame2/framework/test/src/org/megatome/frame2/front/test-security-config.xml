@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+
+<frame2-config>
+   <global-forwards>
+      <forward name="view1" type="HTMLResource" path="/view1.jsp"/>
+   </global-forwards>
+   <events>
+      <event name="event1" type="org.megatome.frame2.front.Event1"/>
+      <event name="event2" type="org.megatome.frame2.front.Event1"/>
+   </events>
+   <event-mappings>
+      <event-mapping eventName="event1" validate="false">
+         <handler name="ev1handler1"/>
+         <handler name="ev1handler2"/>
+         <security>
+            <role name="admin"/>
+            <role name="guest"/>
+         </security>
+      </event-mapping>
+      <event-mapping eventName="event2" validate="false">
+         <handler name="ev1handler1"/>
+         <handler name="ev1handler2"/>
+      </event-mapping>
+   </event-mappings>
+   <event-handlers>
+      <event-handler name="ev1handler1" type="org.megatome.frame2.front.Ev1handler1"/>
+      <event-handler name="ev1handler2" type="org.megatome.frame2.front.Ev1handler2"/>
+   </event-handlers>
+</frame2-config>

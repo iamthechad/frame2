@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<!DOCTYPE project [
+   <!ENTITY common-insert SYSTEM "file:../../common-insert.xml">
+   <!ENTITY test-insert SYSTEM "file:../../test-insert.xml">
+]>
+-->
+<project name="frame2-test" default="all">
+
+<property name="proj-base" value="../.."/>
+   
+<target name="all" depends="compile, test-all"/>
+	
+<target name="init">
+	<property file="override.properties"/>
+	<property file="env.properties"/>
+	<property file="build.properties"/>
+	<!--
+	<property name="local-out" value="${proj-base}/build/test"/>
+	<property name="reports" value="${local-out}/report"/>
+	<property name="build" value="${local-out}/classes"/>
+	<property name="tomcat-common" value="c:/tomcat_5.0/common/lib"/>
+	-->
+	<!-- <property name="tomcat-common" value="d:/tomcat5.0.18/common/lib"/> -->
+	<!--
+	<property name="commons-digester-home" value="${proj-base}/frame2_libraries/commons-digester-1.5"/>
+	<property name="strutstest-home" value="${proj-base}/frame2_libraries/strutstest"/>
+	<property name="junit-home" value="C:/eclipse/plugins/org.junit_3.8.1"/>
+	<property name="junit-addons-home" value="${proj-base}/frame2_libraries/junit-addons-1.4"/>
+	<property name="commons-fileupload-home" value="${proj-base}/frame2_libraries/commons-fileupload-1.0"/>
+	<property name="httpclient-home" value="${proj-base}/frame2_libraries/http-client"/>
+	<property name="jaxb-home" value="${proj-base}/frame2_libraries/jwsdp-1.3/jaxb/lib"/>
+	<property name="jwsdp-shared-home" value="${proj-base}/frame2_libraries/jwsdp-1.3/jwsdp-shared/lib"/>
+	<property name="log4j-home" value="${proj-base}/frame2_libraries/jakarta-log4j-1.2.8/dist/lib"/>
+	<property name="commons-validator-home" value="${proj-base}/frame2_libraries/commons-validator-1.0.2"/>
+	<property name="profiler-home" value="${proj-base}/frame2_libraries/profiler-2.0/lib"/>
+	<property name="commons-logging-home" value="${proj-base}/frame2_libraries/commons-logging-1.0.3"/>
+	<property name="commons-collections-home" value="${proj-base}/frame2_libraries/commons-collections-3.0"/>
+	<property name="commons-beanutils-home" value="${proj-base}/frame2_libraries/commons-beanutils-1.6.1"/>
+	<property name="http-client-home" value="${proj-base}/frame2_libraries/http-client"/>
+	<property name="jakarta-oro-home" value="${proj-base}/frame2_libraries/jakarta-oro-2.0.8"/>
+	<property name="jwsdp-endorsed-home" value="${proj-base}/frame2_libraries/jwsdp-1.3/jaxp/lib/endorsed"/>
+	-->
+<!--		
+	
+	
+	
+	
+	
+	<property name="taglibs-standard-home" value="${proj-base}/frame2_libraries/jakarta-taglibs-standard-1.0.5/lib"/>
+-->
+		
+	<mkdir dir="${local-out}"/>
+	<mkdir dir="${build}"/>
+		
+	<path id="compile-class-path">
+		<pathelement location="${proj-base}/build/classes"/>
+		<pathelement location="${tomcat-common}/servlet-api.jar"/>
+		<pathelement location="${commons-digester-home}/commons-digester.jar"/>
+		<pathelement location="${strutstest-home}/strutstest-2.1.0.jar"/>
+		<pathelement location="${junit-home}/junit.jar"/>
+		<pathelement location="${junit-addons-home}/junit-addons-1.4.jar"/>
+		<pathelement location="${commons-fileupload-home}/commons-fileupload-1.0.jar"/>
+		<pathelement location="${httpclient-home}/HTTPClient.zip"/>
+		<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+		<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
+		<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
+		<pathelement location="${log4j-home}/log4j-1.2.8.jar"/>
+		<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+		<pathelement location="${profiler-home}/profiler.jar"/>
+		<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
+		<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
+		<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
+	<!--
+		<pathelement location="${tomcat-common}/jsp-api.jar"/>
+		
+		
+		
+		<pathelement location="${taglibs-standard-home}/standard.jar"/>
+		
+		
+	-->
+	</path>
+
+	<path id="run-class-path">
+		<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
+		<pathelement location="${jwsdp-shared-home}/xsdlib.jar"/>
+		<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
+		<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
+		<pathelement location="${tomcat-common}/servlet-api.jar"/>
+		<pathelement location="${proj-base}/build/classes"/>
+		<pathelement location="${commons-fileupload-home}/commons-fileupload-1.0.jar"/>
+		<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
+		<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+		<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
+		<pathelement location="${log4j-home}/log4j-1.2.8.jar"/>
+		<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+		<pathelement location="${commons-logging-home}/commons-logging.jar"/>
+		<pathelement location="${commons-collections-home}/commons-collections-3.0.jar"/>
+		<pathelement location="${strutstest-home}/strutstest-2.1.0.jar"/>
+		<pathelement location="${commons-digester-home}/commons-digester.jar"/>
+		<pathelement location="${commons-beanutils-home}/commons-beanutils.jar"/>
+		<pathelement location="${http-client-home}/HTTPClient.zip"/>
+		<pathelement location="${junit-addons-home}/junit-addons-1.4.jar"/>
+		<pathelement location="${jakarta-oro-home}/jakarta-oro-2.0.8.jar"/>
+		<!-- <pathelement location="${jwsdp-endorsed-home}/dom.jar"/>
+		<pathelement location="${jwsdp-endorsed-home}/xercesImpl.jar"/> -->
+	</path>
+
+</target>
+	
+<target name="compile" depends="init">
+	<javac 
+         destdir="${build}"
+         srcdir="./src"
+         classpathref="compile-class-path"
+	/>
+	<copy todir="${build}">
+		<fileset dir="./src">
+			<exclude name="**/*.java"/>
+		</fileset>
+	</copy>
+</target>
+
+<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${junit-home}/junit.jar"/>
+
+<target name="test-all" depends="compile" unless="TEST_CASE">
+   <mkdir dir="${reports}"/>
+   <junit printsummary="on" dir="."
+          failureProperty="tests-failed"
+          showoutput="${show-test-output}"
+          haltonfailure="${halt-on-failure}"
+          fork="yes">
+      <sysproperty key="java.util.logging.config.file" value="${std-log-properties}"/> 
+      <jvmarg value="-Xint"/>
+      <!-- <jvmarg value="-Djava.endorsed.dirs=${jwsdp-endorsed-home}"/> -->
+      <formatter type="xml"/>
+      <batchtest todir="${reports}">
+         <fileset dir="./src">
+            <include name="**/Test*.java" />
+         </fileset>
+      </batchtest>
+      <classpath>
+         <pathelement location="${local-out}/classes"/>
+		 <path refid="run-class-path"/>
+      </classpath>
+
+   </junit>
+   <junitreport todir="${reports}">
+      <fileset dir="${reports}">
+         <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${reports}/html"/>
+   </junitreport>
+</target>
+<!--
+<target name="test-one" depends="compile" if="TEST_CASE">
+   <junit printsummary="withOutAndErr" showoutput="yes" dir=".">
+      <sysproperty key="java.util.logging.config.file" value="${std-log-properties}"/> 
+      <jvmarg value="-Xint"/>
+      <jvmarg line="${jpda-args}${jpda-port}"/>
+      <formatter type="xml"/>
+      <test name="${TEST_CASE}" fork="yes" todir="${reports}"/>
+      <classpath refid="run-class-path"/>
+   </junit>
+
+   <junitreport todir="${reports}">
+      <fileset dir="${reports}">
+         <include name="TEST-${TEST_CASE}*.xml"/>
+      </fileset>
+      <report format="frames" todir="${reports}/html"/>
+   </junitreport>
+   <description id="changeme"/>
+</target>
+-->
+<!--
+   <property name="proj-base" value="../.."/>
+
+   &common-insert;
+   &test-insert;
+
+   <target name="init" depends="set-props" unless="init">
+
+      <tstamp/>
+
+      <property name="local-out" value="${out-dir}/tm2/test"/>
+      <property name="build"     value="${local-out}/classes"/>
+      <property name="jar-file"  value="${tm2-test-jar}"/>
+
+      <property name="schema-file"  value="xml/po.xsd"/>
+      <property name="jaxb-target-package"  value="test.org.megatome.frame2.jaxbgen"/>
+
+      <path id="compile-class-path">
+         <path refid="common-compile-class-path"/>
+-->
+<!--         <pathelement location="${tm2-jar}"/> -->
+<!--
+         <pathelement path="${out-dir}/tm2/classes"/>
+         <pathelement location="${strutstestcase-home}/strutstestcase.jar"/>
+         <pathelement location="${strutstestcase-home}/commons-digester.jar"/>
+         <pathelement location="${junit-home}/junit.jar"/>
+	 <pathelement location="${junitaddon-home}/junit-addons-1.4.jar"/>
+         <pathelement location="${profiler-home}/profiler.jar"/>
+      </path>
+
+      <path id="run-class-path">
+         <path refid="compile-class-path"/>
+         <path refid="common-runtime-class-path"/>
+         <pathelement location="${strutstestcase-home}/commons-logging.jar"/>
+         <pathelement location="${jar-file}"/>
+      </path>
+
+      <property name="init" value="true"/>
+
+   </target>
+
+   <target name="prepare-db"/>
+-->
+</project>
