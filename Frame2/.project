@@ -3,7 +3,6 @@
 	<name>Frame2</name>
 	<comment></comment>
 	<projects>
-		<project>Frame2_MT</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
