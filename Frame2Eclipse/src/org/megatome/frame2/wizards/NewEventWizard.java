@@ -91,6 +91,7 @@ import org.eclipse.ui.ide.IDE;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.model.Frame2ModelException;
+import org.megatome.frame2.Frame2Plugin;
 
 
 public class NewEventWizard extends Wizard implements INewWizard {
@@ -140,7 +141,7 @@ public class NewEventWizard extends Wizard implements INewWizard {
             Throwable realException = e.getTargetException();
             MessageDialog.openError(
                 getShell(),
-                "Error",
+                Frame2Plugin.getResourceString("NewEventWizard.ErrorTitle"), //$NON-NLS-1$
                 realException.getMessage());
             return false;
         }
@@ -158,12 +159,12 @@ public class NewEventWizard extends Wizard implements INewWizard {
 
         if (newEventType.equals(NewEventWizardPage1.NEW_CLASS)) {
             // create a sample file
-            monitor.beginTask("Creating Event Class", 3);
+            monitor.beginTask(Frame2Plugin.getResourceString("NewEventWizard.creatingEventStatus"), 3); //$NON-NLS-1$
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
             IResource resource = root.findMember(new Path(containerName));
             if (!resource.exists() || !(resource instanceof IContainer)) {
                 throwCoreException(
-                    "Container \"" + containerName + "\" does not exist.");
+                    Frame2Plugin.getResourceString("NewEventWizard.containerMessagePre") + containerName + Frame2Plugin.getResourceString("NewEventWizard.containerMessagePost")); //$NON-NLS-1$ //$NON-NLS-2$
             }
             IContainer container = (IContainer)resource;
 
@@ -171,7 +172,7 @@ public class NewEventWizard extends Wizard implements INewWizard {
                 page.createType(monitor);
             } catch (InterruptedException e1) {
                 throwCoreException(
-                    "Error creating new class: " + e1.getMessage());
+                    Frame2Plugin.getResourceString("NewEventWizard.classCreateError") + e1.getMessage()); //$NON-NLS-1$
             }
             IType type = page.getCreatedType();
             IPath typePath = type.getPath();
@@ -182,7 +183,7 @@ public class NewEventWizard extends Wizard implements INewWizard {
                         
             final IFile file = container.getFile(newTypePath);
             monitor.worked(1);
-            monitor.setTaskName("Opening file for editing...");
+            monitor.setTaskName(Frame2Plugin.getResourceString("NewEventWizard.openingFileStatus")); //$NON-NLS-1$
             getShell().getDisplay().asyncExec(new Runnable() {
                 public void run() {
                     IWorkbenchPage page =
@@ -197,7 +198,7 @@ public class NewEventWizard extends Wizard implements INewWizard {
             });
             monitor.worked(1);
         } else {
-            monitor.beginTask("Adding event to configuration", 1);
+            monitor.beginTask(Frame2Plugin.getResourceString("NewEventWizard.addToConfigStatus"), 1); //$NON-NLS-1$
         }
 
         Frame2Event event = new Frame2Event();
@@ -210,7 +211,7 @@ public class NewEventWizard extends Wizard implements INewWizard {
             model.persistConfiguration();
         } catch (Frame2ModelException e) {
             throwCoreException(
-                "Error adding to Frame2 configuration: " + e.getMessage());
+                Frame2Plugin.getResourceString("NewEventWizard.addToConfigError") + e.getMessage()); //$NON-NLS-1$
         }
 
         monitor.worked(1);
@@ -220,7 +221,7 @@ public class NewEventWizard extends Wizard implements INewWizard {
         IStatus status =
             new Status(
                 IStatus.ERROR,
-                "org.megatome.frame2",
+                "org.megatome.frame2", //$NON-NLS-1$
                 IStatus.OK,
                 message,
                 null);
@@ -239,11 +240,11 @@ public class NewEventWizard extends Wizard implements INewWizard {
             } else {
                 errorMsg = e.getMessage();
             }
-            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, "There was an error reading the Frame2 configuration file to initialize the wizard.", e);
-            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e);
+            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, Frame2Plugin.getResourceString("NewEventWizard.configReadError"), e);  //$NON-NLS-1$//$NON-NLS-2$
+            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e); //$NON-NLS-1$
             info.add(msg);
             
-            ErrorDialog.openError(getShell(), "Error Initializing Wizard", null, info);            
+            ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("NewEventWizard.wizardInitError"), null, info);             //$NON-NLS-1$
         }  
     }
     
@@ -251,7 +252,7 @@ public class NewEventWizard extends Wizard implements INewWizard {
         Frame2Model mod = null;
         if (selection != null && selection.isEmpty() == false) {
             if (selection.size() > 1) {
-                throw new Frame2ModelException("Cannot operate wizard on multiple selections");
+                throw new Frame2ModelException(Frame2Plugin.getResourceString("NewEventWizard.errorMultipleSelection")); //$NON-NLS-1$
             }
                 
             Object obj = selection.getFirstElement();
@@ -259,13 +260,13 @@ public class NewEventWizard extends Wizard implements INewWizard {
                 IProject rootProject = ((IResource)obj).getProject();
 
                 IResource resource =
-                    rootProject.findMember("WEB-INF/frame2-config.xml");
+                    rootProject.findMember(Frame2Plugin.getResourceString("NewEventWizard.fullConfigPath")); //$NON-NLS-1$
                 if (resource == null) {
-                    throw new Frame2ModelException("Could not locate a Frame2 configuration file");
+                    throw new Frame2ModelException(Frame2Plugin.getResourceString("NewEventWizard.errorLocatingConfig")); //$NON-NLS-1$
                 }
                 IPath path = resource.getLocation();
                 if (path == null) {
-                    throw new Frame2ModelException("Could not find the path for a Frame2 configuration file");
+                    throw new Frame2ModelException(Frame2Plugin.getResourceString("NewEventWizard.errorLocatingConfigPath")); //$NON-NLS-1$
                 }
                 mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
             }

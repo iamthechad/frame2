@@ -84,6 +84,7 @@ import org.megatome.frame2.model.Frame2Exception;
 import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.model.Frame2ModelException;
 import org.megatome.frame2.model.View;
+import org.megatome.frame2.Frame2Plugin;
 
 public class ExceptionWizard extends Wizard implements INewWizard {
 	private ExceptionWizardPage1 page;
@@ -123,7 +124,7 @@ public class ExceptionWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), Frame2Plugin.getResourceString("ExceptionWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;
@@ -137,7 +138,7 @@ public class ExceptionWizard extends Wizard implements INewWizard {
 		IProgressMonitor monitor)
 		throws CoreException {
 		// create a sample file
-		monitor.beginTask("Creating Frame2 Exception Entry", 1);
+		monitor.beginTask(Frame2Plugin.getResourceString("ExceptionWizard.creatingEntryStatus"), 1); //$NON-NLS-1$
         
         Frame2Exception exception = new Frame2Exception();
         exception.setRequestKey(requestKey);
@@ -148,19 +149,19 @@ public class ExceptionWizard extends Wizard implements INewWizard {
             htmlView.equals(xmlView)) {
             View view = new View();
             view.setForwardName(htmlView);
-            view.setType("Both");
+            view.setType(Frame2Plugin.getResourceString("ExceptionWizard.both_type")); //$NON-NLS-1$
             exception.addView(view);
         } else {
             if (htmlView.length() != 0) {
                 View view = new View();
                 view.setForwardName(htmlView);
-                view.setType("HTML");
+                view.setType(Frame2Plugin.getResourceString("ExceptionWizard.html_type")); //$NON-NLS-1$
                 exception.addView(view);
             } 
             if (xmlView.length() != 0) {
                 View view = new View();
                 view.setForwardName(xmlView);
-                view.setType("XML");
+                view.setType(Frame2Plugin.getResourceString("ExceptionWizard.xml_type")); //$NON-NLS-1$
                 exception.addView(view);
             }
         }
@@ -169,7 +170,7 @@ public class ExceptionWizard extends Wizard implements INewWizard {
             model.addFrame2Exception(exception);
             model.persistConfiguration();
         } catch (Frame2ModelException e) {
-            throwCoreException("Failed to create Frame2 Exception: " + e.getMessage());
+            throwCoreException(Frame2Plugin.getResourceString("ExceptionWizard.errorCreatingException") + e.getMessage()); //$NON-NLS-1$
         }
         
 		monitor.worked(1);
@@ -177,7 +178,7 @@ public class ExceptionWizard extends Wizard implements INewWizard {
 	
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
-			new Status(IStatus.ERROR, "org.megatome.frame2", IStatus.OK, message, null);
+			new Status(IStatus.ERROR, "org.megatome.frame2", IStatus.OK, message, null); //$NON-NLS-1$
 		throw new CoreException(status);
 	}
 
@@ -193,11 +194,11 @@ public class ExceptionWizard extends Wizard implements INewWizard {
             } else {
                 errorMsg = e.getMessage();
             }
-            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, "There was an error reading the Frame2 configuration file to initialize the wizard.", e);
-            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e);
+            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, Frame2Plugin.getResourceString("ExceptionWizard.errorReadingConfiguration"), e);  //$NON-NLS-1$//$NON-NLS-2$
+            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e); //$NON-NLS-1$
             info.add(msg);
             
-            ErrorDialog.openError(getShell(), "Error Initializing Wizard", null, info);            
+            ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("ExceptionWizard.wizardInitError"), null, info);             //$NON-NLS-1$
         }  
 	}
     
@@ -205,7 +206,7 @@ public class ExceptionWizard extends Wizard implements INewWizard {
         Frame2Model mod = null;
         if (selection != null && selection.isEmpty() == false) {
             if (selection.size() > 1) {
-                throw new Frame2ModelException("Cannot operate wizard on multiple selections");
+                throw new Frame2ModelException(Frame2Plugin.getResourceString("ExceptionWizard.errorMultSelection")); //$NON-NLS-1$
             }
                 
             Object obj = selection.getFirstElement();
@@ -213,13 +214,13 @@ public class ExceptionWizard extends Wizard implements INewWizard {
                 IProject rootProject = ((IResource)obj).getProject();
 
                 IResource resource =
-                    rootProject.findMember("WEB-INF/frame2-config.xml");
+                    rootProject.findMember(Frame2Plugin.getResourceString("ExceptionWizard.configFullPath")); //$NON-NLS-1$
                 if (resource == null) {
-                    throw new Frame2ModelException("Could not locate a Frame2 configuration file");
+                    throw new Frame2ModelException(Frame2Plugin.getResourceString("ExceptionWizard.errorLocatingConfig")); //$NON-NLS-1$
                 }
                 IPath path = resource.getLocation();
                 if (path == null) {
-                    throw new Frame2ModelException("Could not find the path for a Frame2 configuration file");
+                    throw new Frame2ModelException(Frame2Plugin.getResourceString("ExceptionWizard.errorLocatingPath")); //$NON-NLS-1$
                 }
                 mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
             }

@@ -93,8 +93,8 @@ public class XMLConfiguration extends SourceViewerConfiguration {
       assistant.enableAutoActivation(true);
       assistant.setAutoActivationDelay(500);
       
-      assistant.setProposalPopupOrientation(assistant.CONTEXT_INFO_BELOW);
-      assistant.setContextInformationPopupOrientation(assistant.CONTEXT_INFO_BELOW);
+      assistant.setProposalPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
+      assistant.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
       assistant.setContextInformationPopupBackground(colorManager.getColor(new RGB(0, 191, 255)));
       return assistant;
    }

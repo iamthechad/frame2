@@ -74,6 +74,7 @@ import org.megatome.frame2.model.EventMapping;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
+import org.megatome.frame2.Frame2Plugin;
 
 public class EventMappingWizardPage1 extends WizardPage {
 	private Combo eventCombo;
@@ -83,12 +84,12 @@ public class EventMappingWizardPage1 extends WizardPage {
     
     private boolean badModel = false;
     
-    private final String noneString = "(None)";
+    private final String noneString = Frame2Plugin.getResourceString("EventMappingWizardPage1.noneString"); //$NON-NLS-1$
 
 	public EventMappingWizardPage1(ISelection selection) {
-		super("wizardPage");
-		setTitle("Event Mapping Wizard");
-		setDescription("Select the event this mapping applies to. Also, optionally specify the input and cancel views.");
+		super(Frame2Plugin.getResourceString("EventMappingWizardPage1.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin.getResourceString("EventMappingWizardPage1.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin.getResourceString("EventMappingWizardPage1.pageDescription")); //$NON-NLS-1$
 		this.selection = selection;
 	}
 
@@ -99,7 +100,7 @@ public class EventMappingWizardPage1 extends WizardPage {
 		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
-		label.setText("&Event:");
+		label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage1.eventLabel")); //$NON-NLS-1$
 
 		eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -112,7 +113,7 @@ public class EventMappingWizardPage1 extends WizardPage {
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText("&Input View:");
+		label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage1.inputViewLabel")); //$NON-NLS-1$
 
 		inputViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -121,7 +122,7 @@ public class EventMappingWizardPage1 extends WizardPage {
         
         
         label = new Label(container, SWT.NULL);
-        label.setText("&Cancel View:");
+        label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage1.cancelViewLabel")); //$NON-NLS-1$
 
         cancelViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
         gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -188,14 +189,14 @@ public class EventMappingWizardPage1 extends WizardPage {
 
 	private void dialogChanged() {
         if (badModel) {
-            updateStatus("This wizard cannot complete due to an error with the Frame2 configuration.");
+            updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage1.errorConfig")); //$NON-NLS-1$
             return;
         }
         
 		String eventName = getEventName();
 
 		if (eventName.length() == 0) {
-			updateStatus("An event must be specified");
+			updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage1.errorMissingEvent")); //$NON-NLS-1$
 			return;
 		}
         
@@ -213,7 +214,7 @@ public class EventMappingWizardPage1 extends WizardPage {
 	public String getInputView() {
         String inputView = inputViewCombo.getText();
         if (inputView.equals(noneString)) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
 		return inputView;
@@ -221,7 +222,7 @@ public class EventMappingWizardPage1 extends WizardPage {
     public String getCancelView() {
         String cancelView = cancelViewCombo.getText();
         if (cancelView.equals(noneString)) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         return cancelView;

@@ -91,6 +91,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
+import org.megatome.frame2.Frame2Plugin;
 
 public class EventHandlerWizardPage2 extends WizardPage {
     private Text nameText;
@@ -124,9 +125,9 @@ public class EventHandlerWizardPage2 extends WizardPage {
     private String[] localForwardNames = null;
 
     public EventHandlerWizardPage2(ISelection selection) {
-        super("wizardPage");
-        setTitle("Frame2 Local Forward");
-        setDescription("Create any required local forwards for this Event Handler.");
+        super(Frame2Plugin.getResourceString("EventHandlerWizardPage2.wizardName")); //$NON-NLS-1$
+        setTitle(Frame2Plugin.getResourceString("EventHandlerWizardPage2.pageTitle")); //$NON-NLS-1$
+        setDescription(Frame2Plugin.getResourceString("EventHandlerWizardPage2.pageDescription")); //$NON-NLS-1$
         this.selection = selection;
     }
 
@@ -137,7 +138,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
         layout.numColumns = 4;
         //layout.verticalSpacing = 9;
         nameLabel = new Label(container, SWT.NULL);
-        nameLabel.setText("&Name:");
+        nameLabel.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.nameLabel")); //$NON-NLS-1$
 
         nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -153,7 +154,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
         nameText.setEnabled(false);
 
         typeLabel = new Label(container, SWT.NULL);
-        typeLabel.setText("&Type:");
+        typeLabel.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.typeLabel")); //$NON-NLS-1$
 
         typeLabel.setEnabled(false);
 
@@ -162,7 +163,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
         typeLabel.setLayoutData(gd);
 
         htmlResourceRadio = new Button(container, SWT.RADIO);
-        htmlResourceRadio.setText("HTMLResource");
+        htmlResourceRadio.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.htmlResource_type")); //$NON-NLS-1$
         htmlResourceRadio.setSelection(true);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 4;
@@ -170,7 +171,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
         htmlResourceRadio.addSelectionListener(getRadioListener());
 
         htmlResourceLabel = new Label(container, SWT.NULL);
-        htmlResourceLabel.setText("&Path:");
+        htmlResourceLabel.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
 
         htmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
         gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -182,7 +183,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
         });
 
         htmlResourceBrowse = new Button(container, SWT.PUSH);
-        htmlResourceBrowse.setText("Browse...");
+        htmlResourceBrowse.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.browseCtl")); //$NON-NLS-1$
         gd = new GridData(GridData.END);
         htmlResourceBrowse.setLayoutData(gd);
         htmlResourceBrowse.addSelectionListener(new SelectionAdapter() {
@@ -197,21 +198,21 @@ public class EventHandlerWizardPage2 extends WizardPage {
         htmlResourceBrowse.setEnabled(false);
 
         xmlResourceRadio = new Button(container, SWT.RADIO);
-        xmlResourceRadio.setText("XMLResource");
+        xmlResourceRadio.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.xmlResource_type")); //$NON-NLS-1$
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         xmlResourceRadio.setLayoutData(gd);
         xmlResourceRadio.addSelectionListener(getRadioListener());
 
         xmlResponderRadio = new Button(container, SWT.RADIO);
-        xmlResponderRadio.setText("XMLResponder");
+        xmlResponderRadio.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.xmlResponder_type")); //$NON-NLS-1$
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         xmlResponderRadio.setLayoutData(gd);
         xmlResponderRadio.addSelectionListener(getRadioListener());
 
         xmlResourceLabel = new Label(container, SWT.NULL);
-        xmlResourceLabel.setText("&Path:");
+        xmlResourceLabel.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
 
         xmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
         gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -229,14 +230,14 @@ public class EventHandlerWizardPage2 extends WizardPage {
         xmlResourceText.setEnabled(false);
 
         eventRadio = new Button(container, SWT.RADIO);
-        eventRadio.setText("Event");
+        eventRadio.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.event_type")); //$NON-NLS-1$
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 4;
         eventRadio.setLayoutData(gd);
         eventRadio.addSelectionListener(getRadioListener());
 
         eventLabel = new Label(container, SWT.NULL);
-        eventLabel.setText("&Path:");
+        eventLabel.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
 
         eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
         gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -253,7 +254,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
         eventCombo.setEnabled(false);
 
         addButton = new Button(container, SWT.PUSH);
-        addButton.setText("Add Forward to Table");
+        addButton.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.addToTableCtl")); //$NON-NLS-1$
         gd = new GridData(GridData.BEGINNING);
         gd.horizontalSpan = 2;
         addButton.setLayoutData(gd);
@@ -265,7 +266,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
         addButton.setEnabled(false);
 
         removeButton = new Button(container, SWT.PUSH);
-        removeButton.setText("Remove Forward");
+        removeButton.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.removeCtl")); //$NON-NLS-1$
         gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gd.horizontalSpan = 2;
         removeButton.setLayoutData(gd);
@@ -285,15 +286,15 @@ public class EventHandlerWizardPage2 extends WizardPage {
         forwardTable.setLayoutData(gd);
 
         TableColumn tc1 = new TableColumn(forwardTable, SWT.NULL);
-        tc1.setText("Forward Name");
+        tc1.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.forwardNameColumn")); //$NON-NLS-1$
         tc1.setWidth(120);
 
         TableColumn tc2 = new TableColumn(forwardTable, SWT.NULL);
-        tc2.setText("Forward Type");
+        tc2.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.forwardTypeColumn")); //$NON-NLS-1$
         tc2.setWidth(120);
 
         TableColumn tc3 = new TableColumn(forwardTable, SWT.NULL);
-        tc3.setText("Forward Path");
+        tc3.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage2.forwardPathColumn")); //$NON-NLS-1$
         tc3.setWidth(120);
 
         forwardTable.addSelectionListener(new SelectionListener() {
@@ -347,9 +348,9 @@ public class EventHandlerWizardPage2 extends WizardPage {
             new String[] { forwardName, forwardType, forwardPath, };
         item.setText(itemData);
 
-        nameText.setText("");
-        htmlResourceText.setText("");
-        xmlResourceText.setText("");
+        nameText.setText(""); //$NON-NLS-1$
+        htmlResourceText.setText(""); //$NON-NLS-1$
+        xmlResourceText.setText(""); //$NON-NLS-1$
 
         if (localForwardNames == null) {
             localForwardNames = new String[] { forwardName };
@@ -412,7 +413,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
             if (results.length == 1) {
                 IFile f = (IFile)results[0];
                 htmlResourceText.setText(
-                    "/" + f.getProjectRelativePath().toString());
+                    "/" + f.getProjectRelativePath().toString()); //$NON-NLS-1$
                 htmlResourceProject = f.getProject();
                 dialogChanged();
             }
@@ -457,9 +458,9 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
             String fileExt = members[i].getFileExtension();
             if ((fileExt != null)
-                && (fileExt.equalsIgnoreCase("jsp")
-                    || fileExt.equalsIgnoreCase("htm")
-                    || fileExt.equalsIgnoreCase("html"))) {
+                && (fileExt.equalsIgnoreCase(Frame2Plugin.getResourceString("EventHandlerWizardPage2.jsp_file_type")) //$NON-NLS-1$
+                    || fileExt.equalsIgnoreCase(Frame2Plugin.getResourceString("EventHandlerWizardPage2.htm_file_type")) //$NON-NLS-1$
+                    || fileExt.equalsIgnoreCase(Frame2Plugin.getResourceString("EventHandlerWizardPage2.html_file_type")))) { //$NON-NLS-1$
                 resourceList.add(members[i]);
             }
         }
@@ -473,7 +474,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
                     Button source = (Button)e.getSource();
                     String buttonText = source.getText();
 
-                    if (buttonText.equals("HTMLResource")) {
+                    if (buttonText.equals(Frame2Plugin.getResourceString("EventHandlerWizardPage2.htmlResource_type"))) { //$NON-NLS-1$
                         htmlResourceLabel.setEnabled(true);
                         htmlResourceText.setEnabled(true);
                         htmlResourceBrowse.setEnabled(true);
@@ -483,7 +484,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
                         eventLabel.setEnabled(false);
                         eventCombo.setEnabled(false);
-                    } else if (buttonText.equals("XMLResource")) {
+                    } else if (buttonText.equals(Frame2Plugin.getResourceString("EventHandlerWizardPage2.xmlResource_type"))) { //$NON-NLS-1$
                         htmlResourceLabel.setEnabled(false);
                         htmlResourceText.setEnabled(false);
                         htmlResourceBrowse.setEnabled(false);
@@ -493,7 +494,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
                         eventLabel.setEnabled(false);
                         eventCombo.setEnabled(false);
-                    } else if (buttonText.equals("XMLResponder")) {
+                    } else if (buttonText.equals(Frame2Plugin.getResourceString("EventHandlerWizardPage2.xmlResponder_type"))) { //$NON-NLS-1$
                         htmlResourceLabel.setEnabled(false);
                         htmlResourceText.setEnabled(false);
                         htmlResourceBrowse.setEnabled(false);
@@ -503,7 +504,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
                         eventLabel.setEnabled(false);
                         eventCombo.setEnabled(false);
-                    } else if (buttonText.equals("Event")) {
+                    } else if (buttonText.equals(Frame2Plugin.getResourceString("EventHandlerWizardPage2.event_type"))) { //$NON-NLS-1$
                         htmlResourceLabel.setEnabled(false);
                         htmlResourceText.setEnabled(false);
                         htmlResourceBrowse.setEnabled(false);
@@ -525,7 +526,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
     private void dialogChanged() {
         if (badModel) {
-            setErrorMessage("This wizard cannot complete due to an error with the Frame2 configuration.");
+            setErrorMessage(Frame2Plugin.getResourceString("EventHandlerWizardPage2.errorConfig")); //$NON-NLS-1$
             setPageComplete(false);
             return;
         }
@@ -551,16 +552,16 @@ public class EventHandlerWizardPage2 extends WizardPage {
     }
     private String getForwardType() {
         if (htmlResourceRadio.getSelection()) {
-            return "HTMLResource";
+            return Frame2Plugin.getResourceString("EventHandlerWizardPage2.htmlResource_type"); //$NON-NLS-1$
         } else if (xmlResourceRadio.getSelection()) {
-            return "XMLResource";
+            return Frame2Plugin.getResourceString("EventHandlerWizardPage2.xmlResource_type"); //$NON-NLS-1$
         } else if (xmlResponderRadio.getSelection()) {
-            return "XMLResponder";
+            return Frame2Plugin.getResourceString("EventHandlerWizardPage2.xmlResponder_type"); //$NON-NLS-1$
         } else if (eventRadio.getSelection()) {
-            return "event";
+            return Frame2Plugin.getResourceString("EventHandlerWizardPage2.event_internal_type"); //$NON-NLS-1$
         }
 
-        return "";
+        return ""; //$NON-NLS-1$
     }
     private String getForwardPath() {
         if (htmlResourceRadio.getSelection()) {
@@ -573,7 +574,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
             return eventCombo.getText();
         }
 
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
     private boolean validateForwardName() {
@@ -596,8 +597,8 @@ public class EventHandlerWizardPage2 extends WizardPage {
         String forwardType = getForwardType();
         String forwardPath = getForwardPath();
 
-        if (forwardType.equals("HTMLResource")) {
-            if (forwardPath.indexOf("://") != -1) {
+        if (forwardType.equals(Frame2Plugin.getResourceString("EventHandlerWizardPage2.htmlResource_type"))) { //$NON-NLS-1$
+            if (forwardPath.indexOf(Frame2Plugin.getResourceString("EventHandlerWizardPage2.uri_prefix")) != -1) { //$NON-NLS-1$
                 return true;
             }
 

@@ -67,15 +67,16 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
+import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
     private Button enableServicesButton;
 	private ISelection selection;
 
 	public Frame2ProjectWizardPage1(ISelection selection) {
-		super("wizardPage");
-		setTitle("Frame2 Web Application");
-		setDescription("This wizard creates a new web application based on the Frame2 framework.");
+		super(Frame2Plugin.getResourceString("Frame2ProjectWizardPage1.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin.getResourceString("Frame2ProjectWizardPage1.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin.getResourceString("Frame2ProjectWizardPage1.pageDescription")); //$NON-NLS-1$
 		this.selection = selection;
 	}
 
@@ -88,7 +89,7 @@ public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
         layout.verticalSpacing = 10;
                 
         enableServicesButton = new Button(container, SWT.CHECK);
-        enableServicesButton.setText("&Enable Web Services");
+        enableServicesButton.setText(Frame2Plugin.getResourceString("Frame2ProjectWizardPage1.enableWebServicesCtl")); //$NON-NLS-1$
         // Disable for now....
         enableServicesButton.setEnabled(false);
 	}

@@ -92,6 +92,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.megatome.frame2.model.EventHandler;
 import org.megatome.frame2.model.Frame2Model;
+import org.megatome.frame2.Frame2Plugin;
 
 public class EventHandlerWizardPage1 extends NewTypeWizardPage {
     private Text handlerNameText;
@@ -110,12 +111,12 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
     
     private EventHandler[] definedHandlers = new EventHandler[0];
     
-    private static final String PAGE_NAME = "EventHandlerWizardPage1";
+    private static final String PAGE_NAME = Frame2Plugin.getResourceString("EventHandlerWizardPage1.wizardName"); //$NON-NLS-1$
 
     public EventHandlerWizardPage1(ISelection selection) {
         super(true, PAGE_NAME);
-        setTitle("Frame2 Event Handler Wizard");
-        setDescription("This wizard creates a new Frame2 Event Handler.");
+        setTitle(Frame2Plugin.getResourceString("EventHandlerWizardPage1.pageTitle")); //$NON-NLS-1$
+        setDescription(Frame2Plugin.getResourceString("EventHandlerWizardPage1.pageDescription")); //$NON-NLS-1$
         this.selection = selection;
     }
 
@@ -132,7 +133,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
         composite.setLayout(layout);
 
         Label label = new Label(composite, SWT.NULL);
-        label.setText("&Handler Name:");
+        label.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.handlerNameLabel")); //$NON-NLS-1$
 
         handlerNameText = new Text(composite, SWT.BORDER | SWT.SINGLE);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -152,7 +153,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
         createSeparator(composite, nColumns);
 
         label = new Label(composite, SWT.NULL);
-        label.setText("&Init Parameters:");
+        label.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.initParamLabel")); //$NON-NLS-1$
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 4;
         label.setLayoutData(gd);
@@ -166,11 +167,11 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
         int tableWidth = initParamTable.getClientArea().width;
 
         TableColumn tc = new TableColumn(initParamTable, SWT.NULL);
-        tc.setText("Name");
+        tc.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.nameColumn")); //$NON-NLS-1$
         tc.setWidth(200);
 
         TableColumn tc2 = new TableColumn(initParamTable, SWT.NULL);
-        tc2.setText("Value");
+        tc2.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.valueColumn")); //$NON-NLS-1$
         tc2.setWidth(200);
 
         editor = new TableEditor(initParamTable);
@@ -236,7 +237,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
         });
 
         Button addButton = new Button(composite, SWT.PUSH);
-        addButton.setText("Add Row");
+        addButton.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.addRowCtl")); //$NON-NLS-1$
         gd = new GridData(GridData.BEGINNING);
         gd.horizontalSpan = 2;
         addButton.setLayoutData(gd);
@@ -245,15 +246,15 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
                 final TableItem item = new TableItem(initParamTable, SWT.NONE);
                 String[] initialText =
                     new String[] {
-                        "Name" + addRowValue,
-                        "Value" + addRowValue };
+                        Frame2Plugin.getResourceString("EventHandlerWizardPage1.dummyName") + addRowValue, //$NON-NLS-1$
+                        Frame2Plugin.getResourceString("EventHandlerWizardPage1.dummyValue") + addRowValue }; //$NON-NLS-1$
                 addRowValue++;
                 item.setText(initialText);
             }
         });
 
         removeButton = new Button(composite, SWT.PUSH);
-        removeButton.setText("Remove Row");
+        removeButton.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.removeRowCtl")); //$NON-NLS-1$
         gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gd.horizontalSpan = 2;
         removeButton.setLayoutData(gd);
@@ -284,7 +285,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
             definedHandlers = model.getEventHandlers();
         } else {
             setPageComplete(false);
-            badModelStatus.setError("This wizard cannot complete due to an error with the Frame2 configuration.");
+            badModelStatus.setError(Frame2Plugin.getResourceString("EventHandlerWizardPage1.configError")); //$NON-NLS-1$
             doStatusUpdate();
         }
 
@@ -300,7 +301,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
         }
 
         ArrayList interfaces = new ArrayList();
-        interfaces.add("org.megatome.frame2.event.EventHandler");
+        interfaces.add(Frame2Plugin.getResourceString("EventHandlerWizardPage1.eventHandlerInterface")); //$NON-NLS-1$
         setSuperInterfaces(interfaces, true);
     }
 
@@ -332,13 +333,13 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
         String handlerName = getHandlerName();
 
         if (handlerName.length() == 0) {
-            status.setError("Event Handler Name Must be Specified");
+            status.setError(Frame2Plugin.getResourceString("EventHandlerWizardPage1.errorMissingHandlerName")); //$NON-NLS-1$
             return status;
         }
 
         for (int i = 0; i < definedHandlers.length; i++) {
             if (handlerName.equals(definedHandlers[i].getName())) {
-                status.setError("Event Handler Names Cannot be Duplicated");
+                status.setError(Frame2Plugin.getResourceString("EventHandlerWizardPage1.errorDuplicateHandler")); //$NON-NLS-1$
                 return status;
             }
         }
@@ -358,7 +359,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
             TableItem item = initParamTable.getItem(i);
             String paramName = item.getText(0);
             if (paramName.length() == 0) {
-                status.setError("Cannot have an empty parameter name");
+                status.setError(Frame2Plugin.getResourceString("EventHandlerWizardPage1.errorEmptyParamName")); //$NON-NLS-1$
                 return status;
             }
         }
@@ -376,9 +377,9 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
     }
     
     public String getHandlerType() {
-        String handlerClass = "";
+        String handlerClass = ""; //$NON-NLS-1$
         handlerClass = getPackageText();
-        handlerClass += ".";
+        handlerClass += "."; //$NON-NLS-1$
         handlerClass += getTypeName();
 
         return handlerClass;
@@ -412,18 +413,18 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
         IProgressMonitor monitor)
         throws CoreException {
     
-        imports.addImport("org.megatome.frame2.event.EventHandler");
+        imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.eventHandlerInterface")); //$NON-NLS-1$
         
         StringBuffer handleBuffer = new StringBuffer();
-        handleBuffer.append("public ");
-        handleBuffer.append(imports.addImport("java.lang.String"));
-        handleBuffer.append(" handle(");
-        handleBuffer.append(imports.addImport("org.megatome.frame2.event.Event"));
-        handleBuffer.append(" event, ");
-        handleBuffer.append(imports.addImport("org.megatome.frame2.event.Context"));
-        handleBuffer.append(" context) throws ");
-        handleBuffer.append(imports.addImport("java.lang.Exception"));
-        handleBuffer.append(" { return null; }");
+        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.public_modifier")); //$NON-NLS-1$
+        handleBuffer.append(imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.stringImport"))); //$NON-NLS-1$
+        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.handleMethodStart")); //$NON-NLS-1$
+        handleBuffer.append(imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.eventClass"))); //$NON-NLS-1$
+        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.event_name")); //$NON-NLS-1$
+        handleBuffer.append(imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.contextClass"))); //$NON-NLS-1$
+        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.context_name")); //$NON-NLS-1$
+        handleBuffer.append(imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.exceptionClass"))); //$NON-NLS-1$
+        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.handle_body")); //$NON-NLS-1$
         
         newType.createMethod(handleBuffer.toString(), null, true, monitor);
     

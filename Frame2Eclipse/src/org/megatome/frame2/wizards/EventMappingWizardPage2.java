@@ -98,9 +98,9 @@ public class EventMappingWizardPage2 extends WizardPage {
     private boolean badModel = false;
     
 	public EventMappingWizardPage2(ISelection selection) {
-		super("wizardPage");
-		setTitle("Event Mapping Wizard");
-		setDescription("Indicate any handlers to use in this mapping by adding them to the 'Selected' table and ordering the handlers appropriately as order matters.");
+		super(Frame2Plugin.getResourceString("EventMappingWizardPage2.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin.getResourceString("EventMappingWizardPage2.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin.getResourceString("EventMappingWizardPage2.pageDescription")); //$NON-NLS-1$
 		this.selection = selection;
 	}
 
@@ -123,7 +123,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         });
 
         TableColumn tc = new TableColumn(availableHandlersTable, SWT.NULL);
-        tc.setText("Available");
+        tc.setText(Frame2Plugin.getResourceString("EventMappingWizardPage2.availableColumn")); //$NON-NLS-1$
         tc.setWidth(200);
 
         Composite buttonContainer = new Composite(container, SWT.NULL);
@@ -133,7 +133,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         buttonContainer.setLayout(rl);
 
         addSingleButton = new Button(buttonContainer, SWT.PUSH);
-        addSingleButton.setImage(getImage("arrowright.gif"));
+        addSingleButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.arrowRightImage"))); //$NON-NLS-1$
         addSingleButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 addHandlerToSelected();
@@ -141,7 +141,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         });
         
         removeSingleButton = new Button(buttonContainer, SWT.PUSH);
-        removeSingleButton.setImage(getImage("arrowleft.gif"));
+        removeSingleButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.arrowLeftImage"))); //$NON-NLS-1$
         removeSingleButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 removeHandlerFromSelected();
@@ -149,7 +149,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         });
         
         addAllButton = new Button(buttonContainer, SWT.PUSH);
-        addAllButton.setImage(getImage("doublearrowright.gif"));
+        addAllButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.doubleArrowRightImage"))); //$NON-NLS-1$
         addAllButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 addAllHandlersToSelected();
@@ -157,7 +157,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         });
                 
         removeAllButton = new Button(buttonContainer, SWT.PUSH);
-        removeAllButton.setImage(getImage("doublearrowleft.gif"));
+        removeAllButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.doubleArrowLeftImage"))); //$NON-NLS-1$
         removeAllButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 removeAllHandlersFromSelected();
@@ -180,7 +180,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         });
 
         tc = new TableColumn(selectedHandlersTable, SWT.NULL);
-        tc.setText("Selected");
+        tc.setText(Frame2Plugin.getResourceString("EventMappingWizardPage2.selectedColumn")); //$NON-NLS-1$
         tc.setWidth(200);
         
         Composite buttonContainer2 = new Composite(container, SWT.NULL);
@@ -191,7 +191,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         buttonContainer2.setLayout(rl2);
         
         moveUpButton = new Button(buttonContainer2, SWT.PUSH);
-        moveUpButton.setImage(getImage("arrowtop.gif"));
+        moveUpButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.arrowUpImage"))); //$NON-NLS-1$
         moveUpButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 moveSelectedHandler(true);
@@ -199,7 +199,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         });
         
         moveDownButton = new Button(buttonContainer2, SWT.PUSH);
-        moveDownButton.setImage(getImage("arrowbottom.gif"));
+        moveDownButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.arrowDownImage"))); //$NON-NLS-1$
         moveDownButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 moveSelectedHandler(false);
@@ -235,7 +235,7 @@ public class EventMappingWizardPage2 extends WizardPage {
         } else {
             setPageComplete(false);
             badModel = true;
-            updateStatus("This wizard cannot complete due to an error with the Frame2 configuration.");
+            updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage2.errorConfig")); //$NON-NLS-1$
         }
 	}
     
@@ -374,7 +374,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 	}
     
     private Image getImage(String imageName) {
-        String iconPath = "icons/";
+        String iconPath = Frame2Plugin.getResourceString("EventMappingWizardPage2.iconDir"); //$NON-NLS-1$
         ImageDescriptor id = null;
         try {
             Frame2Plugin plugin = Frame2Plugin.getDefault();

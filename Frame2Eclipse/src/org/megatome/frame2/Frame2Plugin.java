@@ -66,7 +66,7 @@ public class Frame2Plugin extends AbstractUIPlugin {
 		super(descriptor);
 		plugin = this;
 		try {
-			resourceBundle= ResourceBundle.getBundle("org.megatome.frame2.Frame2PluginResources");
+			resourceBundle= ResourceBundle.getBundle("org.megatome.frame2.Frame2PluginResources"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}

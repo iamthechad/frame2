@@ -81,6 +81,7 @@ import org.eclipse.ui.IWorkbench;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.model.Frame2ModelException;
+import org.megatome.frame2.Frame2Plugin;
 
 
 public class GlobalForwardWizard extends Wizard implements INewWizard {
@@ -107,7 +108,7 @@ public class GlobalForwardWizard extends Wizard implements INewWizard {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
-                    monitor.beginTask("Creating Global Forward", 1);
+                    monitor.beginTask(Frame2Plugin.getResourceString("GlobalForwardWizard.creatingStatus"), 1); //$NON-NLS-1$
                     Frame2Model instance = Frame2Model.getInstance();
                     if (instance != null) {
                         Forward forward = new Forward();
@@ -136,7 +137,7 @@ public class GlobalForwardWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), Frame2Plugin.getResourceString("GlobalForwardWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;
@@ -144,7 +145,7 @@ public class GlobalForwardWizard extends Wizard implements INewWizard {
 
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
-			new Status(IStatus.ERROR, "org.megatome.frame2", IStatus.OK, message, null);
+			new Status(IStatus.ERROR, "org.megatome.frame2", IStatus.OK, message, null); //$NON-NLS-1$
 		throw new CoreException(status);
 	}
 
@@ -152,7 +153,7 @@ public class GlobalForwardWizard extends Wizard implements INewWizard {
         Frame2Model mod = null;
         if (selection != null && selection.isEmpty() == false) {
             if (selection.size() > 1) {
-                throw new Frame2ModelException("Cannot operate wizard on multiple selections");
+                throw new Frame2ModelException(Frame2Plugin.getResourceString("GlobalForwardWizard.errorMultSelection")); //$NON-NLS-1$
             }
                 
             Object obj = selection.getFirstElement();
@@ -160,13 +161,13 @@ public class GlobalForwardWizard extends Wizard implements INewWizard {
                 IProject rootProject = ((IResource)obj).getProject();
 
                 IResource resource =
-                    rootProject.findMember("WEB-INF/frame2-config.xml");
+                    rootProject.findMember(Frame2Plugin.getResourceString("GlobalForwardWizard.fullFrame2ConfigLocation")); //$NON-NLS-1$
                 if (resource == null) {
-                    throw new Frame2ModelException("Could not locate a Frame2 configuration file");
+                    throw new Frame2ModelException(Frame2Plugin.getResourceString("GlobalForwardWizard.ErrorNoConfigFound")); //$NON-NLS-1$
                 }
                 IPath path = resource.getLocation();
                 if (path == null) {
-                    throw new Frame2ModelException("Could not find the path for a Frame2 configuration file");
+                    throw new Frame2ModelException(Frame2Plugin.getResourceString("GlobalForwardWizard.ConfigFindError")); //$NON-NLS-1$
                 }
                 mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
             }
@@ -191,11 +192,11 @@ public class GlobalForwardWizard extends Wizard implements INewWizard {
             } else {
                 errorMsg = e.getMessage();
             }
-            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, "There was an error reading the Frame2 configuration file to initialize the wizard.", e);
-            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e);
+            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, Frame2Plugin.getResourceString("GlobalForwardWizard.ConfigReadError"), e);  //$NON-NLS-1$//$NON-NLS-2$
+            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e); //$NON-NLS-1$
             info.add(msg);
             
-            ErrorDialog.openError(getShell(), "Error Initializing Wizard", null, info);            
+            ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("GlobalForwardWizard.wizardInitError"), null, info);             //$NON-NLS-1$
         }           
 	}
 }

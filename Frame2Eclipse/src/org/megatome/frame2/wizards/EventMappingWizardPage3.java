@@ -86,6 +86,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2Model;
+import org.megatome.frame2.Frame2Plugin;
 
 public class EventMappingWizardPage3 extends WizardPage {
 	private Combo htmlViewCombo;
@@ -100,13 +101,13 @@ public class EventMappingWizardPage3 extends WizardPage {
     
     private boolean handlersSelected = false;
     
-    private final String noneString = "(None)";
+    private final String noneString = Frame2Plugin.getResourceString("EventMappingWizardPage3.noneString"); //$NON-NLS-1$
     private static int roleIndex = 1;
 
 	public EventMappingWizardPage3(ISelection selection) {
-		super("wizardPage");
-		setTitle("Event Mapping Wizard");
-		setDescription("Specify the HTML and/or XML view to forward to. Also, specify any roles required by this mapping.");
+		super(Frame2Plugin.getResourceString("EventMappingWizardPage3.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin.getResourceString("EventMappingWizardPage3.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin.getResourceString("EventMappingWizardPage3.pageDescription")); //$NON-NLS-1$
 		this.selection = selection;
 	}
 
@@ -117,7 +118,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
-		label.setText("&HTML View:");
+		label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.htmlViewLabel")); //$NON-NLS-1$
 
 		htmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -125,7 +126,7 @@ public class EventMappingWizardPage3 extends WizardPage {
         htmlViewCombo.setLayoutData(gd);
 
 		label = new Label(container, SWT.NULL);
-		label.setText("&XML View:");
+		label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.xmlViewLabel")); //$NON-NLS-1$
 
 		xmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -145,7 +146,7 @@ public class EventMappingWizardPage3 extends WizardPage {
         rolesTable.setLayoutData(gd);
         
         TableColumn tc = new TableColumn(rolesTable, SWT.NULL);
-        tc.setText("User Roles");
+        tc.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.userRolesColumn")); //$NON-NLS-1$
         tc.setWidth(200);
         
         editor = new TableEditor(rolesTable);
@@ -211,19 +212,19 @@ public class EventMappingWizardPage3 extends WizardPage {
         });
         
         addRowButton = new Button(container, SWT.PUSH);
-        addRowButton.setText("Add Row");
+        addRowButton.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.addRowCtl")); //$NON-NLS-1$
         gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
         gd.horizontalSpan = 2;
         addRowButton.setLayoutData(gd);
         addRowButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 TableItem item = new TableItem(rolesTable, SWT.NULL);
-                item.setText("Role" + roleIndex++);
+                item.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.dummyRole") + roleIndex++); //$NON-NLS-1$
             }
         });
         
         removeRowButton = new Button(container, SWT.PUSH);
-        removeRowButton.setText("Remove Row");
+        removeRowButton.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.removeRowCtl")); //$NON-NLS-1$
         gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gd.horizontalSpan = 1;
         removeRowButton.setLayoutData(gd);
@@ -270,12 +271,12 @@ public class EventMappingWizardPage3 extends WizardPage {
             Forward[] forwards = model.getGlobalForwards();
             for (int i =0; i < forwards.length; i++) {
                 String forwardType = forwards[i].getType();
-                if (forwardType.equals("HTMLResource")) {
+                if (forwardType.equals(Frame2Plugin.getResourceString("EventMappingWizardPage3.htmlResource_type"))) { //$NON-NLS-1$
                     htmlViewCombo.add(forwards[i].getName());
-                } else if (forwardType.equals("XMLResource") ||
-                           forwardType.equals("XMLResponse")) {
+                } else if (forwardType.equals(Frame2Plugin.getResourceString("EventMappingWizardPage3.xmlResource_type")) || //$NON-NLS-1$
+                           forwardType.equals(Frame2Plugin.getResourceString("EventMappingWizardPage3.xmlResponse_type"))) { //$NON-NLS-1$
                     xmlViewCombo.add(forwards[i].getName());
-                } else if (forwardType.equals("event")) {
+                } else if (forwardType.equals(Frame2Plugin.getResourceString("EventMappingWizardPage3.event_internal_type"))) { //$NON-NLS-1$
                     htmlViewCombo.add(forwards[i].getName());
                     xmlViewCombo.add(forwards[i].getName());
                 }
@@ -292,7 +293,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 	
 	private void dialogChanged() {
         if (badModel) {
-            updateStatus("This wizard cannot complete due to an error with the Frame2 configuration.");
+            updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage3.errorConfig")); //$NON-NLS-1$
             return;
         }
         
@@ -302,7 +303,7 @@ public class EventMappingWizardPage3 extends WizardPage {
         if ((htmlView.length() == 0) &&
             (xmlView.length() == 0)  && 
             (!handlersSelected)) {
-			updateStatus("Select an HTML or XML view, or select one or more handlers on the previous page.");
+			updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage3.errorMissingInformation")); //$NON-NLS-1$
 			return;
 		}
         
@@ -317,7 +318,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 	public String getHTMLView() {
         String htmlView = htmlViewCombo.getText();
         if (htmlView.equals(noneString)) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
 		return htmlView;
@@ -325,7 +326,7 @@ public class EventMappingWizardPage3 extends WizardPage {
     public String getXMLView() {
         String xmlView = xmlViewCombo.getText();
         if (xmlView.equals(noneString)) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         return xmlView;
