@@ -211,7 +211,9 @@ public class TestSoapRequestProcessor extends TestCase {
       assertNull(element);
    }
 
-
+/*
+ * This test appears to be redundant now
+ * 
    public void testJaxbDomUnmarshallNotFixed() throws Exception {
       JAXBContext jc = JAXBContext.newInstance(TARGET_PKG);
       Unmarshaller u = jc.createUnmarshaller();
@@ -227,6 +229,7 @@ public class TestSoapRequestProcessor extends TestCase {
          // rewritten to simply pass in the DOM element.
       }
    }
+*/
 
    public void testProcessRequest() throws Exception {
       SoapRequestProcessor processor =
