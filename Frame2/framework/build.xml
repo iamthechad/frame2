@@ -29,10 +29,10 @@
 			<pathelement location="${tomcat-common}/jsp-api.jar"/>
 			<pathelement location="${tomcat-common}/servlet-api.jar"/>
 			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
-			<pathelement location="${log4j-home}/log4j-1.2.8.jar"/>
+			<pathelement location="${log4j-home}/log4j.jar"/>
 			<pathelement location="${taglibs-standard-home}/standard.jar"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
-			<pathelement location="${commons-fileupload-home}/commons-fileupload-1.0.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
 		</path>
 	</target>
 	
