@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>Index</TITLE></HEAD>
+<BODY>
+<h1>Running this Sample</h1>
+<h3>Deploy the Web service</h3>
+The web service must be deployed into Axis first. Issue the following command:<br>
+(This command is written to be issued from the /WEB-INF/lib directory of this web application.
+You will have to adjust the classpath if you are issuing it from a different location.)<br>
+<pre>java -cp axis.jar;jaxrpc.jar;commons-logging.jar;commons-discovery.jar;saaj.jar \
+org.apache.axis.client.AdminClient \
+-lhttp://localhost:8080/soap-example/services \
+../xml/user-service.wsdd
+</pre>
+<h3>Verify the web service installation</h3>
+Point your web browser to <a href="http://localhost:8080/soap-example/services">http://localhost:8080/soap-example/services</a> and verify that the user service
+is listed.
+<h3>Run the test script</h3>
+The test script requires the installation of Anteater, available from <a href="http://aft.sourceforge.net/">http://aft.sourceforge.net/</a>.<br>
+Once Anteater is installed, run the following command from the xmlClient directory:<br>
+<pre>anteater -f soaptest.xml</pre><br>
+This will cause a successful and unsuccessful add user call using the web service. If both tests pass,
+visits the <a href="displayUsers.f2">Display Users</a> page to verify that a user was added to the system.
+</BODY></HTML>
