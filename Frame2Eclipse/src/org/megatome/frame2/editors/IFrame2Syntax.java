@@ -48,64 +48,27 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
-/*******************************************************************************
- * Copyright (c) 2000, 2003 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
 package org.megatome.frame2.editors;
 
-import java.util.ResourceBundle;
-
-import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.DefaultRangeIndicator;
-import org.eclipse.ui.texteditor.TextOperationAction;
-import org.megatome.frame2.Frame2Plugin;
-
-public class XMLEditor extends AbstractTextEditor {
-
-	private ColorManager colorManager;
-
-	public XMLEditor() {
-		super();
-		//colorManager = new ColorManager();
-		//setSourceViewerConfiguration(new XMLConfiguration(colorManager));
-		setDocumentProvider(new XMLDocumentProvider());
-		setSourceViewerConfiguration(new XMLEditorSourceViewerConfiguration());
-		setRangeIndicator(new DefaultRangeIndicator());
-	}
-	public void dispose() {
-		colorManager.dispose();
-		super.dispose();
-	}
-
-   protected void createActions() {
-      super.createActions();
-      ResourceBundle bundle = Frame2Plugin.getDefault().getResourceBundle();
-      
-      setAction("ContentFormatProposal", 
-            new TextOperationAction(
-                  bundle, 
-                  "ContentFormatProposal.", 
-                  this, 
-                  ISourceViewer.FORMAT));
-      setAction("ContentAssistProposal",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistProposal.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_PROPOSALS));
-      setAction("ContentAssistTip",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistTip.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
-   }
+public interface IFrame2Syntax {
+   public static final String[] reservedWords = 
+   {
+         "frame2-config",
+         "global-forwards",
+         "events",
+         "event-mappings",
+         "event-handlers",
+         "exceptions",
+         "plugins"
+   };
+   
+   public static final String[] types = 
+   {
+   };
+   
+   public static final String[] constants =
+	{ "FALSE", "NULL", "TRUE", "false", "true", "null" };
+   
+   Object[] allWords =
+   { reservedWords, types, constants };
 }

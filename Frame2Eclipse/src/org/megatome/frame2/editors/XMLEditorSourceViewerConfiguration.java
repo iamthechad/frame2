@@ -48,64 +48,46 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
-/*******************************************************************************
- * Copyright (c) 2000, 2003 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
 package org.megatome.frame2.editors;
 
-import java.util.ResourceBundle;
-
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextDoubleClickStrategy;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.DefaultRangeIndicator;
-import org.eclipse.ui.texteditor.TextOperationAction;
+import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.swt.graphics.RGB;
 import org.megatome.frame2.Frame2Plugin;
 
-public class XMLEditor extends AbstractTextEditor {
 
-	private ColorManager colorManager;
+public class XMLEditorSourceViewerConfiguration extends
+      SourceViewerConfiguration {
 
-	public XMLEditor() {
-		super();
-		//colorManager = new ColorManager();
-		//setSourceViewerConfiguration(new XMLConfiguration(colorManager));
-		setDocumentProvider(new XMLDocumentProvider());
-		setSourceViewerConfiguration(new XMLEditorSourceViewerConfiguration());
-		setRangeIndicator(new DefaultRangeIndicator());
-	}
-	public void dispose() {
-		colorManager.dispose();
-		super.dispose();
-	}
-
-   protected void createActions() {
-      super.createActions();
-      ResourceBundle bundle = Frame2Plugin.getDefault().getResourceBundle();
+   public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+      ContentAssistant assistant = new ContentAssistant();
       
-      setAction("ContentFormatProposal", 
-            new TextOperationAction(
-                  bundle, 
-                  "ContentFormatProposal.", 
-                  this, 
-                  ISourceViewer.FORMAT));
-      setAction("ContentAssistProposal",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistProposal.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_PROPOSALS));
-      setAction("ContentAssistTip",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistTip.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
+      assistant.setContentAssistProcessor(
+            new XMLCompletionProcessor(),
+            IDocument.DEFAULT_CONTENT_TYPE);
+      assistant.setContentAssistProcessor(
+            new XMLCompletionProcessor(),
+            XMLPartitionScanner.XML_TAG);
+      assistant.enableAutoActivation(true);
+      assistant.setAutoActivationDelay(500);
+      
+      assistant.setProposalPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
+      
+      assistant.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
+      
+      assistant.setContextInformationPopupBackground(
+            Frame2Plugin.getDefault().getColorProvider().getColor(
+                  new RGB(0, 191, 255)));
+      
+      return assistant;
+   }
+
+   public ITextDoubleClickStrategy getDoubleClickStrategy(
+         ISourceViewer sourceViewer, String contentType) {
+      	return new XMLDoubleClickStrategy();
    }
 }

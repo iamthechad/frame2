@@ -48,64 +48,53 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
-/*******************************************************************************
- * Copyright (c) 2000, 2003 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
-package org.megatome.frame2.editors;
+package org.megatome.frame2.editors.util;
 
-import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.DefaultRangeIndicator;
-import org.eclipse.ui.texteditor.TextOperationAction;
-import org.megatome.frame2.Frame2Plugin;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
-public class XMLEditor extends AbstractTextEditor {
+public class ColorProvider {
 
-	private ColorManager colorManager;
+	public static final RGB BACKGROUND = new RGB(255, 255, 255);
 
-	public XMLEditor() {
-		super();
-		//colorManager = new ColorManager();
-		//setSourceViewerConfiguration(new XMLConfiguration(colorManager));
-		setDocumentProvider(new XMLDocumentProvider());
-		setSourceViewerConfiguration(new XMLEditorSourceViewerConfiguration());
-		setRangeIndicator(new DefaultRangeIndicator());
-	}
+	public static final RGB MULTI_LINE_COMMENT = new RGB(64, 128, 128);
+	public static final RGB SINGLE_LINE_COMMENT = new RGB(64, 128, 128);
+	
+	public static final RGB DEFAULT = new RGB(0, 0, 0);
+	public static final RGB KEYWORD = new RGB(127, 0, 85);
+	public static final RGB TYPE = new RGB(64, 0, 200);
+	public static final RGB STRING = new RGB(0, 0, 255);
+
+	//public static final RGB SQL_CODE_DEFAULT = new RGB(63, 95, 191);
+	//public static final RGB SQL_CODE_KEYWORD = new RGB(100, 100, 100);
+	//public static final RGB SQL_CODE_TAG = new RGB(127, 159, 191);
+
+	protected Map fColorTable = new HashMap(10);
+
+	/**
+	 * Method disposes of the colors.
+	 */
 	public void dispose() {
-		colorManager.dispose();
-		super.dispose();
+		Iterator e= fColorTable.values().iterator();
+		while (e.hasNext())
+			((Color) e.next()).dispose();
 	}
-
-   protected void createActions() {
-      super.createActions();
-      ResourceBundle bundle = Frame2Plugin.getDefault().getResourceBundle();
-      
-      setAction("ContentFormatProposal", 
-            new TextOperationAction(
-                  bundle, 
-                  "ContentFormatProposal.", 
-                  this, 
-                  ISourceViewer.FORMAT));
-      setAction("ContentAssistProposal",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistProposal.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_PROPOSALS));
-      setAction("ContentAssistTip",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistTip.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
-   }
+	/**
+	 * A getter method that returns a color.
+	 * @param rgb
+	 * @return Color
+	 */
+	public Color getColor(RGB rgb) {
+		Color color= (Color) fColorTable.get(rgb);
+		if (color == null) {
+			color= new Color(Display.getCurrent(), rgb);
+			fColorTable.put(rgb, color);
+		}
+		return color;
+	}
 }

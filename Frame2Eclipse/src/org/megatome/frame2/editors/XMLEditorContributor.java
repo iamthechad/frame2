@@ -48,64 +48,58 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
-/*******************************************************************************
- * Copyright (c) 2000, 2003 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
 package org.megatome.frame2.editors;
 
 import java.util.ResourceBundle;
 
-import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.DefaultRangeIndicator;
-import org.eclipse.ui.texteditor.TextOperationAction;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.editors.text.TextEditorActionContributor;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.texteditor.RetargetTextEditorAction;
 import org.megatome.frame2.Frame2Plugin;
 
-public class XMLEditor extends AbstractTextEditor {
 
-	private ColorManager colorManager;
-
-	public XMLEditor() {
-		super();
-		//colorManager = new ColorManager();
-		//setSourceViewerConfiguration(new XMLConfiguration(colorManager));
-		setDocumentProvider(new XMLDocumentProvider());
-		setSourceViewerConfiguration(new XMLEditorSourceViewerConfiguration());
-		setRangeIndicator(new DefaultRangeIndicator());
-	}
-	public void dispose() {
-		colorManager.dispose();
-		super.dispose();
-	}
-
-   protected void createActions() {
-      super.createActions();
+public class XMLEditorContributor extends TextEditorActionContributor {
+   
+   protected RetargetTextEditorAction fContentAssistProposal;
+	protected RetargetTextEditorAction fContentAssistTip;
+	protected RetargetTextEditorAction fContentFormatProposal;
+	
+   public XMLEditorContributor() {
+      super();
       ResourceBundle bundle = Frame2Plugin.getDefault().getResourceBundle();
       
-      setAction("ContentFormatProposal", 
-            new TextOperationAction(
-                  bundle, 
-                  "ContentFormatProposal.", 
-                  this, 
-                  ISourceViewer.FORMAT));
-      setAction("ContentAssistProposal",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistProposal.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_PROPOSALS));
-      setAction("ContentAssistTip",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistTip.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
+      fContentAssistProposal = new RetargetTextEditorAction(bundle, "ContentAssistProposal.");
+      fContentAssistTip = new RetargetTextEditorAction(bundle, "ContentAssistTip.");
+      fContentFormatProposal = new RetargetTextEditorAction(bundle, "ContentFormatProposal.");
    }
+
+   public void contributeToMenu(IMenuManager menu) {
+      IMenuManager editMenu = menu.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
+      if (editMenu != null) {
+         editMenu.add(new Separator());
+         editMenu.add(fContentAssistProposal);
+         editMenu.add(fContentFormatProposal);
+         editMenu.add(fContentAssistTip);
+      }
+   }
+   
+   public void setActiveEditor(IEditorPart part) {
+
+		super.setActiveEditor(part);
+
+		ITextEditor editor = null;
+		if (part instanceof ITextEditor)
+			editor = (ITextEditor) part;
+
+		fContentAssistProposal.setAction(
+			getAction(editor, "ContentAssistProposal"));
+		fContentFormatProposal.setAction(
+			getAction(editor, "ContentFormatProposal"));
+		fContentAssistTip.setAction(getAction(editor, "ContentAssistTip"));
+
+	}
 }

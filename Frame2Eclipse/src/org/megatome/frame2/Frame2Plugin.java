@@ -53,6 +53,8 @@ package org.megatome.frame2;
 import org.eclipse.ui.plugin.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.resources.*;
+import org.megatome.frame2.editors.util.ColorProvider;
+
 import java.util.*;
 
 public class Frame2Plugin extends AbstractUIPlugin {
@@ -60,6 +62,8 @@ public class Frame2Plugin extends AbstractUIPlugin {
 	private static Frame2Plugin plugin;
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
+	
+	private ColorProvider colorProvider;
 	
 	public Frame2Plugin(IPluginDescriptor descriptor) {
 		super(descriptor);
@@ -69,6 +73,8 @@ public class Frame2Plugin extends AbstractUIPlugin {
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
+		
+		colorProvider = new ColorProvider();
 	}
 
 	public static Frame2Plugin getDefault() {
@@ -90,5 +96,9 @@ public class Frame2Plugin extends AbstractUIPlugin {
 
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
+	}
+	
+	public ColorProvider getColorProvider() {
+	   return colorProvider;
 	}
 }
