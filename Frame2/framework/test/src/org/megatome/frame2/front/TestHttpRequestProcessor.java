@@ -107,7 +107,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 			 InputStream is = new ByteArrayInputStream(data);
 			 request.setDataInputStream(data.length, is);
 			 request.setContentType(hdrs[0].getValue());
-			 request.setHeader("Content-type", hdrs[0].getValue());
+			 request.setHeader(HttpRequestProcessor.CONTENT_TYPE, hdrs[0].getValue());
 			 is.close();
 		} catch (IOException e) {
 			 fail();
