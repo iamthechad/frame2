@@ -1,0 +1,20 @@
+Building Frame2
+----------------------------------------
+
+Frame2 is built using the latest version of Ant
+and Tomcat.
+
+To prepare the build, create a file named override.properties
+with the location of Tomcat on your system.
+Running 'ant' at the top level will build the Frame2 jars, 
+create JavaDoc, and run all tests that do not require an
+application server. 
+
+To run all tests, add the line 'run_container_tests=true' 
+to override.properties. Run the 'ant war' target to create
+a web application file named frame2.war. Deploy this 
+application into Tomcat, and start Tomcat. Rerun the 
+'ant' task with the overridden property to run all tests,
+including tag related tests.
+
+Automatic deployment of the test WAR is planned.
