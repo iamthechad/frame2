@@ -70,6 +70,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
+import org.megatome.frame2.errors.impl.ErrorsImpl;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.event.Responder;
 import org.megatome.frame2.event.xml.PassthruEvent;
@@ -109,7 +110,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
    public SoapRequestProcessor(Configuration config, Element[] elements, String eventPkg) {
       super(config);
       _elements = elements;
-      _errors = Errors.newInstance();
+      _errors = new ErrorsImpl();
       _context = new ContextImpl();
       _eventPkg = eventPkg;
    }

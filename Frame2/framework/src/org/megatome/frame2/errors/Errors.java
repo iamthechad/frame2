@@ -50,51 +50,30 @@
  */
 package org.megatome.frame2.errors;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * A container for Error objects, which can be stored and retrieved by key. The implementation
  * maintains ordering behaviors (results are returned sorted by key).
  */
-final public class Errors {
-   private Map _errors = new TreeMap();
-   private int _count;
-
-   static private Error[] _typeArray = new Error[0];
-
-   private Errors() {}
-   /**
-    * Creates a new errors object.
-    *
-    * @return Errors
-    */
-   public static Errors newInstance() {
-      return new Errors();
-   }
+public interface Errors {
 
    /**
    * Add an error with the key only.
    *
    * @param key Error key
-   * 
+   * @return Newly created Error
    */
-   public void add(final String key) {
-      add(key, null, null, null);
-   }
+   public abstract Error add(final String key);
 
    /**
     * Add an error with the key and value.
     *
     * @param key Error key
     * @param value Value to insert into message
+    * @return Newly Created Error
     */
-   public void add(final String key, final Object value) {
-      add(key, value, null, null);
-   }
+   public abstract Error add(final String key, final Object value);
 
    /**
     * Add an error with the key and values.
@@ -102,10 +81,9 @@ final public class Errors {
     * @param key Error key
     * @param value1 First value to insert into message
     * @param value2 Second value to insert into message
+    * @return Newly created Error
     */
-   public void add(final String key, final Object value1, final Object value2) {
-      add(key, value1, value2, null);
-   }
+   public abstract Error add(final String key, final Object value1, final Object value2);
 
    /**
     * Add an error with the key and values.
@@ -114,27 +92,16 @@ final public class Errors {
     * @param value1 First value to insert into message
     * @param value2 Second value to insert into message
     * @param value3 Third value to insert into message
+    * @return Newly created Error
     */
-   public void add(final String key, final Object value1, final Object value2, final Object value3) {
-      add(new Error(key, value1, value2, value3));
-   }
+   public abstract Error add(final String key, final Object value1, final Object value2, final Object value3);
 
    /**
     * Add an Error object to the collection
    * @param error Error to add
    */
-   public void add(final Error error) {
-      Collection errorsForKey = errorsForKey(error.getKey());
-
-      if (errorsForKey == null) {
-         errorsForKey = new ArrayList();
-      }
-
-      errorsForKey.add(error);
-      _errors.put(error.getKey(), errorsForKey);
-      _count++;
-   }
-
+   public abstract void add(final Error error);
+   
    /**
     * Test if the following error (key and values) is already in the Errors object.
     *
@@ -142,28 +109,18 @@ final public class Errors {
     *
     * @return boolean True if the error is in the collection
     */
-   public boolean contains(final Error error) {
-      Collection errorsForKey = errorsForKey(error.getKey());
-
-      return (errorsForKey != null) && errorsForKey.contains(error);
-   }
-
-   private Collection errorsForKey(final String key) {
-      return (Collection)_errors.get(key);
-   }
-
+   public abstract boolean contains(final Error error);
+   
    /**
     * As with <code>add</code> but only adds the error if an equivalent error is not already in the
     * collection.
     *
     * @param key Error key
     * @param value Value to insert into message
-    *
+    * @return The Error, whether newly created or existing.
     * @see org.megatome.frame2.errors.Errors#add(String,Object)
     */
-   public void addIfUnique(final String key, final Object value) {
-      addIfUnique(key, value, null, null);
-   }
+   public abstract Error addIfUnique(final String key, final Object value);
 
    /**
     * As with <code>add</code> but only adds the error if an equivalent error is not already in the
@@ -172,13 +129,11 @@ final public class Errors {
     * @param key Error key
     * @param value1 First value to insert into message
     * @param value2 Second value to insert into message
-    *
+    * @return The Error, whether newly created or existing.
     * @see org.megatome.frame2.errors.Errors#add(String,Object,Object)
     */
-   public void addIfUnique(final String key, final Object value1, final Object value2) {
-      addIfUnique(key, value1, value2, null);
-   }
-
+   public abstract Error addIfUnique(final String key, final Object value1, final Object value2);
+   
    /**
     * As with <code>add</code> but only adds the error if an equivalent error is not already in the
     * collection.
@@ -187,21 +142,15 @@ final public class Errors {
     * @param value1 First value to insert into message
     * @param value2 Second value to insert into message
     * @param value3 Third value to insert into message
-    *
+    * @return The Error, whether newly created or existing.
     * @see org.megatome.frame2.errors.Errors#add(String,Object,Object,Object)
     */
-   public void addIfUnique(
+   public abstract Error addIfUnique(
       final String key,
       final Object value1,
       final Object value2,
-      final Object value3) {
-      Error error = new Error(key, value1, value2, value3);
-
-      if (!contains(error)) {
-         add(error);
-      }
-   }
-
+      final Object value3);
+   
    /**
     * Get an iterator of all errors for this key.
     *
@@ -210,28 +159,20 @@ final public class Errors {
     * @return Iterator of all found Error
     * objects, or null if none found.
     */
-   public Iterator iterator(String key) {
-      Collection errorsForKey = (Collection)_errors.get(key);
-
-      return (errorsForKey == null) ? null : errorsForKey.iterator();
-   }
-
+   public abstract Iterator iterator(String key);
+   
    /**
     * Get an iterator of all errors in this object.
     *
     * @return Iterator of all errors in this collection.
     */
-   public Iterator iterator() {
-      return allErrors().iterator();
-   }
+   public abstract Iterator iterator();
 
    /**
     * Get all errors in the collection in an array
    * @return Array of Error objects
    */
-   public Error[] get() {
-      return (Error[])allErrors().toArray(_typeArray);
-   }
+   public abstract Error[] get();
 
    /**
     * Get all Error objects associated with the specified key
@@ -239,88 +180,24 @@ final public class Errors {
    * Error objects in the collection.
    * @return Array of Error objects
    */
-   public Error[] get(String key) {
-      if (key == null) {
-         return get();
-      } else {
-         Collection col = errorsForKey(key);
-         if (col != null) {
-            return (Error[])col.toArray(_typeArray);
-         } else {
-            return _typeArray;
-         }
-      }
-   }
-
-   private Collection allErrors() {
-      Collection result = new ArrayList();
-      Iterator errorsForKeys = _errors.values().iterator();
-
-      while (errorsForKeys.hasNext()) {
-         result.addAll((Collection)errorsForKeys.next());
-      }
-
-      return result;
-   }
+   public abstract Error[] get(String key);
 
    /**
     * Test to see if te object contains any errors.
     *
     * @return boolean Returns true if the object contains no errors, false otherwise.
     */
-   public boolean isEmpty() {
-      return _errors.isEmpty();
-   }
+   public abstract boolean isEmpty();
 
    /**
     * Release this object and the underlying data.  This clears the object as well.
     */
-   public void release() {
-      clear();
-   }
-
-   private void clear() {
-      Iterator errors = iterator();
-
-      while (errors.hasNext()) {
-         Error error = (Error)errors.next();
-         error = null;
-      }
-
-      _errors.clear();
-      _count = 0;
-   }
+   public abstract void release();
 
    /**
     * Return the number of error objects in this object.
     *
     * @return Number of Error objects in the collection
     */
-   public int size() {
-      return _count;
-   }
-
-   /**
-    * Generate a human readable version of this collection. Useful
-    * for debugging during application development.
-    * @return String representation of all contained Errors
-   * @see java.lang.Object#toString()
-   */
-   public String toString() {
-      StringBuffer buffer = new StringBuffer();
-      Iterator errors = iterator();
-
-      while (errors.hasNext()) {
-         Error error = (Error)errors.next();
-
-         buffer.append(
-            "Errors: Key["
-               + error.getKey()
-               + "] Value["
-               + error.getValue()
-               + "]\n");
-      }
-
-      return buffer.toString();
-   }
+   public abstract int size();
 }

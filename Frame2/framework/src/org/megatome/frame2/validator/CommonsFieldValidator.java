@@ -60,6 +60,7 @@ import org.apache.commons.validator.ValidatorAction;
 import org.apache.commons.validator.ValidatorUtil;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
+import org.megatome.frame2.errors.impl.ErrorImpl;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
 
@@ -133,9 +134,9 @@ public class CommonsFieldValidator {
       if (arg != null) {
          String fieldMsgKey = arg.getKey();
          if (fieldMsgKey != null) {
-            Error fieldMsg = new Error(fieldMsgKey);
+            Error fieldMsg = new ErrorImpl(fieldMsgKey);
             Error validateError =
-               new Error(
+               new ErrorImpl(
                   validatorKey,
                   fieldMsg,
                   validatorErrorValue1,
@@ -943,7 +944,7 @@ public class CommonsFieldValidator {
                if (arg != null) {
                   String fieldMsgKey = arg.getKey();
                   if (fieldMsgKey != null) {
-                     fieldMsg = new Error(fieldMsgKey);
+                     fieldMsg = new ErrorImpl(fieldMsgKey);
                   }
                }
                addError(va, errors, field, fieldMsg);

@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import junit.framework.TestCase;
 
 import org.megatome.frame2.errors.Errors;
+import org.megatome.frame2.errors.impl.ErrorsImpl;
 import org.megatome.frame2.jaxbgen.Items;
 import org.megatome.frame2.jaxbgen.PurchaseOrder;
 import org.megatome.frame2.jaxbgen.USAddress;
@@ -53,7 +54,7 @@ public class TestPurchaseOrder extends TestCase {
    public void testValidate() throws Exception {
       PurchaseOrderImpl po = (PurchaseOrderImpl) unmarshall( );
 
-      Errors errors = Errors.newInstance();
+      Errors errors = new ErrorsImpl();
 
       ItemsImpl.ItemTypeImpl item1 = (ItemsImpl.ItemTypeImpl) po.getItems().getItem().get(0);
 
@@ -68,13 +69,13 @@ public class TestPurchaseOrder extends TestCase {
       item1.setQuantity(new BigInteger("101"));
 
       errors.release();
-      errors = Errors.newInstance();
+      errors = new ErrorsImpl();
 
       assertFalse(item1.validate(errors));
       assertEquals(2, errors.size());
 
       errors.release();
-      errors = Errors.newInstance();
+      errors = new ErrorsImpl();
 
       assertFalse(po.validate(errors));
       assertEquals(2, errors.size());

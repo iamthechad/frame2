@@ -11,6 +11,7 @@ import org.megatome.frame2.Globals;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.errors.TestError;
+import org.megatome.frame2.errors.impl.ErrorsImpl;
 import org.megatome.frame2.util.ResourceLocator;
 
 import servletunit.frame2.MockFrame2TestCase;
@@ -177,7 +178,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       CommonsValidatorBean testBean,
       String fieldBeanName) {
       // Add an error to verify the error is passed in..
-      Errors errors = Errors.newInstance();
+      Errors errors = new ErrorsImpl();
       errors.add("seed", "dude");
 
       Validator validator = new Validator(_validatorResources, fieldBeanName);

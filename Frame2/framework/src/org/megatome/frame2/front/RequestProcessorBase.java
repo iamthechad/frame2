@@ -55,6 +55,7 @@ import java.util.Map;
 
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.errors.Errors;
+import org.megatome.frame2.errors.impl.ErrorsImpl;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.front.config.ViewType;
 
@@ -65,7 +66,7 @@ import org.megatome.frame2.front.config.ViewType;
 abstract class RequestProcessorBase implements RequestProcessor {
    private Configuration _config;
    ContextWrapper _context;
-   Errors _errors = Errors.newInstance();
+   Errors _errors = new ErrorsImpl();
 
    RequestProcessorBase(Configuration config) {
       _config = config;

@@ -59,9 +59,6 @@ import org.megatome.frame2.errors.Errors;
  * handlers.  Events are instantiated and processed in response to requests from the client, as
  * declared in the framework configuration.
  */
-
-// NIT: the event package should define an interface for errors so that
-// the event is not tied to our specific implementation.
 public abstract class AbstractEvent implements Event {
    
    protected String name;

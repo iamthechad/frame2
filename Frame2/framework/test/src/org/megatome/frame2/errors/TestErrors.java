@@ -7,6 +7,8 @@ import junit.framework.TestCase;
 
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
+import org.megatome.frame2.errors.impl.ErrorImpl;
+import org.megatome.frame2.errors.impl.ErrorsImpl;
 
 /**
  * 
@@ -24,7 +26,7 @@ public class TestErrors extends TestCase {
 	}
    
    protected void setUp( ) {
-      _errors = Errors.newInstance();
+      _errors = new ErrorsImpl();
    }
    
    protected void tearDown()  {
@@ -228,7 +230,7 @@ public class TestErrors extends TestCase {
      assertTrue(_errors.isEmpty());
       assertEquals(0, _errors.size());
       
-     Error mainError = new Error("tag.question.with.parm", "really");
+     Error mainError = new ErrorImpl("tag.question.with.parm", "really");
      _errors.add(mainError); 
       
      assertFalse(_errors.isEmpty());
