@@ -12,7 +12,7 @@
 
    <property name="proj-base" value="."/>
    
-	<target name="all" depends="clean, compile, test, dist, javadoc"/>
+	<target name="all" depends="clean, compile, test-one, test, dist, javadoc"/>
 	
 	<target name="init">
 		<property file="override.properties"/>
@@ -29,8 +29,22 @@
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
 		</path>
 		
+		<path id="taglib-compile-class-path">
+			<pathelement location="${framework_build}"/>
+			<pathelement location="${tomcat-common}/jsp-api.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+		</path>
+		
+		<path id="template-compile-class-path">
+			<pathelement location="${framework_build}"/>
+			<pathelement location="${tomcat-common}/jsp-api.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+		</path>
+		
 		<path id="framework-test-compile-class-path">
-			<pathelement location="${proj-base}/build/classes"/>
+			<pathelement location="${framework_build}"/>
+			<pathelement location="${tomcat-common}/jsp-api.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
 			<pathelement location="${commons-digester-home}/commons-digester.jar"/>
 			<pathelement location="${strutstest-home}/strutstest-2.1.0.jar"/>
 			<pathelement location="${junit-home}/junit.jar"/>
@@ -46,12 +60,52 @@
 			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
 			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
 		</path>
+		
+		<path id="taglib-test-compile-class-path">
+			<pathelement location="${framework_build}"/>
+			<pathelement location="${taglib_build}"/>
+		</path>
+		
+		<path id="template-test-compile-class-path">
+			<pathelement location="${framework_build}"/>
+			<pathelement location="${template_build}"/>
+		</path>
+		
+		<path id="run-class-path">
+			<pathelement location="${framework_build}"/>
+			<pathelement location="${framework_test_build}"/>
+			<pathelement location="${taglib_build}"/>
+			<pathelement location="${taglib_test_build}"/>
+			<!-- <pathelement location="${template_build}"/> -->
+			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
+			<pathelement location="${jwsdp-shared-home}/xsdlib.jar"/>
+			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
+			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
+			<pathelement location="${log4j-home}/log4j.jar"/>
+			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+			<pathelement location="${commons-logging-home}/commons-logging.jar"/>
+			<pathelement location="${commons-collections-home}/commons-collections.jar"/>
+			<pathelement location="${strutstest-home}/strutstest-2.1.0.jar"/>
+			<pathelement location="${commons-digester-home}/commons-digester.jar"/>
+			<pathelement location="${commons-beanutils-home}/commons-beanutils.jar"/>
+			<pathelement location="${httpclient-home}/HTTPClient.zip"/>
+			<pathelement location="${junit-addons-home}/junit-addons.jar"/>
+			<pathelement location="${jakarta-oro-home}/jakarta-oro.jar"/>
+			<!-- <pathelement location="${jwsdp-endorsed-home}/dom.jar"/>
+			<pathelement location="${jwsdp-endorsed-home}/xercesImpl.jar"/> -->
+		</path>
+		
+		<mkdir dir="${local-out}"/>
 	</target>
 	
 	<target name="clean" depends="init">
-		<delete dir="${build}"/>
-		<delete dir="${dist.lib}"/>
-		<delete dir="${dist.docs}"/>
+		<delete dir="${local-out}"/>
+		<delete dir="${dist}"/>
 	</target>
 	
 	<!-- 
@@ -60,23 +114,11 @@
 			2) Tag library
 			3) Template Tag Library
 	-->
-	<target name="compile" depends="init">
-		<mkdir dir="${local-out}"/>
-		<mkdir dir="${build}"/>
-		
-		<javac deprecation="on"
-          destdir="${build}"
-          srcdir="./src"
-          classpathref="compile-class-path"
-        />
-		<copy todir="${build}">
-			<fileset dir="./src">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
+	<target name="compile" depends="init, compile_framework, compile_taglib, compile_template_taglib">
 	</target>
 	
 	<target name="compile_framework" depends="init">
+		<mkdir dir="${framework_build}"/>
 		<javac deprecation="on"
           destdir="${framework_build}"
           srcdir="./framework/src"
@@ -90,32 +132,169 @@
 	</target>
 	
 	<target name="compile_taglib" depends="init">
+		<mkdir dir="${taglib_build}"/>
+		<javac deprecation="on"
+          destdir="${taglib_build}"
+          srcdir="./tag/src"
+          classpathref="taglib-compile-class-path"
+        />
 	</target>
 	
 	<target name="compile_template_taglib" depends="init">
+		<mkdir dir="${template_build}"/>
+		<javac deprecation="on"
+          destdir="${template_build}"
+          srcdir="./template_tag/src"
+          classpathref="template-compile-class-path"
+        />
 	</target>
 	
-	<target name="test" depends="compile">
-		<echo message="Testing will go here"/>
+	<target name="compile_test" depends="compile, compile_framework_test, compile_tag_test, compile_template_test">
+	</target>
+	
+	<target name="compile_framework_test" depends="compile">
+		<mkdir dir="${framework_test_build}"/>
+		<javac deprecation="on"
+          destdir="${framework_test_build}"
+          srcdir="./framework/test/src"
+          classpathref="framework-test-compile-class-path"
+        />
+		<copy todir="${framework_test_build}">
+			<fileset dir="./framework/test/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="compile_tag_test" depends="compile">
+		<mkdir dir="${taglib_test_build}"/>
+		<javac deprecation="on"
+          destdir="${taglib_test_build}"
+          srcdir="./tag/test/src"
+          classpathref="taglib-test-compile-class-path"
+        />
+	</target>
+	
+	<target name="compile_template_test" depends="compile">
+	<!--
+		<mkdir dir="${template_test_build}"/>
+		<javac deprecation="on"
+          destdir="${template_test_build}"
+          srcdir="./template_tag/test/src"
+          classpathref="template-test-compile-class-path"
+        />
+    -->
+    	<echo message="No tests defined for template tags - skipping compile"/>
+	</target>
+	
+	<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${junit-home}/junit.jar"/>
+	
+	<target name="test" depends="compile, compile_test" unless="TEST_CASE">
+		<mkdir dir="${reports}"/>
+		<junit printsummary="on" dir="."
+	          failureProperty="tests-failed"
+	          showoutput="${show-test-output}"
+	          haltonfailure="${halt-on-failure}"
+	          fork="yes">
+	      <sysproperty key="java.util.logging.config.file" value="${std-log-properties}"/> 
+	      <jvmarg value="-Xint"/>
+	      <formatter type="xml"/>
+	      <batchtest todir="${reports}">
+	         <fileset dir="./framework/test/src">
+	            <include name="**/Test*.java" />
+	         </fileset>
+	         <fileset dir="./tag/test/src">
+	            <include name="**/Test*.java" />
+	         </fileset>
+	         <!--
+	         <fileset dir="./template_tag/test/src">
+	            <include name="**/Test*.java" />
+	         </fileset>
+	         -->
+	      </batchtest>
+	      <classpath>
+			 <path refid="run-class-path"/>
+	      </classpath>
+	
+	   </junit>
+	   <junitreport todir="${reports}">
+	      <fileset dir="${reports}">
+	         <include name="TEST-*.xml"/>
+	      </fileset>
+	      <report format="frames" todir="${reports}/html"/>
+	   </junitreport>
+	</target>
+	
+	<target name="test-one" depends="compile" if="TEST_CASE">
+		<mkdir dir="${reports}"/>
+		<junit printsummary="on" showoutput="yes" dir=".">
+			<sysproperty key="java.util.logging.config.file" value="${std-log-properties}"/> 
+			<jvmarg value="-Xint"/>
+			<!-- <jvmarg line="${jpda-args}${jpda-port}"/> -->
+			<formatter type="xml"/>
+			<test name="${TEST_CASE}" fork="yes" todir="${reports}"/>
+			<classpath>
+				<path refid="run-class-path"/>
+	      	</classpath>
+		</junit>
+		<junitreport todir="${reports}">
+			<fileset dir="${reports}">
+				<include name="TEST-${TEST_CASE}*.xml"/>
+			</fileset>
+			<report format="frames" todir="${reports}/html"/>
+		</junitreport>
 	</target>
 	
 	<target name="dist" depends="compile">
+		<property name="taglib-META-INF" value="${taglib_build}/META-INF"/>
+    	<property name="taglib-tld-file" value="./tag/src/taglib.tld"/>
+    	<property name="template-META-INF" value="${template_build}/META-INF"/>
+    	<property name="template-tld-file" value="./template_tag/src/template_taglib.tld"/>
 		<mkdir dir="${dist.lib}"/>
-		<jar jarfile="${dist.lib}/frame2.jar"
-			basedir="${build}"/>		
+		<jar jarfile="${dist.lib}/${framework_jar}"
+			basedir="${framework_build}"/>		
+			
+		<mkdir dir="${taglib-META-INF}"/>
+		<copy file="${taglib-tld-file}" todir="${taglib-META-INF}"/>
+		<jar jarfile="${dist.lib}/${taglib_jar}"
+			basedir="${taglib_build}"/>
+			
+		<mkdir dir="${template-META-INF}"/>
+		<copy file="${template-tld-file}" todir="${template-META-INF}"/>
+		<jar jarfile="${dist.lib}/${template_jar}"
+			basedir="${template_build}"/>
 	</target>
 	
 	<target name="javadoc" depends="compile">
 		<mkdir dir="${dist.docs}"/>
-		<javadoc destdir="${dist.docs}"
-			windowTitle="Frame2 API">
-			<package name="org.megatome.*"/>
-			<sourcepath location="./src"/>
-			<classpath location="${build}"/>
+		<path id="doc-source-path">
+			<pathelement path="./framework/src"/>
+			<pathelement path="./tag/src"/>
+			<pathelement path="./template_tag/src"/>
+		</path>
+		<path id="doc-classpath">
+			<pathelement location="${tomcat-common}/jsp-api.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
+			<pathelement location="${log4j-home}/log4j.jar"/>
+			<pathelement location="${taglibs-standard-home}/standard.jar"/>
+			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+		</path>
+		<javadoc sourcepathref="doc-source-path"
+			destdir="${dist.docs}"
+			windowTitle="Frame2 API"
+            doctitle="Frame2"
+            classpathref="doc-classpath"
+            packagenames="org.*">
 			<bottom>
 				<![CDATA[<em>Copyright (C) 2004, Megatome Technologies</em>
 				<br>All Rights Reserved]]>
 			</bottom>
+			<link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
+			<link href="http://java.sun.com/j2ee/1.4/docs/api/"/>
 		</javadoc>
 	</target>
 </project>
