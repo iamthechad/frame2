@@ -61,6 +61,7 @@
 package org.megatome.frame2.wizards;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -300,7 +301,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
             initTypePage(jelem);
         }
 
-        ArrayList interfaces = new ArrayList();
+        List interfaces = new ArrayList();
         interfaces.add(Frame2Plugin.getResourceString("EventHandlerWizardPage1.eventHandlerInterface")); //$NON-NLS-1$
         setSuperInterfaces(interfaces, true);
     }
@@ -385,8 +386,8 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
         return handlerClass;
     }
     
-    public ArrayList getInitParams() {
-        ArrayList initParams = new ArrayList();
+    public List getInitParams() {
+        List initParams = new ArrayList();
         
         int paramCount = initParamTable.getItemCount();
         for (int i = 0; i < paramCount; i++) {

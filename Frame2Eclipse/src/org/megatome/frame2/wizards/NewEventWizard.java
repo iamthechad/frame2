@@ -64,41 +64,27 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.megatome.frame2.model.Frame2Event;
-import org.megatome.frame2.model.Frame2Model;
-import org.megatome.frame2.model.Frame2ModelException;
 import org.megatome.frame2.Frame2Plugin;
+import org.megatome.frame2.model.Frame2Event;
+import org.megatome.frame2.model.Frame2ModelException;
 
 
-public class NewEventWizard extends Wizard implements INewWizard {
+public class NewEventWizard extends BaseFrame2Wizard  {
     private NewEventWizardPage1 page;
-    private ISelection selection;
-    
-    private Frame2Model model = null;
 
     public NewEventWizard() {
         super();
@@ -215,67 +201,5 @@ public class NewEventWizard extends Wizard implements INewWizard {
         }
 
         monitor.worked(1);
-    }
-
-    private void throwCoreException(String message) throws CoreException {
-        IStatus status =
-            new Status(
-                IStatus.ERROR,
-                "org.megatome.frame2", //$NON-NLS-1$
-                IStatus.OK,
-                message,
-                null);
-        throw new CoreException(status);
-    }
-
-    public void init(IWorkbench workbench, IStructuredSelection selection) {
-        this.selection = selection;
-        setDefaultPageImageDescriptor(Frame2WizardSupport.getFrame2Logo());
-        try {
-            model = initFrame2Model(selection); 
-        } catch (Frame2ModelException e) {
-            String errorMsg;
-            if (e.getCause() != null) {
-                errorMsg = e.getCause().getMessage();
-            } else {
-                errorMsg = e.getMessage();
-            }
-            MultiStatus info = new MultiStatus("org.megatome.frame2", Status.ERROR, Frame2Plugin.getResourceString("NewEventWizard.configReadError"), e);  //$NON-NLS-1$//$NON-NLS-2$
-            Status msg = new Status(Status.ERROR, "org.megatome.frame2", Status.ERROR, errorMsg, e); //$NON-NLS-1$
-            info.add(msg);
-            
-            ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("NewEventWizard.wizardInitError"), null, info);             //$NON-NLS-1$
-        }  
-    }
-    
-    private Frame2Model initFrame2Model(IStructuredSelection selection) throws Frame2ModelException {
-        Frame2Model mod = null;
-        if (selection != null && selection.isEmpty() == false) {
-            if (selection.size() > 1) {
-                throw new Frame2ModelException(Frame2Plugin.getResourceString("NewEventWizard.errorMultipleSelection")); //$NON-NLS-1$
-            }
-                
-            Object obj = selection.getFirstElement();
-            if (obj instanceof IResource) {
-                IProject rootProject = ((IResource)obj).getProject();
-
-                IResource resource =
-                    rootProject.findMember(Frame2Plugin.getResourceString("NewEventWizard.fullConfigPath")); //$NON-NLS-1$
-                if (resource == null) {
-                    throw new Frame2ModelException(Frame2Plugin.getResourceString("NewEventWizard.errorLocatingConfig")); //$NON-NLS-1$
-                }
-                IPath path = resource.getLocation();
-                if (path == null) {
-                    throw new Frame2ModelException(Frame2Plugin.getResourceString("NewEventWizard.errorLocatingConfigPath")); //$NON-NLS-1$
-                }
-                mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
-            }
-        }
-        
-        return mod;
-    }
-    
-    public Frame2Model getFrame2Model() {
-        return model;
     }
 }

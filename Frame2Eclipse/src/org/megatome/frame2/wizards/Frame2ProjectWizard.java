@@ -370,7 +370,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
     }
 
     private Map getInfFiles(boolean copyServiceFiles) {
-        HashMap files = new HashMap();
+        Map files = new HashMap();
 
         if (copyServiceFiles) {
             files.put(Frame2Plugin.getResourceString("Frame2ProjectWizard.services-web_xml"), Frame2Plugin.getResourceString("Frame2ProjectWizard.web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -385,7 +385,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
     }
 
     private Map getCommonsFiles() {
-        HashMap files = new HashMap();
+        Map files = new HashMap();
 
         files.put(
             Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-validation-mappings_xml"), //$NON-NLS-1$
@@ -396,7 +396,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
     }
 
     private Map getLibFiles(boolean copyServiceJars) {
-        HashMap files = new HashMap();
+        Map files = new HashMap();
 
         files.put(Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-beanutils_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-beanutils_jar")); //$NON-NLS-1$ //$NON-NLS-2$
         files.put(Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-collections_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-collections_jar")); //$NON-NLS-1$ //$NON-NLS-2$

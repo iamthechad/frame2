@@ -63,46 +63,36 @@ package org.megatome.frame2.wizards;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.EventHandler;
 import org.megatome.frame2.model.Forward;
-import org.megatome.frame2.model.InitParam;
-import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.model.Frame2ModelException;
-import org.megatome.frame2.Frame2Plugin;
+import org.megatome.frame2.model.InitParam;
 
-public class EventHandlerWizard extends Wizard implements INewWizard {
+public class EventHandlerWizard extends BaseFrame2Wizard /*Wizard implements INewWizard*/ {
     private EventHandlerWizardPage1 page;
     private EventHandlerWizardPage2 page2;
-    private ISelection selection;
+    //private ISelection selection;
 
-    private Frame2Model model = null;
+    //private Frame2Model model = null;
 
     public EventHandlerWizard() {
         super();
@@ -120,8 +110,8 @@ public class EventHandlerWizard extends Wizard implements INewWizard {
         final String containerName = page.getPackageFragmentRootText();
         final String handlerName = page.getHandlerName();
         final String handlerClass = page.getHandlerType();
-        final ArrayList initParams = page.getInitParams();
-        final ArrayList localForwards = page2.getLocalForwards();
+        final List initParams = page.getInitParams();
+        final List localForwards = page2.getLocalForwards();
         IRunnableWithProgress op = new IRunnableWithProgress() {
             public void run(IProgressMonitor monitor)
                 throws InvocationTargetException {
@@ -153,8 +143,8 @@ public class EventHandlerWizard extends Wizard implements INewWizard {
         String containerName,
         String handlerName,
         String handlerClass,
-        ArrayList initParams,
-        ArrayList localForwards,
+        List initParams,
+        List localForwards,
         IProgressMonitor monitor)
         throws CoreException {
         monitor.beginTask(Frame2Plugin.getResourceString("EventHandlerWizard.createHandlerStatus"), 3); //$NON-NLS-1$
@@ -226,7 +216,7 @@ public class EventHandlerWizard extends Wizard implements INewWizard {
 
         monitor.worked(1);
     }
-
+/*
     private Frame2Model initFrame2Model(IStructuredSelection selection) throws Frame2ModelException {
         Frame2Model mod = null;
         if (selection != null && selection.isEmpty() == false) {
@@ -288,4 +278,5 @@ public class EventHandlerWizard extends Wizard implements INewWizard {
             ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("EventHandlerWizard.errorInitWizard"), null , info);             //$NON-NLS-1$
         }  
     }
+    */
 }

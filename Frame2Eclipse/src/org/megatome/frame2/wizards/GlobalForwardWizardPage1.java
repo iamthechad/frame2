@@ -61,6 +61,7 @@
 package org.megatome.frame2.wizards;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -324,7 +325,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
     }
     
     private IResource[] findForwardResources() {
-        ArrayList filteredResources = new ArrayList();
+        List filteredResources = new ArrayList();
         
         filterResources(rootProject, filteredResources);
         
@@ -334,7 +335,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
         return allFiltered;
     }
     
-    private void filterResources(IContainer container, ArrayList resourceList) {
+    private void filterResources(IContainer container, List resourceList) {
         IResource[] members;
         try {
             members = container.members();

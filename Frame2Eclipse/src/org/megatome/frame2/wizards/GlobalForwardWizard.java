@@ -62,33 +62,20 @@ package org.megatome.frame2.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.model.Frame2ModelException;
-import org.megatome.frame2.Frame2Plugin;
 
 
-public class GlobalForwardWizard extends Wizard implements INewWizard {
+public class GlobalForwardWizard extends BaseFrame2Wizard /*Wizard implements INewWizard*/ {
 	private GlobalForwardWizardPage1 page;
-	private ISelection selection;
+	//private ISelection selection;
     
-    private Frame2Model model;
+    //private Frame2Model model;
 
 	public GlobalForwardWizard() {
 		super();
@@ -142,7 +129,7 @@ public class GlobalForwardWizard extends Wizard implements INewWizard {
 		}
 		return true;
 	}
-
+/*
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
 			new Status(IStatus.ERROR, "org.megatome.frame2", IStatus.OK, message, null); //$NON-NLS-1$
@@ -199,4 +186,5 @@ public class GlobalForwardWizard extends Wizard implements INewWizard {
             ErrorDialog.openError(getShell(), Frame2Plugin.getResourceString("GlobalForwardWizard.wizardInitError"), null, info);             //$NON-NLS-1$
         }           
 	}
+*/
 }

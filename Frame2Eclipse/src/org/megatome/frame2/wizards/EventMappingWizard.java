@@ -63,39 +63,27 @@ package org.megatome.frame2.wizards;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.EventMapping;
+import org.megatome.frame2.model.Frame2ModelException;
 import org.megatome.frame2.model.Handler;
 import org.megatome.frame2.model.Role;
 import org.megatome.frame2.model.Security;
-import org.megatome.frame2.model.Frame2Model;
-import org.megatome.frame2.model.Frame2ModelException;
 import org.megatome.frame2.model.View;
-import org.megatome.frame2.Frame2Plugin;
 
-public class EventMappingWizard extends Wizard implements INewWizard {
+public class EventMappingWizard extends BaseFrame2Wizard /*Wizard implements INewWizard*/ {
 	private EventMappingWizardPage1 page1;
     private EventMappingWizardPage2 page2;
     private EventMappingWizardPage3 page3;
-	private ISelection selection;
+	//private ISelection selection;
 
-    private Frame2Model model = null;
+    //private Frame2Model model = null;
 
 	public EventMappingWizard() {
 		super();
@@ -115,10 +103,10 @@ public class EventMappingWizard extends Wizard implements INewWizard {
 		final String eventName = page1.getEventName();
 		final String inputView = page1.getInputView();
         final String cancelView = page1.getCancelView();
-        final ArrayList handlers = page2.getSelectedHandlers();
+        final List handlers = page2.getSelectedHandlers();
         final String htmlView = page3.getHTMLView();
         final String xmlView = page3.getXMLView();
-        final ArrayList roles = page3.getSecurityRoles();
+        final List roles = page3.getSecurityRoles();
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
@@ -153,10 +141,10 @@ public class EventMappingWizard extends Wizard implements INewWizard {
 		String eventName,
 		String inputView,
         String cancelView,
-        ArrayList handlers,
+        List handlers,
         String htmlView,
         String xmlView,
-        ArrayList roles,
+        List roles,
 		IProgressMonitor monitor)
 		throws CoreException {
 		monitor.beginTask(Frame2Plugin.getResourceString("EventMappingWizard.creatingMappingStatus"), 1); //$NON-NLS-1$
@@ -222,7 +210,7 @@ public class EventMappingWizard extends Wizard implements INewWizard {
         
 		monitor.worked(1);
 	}
-	
+/*	
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
 			new Status(IStatus.ERROR, "org.megatome.frame2", IStatus.OK, message, null); //$NON-NLS-1$
@@ -279,4 +267,5 @@ public class EventMappingWizard extends Wizard implements INewWizard {
     public Frame2Model getFrame2Model() {
         return model;
     }
+*/
 }

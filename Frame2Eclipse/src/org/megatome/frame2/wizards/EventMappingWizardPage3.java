@@ -61,6 +61,7 @@
 package org.megatome.frame2.wizards;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -331,8 +332,8 @@ public class EventMappingWizardPage3 extends WizardPage {
         
         return xmlView;
     }
-    public ArrayList getSecurityRoles() {
-        ArrayList roles = new ArrayList();
+    public List getSecurityRoles() {
+        List roles = new ArrayList();
         
         int roleCount = rolesTable.getItemCount();
         for (int i = 0; i < roleCount; i++) {

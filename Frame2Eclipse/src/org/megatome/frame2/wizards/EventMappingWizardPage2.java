@@ -63,6 +63,7 @@ package org.megatome.frame2.wizards;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -361,8 +362,8 @@ public class EventMappingWizardPage2 extends WizardPage {
 		setPageComplete(message == null);
 	}
 
-	public ArrayList getSelectedHandlers() {
-        ArrayList selected = new ArrayList();
+	public List getSelectedHandlers() {
+        List selected = new ArrayList();
         
         int selCount = selectedHandlersTable.getItemCount();
         for (int i = 0; i < selCount; i++) {

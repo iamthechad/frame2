@@ -61,6 +61,7 @@
 package org.megatome.frame2.wizards;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -421,7 +422,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
     }
 
     private IResource[] findForwardResources() {
-        ArrayList filteredResources = new ArrayList();
+        List filteredResources = new ArrayList();
 
         IWorkspace myWorkspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot myRoot = myWorkspace.getRoot();
@@ -443,7 +444,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
     private void filterResources(
         IContainer container,
-        ArrayList resourceList) {
+        List resourceList) {
         IResource[] members;
         try {
             members = container.members();
@@ -633,8 +634,8 @@ public class EventHandlerWizardPage2 extends WizardPage {
         return true;
     }
 
-    public ArrayList getLocalForwards() {
-        ArrayList localForwards = new ArrayList();
+    public List getLocalForwards() {
+        List localForwards = new ArrayList();
 
         int forwardCount = forwardTable.getItemCount();
 

@@ -61,6 +61,7 @@
 package org.megatome.frame2.wizards;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -210,7 +211,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
         badModelStatus = new StatusInfo();
         if (model != null) {
             definedEvents = model.getEvents();
-            ArrayList uniqueEventNames = new ArrayList();
+            List uniqueEventNames = new ArrayList();
             for (int j = 0; j < definedEvents.length; j++) {
                 String eventType = definedEvents[j].getType();
                 if ((eventType != null) && (!eventType.equals(""))) //$NON-NLS-1$
@@ -310,6 +311,13 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
     //  ------ validation --------
     private void doStatusUpdate() {
         // status of all used components
+       if ((badModelStatus.getMessage() != null) &&
+           (!badModelStatus.getMessage().equals(""))) {
+          IStatus[] status = 
+             new IStatus[] { badModelStatus };
+          updateStatus(status);
+          return;
+       }
 //        if (initialized) {
             String eventType = getNewEventType();
             if (eventType.equals(NEW_CLASS)) {
