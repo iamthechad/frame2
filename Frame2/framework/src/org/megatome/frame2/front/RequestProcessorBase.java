@@ -65,7 +65,7 @@ import org.megatome.frame2.front.config.ViewType;
 abstract class RequestProcessorBase implements RequestProcessor {
    private Configuration _config;
    ContextWrapper _context;
-   Errors _errors = new Errors();
+   Errors _errors = Errors.newInstance();
 
    RequestProcessorBase(Configuration config) {
       _config = config;

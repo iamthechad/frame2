@@ -69,7 +69,7 @@ public class TestUser extends TestCase {
    public void testUser() {
 		UserImpl user = makeFred();
 
-      Errors errors = new Errors();
+      Errors errors = Errors.newInstance();
       
       assertTrue(user.validate(errors));
       assertTrue(errors.isEmpty());

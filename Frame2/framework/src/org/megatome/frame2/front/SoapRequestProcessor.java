@@ -109,7 +109,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
    public SoapRequestProcessor(Configuration config, Element[] elements, String eventPkg) {
       super(config);
       _elements = elements;
-      _errors = new Errors();
+      _errors = Errors.newInstance();
       _context = new ContextImpl();
       _eventPkg = eventPkg;
    }

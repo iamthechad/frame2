@@ -177,7 +177,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       CommonsValidatorBean testBean,
       String fieldBeanName) {
       // Add an error to verify the error is passed in..
-      Errors errors = new Errors();
+      Errors errors = Errors.newInstance();
       errors.add("seed", "dude");
 
       Validator validator = new Validator(_validatorResources, fieldBeanName);
