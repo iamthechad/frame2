@@ -633,6 +633,9 @@
 			<exclude name="**/.*"/>
 			<exclude name="override.properties"/>
 		</fileset>
+		<fileset dir="${proj-base}">
+			<include name="samples/**/.ignore"/>
+		</fileset>
 	</copy>
 	
 	<tar destfile="${dist}/${dest_file_prefix}.tar.gz"
@@ -642,10 +645,11 @@
 			preserveLeadingSlashes="true">
 		</tarfileset>
 	</tar>
-	
+	<!--
 	<zip destfile="${dist}/${dest_file_prefix}.zip">
 		<fileset dir="${src_dist}"/>
 	</zip>
+	-->
 </target>
 
 <target name="binary_image" depends="init, dist">
@@ -660,6 +664,7 @@
 			<include name="LICENSE.txt"/>
 			<include name="samples/**"/>
 			<include name="support_files/**"/>
+			<include name="docs/**"/>
 			<include name="ext/**/commons-beanutils.jar" if="INCLUDE_EXT"/>
 			<include name="ext/**/commons-collections.jar" if="INCLUDE_EXT"/>
 			<include name="ext/**/commons-digester.jar" if="INCLUDE_EXT"/>
@@ -680,10 +685,11 @@
 			preserveLeadingSlashes="true">
 		</tarfileset>
 	</tar>
-	
+	<!--
 	<zip destfile="${dist}/${dest_file_prefix}.zip">
 		<fileset dir="${bin_dist}"/>
 	</zip>
+	-->
 </target>
 
 </project>
