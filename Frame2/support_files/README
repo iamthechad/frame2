@@ -1,0 +1,23 @@
+This directory contains blank Frame2 files to use as a starting point
+for creating custom web applications.
+
+
+frame2-config.xml: Basic configuration file, with all elements included, but
+empty. Also includes commented out entries for the template and Commons
+Validator plugins.
+
+soap-web.xml: Sample file that can be used as the web.xml for a web application
+that supports web services.
+
+web.xml: Sample file that can be used as the web.xml for web applications
+that do not support web services.
+
+commonsvalidator: Copy this directory to your web application's WEB-INF
+directory, and modify the mappings for the validations required. See
+the Getting Started Guide (GettingStarted.html) for more information
+on using the Commons Validator.
+
+templates: Copy this directory to your web application's WEB-INF
+directory, and modify the templates.xml file as needed. See the 
+Getting Started with Templates Guide (GettingStartedTemplates.html) 
+for more information on using templates in Frame2.
