@@ -67,7 +67,11 @@
 		<mkdir dir="${webapp-dir}"/>
 	</target>
 	
-	<target name="all" depends="init, build-blankwar, build-examplewar, build-soapexamplewar"/>
+	<target name="all" depends="init, 
+		build-blankwar, 
+		build-examplewar, 
+		build-soapexamplewar,
+		build-template-examplewar"/>
 	
 	<target name="clean" depends="init">
 		<delete dir="${webapp-dir}"/>
@@ -137,6 +141,32 @@
 		</antcall>
 	</target>
 	
+	<target name="build-template-examplewar" depends="init">
+		<mkdir dir="${template-examplewar-dir}/WEB-INF/classes"/>
+		
+		<javac deprecation="off"
+          destdir="${template-examplewar-dir}/WEB-INF/classes"
+          srcdir="${template-examplewar-dir}/WEB-INF/src">
+          <classpath>
+          	<fileset dir="${frame2.lib}">
+          		<include name="*.jar"/>
+          	</fileset>
+          </classpath>
+        </javac>
+        <copy todir="${template-examplewar-dir}/WEB-INF/classes">
+			<fileset dir="${template-examplewar-dir}/WEB-INF/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<antcall target="war">
+			<param name="war-file" value="${template-examplewar-name}"/>
+			<param name="web-xml" value="${blank-web-xml}"/>
+			<param name="war-dir" value="${template-examplewar-dir}"/>
+			<param name="commons-files" value="${template-examplewar-dir}/WEB-INF/commonsvalidator"/>
+			<param name="templates" value="${template-examplewar-dir}/WEB-INF/templates"/>
+		</antcall>
+	</target>
+	
 	<target name="war" depends="init">
 	  <echo message="Building WAR: ${war-file}"/>
       <delete file="${webapp-dir}/${war-file}"/>
@@ -153,6 +183,7 @@
 		 <zipfileset dir="${templates}"
 		    prefix="WEB-INF/templates">
 		    <include name="**/*.xml"/>
+		 	<include name="**/*.jsp"/>
 		 </zipfileset>
          <webinf dir="${support-files}">
             <include name="${blank-config}"/>

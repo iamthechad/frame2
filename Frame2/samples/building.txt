@@ -8,5 +8,6 @@ Current samples that have targets are:
 'ant build-blankwar' - Builds the blank application
 'ant build-examplewar' - Builds the sample used in the Getting Started guide
 'ant build-soapexamplewar' - Builds a sample that extends the example by adding support for adding users via web service calls.
+'ant build-template-examplewar' - Builds the sample used in the Template Getting Started guide
 
 Note that the soap example is not complete. A tutorial will be produced explaining how to build it - at that time the example will probably include a crude client for interacting with the web service.
