@@ -62,7 +62,8 @@ import org.apache.taglibs.standard.tag.el.core.ExpressionUtil;
 import org.megatome.frame2.util.ResourceLocator;
 
 /**
- * The EvalHelper provides services for evaluating attributes set in the Frame2 tags.
+ * The EvalHelper provides services for evaluating attributes set in the Frame2 tags. This is the
+ * class that is responsible for EL attribute evaluation.
  */
 
 public final class EvalHelper {

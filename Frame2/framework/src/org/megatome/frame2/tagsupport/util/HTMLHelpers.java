@@ -68,10 +68,12 @@ public final class HTMLHelpers
    private HTMLHelpers() {}
 
    /**
-    * Construct an HTML attribute/value pair from the given name and value.
-    * @param attrName
-    * @param attrValue
-    * @return String the resulting pair, or an empty string if the value is empty or null.
+    * Construct an HTML attribute/value pair from the given name and value. For example,
+    * a tag with attribute "href" and value "http://frame2.sourceforge.net" will return
+    * a string of the form ' href="http://frame2.sourceforge.net"'. (Note leading space).
+    * @param attrName The attribute name
+    * @param attrValue The attribute value
+    * @return The resulting pair, or an empty string if the value is empty or null.
     */
 	public static String buildHtmlAttr(String attrName, String attrValue) {
 		if (attrValue != null && ! attrValue.trim().equals("")) {
@@ -89,8 +91,8 @@ public final class HTMLHelpers
    
    /**
     * Write the data to the output of the page.
-    * @param context
-    * @param data
+    * @param context The page context to write out to
+    * @param data The data to write out to the page
     * @throws JspException
     */
    public static void writeOutput(PageContext context,String data) throws JspException {
@@ -105,8 +107,8 @@ public final class HTMLHelpers
    /**
     * Construct the value of an expression attribute.  The name is placed into the expression
     * language notation.
-    * @param attrName
-    * @return String
+    * @param attrName The name of an attribute.
+    * @return The name in EL notation. e.g. "foo" -> "${foo}"
     */
    public static String buildExprAttr(String attrName) {
       StringBuffer exprAttr = new StringBuffer();
@@ -121,9 +123,10 @@ public final class HTMLHelpers
     * a locale is to first look for a Local under the preferred locale key in the session.  If
     * the key is not specified or the locale is not found (was null), the locale from the request
     * is then used.  If that is not found then the default locale is used.
-    * @param context
-    * @param preferredLocaleKey
-    * @return Locale
+    * @param context The page context to search in
+    * @param preferredLocaleKey The preferred locale
+    * @return The preferred locale, or the request's locale, or the default locale, depending
+    * on which is found first.
     */
 	static public Locale getLocale(PageContext context,String preferredLocaleKey) {
       Locale result = null;

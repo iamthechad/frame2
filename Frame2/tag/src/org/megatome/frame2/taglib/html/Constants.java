@@ -57,46 +57,82 @@ package org.megatome.frame2.taglib.html;
 
 public final class Constants {
    private Constants() {}
-   
+   /** Input type open tag */
    public static final String INPUT_TYPE      = "<input type=";
+   /** Close input type tag */
    public static final String INPUT_CLOSE     = "</input>";   
    
+   /** Textarea open tag */
    public static final String TEXTAREA_OPEN   = "<textarea";
+   /** Close textare tag */
    public static final String TEXTAREA_CLOSE  = "</textarea>";
 
    // base html tags
+   /** accesskey attribute */
    public static final String ACCESS_KEY     = "accesskey";
+   /** alt attribute */
    public static final String ALT            = "alt";
+   /** altKey attribute */
    public static final String ALT_KEY        = "altKey";
+   /** dir attribute */
    public static final String DIR            = "dir";
+   /** disabled attribute */
    public static final String DISABLED       = "disabled";
+   /** indexed attribute */
    public static final String INDEXED        = "indexed";
+   /** lang attribute */
    public static final String LANG           = "lang";
+   /** maxlength attribute */
    public static final String MAX_LENGTH     = "maxlength";
+   /** name attribute */
    public static final String NAME           = "name";
+   /** onblur attribute */
    public static final String ON_BLUR        = "onblur";
+   /** onchange attribute */
    public static final String ON_CHANGE      = "onchange";
+   /** onclick attribute */
    public static final String ON_CLICK       = "onclick";
+   /** ondblclick attribute */
    public static final String ON_DBL_CLICK   = "ondblclick";
+   /** onfocus attribute */
    public static final String ON_FOCUS       = "onfocus";
+   /** onkeydown attribute */
    public static final String ON_KEY_DOWN    = "onkeydown";
+   /** onkeypress attribute */
    public static final String ON_KEY_PRESS   = "onkeypress";
+   /** onkeyup attribute */
    public static final String ON_KEY_UP      = "onkeyup";
+   /** onmousedown attribute */
    public static final String ON_MOUSE_DOWN  = "onmousedown";
+   /** onmousemove attribute */
    public static final String ON_MOUSE_MOVE  = "onmousemove";
+   /** onmouseout attribute */
    public static final String ON_MOUSE_OUT   = "onmouseout";
+   /** onmouseover attribute */
    public static final String ON_MOUSE_OVER  = "onmouseover";
+   /** onmouseup attribute */
    public static final String ON_MOUSE_UP    = "onmouseup";
+   /** onselect attribute */
    public static final String ON_SELECT      = "onSelect";
+   /** property attribute */
    public static final String PROPERTY       = "property";
+   /** readonly attribute */
    public static final String READONLY       = "readonly";
+   /** size attribute */
    public static final String SIZE           = "size";
+   /** style attribute */
    public static final String STYLE          = "style";
+   /** styleClass attribute */
    public static final String STYLE_CLASS    = "styleClass";
+   /** styleId attribute */
    public static final String STYLE_ID       = "styleId";
+   /** tabindex attribute */
    public static final String TAB_INDEX      = "tabindex";
+   /** title attribute */
    public static final String TITLE          = "title";
+   /** titleKey attribute */
    public static final String TITLE_KEY      = "titleKey";
+   /** value attribute */
    public static final String VALUE          = "value";
    
      // a tags

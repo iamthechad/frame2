@@ -52,6 +52,7 @@ package org.megatome.frame2.tagsupport;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import javax.servlet.jsp.JspException;
@@ -67,11 +68,16 @@ import org.megatome.frame2.tagsupport.util.EvalHelper;
 public abstract class BaseFrame2Tag
    extends BodyTagSupport
    implements TryCatchFinally {
-   protected TreeMap _attrs = new TreeMap();
-
+   /** Attributes of this tag */
+   protected Map _attrs = new TreeMap();
+   /** This tag's name */
    protected String _tagName;
+   /** Indicate if this tag has a body */
    protected boolean _tagHasBody;
 
+   /**
+    * Constructor
+    */
    public BaseFrame2Tag() {
       setTagName();
    }
@@ -85,22 +91,31 @@ public abstract class BaseFrame2Tag
    }
 
    /**
-    * Sets the tagName.
-    * @param tagName The tagName to set
+    * Set the tagName.
     */
    protected abstract void setTagName();
 
    /**
-   * Handle any Attribute which needs to be processed other than
-   * by the default behavior.
+   * Set an attribute for this tag
+   * @param key The key of the attribute
+   * @param value The value of the attribute
    */
    protected void setAttr(String key, String value) {
       _attrs.put(key, value);
    }
+   /**
+    * Remove an attribute from this tag
+    * @param key Attribute to remove
+    */
    protected void removeAttr(String key) {
       _attrs.remove(key);
    }
-
+   /**
+    * Get the attribute associated with a key.
+    * @param key The key
+    * @return Attribute value associated with the key,
+    * nor null if none found.
+    */
    protected String getAttr(String key) {
       return (String) _attrs.get(key);
    }
@@ -113,8 +128,8 @@ public abstract class BaseFrame2Tag
       _attrs.clear();
    }
    /**
+    * Release not called until garbage collect.
     * @see javax.servlet.jsp.tagext.TryCatchFinally#doFinally()
-    * release not called until garbage collect.
     */
    public void doFinally() {
       // free resources,
@@ -122,16 +137,24 @@ public abstract class BaseFrame2Tag
       initializeAttributes();
    }
    
+   /**
+    * Override to reset any attributes
+    */
    protected void initializeAttributes() {
       // override to reset any attrs.   
    }
    /**
+    * Catch any exceptions thrown.
+    * @param t The exception to catch
     * @see javax.servlet.jsp.tagext.TryCatchFinally#doCatch(Throwable)
     */
-   public void doCatch(Throwable arg0) throws Throwable {
-      throw arg0;
+   public void doCatch(Throwable t) throws Throwable {
+      throw t;
    }
    
+   /**
+    * Clear any resources held by this tag
+    */
    protected void clear() {
    }
 
@@ -158,6 +181,15 @@ public abstract class BaseFrame2Tag
                pageContext));
    }
 
+   /**
+    * Evaluates and returns a HashMap given the input attribute name and
+    * attribute value.
+    * @param attrName Attribute name being evaluated
+    * @param attrValue String value of attribute to be evaluated using EL
+    * @return Resulting HashMap
+    * @throws Exception If either the <code>attrValue</code> is null, or the
+    * resulting evaluated value is null.
+    */
    protected HashMap evalHashMapAttr(String attrName, String attrValue)
       throws Exception {
       return (HashMap)
@@ -171,6 +203,15 @@ public abstract class BaseFrame2Tag
                pageContext));
    }
 
+   /**
+    * Evaluates and returns a Collection given the input attribute name and
+    * attribute value.
+    * @param attrName Attribute name being evaluated
+    * @param attrValue String value of attribute to be evaluated using EL
+    * @return Resulting Collection
+    * @throws Exception If either the <code>attrValue</code> is null, or the
+    * resulting evaluated value is null.
+    */
    protected Collection evalCollectionAttr(String attrName, String attrValue)
       throws Exception {
       return (Collection)
@@ -184,6 +225,15 @@ public abstract class BaseFrame2Tag
                pageContext));
    }
 
+   /**
+    * Evaluates and returns an array given the input attribute name and
+    * attribute value.
+    * @param attrName Attribute name being evaluated
+    * @param attrValue String value of attribute to be evaluated using EL
+    * @return Resulting array
+    * @throws Exception If either the <code>attrValue</code> is null, or the
+    * resulting evaluated value is null.
+    */
    protected Object[] evalArrayAttr(String attrName, String attrValue)
       throws Exception {
       return (Object[])
@@ -197,6 +247,13 @@ public abstract class BaseFrame2Tag
                pageContext));
    }
 
+   /**
+    * Evaluates and returns a String given the input attribute name.
+    * @param attrName Attribute name being evaluated
+    * @return Resulting value
+    * @throws JspException If either the value associated with the 
+    * <code>attrName</code> is null, or the resulting evaluated value is null.
+    */
    protected String evaluateStringAttribute(String attrName) throws JspException {
       String attrValue = null;
       try {

@@ -63,6 +63,12 @@ import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
 
+/**
+ * This is the wrapper for Commons Validation. The methods in this class
+ * should be used in the rules file for validating, as they will correctly
+ * set Errors objects. Developer wishing to create custom validators should
+ * extend this class.
+ */
 public class CommonsFieldValidator {
    
    /**
@@ -72,10 +78,20 @@ public class CommonsFieldValidator {
       super();
    }
    
+   /**
+    * Get the logger instance for this class.
+    * @return Logger instance
+    */
    protected static Logger getLogger() {
       return LoggerFactory.instance(CommonsFieldValidator.class.getName());
    }
    
+   /**
+    * Add an error to the Errors object
+    * @param va Validator action
+    * @param errors Errors object to populate
+    * @param field The field to use when creating the Error
+    */
    protected static void addError(
       ValidatorAction va,
       Errors errors,
@@ -83,6 +99,13 @@ public class CommonsFieldValidator {
       addError(va, errors, field, null, null);
    }
    
+   /**
+    * Add an error to the Errors object
+    * @param va Validator action
+    * @param errors Errors object to populate
+    * @param field The field to use when creating the Error
+    * @param validatorErrorValue The error value to specify
+    */
    protected static void addError(
       ValidatorAction va,
       Errors errors,
@@ -91,6 +114,14 @@ public class CommonsFieldValidator {
       addError(va, errors, field, validatorErrorValue, null);
    }
    
+   /**
+    * Add an error to the Errors object
+    * @param va Validator action
+    * @param errors Errors object to populate
+    * @param field The field to use when creating the Error
+    * @param validatorErrorValue1 First error value to use
+    * @param validatorErrorValue2 Second error value to use
+    */
    protected static void addError(
       ValidatorAction va,
       Errors errors,
@@ -114,6 +145,14 @@ public class CommonsFieldValidator {
       }
    }
    
+   /**
+    * Validate an email address
+    * @param bean The event containing the field to validate.
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate.
+    * @return True if the field passes validation.
+    */
    public static boolean validateEmail(
       Object bean,
       ValidatorAction va,
@@ -123,6 +162,15 @@ public class CommonsFieldValidator {
       return validateEmail(value, va, errors, field);
    }
    
+   /**
+    * Validate an email address. Null values pass validation, as this allows them
+    * to be optional.
+    * @param value The value to validate as an email address.
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the email address passes validation, or is null.
+    */
    public static boolean validateEmail(
       String value,
       ValidatorAction va,
@@ -140,6 +188,14 @@ public class CommonsFieldValidator {
       }
    }
    
+   /**
+    * Validate that a required value is present.
+    * @param bean The event containing the field to validate.
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the field contains a value.
+    */
    public static boolean validateRequired(
       Object bean,
       ValidatorAction va,
@@ -149,6 +205,14 @@ public class CommonsFieldValidator {
       return validateRequired(value, va, errors, field);
    }
    
+   /**
+    * Validate that a required value is present.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is not blank or null.
+    */
    public static boolean validateRequired(
       String value,
       ValidatorAction va,
@@ -162,6 +226,14 @@ public class CommonsFieldValidator {
       }
    }
    
+   /**
+    * Validate that a value matches a regular expression value.
+    * @param bean The event containing the field to validate.
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the field matches the regular expression.
+    */
    public static boolean mask(
       Object bean,
       ValidatorAction va,
@@ -171,6 +243,15 @@ public class CommonsFieldValidator {
       return mask(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value matches a regular expression value. The regular expression
+    * is declared in the validator rules file.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value matches the mask expression.
+    */
    public static boolean mask(
       String value,
       ValidatorAction va,
@@ -197,6 +278,15 @@ public class CommonsFieldValidator {
       return true;
    }
    
+   /**
+    * Validate that a value can be converted to a byte value.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Byte value of the field, or null if it could not
+    * be converted.
+    */
    public static Byte validateByte(
       Object bean,
       ValidatorAction va,
@@ -206,6 +296,15 @@ public class CommonsFieldValidator {
       return validateByte(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value can be converted to a byte value.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Byte value of the field, or null if it could not
+    * be converted.
+    */
    public static Byte validateByte(
       String value,
       ValidatorAction va,
@@ -222,6 +321,15 @@ public class CommonsFieldValidator {
       return result;
    }
    
+   /**
+    * Validate that a value can be converted to a short value.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Short value of the field, or null if it could not
+    * be converted.
+    */
    public static Short validateShort(
       Object bean,
       ValidatorAction va,
@@ -231,6 +339,15 @@ public class CommonsFieldValidator {
       return validateShort(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value can be converted to a short value.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Short value of the field, or null if it could not
+    * be converted.
+    */
    public static Short validateShort(
       String value,
       ValidatorAction va,
@@ -247,6 +364,15 @@ public class CommonsFieldValidator {
       return result;
    }
    
+   /**
+    * Validate that a value can be converted to an integer value.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Integer value of the field, or null if it could not
+    * be converted.
+    */
    public static Integer validateInteger(
       Object bean,
       ValidatorAction va,
@@ -256,6 +382,15 @@ public class CommonsFieldValidator {
       return validateInteger(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value can be converted to an integer value.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Integer value of the field, or null if it could not
+    * be converted.
+    */
    public static Integer validateInteger(
       String value,
       ValidatorAction va,
@@ -272,6 +407,15 @@ public class CommonsFieldValidator {
       return result;
    }
    
+   /**
+    * Validate that a value can be converted to a long value.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Long value of the field, or null if it could not
+    * be converted.
+    */
    public static Long validateLong(
       Object bean,
       ValidatorAction va,
@@ -281,6 +425,15 @@ public class CommonsFieldValidator {
       return validateLong(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value can be converted to a long value.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Long value of the field, or null if it could not
+    * be converted.
+    */
    public static Long validateLong(
       String value,
       ValidatorAction va,
@@ -297,6 +450,15 @@ public class CommonsFieldValidator {
       return result;
    }
    
+   /**
+    * Validate that a value can be converted to a float value.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Float value of the field, or null if it could not
+    * be converted.
+    */
    public static Float validateFloat(
       Object bean,
       ValidatorAction va,
@@ -306,6 +468,15 @@ public class CommonsFieldValidator {
       return validateFloat(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value can be converted to a float value.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Float value of the field, or null if it could not
+    * be converted.
+    */
    public static Float validateFloat(
       String value,
       ValidatorAction va,
@@ -322,6 +493,15 @@ public class CommonsFieldValidator {
       return result;
    }
    
+   /**
+    * Validate that a value can be converted to a double value.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Double value of the field, or null if it could not
+    * be converted.
+    */
    public static Double validateDouble(
       Object bean,
       ValidatorAction va,
@@ -331,6 +511,15 @@ public class CommonsFieldValidator {
       return validateDouble(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value can be converted to a double value.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Double value of the field, or null if it could not
+    * be converted.
+    */
    public static Double validateDouble(
       String value,
       ValidatorAction va,
@@ -347,6 +536,15 @@ public class CommonsFieldValidator {
       return result;
    }
    
+   /**
+    * Validate that a value can be converted to a date.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Date value of the field, or null if it could not
+    * be converted.
+    */
    public static Date validateDate(
       Object bean,
       ValidatorAction va,
@@ -356,6 +554,15 @@ public class CommonsFieldValidator {
       return validateDate(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value can be converted to a date value.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return The Date value of the field, or null if it could not
+    * be converted.
+    */
    public static Date validateDate(
       String value,
       ValidatorAction va,
@@ -387,6 +594,15 @@ public class CommonsFieldValidator {
       return result;
    }
    
+   /**
+    * Validate that a value falls within a specified integer range.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is an integer, and falls within the range
+    * specified in the rules file.
+    */
    public static boolean validateIntRange(
       Object bean,
       ValidatorAction va,
@@ -396,6 +612,15 @@ public class CommonsFieldValidator {
       return validateIntRange(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value falls within a specified integer range.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is an integer, and is within the range.
+    * Also returns true if one of "min" or "max" is null.
+    */
    public static boolean validateIntRange(
       String value,
       ValidatorAction va,
@@ -427,6 +652,15 @@ public class CommonsFieldValidator {
       return true;
    }
    
+   /**
+    * Validate that a value falls within a specified float range.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is a float, and falls within the range
+    * specified in the rules file.
+    */
    public static boolean validateFloatRange(
       Object bean,
       ValidatorAction va,
@@ -436,6 +670,15 @@ public class CommonsFieldValidator {
       return validateFloatRange(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value falls within a specified float range.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is a float, and is within the range.
+    * Also returns true if one of "min" or "max" is null.
+    */
    public static boolean validateFloatRange(
       String value,
       ValidatorAction va,
@@ -467,6 +710,15 @@ public class CommonsFieldValidator {
       return true;
    }
    
+   /**
+    * Validate that a value falls within a specified double range.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is a double, and falls within the range
+    * specified in the rules file.
+    */
    public static boolean validateDoubleRange(
       Object bean,
       ValidatorAction va,
@@ -476,6 +728,15 @@ public class CommonsFieldValidator {
       return validateDoubleRange(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value falls within a specified double range.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is a double, and is within the range.
+    * Also returns true if one of "min" or "max" is null.
+    */
    public static boolean validateDoubleRange(
       String value,
       ValidatorAction va,
@@ -507,6 +768,14 @@ public class CommonsFieldValidator {
       return true;
    }
    
+   /**
+    * Validate a value as a credit card number.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return Formatted credit card value, or null if validation fails.
+    */
    public static Long validateCreditCard(
       Object bean,
       ValidatorAction va,
@@ -516,6 +785,14 @@ public class CommonsFieldValidator {
       return validateCreditCard(value, va, errors, field);
    }
    
+   /**
+    * Validate a value as a credit card number.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return Formatted credit card value, or null if validation fails.
+    */
    public static Long validateCreditCard(
       String value,
       ValidatorAction va,
@@ -532,6 +809,15 @@ public class CommonsFieldValidator {
       return result;
    }
    
+   /**
+    * Validate that a value contains at least a certain number
+    * of characters.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is at least the minimum length.
+    */
    public static boolean validateMinLength(
       Object bean,
       ValidatorAction va,
@@ -541,6 +827,15 @@ public class CommonsFieldValidator {
       return validateMinLength(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value contains at least a certain number of characters.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is greater than or equal to the minimum length,
+    * is null, or the minimum length to check against is null.
+    */
    public static boolean validateMinLength(
       String value,
       ValidatorAction va,
@@ -568,6 +863,15 @@ public class CommonsFieldValidator {
       return true;
    }
    
+   /**
+    * Validate that a value contains at most a certain number
+    * of characters.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is at most the maximum length.
+    */
    public static boolean validateMaxLength(
       Object bean,
       ValidatorAction va,
@@ -577,6 +881,15 @@ public class CommonsFieldValidator {
       return validateMaxLength(value, va, errors, field);
    }
    
+   /**
+    * Validate that a value contains at most a certain number of characters.
+    * @param value The value to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if the value is less than or equal to the maximum length, 
+    * is null, or the maximum length to check against is null.
+    */
    public static boolean validateMaxLength(
       String value,
       ValidatorAction va,
@@ -608,11 +921,12 @@ public class CommonsFieldValidator {
     * Validate the contents of two fields to verify that they match. This
     * is useful for comparing a password and a confirmation value, 
     * for instance.
-    * @param bean
-    * @param va
-    * @param errors
-    * @param field
-    * @return
+    * @param bean The event containing the fields to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The first field to validate
+    * @return True if the first field is null, or if the first 
+    * and second fields contain identical values.
     */
    public static boolean validateTwoFields(
       Object bean,
@@ -644,10 +958,18 @@ public class CommonsFieldValidator {
       return true;
    }
 
-   public static final String FIELD_TEST_NULL = "NULL";
-   public static final String FIELD_TEST_NOTNULL = "NOTNULL";
-   public static final String FIELD_TEST_EQUAL = "EQUAL";
+   protected static final String FIELD_TEST_NULL = "NULL";
+   protected static final String FIELD_TEST_NOTNULL = "NOTNULL";
+   protected static final String FIELD_TEST_EQUAL = "EQUAL";
 
+   /**
+    * Validate a value that is required if a certain circumstance is met.
+    * @param bean The event containing the field to validate
+    * @param va The validator action
+    * @param errors Errors object to populate
+    * @param field The field to validate
+    * @return True if validation passes
+    */
    public static boolean validateRequiredIf(
       Object bean,
       ValidatorAction va,

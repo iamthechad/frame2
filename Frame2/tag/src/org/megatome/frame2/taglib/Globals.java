@@ -54,6 +54,8 @@ package org.megatome.frame2.taglib;
  * Defines keys for using the Frame2 tags.
  */
 public final class Globals {
+   
+   private Globals() {}
 
    /**
     * Defines the formatting and content of the ErrorsTag header.  If defined in the

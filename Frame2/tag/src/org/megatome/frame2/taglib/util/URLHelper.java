@@ -71,7 +71,7 @@ public class URLHelper {
 	/**
 	 * Encode the provided URL to UTF-8.
 	 * @param value value to encode.  
-	 * @return String a UTF-8 encoded version of the input value.
+	 * @return UTF-8 encoded version of the input value.
 	 * @throws UnsupportedEncodingException if the enoding type is invalid.
 	 */
 	protected static String encodeURL(String value)
@@ -85,7 +85,7 @@ public class URLHelper {
 	 * the following url: <code>http://finance.yahoo.com/q?s=msft&d=v2</code>
 	 * @param href  a tag's href attribute
 	 * @param params map containing the query parameters key, value pairs.
-	 * @return String href with appended query parameters.  If input params is null or is empty, the 
+	 * @return Href with appended query parameters.  If input params is null or is empty, the 
 	 * 			input href is returned.
 	 * @throws UnsupportedEncodingException
 	 */
@@ -123,7 +123,7 @@ public class URLHelper {
 	 * @param firstParam true if this is the first query parameter processed, otherwise false.
 	 * @param key key of the query parameter
 	 * @param value value of the query parameter
-	 * @return boolean returns false after the first query parameter is processed.
+	 * @return False after the first query parameter is processed.
 	 * @throws UnsupportedEncodingException
 	 */
 	protected static boolean appendOneQueryParam(
