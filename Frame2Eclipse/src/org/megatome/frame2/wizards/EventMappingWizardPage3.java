@@ -353,8 +353,8 @@ public class EventMappingWizardPage3 extends WizardPage {
         
         htmlViewCombo.dispose();
         xmlViewCombo.dispose();
-        rolesTable.dispose();
         editor.dispose();
+        rolesTable.dispose();
         addRowButton.dispose();
         removeRowButton.dispose();
     }
