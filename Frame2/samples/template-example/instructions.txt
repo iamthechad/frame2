@@ -1,0 +1,11 @@
+Copy files from user example
+
+Copy templates dir from support
+
+Enable templates in config
+
+Add template tld in deployment descriptor
+
+Create some template jsps
+
+Modify Existing templates
