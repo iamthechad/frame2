@@ -101,7 +101,6 @@ public class NewEventWizard extends BaseFrame2Wizard  {
         final String eventName = page.getEventName();
         final String eventType = page.getEventClassType();
         final String newEventType = page.getNewEventType();
-        //final String fileName = page.getFileName();
         IRunnableWithProgress op = new IRunnableWithProgress() {
             public void run(IProgressMonitor monitor)
                 throws InvocationTargetException {
