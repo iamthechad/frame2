@@ -1,7 +1,7 @@
 Commons-beanutils, commons-collections, commons-digester, commons-fileupload,
 commons-logging, commons-validator, log4j, jakarta-oro, JSTL and standard tag
-library, axis, commons-discovery, jaxrpc.jar, saaj.jar, wsdl4j, and strutstest
-are covered under the following license:
+library, axis, commons-discovery, jaxrpc.jar, saaj.jar, wsdl4j, strutstest,
+and cactus are covered under the following license:
 
 /*
  * ============================================================================
