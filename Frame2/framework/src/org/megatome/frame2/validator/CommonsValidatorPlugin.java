@@ -62,6 +62,7 @@ import org.megatome.frame2.plugin.PluginInterface;
 public class CommonsValidatorPlugin implements PluginInterface {
    private static Logger LOGGER =
       LoggerFactory.instance(CommonsValidatorPlugin.class.getName());
+   
    /**
     * 
     */
@@ -77,6 +78,12 @@ public class CommonsValidatorPlugin implements PluginInterface {
       } catch (CommonsValidatorException e) {
          LOGGER.severe("CommonsValidatorPlugin not loaded : " + e);
          throw new PluginException(e);
+      } catch (NoClassDefFoundError e) {
+         // Bug Fix: 917752
+         // Throw exception when plugin is specified, but class files
+         // are missing
+         LOGGER.severe("CommonsValidatorPlugin not loaded : " + e);
+         throw new PluginException(e);
       }
 
    }
@@ -86,5 +93,4 @@ public class CommonsValidatorPlugin implements PluginInterface {
       LOGGER.debug("CommonsValidatorPlugin:destroy()");
       CommonsValidatorWrapper.release();
    }
-
 }
