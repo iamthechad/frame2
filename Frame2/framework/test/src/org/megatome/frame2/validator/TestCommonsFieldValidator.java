@@ -7,6 +7,7 @@ import org.apache.commons.validator.Validator;
 import org.apache.commons.validator.ValidatorException;
 import org.apache.commons.validator.ValidatorResources;
 import org.apache.commons.validator.ValidatorResults;
+import org.megatome.frame2.Globals;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.errors.TestError;
@@ -183,7 +184,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       // add the name bean to the validator as a resource
       // for the validations to be performed on.
       validator.addResource(Validator.BEAN_KEY, testBean);
-      validator.addResource(CommonsValidatorWrapper.ERRORS_KEY, errors);
+      validator.addResource(Globals.ERRORS_KEY, errors);
 
       // Get results of the validation.
       ValidatorResults results = null;

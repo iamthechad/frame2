@@ -53,6 +53,7 @@ package org.megatome.frame2.validator;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -65,41 +66,28 @@ import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
 
-/**
- * @author hmilligan
- *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
- */
 public class CommonsValidatorWrapper {
 
-   public static final String RULES_FILE = "commons-validator-rules.xml";
-   public static final String MAPPINGS_FILE = "commons-validation-mappings.xml";
-   public static final String ERRORS_KEY = "org.megatome.frame2.errors.Errors";   
+   //public static final String RULES_FILE = "commons-validator-rules.xml";
+   //public static final String MAPPINGS_FILE = "commons-validation-mappings.xml";
+   //public static final String ERRORS_KEY = "org.megatome.frame2.errors.Errors";   
           
    static String _filePath = "/WEB-INF/commonsvalidator";
-   static String _rulesFile = RULES_FILE;
-   static String _mappingsFile = MAPPINGS_FILE;
+   static String _rulesFile = Globals.RULES_FILE;
+   static String _mappingsFile = Globals.MAPPINGS_FILE;
    
    static ValidatorResources _validatorResources;
    
    private static Logger LOGGER = LoggerFactory.instance(CommonsValidatorWrapper.class.getName());
 
-   /**
-    * Constructor for CommonsValidatorResources.
-    */
-   public CommonsValidatorWrapper() {
-      super();
-   }
+   private CommonsValidatorWrapper() {}
 
    public static void load(ServletContext context)
       throws CommonsValidatorException {
 
       _validatorResources = new ValidatorResources();  
       
-      ArrayList fileNames = new ArrayList();
+      List fileNames = new ArrayList();
       fileNames.add(_rulesFile);
       fileNames.add(_mappingsFile);
 
@@ -153,7 +141,7 @@ public class CommonsValidatorWrapper {
       // add the name bean to the validator as a resource
       // for the validations to be performed on.
       validator.addResource(Validator.BEAN_KEY, o);
-      validator.addResource(CommonsValidatorWrapper.ERRORS_KEY, errors);
+      validator.addResource(Globals.ERRORS_KEY, errors);
       
       try {
         validator.validate();

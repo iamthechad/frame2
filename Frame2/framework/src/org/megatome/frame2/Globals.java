@@ -133,8 +133,17 @@ public final class Globals {
 	 * The forward slash character. Not sure we need this.
 	 */
 	public static final String FORWARD_SLASH = "/";
-
-	/**
+	
+	/** File name for Commons validator rules */
+	public static final String RULES_FILE = "commons-validator-rules.xml";
+	
+	/** File name for Commons Validator mappings */
+   public static final String MAPPINGS_FILE = "commons-validation-mappings.xml";
+   
+   /** Error key for Commons Validator */
+   public static final String ERRORS_KEY = "org.megatome.frame2.errors.Errors";   
+          
+   /**
 	 * The public ID to be used with the Frame2 Configuration DTD.
 	 */
 	public static final String FRAME2_DTD_PUBLIC_ID =
