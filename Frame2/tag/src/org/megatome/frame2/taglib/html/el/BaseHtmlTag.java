@@ -307,16 +307,20 @@ public abstract class BaseHtmlTag extends BaseFrame2Tag {
          // Some of the attributes have unique behaviors.
          String attrValue = null;
          String attrExprValue = (String) _attrs.get(attrName);
-         try {
-            attrValue = (String) evalStringAttr(attrName, attrExprValue);
-         } catch (Exception e) {
-            throw new JspException(
-               " Evaluation attribute failed " + e.getMessage(),
-               e);
+         if (!attrExprValue.equals(Constants.NULL_VALUE)) {
+	         try {
+	            attrValue = (String) evalStringAttr(attrName, attrExprValue);
+	         } catch (Exception e) {
+	            throw new JspException(
+	               " Evaluation attribute failed " + e.getMessage(),
+	               e);
+	         }
+	         String encodeValue = HTMLEncoder.encode(attrValue);
+	
+	         tagAttrs.append(HTMLHelpers.buildHtmlAttr(attrName, encodeValue));
+         } else {
+            tagAttrs.append(HTMLHelpers.buildHtmlAttr(attrName));
          }
-         String encodeValue = HTMLEncoder.encode(attrValue);
-
-         tagAttrs.append(HTMLHelpers.buildHtmlAttr(attrName, encodeValue));
       }
       return tagAttrs.toString();
    }

@@ -86,6 +86,10 @@ public class OptionTag extends BaseOptionTag {
       // get thr select attr 
       String selectExpr = 
              (String)pageContext.getAttribute(Constants.SELECT_KEY);
+      
+      if ((selectExpr == null) || (selectExpr == "")) {
+         selectExpr = _selected;
+      }
              
       // now get value   
       String valueExpr = getAttr(Constants.VALUE);
@@ -136,7 +140,7 @@ public class OptionTag extends BaseOptionTag {
             // NIT make work for all primatives
             String val = (String)iter.next();
             if (val.equals(valueval)) {
-               setAttr(Constants.SELECTED,Constants.TRUE);
+               setAttr(Constants.SELECTED,Constants.NULL_VALUE);
                break;
             }
          }            
@@ -147,13 +151,13 @@ public class OptionTag extends BaseOptionTag {
             // NIT make work for all primatives
             String val = (String)array[i];
             if (val.equals(valueval)) {
-               setAttr(Constants.SELECTED,Constants.TRUE);
+               setAttr(Constants.SELECTED,Constants.NULL_VALUE);
                break;
             }
          }            
       } else {           
          if (checkval.equals(valueval)) {
-            setAttr(Constants.SELECTED,Constants.TRUE);
+            setAttr(Constants.SELECTED,Constants.NULL_VALUE);
          } 
       }
    }

@@ -88,6 +88,17 @@ public final class HTMLHelpers
 			return "";
 		}
 	}
+	
+	public static String buildHtmlAttr(String attrName) {
+	   if ((attrName != null) && (!attrName.trim().equals(""))) {
+	      StringBuffer exprAttr = new StringBuffer();
+	      exprAttr.append(TagConstants.SPACE);
+	      exprAttr.append(attrName);
+	      return exprAttr.toString();
+	   } else {
+	      return "";
+	   }
+	}
    
    /**
     * Write the data to the output of the page.

@@ -165,6 +165,11 @@ public class OptionsTag extends BaseOptionTag {
      // get thr select attr 
       String selectExpr = 
              (String)pageContext.getAttribute(Constants.SELECT_KEY);
+      //String selectExpr = _selected;
+      
+      if ((selectExpr == null) || (selectExpr == "")) {
+         selectExpr = _selected;
+      }
              
       // now get value   
       String valueExpr = getAttr(Constants.VALUE);
@@ -189,10 +194,11 @@ public class OptionsTag extends BaseOptionTag {
       }
       
       // init "" for cmp with valueval later
-      String checkval = "";     
+      //String checkval = "";     
       if (_selectedCollection == null && _selectedArray == null) {
          try {
-            checkval = evalStringAttr(Constants.SELECTED, selectExpr);
+            //checkval = evalStringAttr(Constants.SELECTED, selectExpr);
+            _selectedString = evalStringAttr(Constants.SELECTED, selectExpr);
          } catch (Exception e) {
             throw new JspException(
                " Evaluation attribute failed " + e.getMessage(), e);
@@ -237,7 +243,8 @@ public class OptionsTag extends BaseOptionTag {
       buf.append(getTagName());        
       if (isSelected(value) ) {
 //         buf.append(HTMLEncoder.encode(HTMLHelpers.buildHtmlAttr(Constants.SELECTED,Constants.TRUE)));
-         buf.append(HTMLHelpers.buildHtmlAttr(Constants.SELECTED,Constants.TRUE));
+         //buf.append(HTMLHelpers.buildHtmlAttr(Constants.SELECTED,Constants.TRUE));
+         buf.append(HTMLHelpers.buildHtmlAttr(Constants.SELECTED));
       } 
   //    buf.append(HTMLEncoder.encode(HTMLHelpers.buildHtmlAttr(Constants.VALUE,value))); 
       buf.append(HTMLHelpers.buildHtmlAttr(Constants.VALUE,value));      

@@ -134,6 +134,8 @@ public final class Constants {
    public static final String TITLE_KEY      = "titleKey";
    /** value attribute */
    public static final String VALUE          = "value";
+   /** Value to be used for a null */
+   public static final String NULL_VALUE		= "frame2.null";
    
      // a tags
    public static final String LINK_OPEN = "<a";
