@@ -2,7 +2,7 @@
 <plugin
    id="org.megatome.frame2"
    name="Frame2 for Eclipse"
-   version="1.0.2"
+   version="1.0.0"
    provider-name="Megatome Technologies"
    class="org.megatome.frame2.Frame2Plugin">
 
@@ -39,8 +39,8 @@
             name="Frame2 Configuration Editor"
             icon="icons/frame2logo_small.jpg"
             filenames="frame2-config.xml"
-            contributorClass="org.megatome.frame2.editors.XMLEditorContributor"
             class="org.megatome.frame2.editors.Frame2ConfigEditor"
+            contributorClass="org.megatome.frame2.editors.XMLEditorContributor"
             id="org.megatome.frame2.editors.Frame2ConfigEditor">
       </editor>
    </extension>
