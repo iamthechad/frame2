@@ -31,7 +31,7 @@ Copyright (c) 2004 Megatome Technologies.
 
   <xsd:simpleType name="EmailType">
     <xsd:restriction base="xsd:string">
-      <xsd:pattern value="[\w.-]+@([\w.-]+\.)+[A-Za-z]{2,4}"/>
+      <xsd:pattern value="[\w.\-]+@([\w.\-]+\.)+[A-Za-z]{2,4}"/>
     </xsd:restriction>
   </xsd:simpleType>
 
