@@ -12,101 +12,304 @@ This guide explains the steps for installing and configuring the Frame2
 distributions. Frame2 is an open-source J2EE servlet framework for creating web 
 applications and web services. More information can be found at: 
 <a href="http://frame2.sourceforge.net">http://frame2.sourceforge.net</a>.<br>
-At this website you can also download the binary and source distributions of 
-the framework. The binary distribution contains the pre-compiled framework 
+At this website you can also download the distribution of 
+the framework. The available distribution includes both binary and source files. Binary files include the pre-compiled framework 
 java archives and API documentation and is intended for users who are going to 
-use Frame2 to build an application or service. The source distribution includes 
+use Frame2 to build an application or service. The source files includes 
 all source code and scripts needed to build and test the framework. It is 
 intended for developers who wish to extend or modify the framework and for 
 users who want a better understanding of the framework's implementation.
-<h2>Common Distribution Contents</h2>
-The binary and source distributions share some common content. This content includes:
+<h2>Distribution Contents</h2>
 <table border="1">
-<th>File</th><th>Description</th>
-<tr><td>LICENSE.txt</td><td>The Frame2 Open Source License</td></tr>
-<tr><td>Samples</td><td>Sample web applications that use the Frame2 framework.</td></tr>
-<tr><td>support_files</td><td>Files commonly used by Frame2 applications.</td></tr>
-<tr><td>docs/WhatIsFrame2.html</td><td>Introductory document to Frame2</td></tr>
-<tr><td>docs/GettingStarted.html</td><td>Quick tutorial to building a Frame2 application</td></tr>
-</table><br>
-Additionally, the distributions include several third party files that are
-required to properly compile Frame2 and run Frame2 applications (the distributions
-with "small" in the name do not include any third party Java archives):
-<table border="1">
-<th>File</th><th>Description</th>
-<tr><td>ext/framework/commons-beanutils.jar</td><td>Commons bean utilities</td></tr>
-<tr><td>ext/framework/commons-collections.jar</td><td>Commons collection framework</td></tr>
-<tr><td>ext/framework/commons-digester.jar</td><td>Commons digester</td></tr>
-<tr><td>ext/framework/commons-fileupload.jar</td><td>Commons file upload support</td></tr>
-<tr><td>ext/framework/commons-logging.jar</td><td>Commons logging support</td></tr>
-<tr><td>ext/framework/commons-validator.jar</td><td>Commons Validator</td></tr>
-<tr><td>ext/framework/jakarta-oro.jar</td><td>Support file for the Commons Validator</td></tr>
-<tr><td>ext/framework/jstl.jar</td><td>JSTL Tag library</td></tr>
-<tr><td>ext/framework/log4j.jar</td><td>Logging framework</td></tr>
-<tr><td>ext/framework/standard.jar</td><td>Support file for JSTL</td></tr>
-</table><br>
-<h2>Binary Distribution Contents</h2>
-The binary distribution contains the pre-built Java archives, plus other specific files:
-<table border="1">
-<th>File</th><th>Description</th>
-<tr><td>lib/frame2.jar</td><td>The Frame2 Java archive.</td></tr>
-<tr><td>lib/frame2-taglib.jar</td><td>The Frame2 custom tag library Java archive, with embedded descriptor.</td></tr>
-<tr><td>lib/template-taglib.jar</td><td>The Frame2 template tag library Java archive, with embedded descriptor.</td></tr>
-<tr><td>docs/api</td><td>JavaDoc API, suitable for developers building web applications using Frame2</td></tr>
-</table><br>
-The Java archive files are directly usable as part of a J2EE web archive. The 
-user should refer to the Getting Started Guide for details for 
-configuring the web archive to initialize and tailor Frame2 as well as the 
-basics for configuring the framework itself.
-<h2>Source Distribution Contents</h2>
-The source distribution contains the following in addition to the common distribution elements:
-<table border="1">
-<th>File</th><th>Description</th>
-<tr><td>build.xml</td><td>The master ant build file. This build file generates 
-the distributions as well as running unit tests.</td></tr>
-<tr><td>env.properties</td><td>Environment properties used by the ant build. 
-These reference the 3rd-party libraries, tools and directory space. Developers 
-may override the given settings by re-declaring the properties in a file called 
-'override.properties'.</td></tr>
-<tr><td>framework</td><td>The core subproject that builds and unit tests the framework.</td></tr>
-<tr><td>tag</td><td>The subproject that builds and unit tests the framework 
-custom tag library. Note that many of the unit tests for the tags are run under 
-the test_app subproject container tests.</td></tr>
-<tr><td>template_tag</td><td>The subproject that builds and unit tests the framework
-template custom tag library. Note that many of the unit tests for the tag are run
-under the test_app subproject container tests.</td></tr>
-<tr><td>test_app</td><td>The test_app subproject that builds and unit tests the 
-framework in a container (Tomcat). This area acts as a scratch web application 
-and service for developers to host tests and minor demonstrations.</td></tr>
-</table><br>
-The source distribution also includes extra third party Java archive files used
-for compiling and running the test suites. These files include:
-<table border="1">
-<th>File</th><th>Description</th>
-<tr><td>ext/test/cactus-1.5.jar</td><td>Cactus test framework</td></tr>
-<tr><td>ext/test/aspectjrt-1.1.1.jar</td><td>Support file for Cactus</td></tr>
-<tr><td>ext/test/commons-httpclient-2.0.jar</td><td>Support file for Cactus</td></tr>
-<tr><td>ext/test/HTTPClient.jar</td><td>HTTP Test framework</td></tr>
-<tr><td>ext/test/junit.jar</td><td>Unit Test framework</td></tr>
-<tr><td>ext/test/junit-addons.jar</td><td>Junit addon for testing file contents</td></tr>
-<tr><td>ext/test/strutstest-2.1.0.jar</td><td>Web application test framework</td></tr>
-<tr><td>ext/test/tagunit.jar</td><td>Custom JSP tag test framework</td></tr>
-<tr><td>ext/ws/axis.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/commons-discovery.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jaxrpc.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/saaj.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/wsdl4j.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/jaxb-api.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/jaxb-impl.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/jaxb-libs.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/jax-qname.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/namespace.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/relaxngDatatype.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/xsdlib.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/dom.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/xercesImpl.jar</td><td>Web services support</td></tr>
-<tr><td>ext/ws/jwsdp/JWSDP_LICENSE.jar</td><td>License for files used from the Java Web Services Developer Pack</td></tr>
-</table><br>
+<th>File</th><th>Description</th><th>Used in Source</th><th>Used in Binary</th>
+<tr>
+  <td>LICENSE.txt</td>
+  <td>The Frame2 Open Source License</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>build.xml</td>
+  <td>The master ant build file. This build file generates the distributions as well as running unit tests.</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>env.properties</td>
+  <td>Environment properties used by the ant build. These reference the 3rd-party libraries, tools and directory space. Developers may override the given settings by re-declaring the properties in a file called 'override.properties'.</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>framework</td>
+  <td>The core subproject that builds and unit tests the framework.</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>tag</td>
+  <td>The subproject that builds and unit tests the framework custom tag library. Note that many of the unit tests for the tags are run under the test_app subproject container tests.</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>template_tag</td>
+  <td>The subproject that builds and unit tests the framework template custom tag library. Note that many of the unit tests for the tag are run under the test_app subproject container tests.</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>test_app</td>
+  <td>The test_app subproject that builds and unit tests the framework in a container (Tomcat). This area acts as a scratch web application and service for developers to host tests and minor demonstrations.</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr><td>Samples</td><td>Sample web applications that use the Frame2 framework.</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr><td>support_files</td><td>Files commonly used by Frame2 applications.</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr><td>docs/WhatIsFrame2.html</td><td>Introductory document to Frame2</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr><td>docs/GettingStarted.html</td><td>Quick tutorial to building a Frame2 application</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>docs/TagAttributeMappings.html</td>
+  <td>Attributes and mapping for the Frame2 custom tag library </td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>lib/frame2.jar</td>
+  <td>The Frame2 Java archive.</td>
+  <td>&nbsp;</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>lib/frame2-taglib.jar</td>
+  <td>The Frame2 custom tag library Java archive, with embedded descriptor.</td>
+  <td>&nbsp;</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>lib/template-taglib.jar</td>
+  <td>The Frame2 template tag library Java archive, with embedded descriptor.</td>
+  <td>&nbsp;</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>docs/api</td>
+  <td>JavaDoc API, suitable for developers building web applications using Frame2</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/commons-beanutils.jar</td>
+  <td>Commons bean utilities</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/commons-collections.jar</td>
+  <td>Commons collection framework</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/commons-digester.jar</td>
+  <td>Commons digester</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/commons-fileupload.jar</td>
+  <td>Commons file upload support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/commons-logging.jar</td>
+  <td>Commons logging support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/commons-validator.jar</td>
+  <td>Commons Validator</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/jakarta-oro.jar</td>
+  <td>Support file for the Commons Validator</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/jstl.jar</td>
+  <td>JSTL Tag library</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/log4j.jar</td>
+  <td>Logging framework</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/framework/standard.jar</td>
+  <td>Support file for JSTL</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/test/cactus-1.5.jar</td>
+  <td>Cactus test framework</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/test/aspectjrt-1.1.1.jar</td>
+  <td>Support file for Cactus</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/test/commons-httpclient-2.0.jar</td>
+  <td>Support file for Cactus</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/test/HTTPClient.jar</td>
+  <td>HTTP Test framework</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/test/junit.jar</td>
+  <td>Unit Test framework</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/test/junit-addons.jar</td>
+  <td>Junit addon for testing file contents</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/test/strutstest-2.1.0.jar</td>
+  <td>Web application test framework</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/test/tagunit.jar</td>
+  <td>Custom JSP tag test framework</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/ws/axis.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/commons-discovery.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/jaxrpc.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/saaj.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/wsdl4j.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/jaxb-api.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/jaxb-impl.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/jaxb-libs.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/jax-qname.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/namespace.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/relaxngDatatype.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/xsdlib.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/dom.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/xercesImpl.jar</td>
+  <td>Web services support</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>ext/ws/jwsdp/JWSDP_LICENSE.txt</td>
+  <td>License for files used from the Java Web Services Developer Pack</td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+</table>
+<br>
 The framework subproject also contains the DTD files for the Frame2 and template 
 configuration files.<br>
 The source distribution may be used in-place once it is extracted from the distribution 
@@ -247,7 +450,10 @@ and deployed to a running instance of Tomcat manually before running this target
 <tr><td>cactus_tests</td><td>Run the Cactus tests against the deployed WAR. Requires the 
 run_container_tests property to be set. Currently requires that the WAR be built
 and deployed to a running instance of Tomcat manually before running this target</td></tr>
-<tr><td>build_images</td><td>Creates the binary and source distribution images</td></tr>
+<tr>
+  <td>build_image</td>
+  <td>Creates the distribution image</td>
+</tr>
 </table><br>
 All tests are identified by being configured under a test subproject's source 
 directory and beginning with the characters 'Test'.<br>
