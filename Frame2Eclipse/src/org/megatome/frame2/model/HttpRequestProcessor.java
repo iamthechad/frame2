@@ -127,7 +127,7 @@ public class HttpRequestProcessor {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) //$NON-NLS-1$
          setType((String) value);
       else
          throw new IllegalArgumentException(name
@@ -135,7 +135,7 @@ public class HttpRequestProcessor {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) return getType(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) return getType(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidHttpRequestProcessorProperty")); //$NON-NLS-1$
    }

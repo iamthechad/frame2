@@ -316,20 +316,20 @@ public class EventMapping extends XMLCommentPreserver {
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.handler")) { //$NON-NLS-1$
+         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.handler"))) { //$NON-NLS-1$
             Handler aHandler = new Handler();
             aHandler.readNode(childNode);
             _Handler.add(aHandler);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.view")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
             View aView = new View();
             aView.readNode(childNode);
             _View.add(aView);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.security")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.security"))) { //$NON-NLS-1$
             _Security = new Security();
             _Security.readNode(childNode);
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
+            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
                recordComment(childNode, i);
             }
          }
@@ -374,23 +374,23 @@ public class EventMapping extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.eventName")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventName"))) //$NON-NLS-1$
          setEventName((String) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.inputView")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.inputView"))) //$NON-NLS-1$
          setInputView((String) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.cancelView")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.cancelView"))) //$NON-NLS-1$
          setCancelView((String) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.validate")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.validate"))) //$NON-NLS-1$
          setValidate((String) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.handler")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.handler"))) //$NON-NLS-1$
          addHandler((Handler) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.handlerArray")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.handlerArray"))) //$NON-NLS-1$
          setHandler((Handler[]) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.view")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.view"))) //$NON-NLS-1$
          addView((View) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.viewArray")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) //$NON-NLS-1$
          setView((View[]) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.security")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.security"))) //$NON-NLS-1$
          setSecurity((Security) value);
       else
          throw new IllegalArgumentException(name
@@ -398,13 +398,13 @@ public class EventMapping extends XMLCommentPreserver {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.eventName")) return getEventName(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.inputView")) return getInputView(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.cancelView")) return getCancelView(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.validate")) return getValidate(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.handlerArray")) return getHandler(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.viewArray")) return getView(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.security")) return getSecurity(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventName"))) return getEventName(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.inputView"))) return getInputView(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.cancelView"))) return getCancelView(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.validate"))) return getValidate(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.handlerArray"))) return getHandler(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) return getView(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.security"))) return getSecurity(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidEventMappingProperty")); //$NON-NLS-1$
    }

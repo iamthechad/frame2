@@ -150,14 +150,14 @@ public class Security extends XMLCommentPreserver {
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.role")) { //$NON-NLS-1$
+         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.role"))) { //$NON-NLS-1$
             Role aRole = new Role();
             aRole.readNode(childNode);
             _Role.add(aRole);
             elementCount++;
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
+            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
                recordComment(childNode, elementCount++);
             }
          }
@@ -181,9 +181,9 @@ public class Security extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.role")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.role"))) //$NON-NLS-1$
          addRole((Role) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.roleArray")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.roleArray"))) //$NON-NLS-1$
          setRole((Role[]) value);
       else
          throw new IllegalArgumentException(name
@@ -191,7 +191,7 @@ public class Security extends XMLCommentPreserver {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.roleArray")) return getRole(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.roleArray"))) return getRole(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
    }

@@ -121,15 +121,15 @@ public class RequestProcessors extends XMLCommentPreserver {
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.http-request-processor")) { //$NON-NLS-1$
+         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.http-request-processor"))) { //$NON-NLS-1$
             _HttpRequestProcessor = new HttpRequestProcessor();
             _HttpRequestProcessor.readNode(childNode);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.soap-request-processor")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.soap-request-processor"))) { //$NON-NLS-1$
             _SoapRequestProcessor = new SoapRequestProcessor();
             _SoapRequestProcessor.readNode(childNode);
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
+            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
                recordComment(childNode, i);
             }
          }
@@ -151,9 +151,9 @@ public class RequestProcessors extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.httpRequestProcessor")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.httpRequestProcessor"))) //$NON-NLS-1$
          setHttpRequestProcessor((HttpRequestProcessor) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.soapRequestProcessor")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.soapRequestProcessor"))) //$NON-NLS-1$
          setSoapRequestProcessor((SoapRequestProcessor) value);
       else
          throw new IllegalArgumentException(name
@@ -161,8 +161,8 @@ public class RequestProcessors extends XMLCommentPreserver {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.httpRequestProcessor")) return getHttpRequestProcessor(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.soapRequestProcessor")) return getSoapRequestProcessor(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.httpRequestProcessor"))) return getHttpRequestProcessor(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.soapRequestProcessor"))) return getSoapRequestProcessor(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidRequestProcessorsProperty")); //$NON-NLS-1$
    }

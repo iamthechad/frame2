@@ -151,14 +151,14 @@ public class GlobalForwards extends XMLCommentPreserver {
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.forward")) { //$NON-NLS-1$
+         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
             Forward aForward = new Forward();
             aForward.readNode(childNode);
             _Forward.add(aForward);
             elementCount++;
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
+            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
                recordComment(childNode, elementCount++);
             }
          }
@@ -179,9 +179,9 @@ public class GlobalForwards extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.forward")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.forward"))) //$NON-NLS-1$
          addForward((Forward) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.forwardArray")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.forwardArray"))) //$NON-NLS-1$
          setForward((Forward[]) value);
       else
          throw new IllegalArgumentException(name
@@ -189,7 +189,7 @@ public class GlobalForwards extends XMLCommentPreserver {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.forwardArray")) return getForward(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.forwardArray"))) return getForward(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidGlobalForwardsProperty")); //$NON-NLS-1$
    }

@@ -155,9 +155,9 @@ public class View {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) //$NON-NLS-1$
          setType((String) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.forwardName")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.forwardName"))) //$NON-NLS-1$
          setForwardName((String) value);
       else
          throw new IllegalArgumentException(name
@@ -165,8 +165,8 @@ public class View {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) return getType(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.forwardName")) return getForwardName(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) return getType(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.forwardName"))) return getForwardName(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidViewProperty")); //$NON-NLS-1$
    }

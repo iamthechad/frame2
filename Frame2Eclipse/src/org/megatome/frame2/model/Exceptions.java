@@ -151,14 +151,14 @@ public class Exceptions extends XMLCommentPreserver {
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.exception")) { //$NON-NLS-1$
+         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.exception"))) { //$NON-NLS-1$
             Frame2Exception aFrame2Exception = new Frame2Exception();
             aFrame2Exception.readNode(childNode);
             _Frame2Exception.add(aFrame2Exception);
             elementCount++;
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
+            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
                recordComment(childNode, elementCount++);
             }
          }
@@ -179,9 +179,9 @@ public class Exceptions extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2Exception")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2Exception"))) //$NON-NLS-1$
          addFrame2Exception((Frame2Exception) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2ExceptionArray")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2ExceptionArray"))) //$NON-NLS-1$
          setFrame2Exception((Frame2Exception[]) value);
       else
          throw new IllegalArgumentException(name
@@ -189,7 +189,7 @@ public class Exceptions extends XMLCommentPreserver {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2ExceptionArray")) return getFrame2Exception(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2ExceptionArray"))) return getFrame2Exception(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
    }

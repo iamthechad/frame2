@@ -183,11 +183,11 @@ public class Forward {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) //$NON-NLS-1$
          setName((String) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.type")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) //$NON-NLS-1$
          setType((String) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.path")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.path"))) //$NON-NLS-1$
          setPath((String) value);
       else
          throw new IllegalArgumentException(name
@@ -195,9 +195,9 @@ public class Forward {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.name")) return getName(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.type")) return getType(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.path")) return getPath(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) return getName(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) return getType(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.path"))) return getPath(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidForwardProperty")); //$NON-NLS-1$
    }

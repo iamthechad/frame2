@@ -271,25 +271,25 @@ public class Frame2Config {
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.global-forwards")) { //$NON-NLS-1$
+         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.global-forwards"))) { //$NON-NLS-1$
             _GlobalForwards = new GlobalForwards();
             _GlobalForwards.readNode(childNode);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.events")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.events"))) { //$NON-NLS-1$
             _Frame2Events = new Frame2Events();
             _Frame2Events.readNode(childNode);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.event-mappings")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.event-mappings"))) { //$NON-NLS-1$
             _EventMappings = new EventMappings();
             _EventMappings.readNode(childNode);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.event-handlers")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.event-handlers"))) { //$NON-NLS-1$
             _EventHandlers = new EventHandlers();
             _EventHandlers.readNode(childNode);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.exceptions")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.exceptions"))) { //$NON-NLS-1$
             _Exceptions = new Exceptions();
             _Exceptions.readNode(childNode);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.plugins")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.plugins"))) { //$NON-NLS-1$
             _Plugins = new Plugins();
             _Plugins.readNode(childNode);
-         } else if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.request-processors")) { //$NON-NLS-1$
+         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.request-processors"))) { //$NON-NLS-1$
             _RequestProcessors = new RequestProcessors();
             _RequestProcessors.readNode(childNode);
          } else {
@@ -391,19 +391,19 @@ public class Frame2Config {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.globalForwards")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.globalForwards"))) //$NON-NLS-1$
          setGlobalForwards((GlobalForwards) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2Events")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2Events"))) //$NON-NLS-1$
          setFrame2Events((Frame2Events) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.eventMappings")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventMappings"))) //$NON-NLS-1$
          setEventMappings((EventMappings) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.eventHandlers")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventHandlers"))) //$NON-NLS-1$
          setEventHandlers((EventHandlers) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.exceptions")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.exceptions"))) //$NON-NLS-1$
          setExceptions((Exceptions) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.plugins")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.plugins"))) //$NON-NLS-1$
          setPlugins((Plugins) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.requestProcessors")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.requestProcessors"))) //$NON-NLS-1$
          setRequestProcessors((RequestProcessors) value);
       else
          throw new IllegalArgumentException(name
@@ -411,13 +411,13 @@ public class Frame2Config {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.globalForwards")) return getGlobalForwards(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2Events")) return getFrame2Events(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.eventMappings")) return getEventMappings(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.eventHandlers")) return getEventHandlers(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.exceptions")) return getExceptions(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.plugins")) return getPlugins(); //$NON-NLS-1$
-      if (name == Frame2Plugin.getResourceString("Frame2Model.requestProcessors")) return getRequestProcessors(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.globalForwards"))) return getGlobalForwards(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2Events"))) return getFrame2Events(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventMappings"))) return getEventMappings(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventHandlers"))) return getEventHandlers(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.exceptions"))) return getExceptions(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.plugins"))) return getPlugins(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.requestProcessors"))) return getRequestProcessors(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2ConfigProperty")); //$NON-NLS-1$
    }

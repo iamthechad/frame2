@@ -150,14 +150,14 @@ public class Frame2Events extends XMLCommentPreserver {
          if (childNode.getFirstChild() != null) {
             childNodeValue = childNode.getFirstChild().getNodeValue();
          }
-         if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.event")) { //$NON-NLS-1$
+         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.event"))) { //$NON-NLS-1$
             Frame2Event aFrame2Event = new Frame2Event();
             aFrame2Event.readNode(childNode);
             _Frame2Event.add(aFrame2Event);
             elementCount++;
          } else {
             // Found extra unrecognized childNode
-            if (childNodeName == Frame2Plugin.getResourceString("Frame2Model.comment")) { //$NON-NLS-1$
+            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
                recordComment(childNode, elementCount++);
             }
          }
@@ -178,9 +178,9 @@ public class Frame2Events extends XMLCommentPreserver {
    public void changePropertyByName(String name, Object value) {
       if (name == null) return;
       name = name.intern();
-      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2Event")) //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2Event"))) //$NON-NLS-1$
          addFrame2Event((Frame2Event) value);
-      else if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2EventArray")) //$NON-NLS-1$
+      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2EventArray"))) //$NON-NLS-1$
          setFrame2Event((Frame2Event[]) value);
       else
          throw new IllegalArgumentException(name
@@ -188,7 +188,7 @@ public class Frame2Events extends XMLCommentPreserver {
    }
 
    public Object fetchPropertyByName(String name) {
-      if (name == Frame2Plugin.getResourceString("Frame2Model.Frame2EventArray")) return getFrame2Event(); //$NON-NLS-1$
+      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2EventArray"))) return getFrame2Event(); //$NON-NLS-1$
       throw new IllegalArgumentException(name
             + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2EventsProperty")); //$NON-NLS-1$
    }
