@@ -69,7 +69,7 @@ public class ATag extends BaseHtmlTag {
 		setAttr(Constants.CHARSET, charset);
 	}
 
-	public void setClass(String aclass) {
+	public void setStyleClass(String aclass) {
 
 		setAttr(Constants.CLASS, aclass);
 	}
