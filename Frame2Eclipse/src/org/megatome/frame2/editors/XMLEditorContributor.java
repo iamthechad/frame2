@@ -58,6 +58,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.editors.text.TextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.RetargetTextEditorAction;
 import org.megatome.frame2.Frame2Plugin;
 
@@ -73,8 +74,12 @@ public class XMLEditorContributor extends TextEditorActionContributor {
       ResourceBundle bundle = Frame2Plugin.getDefault().getResourceBundle();
       
       fContentAssistProposal = new RetargetTextEditorAction(bundle, "ContentAssistProposal.");
+      fContentAssistProposal.setActionDefinitionId(
+   			ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
       fContentAssistTip = new RetargetTextEditorAction(bundle, "ContentAssistTip.");
       fContentFormatProposal = new RetargetTextEditorAction(bundle, "ContentFormatProposal.");
+      fContentAssistTip.setActionDefinitionId(
+   			ITextEditorActionDefinitionIds.CONTENT_ASSIST_CONTEXT_INFORMATION);
    }
 
    public void contributeToMenu(IMenuManager menu) {

@@ -62,9 +62,15 @@ package org.megatome.frame2.editors;
 
 import java.util.ResourceBundle;
 
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.texteditor.AddTaskAction;
 import org.eclipse.ui.texteditor.DefaultRangeIndicator;
+import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
+import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
+import org.eclipse.ui.texteditor.ResourceAction;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.megatome.frame2.Frame2Plugin;
 
@@ -89,23 +95,32 @@ public class XMLEditor extends AbstractTextEditor {
       super.createActions();
       ResourceBundle bundle = Frame2Plugin.getDefault().getResourceBundle();
       
-      setAction("ContentFormatProposal", 
-            new TextOperationAction(
-                  bundle, 
-                  "ContentFormatProposal.", 
-                  this, 
-                  ISourceViewer.FORMAT));
-      setAction("ContentAssistProposal",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistProposal.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_PROPOSALS));
-      setAction("ContentAssistTip",
-            new TextOperationAction(
-                  bundle,
-                  "ContentAssistTip.",
-                  this,
-                  ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION));
+      IAction a = new TextOperationAction(
+            bundle, 
+            "ContentFormatProposal.", 
+            this, 
+            ISourceViewer.FORMAT);
+      setAction("ContentFormatProposal",a);
+      
+      a = new TextOperationAction(
+            bundle,
+            "ContentAssistProposal.",
+            this,
+            ISourceViewer.CONTENTASSIST_PROPOSALS);
+      a.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+      setAction("ContentAssistProposal",a);
+      
+      a = new TextOperationAction(
+            bundle,
+            "ContentAssistTip.",
+            this,
+            ISourceViewer.CONTENTASSIST_CONTEXT_INFORMATION);
+      a.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_CONTEXT_INFORMATION);
+      setAction("ContentAssistTip",a);
+      
+      ResourceAction ra = new AddTaskAction(bundle, "AddTask.", this);
+      ra.setHelpContextId(IAbstractTextEditorHelpContextIds.ADD_TASK_ACTION);
+      ra.setActionDefinitionId(ITextEditorActionDefinitionIds.ADD_TASK);
+      setAction(ITextEditorActionConstants.ADD_TASK, ra);
    }
 }
