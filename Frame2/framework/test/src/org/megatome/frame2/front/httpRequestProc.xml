@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+
+<frame2-config>
+   <global-forwards>
+    <forward name="view1" type="HTMLResource" path="/view1.jsp"/>
+      <forward name="view3" type="HTMLResource" path="/view3.jsp"/>
+      <forward name="view4" type="HTMLResource" path="/view4.jsp"/>
+   </global-forwards>
+   <events>
+     <event name="event1" type="org.megatome.frame2.front.FailsValidationEvent"/>
+   </events>
+   <event-mappings>
+      <event-mapping 
+      	 eventName="event1"
+         inputView="view4"
+         validate="true">
+         <handler name="ev1handler1"/>
+         <handler name="ev1handler2"/>
+		 <view type="HTML" forwardName="view3"/>
+      </event-mapping>
+   </event-mappings>
+   <event-handlers>
+    <event-handler
+         name="ev1handler1"
+         type="org.megatome.frame2.front.Ev1handler1">
+         <init-param name="parm1" value="val111"/>
+         <init-param name="parm2" value="val112"/>
+         <forward name="ev1forward1" type="HTMLResource" path="/ev1.jsp"/>
+      </event-handler>
+      <event-handler
+         name="ev1handler2"
+         type="org.megatome.frame2.front.Ev1handler2">
+         <forward name="ev1forward2" type="HTMLResource" path="/ev1.jsp"/>
+         <init-param name="parm1" value="val121"/>
+         <init-param name="parm2" value="val122"/>
+      </event-handler>
+   </event-handlers>
+   <plugins>
+   </plugins>
+   <request-processors>
+   </request-processors>
+</frame2-config>

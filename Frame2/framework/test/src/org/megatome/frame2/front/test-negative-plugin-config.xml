@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+
+<frame2-config>
+   <global-forwards>
+      <forward name="view1" type="HTMLResource" path="/view1.jsp"/>
+      <forward name="view2" type="HTMLResource" path="/view2.jsp"/>
+      <forward name="view3" type="HTMLResource" path="/view3.jsp"/>
+      <forward name="view4" type="HTMLResource" path="/view4.jsp"/>
+      <forward name="view4" type="XMLResource" path="testXmlResource"/>
+      <forward name="ev2forward2" type="HTMLResource" path="/view5.jsp"/>
+      <forward name="ev13forward" type="event" path="event2"/>
+      <forward name="view14" type="event" path="event12"/>
+      <forward name="view14" type="XMLResponder" path="testGlobalResponder"/>
+      <forward name="view15" type="XMLResource" path="testclass"/>
+      <forward name="view7" type="HTMLResource" path="/view4.jsp"/>
+      <forward name="view7" type="XMLResource" path="testViewClass"/>
+      <forward name="redirect" type="HTMLResource" path="http://frame2.org/redirect.jsp"/>
+   </global-forwards>
+   <events>
+      <event name="event1" type="org.megatome.frame2.front.Event1"/>
+      <event name="event2" resolveAs="passthru" type="org.megatome.frame2.front.Event2"/>
+      <event name="event3" type="org.megatome.frame2.front.Event3"/>
+      <event name="bogus1" type="org.megatome.frame2.front.BogusNotImplemented"/>
+      <event name="bogus2" type="org.megatome.frame2.front.NotReallyAnEvent"/>
+      <event name="event4" type="org.megatome.frame2.front.Event4"/>
+      <event name="event5" type="org.megatome.frame2.front.Event5"/>
+      <event name="event6" type="org.megatome.frame2.front.Event6"/>
+      <event name="event7" type="org.megatome.frame2.front.Event7"/>
+      <event name="event8" type="org.megatome.frame2.front.Event8"/>
+      <event name="event9" type="org.megatome.frame2.front.Event9"/> 
+      <event name="event12" resolveAs="children" type="org.megatome.frame2.front.Event12"/> 
+      <event name="event13" type="org.megatome.frame2.front.Event13"/> 
+      <event name="event14" type="org.megatome.frame2.front.Event14"/> 
+      <event name="event15" type="org.megatome.frame2.front.Event15"/> 
+      <event name="event16" type="org.megatome.frame2.front.Event16"/> 
+      <event name="event17" type="org.megatome.frame2.front.Event17"/> 
+      <event name="event111" resolveAs="parent" type="org.megatome.frame2.front.noevent"/> 
+      <event name="event112" resolveAs="parent" type="org.megatome.frame2.front.noevent"/> 
+      <event name="noEventNeeded" resolveAs="parent"/> 
+   </events>
+   <event-mappings>
+      <event-mapping 
+      	 eventName="event1"
+         inputView="view4"
+         validate="true">
+         <handler name="ev1handler1"/>
+         <handler name="ev1handler2"/>
+		 <view type="HTML" forwardName="view3"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event2"
+         inputView="view1"
+         validate="true">
+         <handler name="ev1handler1"/>
+         <handler name="ev2handler1"/>
+		 <view type="Both" forwardName="view4"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event3"
+         inputView="view3"
+         cancelView="view2"
+         validate="true">
+         <handler name="ev1handler1"/>
+         <handler name="ev2handler1"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event4"
+         inputView="view1"
+         validate="true">
+         <handler name="ev2handler2"/>
+         <handler name="ev1handler1"/>
+		 <view type="HTML" forwardName="view4"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event5"
+         inputView="view1"
+         validate="true">
+         <handler name="ev2handler2"/>
+         <handler name="ev1handler1"/>
+		 <view type="HTML" forwardName="view5"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event6"
+         inputView="view1"
+         validate="true">
+         <handler name="ev2handler2"/>
+         <handler name="ev1handler1"/>
+		 <view type="HTML" forwardName="view6"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event7"
+         inputView="view1"
+         validate="true">
+         <handler name="ev4handler"/>
+		 <view type="HTML" forwardName="view6"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event9"
+         inputView="view4"
+         validate="true">
+         <handler name="NoHandlerDefined"/>
+		 <view type="HTML" forwardName="view6"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event12"
+         inputView="view4"
+         validate="true">
+         <handler name="ev12handler"/>
+		 <view type="HTML" forwardName="view6"/>
+      </event-mapping> 
+      <event-mapping 
+      	 eventName="event13"
+         inputView="view4"
+         validate="true">
+         <handler name="ev13handler"/>
+		 <view type="HTML" forwardName="view6"/>
+      </event-mapping> 
+      <event-mapping 
+      	 eventName="event14"
+         inputView="view4"
+         validate="true">
+		 <view type="HTML" forwardName="view14"/>
+      </event-mapping> 
+      <event-mapping 
+      	 eventName="event15"
+         inputView="view4"
+         validate="false">
+		 <view type="HTML" forwardName="BadView"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event16"
+         inputView="view4"
+         validate="false">
+         <handler name="nonExistenthandler"/>
+		 <view type="HTML" forwardName="BadView"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="event17"
+         inputView="view4"
+         validate="false">
+         <handler name="handlerThrowingException"/>
+		 <view type="HTML" forwardName="BadView"/>
+      </event-mapping>
+      <event-mapping 
+          eventName="event111">
+         <handler name="ev14handler"/>
+       <view type="XML" forwardName="view6"/>
+      </event-mapping> 
+      <event-mapping 
+          eventName="event112">
+         <handler name="ev15handler"/>
+       <view type="XML" forwardName="view7"/>
+      </event-mapping> 
+      <event-mapping 
+          eventName="noEventNeeded">
+       <view type="HTML" forwardName="view4"/>
+      </event-mapping> 
+   </event-mappings>
+   <event-handlers>
+      <event-handler
+         name="ev1handler1"
+         type="org.megatome.frame2.front.Ev1handler1">
+         <init-param name="parm1" value="val111"/>
+         <init-param name="parm2" value="val112"/>
+         <forward name="ev1forward1" type="HTMLResource" path="/ev1.jsp"/>
+      </event-handler>
+      <event-handler
+         name="ev1handler2"
+         type="org.megatome.frame2.front.Ev1handler2">
+         <forward name="ev1forward2" type="HTMLResource" path="/ev1.jsp"/>
+         <init-param name="parm1" value="val121"/>
+         <init-param name="parm2" value="val122"/>
+      </event-handler>
+      <event-handler
+         name="ev2handler1"
+         type="org.megatome.frame2.front.Ev2handler1">
+         <forward name="ev2forward1" type="HTMLResource" path="/ev2.jsp"/>
+         <init-param name="parm1" value="val211"/>
+         <init-param name="parm2" value="val212"/>
+      </event-handler>
+      <event-handler
+         name="ev2handler2"
+         type="org.megatome.frame2.front.Ev2handler2">
+         <forward name="ev2forward22" type="HTMLResource" path="/ev22.jsp"/>
+         <forward name="ev2forward2" type="HTMLResource" path="/ev2.jsp"/>
+         <init-param name="parm1" value="val221"/>
+         <init-param name="parm2" value="val222"/>
+      </event-handler>
+      <event-handler
+         name="ev3handler"
+         type="org.megatome.frame2.front.Ev3handler">
+         <forward name="ev3forward" type="HTMLResource" path="/ev3.jsp"/>
+         <init-param name="parm" value="val3"/>
+      </event-handler>
+      <event-handler
+         name="ev4handler"
+         type="org.megatome.frame2.front.Ev4handler">
+         <forward name="ev4forward" type="HTMLResource" path="/ev4.jsp"/>
+         <init-param name="parm" value="val4"/>
+      </event-handler>
+      <event-handler
+         name="ev12handler"
+         type="org.megatome.frame2.front.Ev12handler">
+         <forward name="ev12forward" type="event" path="event1"/>
+      </event-handler>
+      <event-handler
+         name="ev13handler"
+         type="org.megatome.frame2.front.Ev13handler">
+      </event-handler>
+      <event-handler
+         name="ev14handler"
+         type="org.megatome.frame2.front.Ev13handler">
+         <forward name="local14" type="XMLResource" path="testclass1"/>
+         <forward name="local14" type="HTMLResource" path="test.jsp"/>
+      </event-handler>
+      <event-handler
+         name="ev15handler"
+         type="org.megatome.frame2.front.Ev15handler">
+         <forward name="local14" type="XMLResource" path="testclass1"/>
+         <forward name="local14" type="HTMLResource" path="test.jsp"/>
+         <forward name="listResponder" type="XMLResponder" path="testLocalListResponder"/>
+      </event-handler>
+      <event-handler
+         name="handlerThrowingException"
+         type="org.megatome.frame2.front.HandlerThrowingException">
+         <forward name="local14" type="XMLResource" path="testclass1"/>
+         <forward name="local14" type="HTMLResource" path="test.jsp"/>
+         <forward name="listResponder" type="XMLResponder" path="testLocalListResponder"/>
+      </event-handler>
+      <event-handler
+         name="bogushandler"
+         type="org.megatome.frame2.front.BogusNotImplemented">
+         <forward name="ev3bogusforward" type="HTMLResource" path="/ev3bogus.jsp"/>
+      </event-handler>
+   </event-handlers>
+   <exceptions>
+      <exception
+      	 requestKey="exception"
+      	 type="org.megatome.frame2.front.ConfigTestException">
+		 <view type="HTML" forwardName="view7"/>
+		 <view type="XML" forwardName="view7"/>		 
+      </exception>      	  
+      <exception
+      	 requestKey="exception"
+      	 type="org.megatome.frame2.front.ViewException">
+		 <view type="HTML" forwardName="view7"/>
+		 <view type="XML" forwardName="view7"/>		 
+      </exception>      	  
+      <exception
+      	 requestKey="testConfigException"
+      	 type="org.megatome.frame2.front.ConfigException">
+		 <view type="Both" forwardName="ev13forward"/>
+      </exception>      	  
+      <exception
+      	 requestKey="exception"
+      	 type="org.megatome.frame2.front.HandlerExceptionTest">
+		 <view type="Both" forwardName="ev13forward"/>
+      </exception>      	  
+   </exceptions>
+   <plugins>
+   	   <plugin name="PluginName1" type="org.megatome.frame2.front.PluginNotExist"/>
+   	   <plugin name="PluginName2" type="org.megatome.frame2.front.Plugin2">
+   	   	  <init-param name="param1" value="value1"/>
+   	   </plugin>
+   </plugins>
+</frame2-config>
