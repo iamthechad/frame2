@@ -50,6 +50,74 @@
  */
 package org.megatome.frame2.editors;
 
+/*
+<!ELEMENT forward EMPTY>
+<!ATTLIST forward
+	name CDATA #REQUIRED
+	type (HTMLResource | XMLResource | XMLResponder | event) #REQUIRED
+	path CDATA #REQUIRED
+>
+<!ELEMENT events (event*)>
+<!ELEMENT event EMPTY>
+<!ATTLIST event
+	name CDATA #REQUIRED
+	resolveAs (passthru | children | parent) #IMPLIED
+	type CDATA #IMPLIED
+>
+<!ELEMENT event-mappings (event-mapping*)>
+<!ELEMENT event-mapping (handler*, view*, security?)>
+<!ATTLIST event-mapping
+	eventName CDATA #REQUIRED
+	inputView CDATA #IMPLIED
+	cancelView CDATA #IMPLIED
+	validate (true | false) #IMPLIED
+>
+<!ELEMENT handler EMPTY>
+<!ATTLIST handler
+	name CDATA #REQUIRED
+>
+<!ELEMENT security (role+)>
+<!ELEMENT role EMPTY>
+<!ATTLIST role
+	name CDATA #REQUIRED
+>
+<!ELEMENT view EMPTY>
+<!ATTLIST view
+	type (HTML | XML | Both) #REQUIRED
+	forwardName CDATA #REQUIRED
+>
+<!ELEMENT event-handlers (event-handler*)>
+<!ELEMENT event-handler ((init-param | forward)*)>
+<!ATTLIST event-handler
+	name CDATA #REQUIRED
+	type CDATA #REQUIRED
+>
+<!ELEMENT init-param EMPTY>
+<!ATTLIST init-param
+	name CDATA #REQUIRED
+	value CDATA #REQUIRED
+>
+<!ELEMENT exceptions (exception*)>
+<!ELEMENT exception (view+)>
+<!ATTLIST exception
+	requestKey CDATA #REQUIRED
+	type CDATA #REQUIRED
+>
+<!ELEMENT plugins (plugin*)>
+<!ELEMENT plugin (init-param*)>
+<!ATTLIST plugin
+	name CDATA #REQUIRED
+	type CDATA #REQUIRED
+>
+<!ELEMENT request-processors ((http-request-processor?,soap-request-processor?))>
+<!ELEMENT http-request-processor EMPTY>
+<!ATTLIST http-request-processor
+	type CDATA #REQUIRED>
+<!ELEMENT soap-request-processor EMPTY>
+<!ATTLIST soap-request-processor
+	type CDATA #REQUIRED>
+ */
+
 public interface IFrame2Syntax {
    public static final String[] reservedWords = 
    {
@@ -59,11 +127,13 @@ public interface IFrame2Syntax {
          "event-mappings",
          "event-handlers",
          "exceptions",
-         "plugins"
+         "plugins",
+         "request-processors",
    };
    
    public static final String[] types = 
    {
+         "forward"
    };
    
    public static final String[] constants =

@@ -119,6 +119,11 @@ public class XMLScanner extends RuleBasedScanner implements IFrame2Syntax {
 		setDefaultReturnToken(other);
 		List rules = new ArrayList();
 		
+		// Add rule for double quotes
+		rules.add(new SingleLineRule("\"", "\"", string, '\\'));
+		// Add a rule for single quotes
+		rules.add(new SingleLineRule("'", "'", string, '\\'));
+		
 		IToken procInstr =
 			new Token(
 				new TextAttribute(
@@ -128,16 +133,28 @@ public class XMLScanner extends RuleBasedScanner implements IFrame2Syntax {
 		rules.add(new SingleLineRule("<?", "?>", procInstr));
 
 		rules.add(new MultiLineRule("<!DOCTYPE", "\">", doctype));
+		
+		for (int i = 0; i < reservedWords.length; i++) {
+		   String ruleStartOpen = "<" + reservedWords[i];
+		   String ruleStartClose = "</" + reservedWords[i];
+			rules.add(new MultiLineRule(ruleStartOpen, ">", keyword));
+			rules.add(new MultiLineRule(ruleStartClose, ">", keyword));
+		}
+		
+		for (int i = 0; i < types.length; i++) {
+		   String ruleStartOpen = "<" + types[i];
+		   String ruleStartClose = "</" + types[i];
+			rules.add(new MultiLineRule(ruleStartOpen, ">", type));
+			rules.add(new MultiLineRule(ruleStartClose, ">", type));
+		}
 
 		// Add generic whitespace rule.
 		rules.add(new WhitespaceRule(new XMLWhitespaceDetector()));
 
 		// Add word rule for keywords, types, and constants.
 		WordRule wordRule = new WordRule(new Frame2WordDetector(), other);
-		/*
-		for (int i = 0; i < reservedwords.length; i++)
-			wordRule.addWord(reservedwords[i], keyword);
-		*/
+		for (int i = 0; i < reservedWords.length; i++)
+			wordRule.addWord(reservedWords[i], keyword);
 		for (int i = 0; i < types.length; i++)
 			wordRule.addWord(types[i], type);
 		for (int i = 0; i < constants.length; i++)
