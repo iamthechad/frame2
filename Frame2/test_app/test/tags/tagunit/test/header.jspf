@@ -1,0 +1,65 @@
+<!--
+normal = 6699CC
+red = CC0000
+warning = CC6600
+pass = 00CC00
+
+-->
+
+<%@ page import="org.tagunit.*" %>
+<%@ page errorPage="error.jsp" %>
+<%
+String imageName = "tagunit.gif";
+String color = "#6699CC";
+TestContextContainer ctx = (TestContextContainer)session.getAttribute(Constants.TEST_CONTEXT);
+if (ctx != null && ctx.getStatus().equals(TestContext.PASS)) {
+  imageName = "tagunit-pass.gif";
+  color = "#00CC00";
+} else if (ctx != null && ctx.getStatus().equals(TestContext.WARNING)) {
+  imageName = "tagunit-warning.gif";
+  color = "#CC6600";
+} else if (ctx != null && (ctx.getStatus().equals(TestContext.FAIL) || ctx.getStatus().equals(TestContext.ERROR))) {
+  imageName = "tagunit-fail.gif";
+  color = "#CC0000";
+}
+%>
+
+<%@ taglib uri="http://www.tagunit.org/tagunit/display" prefix="tagunit" %>
+
+<html>
+
+  <head>
+    <title>TagUnit - Test Results</title>
+    <tagunit:base/>
+    <link rel="stylesheet" href="page.css">
+  </head>
+  
+  <body topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
+
+    <table width="100%" cellpadding="0" cellspacing="0">
+
+      <tr bgcolor="#000000" height="2"><td colspan="7"></td></tr>
+
+      <tr bgcolor="#000000" height="24" valign="top">
+        <td width="200" bgcolor="<%= color %>" rowspan="2" valign="center"><a href="index.html" target="_top"><img src="images/<%= imageName %>" border="0"></a></td>
+        <td width="4" cellpadding="0" cellspacing="0"><img src="images/white-separator.gif" height="24" width="1" border="0" vspace="0" align="bottom"></td>
+        <td width="128" align="left"><a href="http://sourceforge.net/project/showfiles.php?group_id=53188"><span class="headerLink">Download</span></a></td>
+        <td width="4" cellpadding="0" cellspacing="0"><img src="images/white-separator.gif" height="24" width="1" border="0" vspace="0" align="bottom"></td>
+        <td width="128" align="left"><a href="http://www.tagunit.org"><span class="headerLink">About</span></a></td>
+        <td width="4" cellpadding="0" cellspacing="0"><img src="images/white-separator.gif" height="24" width="1" border="0" vspace="0" align="bottom"></td>
+        <td align="right" class="headerVersion">Version <tagunit:getProperty name="version"/>&nbsp;</td>
+      </tr>
+
+      <tr bgcolor="<%= color %>" height="36">
+        <td colspan="7"></td>
+      </tr>
+
+      <tr bgcolor="#000000" height="4"><td colspan="8"></td></tr>
+      <tr bgcolor="#FFFFFF" height="2"><td colspan="8"></td></tr>
+      <tr bgcolor="#000000" height="1"><td colspan="8"></td></tr>
+
+    </table>
+	
+    <table width="100%">
+      <tr>
+        <td>
