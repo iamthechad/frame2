@@ -302,12 +302,41 @@
 			<pathelement location="${taglibs-standard-home}/standard.jar"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
 		</path>
+		<!--
 		<javadoc sourcepathref="doc-source-path"
 			destdir="${dist.docs}"
 			windowTitle="Frame2 API"
             doctitle="Frame2"
             classpathref="doc-classpath"
             packagenames="org.*">
+        -->
+        <javadoc 
+			destdir="${dist.docs}"
+			windowTitle="Frame2 API"
+            doctitle="Frame2"
+            classpathref="doc-classpath"
+            breakiterator="yes">
+            <packageset dir="./framework/src" defaultexcludes="yes">
+     			<include name="org/megatome/frame2/errors/**" />
+     			<include name="org/megatome/frame2/event/**"/>
+     			<include name="org/megatome/frame2/jaxb/**"/>
+     			<include name="org/megatome/frame2/log/**"/>
+     			<exclude name="org/megatome/frame2/log/impl/**"/>
+     			<include name="org/megatome/frame2/plugin/**"/>
+     			<include name="org/megatome/frame2/tagsupport/**"/>
+			</packageset>
+			<fileset dir="./framework/src">
+     			<include name="org/megatome/frame2/**/*Exception.java"/>
+     			<exclude name="org/megatome/frame2/validator/CommonsValidatorException.java"/>
+     			<exclude name="org/megatome/frame2/util/soap/SOAPException.java"/>
+     			<exclude name="org/megatome/frame2/util/dom/DocumentException.java"/>
+     			<exclude name="org/megatome/frame2/introspector/IntrospectorException.java"/>
+     			<include name="org/megatome/frame2/Globals.java"/>
+     			<include name="org/megatome/frame2/front/*RequestProcessor.java"/>
+     			<include name="org/megatome/frame2/validator/CommonsFieldValidator.java"/>
+     			<include name="org/megatome/frame2/validator/CommonsValidatorPlugin.java"/>
+			</fileset>
+            
 			<bottom>
 				<![CDATA[<em>Copyright (C) 2004, Megatome Technologies</em>
 				<br>All Rights Reserved]]>
