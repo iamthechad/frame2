@@ -1,0 +1,9 @@
+To build the samples, Ant is required.
+
+Run the ant script from the samples directory. Running 'ant'
+will create WAR files for each sample. Or, you can run ant 
+for individual targets. 
+
+Current samples that have targets are:
+'ant build-blankwar' - Builds the blank application
+'ant build-examplewar' - Builds the sample used in the Getting Started guide
