@@ -674,15 +674,14 @@
 			<exclude name="**/.ignore"/>
 		</fileset>
 	</copy>
-	
 	<copy todir="${image_dist}">
 		<fileset dir="${proj-base}">
-			<include name="ext/**"/>
+			<include name="ext/**/standard.jar"/>
 		</fileset>
 	</copy>
 	<ant antfile="${image_dist}/samples/build.xml" target="build-blankwar" inheritall="false"/>
-	<ant antfile="${image_dist}/samples/build.xml" target="build-examplewar" inheritall="false"/>
-	<ant antfile="${image_dist}/samples/build.xml" target="build-template-examplewar" inheritall="false"/>
+	<!-- <ant antfile="${image_dist}/samples/build.xml" target="build-examplewar" inheritall="false"/>
+	<ant antfile="${image_dist}/samples/build.xml" target="build-template-examplewar" inheritall="false"/> -->
 	
 	<!-- Need to clean up samples -->
 	<delete dir="${image_dist}/ext"/>
