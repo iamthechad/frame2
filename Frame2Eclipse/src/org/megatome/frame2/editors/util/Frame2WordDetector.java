@@ -6,11 +6,9 @@ import org.megatome.frame2.editors.IFrame2Syntax;
 public class Frame2WordDetector implements IWordDetector, IFrame2Syntax {
 
 	public boolean isWordStart(char c) {
-	   /*
-		for (int i = 0; i < reservedwords.length; i++)
-			if (((String) reservedwords[i]).charAt(0) == c)
+		for (int i = 0; i < reservedWords.length; i++)
+			if (((String) reservedWords[i]).charAt(0) == c)
 				return true;
-		*/
 		for (int i = 0; i < types.length; i++)
 			if (((String) types[i]).charAt(0) == c)
 				return true;
@@ -22,11 +20,9 @@ public class Frame2WordDetector implements IWordDetector, IFrame2Syntax {
 	}
 
 	public boolean isWordPart(char c) {
-	   /*
-		for (int i = 0; i < reservedwords.length; i++)
-			if (((String) reservedwords[i]).indexOf(c) != -1)
+		for (int i = 0; i < reservedWords.length; i++)
+			if (((String) reservedWords[i]).indexOf(c) != -1)
 				return true;
-		*/
 		for (int i = 0; i < types.length; i++)
 			if (((String) types[i]).indexOf(c) != -1)
 				return true;
