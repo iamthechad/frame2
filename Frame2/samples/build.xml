@@ -191,6 +191,7 @@
 	         <fileset dir="${war-dir}">
 	            <include name="**/*.jsp"/>
 	            <include name="**/*.html"/>
+	         	<include name="**/*.txt"/>
 	         </fileset>
 	         <zipfileset dir="${commons-files}"
 			    prefix="WEB-INF/commonsvalidator">
@@ -232,6 +233,7 @@
          <fileset dir="${war-dir}">
             <include name="**/*.jsp"/>
             <include name="**/*.html"/>
+         	<include name="**/*.txt"/>
          </fileset>
          <zipfileset dir="${commons-files}"
 		    prefix="WEB-INF/commonsvalidator">
@@ -281,6 +283,7 @@
          <fileset dir="${war-dir}">
             <include name="**/*.jsp"/>
             <include name="**/*.html"/>
+         	<include name="**/*.txt"/>
          </fileset>
          <zipfileset dir="${commons-files}"
 		    prefix="WEB-INF/commonsvalidator">
