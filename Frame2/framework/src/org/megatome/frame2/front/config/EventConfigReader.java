@@ -51,13 +51,13 @@
  package org.megatome.frame2.front.config;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.megatome.frame2.Frame2Exception;
-import org.megatome.frame2.util.sax.ParserException;
 import org.megatome.frame2.util.sax.Frame2SAXReader;
+import org.megatome.frame2.util.sax.ParserException;
 
 /**
  * EventConfigReader parses the Event Configuration file. It uses the Sax Parser.
@@ -180,56 +180,56 @@ public class EventConfigReader {
    /**
     * Returns the XML Global Forwards.
     *
-    * @return HashMap containing the XML Global Forwards.
+    * @return Map containing the XML Global Forwards.
     */
-   public HashMap getGlobalXMLForwards() {
-      return _globalForwardTagHandler.getXMLForwards();
+   public Map getGlobalXMLForwards() {
+      return Collections.unmodifiableMap(_globalForwardTagHandler.getXMLForwards());
    }
 
    /**
     * Returns the HTML Global Forwards.
     *
-    * @return HashMap containing the HTML Global Forwards.
+    * @return Map containing the HTML Global Forwards.
     */
-   public HashMap getGlobalHTMLForwards() {
-      return _globalForwardTagHandler.getHTMLForwards();
+   public Map getGlobalHTMLForwards() {
+      return Collections.unmodifiableMap(_globalForwardTagHandler.getHTMLForwards());
    }
 
    /**
     * Returns the Configured EventDef.
     *
-    * @return HashMap containing the all the EventDef(s).
+    * @return Map containing the all the EventDef(s).
     */
-   public HashMap getEvents() {
-      return _eventTagHandler.getEvents();
+   public Map getEvents() {
+      return Collections.unmodifiableMap(_eventTagHandler.getEvents());
    }
 
    /**
     * Returns the Configured EventMappings.
     *
-    * @return HashMap containing the Event Mappings.
+    * @return Map containing the Event Mappings.
     */
-   public HashMap getEventMappings() {
-      return _eventMappingTagHandler.getEventMappings();
+   public Map getEventMappings() {
+      return Collections.unmodifiableMap(_eventMappingTagHandler.getEventMappings());
    }
 
    /**
     * Returns the Configured EventHandlers.
     *
-    * @return HashMap containing the EventHandlerDef(s).
+    * @return Map containing the EventHandlerDef(s).
     */
-   public HashMap getEventHandlers() {
-      return _eventHandlerTagHandler.getEventHandlers();
+   public Map getEventHandlers() {
+      return Collections.unmodifiableMap(_eventHandlerTagHandler.getEventHandlers());
    }
 
 
    /**
     * Returns the Configured Exceptions
     *
-    * @return ArrayList containing the Exceptions.
+    * @return List containing the Exceptions.
     */
-   public ArrayList getExceptions() {
-      return _exceptionTagHandler.getExceptions();
+   public List getExceptions() {
+      return Collections.unmodifiableList(_exceptionTagHandler.getExceptions());
    }
    
    public List getPlugins() {

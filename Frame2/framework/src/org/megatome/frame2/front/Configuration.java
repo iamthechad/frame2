@@ -91,12 +91,6 @@ public class Configuration {
    private Map _eventHandlers;
    private List _exceptions;
    private List _plugins;
-   private Map _origGlobalXMLForwards;
-   private Map _origGlobalHTMLForwards;
-   private Map _origEvents;
-   private Map _origEventMappings;
-   private Map _origEventHandlers;
-   private List _origExceptions;
    private Map _eventHandlerCache = new HashMap();
    private String _path;
    private Date _initTime;
@@ -143,23 +137,13 @@ public class Configuration {
          throw new ConfigException(e);
       }
 
-      /* TODO: Refactor EventConfigReader to return unmodifiable
-       * collections to avoid doing this twice.
-       */
-      _origGlobalXMLForwards = _reader.getGlobalXMLForwards();
-      _origGlobalHTMLForwards = _reader.getGlobalHTMLForwards();
-      _origEvents = _reader.getEvents();
-      _origEventMappings = _reader.getEventMappings();
-      _origEventHandlers = _reader.getEventHandlers();
-      _origExceptions = _reader.getExceptions();
+      _globalXMLForwards = _reader.getGlobalXMLForwards();
+      _globalHTMLForwards = _reader.getGlobalHTMLForwards();
+      _events = _reader.getEvents();
+      _eventMappings = _reader.getEventMappings();
+      _eventHandlers = _reader.getEventHandlers();
+      _exceptions = _reader.getExceptions();
 
-      _globalXMLForwards = Collections.unmodifiableMap(_origGlobalXMLForwards);
-      _globalHTMLForwards = Collections.unmodifiableMap(_origGlobalHTMLForwards);
-      _events = Collections.unmodifiableMap(_origEvents);
-      _eventMappings = Collections.unmodifiableMap(_origEventMappings);
-      _eventHandlers = Collections.unmodifiableMap(_origEventHandlers);
-      _exceptions = Collections.unmodifiableList(_origExceptions);            
-      
       _plugins = _reader.getPlugins();
       loadPluginProxies();
       

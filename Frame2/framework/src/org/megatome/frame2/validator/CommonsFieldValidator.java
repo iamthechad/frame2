@@ -272,7 +272,6 @@ public class CommonsFieldValidator {
             return true;
          }
       } catch (Exception e) {
-         // TODO Waiting for Jim's response on what to do in this case...
          getLogger().info("mask = " + mask + " caused an exception:" + e);
       }
       return true;
