@@ -28,7 +28,7 @@
  
   <context-param>
     <param-name>org.megatome.frame2.LOGGER_TYPE</param-name>
-    <param-value>org.megatome.frame2.log.impl.Log4jLogger</param-value>
+    <param-value>org.megatome.frame2.log.impl.StandardLogger</param-value>
   </context-param>
 
 
