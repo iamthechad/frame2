@@ -94,7 +94,7 @@ public class TestErrorsTag extends JspTestCase {
 	}
 
    public void testEmptyErrors() throws Exception {
-      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,Errors.instance());
+      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,Errors.newInstance());
       assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
    }
 
@@ -106,7 +106,7 @@ public class TestErrorsTag extends JspTestCase {
    public void testOneError() throws Exception {
       ResourceLocator.setBasename("test-errors-simple");
 
-      Errors errors = Errors.instance();
+      Errors errors = Errors.newInstance();
 
       errors.add("example.error.key.1","foo");
 
@@ -122,7 +122,7 @@ public class TestErrorsTag extends JspTestCase {
    public void testTwoErrors() throws Exception {
       ResourceLocator.setBasename("test-errors-simple");
 
-      Errors errors = Errors.instance();
+      Errors errors = Errors.newInstance();
 
       errors.add("example.error.key.1","foo");
       errors.add("example.error.key.2","bar");
@@ -141,7 +141,7 @@ public class TestErrorsTag extends JspTestCase {
 
       _tag.setErrorKey("example.error.key.2");
 
-      Errors errors = Errors.instance();
+      Errors errors = Errors.newInstance();
 
       errors.add("example.error.key.1","foo");
       errors.add("example.error.key.2","bar");
@@ -163,7 +163,7 @@ public class TestErrorsTag extends JspTestCase {
       _tag.setLocaleKey(localeKey);
       pageContext.setAttribute(localeKey,Locale.FRENCH,PageContext.SESSION_SCOPE);
 
-      Errors errors = Errors.instance();
+      Errors errors = Errors.newInstance();
 
       errors.add("example.error.key.1","foo");
 
@@ -179,7 +179,7 @@ public class TestErrorsTag extends JspTestCase {
    public void testDecoratedErrors() throws Exception {
       ResourceLocator.setBasename("test-errors-decorated");
 
-      Errors errors = Errors.instance();
+      Errors errors = Errors.newInstance();
 
       errors.add("example.error.key.1","foo");
       errors.add("example.error.key.2","bar");

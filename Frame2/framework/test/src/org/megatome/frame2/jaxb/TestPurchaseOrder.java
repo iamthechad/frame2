@@ -53,7 +53,7 @@ public class TestPurchaseOrder extends TestCase {
    public void testValidate() throws Exception {
       PurchaseOrderImpl po = (PurchaseOrderImpl) unmarshall( );
 
-      Errors errors = Errors.instance();
+      Errors errors = Errors.newInstance();
 
       ItemsImpl.ItemTypeImpl item1 = (ItemsImpl.ItemTypeImpl) po.getItems().getItem().get(0);
 
@@ -68,13 +68,13 @@ public class TestPurchaseOrder extends TestCase {
       item1.setQuantity(new BigInteger("101"));
 
       errors.release();
-      errors = Errors.instance();
+      errors = Errors.newInstance();
 
       assertFalse(item1.validate(errors));
       assertEquals(2, errors.size());
 
       errors.release();
-      errors = Errors.instance();
+      errors = Errors.newInstance();
 
       assertFalse(po.validate(errors));
       assertEquals(2, errors.size());
