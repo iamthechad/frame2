@@ -4,6 +4,9 @@
     <classpathentry kind="src" output="framework/test/classes" path="framework/test/src"/>
     <classpathentry kind="src" output="tag/classes" path="tag/src"/>
     <classpathentry kind="src" output="tag/test/classes" path="tag/test/src"/>
+    <classpathentry kind="src" output="test_app/classes" path="test_app/src"/>
+    <classpathentry kind="src" output="test_app/classes" path="test_app/test/src"/>
+    <classpathentry kind="src" output="template_tag/classes" path="template_tag/src"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="var" path="TOMCAT_HOME/common/lib/jsp-api.jar"/>
     <classpathentry kind="var" path="TOMCAT_HOME/common/lib/servlet-api.jar"/>
@@ -26,5 +29,6 @@
     <classpathentry kind="lib" path="ext/ws/jwsdp/namespace.jar"/>
     <classpathentry kind="lib" path="ext/ws/jwsdp/relaxngDatatype.jar"/>
     <classpathentry kind="lib" path="ext/ws/jwsdp/xsdlib.jar"/>
+    <classpathentry kind="lib" path="ext/test/cactus-1.5.jar"/>
     <classpathentry kind="output" path="classes"/>
 </classpath>
