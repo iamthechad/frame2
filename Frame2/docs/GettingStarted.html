@@ -306,7 +306,7 @@ Create a file named <i>addUser.jsp</i> and copy the following code into it:<br>
 &lt;table border="0"&gt;
 &lt;tr&gt;
 &lt;td align="left"&gt;User Name:&lt;/td&gt;
-&lt;td&gt;&lt;frame2:text name="name"/&gt;&lt;/td&gt;
+&lt;td&gt;&lt;frame2:text name="userName"/&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;tr&gt;
 &lt;td align="left"&gt;Email:&lt;/td&gt;
 &lt;td&gt;&lt;frame2:text name="email"/&gt;&lt;/td&gt;
@@ -417,6 +417,9 @@ Change this tag:
 <pre>&lt;frame2:text name="email"/&gt;</pre>
 to this:
 <pre>&lt;frame2:text name="email" value="${addUser.email}"/&gt;</pre>
+In order for the framework to return to this page when validation fails, we need
+to create a global forward that points to it:<br>
+<pre>&lt;forward name="addUserJSP" type="HTMLResource" path="/addUser.jsp"/&gt;</pre>
 <h4>Update Frame2 Configuration</h4>
 Once again, we must update the configuration file to inform Frame2 that we wish
 to have validation enabled and where to forward to when validation fails. Add the
@@ -432,7 +435,7 @@ validator plugin must be enabled, and the User event needs to be modified.
 <h4>Copy Rules and Mappings</h4>
 You will need to copy some files from the source distribution of Frame2 into 
 your example web application. Copy the <i>commonsvalidator</i> folder and its 
-contents from the <i>framework/test/src/WEB-INF<i> folder in the source 
+contents from the <i>framework/test/src/WEB-INF</i> folder in the source 
 distribution. There will be two files in this folder: <i>commons-validator-rules.xml</i> 
 and <i>commons-validation-mappings.xml</i>. We will need to modify the mappings 
 file to instruct the Commons Validator how to validate our form.<br>
