@@ -60,12 +60,20 @@
  *******************************************************************************/
 package org.megatome.frame2.editors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.text.rules.*;
 import org.eclipse.jface.text.*;
+import org.eclipse.swt.SWT;
+import org.megatome.frame2.Frame2Plugin;
+import org.megatome.frame2.editors.util.ColorProvider;
+import org.megatome.frame2.editors.util.Frame2WordDetector;
 
-public class XMLScanner extends RuleBasedScanner {
+public class XMLScanner extends RuleBasedScanner implements IFrame2Syntax {
 
-	public XMLScanner(ColorManager manager) {
+	public XMLScanner() {
+	   /*
 		IToken procInstr =
 			new Token(
 				new TextAttribute(
@@ -78,5 +86,66 @@ public class XMLScanner extends RuleBasedScanner {
 		rules[1] = new WhitespaceRule(new XMLWhitespaceDetector());
 
 		setRules(rules);
+		*/
+	   
+	   ColorProvider provider =
+			Frame2Plugin.getDefault().getColorProvider();
+		IToken keyword =
+			new Token(
+				new TextAttribute(
+					provider.getColor(ColorProvider.KEYWORD),
+					provider.getColor(ColorProvider.BACKGROUND),
+					SWT.BOLD));
+		IToken type =
+			new Token(
+				new TextAttribute(
+					provider.getColor(ColorProvider.TYPE),
+					provider.getColor(ColorProvider.BACKGROUND),
+					SWT.BOLD));
+		IToken string =
+			new Token(
+				new TextAttribute(provider.getColor(ColorProvider.STRING)));
+		IToken comment =
+			new Token(
+				new TextAttribute(
+					provider.getColor(ColorProvider.SINGLE_LINE_COMMENT)));
+		IToken other =
+			new Token(
+				new TextAttribute(provider.getColor(ColorProvider.DEFAULT)));
+		IToken doctype = 
+		   new Token(
+		      new TextAttribute(provider.getColor(ColorProvider.DOCTYPE)));
+
+		setDefaultReturnToken(other);
+		List rules = new ArrayList();
+		
+		IToken procInstr =
+			new Token(
+				new TextAttribute(
+					provider.getColor(IXMLColorConstants.PROC_INSTR)));
+
+		//Add rule for processing instructions
+		rules.add(new SingleLineRule("<?", "?>", procInstr));
+
+		rules.add(new MultiLineRule("<!DOCTYPE", "\">", doctype));
+
+		// Add generic whitespace rule.
+		rules.add(new WhitespaceRule(new XMLWhitespaceDetector()));
+
+		// Add word rule for keywords, types, and constants.
+		WordRule wordRule = new WordRule(new Frame2WordDetector(), other);
+		/*
+		for (int i = 0; i < reservedwords.length; i++)
+			wordRule.addWord(reservedwords[i], keyword);
+		*/
+		for (int i = 0; i < types.length; i++)
+			wordRule.addWord(types[i], type);
+		for (int i = 0; i < constants.length; i++)
+			wordRule.addWord(constants[i], type);
+		rules.add(wordRule);
+
+		IRule[] result = new IRule[rules.size()];
+		rules.toArray(result);
+		setRules(result);
 	}
 }

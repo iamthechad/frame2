@@ -77,6 +77,7 @@ import org.megatome.frame2.Frame2Plugin;
 public class XMLEditor extends AbstractTextEditor {
 
 	private ColorManager colorManager;
+	private static XMLScanner fXMLScanner;
 
 	public XMLEditor() {
 		super();
@@ -84,6 +85,7 @@ public class XMLEditor extends AbstractTextEditor {
 		//setSourceViewerConfiguration(new XMLConfiguration(colorManager));
 		setDocumentProvider(new XMLDocumentProvider());
 		setSourceViewerConfiguration(new XMLEditorSourceViewerConfiguration());
+		fXMLScanner = new XMLScanner();
 		setRangeIndicator(new DefaultRangeIndicator());
 	}
 	public void dispose() {
@@ -123,4 +125,8 @@ public class XMLEditor extends AbstractTextEditor {
       ra.setActionDefinitionId(ITextEditorActionDefinitionIds.ADD_TASK);
       setAction(ITextEditorActionConstants.ADD_TASK, ra);
    }
+   
+   public static XMLScanner getXMLScanner() {
+		return fXMLScanner;
+	}
 }

@@ -95,7 +95,7 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 
 	protected XMLScanner getXMLScanner() {
 		if (scanner == null) {
-			scanner = new XMLScanner(colorManager);
+			scanner = new XMLScanner();
 			scanner.setDefaultReturnToken(
 				new Token(
 					new TextAttribute(

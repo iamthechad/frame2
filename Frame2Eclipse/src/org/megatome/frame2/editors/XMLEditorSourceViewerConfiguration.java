@@ -52,12 +52,19 @@ package org.megatome.frame2.editors;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
+import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
+import org.eclipse.jface.text.presentation.IPresentationReconciler;
+import org.eclipse.jface.text.presentation.PresentationReconciler;
+import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
+import org.eclipse.jface.text.rules.RuleBasedScanner;
+import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.graphics.RGB;
 import org.megatome.frame2.Frame2Plugin;
+import org.megatome.frame2.editors.util.ColorProvider;
 
 
 public class XMLEditorSourceViewerConfiguration extends
@@ -90,4 +97,28 @@ public class XMLEditorSourceViewerConfiguration extends
          ISourceViewer sourceViewer, String contentType) {
       	return new XMLDoubleClickStrategy();
    }
+   
+   public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
+
+		PresentationReconciler reconciler= new PresentationReconciler();
+
+		// rule for default text
+		DefaultDamagerRepairer dr= new DefaultDamagerRepairer(XMLEditor.getXMLScanner());
+		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
+		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
+
+		// rule for multiline comments
+		// We just need a scanner that does nothing but returns a token with the corrresponding text attributes
+		RuleBasedScanner multiLineScanner = new RuleBasedScanner();
+		multiLineScanner.setDefaultReturnToken(new Token(new TextAttribute(Frame2Plugin.getDefault().getColorProvider().getColor(ColorProvider.MULTI_LINE_COMMENT))));
+		dr= new DefaultDamagerRepairer(multiLineScanner);
+		reconciler.setDamager(dr, XMLPartitionScanner.XML_COMMENT);
+		reconciler.setRepairer(dr, XMLPartitionScanner.XML_COMMENT);
+
+		dr= new DefaultDamagerRepairer(XMLEditor.getXMLScanner());
+		reconciler.setDamager(dr, XMLPartitionScanner.XML_TAG);
+		reconciler.setRepairer(dr, XMLPartitionScanner.XML_TAG);
+		
+		return reconciler;
+	}
 }

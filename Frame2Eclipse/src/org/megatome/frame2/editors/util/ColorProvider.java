@@ -69,6 +69,8 @@ public class ColorProvider {
 	public static final RGB KEYWORD = new RGB(127, 0, 85);
 	public static final RGB TYPE = new RGB(64, 0, 200);
 	public static final RGB STRING = new RGB(0, 0, 255);
+	
+	public static final RGB DOCTYPE = new RGB(135,0,0);
 
 	//public static final RGB SQL_CODE_DEFAULT = new RGB(63, 95, 191);
 	//public static final RGB SQL_CODE_KEYWORD = new RGB(100, 100, 100);
