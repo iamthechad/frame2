@@ -625,9 +625,10 @@
 	<copy todir="${src_dist}" includeEmptyDirs="false">
 		<fileset dir="${proj-base}">
 			<exclude name="**/build/**"/>
+			<exclude name="**/work/**"/>
 			<exclude name="**/dist/**"/>
 			<exclude name="**/classes/**"/>
-			<exclude name="**/samples/**"/>
+			<!-- <exclude name="**/samples/**"/> -->
 			<exclude name="**/ext/**" unless="INCLUDE_EXT"/>
 			<exclude name="**/.*"/>
 			<exclude name="override.properties"/>
@@ -657,6 +658,8 @@
 		</fileset>
 		<fileset dir="${proj-base}">
 			<include name="LICENSE.txt"/>
+			<include name="samples/**"/>
+			<include name="support_files/**"/>
 			<include name="ext/**/commons-beanutils.jar" if="INCLUDE_EXT"/>
 			<include name="ext/**/commons-collections.jar" if="INCLUDE_EXT"/>
 			<include name="ext/**/commons-digester.jar" if="INCLUDE_EXT"/>
