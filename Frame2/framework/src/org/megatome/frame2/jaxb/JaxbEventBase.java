@@ -52,6 +52,8 @@ package org.megatome.frame2.jaxb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.ValidationEvent;
@@ -173,11 +175,22 @@ public class JaxbEventBase extends CommonsValidatorEvent {
       }
 
       String getAttributeName(ValidationEvent event) {
+         // Bug 953538
+         // Remove hardcoded "partNum" and instead parse
+         // the attribute name from the message
+         String attributeName = null;
          if (isAttribute(event)) {
-            return "partNum";
-         } else {
-            return null;
-         }
+             String message = event.getMessage();
+             String quotedAttributeRE = "[^\"]*\"([^\"]+)\"";
+             Pattern pat = Pattern.compile(quotedAttributeRE, Pattern.CASE_INSENSITIVE);
+             Matcher m = pat.matcher(message);
+             
+             if (m.find()) {
+                 attributeName = m.group(1);
+             }
+         } 
+         
+         return attributeName;
       }
 
       boolean isAttribute(ValidationEvent event) {
