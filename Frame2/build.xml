@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-<!DOCTYPE project [
-   <!ENTITY common-insert SYSTEM "file:../common-insert.xml">
-   <!ENTITY prod-insert SYSTEM "file:../prod-insert.xml">
-]>
--->
 <!-- 
 	Steps we need to take from this point:
 	
-	1) Build main src
-	2) Optional - Build and Run Tests
-	3) Build dist jar
+	1) Build all classes
+	2) Build Javadoc
+	3) Build and Run Tests
+	4) Build dist jars
 
 -->
 <project name="frame2" default="all">
 
-   <property name="proj-base" value=".."/>
+   <property name="proj-base" value="."/>
    
 	<target name="all" depends="clean, compile, test, dist, javadoc"/>
 	
@@ -25,7 +19,7 @@
 		<property file="env.properties"/>
 		<property file="build.properties"/>
 		
-		<path id="compile-class-path">
+		<path id="framework-compile-class-path">
 			<pathelement location="${tomcat-common}/jsp-api.jar"/>
 			<pathelement location="${tomcat-common}/servlet-api.jar"/>
 			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
@@ -33,6 +27,24 @@
 			<pathelement location="${taglibs-standard-home}/standard.jar"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
+		</path>
+		
+		<path id="framework-test-compile-class-path">
+			<pathelement location="${proj-base}/build/classes"/>
+			<pathelement location="${commons-digester-home}/commons-digester.jar"/>
+			<pathelement location="${strutstest-home}/strutstest-2.1.0.jar"/>
+			<pathelement location="${junit-home}/junit.jar"/>
+			<pathelement location="${junit-addons-home}/junit-addons.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
+			<pathelement location="${httpclient-home}/HTTPClient.zip"/>
+			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
+			<pathelement location="${log4j-home}/log4j.jar"/>
+			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
+			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
+			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
 		</path>
 	</target>
 	
@@ -42,6 +54,12 @@
 		<delete dir="${dist.docs}"/>
 	</target>
 	
+	<!-- 
+		Compile:
+			1) Framework
+			2) Tag library
+			3) Template Tag Library
+	-->
 	<target name="compile" depends="init">
 		<mkdir dir="${local-out}"/>
 		<mkdir dir="${build}"/>
@@ -56,6 +74,25 @@
 				<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
+	</target>
+	
+	<target name="compile_framework" depends="init">
+		<javac deprecation="on"
+          destdir="${framework_build}"
+          srcdir="./framework/src"
+          classpathref="framework-compile-class-path"
+        />
+		<copy todir="${framework_build}">
+			<fileset dir="./framework/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="compile_taglib" depends="init">
+	</target>
+	
+	<target name="compile_template_taglib" depends="init">
 	</target>
 	
 	<target name="test" depends="compile">
@@ -81,24 +118,4 @@
 			</bottom>
 		</javadoc>
 	</target>
-<!--
-   &common-insert;
-   &prod-insert;
--->
-<!--
-   <target name="init" depends="set-props">
-      <tstamp/>
-      <property name="local-out"     value="${proj-base}/build"/>
-      <property name="build"         value="${local-out}/classes"/>
-      <property name="jar-file"      value="${frame2-jar}"/>
-      <path id="compile-class-path">
-         <path refid="common-compile-class-path"/>
-         <pathelement location="${standard-home}/standard.jar"/>
-      </path>
-   </target>
-
-   <target name="prepare-test"/>
-
-   <target name="prepare-package"/>
--->
 </project>
