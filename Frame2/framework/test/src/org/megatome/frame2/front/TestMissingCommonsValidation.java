@@ -56,7 +56,11 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 		try {
 			servlet.doPost(_request, _response);
 		} catch (Exception e) {
-			fail();
+		    String msg = "Unexpected Exception: " + e.getMessage();
+		    if (e.getCause() != null) {
+		        msg += ": " + e.getCause().getMessage();
+		    }
+			fail(msg);
 		}
 	}
 	
@@ -68,7 +72,7 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 		} catch (Exception e) {
 		   return;
 		}
-		fail();
+		fail("Failed to catch expected exception");
 	}
 
 	private HttpFrontController initializeServlet() {
