@@ -90,7 +90,7 @@
 			<pathelement location="${cactus-home}/cactus-1.5.jar"/>
 		</path>
 		
-		<path id="run-class-path">
+		<path id="no-commons-run-class-path">
 			<pathelement location="${framework_build}"/>
 			<pathelement location="${framework_test_build}"/>
 			<pathelement location="${taglib_build}"/>
@@ -106,7 +106,6 @@
 			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
 			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
 			<pathelement location="${log4j-home}/log4j.jar"/>
-			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
 			<pathelement location="${commons-logging-home}/commons-logging.jar"/>
 			<pathelement location="${commons-collections-home}/commons-collections.jar"/>
 			<pathelement location="${strutstest-home}/strutstest-2.1.0.jar"/>
@@ -115,6 +114,11 @@
 			<pathelement location="${httpclient-home}/HTTPClient.zip"/>
 			<pathelement location="${junit-addons-home}/junit-addons.jar"/>
 			<pathelement location="${jakarta-oro-home}/jakarta-oro.jar"/>
+		</path>
+		
+		<path id="run-class-path">
+			<path refid="no-commons-run-class-path"/>
+			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
 			<!-- <pathelement location="${jwsdp-endorsed-home}/dom.jar"/>
 			<pathelement location="${jwsdp-endorsed-home}/xercesImpl.jar"/> -->
 		</path>
@@ -232,7 +236,7 @@
 	
 	<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${junit-home}/junit.jar"/>
 	
-	<target name="test" depends="unit_tests, container_tests, junit_report">
+	<target name="test" depends="unit_tests, special_tests, container_tests, junit_report">
 	</target>
 	
 	<target name="unit_tests" depends="compile, compile_test, test-one" unless="TEST_CASE">
@@ -248,6 +252,7 @@
 	      <batchtest todir="${reports}">
 	         <fileset dir="./framework/test/src">
 	            <include name="**/Test*.java" />
+	            <exclude name="**/TestMissingCommonsValidation.java"/>
 	         </fileset>
 	         <fileset dir="./tag/test/src">
 	            <include name="**/Test*.java" />
@@ -260,6 +265,27 @@
 	      </batchtest>
 	      <classpath>
 			 <path refid="run-class-path"/>
+	      </classpath>
+	
+	   </junit>
+	</target>
+	
+	<target name="special_tests" depends="compile, compile_test, test-one" unless="TEST_CASE">
+		<junit printsummary="on" dir="."
+	          failureProperty="tests-failed"
+	          showoutput="${show-test-output}"
+	          haltonfailure="${halt-on-failure}"
+	          fork="yes">
+	      <sysproperty key="java.util.logging.config.file" value="${std-log-properties}"/> 
+	      <jvmarg value="-Xint"/>
+	      <formatter type="xml"/>
+	      <batchtest todir="${reports}">
+	         <fileset dir="./framework/test/src">
+	            <include name="**/TestMissingCommonsValidation.java" />
+	         </fileset>
+	      </batchtest>
+	      <classpath>
+			 <path refid="no-commons-run-class-path"/>
 	      </classpath>
 	
 	   </junit>
