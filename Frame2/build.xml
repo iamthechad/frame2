@@ -649,8 +649,9 @@
    </target>
 	-->
 <!-- ****************************************************************** -->
+<target name="build_images" depends="build_binary, build_source_all, build_source_only"/>
 
-<target name="build_image" depends="init, dist, javadoc">
+<target name="build_binary" depends="init, dist, javadoc">
 	<mkdir dir="${image_dist}"/>
 	<copy todir="${image_dist}" includeEmptyDirs="false">
 		<fileset dir="${dist}">
@@ -660,6 +661,66 @@
 		</fileset>
 		<fileset dir="${proj-base}">
 			<include name="LICENSE.txt"/>
+			<include name="samples/**"/>
+			<include name="support_files/**"/>
+			<include name="docs/**"/>
+			<include name="README"/>
+			
+			<exclude name="**/build/**"/>
+			<exclude name="**/work/**"/>
+			<exclude name="**/dist/**"/>
+			<exclude name="**/classes/**"/>
+			<exclude name="override.properties"/>
+			<exclude name="**/.ignore"/>
+		</fileset>
+	</copy>
+	
+	<copy todir="${image_dist}">
+		<fileset dir="${proj-base}">
+			<include name="ext/**"/>
+		</fileset>
+	</copy>
+	<ant antfile="${image_dist}/samples/build.xml" target="build-blankwar" inheritall="false"/>
+	<ant antfile="${image_dist}/samples/build.xml" target="build-examplewar" inheritall="false"/>
+	<ant antfile="${image_dist}/samples/build.xml" target="build-template-examplewar" inheritall="false"/>
+	
+	<!-- Need to clean up samples -->
+	<delete dir="${image_dist}/ext"/>
+	<delete dir="${image_dist}/samples/blankwar"/>
+	<delete dir="${image_dist}/samples/example"/>
+	<delete dir="${image_dist}/samples/soap-example"/>
+	<delete dir="${image_dist}/samples/template-example"/>
+	<delete file="${image_dist}/samples/build.xml"/>
+	<delete file="${image_dist}/samples/building.txt"/>
+	<delete file="${image_dist}/samples/env.properties"/>
+	<move todir="${image_dist}/samples">
+		<fileset dir="${image_dist}/samples/webapps">
+			<include name="**/*.war"/>
+		</fileset>
+	</move>
+	<delete dir="${image_dist}/samples/webapps"/>
+
+	<tar destfile="${dist}/${image_dist_name}.tar.gz"
+		compression="gzip"
+		longfile="gnu">
+		<tarfileset dir="${image_dist}"
+			preserveLeadingSlashes="true">
+		</tarfileset>
+	</tar>
+	<delete dir="${image_dist}"/>
+</target>
+
+<target name="build_source_all" depends="init, dist, javadoc">
+	<mkdir dir="${image_dist}"/>
+	<copy todir="${image_dist}" includeEmptyDirs="false">
+		<fileset dir="${dist}">
+			<exclude name="**/${product-name}*/**"/>
+			<include name="**/docs/**"/>
+			<!-- <include name="**/lib/**"/> -->
+		</fileset>
+		<fileset dir="${proj-base}">
+			<include name="LICENSE.txt"/>
+			<include name="README"/>
 			<include name="build.xml"/>
 			<include name="building.txt"/>
 			<include name="env.properties"/>
@@ -683,9 +744,59 @@
 		</fileset>
 	</copy>
 	
+	<!--
 	<ant antfile="${image_dist}/samples/build.xml" target="build-blankwar" inheritall="false"/>
+	-->
 
-	<tar destfile="${dist}/${image_dist_name}.tar.gz"
+	<tar destfile="${dist}/${image_src_all_dist_name}.tar.gz"
+		compression="gzip"
+		longfile="gnu">
+		<tarfileset dir="${image_dist}"
+			preserveLeadingSlashes="true">
+		</tarfileset>
+	</tar>
+	<delete dir="${image_dist}"/>
+</target>
+	
+<target name="build_source_only" depends="init, dist, javadoc">
+	<mkdir dir="${image_dist}"/>
+	<copy todir="${image_dist}" includeEmptyDirs="false">
+		<fileset dir="${dist}">
+			<exclude name="**/${product-name}*/**"/>
+			<include name="**/docs/**"/>
+			<!-- <include name="**/lib/**"/> -->
+		</fileset>
+		<fileset dir="${proj-base}">
+			<include name="LICENSE.txt"/>
+			<include name="README"/>
+			<include name="build.xml"/>
+			<include name="building.txt"/>
+			<include name="env.properties"/>
+			<include name="std.properties"/>
+			<include name="samples/**"/>
+			<include name="support_files/**"/>
+			<include name="docs/**"/>
+			<!-- <include name="ext/**"/> -->
+			
+			<exclude name="**/build/**"/>
+			<exclude name="**/work/**"/>
+			<exclude name="**/dist/**"/>
+			<exclude name="**/classes/**"/>
+			<!-- <exclude name="**/samples/**"/> -->
+			<exclude name="override.properties"/>
+			<include name="framework/**"/>
+			<include name="tag/**"/>
+			<include name="template_tag/**"/>
+			<include name="test_app/**"/>
+			<exclude name="**/.ignore"/>
+		</fileset>
+	</copy>
+	
+	<!--
+	<ant antfile="${image_dist}/samples/build.xml" target="build-blankwar" inheritall="false"/>
+	-->
+
+	<tar destfile="${dist}/${image_src_only_dist_name}.tar.gz"
 		compression="gzip"
 		longfile="gnu">
 		<tarfileset dir="${image_dist}"
