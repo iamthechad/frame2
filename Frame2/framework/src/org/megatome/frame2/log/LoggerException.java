@@ -67,28 +67,28 @@ public class LoggerException extends Frame2Exception {
    /**
     * Constructor for LoggerException.
     *
-    * @param arg0
+    * @param message The message for this exception
     */
-   public LoggerException(String arg0) {
-      super(arg0);
+   public LoggerException(String message) {
+      super(message);
    }
 
    /**
     * Constructor for LoggerException.
     *
-    * @param arg0
-    * @param arg1
+    * @param message The message for this exception
+    * @param cause The cause for this exception
     */
-   public LoggerException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
+   public LoggerException(String message, Throwable cause) {
+      super(message, cause);
    }
 
    /**
     * Constructor for LoggerException.
     *
-    * @param arg0
+    * @param cause The cause for this exception
     */
-   public LoggerException(Throwable arg0) {
-      super(arg0);
+   public LoggerException(Throwable cause) {
+      super(cause);
    }
 }

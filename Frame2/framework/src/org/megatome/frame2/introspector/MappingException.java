@@ -89,6 +89,7 @@ public class MappingException extends BeanException {
 
    /**
     * Returns the class name of the bean.
+    * @return Bean name
     */
    public String getBeanName() {
       String result = null;
@@ -103,6 +104,7 @@ public class MappingException extends BeanException {
    /**
     * Returns the name of the property that generated the error (for example, 'foo' for the bean
     * property <code>getFoo()</code>).
+    * @return Property name
     */
    public String getProperty() {
       String result = null;
@@ -118,6 +120,7 @@ public class MappingException extends BeanException {
     * Returns the value that was used in trying to set the property.  If the value is not known or
     * relevent (for example, the error was generated in trying to locate the property on the bean)
     * than a string with value '[unknown]' is returned.
+    * @return As above
     */
    public Object getValue() {
       return _value;
@@ -130,6 +133,7 @@ public class MappingException extends BeanException {
     * then the key will be:<br>
     * <br>
     * <code>frame2.mapping.com.mycompany.BigEvent.foo</code>
+    * @return As above
     */
    public String getKey() {
       if (_mapping != null) {

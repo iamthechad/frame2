@@ -60,6 +60,10 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 
 import org.megatome.frame2.tagsupport.util.EvalHelper;
 
+/**
+ * This is the base class used for all tags in the Frame2 framework. It provides support
+ * for EL attributes, as well as storing tag attributes.
+ */
 public abstract class BaseFrame2Tag
    extends BodyTagSupport
    implements TryCatchFinally {

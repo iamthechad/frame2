@@ -53,7 +53,8 @@ package org.megatome.frame2.introspector;
 /**
  * Contains constant values for the package.
  */
-interface Globals {
+final class Globals {
+	private Globals() {}
    // DOC: Will need to make sure all the delims, etc are in the user docs.
 
    /**

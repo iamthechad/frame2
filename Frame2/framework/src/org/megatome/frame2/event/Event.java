@@ -79,8 +79,9 @@ public interface Event {
    public boolean validate(Errors errors);
    
    /**
-    * Set the name of this event. This method should be used only by the framework.
-    * @param name
+    * Set the name of this event. This method is commonly used only by the framework,
+    * but there are occasions where changing an event's name is useful.
+    * @param name The name of the event
     */
    public void setName(String name);
    

@@ -52,24 +52,29 @@ package org.megatome.frame2;
 
 /**
  * Defines global data needed by extenders of the framework. These values can be
- * changed by specify the appropriate name and value as context parameters in
+ * changed by specifying the appropriate name and value as context parameters in
  * the web.xml file for the application.
  */
 public final class Globals {
+	
+	private Globals() {}
+	
 	/**
-	 * The CONFIG_FILE key is used to look up the desired path of the Frame2 configuration XML.
+	 * The path for the Frame2 configuration file. Override the value 
+	 * <em>org.megatome.frame2.CONFIG_FILE</em> to specify a different name
+	 * for the configuration file.
 	 */
 	public static final String CONFIG_FILE = "org.megatome.frame2.CONFIG_FILE";
 
 	/**
-	 * The ERRORS key is used to look up the Errors object from the request attributes map.
+	 * The key used to look up the Errors object from the request attributes map.
 	 */
 	public static final String ERRORS = "org.megatome.frame2.ERRORS";
 
 	/**
-	 * The LOGGER_TYPE key is used to specify through the context parameters what type of logger to
-	 * use for the Frame2 framework. Override the value "org.megatome.frame2.LOGGER_TYPE" in
-	 * web.xml to specify logger settings.
+	 * Used to specify what type of logger to use for the Frame2 framework. 
+	 * Override the value <em>org.megatome.frame2.LOGGER_TYPE</em> in web.xml to 
+	 * specify logger settings.
 	 */
 	public static final String LOGGER_TYPE = "org.megatome.frame2.LOGGER_TYPE";
 	
@@ -80,7 +85,8 @@ public final class Globals {
 		"/WEB-INF/frame2-config.xml";
 
 	/**
-	 * Override the value "org.megatome.frame2.FILE_UPLOAD_DIR" in web.xml 
+	 * The directory that uploaded files are temporarily placed in.
+	 * Override the value <em>org.megatome.frame2.FILE_UPLOAD_DIR</em> in web.xml 
 	 * to specify the location uploaded files should be temporarily placed.
 	 * Defaults to the system temp directory.
 	 */
@@ -88,21 +94,24 @@ public final class Globals {
 		"org.megatome.frame2.FILE_UPLOAD_DIR";
 
 	/**
-	 * Override the value "org.megatome.frame2.MAX_FILE_SIZE" in web.xml 
-	 * to specify a maximum file size for uploaded files.
+	 * The maximum file size for uploaded files. Override the value 
+	 * <em>org.megatome.frame2.MAX_FILE_SIZE</em> in web.xml to specify a 
+	 * maximum file size for uploaded files.
 	 */
 	public static final String MAX_FILE_SIZE =
 		"org.megatome.frame2.MAX_FILE_SIZE";
 		
 	/**
-	 * Override the value "org.megatome.frame2.FILE_BUFFER_SIZE" in web.xml
+	 * The size of the buffer to be used when uploading files. 
+	 * Override the value <em>org.megatome.frame2.FILE_BUFFER_SIZE</em> in web.xml
 	 * to specify a buffer size for dealing with uploaded files.
 	 */
 	public static final String FILE_BUFFER_SIZE =
 		"org.megatome.frame2.FILE_BUFFER_SIZE";
 
 	/**
-	 * Override the value "org.megatome.frame2.RESOURCE_BUNDLE" in web.xml
+	 * The name of the resource bundle to be used by the framework.
+	 * Override the value <em>org.megatome.frame2.RESOURCE_BUNDLE</em> in web.xml
 	 * to specify the properties file to be used by the application.
 	 */
 	public static final String RESOURCE_BUNDLE =

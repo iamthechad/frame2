@@ -74,9 +74,9 @@ public class LoggerFactory {
     * Creates a logger for the given name corresponding to the type set in setType, otherwise
     * returns a StandardLogger (if available) or a cruddy StdoutLogger.
     *
-    * @param name
+    * @param name The log instance name to create
     *
-    * @return Logger
+    * @return Logger instance
     */
    public static Logger instance(String name) {
       if (loggerConstructor != null) {
@@ -112,12 +112,12 @@ public class LoggerFactory {
 
    /**
     * Sets the Logger implementation for use by the framework.  The factory will use
-    * the provided class loader to generate the instances.  This 
+    * the provided class loader to generate the instances.
     *
-    * @param className the fully qualified name of the Logger implementation.  The class must
+    * @param className The fully qualified name of the Logger implementation.  The class must
     * implement the Logger interface and provide a public constructor that takes a string argument,
     * which is its name.
-    * @param classLoader the class loader to use.
+    * @param classLoader The class loader to use.
     */
    public static void setType(String className, ClassLoader classLoader) throws LoggerException {
       Class loggerClass = null;

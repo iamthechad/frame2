@@ -65,6 +65,7 @@ public class MappingsException extends IntrospectorException {
 
 	/**
 	 * Constructor for MappingsException.
+	 * @param errors Collection of errors to aggregate
 	 */
 	MappingsException(Collection errors) {
       _mappingExceptions = (MappingException[]) errors.toArray(TYPE_ARRAY);
@@ -72,16 +73,17 @@ public class MappingsException extends IntrospectorException {
 
 	/**
 	 * Constructor for MappingsException.
-	 * @param arg0
+	 * @param message The message for this exception
+	 * @param errors The errors to aggregate
 	 */
-	MappingsException(String arg0,Collection errors) {
-		super(arg0);
+	MappingsException(String message,Collection errors) {
+		super(message);
       _mappingExceptions = (MappingException[]) errors.toArray(TYPE_ARRAY);
 	}
    
    /**
     * Returns all errors stored in the object.
-    * @return MappingException[] an array of all errors generated for a map call.
+    * @return An array of all errors generated for a map call.
     */
    public MappingException[] getMappingExceptions() {
       return _mappingExceptions;

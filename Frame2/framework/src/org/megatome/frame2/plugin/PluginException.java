@@ -66,7 +66,7 @@ public class PluginException extends Exception {
    /**
     * Constructor for PluginException.
     *
-    * @param message
+    * @param message The message for this exception
     */
    public PluginException(String message) {
       super(message);
@@ -75,19 +75,19 @@ public class PluginException extends Exception {
    /**
     * Constructor for PluginException.
     *
-    * @param message
-    * @param t
+    * @param message The message for this exception
+    * @param cause The cause for this exception
     */
-   public PluginException(String message, Throwable t) {
-      super(message, t);
+   public PluginException(String message, Throwable cause) {
+      super(message, cause);
    }
 
    /**
     * Constructor for PluginException.
     *
-    * @param t
+    * @param cause The cause for this exception
     */
-   public PluginException(Throwable t) {
-      super(t);
+   public PluginException(Throwable cause) {
+      super(cause);
    }
 }

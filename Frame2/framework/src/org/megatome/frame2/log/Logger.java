@@ -50,11 +50,6 @@
  */
 package org.megatome.frame2.log;
 
-
-/**
- *
- */
-
 /**
  * The logger interface defines a simple and neutral logging API for internal use by the Frame2
  * framework.  Frame2 developers make use the internal logging in two ways.  First, they may
@@ -70,87 +65,91 @@ public interface Logger {
    /**
     * Return the name in use for this logger.
     *
-    * @return String
+    * @return Logger name
     */
    public String getName();
 
    /**
     * Log a debug message.
     *
-    * @param message
+    * @param message Message to send to logger
     */
    public void debug(String message);
 
    /**
     * Log a debug message with an exception
     *
-    * @param message
-    * @param t
+    * @param message Message to send to logger
+    * @param t Throwable to log
     */
    public void debug(String message, Throwable t);
 
    /**
     * Log an informational message.
     *
-    * @param message
+    * @param message Message to send to logger
     */
    public void info(String message);
 
    /**
     * Log an informational message with an exception.
     *
-    * @param message
-    * @param t
+    * @param message Message to send to logger
+    * @param t Throwable to log
     */
    public void info(String message, Throwable t);
    /**
     * Log a warning message.
     *
-    * @param message
+    * @param message Message to send to logger
     */
    public void warn(String message);
 
    /**
     * Log a warning message with an exception.
     *
-    * @param message
-    * @param t
+    * @param message Message to send to logger
+    * @param t Throwable to log
     */
    public void warn(String message, Throwable t);
 
 
    /**
-    * Log an severe message.
+    * Log a severe message.
     *
-    * @param message
+    * @param message Message to send to logger
     */
    public void severe(String message);
 
    /**
-    * Log an severe message with an exception.
+    * Log a severe message with an exception.
     *
-    * @param message
-    * @param t
+    * @param message Message to send to logger
+    * @param t Throwable to log
     */
    public void severe(String message, Throwable t);
 
    /**
-    * Returns true is debug logging is enabled.
+    * Determine if debug level logging is enabled.
+    * @return True if debug logging is enabled.
     */
    public boolean isDebugEnabled();
 
    /**
-    * Returns true is informational logging is enabled.
+    * Determine if informational level debugging is enabled
+    * @return True if informational logging is enabled.
     */
    public boolean isInfoEnabled();
 
    /**
-    * Returns true is warning logging is enabled.
+    * Determine if warning level logging is enabled
+    * @return True if warning logging is enabled.
     */
    public boolean isWarnEnabled();
 
    /**
-    * Returns true is severe logging is enabled.
+    * Determine if severe level logging is enabled
+    * @return True if severe logging is enabled.
     */
    public boolean isSevereEnabled();
 }

@@ -69,28 +69,28 @@ public class ConfigException extends Frame2Exception {
    /**
     * Constructor for ConfigException.
     *
-    * @param arg0
+    * @param message The message for this exception
     */
-   public ConfigException(String arg0) {
-      super(arg0);
+   public ConfigException(String message) {
+      super(message);
    }
 
    /**
     * Constructor for ConfigException.
     *
-    * @param arg0
-    * @param arg1
+    * @param message The message for this exception
+    * @param cause The cause for this exception
     */
-   public ConfigException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
+   public ConfigException(String message, Throwable cause) {
+      super(message, cause);
    }
 
    /**
     * Constructor for ConfigException.
     *
-    * @param arg0
+    * @param cause The cause for this exception
     */
-   public ConfigException(Throwable arg0) {
-      super(arg0);
+   public ConfigException(Throwable cause) {
+      super(cause);
    }
 }

@@ -57,17 +57,22 @@ public class BeanException extends IntrospectorException {
 
 	private String _type;
 
-	public BeanException(String msg, String type) {
+	/**
+	 * Construct a BeanException
+    * @param msg The message for this exception
+    * @param type The type of the bean this exception occurred on
+    */
+   public BeanException(String msg, String type) {
 		super(msg);
 		_type = type;
 	}
 
 	/**
 	 * Constructor for BeanException.
-	 * @param arg0
+	 * @param message The message for this exception.
 	 */
-	BeanException(String arg0) {
-		super(arg0);
+	BeanException(String message) {
+		super(message);
 	}
 
 	/**
@@ -79,11 +84,21 @@ public class BeanException extends IntrospectorException {
 		super(arg0, arg1);
 	}
 
-	public BeanException(String msg, String type, Throwable cause) {
+	/**
+	 * Constructor for BeanException.
+    * @param msg The message for this exception
+    * @param type The type of the bean this exception occurred on
+    * @param cause The cause of this exception
+    */
+   public BeanException(String msg, String type, Throwable cause) {
 		super(msg, cause);
 		_type = type;
 	}
 
+   /**
+    * Get the type of the bean this exception occurred on
+    * @return Bean type as string
+    */
    public String getType() {
       return _type;
    }

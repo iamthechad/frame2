@@ -54,7 +54,7 @@ import org.megatome.frame2.Frame2Exception;
 
 
 /**
- *
+ * Exception thrown whenever an error occurrs translating a SOAP message to an event
  */
 public class TranslationException extends Frame2Exception {
    /**
@@ -67,28 +67,28 @@ public class TranslationException extends Frame2Exception {
    /**
     * Constructor for TranslationException.
     *
-    * @param arg0
+    * @param message The message for this exception
     */
-   public TranslationException(String arg0) {
-      super(arg0);
+   public TranslationException(String message) {
+      super(message);
    }
 
    /**
     * Constructor for TranslationException.
     *
-    * @param arg0
-    * @param arg1
+    * @param message The message for this exception
+    * @param cause The cause for this exception
     */
-   public TranslationException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
+   public TranslationException(String message, Throwable cause) {
+      super(message, cause);
    }
 
    /**
     * Constructor for TranslationException.
     *
-    * @param arg0
+    * @param cause The cause for this exception
     */
-   public TranslationException(Throwable arg0) {
-      super(arg0);
+   public TranslationException(Throwable cause) {
+      super(cause);
    }
 }

@@ -154,11 +154,18 @@ abstract class RequestProcessorBase implements RequestProcessor {
 
    abstract boolean isUserAuthorizedForEvent(String event)
       throws ConfigException;
+
 /*
 	protected boolean isCancelRequest(HttpServletRequest request) {
       return request.getParameter(Globals.CANCEL) != null;
    }
 */
+
+	/**
+	 * Determine if the request to be processed is a cancel request.
+ 	 * @param requestParameters All request parameters
+	 * @return True if this request should be cancelled
+	 */
 	protected boolean isCancelRequest(Map requestParameters) {
 		return requestParameters.get(Globals.CANCEL) != null;
 	}

@@ -79,7 +79,7 @@ public abstract class CommonsValidatorEvent implements Event {
 
    /**
     * Get this event's name
-    * @return
+    * @return Event name
     * @see org.megatome.frame2.event.Event#getName()
     */
    public String getName() {
@@ -88,7 +88,7 @@ public abstract class CommonsValidatorEvent implements Event {
 
    /**
     * Set this event's name.
-    * @param name
+    * @param name The event name
     * @see org.megatome.frame2.event.Event#setName(java.lang.String)
     */
    public void setName(String name) {

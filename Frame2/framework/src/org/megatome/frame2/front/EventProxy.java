@@ -56,7 +56,8 @@ import org.megatome.frame2.front.config.ResolveType;
 
 
 /**
- * EventProxy.java used to wrap a eventDef for  access by request processor
+ * Used to wrap an EventDef for access by request processor
+ * @see org.megatome.frame2.front.config.E
  */
 public class EventProxy {
    private EventDef _eventDef;

@@ -538,7 +538,7 @@ public class Configuration {
     * Returns the httpRequestProcessor.
     * @return RequestProcessorDef
     */
-   public RequestProcessorDef getHttpRequestProcessor() {
+   RequestProcessorDef getHttpRequestProcessor() {
       return _httpRequestProcessor;
    }
 
@@ -546,7 +546,7 @@ public class Configuration {
     * Returns the soapRequestProcessor.
     * @return RequestProcessorDef
     */
-   public RequestProcessorDef getSoapRequestProcessor() {
+   RequestProcessorDef getSoapRequestProcessor() {
       return _soapRequestProcessor;
    }
 

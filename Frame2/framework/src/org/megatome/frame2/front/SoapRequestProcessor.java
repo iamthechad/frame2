@@ -48,7 +48,7 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front;
+package org.megatome.frame2.front;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,7 +88,9 @@ import org.w3c.dom.NodeList;
 
 
 /**
- *
+ * A request models the execution of a SOAP request through the Event and the EventHandlers.  It
+ * is a primary delegate of RequestProcessor, and brings together the data and logic necessary for
+ * processing the request.
  */
 public class SoapRequestProcessor extends RequestProcessorBase {
    private Element[] _elements;
@@ -98,6 +100,12 @@ public class SoapRequestProcessor extends RequestProcessorBase {
       return LoggerFactory.instance(SoapRequestProcessor.class.getName());
    }      
 
+   /**
+    * Create a new instance of SoapRequestProcessor
+    * @param config Configuration from file
+    * @param elements
+    * @param eventPkg
+    */
    public SoapRequestProcessor(Configuration config, Element[] elements, String eventPkg) {
       super(config);
       _elements = elements;
@@ -106,6 +114,12 @@ public class SoapRequestProcessor extends RequestProcessorBase {
       _eventPkg = eventPkg;
    }
 
+   /**
+    * Process the request.
+    * @return Results of processing request
+    * @throws Exception
+    * @see org.megatome.frame2.front.RequestProcessor#processRequest()
+    */
    public Object processRequest() throws Exception {
       getLogger().debug("In SoapRequestProcessor processRequest()");
       final Element[] elements = new Element[0];
@@ -204,10 +218,18 @@ public class SoapRequestProcessor extends RequestProcessorBase {
       return resultList.toArray(elements);
    }
    
+   /**
+    * SoapRequestProcessor only generates a log message for this method.
+    * @see org.megatome.frame2.front.RequestProcessor#preProcess()
+    */
    public void preProcess() {
       getLogger().debug("In SoapRequestProcessor preProcess()");
    }
 
+	/**
+    * SoapRequestProcessor only generates a log message for this method.
+    * @see org.megatome.frame2.front.RequestProcessor#preProcess()
+    */
    public void postProcess() {
       getLogger().debug("In SoapRequestProcessor postProcess()");
    }
@@ -256,6 +278,10 @@ public class SoapRequestProcessor extends RequestProcessorBase {
       return fault.getElement();
    }
 
+   /**
+    * Release resources held by the processor.
+    * @see org.megatome.frame2.front.RequestProcessor#release()
+    */
    public void release() {
       super.release();
       _elements = null;
@@ -390,9 +416,10 @@ public class SoapRequestProcessor extends RequestProcessorBase {
    }
 
    /**
-    * Method validateEvents.
-    *
-    * @return String
+    * Validate the indicated event. Validation is performed against the
+    * schema and against the Commons Validator, if it has been configured.
+    * @param event The event to validate.
+    * @return True if the event passed validation.
     */
    public boolean validateEvent(Event event) {
       return ((event != null) ? event.validate(_errors) : true);

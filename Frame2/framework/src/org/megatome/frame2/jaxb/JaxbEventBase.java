@@ -72,7 +72,8 @@ public class JaxbEventBase extends CommonsValidatorEvent {
 
    /**
     * Validate the state of the object using the internal JAXB validator.
-    *
+    * @param errors Errors object that will be populated with any validation errors.
+    * @return The result of validation 
     * @see org.megatome.frame2.event.Event#validate(Errors)
     */
    public boolean validate(Errors errors) {

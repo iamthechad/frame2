@@ -111,9 +111,13 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 	}
 
 	/**
-	 * Method getEvent.
+	 * Get the event that is associated with the request in the configuration.
+	 * The config entry:
+	 * <pre>&lt;event name="displayUsers" type="test.org.megatome.app.user.DisplayUsers"/&gt;</pre>
+	 * matches the event name "displayUsers" to a class. A request to 
+	 * <code>http://somehost/webapp/displayUsers.f2</code> will invoke the DisplayUsers class.
 	 *
-	 * @return Event
+	 * @return The event that is associated with the request in the configuration.
 	 */
 	public Event getEvent() throws ConfigException {
       String eventName = getEventName(_request.getServletPath());
@@ -210,7 +214,18 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 		return param;
 	}
 
-	public Object processRequest() throws Throwable {
+	/**
+	 * Process the HTTP request. Processing an HTTP request involves the
+	 * following steps:
+	 * <ol><li>Populate the event from request parameters via introspection</li>
+	 * <li>Step through all event handlers, passing in the populated event for each</li>
+	 * <li>Forward to the appropriate location, based on returns from handlers</li>
+	 * </ol>
+    * @return Null
+    * @throws Throwable
+    * @see org.megatome.frame2.front.RequestProcessor#processRequest()
+    */
+   public Object processRequest() throws Throwable {
       getLogger().debug("In HttpRequestProcessor processRequest()");
       String view = null;
       ForwardProxy result = null;
@@ -274,10 +289,18 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 		return null;
 	}
    
+   /**
+    * HTTPRequestProcessor only generates a log message for this method.
+    * @see org.megatome.frame2.front.RequestProcessor#preProcess()
+    */
    public void preProcess() {
       getLogger().debug("In HttpRequestProcessor preProcess()");
    }
    
+   /**
+    * HTTPRequestProcessor only generates a log message for this method.
+    * @see org.megatome.frame2.front.RequestProcessor#postProcess()
+    */
    public void postProcess() {
       getLogger().debug("In HttpRequestProcessor postProcess()");
    }
@@ -291,7 +314,11 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 		}
 	}
 
-	public void release() {
+	/**
+    * Release resources held by the request processor.
+    * @see org.megatome.frame2.front.RequestProcessor#release()
+    */
+   public void release() {
 		_servletContext = null;
 		_request = null;
 		_response = null;

@@ -54,9 +54,7 @@ import org.megatome.frame2.Frame2Exception;
 
 
 /**
- * @author cnazi To change this generated comment edit the template variable "typecomment":
- *         Window>Preferences>Java>Templates. To enable and disable the creation of type comments
- *         go to Window>Preferences>Java>Code Generation.
+ * Exception thrown when an error occurs looking up or resolving a view.
  */
 public class ViewException extends Frame2Exception {
    /**
@@ -69,28 +67,28 @@ public class ViewException extends Frame2Exception {
    /**
     * Constructor for ViewException.
     *
-    * @param arg0
+    * @param message The message for the exception
     */
-   public ViewException(String arg0) {
-      super(arg0);
+   public ViewException(String message) {
+      super(message);
    }
 
    /**
     * Constructor for ViewException.
     *
-    * @param arg0
-    * @param arg1
+    * @param message The message for this exception
+    * @param cause The cause for this exception
     */
-   public ViewException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
+   public ViewException(String message, Throwable cause) {
+      super(message, cause);
    }
 
    /**
     * Constructor for ViewException.
     *
-    * @param arg0
+    * @param cause The cause for this exception
     */
-   public ViewException(Throwable arg0) {
-      super(arg0);
+   public ViewException(Throwable cause) {
+      super(cause);
    }
 }

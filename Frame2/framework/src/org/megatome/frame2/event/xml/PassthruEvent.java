@@ -72,7 +72,7 @@ public interface PassthruEvent extends Event {
 
    /**
     * Set the SOAP request body.
-    * @param element
+    * @param element Data to set
     */
    void setPassthruData(Element element);
 }

@@ -54,7 +54,7 @@ import org.megatome.frame2.Frame2Exception;
 
 
 /**
- *
+ * Exception thrown when a user does not have access to a resource.
  */
 public class AuthorizationException extends Frame2Exception {
    /**
@@ -67,28 +67,28 @@ public class AuthorizationException extends Frame2Exception {
    /**
     * Constructor for AuthorizationException.
     *
-    * @param arg0
+    * @param message The message for this exception
     */
-   public AuthorizationException(String arg0) {
-      super(arg0);
+   public AuthorizationException(String message) {
+      super(message);
    }
 
    /**
     * Constructor for AuthorizationException.
     *
-    * @param arg0
-    * @param arg1
+    * @param message The message for this exception
+    * @param cause The cause of this exception
     */
-   public AuthorizationException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
+   public AuthorizationException(String message, Throwable cause) {
+      super(message, cause);
    }
 
    /**
     * Constructor for AuthorizationException.
     *
-    * @param arg0
+    * @param cause The cause for this exception
     */
-   public AuthorizationException(Throwable arg0) {
-      super(arg0);
+   public AuthorizationException(Throwable cause) {
+      super(cause);
    }
 }
