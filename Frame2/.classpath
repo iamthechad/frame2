@@ -32,5 +32,7 @@
 	<classpathentry kind="lib" path="ext/test/cactus-1.5.jar"/>
 	<classpathentry kind="lib" path="ext/test/aspectjrt-1.1.1.jar"/>
 	<classpathentry kind="lib" path="ext/test/commons-httpclient-2.0.jar"/>
+	<classpathentry kind="lib" path="ext/framework/commons-collections.jar"/>
+	<classpathentry kind="lib" path="ext/framework/commons-beanutils.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
