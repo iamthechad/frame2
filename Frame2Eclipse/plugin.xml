@@ -42,8 +42,8 @@
             name="Frame2 Configuration Editor"
             icon="icons/frame2logo_small.jpg"
             filenames="frame2-config.xml"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             class="org.megatome.frame2.editors.Frame2ConfigEditor"
+            contributorClass="org.megatome.frame2.editors.XMLEditorContributor"
             id="org.megatome.frame2.editors.Frame2ConfigEditor">
       </editor>
    </extension>
