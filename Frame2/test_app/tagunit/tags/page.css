@@ -1,0 +1,101 @@
+h1 {
+  font-family: verdana, arial, helvetica;
+  font-size: 18pt;
+  font-style: normal;
+  font-weight: bold;
+  color: #000000;
+  text-align: left;
+}
+
+h2 {
+  font-family: verdana, arial, helvetica;
+  font-size: 14pt;
+  font-style: normal;
+  font-weight: bold;
+  color: #000000
+}
+
+h3 {
+  font-family: verdana, arial, helvetica;
+  font-size: 10pt;
+  font-style: normal;
+  font-weight: heavy;
+  color: #000000
+}
+
+h6 {
+  font-family: verdana, arial, helvetica;
+  font-size: 8pt;
+  font-style: normal;
+  color: #000000;
+  text-align: left
+}
+
+body, p {
+  font-family: verdana, arial, helvetica;
+  font-size: 10pt;
+  font-style: normal;
+  font-weight: normal;
+  color: #000000;
+  text-align: left
+}
+
+tbody {
+  font-family: verdana, arial, helvetica;
+  font-size: 8pt;
+  font-style: normal;
+  font-weight: normal;
+  color: #000000;
+}
+
+thead {
+  font-family: verdana, arial, helvetica;
+  font-size: 8pt;
+  font-style: normal;
+  font-weight: normal;
+  color: #000000;
+}
+
+a:link, a:visited, a:active {
+  font-family: verdana, arial, helvetica;
+  color: #000000;
+}
+
+.headerLink {
+  font-family: verdana, arial, helvetica;
+  font-size: 8pt;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.headerVersion {
+  font-family: verdana, arial, helvetica;
+  font-size: 7pt;
+  text-align=right;
+  color: #FFFFFF;
+}
+
+.disclaimer {
+  font-size: 7pt;
+  color: #999999;
+}
+
+.pass {
+  color: 00CC00;
+}
+
+.warning {
+  color: FF9900;
+}
+
+.fail {
+  color: #CC0000;
+}
+
+.error {
+  color: #CC0000;
+}
+
+.message {
+  font-size: 8pt;
+}
