@@ -19,7 +19,7 @@ import org.megatome.frame2.log.LoggerFactory;
 import org.w3c.dom.Element;
 
 /**
- * This class holds static methods helpful to writing WAM tests.
+ * This class holds static methods helpful to writing Frame2 tests.
  */
 public class Helper {
 
