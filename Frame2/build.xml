@@ -581,4 +581,29 @@
               password="${tomcat-password}"
               path="/${war-name}"/>
    </target>
+<!-- ****************************************************************** -->
+
+<target name="build_images" depends="init">
+	<mkdir dir="${bin_dist}"/>
+	<!-- Build "short" source image -->
+	<antcall target="source_image"/>
+	<!-- Build full source image -->
+	<!-- Build "short" binary image -->
+	<!-- Build full binary image -->
+</target>
+
+<target name="source_image" depends="init">
+	<mkdir dir="${src_dist}"/>
+	<!-- Build "short" source image -->
+	<copy todir="${src_dist}" includeEmptyDirs="false">
+		<fileset dir="${proj-base}">
+			<exclude name="**/build/**"/>
+			<exclude name="**/dist/**"/>
+			<exclude name="**/ext/**" unless="INCLUDE_EXT"/>
+			<exclude name="**/.*"/>
+			<exclude name="override.properties"/>
+		</fileset>
+	</copy>
+</target>
+
 </project>
