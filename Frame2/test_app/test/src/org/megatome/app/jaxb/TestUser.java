@@ -61,6 +61,7 @@ import org.megatome.app.jaxbgen.impl.ACKImpl;
 import org.megatome.app.jaxbgen.impl.NACKImpl;
 import org.megatome.app.jaxbgen.impl.UserImpl;
 import org.megatome.frame2.errors.Errors;
+import org.megatome.frame2.errors.impl.ErrorsImpl;
 import org.megatome.frame2.util.Helper;
 
 public class TestUser extends TestCase {
@@ -69,7 +70,7 @@ public class TestUser extends TestCase {
    public void testUser() {
 		UserImpl user = makeFred();
 
-      Errors errors = Errors.newInstance();
+      Errors errors = new ErrorsImpl();
       
       assertTrue(user.validate(errors));
       assertTrue(errors.isEmpty());
