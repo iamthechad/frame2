@@ -674,7 +674,7 @@
 		</fileset>
 	</copy>
 	
-	<ant antfile="${image_dist}/samples/build.xml" target="all" inheritall="false"/>
+	<ant antfile="${image_dist}/samples/build.xml" target="build-blankwar" inheritall="false"/>
 
 	<tar destfile="${dist}/${image_dist_name}.tar.gz"
 		compression="gzip"
