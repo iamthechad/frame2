@@ -1,10 +1,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Iterator" %>
 
-<%@ page import="test.org.megatome.app.user.User" %>
+<%@ page import="org.megatome.app.user.User" %>
 <%@ page import="org.megatome.frame2.Globals" %>
 <%@ page import="org.megatome.frame2.errors.Errors" %>
-<%@ page import="test.org.megatome.app.user.DisplayUsers" %>
+<%@ page import="org.megatome.app.user.DisplayUsers" %>
 
 <HTML>
   <HEAD>

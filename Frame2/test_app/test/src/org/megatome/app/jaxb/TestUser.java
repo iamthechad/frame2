@@ -178,13 +178,13 @@ public class TestUser extends TestCase {
    }
 
    public void testUnmarshall() throws Exception  {
-      User user = (User) unmarshall("test/org/megatome/app/jaxb/user.xml");
+      User user = (User) unmarshall("org/megatome/app/jaxb/user.xml");
       assertNotNull(user);
 
-      ACK ack = (ACK) unmarshall("test/org/megatome/app/jaxb/ack.xml");
+      ACK ack = (ACK) unmarshall("org/megatome/app/jaxb/ack.xml");
       assertNotNull(ack);
 
-      NACK nack = (NACK) unmarshall("test/org/megatome/app/jaxb/nack.xml");
+      NACK nack = (NACK) unmarshall("org/megatome/app/jaxb/nack.xml");
       assertNotNull(nack);
    }
 
