@@ -575,7 +575,7 @@
    <!-- Note that this approach of removing and re-installing the
    application is necessary because the reload management feature
    does not support apps deployed through the webapp path. -->
-
+<!--
    <taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"
 	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
    <taskdef name="install"   classname="org.apache.catalina.ant.InstallTask"
@@ -596,6 +596,7 @@
 	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
    <taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"
 	classpath="${tomcat-home}/server/lib/catalina-ant.jar"/>
+	-->
 <!--
    <target name="list" depends="init">
       <list url="${tomcat-url}/manager"
@@ -603,6 +604,7 @@
             password="${tomcat-password}"/>
    </target>
 -->
+	<!--
    <target name="remove" depends="init">
       <remove url="${tomcat-url}/manager"
               username="${admin-username}"
@@ -630,7 +632,6 @@
                password="${admin-password}"
                path="/${war-name}"
                war="file:${war}"/>
-      <!-- Not sure if this is really needed -->
       <echo message="sleeping ${sleeptime_secs} for context load"/>
       <sleep seconds="${sleeptime_secs}"/>
    </target>
@@ -641,6 +642,7 @@
               password="${tomcat-password}"
               path="/${war-name}"/>
    </target>
+	-->
 <!-- ****************************************************************** -->
 
 <target name="build_images" depends="init, javadoc">
