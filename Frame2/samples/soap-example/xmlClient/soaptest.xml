@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<project name="Anteater-test" default="allTests">
+  <taskdef resource="META-INF/Anteater.tasks"/>
+  <typedef resource="META-INF/Anteater.types"/>
+
+  <target name="allTests" depends="saveUser, badSaveUser"/>
+
+  <target name="saveUser">
+    <soapRequest description="Post a simple SOAP request"
+	    href="http://localhost:8080/soap-example/services/UserService"
+	    content="saveUser.xml">
+      <namespace prefix="soap" uri="http://schemas.xmlsoap.org/soap/envelope/"/>
+      <namespace prefix="n" uri="urn:xmethods-delayed-quotes"/>
+      <match>
+	      <responseCode value="200"/>
+	      <xpath select="soap:Envelope/soap:Body/addUserXML/ack"/>
+	      <regexp>ack</regexp>
+      </match>
+    </soapRequest>
+  </target>
+  
+  <target name="badSaveUser">
+    <soapRequest description="Post a simple SOAP request"
+	    href="http://localhost:8080/soap-example/services/UserService"
+	    content="badSaveUser.xml">
+      <namespace prefix="soap" uri="http://schemas.xmlsoap.org/soap/envelope/"/>
+      <namespace prefix="n" uri="urn:xmethods-delayed-quotes"/>
+      <match>
+        <responseCode value="200"/>
+	<xpath select="/soap:Envelope/soap:Body/addUserXML/soap:Fault"/>
+      </match>
+    </soapRequest>
+  </target>
+</project>
