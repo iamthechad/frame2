@@ -101,7 +101,7 @@
 			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
 			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
 			<pathelement location="${tomcat-common}/servlet-api.jar"/>
-			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
+			<!-- <pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/> -->
 			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
 			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
 			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
@@ -121,6 +121,7 @@
 		<path id="run-class-path">
 			<path refid="no-commons-run-class-path"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
 			<!-- <pathelement location="${jwsdp-endorsed-home}/dom.jar"/>
 			<pathelement location="${jwsdp-endorsed-home}/xercesImpl.jar"/> -->
 		</path>
@@ -258,6 +259,7 @@
 	         <fileset dir="./framework/test/src">
 	            <include name="**/Test*.java" />
 	            <exclude name="**/TestMissingCommonsValidation.java"/>
+	         	<exclude name="**/TestMissingFileUpload.java"/>
 	         </fileset>
 	         <fileset dir="./tag/test/src">
 	            <include name="**/Test*.java" />
@@ -287,6 +289,7 @@
 	      <batchtest todir="${reports}">
 	         <fileset dir="./framework/test/src">
 	            <include name="**/TestMissingCommonsValidation.java" />
+	         	<include name="**/TestMissingFileUpload.java"/>
 	         </fileset>
 	      </batchtest>
 	      <classpath>
