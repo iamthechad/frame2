@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+   <!ENTITY common-insert SYSTEM "file:../../common-insert.xml">
+   <!ENTITY test-insert SYSTEM "file:../../test-insert.xml">
+]>
+
+<project name="tag-test" default="all">
+
+   <property name="proj-base" value="../.."/>
+
+   &common-insert;
+   &test-insert;
+
+   <target name="init" depends="set-props" unless="init">
+
+      <tstamp/>
+
+      <property name="local-out" value="${out-dir}/tag/test"/>
+      <property name="build"     value="${local-out}/classes"/>
+      <property name="jar-file"  value="${tag-test-jar}"/>
+
+      <path id="compile-class-path">
+         <path refid="common-compile-class-path"/>
+         <pathelement location="${tm2-jar}"/>
+<!--         <pathelement location="${tag-jar}"/> -->
+         <pathelement path="${out-dir}/tag/classes"/>
+         <pathelement location="${junit-home}/junit.jar"/>
+      </path>
+
+      <path id="run-class-path">
+         <path refid="compile-class-path"/>
+         <path refid="common-runtime-class-path"/>
+         <pathelement location="${jar-file}"/>
+      </path>
+
+      <property name="init" value="true"/>
+
+   </target>
+
+   <target name="prepare-db"/>
+
+</project>

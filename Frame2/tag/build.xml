@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<!DOCTYPE project [
+   <!ENTITY common-insert SYSTEM "file:../common-insert.xml">
+   <!ENTITY prod-insert SYSTEM "file:../prod-insert.xml">
+]>
+-->
+<project name="frame2-tags" default="all">
+
+<property name="proj-base" value=".."/>
+   
+	<target name="all" depends="clean, compile, test, dist, javadoc"/>
+	
+	<target name="init">
+		<property file="override.properties"/>
+		<property file="env.properties"/>
+		<property file="build.properties"/>
+		<!--
+		<property name="local-out" value="${proj-base}/build/tag"/>
+		<property name="build" value="${local-out}/classes"/>
+		<property name="dist" value="${proj-base}/dist"/>
+		<property name="dist.lib" value="${dist}/lib"/>
+		<property name="dist.docs" value="${dist}/docs/tag"/>
+		-->
+		<!--
+		<property name="tomcat-common" value="c:/tomcat_5.0/common/lib"/>
+		-->
+		<!-- <property name="tomcat-common" value="d:/tomcat5.0.18/common/lib"/> -->
+		<!--
+		<property name="commons-validator-home" value="${proj-base}/frame2_libraries/commons-validator-1.0.2"/>
+		<property name="commons-fileupload-home" value="${proj-base}/frame2_libraries/commons-fileupload-1.0"/>
+		<property name="jaxb-home" value="${proj-base}/frame2_libraries/jwsdp-1.3/jaxb/lib"/>
+		<property name="log4j-home" value="${proj-base}/frame2_libraries/jakarta-log4j-1.2.8/dist/lib"/>
+		<property name="taglibs-standard-home" value="${proj-base}/frame2_libraries/jakarta-taglibs-standard-1.0.5/lib"/>
+		-->
+		
+		
+		<path id="compile-class-path">
+			<!-- <path refid="common-compile-class-path"/> -->
+			<!--
+			<pathelement location="${tomcat-common}/jsp-api.jar"/>
+			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
+			<pathelement location="${log4j-home}/log4j-1.2.8.jar"/>
+			<pathelement location="${taglibs-standard-home}/standard.jar"/>
+			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-fileupload-1.0.jar"/>
+			-->
+		</path>
+	</target>
+	
+	<target name="clean" depends="init">
+		<delete dir="${build}"/>
+		<delete dir="${dist.lib}"/>
+		<delete dir="${dist.docs}"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<mkdir dir="${local-out}"/>
+		<mkdir dir="${build}"/>
+		
+		<javac deprecation="on"
+          destdir="${build}"
+          srcdir="./src"
+          classpathref="compile-class-path"
+        />
+		<copy todir="${build}">
+			<fileset dir="./src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="test" depends="compile">
+		<echo message="Testing will go here"/>
+	</target>
+	
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist.lib}"/>
+		<jar jarfile="${dist.lib}/frame2.jar"
+			basedir="${build}"/>		
+	</target>
+	
+	<target name="javadoc" depends="compile">
+		<mkdir dir="${dist.docs}"/>
+		<javadoc destdir="${dist.docs}"
+			windowTitle="Frame2 Tag API">
+			<package name="org.megatome.*"/>
+			<sourcepath location="./src"/>
+			<classpath location="${build}"/>
+			<bottom>
+				<![CDATA[<em>Copyright (C) 2004, Megatome Technologies</em>
+				<br>All Rights Reserved]]>
+			</bottom>
+		</javadoc>
+	</target>
+<!--
+   <property name="proj-base" value=".."/>
+
+   &common-insert;
+   &prod-insert;
+
+   <target name="init" depends="set-props">
+      <tstamp/>
+      <property name="local-out"     value="${out-dir}/tag"/>
+      <property name="build"         value="${local-out}/classes"/>
+      <property name="jar-file"      value="${tag-jar}"/>
+      <path id="compile-class-path">
+         <path refid="common-compile-class-path"/>
+         <pathelement location="${standard-home}/standard.jar"/>
+         <path location="${tm2-jar}"/>
+      </path>
+      <property name="class-META-INF" value="${build}/META-INF"/>
+      <property name="tld-file" value="${proj-base}/app/WEB-INF/taglib.tld"/>
+   </target>
+
+   <target name="prepare-test"/>
+
+   <target name="prepare-package" depends="init">
+      <mkdir dir="${class-META-INF}"/>
+         <copy file="${tld-file}" todir="${class-META-INF}"/>
+   </target>
+-->
+</project>
