@@ -9,7 +9,7 @@
   <display-name>Blank Application</display-name>
 
   <!--
-	The resource bundle context param specifies to the TurboM2
+	The resource bundle context param specifies to the Frame2
 	framework where to find the resource bundle.  
 	The resource bundle allows for internationalization support 
 	and is used by the error tag.
