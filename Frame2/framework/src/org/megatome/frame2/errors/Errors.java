@@ -53,151 +53,140 @@ package org.megatome.frame2.errors;
 import java.util.Iterator;
 
 /**
- * A container for Error objects, which can be stored and retrieved by key. The implementation
- * maintains ordering behaviors (results are returned sorted by key).
+ * A container for Error objects, which can be stored and retrieved by key. The
+ * implementation maintains ordering behaviors (results are returned sorted by
+ * key).
  */
 public interface Errors {
 
-   /**
-   * Add an error with the key only.
-   *
-   * @param key Error key
-   * @return Newly created Error
-   */
-   public abstract Error add(final String key);
+    /**
+     * Add an error with the key only.
+     * @param key Error key
+     * @return Newly created Error
+     */
+    public abstract Error add(final String key);
 
-   /**
-    * Add an error with the key and value.
-    *
-    * @param key Error key
-    * @param value Value to insert into message
-    * @return Newly Created Error
-    */
-   public abstract Error add(final String key, final Object value);
+    /**
+     * Add an error with the key and value.
+     * @param key Error key
+     * @param value Value to insert into message
+     * @return Newly Created Error
+     */
+    public abstract Error add(final String key, final Object value);
 
-   /**
-    * Add an error with the key and values.
-    *
-    * @param key Error key
-    * @param value1 First value to insert into message
-    * @param value2 Second value to insert into message
-    * @return Newly created Error
-    */
-   public abstract Error add(final String key, final Object value1, final Object value2);
+    /**
+     * Add an error with the key and values.
+     * @param key Error key
+     * @param value1 First value to insert into message
+     * @param value2 Second value to insert into message
+     * @return Newly created Error
+     */
+    public abstract Error add(final String key, final Object value1,
+            final Object value2);
 
-   /**
-    * Add an error with the key and values.
-    *
-    * @param key Error key
-    * @param value1 First value to insert into message
-    * @param value2 Second value to insert into message
-    * @param value3 Third value to insert into message
-    * @return Newly created Error
-    */
-   public abstract Error add(final String key, final Object value1, final Object value2, final Object value3);
+    /**
+     * Add an error with the key and values.
+     * @param key Error key
+     * @param value1 First value to insert into message
+     * @param value2 Second value to insert into message
+     * @param value3 Third value to insert into message
+     * @return Newly created Error
+     */
+    public abstract Error add(final String key, final Object value1,
+            final Object value2, final Object value3);
 
-   /**
-    * Add an Error object to the collection
-   * @param error Error to add
-   */
-   public abstract void add(final Error error);
-   
-   /**
-    * Test if the following error (key and values) is already in the Errors object.
-    *
-    * @param error Error to look for
-    *
-    * @return boolean True if the error is in the collection
-    */
-   public abstract boolean contains(final Error error);
-   
-   /**
-    * As with <code>add</code> but only adds the error if an equivalent error is not already in the
-    * collection.
-    *
-    * @param key Error key
-    * @param value Value to insert into message
-    * @return The Error, whether newly created or existing.
-    * @see org.megatome.frame2.errors.Errors#add(String,Object)
-    */
-   public abstract Error addIfUnique(final String key, final Object value);
+    /**
+     * Add an Error object to the collection
+     * @param error Error to add
+     */
+    public abstract void add(final Error error);
 
-   /**
-    * As with <code>add</code> but only adds the error if an equivalent error is not already in the
-    * collection.
-    *
-    * @param key Error key
-    * @param value1 First value to insert into message
-    * @param value2 Second value to insert into message
-    * @return The Error, whether newly created or existing.
-    * @see org.megatome.frame2.errors.Errors#add(String,Object,Object)
-    */
-   public abstract Error addIfUnique(final String key, final Object value1, final Object value2);
-   
-   /**
-    * As with <code>add</code> but only adds the error if an equivalent error is not already in the
-    * collection.
-    *
-    * @param key Error key
-    * @param value1 First value to insert into message
-    * @param value2 Second value to insert into message
-    * @param value3 Third value to insert into message
-    * @return The Error, whether newly created or existing.
-    * @see org.megatome.frame2.errors.Errors#add(String,Object,Object,Object)
-    */
-   public abstract Error addIfUnique(
-      final String key,
-      final Object value1,
-      final Object value2,
-      final Object value3);
-   
-   /**
-    * Get an iterator of all errors for this key.
-    *
-    * @param key Error key to retrieve Error objects for
-    *
-    * @return Iterator of all found Error
-    * objects, or null if none found.
-    */
-   public abstract Iterator iterator(String key);
-   
-   /**
-    * Get an iterator of all errors in this object.
-    *
-    * @return Iterator of all errors in this collection.
-    */
-   public abstract Iterator iterator();
+    /**
+     * Test if the following error (key and values) is already in the Errors
+     * object.
+     * @param error Error to look for
+     * @return boolean True if the error is in the collection
+     */
+    public abstract boolean contains(final Error error);
 
-   /**
-    * Get all errors in the collection in an array
-   * @return Array of Error objects
-   */
-   public abstract Error[] get();
+    /**
+     * As with <code>add</code> but only adds the error if an equivalent error
+     * is not already in the collection.
+     * @param key Error key
+     * @param value Value to insert into message
+     * @return The Error, whether newly created or existing.
+     * @see org.megatome.frame2.errors.Errors#add(String,Object)
+     */
+    public abstract Error addIfUnique(final String key, final Object value);
 
-   /**
-    * Get all Error objects associated with the specified key
-   * @param key Key to search on. Passing null will return all
-   * Error objects in the collection.
-   * @return Array of Error objects
-   */
-   public abstract Error[] get(String key);
+    /**
+     * As with <code>add</code> but only adds the error if an equivalent error
+     * is not already in the collection.
+     * @param key Error key
+     * @param value1 First value to insert into message
+     * @param value2 Second value to insert into message
+     * @return The Error, whether newly created or existing.
+     * @see org.megatome.frame2.errors.Errors#add(String,Object,Object)
+     */
+    public abstract Error addIfUnique(final String key, final Object value1,
+            final Object value2);
 
-   /**
-    * Test to see if te object contains any errors.
-    *
-    * @return boolean Returns true if the object contains no errors, false otherwise.
-    */
-   public abstract boolean isEmpty();
+    /**
+     * As with <code>add</code> but only adds the error if an equivalent error
+     * is not already in the collection.
+     * @param key Error key
+     * @param value1 First value to insert into message
+     * @param value2 Second value to insert into message
+     * @param value3 Third value to insert into message
+     * @return The Error, whether newly created or existing.
+     * @see org.megatome.frame2.errors.Errors#add(String,Object,Object,Object)
+     */
+    public abstract Error addIfUnique(final String key, final Object value1,
+            final Object value2, final Object value3);
 
-   /**
-    * Release this object and the underlying data.  This clears the object as well.
-    */
-   public abstract void release();
+    /**
+     * Get an iterator of all errors for this key.
+     * @param key Error key to retrieve Error objects for
+     * @return Iterator of all found Error objects, or null if none found.
+     */
+    public abstract Iterator iterator(String key);
 
-   /**
-    * Return the number of error objects in this object.
-    *
-    * @return Number of Error objects in the collection
-    */
-   public abstract int size();
+    /**
+     * Get an iterator of all errors in this object.
+     * @return Iterator of all errors in this collection.
+     */
+    public abstract Iterator iterator();
+
+    /**
+     * Get all errors in the collection in an array
+     * @return Array of Error objects
+     */
+    public abstract Error[] get();
+
+    /**
+     * Get all Error objects associated with the specified key
+     * @param key Key to search on. Passing null will return all Error objects
+     *        in the collection.
+     * @return Array of Error objects
+     */
+    public abstract Error[] get(String key);
+
+    /**
+     * Test to see if te object contains any errors.
+     * @return boolean Returns true if the object contains no errors, false
+     *         otherwise.
+     */
+    public abstract boolean isEmpty();
+
+    /**
+     * Release this object and the underlying data. This clears the object as
+     * well.
+     */
+    public abstract void release();
+
+    /**
+     * Return the number of error objects in this object.
+     * @return Number of Error objects in the collection
+     */
+    public abstract int size();
 }

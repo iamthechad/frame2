@@ -48,105 +48,109 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
  * ForwardTagHandler handles the forward elements of the Configuration file.
  */
 class ForwardTagHandler implements ElementHandler {
-   // attribute consts
-   public static final String NAME = "name";
-   public static final String TYPE = "type";
-   public static final String PATH = "path";
-   public static final String INVALID_TYPE = "Error: Invalid forward type ";
+    // attribute consts
+    public static final String NAME = "name";
 
-   // 2 maps needed, one for XML forwards
-   // 1 for html forwards, so each forward name
-   // can be identical for both.  Events are stored
-   // in both for ease of access.
-   HashMap _forwards = new HashMap();
-   HashMap _XMLForwards = new HashMap();
-   Forward _forward;
+    public static final String TYPE = "type";
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      String name = attributes.getValue(NAME);
-      String type = attributes.getValue(TYPE);
-      ForwardType ftype = ForwardType.getValueByString(type);
+    public static final String PATH = "path";
 
-      if (ftype == null) {
-         throw new ParserException(INVALID_TYPE + name + " type " + type);
-      }
+    public static final String INVALID_TYPE = "Error: Invalid forward type ";
 
-      Forward _forward = new Forward(name, ftype, attributes.getValue(PATH));
+    // 2 maps needed, one for XML forwards
+    // 1 for html forwards, so each forward name
+    // can be identical for both. Events are stored
+    // in both for ease of access.
+    Map _forwards = new HashMap();
 
-      if (ftype.equals(ForwardType.HTMLRESOURCE)) {
-         _forwards.put(name, _forward);
-      } else if (ftype.equals(ForwardType.XMLRESOURCE) || ftype.equals(ForwardType.XMLRESPONDER)) {
-         _XMLForwards.put(name, _forward);
-      } else if (ftype.equals(ForwardType.EVENT)) {
-         // put event in both maps 
-         // for easier lookup by type.
-         _forwards.put(name, _forward);
-         _XMLForwards.put(name, _forward);
-      }
-   }
+    Map _XMLForwards = new HashMap();
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-   }
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        String name = attributes.getValue(NAME);
+        String type = attributes.getValue(TYPE);
+        ForwardType ftype = ForwardType.getValueByString(type);
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+        if (ftype == null) {
+            throw new ParserException(INVALID_TYPE + name + " type " + type);
+        }
 
-   /**
-    * @return returns a clone of the Forwards List
-    */
-   public HashMap getForwards(HashMap map) {
-      HashMap copy = new HashMap();
-      Set keys = map.keySet();
+        Forward _forward = new Forward(name, ftype, attributes.getValue(PATH));
 
-      Iterator iter = keys.iterator();
+        if (ftype.equals(ForwardType.HTMLRESOURCE)) {
+            _forwards.put(name, _forward);
+        } else if (ftype.equals(ForwardType.XMLRESOURCE)
+                || ftype.equals(ForwardType.XMLRESPONDER)) {
+            _XMLForwards.put(name, _forward);
+        } else if (ftype.equals(ForwardType.EVENT)) {
+            // put event in both maps
+            // for easier lookup by type.
+            _forwards.put(name, _forward);
+            _XMLForwards.put(name, _forward);
+        }
+    }
 
-      while (iter.hasNext()) {
-         String name = (String) iter.next();
-         Forward forward = (Forward) map.get(name);
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException { // Not needed here
+    }
 
-         copy.put(name, forward.clone());
-      }
+    public void characters(char[] ch, int start, int length)
+            throws ParserException { // Not needed here
+    }
 
-      return copy;
-   }
+    /**
+     * @return returns a clone of the Forwards List
+     */
+    public Map getForwards(Map map) {
+        Map copy = new HashMap();
+        Set keys = map.keySet();
 
-   /**
-    * @return returns a HashMap of the XMLForwards
-    */
-   public HashMap getXMLForwards() {
-      return getForwards(_XMLForwards);
-   }
+        Iterator iter = keys.iterator();
 
-   /**
-    * @return returns a HashMap of the HTMLForwards
-    */
-   public HashMap getHTMLForwards() {
-      return getForwards(_forwards);
-   }
+        while (iter.hasNext()) {
+            String name = (String)iter.next();
+            Forward forward = (Forward)map.get(name);
 
-   /**
-    * clear the Forwards List
-    */
-   public void clear() {
-      _forwards.clear();
-      _XMLForwards.clear();
-   }
+            copy.put(name, forward.clone());
+        }
+
+        return copy;
+    }
+
+    /**
+     * @return returns a HashMap of the XMLForwards
+     */
+    public Map getXMLForwards() {
+        return getForwards(_XMLForwards);
+    }
+
+    /**
+     * @return returns a HashMap of the HTMLForwards
+     */
+    public Map getHTMLForwards() {
+        return getForwards(_forwards);
+    }
+
+    /**
+     * clear the Forwards List
+     */
+    public void clear() {
+        _forwards.clear();
+        _XMLForwards.clear();
+    }
 }

@@ -58,53 +58,57 @@ import org.megatome.frame2.util.sax.ParserException;
 import org.megatome.frame2.util.sax.Frame2SAXReader;
 
 /**
- * EventConfigReader parses the Event Configuration file. It uses the Sax Parser.
- * It creates Handlers for all the elements in the config file, from which run-time
- * configuration objects are extracted.
+ * EventConfigReader parses the Event Configuration file. It uses the Sax
+ * Parser. It creates Handlers for all the elements in the config file, from
+ * which run-time configuration objects are extracted.
  */
 
 public class TemplateConfigReader {
-   public static final String PUT = "put";
-   public static final String TEMPLATE = "template";
-   public static final String TEMPLATES = "templates";
-   public static final String TEMPLATE_CONFIG = "template-config";
+    public static final String PUT = "put";
 
-   private Frame2SAXReader reader;
-   
-   private PutParamTagHandler _putTagHandler;
-   private TemplateTagHandler _templateTagHandler;
-   
+    public static final String TEMPLATE = "template";
 
-   public TemplateConfigReader(HashMap definitions) {
-      _putTagHandler = new PutParamTagHandler();
-      _templateTagHandler = new TemplateTagHandler(_putTagHandler,definitions);
-      reader = new Frame2SAXReader();
+    public static final String TEMPLATES = "templates";
 
-      reader.setElementHandler(TEMPLATE, _templateTagHandler);
-      reader.setElementHandler(PUT, _putTagHandler);
+    public static final String TEMPLATE_CONFIG = "template-config";
 
-      // Now set the Elements which do not have handlers
-      reader.setElement(TEMPLATES);
-      reader.setElement(TEMPLATE_CONFIG);
-   }
+    private Frame2SAXReader reader;
 
-/**
- * Saves the Elements handlers used for parsing the configuration file 
- * and then parses the file.
- * 
- * @exception TemplateException
- */  
-   public void execute(InputStream is) throws TemplateException {
-      
-      try {
-         if (is == null) {
-            throw new ParserException("Error finding template definition file ");
-         } else {
+    private PutParamTagHandler _putTagHandler;
+
+    private TemplateTagHandler _templateTagHandler;
+
+    public TemplateConfigReader(HashMap definitions) {
+        _putTagHandler = new PutParamTagHandler();
+        _templateTagHandler = new TemplateTagHandler(_putTagHandler,
+                definitions);
+        reader = new Frame2SAXReader();
+
+        reader.setElementHandler(TEMPLATE, _templateTagHandler);
+        reader.setElementHandler(PUT, _putTagHandler);
+
+        // Now set the Elements which do not have handlers
+        reader.setElement(TEMPLATES);
+        reader.setElement(TEMPLATE_CONFIG);
+    }
+
+    /**
+     * Saves the Elements handlers used for parsing the configuration file and
+     * then parses the file.
+     * @exception TemplateException
+     */
+    public void execute(InputStream is) throws TemplateException {
+
+        try {
+            if (is == null) {
+                throw new ParserException(
+                        "Error finding template definition file ");
+            }
             reader.parse(is);
-         }
-      } catch (ParserException e) {
-         e.printStackTrace();
-         throw new TemplateException("Unable to load template definition: " + e.getMessage(), e);
-      }
-   }
+        } catch (ParserException e) {
+            e.printStackTrace();
+            throw new TemplateException("Unable to load template definition: "
+                    + e.getMessage(), e);
+        }
+    }
 }

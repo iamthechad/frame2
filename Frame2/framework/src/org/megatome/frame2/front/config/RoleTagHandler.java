@@ -51,6 +51,7 @@
  package org.megatome.frame2.front.config;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
@@ -65,7 +66,7 @@ import org.xml.sax.Attributes;
  */
 class RoleTagHandler implements ElementHandler {
    public final static String NAME = "name";
-   HashSet _roles = new HashSet();
+   Set _roles = new HashSet();
    
      
    public void startElement(String uri, String localName, String qName,
@@ -73,9 +74,13 @@ class RoleTagHandler implements ElementHandler {
       _roles.add(attributes.getValue(NAME));       
    }
 
-   public void endElement(String uri, String localName, String qName) throws ParserException {}
+   public void endElement(String uri, String localName, String qName) throws ParserException {
+        // Not needed here
+   }
 
-   public void characters(char[] ch, int start, int length) throws ParserException {}
+   public void characters(char[] ch, int start, int length) throws ParserException {
+        // Not needed here
+   }
    
    public void clear() {
       _roles.clear();
@@ -84,7 +89,7 @@ class RoleTagHandler implements ElementHandler {
    /**
     * @return returns a clone of the roles HashMap
     */
-   public HashSet getRoles(){
-      return (HashSet)_roles.clone();
+   public Set getRoles(){
+      return (Set)((HashSet)_roles).clone();
    }
 }

@@ -48,67 +48,71 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
  * ViewTagHandler handles the view elements in the configuration file.
  */
 class ViewTagHandler implements ElementHandler {
-   public static final String FORWARD_NAME = "forwardName";
-   public static final String TYPE = "type";
-   public static final String INVALID_TYPE = "Error: Invalid view type ";
-   String _HTMLForwardName;
-   String _XMLForwardName;
+    public static final String FORWARD_NAME = "forwardName";
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      String forwardName = attributes.getValue(FORWARD_NAME);
-      String viewattr = attributes.getValue(TYPE);
-      ViewType vtype = ViewType.getValueByString(viewattr);
+    public static final String TYPE = "type";
 
-      if (vtype == null) {
-         throw new ParserException(INVALID_TYPE + forwardName + " type " + viewattr);
-      }
+    public static final String INVALID_TYPE = "Error: Invalid view type ";
 
-      if (vtype.equals(ViewType.BOTH)) {
-         _HTMLForwardName = forwardName;
-         _XMLForwardName = forwardName;
-      } else if (vtype.equals(ViewType.HTML)) {
-         _HTMLForwardName = forwardName;
-      } else if (vtype.equals(ViewType.XML)) {
-         _XMLForwardName = forwardName;
-      }
-   }
+    String _HTMLForwardName;
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-   }
+    String _XMLForwardName;
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        String forwardName = attributes.getValue(FORWARD_NAME);
+        String viewattr = attributes.getValue(TYPE);
+        ViewType vtype = ViewType.getValueByString(viewattr);
 
-   /**
-    * @return returns a clone of the Events List
-    */
-   public String getXMLForwardName() {
-      return _XMLForwardName;
-   }
+        if (vtype == null) {
+            throw new ParserException(INVALID_TYPE + forwardName + " type "
+                    + viewattr);
+        }
 
-   public String getHTMLForwardName() {
-      return _HTMLForwardName;
-   }
+        if (vtype.equals(ViewType.BOTH)) {
+            _HTMLForwardName = forwardName;
+            _XMLForwardName = forwardName;
+        } else if (vtype.equals(ViewType.HTML)) {
+            _HTMLForwardName = forwardName;
+        } else if (vtype.equals(ViewType.XML)) {
+            _XMLForwardName = forwardName;
+        }
+    }
 
-   /**
-    * clear the forwardName
-    */
-   public void clear() {
-      _XMLForwardName = null;
-      _HTMLForwardName = null;
-   }
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException { // Not needed here
+    }
+
+    public void characters(char[] ch, int start, int length)
+            throws ParserException { // Not needed here
+    }
+
+    /**
+     * @return returns a clone of the Events List
+     */
+    public String getXMLForwardName() {
+        return _XMLForwardName;
+    }
+
+    public String getHTMLForwardName() {
+        return _HTMLForwardName;
+    }
+
+    /**
+     * clear the forwardName
+     */
+    public void clear() {
+        _XMLForwardName = null;
+        _HTMLForwardName = null;
+    }
 }

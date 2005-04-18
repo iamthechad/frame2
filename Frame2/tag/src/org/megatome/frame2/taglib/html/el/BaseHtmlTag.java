@@ -278,7 +278,7 @@ public abstract class BaseHtmlTag extends BaseFrame2Tag {
 
       if (value != null && !value.trim().equals("")) {
          try {
-            result = (String) evalStringAttr(Constants.ALIGN, value);
+            result = evalStringAttr(Constants.ALIGN, value);
             removeAttr(key);
          } catch (Exception e) {
             throw new JspException(
@@ -309,7 +309,7 @@ public abstract class BaseHtmlTag extends BaseFrame2Tag {
          String attrExprValue = (String) _attrs.get(attrName);
          if (!attrExprValue.equals(Constants.NULL_VALUE)) {
 	         try {
-	            attrValue = (String) evalStringAttr(attrName, attrExprValue);
+	            attrValue = evalStringAttr(attrName, attrExprValue);
 	         } catch (Exception e) {
 	            throw new JspException(
 	               " Evaluation attribute failed " + e.getMessage(),

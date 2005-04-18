@@ -58,55 +58,58 @@ import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * EventHandlerTagHandler handles the eventHandler elements of the Configuration file.
+ * EventHandlerTagHandler handles the eventHandler elements of the Configuration
+ * file.
  */
 class TemplateTagHandler implements ElementHandler {
-   private static Logger LOGGER = LoggerFactory.instance(TemplateTagHandler.class.getName());
-   public static final String NAME = "name";
-   public static final String PATH = "path";
-   private PutParamTagHandler _putTagHandler;
-   
-   private HashMap _definitions = new HashMap();
-   private TemplateDef _templateDef;
+    private static Logger LOGGER = LoggerFactory
+            .instance(TemplateTagHandler.class.getName());
 
-   /**
-    * Constructs an EventHandlerTagHandler.
-    *
-    * @param InitParamTagHandler 
-    * @param ForwardTagHandler 
-    *
-    */
+    public static final String NAME = "name";
 
-   TemplateTagHandler(PutParamTagHandler putTagHandler, HashMap definitions) {
-      _definitions = definitions;
-      _putTagHandler = putTagHandler;
-   }
+    public static final String PATH = "path";
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      _templateDef = new TemplateDef();
-      _templateDef.setName(attributes.getValue(NAME));
-      _templateDef.setPath(attributes.getValue(PATH));
-   }
+    private PutParamTagHandler _putTagHandler;
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-      _templateDef.setPutParams(_putTagHandler.getPutParams());
-      _putTagHandler.clear();
-      if (_definitions.containsKey(_templateDef.getName())){
-         // do not add duplicate named plugin defs to list.
-         LOGGER.severe("Error: Duplicate definition " + _templateDef.getName());
-         throw new ParserException("Error: Duplicate definition " + _templateDef.getName());
-      }
-      else {         
-         _definitions.put(_templateDef.getName(),_templateDef);
-      }
-   }
+    private HashMap _definitions = new HashMap();
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+    private TemplateDef _templateDef;
+
+    /**
+     * Constructs an EventHandlerTagHandler.
+     * @param InitParamTagHandler
+     * @param ForwardTagHandler
+     */
+
+    TemplateTagHandler(PutParamTagHandler putTagHandler, HashMap definitions) {
+        _definitions = definitions;
+        _putTagHandler = putTagHandler;
+    }
+
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        _templateDef = new TemplateDef();
+        _templateDef.setName(attributes.getValue(NAME));
+        _templateDef.setPath(attributes.getValue(PATH));
+    }
+
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException {
+        _templateDef.setPutParams(_putTagHandler.getPutParams());
+        _putTagHandler.clear();
+        if (_definitions.containsKey(_templateDef.getName())) {
+            // do not add duplicate named plugin defs to list.
+            LOGGER.severe("Error: Duplicate definition "
+                    + _templateDef.getName());
+            throw new ParserException("Error: Duplicate definition "
+                    + _templateDef.getName());
+        }
+        _definitions.put(_templateDef.getName(), _templateDef);
+    }
+
+    public void characters(char[] ch, int start, int length)
+            throws ParserException {
+    }
 
 }

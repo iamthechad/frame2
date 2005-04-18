@@ -56,87 +56,82 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-
-
 /**
- * The MessageFormatter lightly wraps the MessageFormat class to provide caching of format objects.
- *
+ * The MessageFormatter lightly wraps the MessageFormat class to provide caching
+ * of format objects.
  * @see java.text.MessageFormat
  */
 public class MessageFormatter {
-   static private Map _formats = Collections.synchronizedMap(new HashMap());
+    static private Map _formats = Collections.synchronizedMap(new HashMap());
 
-   private MessageFormatter() {
-   }
+    private MessageFormatter() {
+    }
 
-   /**
-    * Return a formatted string using the given pattern and argument, and using the default locale.
-    *
-    * @param pattern
-    * @param args
-    *
-    * @return String
-    */
-   static public String format(String pattern, Object[] args) {
-      return format(pattern, Locale.getDefault(), args);
-   }
+    /**
+     * Return a formatted string using the given pattern and argument, and using
+     * the default locale.
+     * @param pattern
+     * @param args
+     * @return String
+     */
+    static public String format(String pattern, Object[] args) {
+        return format(pattern, Locale.getDefault(), args);
+    }
 
-   /**
-    * Return  a formatted string using the given pattern, locale and argument.
-    *
-    * @param pattern
-    * @param locale
-    * @param args
-    *
-    * @return String
-    */
-   static public String format(String pattern, Locale locale, Object[] args) {
-      MessageFormat format = getFormat(pattern, locale);
+    /**
+     * Return a formatted string using the given pattern, locale and argument.
+     * @param pattern
+     * @param locale
+     * @param args
+     * @return String
+     */
+    static public String format(String pattern, Locale locale, Object[] args) {
+        MessageFormat format = getFormat(pattern, locale);
 
-      return format.format(args);
-   }
+        return format.format(args);
+    }
 
-   /**
-    * Return a MessageFormat object for the given pattern and locale.  Because these objects are
-    * cached and shared between threads it is important that clients not set the formats or
-    * locales on these objects.  If that is necessary, then it is required that the client clone the
-    * object then use the clone.
-    *
-    * @param pattern
-    * @param locale
-    *
-    * @return MessageFormat
-    */
-   static public MessageFormat getFormat(String pattern, Locale locale) {
-      MessageFormat result = getFromCache(pattern, locale);
+    /**
+     * Return a MessageFormat object for the given pattern and locale. Because
+     * these objects are cached and shared between threads it is important that
+     * clients not set the formats or locales on these objects. If that is
+     * necessary, then it is required that the client clone the object then use
+     * the clone.
+     * @param pattern
+     * @param locale
+     * @return MessageFormat
+     */
+    static public MessageFormat getFormat(String pattern, Locale locale) {
+        MessageFormat result = getFromCache(pattern, locale);
 
-      if (result == null) {
-         result = new MessageFormat(pattern, locale);
-         storeInCache(result, pattern, locale);
-      }
+        if (result == null) {
+            result = new MessageFormat(pattern, locale);
+            storeInCache(result, pattern, locale);
+        }
 
-      return result;
-   }
+        return result;
+    }
 
-   static private MessageFormat getFromCache(String pattern, Locale locale) {
-      Map localeMap = (Map) _formats.get(locale);
+    static private MessageFormat getFromCache(String pattern, Locale locale) {
+        Map localeMap = (Map)_formats.get(locale);
 
-      if (localeMap != null) {
-         return (MessageFormat) localeMap.get(pattern);
-      } else {
-         return null;
-      }
-   }
+        if (localeMap != null) {
+            return (MessageFormat)localeMap.get(pattern);
+        }
 
-   static private void storeInCache(MessageFormat format, String pattern, Locale locale) {
-      Map localeMap = (Map) _formats.get(locale);
+        return null;
+    }
 
-      if (localeMap == null) {
-         localeMap = Collections.synchronizedMap(new HashMap());
+    static private void storeInCache(MessageFormat format, String pattern,
+            Locale locale) {
+        Map localeMap = (Map)_formats.get(locale);
 
-         _formats.put(locale, localeMap);
-      }
+        if (localeMap == null) {
+            localeMap = Collections.synchronizedMap(new HashMap());
 
-      localeMap.put(pattern, format);
-   }
+            _formats.put(locale, localeMap);
+        }
+
+        localeMap.put(pattern, format);
+    }
 }

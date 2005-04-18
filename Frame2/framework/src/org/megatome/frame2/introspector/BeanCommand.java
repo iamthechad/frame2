@@ -73,9 +73,9 @@ abstract class BeanCommand {
    static BeanCommand instance(String key) {
       if (KeyHelper.isIndexed(key)) {
          return INDEXED_COMMAND;
-      } else {
-         return SIMPLE_COMMAND;
-      }
+      } 
+      
+      return SIMPLE_COMMAND;
    }
 
    abstract void set(PropertyMapping mapping, Object value)

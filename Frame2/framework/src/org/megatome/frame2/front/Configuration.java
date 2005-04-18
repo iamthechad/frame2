@@ -73,465 +73,470 @@ import org.megatome.frame2.front.config.RequestProcessorDef;
 import org.megatome.frame2.front.config.ViewType;
 import org.megatome.frame2.plugin.PluginInterface;
 
-
 /**
- * A Configuration populates and holds the data for a Frame2 configuration instance.  Once the data is
- * loaded, the configuration object acts as a factory and cache for the runtime instances of the
- * configuration.
+ * A Configuration populates and holds the data for a Frame2 configuration
+ * instance. Once the data is loaded, the configuration object acts as a factory
+ * and cache for the runtime instances of the configuration.
  */
 public class Configuration {
-	/** Token type used when processing forwards */
-   public static final String XML_TOKEN = "xml";
-   /** Token type used when processing forwards */
-   public static final String HTML_TOKEN = "html";
-   private Map _globalXMLForwards;
-   private Map _globalHTMLForwards;
-   private Map _events;
-   private Map _eventMappings;
-   private Map _eventHandlers;
-   private List _exceptions;
-   private List _plugins;
-   private Map _eventHandlerCache = new HashMap();
-   private String _path;
-   private Date _initTime;
-   private EventConfigReader _reader;
-   private RequestProcessorDef _soapRequestProcessor;
-   private RequestProcessorDef _httpRequestProcessor;
-   
-   private List _pluginProxies = null;
+    /** Token type used when processing forwards */
+    public static final String XML_TOKEN = "xml";
 
-   /**
-    * Constructor for Configuration.  The configuration will be loaded from the file specified with
-    * the path, searching through the local classpath.
-    *
-    * @param path The path of the configuration file to load from.
-    *
-    * @throws ConfigException If loading the configuration fails.
-    */
-   public Configuration(String path) throws ConfigException {
-      _reader = new EventConfigReader(path);
-      _path = path;
-      processConfig();
-   }
+    /** Token type used when processing forwards */
+    public static final String HTML_TOKEN = "html";
 
-   /**
-    * Constructor for Configuration.  The configuration will be loaded from the InputStream
-    *
-    * @param is The InputStream of the configuration file.
-    *
-    * @throws Exception If loading the configuration fails.
-    */
-   public Configuration(InputStream is) throws ConfigException {
-      _reader = new EventConfigReader(is);
-      processConfig();
-   }
+    private Map _globalXMLForwards;
 
-   /**
-    * Process the configuration file.
-    * @throws ConfigException
-    */
-   void processConfig() throws ConfigException {
-      try {
-         _reader.execute();
-      } catch (Frame2Exception e) {
-         throw new ConfigException(e);
-      }
+    private Map _globalHTMLForwards;
 
-      _globalXMLForwards = _reader.getGlobalXMLForwards();
-      _globalHTMLForwards = _reader.getGlobalHTMLForwards();
-      _events = _reader.getEvents();
-      _eventMappings = _reader.getEventMappings();
-      _eventHandlers = _reader.getEventHandlers();
-      _exceptions = _reader.getExceptions();
+    private Map _events;
 
-      _plugins = _reader.getPlugins();
-      loadPluginProxies();
-      
-      _soapRequestProcessor =  _reader.getSoapReqProcHandler ();
-      _httpRequestProcessor =  _reader.getHttpReqProcHandler ();
+    private Map _eventMappings;
 
-      _initTime = new Date();
-   }
+    private Map _eventHandlers;
 
-   /**
-    * Get the path of the configuration file.
-    * @return Configuration file path
-    */
-   String getPath() {
-      return _path;
-   }
+    private List _exceptions;
 
-   /**
-    * Get the time the configuration was initialized
-    * @return Date
-    */
-   Date getInitTime() {
-      return _initTime;
-   }
+    private List _plugins;
 
-   /**
-    * Method getGlobalForwards.
-    *
-    * @return Map 
-    */
-   Map getGlobalXMLForwards() {
-      return _globalXMLForwards;
-   }
+    private Map _eventHandlerCache = new HashMap();
 
-   Map getGlobalHTMLForwards() {
-      return _globalHTMLForwards;
-   }
+    private String _path;
 
-   /**
-    * Method getGlobalForwards.
-    *
-    * @return Map
-    */
-   Forward getGlobalXMLForward(String token) {
-      return (Forward) _globalXMLForwards.get(token);
-   }
+    private Date _initTime;
 
-   Forward getGlobalHTMLForward(String token) {
-      return (Forward) _globalHTMLForwards.get(token);
-   }
+    private EventConfigReader _reader;
 
-   /**
-    * Returns the eventHandlers.
-    *
-    * @return Map
-    */
-   Map getEventHandlers() {
-      return _eventHandlers;
-   }
+    private RequestProcessorDef _soapRequestProcessor;
 
-   /**
-    * Returns the eventMappings.
-    *
-    * @return Map
-    */
-   Map getEventMappings() {
-      return _eventMappings;
-   }
+    private RequestProcessorDef _httpRequestProcessor;
 
-   /**
-    * Returns the events.
-    *
-    * @return Map
-    */
-   Map getEvents() {
-      return _events;
-   }
+    private List _pluginProxies = null;
 
-   /**
-    * Returns the exceptions.
-    *
-    * @return Map
-    */
-   List getExceptions() {
-      return _exceptions;
-   }
-   
-   List getPlugins() {
-      return _plugins;
-   }
-   
-   List getPluginProxies() {
-      return _pluginProxies;
-   }
-   
-   void loadPluginProxies() throws ConfigException {
-      _pluginProxies = new ArrayList();
-      for (Iterator iter = _plugins.iterator(); iter.hasNext();) {
-         PluginDef pluginDef = (PluginDef) iter.next();
-         PluginInterface plugin = null;
+    /**
+     * Constructor for Configuration. The configuration will be loaded from the
+     * file specified with the path, searching through the local classpath.
+     * @param path The path of the configuration file to load from.
+     * @throws ConfigException If loading the configuration fails.
+     */
+    public Configuration(String path) throws ConfigException {
+        _reader = new EventConfigReader(path);
+        _path = path;
+        processConfig();
+    }
 
-         try {
-            String type = pluginDef.getType();
-            //plugin = (PluginInterface) getClass().forName(type).newInstance();
-				plugin = (PluginInterface) Class.forName(type).newInstance();
-         } catch (Exception e) {
+    /**
+     * Constructor for Configuration. The configuration will be loaded from the
+     * InputStream
+     * @param is The InputStream of the configuration file.
+     * @throws Exception If loading the configuration fails.
+     */
+    public Configuration(InputStream is) throws ConfigException {
+        _reader = new EventConfigReader(is);
+        processConfig();
+    }
+
+    /**
+     * Process the configuration file.
+     * @throws ConfigException
+     */
+    void processConfig() throws ConfigException {
+        try {
+            _reader.execute();
+        } catch (Frame2Exception e) {
             throw new ConfigException(e);
-         }
+        }
 
-         _pluginProxies.add(new PluginProxy(pluginDef, plugin));
-      }
-   } 
-   
-   PluginProxy getPluginProxy(String name){
-      List pluginProxys = getPluginProxies();
-      PluginProxy proxy = null;
-      boolean found = false;
-      for (Iterator iter=pluginProxys.iterator(); iter.hasNext();) {
-         proxy = (PluginProxy)iter.next();    
-         if (proxy.getName().equals(name) ){
-            found = true;
-            break;
-         }
-      }
-      return (found) ? proxy : null;
-   }
+        _globalXMLForwards = _reader.getGlobalXMLForwards();
+        _globalHTMLForwards = _reader.getGlobalHTMLForwards();
+        _events = _reader.getEvents();
+        _eventMappings = _reader.getEventMappings();
+        _eventHandlers = _reader.getEventHandlers();
+        _exceptions = _reader.getExceptions();
 
-   /**
-    * Method getEvent.
-    *
-    * @param eventName
-    *
-    * @return DOCUMENT ME!
-    *
-    * @throws ConfigException DOCUMENT ME!
-    */
-   EventProxy getEventProxy(String eventName) throws ConfigException {
-      EventDef eventDef = (EventDef) _events.get(eventName);
-      Event event = null;
+        _plugins = _reader.getPlugins();
+        loadPluginProxies();
 
-      if (eventDef == null) {
-         throw new ConfigException("Invalid Event Name: " + eventName);
-      }
+        _soapRequestProcessor = _reader.getSoapReqProcHandler();
+        _httpRequestProcessor = _reader.getHttpReqProcHandler();
 
-      try {
-         String type = eventDef.getType();
+        _initTime = new Date();
+    }
 
-         if(type != null) {
-            //event = (Event) getClass().forName(type).newInstance();
-				event = (Event) Class.forName(type).newInstance();
-         }
-      } catch (Exception e) {
-         throw new ConfigException("Invalid Event ", e);
-      }
+    /**
+     * Get the path of the configuration file.
+     * @return Configuration file path
+     */
+    String getPath() {
+        return _path;
+    }
 
-      return new EventProxy(eventDef, event);
-   }
+    /**
+     * Get the time the configuration was initialized
+     * @return Date
+     */
+    Date getInitTime() {
+        return _initTime;
+    }
 
-   /**
-    * Method getHandlers.
-    *
-    * @param eventName The name of the event for which to get the handlers.
-    *
-    * @return List An ordered list of the event handlers for this event.
-    */
-   List getHandlers(String eventName) throws ConfigException {
-      if ((eventName == null) || (eventName.length() == 0) || (_events.get(eventName) == null)) {
-         throw new ConfigException("Invalid event name " + eventName);
-      }
+    /**
+     * Method getGlobalForwards.
+     * @return Map
+     */
+    Map getGlobalXMLForwards() {
+        return _globalXMLForwards;
+    }
 
-      List result = (List) _eventHandlerCache.get(eventName);
+    Map getGlobalHTMLForwards() {
+        return _globalHTMLForwards;
+    }
 
-      if (result == null) {
-         result = Collections.unmodifiableList(makeHandlers(eventName));
-         _eventHandlerCache.put(eventName, result);
-      }
+    /**
+     * Method getGlobalForwards.
+     * @return Map
+     */
+    Forward getGlobalXMLForward(String token) {
+        return (Forward)_globalXMLForwards.get(token);
+    }
 
-      return result;
-   }
+    Forward getGlobalHTMLForward(String token) {
+        return (Forward)_globalHTMLForwards.get(token);
+    }
 
-   private List makeHandlers(String eventName) throws ConfigException {
-      List handlerNames = getHandlerNames(eventName);
-      List handlers = new ArrayList();
+    /**
+     * Returns the eventHandlers.
+     * @return Map
+     */
+    Map getEventHandlers() {
+        return _eventHandlers;
+    }
 
-      handlers = makeHandlers(handlerNames);
+    /**
+     * Returns the eventMappings.
+     * @return Map
+     */
+    Map getEventMappings() {
+        return _eventMappings;
+    }
 
-      return handlers;
-   }
+    /**
+     * Returns the events.
+     * @return Map
+     */
+    Map getEvents() {
+        return _events;
+    }
 
-   private List makeHandlers(List handlerNames) throws ConfigException {
-      List result = new ArrayList();
+    /**
+     * Returns the exceptions.
+     * @return Map
+     */
+    List getExceptions() {
+        return _exceptions;
+    }
 
-      try {
-         if (handlerNames != null) {
-            for (int i = 0; i < handlerNames.size(); i++) {
-               String handlerName = (String) handlerNames.get(i);
-               EventHandlerDef handlerDef = (EventHandlerDef) _eventHandlers.get(handlerName);
+    List getPlugins() {
+        return _plugins;
+    }
 
-               if (handlerDef == null) {
-                  throw new ConfigException("Handler : " + handlerName + " is not configured");
-               }
+    List getPluginProxies() {
+        return _pluginProxies;
+    }
 
-               //EventHandler handler = (EventHandler) getClass().forName(handlerDef.getType())
-               //                                         .newInstance();
-					EventHandler handler = (EventHandler) Class.forName(handlerDef.getType())
-																							  .newInstance();
+    void loadPluginProxies() throws ConfigException {
+        _pluginProxies = new ArrayList();
+        for (Iterator iter = _plugins.iterator(); iter.hasNext();) {
+            PluginDef pluginDef = (PluginDef)iter.next();
+            PluginInterface plugin = null;
 
-               result.add(new EventHandlerProxy(handlerName, handler, handlerDef));
+            try {
+                String type = pluginDef.getType();
+                //plugin = (PluginInterface)
+                // getClass().forName(type).newInstance();
+                plugin = (PluginInterface)Class.forName(type).newInstance();
+            } catch (Exception e) {
+                throw new ConfigException(e);
             }
-         }
-      } catch (InstantiationException e) {
-         throw new ConfigException(e);
-      } catch (IllegalAccessException e) {
-         throw new ConfigException(e);
-      } catch (ClassNotFoundException e) {
-         throw new ConfigException(e);
-      }
 
-      return result;
-   }
+            _pluginProxies.add(new PluginProxy(pluginDef, plugin));
+        }
+    }
 
-   private List getHandlerNames(String eventName) throws ConfigException {
-      List handlers = new ArrayList();
-      EventMapping mapping = (EventMapping) _eventMappings.get(eventName);
-
-      if (mapping != null) {
-         handlers = mapping.getHandlers();
-      } else {
-         throw new ConfigException("No mapping defined for event " + eventName);
-      }
-
-      return handlers;
-   }
-
-   /**
-    * Method getDefaultView.
-    *
-    * @param eventName
-    *
-    * @return String
-    */
-   String getEventMappingView(String eventName, ViewType type)
-      throws ViewException {
-      String view = null;
-      EventMapping eventMapping = (EventMapping) getEventMappings().get(eventName);
-
-      view = eventMapping.getView(type.toString());
-
-      if (view == null) {
-         throw new ViewException("There is no view defined in the config file for EventMapping: " +
-            eventName);
-      }
-
-      return view;
-   }
-
-   ForwardProxy resolveForward(EventHandlerProxy handler, String token, String tokenType)
-      throws ViewException {
-      // look in local forward first
-      // then in global forward
-      Forward fwd = null;
-
-      if (tokenType.equals(HTML_TOKEN)) {
-         fwd = handler.getDefinition().getHTMLForward(token);
-      } else if (tokenType.equals(XML_TOKEN)) {
-         fwd = handler.getDefinition().getXMLForward(token);
-      }
-
-      return (fwd == null) ? resolveForward(token, tokenType) : new ForwardProxy(fwd);
-   }
-
-   ForwardProxy resolveForward(String token, String tokenType)
-      throws ViewException {
-      // global forward
-      Forward fwd = resolveGlobalForward(token, tokenType);
-
-      return new ForwardProxy(fwd);
-   }
-
-   Forward resolveGlobalForward(String token, String tokenType)
-      throws ViewException {
-      // global forward
-      Forward fwd = null;
-
-      if (tokenType.equals(HTML_TOKEN)) {
-         fwd = getGlobalHTMLForward(token);
-      } else if (tokenType.equals(XML_TOKEN)) {
-         fwd = getGlobalXMLForward(token);
-      }
-
-      if (fwd == null) {
-         throw new ViewException("Error, The forward name " + token + "does not exist");
-      }
-
-      return fwd;
-   }
-
-   boolean validateFor(String eventName) throws ConfigException {
-      return mappingFor(eventName).isValidate();
-   }
-
-   String inputViewFor(String eventName, String tokenType)
-      throws ConfigException, ViewException {
-      String result = mappingFor(eventName).getInputView();
-
-      if (result == null) {
-         throw new ConfigException("No input view for event " + eventName);
-      }
-
-      return resolveForward(result, tokenType).getPath();
-   }
-
-   ForwardProxy cancelViewFor(String eventName, String tokenType)
-      throws ConfigException, ViewException {
-      String result = mappingFor(eventName).getCancelView();
-
-      if (result == null) {
-         throw new ConfigException("No cancel view for event " + eventName);
-      }
-
-      return resolveForward(result, tokenType);
-   }
-
-   private EventMapping mappingFor(String eventName) throws ConfigException {
-      EventMapping mapping = (EventMapping) _eventMappings.get(eventName);
-
-      if (mapping != null) {
-         return mapping;
-      } else {
-         throw new ConfigException("No mapping for event " + eventName);
-      }
-   }
-
-   ExceptionProxy resolveException(Throwable ex, String tokenType, ViewType vtype)
-      throws ViewException {
-
-      ExceptionDef edef = null;
-      boolean found = false;
-      Iterator iter = _exceptions.iterator();
-      while (iter.hasNext()) {
-         edef = (ExceptionDef)iter.next();
-         String classtype = edef.getType();
-         try {
-				if (Class.forName(classtype).isInstance(ex)) {
-               found = true;
-               break;         
+    PluginProxy getPluginProxy(String name) {
+        List pluginProxys = getPluginProxies();
+        PluginProxy proxy = null;
+        boolean found = false;
+        for (Iterator iter = pluginProxys.iterator(); iter.hasNext();) {
+            proxy = (PluginProxy)iter.next();
+            if (proxy.getName().equals(name)) {
+                found = true;
+                break;
             }
-         }
-         catch (ClassNotFoundException e) {
-         }
-      }
-      if (found) {
-         String view = edef.getView(vtype.toString());
-         Forward fwd = resolveGlobalForward(view, tokenType);
-         return new ExceptionProxy(fwd, edef);
-      }
-      else {
-         return null;
-      }
-   }
+        }
+        return (found) ? proxy : null;
+    }
 
-   String[] rolesfor(String event) throws ConfigException {
-      final String[] TYPE = new String[0];
+    /**
+     * Method getEvent.
+     * @param eventName
+     * @return DOCUMENT ME!
+     * @throws ConfigException DOCUMENT ME!
+     */
+    EventProxy getEventProxy(String eventName) throws ConfigException {
+        EventDef eventDef = (EventDef)_events.get(eventName);
+        Event event = null;
 
-      EventMapping mapping = mappingFor(event);
+        if (eventDef == null) {
+            throw new ConfigException("Invalid Event Name: " + eventName);
+        }
 
-      if (mapping != null) {
-         return mapping.getRoles();
-      } else {
-         return TYPE;
-      }
-   }
-   
-   
-   /**
-    * Returns the httpRequestProcessor.
-    * @return RequestProcessorDef
-    */
-   RequestProcessorDef getHttpRequestProcessor() {
-      return _httpRequestProcessor;
-   }
+        try {
+            String type = eventDef.getType();
 
-   /**
-    * Returns the soapRequestProcessor.
-    * @return RequestProcessorDef
-    */
-   RequestProcessorDef getSoapRequestProcessor() {
-      return _soapRequestProcessor;
-   }
+            if (type != null) {
+                //event = (Event) getClass().forName(type).newInstance();
+                event = (Event)Class.forName(type).newInstance();
+            }
+        } catch (Exception e) {
+            throw new ConfigException("Invalid Event ", e);
+        }
+
+        return new EventProxy(eventDef, event);
+    }
+
+    /**
+     * Method getHandlers.
+     * @param eventName The name of the event for which to get the handlers.
+     * @return List An ordered list of the event handlers for this event.
+     */
+    List getHandlers(String eventName) throws ConfigException {
+        if ((eventName == null) || (eventName.length() == 0)
+                || (_events.get(eventName) == null)) {
+            throw new ConfigException("Invalid event name " + eventName);
+        }
+
+        List result = (List)_eventHandlerCache.get(eventName);
+
+        if (result == null) {
+            result = Collections.unmodifiableList(makeHandlers(eventName));
+            _eventHandlerCache.put(eventName, result);
+        }
+
+        return result;
+    }
+
+    private List makeHandlers(String eventName) throws ConfigException {
+        List handlerNames = getHandlerNames(eventName);
+        List handlers = new ArrayList();
+
+        handlers = makeHandlers(handlerNames);
+
+        return handlers;
+    }
+
+    private List makeHandlers(List handlerNames) throws ConfigException {
+        List result = new ArrayList();
+
+        try {
+            if (handlerNames != null) {
+                for (int i = 0; i < handlerNames.size(); i++) {
+                    String handlerName = (String)handlerNames.get(i);
+                    EventHandlerDef handlerDef = (EventHandlerDef)_eventHandlers
+                            .get(handlerName);
+
+                    if (handlerDef == null) {
+                        throw new ConfigException("Handler : " + handlerName
+                                + " is not configured");
+                    }
+
+                    //EventHandler handler = (EventHandler)
+                    // getClass().forName(handlerDef.getType())
+                    //                                         .newInstance();
+                    EventHandler handler = (EventHandler)Class.forName(
+                            handlerDef.getType()).newInstance();
+
+                    result.add(new EventHandlerProxy(handlerName, handler,
+                            handlerDef));
+                }
+            }
+        } catch (InstantiationException e) {
+            throw new ConfigException(e);
+        } catch (IllegalAccessException e) {
+            throw new ConfigException(e);
+        } catch (ClassNotFoundException e) {
+            throw new ConfigException(e);
+        }
+
+        return result;
+    }
+
+    private List getHandlerNames(String eventName) throws ConfigException {
+        List handlers = new ArrayList();
+        EventMapping mapping = (EventMapping)_eventMappings.get(eventName);
+
+        if (mapping != null) {
+            handlers = mapping.getHandlers();
+        } else {
+            throw new ConfigException("No mapping defined for event "
+                    + eventName);
+        }
+
+        return handlers;
+    }
+
+    /**
+     * Method getDefaultView.
+     * @param eventName
+     * @return String
+     */
+    String getEventMappingView(String eventName, ViewType type)
+            throws ViewException {
+        String view = null;
+        EventMapping eventMapping = (EventMapping)getEventMappings().get(
+                eventName);
+
+        view = eventMapping.getView(type.toString());
+
+        if (view == null) {
+            throw new ViewException(
+                    "There is no view defined in the config file for EventMapping: "
+                            + eventName);
+        }
+
+        return view;
+    }
+
+    ForwardProxy resolveForward(EventHandlerProxy handler, String token,
+            String tokenType) throws ViewException {
+        // look in local forward first
+        // then in global forward
+        Forward fwd = null;
+
+        if (tokenType.equals(HTML_TOKEN)) {
+            fwd = handler.getDefinition().getHTMLForward(token);
+        } else if (tokenType.equals(XML_TOKEN)) {
+            fwd = handler.getDefinition().getXMLForward(token);
+        }
+
+        return (fwd == null) ? resolveForward(token, tokenType)
+                : new ForwardProxy(fwd);
+    }
+
+    ForwardProxy resolveForward(String token, String tokenType)
+            throws ViewException {
+        // global forward
+        Forward fwd = resolveGlobalForward(token, tokenType);
+
+        return new ForwardProxy(fwd);
+    }
+
+    Forward resolveGlobalForward(String token, String tokenType)
+            throws ViewException {
+        // global forward
+        Forward fwd = null;
+
+        if (tokenType.equals(HTML_TOKEN)) {
+            fwd = getGlobalHTMLForward(token);
+        } else if (tokenType.equals(XML_TOKEN)) {
+            fwd = getGlobalXMLForward(token);
+        }
+
+        if (fwd == null) {
+            throw new ViewException("Error, The forward name " + token
+                    + "does not exist");
+        }
+
+        return fwd;
+    }
+
+    boolean validateFor(String eventName) throws ConfigException {
+        return mappingFor(eventName).isValidate();
+    }
+
+    String inputViewFor(String eventName, String tokenType)
+            throws ConfigException, ViewException {
+        String result = mappingFor(eventName).getInputView();
+
+        if (result == null) {
+            throw new ConfigException("No input view for event " + eventName);
+        }
+
+        return resolveForward(result, tokenType).getPath();
+    }
+
+    ForwardProxy cancelViewFor(String eventName, String tokenType)
+            throws ConfigException, ViewException {
+        String result = mappingFor(eventName).getCancelView();
+
+        if (result == null) {
+            throw new ConfigException("No cancel view for event " + eventName);
+        }
+
+        return resolveForward(result, tokenType);
+    }
+
+    private EventMapping mappingFor(String eventName) throws ConfigException {
+        EventMapping mapping = (EventMapping)_eventMappings.get(eventName);
+
+        if (mapping != null) {
+            return mapping;
+        }
+
+        throw new ConfigException("No mapping for event " + eventName);
+    }
+
+    ExceptionProxy resolveException(Throwable ex, String tokenType,
+            ViewType vtype) throws ViewException {
+
+        ExceptionDef edef = null;
+        boolean found = false;
+        Iterator iter = _exceptions.iterator();
+        while (iter.hasNext()) {
+            edef = (ExceptionDef)iter.next();
+            String classtype = edef.getType();
+            try {
+                if (Class.forName(classtype).isInstance(ex)) {
+                    found = true;
+                    break;
+                }
+            } catch (ClassNotFoundException e) { // Not concerned with this
+            }
+        }
+        if (found) {
+            String view = edef.getView(vtype.toString());
+            Forward fwd = resolveGlobalForward(view, tokenType);
+            return new ExceptionProxy(fwd, edef);
+        }
+
+        return null;
+    }
+
+    String[] rolesfor(String event) throws ConfigException {
+        final String[] TYPE = new String[0];
+
+        EventMapping mapping = mappingFor(event);
+
+        if (mapping != null) {
+            return mapping.getRoles();
+        }
+
+        return TYPE;
+    }
+
+    /**
+     * Returns the httpRequestProcessor.
+     * @return RequestProcessorDef
+     */
+    RequestProcessorDef getHttpRequestProcessor() {
+        return _httpRequestProcessor;
+    }
+
+    /**
+     * Returns the soapRequestProcessor.
+     * @return RequestProcessorDef
+     */
+    RequestProcessorDef getSoapRequestProcessor() {
+        return _soapRequestProcessor;
+    }
 
 }

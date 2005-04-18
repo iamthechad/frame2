@@ -52,50 +52,52 @@ package org.megatome.frame2.front;
 
 import java.io.File;
 
-
 public class FileUploadConfig {
 
-	private static String fileTempDir;// = System.getProperty("java.io.tmpdir");
-	private static int bufferSize; //= 4096;
-	private static long maxFileSize; //= 1024 * 1000 * 5;
-	
-	static {
-		fileTempDir = System.getProperty("java.io.tmpdir");
-		bufferSize = 4096;
-		maxFileSize = 1024 * 1000 * 5;
-		
-		if (!fileTempDir.endsWith(File.separator)) {
-			fileTempDir += File.separator;
-		}
-	}
-	
-	private FileUploadConfig() {}
-   
-	public static String getFileTempDir() {
-		return fileTempDir;
-	}
-	
-	public static int getBufferSize() {
-		return bufferSize;
-	}
-	
-	public static long getMaxFileSize() {
-		return maxFileSize;
-	}   
+    private static String fileTempDir;// = System.getProperty("java.io.tmpdir");
 
-   public static void setBufferSize(int i) {
-      bufferSize = i;
-   }
+    private static int bufferSize; //= 4096;
 
-   public static void setFileTempDir(String string) {
-      fileTempDir = string;
-		if (!fileTempDir.endsWith(File.separator)) {
-			fileTempDir += File.separator;
-		}
-   }
+    private static long maxFileSize; //= 1024 * 1000 * 5;
 
-   public static void setMaxFileSize(long l) {
-      maxFileSize = l;
-   }
+    static {
+        fileTempDir = System.getProperty("java.io.tmpdir");
+        bufferSize = 4096;
+        maxFileSize = 1024 * 1000 * 5;
+
+        if (!fileTempDir.endsWith(File.separator)) {
+            fileTempDir += File.separator;
+        }
+    }
+
+    private FileUploadConfig() { // Non-public ctor
+    }
+
+    public static String getFileTempDir() {
+        return fileTempDir;
+    }
+
+    public static int getBufferSize() {
+        return bufferSize;
+    }
+
+    public static long getMaxFileSize() {
+        return maxFileSize;
+    }
+
+    public static void setBufferSize(int i) {
+        bufferSize = i;
+    }
+
+    public static void setFileTempDir(String string) {
+        fileTempDir = string;
+        if (!fileTempDir.endsWith(File.separator)) {
+            fileTempDir += File.separator;
+        }
+    }
+
+    public static void setMaxFileSize(long l) {
+        maxFileSize = l;
+    }
 
 }

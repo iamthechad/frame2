@@ -58,100 +58,101 @@ import java.util.Map;
 import org.megatome.frame2.tagsupport.TagConstants;
 
 /**
- * URLHelper provides simple services for encoding and appending parameters to URLs.
+ * URLHelper provides simple services for encoding and appending parameters to
+ * URLs.
  */
 
 public class URLHelper {
 
-	static protected String ENC_UTF_8 = "UTF-8";
+    static protected String ENC_UTF_8 = "UTF-8";
 
-	static protected String QUESTION_MARK = "?";
-	static protected String SEP = "&";
+    static protected String QUESTION_MARK = "?";
 
-	/**
-	 * Encode the provided URL to UTF-8.
-	 * @param value value to encode.  
-	 * @return UTF-8 encoded version of the input value.
-	 * @throws UnsupportedEncodingException if the enoding type is invalid.
-	 */
-	protected static String encodeURL(String value)
-		throws UnsupportedEncodingException {
-		return URLEncoder.encode(value, ENC_UTF_8);
-	}
+    static protected String SEP = "&";
 
-	/**
-	 * Append a query parameter string to the input href.  For example, if the input href =http://finance.yahoo.com/q
-	 * and the params contained the key value pairs of "s", "msft"; "d", "v2, this method would return
-	 * the following url: <code>http://finance.yahoo.com/q?s=msft&d=v2</code>
-	 * @param href  a tag's href attribute
-	 * @param params map containing the query parameters key, value pairs.
-	 * @return Href with appended query parameters.  If input params is null or is empty, the 
-	 * 			input href is returned.
-	 * @throws UnsupportedEncodingException
-	 */
-	public static String appendQueryParams(String href, Map params)
-		throws UnsupportedEncodingException {
+    /**
+     * Encode the provided URL to UTF-8.
+     * @param value value to encode.
+     * @return UTF-8 encoded version of the input value.
+     * @throws UnsupportedEncodingException if the enoding type is invalid.
+     */
+    protected static String encodeURL(String value)
+            throws UnsupportedEncodingException {
+        return URLEncoder.encode(value, ENC_UTF_8);
+    }
 
-		if (params == null || params.keySet().size() == 0)
-			return href;
-		else {
-			StringBuffer url = new StringBuffer();
-			url.append(href);
+    /**
+     * Append a query parameter string to the input href. For example, if the
+     * input href =http://finance.yahoo.com/q and the params contained the key
+     * value pairs of "s", "msft"; "d", "v2, this method would return the
+     * following url: <code>http://finance.yahoo.com/q?s=msft&d=v2</code>
+     * @param href a tag's href attribute
+     * @param params map containing the query parameters key, value pairs.
+     * @return Href with appended query parameters. If input params is null or
+     *         is empty, the input href is returned.
+     * @throws UnsupportedEncodingException
+     */
+    public static String appendQueryParams(String href, Map params)
+            throws UnsupportedEncodingException {
 
-			// Add the query parameters to the href.
-			boolean firstParam = true;
-			Iterator keys = params.keySet().iterator();
-			while (keys.hasNext()) {
-				String key = (String) keys.next();
-				Object value = params.get(key);
-				if (value instanceof String[]) {
-					String values[] = (String[]) value;
-					for (int i = 0; i < values.length; i++) {
-						firstParam = appendOneQueryParam(url, firstParam, key, encodeURL(values[i]));
-					}
-				} else
-					firstParam = appendOneQueryParam(url, firstParam, key, value);
-			}
+        if (params == null || params.keySet().size() == 0) {
+            return href;
+        }
+        StringBuffer url = new StringBuffer();
+        url.append(href);
 
-			return (url.toString());
-		}
-	}
+        // Add the query parameters to the href.
+        boolean firstParam = true;
+        Iterator keys = params.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = (String)keys.next();
+            Object value = params.get(key);
+            if (value instanceof String[]) {
+                String values[] = (String[])value;
+                for (int i = 0; i < values.length; i++) {
+                    firstParam = appendOneQueryParam(url, firstParam, key,
+                            encodeURL(values[i]));
+                }
+            } else
+                firstParam = appendOneQueryParam(url, firstParam, key, value);
+        }
 
-	/**
-	 * Appends one query parameter to the input url.
-	 * @param url contains the url and processed query parameters.
-	 * @param firstParam true if this is the first query parameter processed, otherwise false.
-	 * @param key key of the query parameter
-	 * @param value value of the query parameter
-	 * @return False after the first query parameter is processed.
-	 * @throws UnsupportedEncodingException
-	 */
-	protected static boolean appendOneQueryParam(
-		StringBuffer url,
-		boolean firstParam,
-		String key,
-		Object value)
-		throws UnsupportedEncodingException {
-		String paramSep = SEP;
-		if (firstParam) {
-			paramSep = QUESTION_MARK;
-			firstParam = false;
-		}
+        return (url.toString());
+    }
 
-		url.append(paramSep);
- 		url.append(URLEncoder.encode(key, ENC_UTF_8));
-		url.append(TagConstants.EQUAL);
+    /**
+     * Appends one query parameter to the input url.
+     * @param url contains the url and processed query parameters.
+     * @param firstParam true if this is the first query parameter processed,
+     *        otherwise false.
+     * @param key key of the query parameter
+     * @param value value of the query parameter
+     * @return False after the first query parameter is processed.
+     * @throws UnsupportedEncodingException
+     */
+    protected static boolean appendOneQueryParam(StringBuffer url,
+            boolean firstParam, String key, Object value)
+            throws UnsupportedEncodingException {
+        String paramSep = SEP;
+        if (firstParam) {
+            paramSep = QUESTION_MARK;
+            firstParam = false;
+        }
 
-		// If value is null, then done.
-		if (value != null) {
-			if (value instanceof String) {
-				url.append(encodeURL((String) value));
-			} else {			
-				url.append(encodeURL(value.toString()));
-			}
-		}
-	
-	return firstParam;
-	}
+        url.append(paramSep);
+        url.append(URLEncoder.encode(key, ENC_UTF_8));
+        url.append(TagConstants.EQUAL);
+
+        // If value is null, then done.
+        if (value != null) {
+            if (value instanceof String) {
+                url.append(encodeURL((String)value));
+            } else {
+                url.append(encodeURL(value.toString()));
+            }
+        }
+
+        return firstParam;
+    }
 
 }

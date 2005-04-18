@@ -71,12 +71,12 @@ final public class ErrorsImpl implements Errors {
 
     static private Error[] _typeArray = new Error[0];
 
-    public ErrorsImpl() {
+    public ErrorsImpl() { // Non-public ctor
     }
 
     /**
      * @param key
-     * @return 
+     * @return
      * @see org.megatome.frame2.errors.Errors#add(java.lang.String)
      */
     public Error add(final String key) {
@@ -85,7 +85,6 @@ final public class ErrorsImpl implements Errors {
 
     /**
      * Add an error with the key and value.
-     * 
      * @param key Error key
      * @param value Value to insert into message
      */
@@ -95,7 +94,6 @@ final public class ErrorsImpl implements Errors {
 
     /**
      * Add an error with the key and values.
-     * 
      * @param key Error key
      * @param value1 First value to insert into message
      * @param value2 Second value to insert into message
@@ -106,7 +104,6 @@ final public class ErrorsImpl implements Errors {
 
     /**
      * Add an error with the key and values.
-     * 
      * @param key Error key
      * @param value1 First value to insert into message
      * @param value2 Second value to insert into message
@@ -121,7 +118,6 @@ final public class ErrorsImpl implements Errors {
 
     /**
      * Add an Error object to the collection
-     * 
      * @param error Error to add
      */
     public void add(final Error error) {
@@ -139,9 +135,7 @@ final public class ErrorsImpl implements Errors {
     /**
      * Test if the following error (key and values) is already in the Errors
      * object.
-     * 
      * @param error Error to look for
-     * 
      * @return boolean True if the error is in the collection
      */
     public boolean contains(final Error error) {
@@ -151,16 +145,14 @@ final public class ErrorsImpl implements Errors {
     }
 
     private Collection errorsForKey(final String key) {
-        return (Collection) _errors.get(key);
+        return (Collection)_errors.get(key);
     }
 
     /**
      * As with <code>add</code> but only adds the error if an equivalent error
      * is not already in the collection.
-     * 
      * @param key Error key
      * @param value Value to insert into message
-     * 
      * @see org.megatome.frame2.errors.Errors#add(String,Object)
      */
     public Error addIfUnique(final String key, final Object value) {
@@ -170,11 +162,9 @@ final public class ErrorsImpl implements Errors {
     /**
      * As with <code>add</code> but only adds the error if an equivalent error
      * is not already in the collection.
-     * 
      * @param key Error key
      * @param value1 First value to insert into message
      * @param value2 Second value to insert into message
-     * 
      * @see org.megatome.frame2.errors.Errors#add(String,Object,Object)
      */
     public Error addIfUnique(final String key, final Object value1,
@@ -185,12 +175,10 @@ final public class ErrorsImpl implements Errors {
     /**
      * As with <code>add</code> but only adds the error if an equivalent error
      * is not already in the collection.
-     * 
      * @param key Error key
      * @param value1 First value to insert into message
      * @param value2 Second value to insert into message
      * @param value3 Third value to insert into message
-     * 
      * @see org.megatome.frame2.errors.Errors#add(String,Object,Object,Object)
      */
     public Error addIfUnique(final String key, final Object value1,
@@ -206,20 +194,17 @@ final public class ErrorsImpl implements Errors {
 
     /**
      * Get an iterator of all errors for this key.
-     * 
      * @param key Error key to retrieve Error objects for
-     * 
      * @return Iterator of all found Error objects, or null if none found.
      */
     public Iterator iterator(String key) {
-        Collection errorsForKey = (Collection) _errors.get(key);
+        Collection errorsForKey = (Collection)_errors.get(key);
 
         return (errorsForKey == null) ? null : errorsForKey.iterator();
     }
 
     /**
      * Get an iterator of all errors in this object.
-     * 
      * @return Iterator of all errors in this collection.
      */
     public Iterator iterator() {
@@ -228,16 +213,14 @@ final public class ErrorsImpl implements Errors {
 
     /**
      * Get all errors in the collection in an array
-     * 
      * @return Array of Error objects
      */
     public Error[] get() {
-        return (Error[]) allErrors().toArray(_typeArray);
+        return (Error[])allErrors().toArray(_typeArray);
     }
 
     /**
      * Get all Error objects associated with the specified key
-     * 
      * @param key Key to search on. Passing null will return all Error objects
      *        in the collection.
      * @return Array of Error objects
@@ -245,14 +228,14 @@ final public class ErrorsImpl implements Errors {
     public Error[] get(String key) {
         if (key == null) {
             return get();
-        } else {
-            Collection col = errorsForKey(key);
-            if (col != null) {
-                return (Error[]) col.toArray(_typeArray);
-            } else {
-                return _typeArray;
-            }
         }
+
+        Collection col = errorsForKey(key);
+        if (col != null) {
+            return (Error[])col.toArray(_typeArray);
+        }
+
+        return _typeArray;
     }
 
     private Collection allErrors() {
@@ -260,7 +243,7 @@ final public class ErrorsImpl implements Errors {
         Iterator errorsForKeys = _errors.values().iterator();
 
         while (errorsForKeys.hasNext()) {
-            result.addAll((Collection) errorsForKeys.next());
+            result.addAll((Collection)errorsForKeys.next());
         }
 
         return result;
@@ -268,7 +251,6 @@ final public class ErrorsImpl implements Errors {
 
     /**
      * Test to see if te object contains any errors.
-     * 
      * @return boolean Returns true if the object contains no errors, false
      *         otherwise.
      */
@@ -288,7 +270,7 @@ final public class ErrorsImpl implements Errors {
         Iterator errors = iterator();
 
         while (errors.hasNext()) {
-            Error error = (Error) errors.next();
+            Error error = (Error)errors.next();
             error = null;
         }
 
@@ -298,7 +280,6 @@ final public class ErrorsImpl implements Errors {
 
     /**
      * Return the number of error objects in this object.
-     * 
      * @return Number of Error objects in the collection
      */
     public int size() {
@@ -308,7 +289,6 @@ final public class ErrorsImpl implements Errors {
     /**
      * Generate a human readable version of this collection. Useful for
      * debugging during application development.
-     * 
      * @return String representation of all contained Errors
      * @see java.lang.Object#toString()
      */
@@ -317,7 +297,7 @@ final public class ErrorsImpl implements Errors {
         Iterator errors = iterator();
 
         while (errors.hasNext()) {
-            Error error = (Error) errors.next();
+            Error error = (Error)errors.next();
 
             buffer.append("Errors: Key[" + error.getKey() + "] Value["
                     + error.getValue() + "]\n");

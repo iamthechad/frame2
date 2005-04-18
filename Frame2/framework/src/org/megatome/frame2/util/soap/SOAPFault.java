@@ -56,75 +56,75 @@ import org.megatome.frame2.util.dom.DOMStreamConverter;
 import org.megatome.frame2.util.dom.DocumentException;
 import org.w3c.dom.Element;
 
-
 /**
- * Models a SOAPFault and emits the fault envelope based on inputs for the detail. When an
- * error is encountered in processing a SOAP request, this object may be instantiated, its detail
- * set, then the body of the response may be set with the fault's element.
+ * Models a SOAPFault and emits the fault envelope based on inputs for the
+ * detail. When an error is encountered in processing a SOAP request, this
+ * object may be instantiated, its detail set, then the body of the response may
+ * be set with the fault's element.
  */
 public class SOAPFault {
-   private static Logger LOGGER = LoggerFactory.instance(SOAPFault.class.getName());
-   static public final String SOAP_URI = "http://schemas.xmlsoap.org/soap/envelope/";
-   private String _detailMessage;
-   private boolean _encode;
+    private static Logger LOGGER = LoggerFactory.instance(SOAPFault.class
+            .getName());
 
-   /**
-    * Get the element representation of the fault.  This representation can be assigned as the body
-    * of a SOAP response.  Remember that this element will need to be imported into the response
-    * document.
-    *
-    * @return Element
-    */
-   public Element getElement() throws SOAPException {
-      try {
-         String body = getBody(_detailMessage);
+    static public final String SOAP_URI = "http://schemas.xmlsoap.org/soap/envelope/";
 
-         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Creating element for SOAP fault : " + body);
-         }
+    private String _detailMessage;
 
-         return (Element) DOMStreamConverter.fromString(body, true);
-      } catch (DocumentException e) {
-         throw new SOAPException("Unable to create fault element", e);
-      }
-   }
+    private boolean _encode;
 
-   private String getBody(String message) {
-      final String faultBodyStart =
-         "<SOAP-ENV:Fault xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-         "<faultcode>SOAP-ENV:Server</faultcode>" + "<faultstring>Server Error</faultstring>" +
-         "<detail>";
+    /**
+     * Get the element representation of the fault. This representation can be
+     * assigned as the body of a SOAP response. Remember that this element will
+     * need to be imported into the response document.
+     * @return Element
+     */
+    public Element getElement() throws SOAPException {
+        try {
+            String body = getBody(_detailMessage);
 
-      final String faultBodyEnd = "</detail></SOAP-ENV:Fault>";
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Creating element for SOAP fault : " + body);
+            }
 
-      if (message != null) {
-         if (_encode == true) {
-            message = DOMStreamConverter.encode(message);
-         }
+            return (Element)DOMStreamConverter.fromString(body, true);
+        } catch (DocumentException e) {
+            throw new SOAPException("Unable to create fault element", e);
+        }
+    }
 
-         return faultBodyStart + message + faultBodyEnd;
-      } else {
-         return faultBodyStart + faultBodyEnd;
-      }
-   }
+    private String getBody(String message) {
+        final String faultBodyStart = "<SOAP-ENV:Fault xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+                + "<faultcode>SOAP-ENV:Server</faultcode>"
+                + "<faultstring>Server Error</faultstring>" + "<detail>";
 
-   /**
-    * Sets the detailed message for the fault.
-    *
-    * @param message
-    */
-   public void setDetailMessage(String message) {
-      setDetailMessage(message, false);
-   }
+        final String faultBodyEnd = "</detail></SOAP-ENV:Fault>";
 
-   /**
-    * Sets the detailed message for the fault, but first encodes the message.
-    *
-    * @param string
-    * @param b
-    */
-   public void setDetailMessage(String message, boolean encode) {
-      _detailMessage = message;
-      _encode = encode;
-   }
+        if (message != null) {
+            if (_encode == true) {
+                message = DOMStreamConverter.encode(message);
+            }
+
+            return faultBodyStart + message + faultBodyEnd;
+        }
+
+        return faultBodyStart + faultBodyEnd;
+    }
+
+    /**
+     * Sets the detailed message for the fault.
+     * @param message
+     */
+    public void setDetailMessage(String message) {
+        setDetailMessage(message, false);
+    }
+
+    /**
+     * Sets the detailed message for the fault, but first encodes the message.
+     * @param string
+     * @param b
+     */
+    public void setDetailMessage(String message, boolean encode) {
+        _detailMessage = message;
+        _encode = encode;
+    }
 }

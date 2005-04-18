@@ -70,7 +70,7 @@ public class TestHtmlTag extends BaseHtmlTagTest {
       return new HtmlTag();      
    }
 
-   public void beginHtmlTag(WebRequest request) throws Exception {
+   public void beginHtmlTag(WebRequest rquest) throws Exception {
    }
 
    public void testHtmlTag() throws Exception{

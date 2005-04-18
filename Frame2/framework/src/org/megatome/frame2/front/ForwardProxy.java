@@ -53,50 +53,48 @@ package org.megatome.frame2.front;
 import org.megatome.frame2.front.config.Forward;
 import org.megatome.frame2.front.config.ForwardType;
 
-
 /**
- * ForwardProxy.java used to wrap a forward for  access by request processor
+ * ForwardProxy.java used to wrap a forward for access by request processor
  */
 public class ForwardProxy {
-   private Forward _forward;
+    private Forward _forward;
 
-   // no dft constructor
-   public ForwardProxy() {
-   }
+    protected ForwardProxy() { // Non-public ctor
+    }
 
-   public ForwardProxy(Forward forward) {
-      _forward = forward;
-   }
+    public ForwardProxy(Forward forward) {
+        _forward = forward;
+    }
 
-   public String getPath() {
-      return _forward.getPath();
-   }
+    public String getPath() {
+        return _forward.getPath();
+    }
 
-   public String getName() {
-      return _forward.getName();
-   }
+    public String getName() {
+        return _forward.getName();
+    }
 
-   public boolean isResourceType() {
-      return (_forward.getType().equals(ForwardType.HTMLRESOURCE) ||
-      _forward.getType().equals(ForwardType.XMLRESOURCE));
-   }
+    public boolean isResourceType() {
+        return (_forward.getType().equals(ForwardType.HTMLRESOURCE) || _forward
+                .getType().equals(ForwardType.XMLRESOURCE));
+    }
 
-   public boolean isEventType() {
-      return (_forward.getType().equals(ForwardType.EVENT));
-   }
+    public boolean isEventType() {
+        return (_forward.getType().equals(ForwardType.EVENT));
+    }
 
-   public boolean isResponderType() {
-      return (_forward.getType().equals(ForwardType.XMLRESPONDER));
-   }
+    public boolean isResponderType() {
+        return (_forward.getType().equals(ForwardType.XMLRESPONDER));
+    }
 
-   public boolean isRedirect() {
-      boolean redirect = false;
-      int index = _forward.getPath().indexOf("://");
+    public boolean isRedirect() {
+        boolean redirect = false;
+        int index = _forward.getPath().indexOf("://");
 
-      if (index > -1) {
-         redirect = true;
-      }
+        if (index > -1) {
+            redirect = true;
+        }
 
-      return redirect;
-   }
+        return redirect;
+    }
 }

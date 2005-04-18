@@ -52,14 +52,16 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * EventMapping is an Object representation of the eventMapping element in the configuration file.
  */
 public class EventMapping {
-   private ArrayList _handlers = new ArrayList();
-   private HashMap _view = new HashMap();
+   private List _handlers = new ArrayList();
+   private Map _view = new HashMap();
    private Security _security;
    private String _eventName;
    private String _inputView;
@@ -82,7 +84,7 @@ public class EventMapping {
     *
     * @param handlers ArrayList of all the eventHandlers for that eventMapping
     */
-   public void setHandlers(ArrayList handlers) {
+   public void setHandlers(List handlers) {
       _handlers = handlers;
    }
 
@@ -91,8 +93,8 @@ public class EventMapping {
     *
     * @return ArrayList List of eventHandlers
     */
-   public ArrayList getHandlers() {
-      return (ArrayList) _handlers.clone();
+   public List getHandlers() {
+      return (List)((ArrayList)_handlers).clone();
    }
 
    /**
@@ -123,7 +125,7 @@ public class EventMapping {
     * @param map The HashMap of all the views for that eventMapping
     * 
     */
-   public void setView(HashMap map) {
+   public void setView(Map map) {
       _view = map;
    }
 
@@ -163,13 +165,14 @@ public class EventMapping {
    public Object clone() {
       EventMapping em = new EventMapping(_eventName);
 
-      em.setHandlers((ArrayList) _handlers.clone());
+      List l = (List)((ArrayList)_handlers).clone();
+      em.setHandlers(l);
 
       if (_security != null) {
          em.setSecurity((Security) _security.clone());
       }
 
-      em.setView((HashMap) _view.clone());
+      em.setView((Map)((HashMap) _view).clone());
       em.setInputView(_inputView);
       em.setCancelView(_cancelView);
       em.setValidate(_validate);
@@ -223,9 +226,9 @@ public class EventMapping {
 
       if (_security != null) {
          return _security.getRoles();
-      } else {
-         return TYPE;
-      }
+      } 
+      
+      return TYPE;
    }
 
 	/**

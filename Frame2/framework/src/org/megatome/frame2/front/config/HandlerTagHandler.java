@@ -51,6 +51,7 @@
  package org.megatome.frame2.front.config;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
@@ -64,7 +65,7 @@ import org.xml.sax.Attributes;
  */
 class HandlerTagHandler implements ElementHandler {
    private static Logger LOGGER = LoggerFactory.instance(HandlerTagHandler.class.getName());
-   ArrayList _handlers = new ArrayList();
+   List _handlers = new ArrayList();
 
    public void startElement(String uri, String localName, String qName, Attributes attributes)
       throws ParserException {
@@ -76,18 +77,18 @@ class HandlerTagHandler implements ElementHandler {
    }
 
    public void endElement(String uri, String localName, String qName)
-      throws ParserException {
+      throws ParserException { // Not needed here
    }
 
    public void characters(char[] ch, int start, int length)
-      throws ParserException {
+      throws ParserException { // Not needed here
    }
 
    /**
     * @return returns a clone of the Events List
     */
-   public ArrayList getHandlers() {
-      return (ArrayList) _handlers.clone();
+   public List getHandlers() {
+      return (List)((ArrayList)_handlers).clone();
    }
 
    /**

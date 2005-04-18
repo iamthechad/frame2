@@ -90,7 +90,7 @@ public class RadioTag extends BaseInputTag {
        }
                  
        try {
-          _displayValue = (String) evalStringAttr(Constants.DISPLAY_VALUE, dispExpr);
+          _displayValue = evalStringAttr(Constants.DISPLAY_VALUE, dispExpr);
        } catch (Exception e) {
           throw new JspException(
              " Evaluation attribute failed " + e.getMessage(), e);
@@ -111,7 +111,7 @@ public class RadioTag extends BaseInputTag {
 
       String valueval = null; // init diff of checkval
       try {
-         valueval = (String) evalStringAttr(Constants.VALUE, valueExpr);
+         valueval = evalStringAttr(Constants.VALUE, valueExpr);
       } catch (Exception e) {
          throw new JspException(
             " Evaluation attribute failed " + e.getMessage(), e);
@@ -182,9 +182,9 @@ public class RadioTag extends BaseInputTag {
 			(bodyContent != null && 
 			 !bodyContent.getString().equals(""))) {
 			return true;
-		} else {
-			return false;
-		}
+		} 
+
+		return false;
 	}
 
 	/**

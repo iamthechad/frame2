@@ -52,6 +52,7 @@
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.megatome.frame2.util.sax.ElementHandler;
@@ -67,7 +68,7 @@ class EventHandlerTagHandler implements ElementHandler {
    public static final String TYPE = "type";
    private InitParamTagHandler _inputParamTagHandler;
    private ForwardTagHandler _forwardTagHandler;
-   private HashMap _eventHandlers = new HashMap();
+   private Map _eventHandlers = new HashMap();
    private EventHandlerDef _eventHandler;
 
    /**
@@ -102,14 +103,14 @@ class EventHandlerTagHandler implements ElementHandler {
    }
 
    public void characters(char[] ch, int start, int length)
-      throws ParserException {
+      throws ParserException { // Apparently, this method is not used
    }
 
    /**
     * @return returns a clone of the EventHandlers List
     */
-   public HashMap getEventHandlers() {
-      HashMap copy = new HashMap();
+   public Map getEventHandlers() {
+      Map copy = new HashMap();
       Set keys = _eventHandlers.keySet();
 
       Iterator iter = keys.iterator();

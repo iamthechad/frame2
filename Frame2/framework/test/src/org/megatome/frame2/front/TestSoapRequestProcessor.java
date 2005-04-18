@@ -141,9 +141,7 @@ public class TestSoapRequestProcessor extends TestCase {
              (SoapRequestProcessor) RequestProcessorFactory.instance(_config, _elements,TARGET_PKG);
       Element[] response = (Element[]) processor.processRequest();
       
-
-      assertTrue(response[0] instanceof org.w3c.dom.Element);
-      assertEquals(((Element)response[0]).getNodeName(),"POTestChildren");
+      assertEquals(response[0].getNodeName(),"POTestChildren");
    }
    
    //  POTestChildrenMixedData.xml, 3 po orders, 3rd has bad date
@@ -158,10 +156,9 @@ public class TestSoapRequestProcessor extends TestCase {
       // expect 1 parent element with 
       // 2 acks and one soap fault as children
       assertEquals(response.length,1); 
-      assertTrue(response[0] instanceof org.w3c.dom.Element);
-      assertEquals(((Element)response[0]).getNodeName(),"POTestChildrenMixedData");
+      assertEquals(response[0].getNodeName(),"POTestChildrenMixedData");
       
-      Element parent = (Element)response[0];
+      Element parent = response[0];
       NodeList children = parent.getChildNodes();
       assertEquals(children.getLength(),3);
       for (int i=0; i<children.getLength(); i++){

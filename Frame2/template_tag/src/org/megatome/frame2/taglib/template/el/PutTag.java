@@ -150,7 +150,6 @@ public class PutTag extends BaseFrame2Tag {
       TemplateDef def =
          (TemplateDef) pageContext.findAttribute(
             TemplateConstants.FRAME2_INSERT_KEY);
-      ;
 
       if (def == null) {
          throw new JspException("Error PutTag could not access definition for template ");

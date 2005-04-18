@@ -89,8 +89,8 @@ public class TestErrorsTag extends JspTestCase {
 		assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
 	}
 
-	public void endNoErrors(WebResponse response) {
-		String output = response.getText();
+	public void endNoErrors(WebResponse rsp) {
+		String output = rsp.getText();
 		assertEquals("", output);
 	}
 
@@ -99,8 +99,8 @@ public class TestErrorsTag extends JspTestCase {
       assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
    }
 
-   public void endEmptyErrors(WebResponse response) {
-      String output = response.getText();
+   public void endEmptyErrors(WebResponse rsp) {
+      String output = rsp.getText();
       assertEquals("", output);
    }
 
@@ -115,8 +115,8 @@ public class TestErrorsTag extends JspTestCase {
       assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
    }
 
-   public void endOneError(WebResponse response) {
-      String output = response.getText();
+   public void endOneError(WebResponse rsp) {
+      String output = rsp.getText();
       assertEquals("Example error message one foo\n", output);
    }
 
@@ -132,8 +132,8 @@ public class TestErrorsTag extends JspTestCase {
       assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
    }
 
-   public void endTwoErrors(WebResponse response) {
-      String output = response.getText();
+   public void endTwoErrors(WebResponse rsp) {
+      String output = rsp.getText();
       assertEquals("Example error message one foo\nExample error message two bar\n", output);
    }
 
@@ -151,8 +151,8 @@ public class TestErrorsTag extends JspTestCase {
       assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
    }
 
-   public void endErrorKeyAttribute(WebResponse response) {
-      String output = response.getText();
+   public void endErrorKeyAttribute(WebResponse rsp) {
+      String output = rsp.getText();
       assertEquals("Example error message two bar\n", output);
    }
 
@@ -172,8 +172,8 @@ public class TestErrorsTag extends JspTestCase {
       assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
    }
 
-   public void endLocaleAttribute(WebResponse response) {
-      String output = response.getText();
+   public void endLocaleAttribute(WebResponse rsp) {
+      String output = rsp.getText();
       assertEquals("Message d'erreur d'exemple un foo\n", output);
    }
 
@@ -189,13 +189,13 @@ public class TestErrorsTag extends JspTestCase {
       assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
    }
 
-   public void endDecoratedErrors(WebResponse response) {
+   public void endDecoratedErrors(WebResponse rsp) {
       final String RESULT = "Header Decorator\n" +
          "<DEC>Example error message one foo</DEC>\n" +
          "<DEC>Example error message two bar</DEC>\n" +
          "Footer Decorator\n";
 
-      String output = response.getText();
+      String output = rsp.getText();
       assertEquals(RESULT,output);
    }
 

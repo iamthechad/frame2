@@ -48,62 +48,59 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashSet;
-
+import java.util.Set;
 
 /**
  * Security is an Object representation of the security element contained in the
- * eventMapping element of the configuration file.
- * It contains a HashSet of all the roles which can access that eventMapping.
+ * eventMapping element of the configuration file. It contains a HashSet of all
+ * the roles which can access that eventMapping.
  */
 public class Security {
-   private HashSet _roles = new HashSet();
+    private Set _roles = new HashSet();
 
-   /**
-    * Returns the role.
-    *
-    * @return boolean
-    */
-   public boolean isUserInRole(String role) {
-      return _roles.contains(role);
-   }
+    /**
+     * Returns the role.
+     * @return boolean
+     */
+    public boolean isUserInRole(String role) {
+        return _roles.contains(role);
+    }
 
-   /**
-    * Sets the role.
-    *
-    * @param role The role to set
-    */
-   public void addRole(String role) {
-      _roles.add(role);
-   }
+    /**
+     * Sets the role.
+     * @param role The role to set
+     */
+    public void addRole(String role) {
+        _roles.add(role);
+    }
 
-   public void setRoles(HashSet roles) {
-      _roles = roles;
-   }
+    public void setRoles(Set roles) {
+        _roles = roles;
+    }
 
-   /**
-    * Check if the security is role-based or not
-    *
-    * @return boolean
-    */
-   public boolean isRoleBased() {
-      return !_roles.isEmpty();
-   }
+    /**
+     * Check if the security is role-based or not
+     * @return boolean
+     */
+    public boolean isRoleBased() {
+        return !_roles.isEmpty();
+    }
 
-   public Object clone() {
-      Security sec = new Security();
+    public Object clone() {
+        Security sec = new Security();
 
-      sec.setRoles((HashSet) _roles.clone());
+        sec.setRoles((Set)((HashSet)_roles).clone());
 
-      return sec;
-   }
+        return sec;
+    }
 
-   /**
-    * @return returns a String Array of the roles HashMap
-    */
-   public String[] getRoles() {
-      return (String[]) _roles.toArray(new String[0]);
-   }
+    /**
+     * @return returns a String Array of the roles HashMap
+     */
+    public String[] getRoles() {
+        return (String[])_roles.toArray(new String[0]);
+    }
 }

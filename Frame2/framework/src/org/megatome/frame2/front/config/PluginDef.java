@@ -48,80 +48,79 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author cjohnston
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * @author cjohnston To change the template for this generated type comment go
+ *         to Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class PluginDef implements Comparable{
-   private String _name = "";
-   private String _type = "";
-   private HashMap _initParams = new HashMap();
-   
-   
-   /**
-    * @return
-    */
-   public Map getInitParams() {
-      return Collections.unmodifiableMap(_initParams);
-   }
+public class PluginDef implements Comparable {
+    private String _name = "";
 
-   /**
-    * @return
-    */
-   public String getName() {
-      return _name;
-   }
+    private String _type = "";
 
-   /**
-    * @return
-    */
-   public String getType() {
-      return _type;
-   }
+    private Map _initParams = new HashMap();
 
-   /**
-    * @param map
-    */
-   public void setInitParams(HashMap map) {
-      _initParams = map;
-   }
+    /**
+     * @return
+     */
+    public Map getInitParams() {
+        return Collections.unmodifiableMap(_initParams);
+    }
 
-   /**
-    * @param string
-    */
-   public void setName(String string) {
-      _name = string;
-   }
+    /**
+     * @return
+     */
+    public String getName() {
+        return _name;
+    }
 
-   /**
-    * @param string
-    */
-   public void setType(String string) {
-      _type = string;
-   }
-   
-   public int compareTo(Object other) {
-       return compareTo((PluginDef)other);
-   }
+    /**
+     * @return
+     */
+    public String getType() {
+        return _type;
+    }
 
-   public int compareTo(PluginDef other) {
-       return _name.compareTo(other.getName( ));
-   }
+    /**
+     * @param map
+     */
+    public void setInitParams(Map map) {
+        _initParams = map;
+    }
 
-   public boolean equals(Object other) {
-       return (other instanceof PluginDef) && equals((PluginDef)other);
-   }
+    /**
+     * @param string
+     */
+    public void setName(String string) {
+        _name = string;
+    }
 
-   public boolean equals(PluginDef other) {
-       return _name.equals(other.getName( ));
-   }
+    /**
+     * @param string
+     */
+    public void setType(String string) {
+        _type = string;
+    }
+
+    public int compareTo(Object other) {
+        return compareTo((PluginDef)other);
+    }
+
+    public int compareTo(PluginDef other) {
+        return _name.compareTo(other.getName());
+    }
+
+    public boolean equals(Object other) {
+        return (other instanceof PluginDef) && equals((PluginDef)other);
+    }
+
+    public boolean equals(PluginDef other) {
+        return _name.equals(other.getName());
+    }
 
 }

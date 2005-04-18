@@ -100,7 +100,7 @@ final class Converter {
       _converterMap.put(String[].class, new StringConverter());
    }
 
-   private Converter() {
+   private Converter() { // Non-public ctor
    }
 
    static Object convertValueToType(Object value, Class type) {
@@ -128,9 +128,9 @@ final class Converter {
 
       if (converter != null) {
          return converter.convert(strValue);
-      } else {
-         return null;
       }
+      
+      return null;
    }
    
 	static Object convertValueToArrayType(Object value, Class type) {
@@ -158,9 +158,9 @@ final class Converter {
 
 		if (converter != null) {
 			return converter.convertToArray(strValue);
-		} else {
-			return null;
 		}
+		
+		return null;
 	}
 
    abstract private static class TypeConverter {

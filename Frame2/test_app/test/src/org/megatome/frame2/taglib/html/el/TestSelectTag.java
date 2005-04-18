@@ -71,7 +71,7 @@ public class TestSelectTag extends BaseHtmlTagTest {
       return new SelectTag();      
    }
 
-   public void beginSelectTag(WebRequest request) throws Exception {
+   public void beginSelectTag(WebRequest rquest) throws Exception {
    }
 
    public void testSelectTag() throws Exception{

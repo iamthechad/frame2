@@ -48,99 +48,109 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * EventMappingTagHandler handles all the eventMapping elements of the Configuration file.
+ * EventMappingTagHandler handles all the eventMapping elements of the
+ * Configuration file.
  */
 class EventMappingTagHandler implements ElementHandler {
-   public static final String INPUT_VIEW = "inputView";
-   public static final String CANCEL_VIEW = "cancelView";
-   public static final String VALIDATE = "validate";
-   private String _eventName;
-   private HandlerTagHandler _handlerTagHandler;
-   private ViewTagHandler _viewTagHandler;
-   private SecurityTagHandler _securityTagHandler;
-   HashMap _eventMappings = new HashMap();
+    public static final String INPUT_VIEW = "inputView";
 
-   /**
-    * Constructs an EventMappingTagHandler.
-    *
-    * @param HandlerTagHandler 
-    * @param ViewTagHandler 
-    * @param SecurityTagHandler 
-    *
-    */
+    public static final String CANCEL_VIEW = "cancelView";
 
-   EventMappingTagHandler(HandlerTagHandler handlerTagHandler,
-      ViewTagHandler viewTagHandler, SecurityTagHandler securityTagHandler) {
-      _handlerTagHandler = handlerTagHandler;
-      _viewTagHandler = viewTagHandler;
-      _securityTagHandler = securityTagHandler;
-   }
+    public static final String VALIDATE = "validate";
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      _eventName = attributes.getValue("eventName");
+    private String _eventName;
 
-      EventMapping eventMapping = new EventMapping(_eventName);
+    private HandlerTagHandler _handlerTagHandler;
 
-      eventMapping.setInputView(attributes.getValue(INPUT_VIEW));
-      eventMapping.setCancelView(attributes.getValue(CANCEL_VIEW));
-      eventMapping.setValidate(Boolean.valueOf(attributes.getValue(VALIDATE)).booleanValue());
-      _eventMappings.put(_eventName, eventMapping);
-   }
+    private ViewTagHandler _viewTagHandler;
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-      EventMapping eventMapping = (EventMapping) _eventMappings.get(_eventName);
+    private SecurityTagHandler _securityTagHandler;
 
-      // build event mapping here
-      eventMapping.setHandlers(_handlerTagHandler.getHandlers());
-      _handlerTagHandler.clear();
-      eventMapping.setSecurity(_securityTagHandler.getSecurity());
-      _securityTagHandler.clear();
-      eventMapping.setView(ViewType.XML.toString(), _viewTagHandler.getXMLForwardName());
-      eventMapping.setView(ViewType.HTML.toString(), _viewTagHandler.getHTMLForwardName());
-      _viewTagHandler.clear();
-   }
+    Map _eventMappings = new HashMap();
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+    /**
+     * Constructs an EventMappingTagHandler.
+     * @param HandlerTagHandler
+     * @param ViewTagHandler
+     * @param SecurityTagHandler
+     */
 
-   /**
-    * @return returns a clone of the Events List
-    */
-   public HashMap getEventMappings() {
-      HashMap copy = new HashMap();
-      Set keys = _eventMappings.keySet();
+    EventMappingTagHandler(HandlerTagHandler handlerTagHandler,
+            ViewTagHandler viewTagHandler, SecurityTagHandler securityTagHandler) {
+        _handlerTagHandler = handlerTagHandler;
+        _viewTagHandler = viewTagHandler;
+        _securityTagHandler = securityTagHandler;
+    }
 
-      Iterator iter = keys.iterator();
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        _eventName = attributes.getValue("eventName");
 
-      while (iter.hasNext()) {
-         String name = (String) iter.next();
-         EventMapping eventMapping = (EventMapping) _eventMappings.get(name);
+        EventMapping eventMapping = new EventMapping(_eventName);
 
-         copy.put(name, eventMapping.clone());
-      }
+        eventMapping.setInputView(attributes.getValue(INPUT_VIEW));
+        eventMapping.setCancelView(attributes.getValue(CANCEL_VIEW));
+        eventMapping.setValidate(Boolean.valueOf(attributes.getValue(VALIDATE))
+                .booleanValue());
+        _eventMappings.put(_eventName, eventMapping);
+    }
 
-      return copy;
-   }
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException {
+        EventMapping eventMapping = (EventMapping)_eventMappings
+                .get(_eventName);
 
-   /**
-    * clear the Events List
-    */
-   public void clear() {
-      _eventMappings.clear();
-   }
+        // build event mapping here
+        eventMapping.setHandlers(_handlerTagHandler.getHandlers());
+        _handlerTagHandler.clear();
+        eventMapping.setSecurity(_securityTagHandler.getSecurity());
+        _securityTagHandler.clear();
+        eventMapping.setView(ViewType.XML.toString(), _viewTagHandler
+                .getXMLForwardName());
+        eventMapping.setView(ViewType.HTML.toString(), _viewTagHandler
+                .getHTMLForwardName());
+        _viewTagHandler.clear();
+    }
+
+    public void characters(char[] ch, int start, int length)
+            throws ParserException { // Apparently, this method is not used
+    }
+
+    /**
+     * @return returns a clone of the Events List
+     */
+    public Map getEventMappings() {
+        Map copy = new HashMap();
+        Set keys = _eventMappings.keySet();
+
+        Iterator iter = keys.iterator();
+
+        while (iter.hasNext()) {
+            String name = (String)iter.next();
+            EventMapping eventMapping = (EventMapping)_eventMappings.get(name);
+
+            copy.put(name, eventMapping.clone());
+        }
+
+        return copy;
+    }
+
+    /**
+     * clear the Events List
+     */
+    public void clear() {
+        _eventMappings.clear();
+    }
 }

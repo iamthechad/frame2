@@ -48,7 +48,7 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front;
+package org.megatome.frame2.front;
 
 import java.util.Map;
 
@@ -56,62 +56,63 @@ import org.megatome.frame2.front.config.PluginDef;
 import org.megatome.frame2.plugin.PluginInterface;
 
 /**
- * @author cjohnston
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * @author cjohnston To change the template for this generated type comment go
+ *         to Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class PluginProxy implements Comparable {
-   private PluginDef _pluginDef;
-   private PluginInterface _plugin;
-   private boolean _initThrewException = false;
-   
-   // No Default Constructor
-   private PluginProxy() {}
-   
-   public PluginProxy(PluginDef pluginDef, PluginInterface plugin) {
-      _pluginDef = pluginDef;
-      _plugin = plugin;
-   }
-   
-   public String getName() {
-      return _pluginDef.getName();
-   }
-   
-   public String getType() {
-      return _pluginDef.getType();
-   }
-   
-   public Map getInitParams() {
-      return _pluginDef.getInitParams();
-   }
-   
-   public PluginInterface getPlugin() {
-      return _plugin;
-   }
-   
-   public void setInitThrewException(boolean initThrewException) {
-      _initThrewException = initThrewException;
-   }
-   
-   public boolean initThrewException() {
-      return _initThrewException;
-   }
-   
-   public int compareTo(Object other) {
-       return compareTo((PluginProxy)other);
-   }
+    private PluginDef _pluginDef;
 
-   public int compareTo(PluginProxy other) {
-       return getName().compareTo(other.getName( ));
-   }
+    private PluginInterface _plugin;
 
-   public boolean equals(Object other) {
-       return (other instanceof PluginProxy) && equals((PluginProxy)other);
-   }
+    private boolean _initThrewException = false;
 
-   public boolean equals(PluginProxy other) {
-       return getName().equals(other.getName( ));
-   }
+    // No Default Constructor
+    private PluginProxy() { // Non-public ctor
+    }
+
+    public PluginProxy(PluginDef pluginDef, PluginInterface plugin) {
+        _pluginDef = pluginDef;
+        _plugin = plugin;
+    }
+
+    public String getName() {
+        return _pluginDef.getName();
+    }
+
+    public String getType() {
+        return _pluginDef.getType();
+    }
+
+    public Map getInitParams() {
+        return _pluginDef.getInitParams();
+    }
+
+    public PluginInterface getPlugin() {
+        return _plugin;
+    }
+
+    public void setInitThrewException(boolean initThrewException) {
+        _initThrewException = initThrewException;
+    }
+
+    public boolean initThrewException() {
+        return _initThrewException;
+    }
+
+    public int compareTo(Object other) {
+        return compareTo((PluginProxy)other);
+    }
+
+    public int compareTo(PluginProxy other) {
+        return getName().compareTo(other.getName());
+    }
+
+    public boolean equals(Object other) {
+        return (other instanceof PluginProxy) && equals((PluginProxy)other);
+    }
+
+    public boolean equals(PluginProxy other) {
+        return getName().equals(other.getName());
+    }
 
 }

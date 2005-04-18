@@ -141,7 +141,6 @@ public class TestGetTag extends BaseTemplateTagTest {
       InsertTag insertTag = new InsertTag();
       insertTag.setDefinition("template1");
 
-      GetTag getTag = new GetTag();
       getTag.setName("bar-none");
 
       getTag.setParent(insertTag);
@@ -158,7 +157,6 @@ public class TestGetTag extends BaseTemplateTagTest {
       InsertTag insertTag = new InsertTag();
       insertTag.setDefinition("nothing");
 
-      GetTag getTag = new GetTag();
       getTag.setName("bar-put");
 
       getTag.setParent(insertTag);

@@ -61,263 +61,262 @@ import org.megatome.frame2.taglib.util.URLHelper;
 
 public class ATag extends BaseHtmlTag {
 
-	String _displayValue;
-   Map _paramMap;
+    String _displayValue;
 
-	public void setCharset(String charset) {
+    Map _paramMap;
 
-		setAttr(Constants.CHARSET, charset);
-	}
+    public void setCharset(String charset) {
 
-	public void setStyleClass(String aclass) {
+        setAttr(Constants.CHARSET, charset);
+    }
 
-		setAttr(Constants.CLASS, aclass);
-	}
+    public void setStyleClass(String aclass) {
 
-	public void setDisplayvalue(String displayValue) {
+        setAttr(Constants.CLASS, aclass);
+    }
 
-		setAttr(Constants.DISPLAY_VALUE, displayValue);
-	}
+    public void setDisplayvalue(String displayValue) {
 
-	public void setHref(String href) {
+        setAttr(Constants.DISPLAY_VALUE, displayValue);
+    }
 
-		setAttr(Constants.HREF, href);
-	}
+    public void setHref(String href) {
 
-	public void setHreflang(String hreflang) {
+        setAttr(Constants.HREF, href);
+    }
 
-		setAttr(Constants.HREF_LANG, hreflang);
-	}
+    public void setHreflang(String hreflang) {
 
-	public void setId(String id) {
+        setAttr(Constants.HREF_LANG, hreflang);
+    }
 
-		setAttr(Constants.ID, id);
-	}
+    public void setId(String id) {
 
-	public void setQueryparams(String queryParams) {
-		setAttr(Constants.QUERY_PARAMS, queryParams);
-	}
+        setAttr(Constants.ID, id);
+    }
 
-	public void setRel(String rel) {
+    public void setQueryparams(String queryParams) {
+        setAttr(Constants.QUERY_PARAMS, queryParams);
+    }
 
-		setAttr(Constants.REL, rel);
-	}
-	public void setRev(String rev) {
+    public void setRel(String rel) {
 
-		setAttr(Constants.REV, rev);
-	}
+        setAttr(Constants.REL, rel);
+    }
 
-	public void setShape(String shape) {
+    public void setRev(String rev) {
 
-		setAttr(Constants.SHAPE, shape);
-	}
-	public void setTarget(String target) {
+        setAttr(Constants.REV, rev);
+    }
 
-		setAttr(Constants.TARGET, target);
-	}
+    public void setShape(String shape) {
 
-	public void setType(String type) {
+        setAttr(Constants.SHAPE, shape);
+    }
 
-		setAttr(Constants.TYPE, type);
-	}
+    public void setTarget(String target) {
 
-	public void setUrn(String urn) {
+        setAttr(Constants.TARGET, target);
+    }
 
-		setAttr(Constants.URN, urn);
-	}
+    public void setType(String type) {
 
-	protected void setTagName() {
-		_tagName = Constants.A;
-	}
+        setAttr(Constants.TYPE, type);
+    }
 
-	protected void setType() {
-		_type = Constants.A;
-	}
+    public void setUrn(String urn) {
 
-	String _bodyContent = null;
+        setAttr(Constants.URN, urn);
+    }
 
-	protected StringBuffer buildStartTag() throws JspException {
-		StringBuffer results = new StringBuffer();
-		results.append(Constants.LINK_OPEN);
-		return results;
-	}
+    protected void setTagName() {
+        _tagName = Constants.A;
+    }
 
-	// override ths if you want to handle an attribute
-	protected void specialAttrHandler() throws JspException {
-		handleValueAttr();
-	}
-   
-   protected void specialEndAttrHandler() throws JspException {
-      handleHrefAndQueryParamsAttr();
-   }
+    protected void setType() {
+        _type = Constants.A;
+    }
 
-	/**
-	 * Process the displayvalue attribute so it will be rendered inbetween the
-	 * start and end tag.
-	 * @throws JspException thrown if the displayvalue attribute fails evaluation.
-	 */
-	private void handleValueAttr() throws JspException {
-		_displayValue = getAttr(Constants.DISPLAY_VALUE);
-		if (_displayValue != null) {
-			try {
-				_displayValue =
-					evalStringAttr(Constants.DISPLAY_VALUE, _displayValue);
-			} catch (Exception e) {
-				throw new JspException(
-					" Evaluation attribute failed " + e.getMessage(),
-					e);
-			}
-			// now remove this attr from map
-			// so not output in genHTML()
-			removeAttr(Constants.DISPLAY_VALUE);
-		}
+    String _bodyContent = null;
 
-	}
+    protected StringBuffer buildStartTag() throws JspException {
+        StringBuffer results = new StringBuffer();
+        results.append(Constants.LINK_OPEN);
+        return results;
+    }
 
-	/**
-	 * Process the href and queryparams attributes.  If both attributes are not null, 
-	 * append the query parameters to the href attribute.
-	 * @throws JspException
-	 */
-	private void handleHrefAndQueryParamsAttr() throws JspException {
+    // override ths if you want to handle an attribute
+    protected void specialAttrHandler() throws JspException {
+        handleValueAttr();
+    }
 
-		String queryParams = getAttr(Constants.QUERY_PARAMS);
-      Map params = _paramMap;
-      // If queryparams are not null and map is not null, error
-      if ((queryParams != null) && (params != null)) {
-         throw new JspException("Only one of queryparams or <queryparam> may be used");
-      }
-      
-      
-		// If queryParams is not null, then href must not be null.
-		if ((queryParams != null) || (params != null)) {
-			String href = getAttr(Constants.HREF);
-			if (href != null) {
-				try {
-					href = evalStringAttr(Constants.DISPLAY_VALUE, href);
-               if (params == null) {
-					 params =
-						evalHashMapAttr(Constants.QUERY_PARAMS, queryParams);
-               }
-				} catch (Exception e) {
-					throw new JspException(
-						" Evaluation attribute failed " + e.getMessage(),
-						e);
-				}
+    protected void specialEndAttrHandler() throws JspException {
+        handleHrefAndQueryParamsAttr();
+    }
 
-				// now remove the QUERY_PARAMS attr from map
-				// so not output in genHTML()
-				removeAttr(Constants.QUERY_PARAMS);
+    /**
+     * Process the displayvalue attribute so it will be rendered inbetween the
+     * start and end tag.
+     * @throws JspException thrown if the displayvalue attribute fails
+     *         evaluation.
+     */
+    private void handleValueAttr() throws JspException {
+        _displayValue = getAttr(Constants.DISPLAY_VALUE);
+        if (_displayValue != null) {
+            try {
+                _displayValue = evalStringAttr(Constants.DISPLAY_VALUE,
+                        _displayValue);
+            } catch (Exception e) {
+                throw new JspException(" Evaluation attribute failed "
+                        + e.getMessage(), e);
+            }
+            // now remove this attr from map
+            // so not output in genHTML()
+            removeAttr(Constants.DISPLAY_VALUE);
+        }
 
-				// Add query params to the end of href.
-				String newHref;
-				try {
-					newHref = URLHelper.appendQueryParams(href, params);
-				} catch (UnsupportedEncodingException e) {
-					throw new JspException(
-						" Adding Query params to href has failed "
-							+ e.getMessage(),
-						e);
-				}
+    }
 
-				// set hrefs value to the href+queryParams value
-				setAttr(Constants.HREF, newHref);
+    /**
+     * Process the href and queryparams attributes. If both attributes are not
+     * null, append the query parameters to the href attribute.
+     * @throws JspException
+     */
+    private void handleHrefAndQueryParamsAttr() throws JspException {
 
-			} else {
-				throw new JspException(
-					"The "
-						+ Constants.QUERY_PARAMS
-						+ " attribute was set, there must also be "
-						+ "an href attribute set. ");
-			}
+        String queryParams = getAttr(Constants.QUERY_PARAMS);
+        Map params = _paramMap;
+        // If queryparams are not null and map is not null, error
+        if ((queryParams != null) && (params != null)) {
+            throw new JspException(
+                    "Only one of queryparams or <queryparam> may be used");
+        }
 
-		} // else process href as any other attribute when query params is null.
+        // If queryParams is not null, then href must not be null.
+        if ((queryParams != null) || (params != null)) {
+            String href = getAttr(Constants.HREF);
+            if (href != null) {
+                try {
+                    href = evalStringAttr(Constants.DISPLAY_VALUE, href);
+                    if (params == null) {
+                        params = evalHashMapAttr(Constants.QUERY_PARAMS,
+                                queryParams);
+                    }
+                } catch (Exception e) {
+                    throw new JspException(" Evaluation attribute failed "
+                            + e.getMessage(), e);
+                }
 
-	}
-   
-   /**
-    * Add a parameter to the map. If the parameter name 
-    * already exists, the value is appended to an array of values.
-    * @param paramName
-    * @param paramValue
-    */
-   public void addParam(String paramName, String paramValue) {
+                // now remove the QUERY_PARAMS attr from map
+                // so not output in genHTML()
+                removeAttr(Constants.QUERY_PARAMS);
+
+                // Add query params to the end of href.
+                String newHref;
+                try {
+                    newHref = URLHelper.appendQueryParams(href, params);
+                } catch (UnsupportedEncodingException e) {
+                    throw new JspException(
+                            " Adding Query params to href has failed "
+                                    + e.getMessage(), e);
+                }
+
+                // set hrefs value to the href+queryParams value
+                setAttr(Constants.HREF, newHref);
+
+            } else {
+                throw new JspException("The " + Constants.QUERY_PARAMS
+                        + " attribute was set, there must also be "
+                        + "an href attribute set. ");
+            }
+
+        } // else process href as any other attribute when query params is null.
+
+    }
+
+    /**
+     * Add a parameter to the map. If the parameter name already exists, the
+     * value is appended to an array of values.
+     * @param paramName
+     * @param paramValue
+     */
+    public void addParam(String paramName, String paramValue) {
         if (_paramMap == null) {
             _paramMap = new HashMap();
         }
-     
+
         Object valueObject = paramValue;
         // Need to map into an array somehow
         if (_paramMap.containsKey(paramName)) {
-         Object pValue = _paramMap.get(paramName);
-         String[] newValues;
-         if (pValue instanceof String[]) {
-            String[] values = (String[])pValue;
-            newValues = new String[values.length + 1];
-            System.arraycopy(values, 0, newValues, 0, values.length);
-            newValues[newValues.length - 1] = paramValue;
-         } else {
-            newValues = new String[2];
-            newValues[0] = (String)pValue;
-            newValues[1] = paramValue;
-         }
-         valueObject = newValues;
+            Object pValue = _paramMap.get(paramName);
+            String[] newValues;
+            if (pValue instanceof String[]) {
+                String[] values = (String[])pValue;
+                newValues = new String[values.length + 1];
+                System.arraycopy(values, 0, newValues, 0, values.length);
+                newValues[newValues.length - 1] = paramValue;
+            } else {
+                newValues = new String[2];
+                newValues[0] = (String)pValue;
+                newValues[1] = paramValue;
+            }
+            valueObject = newValues;
         }
-     
-      _paramMap.put(paramName, valueObject);
+
+        _paramMap.put(paramName, valueObject);
     }
 
-	/**
-	 * Returns if tag has body or not
-	 * @return boolean
-	 */
-	public boolean evalTagBody() {
-		if (_displayValue != null
-			|| (bodyContent != null && !bodyContent.getString().equals(""))) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    /**
+     * Returns if tag has body or not
+     * @return boolean
+     */
+    public boolean evalTagBody() {
+        if (_displayValue != null
+                || (bodyContent != null && !bodyContent.getString().equals(""))) {
+            return true;
+        }
 
-	/**
-	 * Appends _displayValue String
-	 * @param StringBuffer
-	 */
-	public void getBody(StringBuffer buffer) {
-		// actual body content overrides
-		// any display value.
-		if (bodyContent != null && !bodyContent.getString().equals("")) {
-			buffer.append(bodyContent.getString());
-		} else if (_displayValue != null) {
-			buffer.append(_displayValue);
-		}
-	}
+        return false;
+    }
 
-	/**
-	 * Appends end Element Close
-	 * @param StringBuffer
-	 */
-	public void getEndElementClose(StringBuffer buffer) {
-		buffer.append(Constants.LINK_CLOSE);
-	}
+    /**
+     * Appends _displayValue String
+     * @param StringBuffer
+     */
+    public void getBody(StringBuffer buffer) {
+        // actual body content overrides
+        // any display value.
+        if (bodyContent != null && !bodyContent.getString().equals("")) {
+            buffer.append(bodyContent.getString());
+        } else if (_displayValue != null) {
+            buffer.append(_displayValue);
+        }
+    }
 
-   protected void clear() {
-      super.clear();
-      _displayValue = null;
-      _bodyContent = null;
-      _paramMap = null;
-   }
+    /**
+     * Appends end Element Close
+     * @param StringBuffer
+     */
+    public void getEndElementClose(StringBuffer buffer) {
+        buffer.append(Constants.LINK_CLOSE);
+    }
 
-   public void release() {
-      super.release();
-      clear();
-   }
+    protected void clear() {
+        super.clear();
+        _displayValue = null;
+        _bodyContent = null;
+        _paramMap = null;
+    }
 
-   public StringBuffer buildEndTag() throws JspException {
-      StringBuffer results = new StringBuffer();
-      results.append(genTagAttrs());
-      return results.append(super.buildEndTag());
-   }
+    public void release() {
+        super.release();
+        clear();
+    }
+
+    public StringBuffer buildEndTag() throws JspException {
+        StringBuffer results = new StringBuffer();
+        results.append(genTagAttrs());
+        return results.append(super.buildEndTag());
+    }
 
 }

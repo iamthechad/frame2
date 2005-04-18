@@ -78,7 +78,7 @@ public class TestOptionsTag extends JspTestCase {
       return new OptionsTag();      
    }
    
-   public void beginOptionsTag(WebRequest request) throws Exception {
+   public void beginOptionsTag(WebRequest rquest) throws Exception {
    }
 
    public void testOptionsTagList() throws Exception{

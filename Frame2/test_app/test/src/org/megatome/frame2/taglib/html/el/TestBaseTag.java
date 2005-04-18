@@ -68,7 +68,7 @@ public class TestBaseTag extends BaseHtmlTagTest {
       return new BaseTag();      
    }
 
-   public void beginBaseTag(WebRequest request) throws Exception {
+   public void beginBaseTag(WebRequest rquest) throws Exception {
    }
 
    public void testBaseTag() throws Exception{

@@ -48,65 +48,63 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
  * SecurityTagHandler handles the security elements contained in the
- * eventMapping element of the configuration file..
- * The roles in the security element assume role-based security
+ * eventMapping element of the configuration file.. The roles in the security
+ * element assume role-based security
  */
 class SecurityTagHandler implements ElementHandler {
-   private RoleTagHandler _roleTagHandler;
-   private Security _sec;
+    private RoleTagHandler _roleTagHandler;
 
-   /**
-    * Constructs a SecurityTagHandler.
-    *
-    * @param RoleTagHandler 
-    *
-    */
+    private Security _sec;
 
-   SecurityTagHandler(RoleTagHandler roleTagHandler) {
-      _roleTagHandler = roleTagHandler;
-   }
+    /**
+     * Constructs a SecurityTagHandler.
+     * @param RoleTagHandler
+     */
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      _sec = new Security();
-   }
+    SecurityTagHandler(RoleTagHandler roleTagHandler) {
+        _roleTagHandler = roleTagHandler;
+    }
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-      _sec.setRoles(_roleTagHandler.getRoles());
-   }
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        _sec = new Security();
+    }
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException {
+        _sec.setRoles(_roleTagHandler.getRoles());
+    }
 
-   /**
-    * @return Security returns a clone of the Security Object
-    */
-   public Security getSecurity() {
-      Security sec = null;
+    public void characters(char[] ch, int start, int length)
+            throws ParserException { // Not needed here
+    }
 
-      if (_sec != null) {
-         sec = (Security) _sec.clone();
-      }
+    /**
+     * @return Security returns a clone of the Security Object
+     */
+    public Security getSecurity() {
+        Security sec = null;
 
-      return sec;
-   }
+        if (_sec != null) {
+            sec = (Security)_sec.clone();
+        }
 
-   /**
-    * clear the Security
-    */
-   public void clear() {
-      _roleTagHandler.clear();
-      _sec = null;
-   }
+        return sec;
+    }
+
+    /**
+     * clear the Security
+     */
+    public void clear() {
+        _roleTagHandler.clear();
+        _sec = null;
+    }
 }

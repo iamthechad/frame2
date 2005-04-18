@@ -95,7 +95,7 @@ public abstract class BaseInputTagTest extends BaseHtmlTagTest {
 		this._testJspName = testJspName;
 	}
 
-	public void beginAnAttribute(WebRequest request) throws Exception {
+	public void beginAnAttribute(WebRequest rquest) throws Exception {
 	}
 
 	public void testAnAttribute() throws Exception{

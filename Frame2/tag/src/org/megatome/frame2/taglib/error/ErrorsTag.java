@@ -61,8 +61,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.log.Logger;
-import org.megatome.frame2.log.LoggerFactory;
 import org.megatome.frame2.taglib.Globals;
 import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 import org.megatome.frame2.util.MessageFormatter;
@@ -89,10 +87,9 @@ import org.megatome.frame2.util.ResourceLocator;
  * @see org.megatome.frame2.Globals#ERRORS
  */
 public class ErrorsTag extends TagSupport {
-   private static Logger LOGGER = LoggerFactory.instance(ErrorsTag.class.getName());
    private String _localeKey;
-   private String _name;
    private String _errorKey;
+   private String _name;
 
    /**
     * Sets a key for a locale placed in the session.
@@ -104,21 +101,16 @@ public class ErrorsTag extends TagSupport {
    }
 
    /**
-    * Sets the name.
-    *
-    * @param name The name to set
-    */
-   public void setName(String name) {
-      _name = name;
-   }
-
-   /**
     * If set, only errors corresponding to this key will be emmitted.
     *
     * @param key The key to set
     */
    public void setErrorKey(String key) {
       _errorKey = key;
+   }
+   
+   public void setName(String name) {
+       _name = name;
    }
 
    /**
@@ -186,8 +178,8 @@ public class ErrorsTag extends TagSupport {
       return result;
    }
 
-   private Errors getErrors(PageContext pageContext) {
-      return (Errors) pageContext.getRequest().getAttribute(org.megatome.frame2.Globals.ERRORS);
+   private Errors getErrors(PageContext ctx) {
+      return (Errors) ctx.getRequest().getAttribute(org.megatome.frame2.Globals.ERRORS);
    }
 
    /**
@@ -196,7 +188,6 @@ public class ErrorsTag extends TagSupport {
    public void release() {
       super.release();
       _localeKey = null;
-      _name = null;
       _errorKey = null;
    }
 

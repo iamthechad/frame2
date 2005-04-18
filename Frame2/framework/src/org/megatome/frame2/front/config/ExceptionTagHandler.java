@@ -48,82 +48,88 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * ExceptionTagHandler handles the exception elements of the Configuration file. It generates a
- * HashMap of all the ExceptionDef.
+ * ExceptionTagHandler handles the exception elements of the Configuration file.
+ * It generates a HashMap of all the ExceptionDef.
  */
 class ExceptionTagHandler implements ElementHandler {
-   public static final String REQUEST_KEY = "requestKey";
-   public static final String TYPE = "type";
-   private ViewTagHandler _viewTagHandler;
-   ArrayList _exceptions = new ArrayList();
-   ExceptionDef _def = null;
+    public static final String REQUEST_KEY = "requestKey";
 
-   /**
-    * Constructs an ExceptionTagHandler.
-    *
-    * @param ViewTagHandler 
-    *
-    */
-   ExceptionTagHandler(ViewTagHandler viewTagHandler) {
-      _viewTagHandler = viewTagHandler;
-   }
+    public static final String TYPE = "type";
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      String requestKey = attributes.getValue(REQUEST_KEY);
-      String type = attributes.getValue(TYPE);     
-      _def = new ExceptionDef(requestKey, type);     
-      if (_exceptions.contains(_def) ) {
-         throw new ParserException("Exception tag Error, Duplicate type defined for type " + type);
-      }
-   }
+    private ViewTagHandler _viewTagHandler;
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-      // build event mapping here
-      _def.setView(ViewType.XML.toString(), _viewTagHandler.getXMLForwardName());
-      _def.setView(ViewType.HTML.toString(), _viewTagHandler.getHTMLForwardName());
-      _exceptions.add(_def);
-      _def = null;
-      _viewTagHandler.clear();
-   }
+    List _exceptions = new ArrayList();
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+    ExceptionDef _def = null;
 
-   /**
-    * @return returns a clone of the Events List
-    */
-   public ArrayList getExceptions() {
-      ArrayList copy = new ArrayList();
+    /**
+     * Constructs an ExceptionTagHandler.
+     * @param ViewTagHandler
+     */
+    ExceptionTagHandler(ViewTagHandler viewTagHandler) {
+        _viewTagHandler = viewTagHandler;
+    }
 
-      Iterator iter = _exceptions.iterator();
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        String requestKey = attributes.getValue(REQUEST_KEY);
+        String type = attributes.getValue(TYPE);
+        _def = new ExceptionDef(requestKey, type);
+        if (_exceptions.contains(_def)) {
+            throw new ParserException(
+                    "Exception tag Error, Duplicate type defined for type "
+                            + type);
+        }
+    }
 
-      while (iter.hasNext()) {
-         ExceptionDef eDef = (ExceptionDef) iter.next();
- 
-         copy.add(eDef.clone());
-      }
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException {
+        // build event mapping here
+        _def.setView(ViewType.XML.toString(), _viewTagHandler
+                .getXMLForwardName());
+        _def.setView(ViewType.HTML.toString(), _viewTagHandler
+                .getHTMLForwardName());
+        _exceptions.add(_def);
+        _def = null;
+        _viewTagHandler.clear();
+    }
 
-      return copy;
-   }
+    public void characters(char[] ch, int start, int length)
+            throws ParserException { // Not used here
+    }
 
-   /**
-    * clear the Events List
-    */
-   public void clear() {
-      _exceptions.clear();
-   }
+    /**
+     * @return returns a clone of the Events List
+     */
+    public List getExceptions() {
+        List copy = new ArrayList();
+
+        Iterator iter = _exceptions.iterator();
+
+        while (iter.hasNext()) {
+            ExceptionDef eDef = (ExceptionDef)iter.next();
+
+            copy.add(eDef.clone());
+        }
+
+        return copy;
+    }
+
+    /**
+     * clear the Events List
+     */
+    public void clear() {
+        _exceptions.clear();
+    }
 }

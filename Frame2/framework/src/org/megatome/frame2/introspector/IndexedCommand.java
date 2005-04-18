@@ -56,50 +56,56 @@ import java.lang.reflect.Method;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
 
-
 /**
  * Executes sets and gets on indexed bean properties.
  */
 class IndexedCommand extends BeanCommand {
-   private static Logger LOGGER = LoggerFactory.instance(IndexedCommand.class.getName());
+    private static Logger LOGGER = LoggerFactory.instance(IndexedCommand.class
+            .getName());
 
-   void set(PropertyMapping mapping, Object value) throws BeanException {
-      IndexedPropertyDescriptor descriptor = (IndexedPropertyDescriptor) getDescriptor(mapping.getBean(),
-            mapping.getKey());
+    void set(PropertyMapping mapping, Object value) throws BeanException {
+        IndexedPropertyDescriptor descriptor = (IndexedPropertyDescriptor)getDescriptor(
+                mapping.getBean(), mapping.getKey());
 
-      if (descriptor != null) {
-         Method setMethod = descriptor.getIndexedWriteMethod();
-         Class type = descriptor.getIndexedPropertyType();
-         int index = KeyHelper.getIndex(mapping.getKey());
-
-         try {
-            Object convertedValue = Converter.convertValueToType(value, type);
-
-            setMethod.invoke(mapping.getBean(), new Object[] { new Integer(index), convertedValue });
-         } catch (Exception e) {
-            throw new MappingException("Unable to set property",mapping, value,e);
-         }
-      } else {
-         LOGGER.info("Unable to locate descriptor for property " + mapping.getKey());
-      }
-   }
-
-   Object get(PropertyMapping mapping) throws BeanException {
-      IndexedPropertyDescriptor descriptor = (IndexedPropertyDescriptor) getDescriptor(mapping.getBean(),
-            mapping.getKey());
-
-      if (descriptor != null) {
-         try {
-            Method getMethod = descriptor.getIndexedReadMethod();
+        if (descriptor != null) {
+            Method setMethod = descriptor.getIndexedWriteMethod();
+            Class type = descriptor.getIndexedPropertyType();
             int index = KeyHelper.getIndex(mapping.getKey());
 
-            return getMethod.invoke(mapping.getBean(), new Object[] { new Integer(index) });
-         } catch (Exception e) {
-            throw new MappingException("Unable to get property", mapping, e);
-         }
-      } else {
-         LOGGER.info("Unable to locate descriptor for property " + mapping.getKey());
-         return null;
-      }
-   }
+            try {
+                Object convertedValue = Converter.convertValueToType(value,
+                        type);
+
+                setMethod.invoke(mapping.getBean(), new Object[] {
+                        new Integer(index), convertedValue });
+            } catch (Exception e) {
+                throw new MappingException("Unable to set property", mapping,
+                        value, e);
+            }
+        } else {
+            LOGGER.info("Unable to locate descriptor for property "
+                    + mapping.getKey());
+        }
+    }
+
+    Object get(PropertyMapping mapping) throws BeanException {
+        IndexedPropertyDescriptor descriptor = (IndexedPropertyDescriptor)getDescriptor(
+                mapping.getBean(), mapping.getKey());
+
+        if (descriptor != null) {
+            try {
+                Method getMethod = descriptor.getIndexedReadMethod();
+                int index = KeyHelper.getIndex(mapping.getKey());
+
+                return getMethod.invoke(mapping.getBean(),
+                        new Object[] { new Integer(index) });
+            } catch (Exception e) {
+                throw new MappingException("Unable to get property", mapping, e);
+            }
+        }
+
+        LOGGER.info("Unable to locate descriptor for property "
+                + mapping.getKey());
+        return null;
+    }
 }

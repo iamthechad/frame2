@@ -34,7 +34,7 @@ public class TestLoggerFactory extends TestCase {
     }
    
    
-    public void testBogusLogger () throws LoggerException {
+    public void testBogusLogger () {
         String className = "org.megatome.frame2.log.impl.BogusLogger";
         try {
             LoggerFactory.setType(className, this.getClass().getClassLoader()); 

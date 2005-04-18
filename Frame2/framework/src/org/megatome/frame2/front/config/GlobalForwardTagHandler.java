@@ -48,69 +48,70 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * GlobalForwardTagHandler handles the Global Forward elements of the Configuration file.
+ * GlobalForwardTagHandler handles the Global Forward elements of the
+ * Configuration file.
  */
 class GlobalForwardTagHandler implements ElementHandler {
-   private ForwardTagHandler _forwardTagHandler;
-   private HashMap _XMLForwards = new HashMap();
-   private HashMap _HTMLForwards = new HashMap();
+    private ForwardTagHandler _forwardTagHandler;
 
-   /**
-    * Constructs an GlobalForwardTagHandler.
-    *
-    * @param ForwardTagHandler 
-    *
-    */
+    private Map _XMLForwards = new HashMap();
 
-   GlobalForwardTagHandler(ForwardTagHandler forwardTagHandler) {
-      _forwardTagHandler = forwardTagHandler;
-   }
+    private Map _HTMLForwards = new HashMap();
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-   }
+    /**
+     * Constructs an GlobalForwardTagHandler.
+     * @param ForwardTagHandler
+     */
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-      _XMLForwards = _forwardTagHandler.getXMLForwards();
-      _HTMLForwards = _forwardTagHandler.getHTMLForwards();
-      _forwardTagHandler.clear();
-   }
+    GlobalForwardTagHandler(ForwardTagHandler forwardTagHandler) {
+        _forwardTagHandler = forwardTagHandler;
+    }
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException { // Not needed here
+    }
 
-   /**
-    * @return returns a HashMap of the XML Forwards
-    */
-   public HashMap getXMLForwards() {
-      return _XMLForwards;
-   }
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException {
+        _XMLForwards = _forwardTagHandler.getXMLForwards();
+        _HTMLForwards = _forwardTagHandler.getHTMLForwards();
+        _forwardTagHandler.clear();
+    }
 
-   /**
-    * @return returns a HashMap of the HTML Forwards
-    */
-   public HashMap getHTMLForwards() {
-      return _HTMLForwards;
-   }
+    public void characters(char[] ch, int start, int length)
+            throws ParserException { // Not needed here
+    }
 
-   /**
-    * clear the Forwards List
-    */
-   public void clear() {
-      _XMLForwards.clear();
-      _HTMLForwards.clear();
-      _forwardTagHandler.clear();
-   }
+    /**
+     * @return returns a HashMap of the XML Forwards
+     */
+    public Map getXMLForwards() {
+        return _XMLForwards;
+    }
+
+    /**
+     * @return returns a HashMap of the HTML Forwards
+     */
+    public Map getHTMLForwards() {
+        return _HTMLForwards;
+    }
+
+    /**
+     * clear the Forwards List
+     */
+    public void clear() {
+        _XMLForwards.clear();
+        _HTMLForwards.clear();
+        _forwardTagHandler.clear();
+    }
 }

@@ -48,51 +48,50 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * RequestProcessorTagHandler handles the eventHandler elements of the Configuration file.
+ * RequestProcessorTagHandler handles the eventHandler elements of the
+ * Configuration file.
  */
 class RequestProcessorTagHandler implements ElementHandler {
-   public static final String TYPE = "type";
+    public static final String TYPE = "type";
 
-   private RequestProcessorDef _rpDef;
+    private RequestProcessorDef _rpDef;
 
-   /**
-    * Constructs an RequestProcessorTagHandler.
-    *
-    */
+    /**
+     * Constructs an RequestProcessorTagHandler.
+     */
 
-   RequestProcessorTagHandler() {
-   }
+    RequestProcessorTagHandler() {
+    }
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      _rpDef = new RequestProcessorDef();
-      _rpDef.setType(attributes.getValue(TYPE));
-   }
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        _rpDef = new RequestProcessorDef();
+        _rpDef.setType(attributes.getValue(TYPE));
+    }
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-   }
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException { // Not needed here
+    }
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+    public void characters(char[] ch, int start, int length)
+            throws ParserException { // Not needed here
+    }
 
-   public RequestProcessorDef getRequestProcessorDef() {
-      return _rpDef;
-   }
-   
-   /**
-    * clear the EventHandlerDef List
-    */
-   public void clear() {
-      _rpDef = null;
-   }
+    public RequestProcessorDef getRequestProcessorDef() {
+        return _rpDef;
+    }
+
+    /**
+     * clear the EventHandlerDef List
+     */
+    public void clear() {
+        _rpDef = null;
+    }
 }

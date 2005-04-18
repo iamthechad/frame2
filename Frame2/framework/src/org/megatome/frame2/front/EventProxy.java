@@ -63,8 +63,7 @@ public class EventProxy {
    private EventDef _eventDef;
    private Event _event;
 
-   // no dft constructor
-   private EventProxy() {
+   private EventProxy() { // Non-public ctor
    }
 
    public EventProxy(EventDef eventDef, Event event) {

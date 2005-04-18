@@ -144,8 +144,8 @@ public class MappingException extends BeanException {
          result.append(_mapping.getKey());
 
          return result.toString();
-      } else {
-         return null;
       }
+      
+      return null;
    }
 }

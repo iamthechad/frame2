@@ -61,139 +61,135 @@ import org.megatome.frame2.taglib.html.Constants;
  * OptionTag.java
  */
 public class OptionTag extends BaseOptionTag {
-   
-   public void setType() {
-      _type = Constants.OPTION;
-   }  
-   
-   // NIT same as radiotag, refactor
-   protected void handleDisplayValueAttr() throws JspException{
-       if (_displayExpr == null || _displayExpr == "") {
-          // Evaluate the remainder of this page
-          return;
-       }
-                 
-       try {
-          _displayValue = (String) evalStringAttr(Constants.DISPLAY_VALUE, _displayExpr);
-       } catch (Exception e) {
-          throw new JspException(
-             " Evaluation attribute failed " + e.getMessage(), e);
-       }     
-   }
-   
-   // nit get this into helper.
-   protected void handleSelectedAttr() throws JspException{
-      // get thr select attr 
-      String selectExpr = 
-             (String)pageContext.getAttribute(Constants.SELECT_KEY);
-      
-      if ((selectExpr == null) || (selectExpr == "")) {
-         selectExpr = _selected;
-      }
-             
-      // now get value   
-      String valueExpr = getAttr(Constants.VALUE);
-      if (valueExpr == null || valueExpr == "" ||
-          selectExpr == null  || selectExpr == "") {
-        return;
-      }
 
-      String valueval = null; // init diff of checkval
-      try {
-         valueval = (String) evalStringAttr(Constants.VALUE, valueExpr);
-      } catch (Exception e) {
-         throw new JspException(
-            " Evaluation attribute failed " + e.getMessage(), e);
-      }    
-              
-      // see if this is a collection
-      Collection collection = null;
-      try {
-         collection = evalCollectionAttr(Constants.SELECTED, selectExpr);
-      } catch (Exception e) {
-        // ignore, try array next;
-      } 
-        
-      Object[] array = null;
-      if (collection == null) {
-         try {
-            array = evalArrayAttr(Constants.SELECTED, selectExpr);
-         }  catch (Exception e) {
-            // ignore, try string next;
-         }   
-      }
-      
-      // init "" for cmp with valueval later
-      String checkval = "";     
-      if (collection == null && array == null) {
-         try {
-            checkval = evalStringAttr(Constants.SELECTED, selectExpr);
-         } catch (Exception e) {
-            throw new JspException(
-               " Evaluation attribute failed " + e.getMessage(), e);
-         }   
-      }
-      
-      if (collection != null) {
-         Iterator iter = collection.iterator();
-         while (iter.hasNext()) {
-            // NIT make work for all primatives
-            String val = (String)iter.next();
-            if (val.equals(valueval)) {
-               setAttr(Constants.SELECTED,Constants.NULL_VALUE);
-               break;
-            }
-         }            
-      } 
-      else if (array != null) {
-         int len = array.length;
-         for (int i = 0; i< len; i++) {
-            // NIT make work for all primatives
-            String val = (String)array[i];
-            if (val.equals(valueval)) {
-               setAttr(Constants.SELECTED,Constants.NULL_VALUE);
-               break;
-            }
-         }            
-      } else {           
-         if (checkval.equals(valueval)) {
-            setAttr(Constants.SELECTED,Constants.NULL_VALUE);
-         } 
-      }
-   }
+    public void setType() {
+        _type = Constants.OPTION;
+    }
 
-    
-   /**
-    * Returns if tag has body or not
-    * @return boolean
-    */
-   public boolean evalTagBody() {
-      if (_displayValue == null || _displayValue.equals("")) {
-         return false;
-      }
-      else {
-         return true;
-      }
-   }
-   
-   /**
-    * Appends _displayValue String
-    * @param StringBuffer
-    */
-   public void getBody(StringBuffer buffer) { 
-      if (_displayValue != null) {
-         buffer.append(_displayValue); 
-      }    
-   }
-      
-   /**
-    * Appends end Element Close
-    * @param StringBuffer
-    */
-   public void getEndElementClose(StringBuffer buffer) {      
-      buffer.append(Constants.OPTION_CLOSE);     
-   }   
-    
+    // NIT same as radiotag, refactor
+    protected void handleDisplayValueAttr() throws JspException {
+        if (_displayExpr == null || _displayExpr == "") {
+            // Evaluate the remainder of this page
+            return;
+        }
+
+        try {
+            _displayValue = evalStringAttr(Constants.DISPLAY_VALUE,
+                    _displayExpr);
+        } catch (Exception e) {
+            throw new JspException(" Evaluation attribute failed "
+                    + e.getMessage(), e);
+        }
+    }
+
+    // nit get this into helper.
+    protected void handleSelectedAttr() throws JspException {
+        // get thr select attr
+        String selectExpr = (String)pageContext
+                .getAttribute(Constants.SELECT_KEY);
+
+        if ((selectExpr == null) || (selectExpr == "")) {
+            selectExpr = _selected;
+        }
+
+        // now get value
+        String valueExpr = getAttr(Constants.VALUE);
+        if (valueExpr == null || valueExpr == "" || selectExpr == null
+                || selectExpr == "") {
+            return;
+        }
+
+        String valueval = null; // init diff of checkval
+        try {
+            valueval = evalStringAttr(Constants.VALUE, valueExpr);
+        } catch (Exception e) {
+            throw new JspException(" Evaluation attribute failed "
+                    + e.getMessage(), e);
+        }
+
+        // see if this is a collection
+        Collection collection = null;
+        try {
+            collection = evalCollectionAttr(Constants.SELECTED, selectExpr);
+        } catch (Exception e) {
+            // ignore, try array next;
+        }
+
+        Object[] array = null;
+        if (collection == null) {
+            try {
+                array = evalArrayAttr(Constants.SELECTED, selectExpr);
+            } catch (Exception e) {
+                // ignore, try string next;
+            }
+        }
+
+        // init "" for cmp with valueval later
+        String checkval = "";
+        if (collection == null && array == null) {
+            try {
+                checkval = evalStringAttr(Constants.SELECTED, selectExpr);
+            } catch (Exception e) {
+                throw new JspException(" Evaluation attribute failed "
+                        + e.getMessage(), e);
+            }
+        }
+
+        if (collection != null) {
+            Iterator iter = collection.iterator();
+            while (iter.hasNext()) {
+                // NIT make work for all primatives
+                String val = (String)iter.next();
+                if (val.equals(valueval)) {
+                    setAttr(Constants.SELECTED, Constants.NULL_VALUE);
+                    break;
+                }
+            }
+        } else if (array != null) {
+            int len = array.length;
+            for (int i = 0; i < len; i++) {
+                // NIT make work for all primatives
+                String val = (String)array[i];
+                if (val.equals(valueval)) {
+                    setAttr(Constants.SELECTED, Constants.NULL_VALUE);
+                    break;
+                }
+            }
+        } else {
+            if (checkval.equals(valueval)) {
+                setAttr(Constants.SELECTED, Constants.NULL_VALUE);
+            }
+        }
+    }
+
+    /**
+     * Returns if tag has body or not
+     * @return boolean
+     */
+    public boolean evalTagBody() {
+        if (_displayValue == null || _displayValue.equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Appends _displayValue String
+     * @param StringBuffer
+     */
+    public void getBody(StringBuffer buffer) {
+        if (_displayValue != null) {
+            buffer.append(_displayValue);
+        }
+    }
+
+    /**
+     * Appends end Element Close
+     * @param StringBuffer
+     */
+    public void getEndElementClose(StringBuffer buffer) {
+        buffer.append(Constants.OPTION_CLOSE);
+    }
+
 }
-
 

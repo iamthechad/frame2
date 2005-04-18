@@ -48,7 +48,7 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,162 +56,152 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-
 /**
- * EventHandlerDef is an Object representation of the eventHandler element in the configuration file.
- * It is named EventHandlerDef and not EventHandler because the framework contains an interface called EventHandler.
+ * EventHandlerDef is an Object representation of the eventHandler element in
+ * the configuration file. It is named EventHandlerDef and not EventHandler
+ * because the framework contains an interface called EventHandler.
  */
 public class EventHandlerDef {
-   private String _name = "";
-   private String _type = "";
-   private HashMap _initParams = new HashMap();
-   private HashMap _HTMLForwards = new HashMap();
-   private HashMap _XMLForwards = new HashMap();
+    private String _name = "";
 
-   /**
-    * Returns the name.
-    *
-    * @return String the name of the EventHandlerDef
-    */
-   public String getName() {
-      return _name;
-   }
+    private String _type = "";
 
-   /**
-    * Returns the type.
-    *
-    * @return String the type of the EventHandlerDef
-    */
-   public String getType() {
-      return _type;
-   }
+    private Map _initParams = new HashMap();
 
-   /**
-    * Sets the name.
-    *
-    * @param name The name to set
-    */
-   public void setName(String name) {
-      _name = name;
-   }
+    private Map _HTMLForwards = new HashMap();
 
-   /**
-    * Sets the type.
-    *
-    * @param type The type to set
-    */
-   public void setType(String type) {
-      _type = type;
-   }
+    private Map _XMLForwards = new HashMap();
 
-   /**
-    * Returns an XML forward.
-    *
-    * @param name The name of the XML Forward to get
-    *
-    * @return XML Forward
-    */
-   public Forward getXMLForward(String name) {
-      return (Forward) _XMLForwards.get(name);
-   }
+    /**
+     * Returns the name.
+     * @return String the name of the EventHandlerDef
+     */
+    public String getName() {
+        return _name;
+    }
 
-   /**
-    * Sets the XML Forwards.
-    *
-    * @param forwards HashMap containing all the EventHandlerDef XML Forwards
-    */
-   public void setXMLForwards(HashMap forwards) {
-      _XMLForwards = forwards;
-   }
+    /**
+     * Returns the type.
+     * @return String the type of the EventHandlerDef
+     */
+    public String getType() {
+        return _type;
+    }
 
-   /**
-    * Returns an HTML forward.
-    *
-    * @param name The name of the HTML Forward to get
-    *
-    * @return HTML Forward
-    */
-   public Forward getHTMLForward(String name) {
-      return (Forward) _HTMLForwards.get(name);
-   }
+    /**
+     * Sets the name.
+     * @param name The name to set
+     */
+    public void setName(String name) {
+        _name = name;
+    }
 
-   /**
-    * Sets the HTML Forwards.
-    *
-    * @param forwards HashMap containing all the EventHandlerDef HTML Forwards
-    */
-   public void setHTMLForwards(HashMap forwards) {
-      _HTMLForwards = forwards;
-   }
+    /**
+     * Sets the type.
+     * @param type The type to set
+     */
+    public void setType(String type) {
+        _type = type;
+    }
 
-   /**
-    * Sets the EventHandlerDef Init Params.
-    *
-    * @param params HashMap containing all the EventHandlerDef Init Params.
-    */
-   public void setInitParams(HashMap params) {
-      _initParams = params;
-   }
+    /**
+     * Returns an XML forward.
+     * @param name The name of the XML Forward to get
+     * @return XML Forward
+     */
+    public Forward getXMLForward(String name) {
+        return (Forward)_XMLForwards.get(name);
+    }
 
-   /**
-    * Returns an Map of the Init Params.
-    *
-    * @return Map
-    */
-   public Map getInitParams() {
-      return Collections.unmodifiableMap(_initParams);
-   }
+    /**
+     * Sets the XML Forwards.
+     * @param forwards HashMap containing all the EventHandlerDef XML Forwards
+     */
+    public void setXMLForwards(Map forwards) {
+        _XMLForwards = forwards;
+    }
 
-   /**
-    * Returns an Init Param.
-    *
-    * @return String
-    */
-   public String getInitParam(String name) {
-      return (String) _initParams.get(name);
-   }
+    /**
+     * Returns an HTML forward.
+     * @param name The name of the HTML Forward to get
+     * @return HTML Forward
+     */
+    public Forward getHTMLForward(String name) {
+        return (Forward)_HTMLForwards.get(name);
+    }
 
-   /**
-    * Adds an Init Param to the Map of Init Params.
-    *
-    * @param name String
-    * @param name value
-    */
-   public void addInitParam(String name, String value) {
-      _initParams.put(name, value);
-   }
+    /**
+     * Sets the HTML Forwards.
+     * @param forwards HashMap containing all the EventHandlerDef HTML Forwards
+     */
+    public void setHTMLForwards(Map forwards) {
+        _HTMLForwards = forwards;
+    }
 
-   public Object clone() {
-      EventHandlerDef eh = new EventHandlerDef();
+    /**
+     * Sets the EventHandlerDef Init Params.
+     * @param params HashMap containing all the EventHandlerDef Init Params.
+     */
+    public void setInitParams(Map params) {
+        _initParams = params;
+    }
 
-      eh.setName(_name);
-      eh.setType(_type);
-      eh.setInitParams((HashMap) _initParams.clone());
-      eh.setHTMLForwards(getForwards(_HTMLForwards));
-      eh.setXMLForwards(getForwards(_XMLForwards));
+    /**
+     * Returns an Map of the Init Params.
+     * @return Map
+     */
+    public Map getInitParams() {
+        return Collections.unmodifiableMap(_initParams);
+    }
 
-      return eh;
-   }
+    /**
+     * Returns an Init Param.
+     * @return String
+     */
+    public String getInitParam(String name) {
+        return (String)_initParams.get(name);
+    }
 
-   /**
-    *
-    * @param forwards HashMap
-    * 
-    * @return returns a clone of the Forwards Hashmap
-    */
-   private HashMap getForwards(HashMap forwards) {
-      HashMap copy = new HashMap();
-      Set keys = forwards.keySet();
+    /**
+     * Adds an Init Param to the Map of Init Params.
+     * @param name String
+     * @param name value
+     */
+    public void addInitParam(String name, String value) {
+        _initParams.put(name, value);
+    }
 
-      Iterator iter = keys.iterator();
+    public Object clone() {
+        EventHandlerDef eh = new EventHandlerDef();
 
-      while (iter.hasNext()) {
-         String name = (String) iter.next();
-         Forward forward = (Forward) forwards.get(name);
+        eh.setName(_name);
+        eh.setType(_type);
+        // What an ungly line of code!
+        Map initParamsCopy = (Map)((HashMap)_initParams).clone();
+        eh.setInitParams(initParamsCopy);
+        eh.setHTMLForwards(getForwards(_HTMLForwards));
+        eh.setXMLForwards(getForwards(_XMLForwards));
 
-         copy.put(name, forward.clone());
-      }
+        return eh;
+    }
 
-      return copy;
-   }
+    /**
+     * @param forwards HashMap
+     * @return returns a clone of the Forwards Hashmap
+     */
+    private Map getForwards(Map forwards) {
+        Map copy = new HashMap();
+        Set keys = forwards.keySet();
+
+        Iterator iter = keys.iterator();
+
+        while (iter.hasNext()) {
+            String name = (String)iter.next();
+            Forward forward = (Forward)forwards.get(name);
+
+            copy.put(name, forward.clone());
+        }
+
+        return copy;
+    }
 }

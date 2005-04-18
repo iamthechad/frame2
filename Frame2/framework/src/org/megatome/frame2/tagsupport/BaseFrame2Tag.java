@@ -257,7 +257,7 @@ public abstract class BaseFrame2Tag
    protected String evaluateStringAttribute(String attrName) throws JspException {
       String attrValue = null;
       try {
-         attrValue = (String) evalStringAttr(attrName, getAttr(attrName));
+         attrValue = evalStringAttr(attrName, getAttr(attrName));
       } catch (Exception e) {
          throw new JspException(
             " Evaluation attribute failed " + e.getMessage(),

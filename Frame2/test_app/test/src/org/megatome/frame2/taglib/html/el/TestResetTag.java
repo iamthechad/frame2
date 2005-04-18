@@ -58,9 +58,6 @@ import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 
 public class TestResetTag extends BaseInputTagTest {
 
-   static String ATTR_1 = "test1";
-   static String ATTR_VALUE_1 = "AccessKeyValue1";
-	
 	public TestResetTag(String theName) {
 		super(theName);   
       _type = TagConstants.QUOTE + Constants.RESET + TagConstants.QUOTE;
@@ -74,7 +71,7 @@ public class TestResetTag extends BaseInputTagTest {
 		return new ResetTag();      
 	}
 
-   public void beginResetTag(WebRequest request) throws Exception {
+   public void beginResetTag(WebRequest rquest) throws Exception {
    }
    
    public void testResetTag_Default() throws Exception{

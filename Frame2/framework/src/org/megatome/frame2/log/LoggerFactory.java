@@ -56,100 +56,103 @@ import org.megatome.frame2.log.impl.StandardLogger;
 import org.megatome.frame2.log.impl.StdoutLogger;
 
 /**
- * The LoggerFactory generates instances of the Logger instances as used by the framework.
- * The Logger implementation is normally set through the Frame2ContextListener.
+ * The LoggerFactory generates instances of the Logger instances as used by the
+ * framework. The Logger implementation is normally set through the
+ * Frame2ContextListener.
  */
 public class LoggerFactory {
-   private static Constructor loggerConstructor;
+    private static Constructor loggerConstructor;
 
-   private static boolean STD_LOGGING_AVAILABLE = true;
+    private static boolean STD_LOGGING_AVAILABLE = true;
 
-   /**
-    * Constructor for LoggerFactory.
-    */
-   private LoggerFactory() {
-   }
+    /**
+     * Constructor for LoggerFactory.
+     */
+    private LoggerFactory() {
+    }
 
-   /**
-    * Creates a logger for the given name corresponding to the type set in setType, otherwise
-    * returns a StandardLogger (if available) or a cruddy StdoutLogger.
-    *
-    * @param name The log instance name to create
-    *
-    * @return Logger instance
-    */
-   public static Logger instance(String name) {
-      if (loggerConstructor != null) {
-         try {
-            Object o = loggerConstructor.newInstance(new Object[] { name });
+    /**
+     * Creates a logger for the given name corresponding to the type set in
+     * setType, otherwise returns a StandardLogger (if available) or a cruddy
+     * StdoutLogger.
+     * @param name The log instance name to create
+     * @return Logger instance
+     */
+    public static Logger instance(String name) {
+        if (loggerConstructor != null) {
+            try {
+                Object o = loggerConstructor.newInstance(new Object[] { name });
 
-            return (Logger) o;
-         } catch (Exception e) {
-            throw new RuntimeException("Instantiating object failed.", e);
-         }
-      } else {
-         return getDefault(name);
-      }
-   }
-
-   static private Logger getDefault(String name) {
-      Logger result = null;
-
-      if (STD_LOGGING_AVAILABLE) {
-         try {
-            result = new StandardLogger(name);
-         } catch (Throwable t) {
-            STD_LOGGING_AVAILABLE = false;
-         }
-      }
-
-      if (result == null) {
-         result = new StdoutLogger(name);
-      }
-
-      return result;
-   }
-
-   /**
-    * Sets the Logger implementation for use by the framework.  The factory will use
-    * the provided class loader to generate the instances.
-    *
-    * @param className The fully qualified name of the Logger implementation.  The class must
-    * implement the Logger interface and provide a public constructor that takes a string argument,
-    * which is its name.
-    * @param classLoader The class loader to use.
-    */
-   public static void setType(String className, ClassLoader classLoader) throws LoggerException {
-      Class loggerClass = null;
-
-      try {
-         loggerClass = classLoader.loadClass(className);
-
-         Class[] interfaces = loggerClass.getInterfaces();
-         boolean loggerIntFound = false;
-
-         for (int i = 0; i < interfaces.length; i++) {
-            if (interfaces[i] == Logger.class) {
-               loggerIntFound = true;
-
-               break;
+                return (Logger)o;
+            } catch (Exception e) {
+                throw new RuntimeException("Instantiating object failed.", e);
             }
-         }
+        }
 
-         if (!loggerIntFound) {
+        return getDefault(name);
+    }
+
+    static private Logger getDefault(String name) {
+        Logger result = null;
+
+        if (STD_LOGGING_AVAILABLE) {
+            try {
+                result = new StandardLogger(name);
+            } catch (Throwable t) {
+                STD_LOGGING_AVAILABLE = false;
+            }
+        }
+
+        if (result == null) {
+            result = new StdoutLogger(name);
+        }
+
+        return result;
+    }
+
+    /**
+     * Sets the Logger implementation for use by the framework. The factory will
+     * use the provided class loader to generate the instances.
+     * @param className The fully qualified name of the Logger implementation.
+     *        The class must implement the Logger interface and provide a public
+     *        constructor that takes a string argument, which is its name.
+     * @param classLoader The class loader to use.
+     */
+    public static void setType(String className, ClassLoader classLoader)
+            throws LoggerException {
+        Class loggerClass = null;
+
+        try {
+            loggerClass = classLoader.loadClass(className);
+
+            Class[] interfaces = loggerClass.getInterfaces();
+            boolean loggerIntFound = false;
+
+            for (int i = 0; i < interfaces.length; i++) {
+                if (interfaces[i] == Logger.class) {
+                    loggerIntFound = true;
+
+                    break;
+                }
+            }
+
+            if (!loggerIntFound) {
+                loggerConstructor = null;
+                throw new LoggerException(className + " does not implement "
+                        + Logger.class.getName());
+            }
+        } catch (ClassNotFoundException e) {
             loggerConstructor = null;
-            throw new LoggerException(className + " does not implement " + Logger.class.getName());
-         }
-      } catch (ClassNotFoundException e) {
-         loggerConstructor = null;
-         throw new LoggerException("Unable to load class " + className, e);
-      }
+            throw new LoggerException("Unable to load class " + className, e);
+        }
 
-      try {
-         loggerConstructor = loggerClass.getConstructor(new Class[] { String.class });
-      } catch (NoSuchMethodException e) {
-         loggerConstructor = null;
-         throw new LoggerException("Invalid constructor for " + loggerClass, e);
-      }
-   }
+        try {
+            loggerConstructor = loggerClass
+                    .getConstructor(new Class[] { String.class });
+        } catch (NoSuchMethodException e) {
+            loggerConstructor = null;
+            throw new LoggerException("Invalid constructor for " + loggerClass,
+                    e);
+        }
+    }
 }

@@ -52,6 +52,7 @@
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.megatome.frame2.log.Logger;
@@ -71,7 +72,7 @@ class EventTagHandler implements ElementHandler {
    public static final String TYPE = "type";
    public static final String RESOLVE_AS = "resolveAs";
    public static final String INVALID_TYPE = "Error: Invalid event resolveAs ";
-   HashMap _events = new HashMap();
+   Map _events = new HashMap();
 
    public void startElement(String uri, String localName, String qName, Attributes attributes)
       throws ParserException {
@@ -98,18 +99,18 @@ class EventTagHandler implements ElementHandler {
    }
 
    public void endElement(String uri, String localName, String qName)
-      throws ParserException {
+      throws ParserException { // Not used here
    }
 
    public void characters(char[] ch, int start, int length)
-      throws ParserException {
+      throws ParserException { // Not used here
    }
 
    /**
     * @return returns a clone of the EventDef Map
     */
-   public HashMap getEvents() {
-      HashMap copy = new HashMap();
+   public Map getEvents() {
+      Map copy = new HashMap();
       Set keys = _events.keySet();
 
       Iterator iter = keys.iterator();

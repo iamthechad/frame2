@@ -19,7 +19,6 @@ public class TestLog4jLogging extends TestCase {
    final static String LOGGER_NAME = "org.megatome.frame2.log.TestLogging";
 
    private org.apache.log4j.Logger _l4jLogger;
-   private org.apache.log4j.Appender _l4jAppender;
    private ByteArrayOutputStream _stdStream;
 
    private Logger _logger;

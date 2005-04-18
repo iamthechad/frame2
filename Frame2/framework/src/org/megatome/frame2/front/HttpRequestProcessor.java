@@ -73,400 +73,414 @@ import org.megatome.frame2.log.LoggerFactory;
 import org.megatome.frame2.validator.CommonsValidatorException;
 
 /**
- * A request models the execution of an HTTP request through the Event and the EventHandlers.  It
- * is a primary delegate of RequestProcessor, and brings together the data and logic necessary for
- * processing the request.
+ * A request models the execution of an HTTP request through the Event and the
+ * EventHandlers. It is a primary delegate of RequestProcessor, and brings
+ * together the data and logic necessary for processing the request.
  */
 public class HttpRequestProcessor extends RequestProcessorBase {
-	private ServletContext _servletContext;
-	private HttpServletRequest _request;
-	private HttpServletResponse _response;
-	
-	private Map requestParams;
-	private Exception fileUploadException = null;
-	
-	public static final String CONTENT_TYPE = "Content-type";
-	private static final String MULTIPART = "multipart/";
-   
-   private Logger getLogger() {
-      return LoggerFactory.instance(HttpRequestProcessor.class.getName());
-   }   
+    protected ServletContext _servletContext;
 
-	/**
-	 * Constructor for HttpRequestProcessor.
-	 */
-	public HttpRequestProcessor(
-		Configuration config,
-		ServletContext context,
-		HttpServletRequest request,
-		HttpServletResponse response) {
-		super(config);
-		_servletContext = context;
-		_context = new ContextImpl();
-		_request = request;
-		_response = response;
-		requestParams = getRequestParameterMap(_request);
-	}
+    protected HttpServletRequest _request;
 
-	/**
-	 * Get the event that is associated with the request in the configuration.
-	 * The config entry:
-	 * <pre>&lt;event name="displayUsers" type="test.org.megatome.app.user.DisplayUsers"/&gt;</pre>
-	 * matches the event name "displayUsers" to a class. A request to 
-	 * <code>http://somehost/webapp/displayUsers.f2</code> will invoke the DisplayUsers class.
-	 *
-	 * @return The event that is associated with the request in the configuration.
-	 */
-	public Event getEvent() throws ConfigException {
-      String eventName = getEventName(_request.getServletPath());
-      Event event =  getConfig().getEventProxy(eventName).getEvent();            
-       if (event != null) {
-         event.setName(eventName);
-      }
-      return event;
-      
-	}
+    private HttpServletResponse _response;
 
-	private String getEventName(String servletPath) {
-		String result = null;
+    private Map requestParams;
 
-		if (servletPath != null) {
-			int point = servletPath.indexOf(".");
-         int lastSlash = servletPath.lastIndexOf("/");
+    private Exception fileUploadException = null;
 
-			if (point != -1 && lastSlash != -1) {
-				result = servletPath.substring(lastSlash + 1, point);
-			} else {
-				result = servletPath.substring(lastSlash+1);
-			}
-		}
+    public static final String CONTENT_TYPE = "Content-type";
 
-		return result;
-	}
+    private static final String MULTIPART = "multipart/";
 
-	/**
-	 * Method mapRequestToEvent.
-	 *
-	 * @param event
-	 *
-	 * @return String
-	 */
-    boolean mapRequestToEvent(Event event, boolean validate) throws IntrospectorException,
-    CommonsValidatorException {
+    private Logger getLogger() {
+        return LoggerFactory.instance(HttpRequestProcessor.class.getName());
+    }
 
-	   IntrospectorFactory.instance().mapProperties(requestParams, event);
+    /**
+     * Constructor for HttpRequestProcessor.
+     */
+    public HttpRequestProcessor(Configuration config, ServletContext context,
+            HttpServletRequest request, HttpServletResponse response) {
+        super(config);
+        _servletContext = context;
+        _context = new ContextImpl();
+        _request = request;
+        _response = response;
+        requestParams = getRequestParameterMap(_request);
+    }
 
-		boolean passed = true;
+    /**
+     * Get the event that is associated with the request in the configuration.
+     * The config entry:
+     * 
+     * <pre>
+     * &lt;event name=&quot;displayUsers&quot; type=&quot;test.org.megatome.app.user.DisplayUsers&quot;/&gt;
+     * </pre>
+     * 
+     * matches the event name "displayUsers" to a class. A request to
+     * <code>http://somehost/webapp/displayUsers.f2</code> will invoke the
+     * DisplayUsers class.
+     * @return The event that is associated with the request in the
+     *         configuration.
+     */
+    public Event getEvent() throws ConfigException {
+        String eventName = getEventName(_request.getServletPath());
+        Event event = getConfig().getEventProxy(eventName).getEvent();
+        if (event != null) {
+            event.setName(eventName);
+        }
+        return event;
 
-		if ((validate) && (event != null) ) {
-		   try {
-		      passed &= event.validate(_errors);
-		   } catch (NoClassDefFoundError e) {
-		      // Bug Fix: 917752
-		      // Detect missing CommonsValidator and respond appropriately
-		      // Error is thrown only when plugin is specified
-		      PluginProxy cvp = getConfig().getPluginProxy("CommonsValidatorPlugin");
-		      if (cvp != null) {
-		         getLogger().warn("Cannot validate event", e);
-		         throw new CommonsValidatorException("CommonsValidator missing from classpath, but specified in configuration");
-		      }
-		   }
-		}
-		
-		// always put error in request.
-	    _request.setAttribute(Globals.ERRORS, _errors);
-		return passed;
-	}
+    }
 
-	/**
-	 * Method getContext.
-	 */
-	ContextWrapper getContextWrapper() {
-		return _context;
-	}
+    private String getEventName(String servletPath) {
+        String result = null;
 
-	void forwardTo(String view) throws ServletException, IOException {
-		_servletContext.getRequestDispatcher(view).forward(_request, _response);
-	}
+        if (servletPath != null) {
+            int point = servletPath.indexOf(".");
+            int lastSlash = servletPath.lastIndexOf("/");
 
-	void redirectTo(String view) throws ServletException, IOException {
-		String encodedURL = encodeRedirectURL(view);
+            if (point != -1 && lastSlash != -1) {
+                result = servletPath.substring(lastSlash + 1, point);
+            } else {
+                result = servletPath.substring(lastSlash + 1);
+            }
+        }
 
-		_response.sendRedirect(encodedURL);
-	}
+        return result;
+    }
 
-	private String encodeRedirectURL(String view) {
-		StringBuffer buf = new StringBuffer(view);
-		String[] redirectAttrs = _context.getRedirectAttributes();
-		int len = redirectAttrs.length;
+    /**
+     * Method mapRequestToEvent.
+     * @param event
+     * @return String
+     */
+    boolean mapRequestToEvent(Event event, boolean validate)
+            throws IntrospectorException, CommonsValidatorException {
 
-		if (len > 0) {
-			buf.append("?");
-		}
+        IntrospectorFactory.instance().mapProperties(requestParams, event);
 
-		for (int i = 0; i < len; i++) {
-			buf.append(getParam(i, redirectAttrs));
+        boolean passed = true;
 
-			if ((i + 1) < len) {
-				buf.append("&");
-			}
-		}
+        if ((validate) && (event != null)) {
+            try {
+                passed &= event.validate(_errors);
+            } catch (NoClassDefFoundError e) {
+                // Bug Fix: 917752
+                // Detect missing CommonsValidator and respond appropriately
+                // Error is thrown only when plugin is specified
+                PluginProxy cvp = getConfig().getPluginProxy(
+                        "CommonsValidatorPlugin");
+                if (cvp != null) {
+                    getLogger().warn("Cannot validate event", e);
+                    throw new CommonsValidatorException(
+                            "CommonsValidator missing from classpath, but specified in configuration");
+                }
+            }
+        }
 
-		return buf.toString();
-	}
+        // always put error in request.
+        _request.setAttribute(Globals.ERRORS, _errors);
+        return passed;
+    }
 
-	private StringBuffer getParam(int index, String[] redirectAttrs) {
-		String attrKey = redirectAttrs[index];
-		StringBuffer param =
-			new StringBuffer().append(attrKey).append("=").append(
-				_context.getRequestAttribute(attrKey));
+    /**
+     * Method getContext.
+     */
+    ContextWrapper getContextWrapper() {
+        return _context;
+    }
 
-		return param;
-	}
+    void forwardTo(String view) throws ServletException, IOException {
+        _servletContext.getRequestDispatcher(view).forward(_request, _response);
+    }
 
-	/**
-	 * Process the HTTP request. Processing an HTTP request involves the
-	 * following steps:
-	 * <ol><li>Populate the event from request parameters via introspection</li>
-	 * <li>Step through all event handlers, passing in the populated event for each</li>
-	 * <li>Forward to the appropriate location, based on returns from handlers</li>
-	 * </ol>
-    * @return Null
-    * @throws Throwable
-    * @see org.megatome.frame2.front.RequestProcessor#processRequest()
-    */
-   public Object processRequest() throws Throwable {
-      getLogger().debug("In HttpRequestProcessor processRequest()");
-      String view = null;
-      ForwardProxy result = null;
-      try {
-         String eventName = getEventName(_request.getServletPath());
-         Event event = getEvent();
+    void redirectTo(String view) throws IOException {
+        String encodedURL = encodeRedirectURL(view);
 
-         if (requestParams == null) {
-             Frame2Exception e = null;
-             if (fileUploadException != null) {
-                 e = new Frame2Exception(fileUploadException);
-                 fileUploadException = null;
-             } else {
-                 e = new Frame2Exception("File Upload Error: There was an error parsing file upload parameters."); 
-             }
-         	throw e;
-         }
-         
-         if (!isUserAuthorizedForEvent(eventName)) {
-         	String login = _request.getRemoteUser();
-         
-         	login = (login != null) ? login : "";
-         	throw new AuthorizationException(
-         		"User " + login + " not authorized for mapping " + eventName);
-         }
-         //requestParams = getRequestParameterMap(_request);
-         
-         //if (isCancelRequest(_request)) {
-			if (isCancelRequest(requestParams)) {
-         	result = getConfig().cancelViewFor(eventName, Configuration.HTML_TOKEN);
-         
-         	if (result.isEventType()) {
-         		result =
-         			callHandlers(
-         				result.getPath(),
-         				getConfig().getEventProxy(result.getPath()).getEvent(),
-         				ViewType.HTML);
-         	}
-         	view = result.getPath();
-         
-         } else {
-         	if (mapRequestToEvent(event, getConfig().validateFor(eventName))) {
-         		result = callHandlers(eventName, event, ViewType.HTML);
-         		view = result.getPath();
-         	} else {
-               getContextWrapper().setRequestAttribute(eventName,event);
-         		view = getConfig().inputViewFor(eventName, configResourceType());
-         	}
-         }
-      }
-      catch (Throwable ex) {
-         ExceptionProxy exception = getConfig().resolveException(ex,configResourceType(), ViewType.HTML);
-         if (exception == null) {
-            throw ex;
-         }
+        _response.sendRedirect(encodedURL);
+    }
 
-         String keyRequest = exception.getKey();
-         getContextWrapper().setRequestAttribute(keyRequest, ex);
+    private String encodeRedirectURL(String view) {
+        StringBuffer buf = new StringBuffer(view);
+        String[] redirectAttrs = _context.getRedirectAttributes();
+        int len = redirectAttrs.length;
 
-         if (exception.isEventType()) {
-            result = callHandlers(exception.getPath(),
-               getConfig().getEventProxy(exception.getPath()).getEvent(), ViewType.HTML);
-            view = result.getPath();
-         } else {        
-            view = exception.getPath();
-         }
-      }
-      resolveForward(result, view);
-		return null;
-	}
-   
-   /**
-    * HTTPRequestProcessor only generates a log message for this method.
-    * @see org.megatome.frame2.front.RequestProcessor#preProcess()
-    */
-   public void preProcess() {
-      getLogger().debug("In HttpRequestProcessor preProcess()");
-   }
-   
-   /**
-    * HTTPRequestProcessor only generates a log message for this method.
-    * @see org.megatome.frame2.front.RequestProcessor#postProcess()
-    */
-   public void postProcess() {
-      getLogger().debug("In HttpRequestProcessor postProcess()");
-   }
+        if (len > 0) {
+            buf.append("?");
+        }
 
-	private void resolveForward(ForwardProxy result, String view)
-		throws ServletException, IOException {
-		if ((result != null) && result.isRedirect()) {
-			redirectTo(view);
-		} else {
-			forwardTo(view);
-		}
-	}
+        for (int i = 0; i < len; i++) {
+            buf.append(getParam(i, redirectAttrs));
 
-	/**
-    * Release resources held by the request processor.
-    * @see org.megatome.frame2.front.RequestProcessor#release()
-    */
-   public void release() {
-		_servletContext = null;
-		_request = null;
-		_response = null;
-		_errors = null; // NIT: this is a little off, there appears to be a hand-off
+            if ((i + 1) < len) {
+                buf.append("&");
+            }
+        }
 
-		// from the processor and the request object...
-	}
+        return buf.toString();
+    }
 
-	String configResourceType() {
-		return Configuration.HTML_TOKEN;
-	}
+    private StringBuffer getParam(int index, String[] redirectAttrs) {
+        String attrKey = redirectAttrs[index];
+        StringBuffer param = new StringBuffer().append(attrKey).append("=")
+                .append(_context.getRequestAttribute(attrKey));
 
-	boolean isUserAuthorizedForEvent(String event) throws ConfigException {
-		boolean result = false;
+        return param;
+    }
 
-		String[] roles = getConfig().rolesfor(event);
+    /**
+     * Process the HTTP request. Processing an HTTP request involves the
+     * following steps:
+     * <ol>
+     * <li>Populate the event from request parameters via introspection</li>
+     * <li>Step through all event handlers, passing in the populated event for
+     * each</li>
+     * <li>Forward to the appropriate location, based on returns from handlers
+     * </li>
+     * </ol>
+     * @return Null
+     * @throws Throwable
+     * @see org.megatome.frame2.front.RequestProcessor#processRequest()
+     */
+    public Object processRequest() throws Throwable {
+        getLogger().debug("In HttpRequestProcessor processRequest()");
+        String view = null;
+        ForwardProxy result = null;
+        try {
+            String eventName = getEventName(_request.getServletPath());
+            Event event = getEvent();
 
-		if (roles.length > 0) {
-			for (int i = 0;(i < roles.length) && !result; i++) {
-				result = _request.isUserInRole(roles[i]);
-			}
-		} else {
-			result = true;
-		}
+            if (requestParams == null) {
+                Frame2Exception e = null;
+                if (fileUploadException != null) {
+                    e = new Frame2Exception(fileUploadException);
+                    fileUploadException = null;
+                } else {
+                    e = new Frame2Exception(
+                            "File Upload Error: There was an error parsing file upload parameters.");
+                }
+                throw e;
+            }
 
-		return result;
-	}
-	
-	private Map getRequestParameterMap(HttpServletRequest request) {
-		Map parameters = new HashMap();
-		
-		if (isMultipartRequest(request)) {
-		    
-		    try {
-		        Class.forName("org.apache.commons.fileupload.DiskFileUpload");
-		    } catch (ClassNotFoundException e) {
-		        fileUploadException = new Frame2Exception("The Commons FileUpload library is missing." +
-                " It is required to process file uploads.");
-		        getLogger().severe("File Upload Error", fileUploadException);
-		        return null;
-		    }
-		    
-		    try {
-			    
-		        // Had to move this to a separate class to avoid NoClassDef errors
-		        // when trying to instantiate this class when the file upload
-		        // library is missing
-		        parameters = FileUploadSupport.processMultipartRequest(request);
-		    } catch (Frame2Exception e) {
-		        fileUploadException = e;
-		        return null;
-		    }
-		} else {
-			parameters.putAll(request.getParameterMap());
-		} 
-		return parameters;
-	}
-	
-	private final boolean isMultipartRequest(final HttpServletRequest request)
-	{
-	    String contentType = request.getHeader(CONTENT_TYPE);
-	    if ((contentType == null) || (!contentType.startsWith(MULTIPART))) {
-	        return false;
-	    }
-	    return true;
-   }
+            if (!isUserAuthorizedForEvent(eventName)) {
+                String login = _request.getRemoteUser();
 
-	private class ContextImpl implements ContextWrapper {
-		private Map _initParms;
-		private Set _redirectAttrs = new TreeSet();
+                login = (login != null) ? login : "";
+                throw new AuthorizationException("User " + login
+                        + " not authorized for mapping " + eventName);
+            }
+            //requestParams = getRequestParameterMap(_request);
 
-		public ServletContext getServletContext() {
-			return _servletContext;
-		}
+            //if (isCancelRequest(_request)) {
+            if (isCancelRequest(requestParams)) {
+                result = getConfig().cancelViewFor(eventName,
+                        Configuration.HTML_TOKEN);
 
-		public Object getRequestAttribute(String key) {
-			return _request.getAttribute(key);
-		}
+                if (result.isEventType()) {
+                    result = callHandlers(result.getPath(), getConfig()
+                            .getEventProxy(result.getPath()).getEvent(),
+                            ViewType.HTML);
+                }
+                view = result.getPath();
 
-		public String[] getRedirectAttributes() {
-			return (String[]) _redirectAttrs.toArray(new String[0]);
-		}
+            } else {
+                if (mapRequestToEvent(event, getConfig().validateFor(eventName))) {
+                    result = callHandlers(eventName, event, ViewType.HTML);
+                    view = result.getPath();
+                } else {
+                    getContextWrapper().setRequestAttribute(eventName, event);
+                    view = getConfig().inputViewFor(eventName,
+                            configResourceType());
+                }
+            }
+        } catch (Throwable ex) {
+            ExceptionProxy exception = getConfig().resolveException(ex,
+                    configResourceType(), ViewType.HTML);
+            if (exception == null) {
+                throw ex;
+            }
 
-		public Errors getRequestErrors() {
-			return _errors;
-		}
+            String keyRequest = exception.getKey();
+            getContextWrapper().setRequestAttribute(keyRequest, ex);
 
-		public Object getSessionAttribute(String key) {
-			return _request.getSession().getAttribute(key);
-		}
+            if (exception.isEventType()) {
+                result = callHandlers(exception.getPath(), getConfig()
+                        .getEventProxy(exception.getPath()).getEvent(),
+                        ViewType.HTML);
+                view = result.getPath();
+            } else {
+                view = exception.getPath();
+            }
+        }
+        resolveForward(result, view);
+        return null;
+    }
 
-		public void setRequestAttribute(String key, Object value) {
-			_request.setAttribute(key, value);
-		}
+    /**
+     * HTTPRequestProcessor only generates a log message for this method.
+     * @see org.megatome.frame2.front.RequestProcessor#preProcess()
+     */
+    public void preProcess() {
+        getLogger().debug("In HttpRequestProcessor preProcess()");
+    }
 
-		public void setRequestAttribute(String key, Object value, boolean redirectAttr) {
-			if (redirectAttr) {
-				_redirectAttrs.add(key);
-			} else {
-				_redirectAttrs.remove(key);
-			}
+    /**
+     * HTTPRequestProcessor only generates a log message for this method.
+     * @see org.megatome.frame2.front.RequestProcessor#postProcess()
+     */
+    public void postProcess() {
+        getLogger().debug("In HttpRequestProcessor postProcess()");
+    }
 
-			setRequestAttribute(key, value);
-		}
+    private void resolveForward(ForwardProxy result, String view)
+            throws ServletException, IOException {
+        if ((result != null) && result.isRedirect()) {
+            redirectTo(view);
+        } else {
+            forwardTo(view);
+        }
+    }
 
-		public void setSessionAttribute(String key, Object value) {
-			_request.getSession().setAttribute(key, value);
-		}
+    /**
+     * Release resources held by the request processor.
+     * @see org.megatome.frame2.front.RequestProcessor#release()
+     */
+    public void release() {
+        _servletContext = null;
+        _request = null;
+        _response = null;
+        _errors = null; // NIT: this is a little off, there appears to be a
+                        // hand-off
 
-		public void removeRequestAttribute(String key) {
-			_request.removeAttribute(key);
-			_redirectAttrs.remove(key);
-		}
+        // from the processor and the request object...
+    }
 
-		public void removeSessionAttribute(String key) {
-			_request.getSession().removeAttribute(key);
-		}
+    String configResourceType() {
+        return Configuration.HTML_TOKEN;
+    }
 
-		public String getInitParameter(String key) {
-			String result = null;
+    boolean isUserAuthorizedForEvent(String event) throws ConfigException {
+        boolean result = false;
 
-			if (_initParms != null) {
-				result = (String) _initParms.get(key);
-			}
+        String[] roles = getConfig().rolesfor(event);
 
-			return result;
-		}
+        if (roles.length > 0) {
+            for (int i = 0; (i < roles.length) && !result; i++) {
+                result = _request.isUserInRole(roles[i]);
+            }
+        } else {
+            result = true;
+        }
 
-		public void setInitParameters(Map initParms) {
-			_initParms = initParms;
-		}
-	}
+        return result;
+    }
+
+    private Map getRequestParameterMap(HttpServletRequest request) {
+        Map parameters = new HashMap();
+
+        if (isMultipartRequest(request)) {
+
+            try {
+                Class.forName("org.apache.commons.fileupload.DiskFileUpload");
+            } catch (ClassNotFoundException e) {
+                fileUploadException = new Frame2Exception(
+                        "The Commons FileUpload library is missing."
+                                + " It is required to process file uploads.");
+                getLogger().severe("File Upload Error", fileUploadException);
+                return null;
+            }
+
+            try {
+
+                // Had to move this to a separate class to avoid NoClassDef
+                // errors
+                // when trying to instantiate this class when the file upload
+                // library is missing
+                parameters = FileUploadSupport.processMultipartRequest(request);
+            } catch (Frame2Exception e) {
+                fileUploadException = e;
+                return null;
+            }
+        } else {
+            parameters.putAll(request.getParameterMap());
+        }
+        return parameters;
+    }
+
+    private final boolean isMultipartRequest(final HttpServletRequest request) {
+        String contentType = request.getHeader(CONTENT_TYPE);
+        if ((contentType == null) || (!contentType.startsWith(MULTIPART))) {
+            return false;
+        }
+        return true;
+    }
+
+    private class ContextImpl implements ContextWrapper {
+        private Map _initParms;
+
+        private Set _redirectAttrs = new TreeSet();
+
+        public ServletContext getServletContext() {
+            return _servletContext;
+        }
+
+        public Object getRequestAttribute(String key) {
+            return _request.getAttribute(key);
+        }
+
+        public String[] getRedirectAttributes() {
+            return (String[])_redirectAttrs.toArray(new String[0]);
+        }
+
+        public Errors getRequestErrors() {
+            return _errors;
+        }
+
+        public Object getSessionAttribute(String key) {
+            return _request.getSession().getAttribute(key);
+        }
+
+        public void setRequestAttribute(String key, Object value) {
+            _request.setAttribute(key, value);
+        }
+
+        public void setRequestAttribute(String key, Object value,
+                boolean redirectAttr) {
+            if (redirectAttr) {
+                _redirectAttrs.add(key);
+            } else {
+                _redirectAttrs.remove(key);
+            }
+
+            setRequestAttribute(key, value);
+        }
+
+        public void setSessionAttribute(String key, Object value) {
+            _request.getSession().setAttribute(key, value);
+        }
+
+        public void removeRequestAttribute(String key) {
+            _request.removeAttribute(key);
+            _redirectAttrs.remove(key);
+        }
+
+        public void removeSessionAttribute(String key) {
+            _request.getSession().removeAttribute(key);
+        }
+
+        public String getInitParameter(String key) {
+            String result = null;
+
+            if (_initParms != null) {
+                result = (String)_initParms.get(key);
+            }
+
+            return result;
+        }
+
+        public void setInitParameters(Map initParms) {
+            _initParms = initParms;
+        }
+    }
 }

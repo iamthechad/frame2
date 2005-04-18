@@ -48,49 +48,53 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * InitParamTagHandler handles the init-param elements for the eventHandler of the Configuration file.
+ * InitParamTagHandler handles the init-param elements for the eventHandler of
+ * the Configuration file.
  */
 class InitParamTagHandler implements ElementHandler {
-   public static final String NAME = "name";
-   public static final String VALUE = "value";
-   HashMap _params = new HashMap();
+    public static final String NAME = "name";
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      String name = attributes.getValue(NAME);
-      if (_params.containsKey(name)) {
-         throw new ParserException("Duplicate name in init parameter: " + name);
-      }
-      
-      _params.put(name, attributes.getValue(VALUE));
-   }
+    public static final String VALUE = "value";
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-   }
+    Map _params = new HashMap();
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        String name = attributes.getValue(NAME);
+        if (_params.containsKey(name)) {
+            throw new ParserException("Duplicate name in init parameter: "
+                    + name);
+        }
 
-   /**
-    * @return returns a clone of the init Params HashMap
-    */
-   public HashMap getParams() {
-      return (HashMap) _params.clone();
-   }
+        _params.put(name, attributes.getValue(VALUE));
+    }
 
-   public void clear() {
-      _params.clear();
-   }
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException { // Not needed here
+    }
+
+    public void characters(char[] ch, int start, int length)
+            throws ParserException { // Not needed here
+    }
+
+    /**
+     * @return returns a clone of the init Params HashMap
+     */
+    public Map getParams() {
+        return (Map)((HashMap)_params).clone();
+    }
+
+    public void clear() {
+        _params.clear();
+    }
 }

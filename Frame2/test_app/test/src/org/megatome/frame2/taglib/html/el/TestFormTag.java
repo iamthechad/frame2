@@ -68,7 +68,7 @@ public class TestFormTag extends BaseHtmlTagTest {
       return new FormTag();      
    }
 
-   public void beginHtmlTag(WebRequest request) throws Exception {
+   public void beginHtmlTag(WebRequest rquest) throws Exception {
    }
 
    public void testFormTag() throws Exception{

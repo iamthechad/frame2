@@ -1,7 +1,5 @@
 package org.megatome.frame2.front;
 
-import javax.servlet.ServletException;
-
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.util.Helper;
 import org.w3c.dom.Element;
@@ -71,7 +69,7 @@ public class TestSoapFrontController extends MockFrame2TestCase {
    }
 
    
-   private void processNegativeSoapReqProc() throws ServletException {
+   private void processNegativeSoapReqProc() {
       SoapFrontControllerImpl controller = new SoapFrontControllerImpl();
       checkConfig();
       try { 

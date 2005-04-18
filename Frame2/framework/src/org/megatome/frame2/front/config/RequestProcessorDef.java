@@ -48,29 +48,25 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 /**
- * @author cjohnston
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * @author cjohnston To change the template for this generated type comment go
+ *         to Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class RequestProcessorDef {
 
-   private String _type = "";
-   /**
-    * 
-    */
-   public RequestProcessorDef() {
-   }
-   
-   public void setType(String type) {
-      _type = type;
-   }
-   
-   public String getType() {
-      return _type;
-   }
+    private String _type = "";
+
+    public RequestProcessorDef() {
+    }
+
+    public void setType(String type) {
+        _type = type;
+    }
+
+    public String getType() {
+        return _type;
+    }
 
 }

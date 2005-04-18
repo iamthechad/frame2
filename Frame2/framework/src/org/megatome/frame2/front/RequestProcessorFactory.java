@@ -69,7 +69,7 @@ import org.w3c.dom.Element;
 final public class RequestProcessorFactory {
    public static final String RP_TYPE =
       "org.megatome.frame2.front.RequestProcessor";
-   private RequestProcessorFactory() {
+   private RequestProcessorFactory() { // Non-public ctor
    }
 
    private static Class createClass(String className) {
@@ -182,8 +182,9 @@ final public class RequestProcessorFactory {
                   
          return buildRequestProcessor(c, objects, classParamTypes);
 
-      } else
-         return new HttpRequestProcessor(config, context, request, response);
+      }
+      
+      return new HttpRequestProcessor(config, context, request, response);
    }
 
    static public RequestProcessor instance(
@@ -214,8 +215,9 @@ final public class RequestProcessorFactory {
          
          return buildRequestProcessor(c, objects, classParamTypes);
 
-      } else
-         return new SoapRequestProcessor(config, elements, eventPkg);
+      }
+      
+      return new SoapRequestProcessor(config, elements, eventPkg);
    }
 
    

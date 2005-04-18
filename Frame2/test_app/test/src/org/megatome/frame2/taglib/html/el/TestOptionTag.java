@@ -71,7 +71,7 @@ public class TestOptionTag extends BaseHtmlTagTest {
       return new OptionTag();      
    }
 
-   public void beginOptionTag(WebRequest request) throws Exception {
+   public void beginOptionTag(WebRequest rquest) throws Exception {
    }
 
    public void testOptionTag() throws Exception{
