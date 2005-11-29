@@ -105,7 +105,7 @@ public class MockFrame2TestCase extends TestCase {
         if (_servlet == null) {
             _servlet = new HttpFrontController();
         }
-        LoggerFactory.setType("org.megatome.frame2.log.impl.Log4jLogger",
+        LoggerFactory.setType("org.megatome.frame2.log.impl.StandardLogger",
                 getClass().getClassLoader());
         _config = new MockFrame2ServletConfigSimulator();
         //_request = new
