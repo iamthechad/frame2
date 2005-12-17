@@ -52,7 +52,6 @@ package org.megatome.frame2.template.config;
 
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -74,10 +73,10 @@ public class TemplateConfiguration implements TemplateConfigurationInterface {
    }
 
    public Map getDefinitions() {
-      return Collections.unmodifiableMap(_definitions);
+      return _definitions;
    }
 
-   public void setDefinitions(HashMap map) {
+   public void setDefinitions(Map map) {
       _definitions = new HashMap(map);
    }
 

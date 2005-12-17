@@ -48,87 +48,66 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
-import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * EventTagHandler handles the event elements of the Configuration file. It generates a
- * HashMap of all the EventDef.
+ * EventTagHandler handles the event elements of the Configuration file. It
+ * generates a HashMap of all the EventDef.
  */
-class EventTagHandler implements ElementHandler {
-   private static Logger LOGGER = LoggerFactory.instance(EventTagHandler.class.getName());
-   public static final String NAME = "name";
-   public static final String TYPE = "type";
-   public static final String RESOLVE_AS = "resolveAs";
-   public static final String INVALID_TYPE = "Error: Invalid event resolveAs ";
-   Map _events = new HashMap();
+class EventTagHandler extends ConfigElementHandler {
+    private static Logger LOGGER = LoggerFactory.instance(EventTagHandler.class
+            .getName());
+    public static final String NAME = "name";
+    public static final String TYPE = "type";
+    public static final String RESOLVE_AS = "resolveAs";
+    public static final String INVALID_TYPE = "Error: Invalid event resolveAs ";
+    private Map events = new HashMap();
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      ResolveType rtype = null;
-      String name = attributes.getValue(NAME);
-      String type = attributes.getValue(TYPE);
-      String resolveAs = attributes.getValue(RESOLVE_AS);
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        ResolveType rtype = null;
+        String name = attributes.getValue(NAME);
+        String type = attributes.getValue(TYPE);
+        String resolveAs = attributes.getValue(RESOLVE_AS);
 
-      if (resolveAs == null) {
-         rtype = ResolveType.PARENT; // Default setting
-      } else {
-         rtype = ResolveType.getValueByString(resolveAs);
-      }
+        if (resolveAs == null) {
+            rtype = ResolveType.PARENT; // Default setting
+        } else {
+            rtype = ResolveType.getValueByString(resolveAs);
+        }
 
-      if (rtype == null) {
-         throw new ParserException("resolveAs attribute " + resolveAs + " is not valid ");
-      }
+        if (rtype == null) {
+            throw new ParserException("resolveAs attribute " + resolveAs
+                    + " is not valid ");
+        }
 
-      EventDef event = new EventDef(name, type, rtype);
+        EventDef event = new EventDef(name, type, rtype);
 
-      if (_events.put(attributes.getValue(NAME), event) != null) {
-         LOGGER.warn("This Event already exists " + attributes.getValue(NAME));
-      }
-   }
+        if (events.put(attributes.getValue(NAME), event) != null) {
+            LOGGER.warn("This Event already exists "
+                    + attributes.getValue(NAME));
+        }
+    }
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException { // Not used here
-   }
+    /**
+     * @return returns a clone of the EventDef Map
+     */
+    public Map getEvents() {
+        return events;
+    }
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException { // Not used here
-   }
-
-   /**
-    * @return returns a clone of the EventDef Map
-    */
-   public Map getEvents() {
-      Map copy = new HashMap();
-      Set keys = _events.keySet();
-
-      Iterator iter = keys.iterator();
-
-      while (iter.hasNext()) {
-         String name = (String) iter.next();
-         EventDef event = (EventDef) _events.get(name);
-
-         copy.put(name, event.clone());
-      }
-
-      return copy;
-   }
-
-   /**
-    * clear the EventDef Map
-    */
-   public void clear() {
-      _events.clear();
-   }
+    /**
+     * clear the EventDef Map
+     */
+    public void clear() {
+        events.clear();
+    }
 }

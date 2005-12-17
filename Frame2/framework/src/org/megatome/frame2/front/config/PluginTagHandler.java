@@ -51,78 +51,51 @@
 package org.megatome.frame2.front.config;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
-import org.megatome.frame2.util.sax.ElementHandler;
-import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-/**
- * EventHandlerTagHandler handles the eventHandler elements of the Configuration
- * file.
- */
-class PluginTagHandler implements ElementHandler {
+class PluginTagHandler extends ConfigElementHandler {
     private static Logger LOGGER = LoggerFactory
             .instance(PluginTagHandler.class.getName());
 
     public static final String NAME = "name";
-
     public static final String TYPE = "type";
 
-    private InitParamTagHandler _inputParamTagHandler;
+    private InitParamTagHandler inputParamTagHandler;
+    private List plugins = new ArrayList();
+    private PluginDef pluginDef;
 
-    private List _plugins = new ArrayList();
-
-    private PluginDef _pluginDef;
-
-    /**
-     * Constructs an EventHandlerTagHandler.
-     * @param InitParamTagHandler
-     * @param ForwardTagHandler
-     */
-
-    PluginTagHandler(InitParamTagHandler inputParamTagHandler) {
-        _inputParamTagHandler = inputParamTagHandler;
+    public PluginTagHandler(InitParamTagHandler inputParamTagHandler) {
+        this.inputParamTagHandler = inputParamTagHandler;
     }
 
     public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws ParserException {
-        _pluginDef = new PluginDef();
-        _pluginDef.setName(attributes.getValue(NAME));
-        _pluginDef.setType(attributes.getValue(TYPE));
+            Attributes attributes) {
+        pluginDef = new PluginDef();
+        pluginDef.setName(attributes.getValue(NAME));
+        pluginDef.setType(attributes.getValue(TYPE));
     }
 
-    public void endElement(String uri, String localName, String qName)
-            throws ParserException {
-        _pluginDef.setInitParams(_inputParamTagHandler.getParams());
-        _inputParamTagHandler.clear();
-        if (_plugins.contains(_pluginDef)) {
+    public void endElement(String uri, String localName, String qName) {
+        pluginDef.setInitParams(inputParamTagHandler.getParams());
+        inputParamTagHandler.clear();
+        if (plugins.contains(pluginDef)) {
             // do not add duplicate named plugin defs to list.
             LOGGER.severe("Error: Duplicate plugin definition "
-                    + _pluginDef.getName());
+                    + pluginDef.getName());
         } else {
-            _plugins.add(_pluginDef);
+            plugins.add(pluginDef);
         }
     }
 
-    public void characters(char[] ch, int start, int length)
-            throws ParserException { // Not needed here
-    }
-
-    /**
-     * @return returns a clone of the EventHandlers List
-     */
     public List getPlugins() {
-        return Collections.unmodifiableList(_plugins);
+        return plugins;
     }
 
-    /**
-     * clear the EventHandlerDef List
-     */
     public void clear() {
-        _plugins.clear();
+        plugins.clear();
     }
 }

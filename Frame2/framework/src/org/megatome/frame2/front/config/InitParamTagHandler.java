@@ -53,7 +53,6 @@ package org.megatome.frame2.front.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
@@ -61,40 +60,31 @@ import org.xml.sax.Attributes;
  * InitParamTagHandler handles the init-param elements for the eventHandler of
  * the Configuration file.
  */
-class InitParamTagHandler implements ElementHandler {
+class InitParamTagHandler extends ConfigElementHandler {
     public static final String NAME = "name";
-
     public static final String VALUE = "value";
 
-    Map _params = new HashMap();
+    private Map params = new HashMap();
 
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws ParserException {
         String name = attributes.getValue(NAME);
-        if (_params.containsKey(name)) {
+        if (params.containsKey(name)) {
             throw new ParserException("Duplicate name in init parameter: "
                     + name);
         }
 
-        _params.put(name, attributes.getValue(VALUE));
-    }
-
-    public void endElement(String uri, String localName, String qName)
-            throws ParserException { // Not needed here
-    }
-
-    public void characters(char[] ch, int start, int length)
-            throws ParserException { // Not needed here
+        params.put(name, attributes.getValue(VALUE));
     }
 
     /**
      * @return returns a clone of the init Params HashMap
      */
     public Map getParams() {
-        return (Map)((HashMap)_params).clone();
+        return params;
     }
 
     public void clear() {
-        _params.clear();
+        params.clear();
     }
 }

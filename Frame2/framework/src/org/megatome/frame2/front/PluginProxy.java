@@ -55,64 +55,57 @@ import java.util.Map;
 import org.megatome.frame2.front.config.PluginDef;
 import org.megatome.frame2.plugin.PluginInterface;
 
-/**
- * @author cjohnston To change the template for this generated type comment go
- *         to Window>Preferences>Java>Code Generation>Code and Comments
- */
 public class PluginProxy implements Comparable {
-    private PluginDef _pluginDef;
-
-    private PluginInterface _plugin;
-
-    private boolean _initThrewException = false;
-
-    // No Default Constructor
-    private PluginProxy() { // Non-public ctor
-    }
+    private PluginDef pluginDef;
+    private PluginInterface plugin;
+    private boolean initThrewException = false;
 
     public PluginProxy(PluginDef pluginDef, PluginInterface plugin) {
-        _pluginDef = pluginDef;
-        _plugin = plugin;
+        this.pluginDef = pluginDef;
+        this.plugin = plugin;
     }
 
     public String getName() {
-        return _pluginDef.getName();
+        return pluginDef.getName();
     }
 
     public String getType() {
-        return _pluginDef.getType();
+        return pluginDef.getType();
     }
 
     public Map getInitParams() {
-        return _pluginDef.getInitParams();
+        return pluginDef.getInitParams();
     }
 
     public PluginInterface getPlugin() {
-        return _plugin;
+        return plugin;
     }
 
     public void setInitThrewException(boolean initThrewException) {
-        _initThrewException = initThrewException;
+        this.initThrewException = initThrewException;
     }
 
     public boolean initThrewException() {
-        return _initThrewException;
+        return initThrewException;
     }
 
     public int compareTo(Object other) {
-        return compareTo((PluginProxy)other);
-    }
-
-    public int compareTo(PluginProxy other) {
-        return getName().compareTo(other.getName());
+        return pluginDef.compareTo(other);
     }
 
     public boolean equals(Object other) {
-        return (other instanceof PluginProxy) && equals((PluginProxy)other);
+        if ((other == null) || (!(other instanceof PluginProxy))) {
+            return false;
+        }
+        
+        if (other == this) {
+            return true;
+        }
+        
+        return pluginDef.equals(other);
     }
 
-    public boolean equals(PluginProxy other) {
-        return getName().equals(other.getName());
+    public int hashCode() {
+        return pluginDef.hashCode();
     }
-
 }

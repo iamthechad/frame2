@@ -50,23 +50,19 @@
  */
 package org.megatome.frame2.front.config;
 
-import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
 /**
  * ViewTagHandler handles the view elements in the configuration file.
  */
-class ViewTagHandler implements ElementHandler {
+class ViewTagHandler extends ConfigElementHandler {
     public static final String FORWARD_NAME = "forwardName";
-
     public static final String TYPE = "type";
-
     public static final String INVALID_TYPE = "Error: Invalid view type ";
 
-    String _HTMLForwardName;
-
-    String _XMLForwardName;
+    private String htmlForwardName;
+    private String xmlForwardName;
 
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws ParserException {
@@ -80,39 +76,25 @@ class ViewTagHandler implements ElementHandler {
         }
 
         if (vtype.equals(ViewType.BOTH)) {
-            _HTMLForwardName = forwardName;
-            _XMLForwardName = forwardName;
+            htmlForwardName = forwardName;
+            xmlForwardName = forwardName;
         } else if (vtype.equals(ViewType.HTML)) {
-            _HTMLForwardName = forwardName;
+            htmlForwardName = forwardName;
         } else if (vtype.equals(ViewType.XML)) {
-            _XMLForwardName = forwardName;
+            xmlForwardName = forwardName;
         }
     }
 
-    public void endElement(String uri, String localName, String qName)
-            throws ParserException { // Not needed here
-    }
-
-    public void characters(char[] ch, int start, int length)
-            throws ParserException { // Not needed here
-    }
-
-    /**
-     * @return returns a clone of the Events List
-     */
     public String getXMLForwardName() {
-        return _XMLForwardName;
+        return xmlForwardName;
     }
 
     public String getHTMLForwardName() {
-        return _HTMLForwardName;
+        return htmlForwardName;
     }
 
-    /**
-     * clear the forwardName
-     */
     public void clear() {
-        _XMLForwardName = null;
-        _HTMLForwardName = null;
+        xmlForwardName = null;
+        htmlForwardName = null;
     }
 }

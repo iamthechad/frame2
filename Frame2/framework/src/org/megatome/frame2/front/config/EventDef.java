@@ -48,113 +48,101 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 /**
- * EventDef is an Object representation of the event element in the configuration file.
- * It is named EventDef and not Event because the framework contains an interface called Event.
+ * EventDef is an Object representation of the event element in the
+ * configuration file. It is named EventDef and not Event because the framework
+ * contains an interface called Event.
  */
-
 public class EventDef {
-   private String _name;
-   private String _type;
-   private ResolveType _resolve;
+    private String name;
+    private String type;
+    private ResolveType resolve;
 
-   /**
-    * Constructs an EventDef
-    *
-    * @param name String
-    * @param type String
-    * @param resolve String representing the ResolveType 
-    *
-    */
+    /**
+     * Constructs an EventDef
+     * @param name String
+     * @param type String
+     * @param resolve String representing the ResolveType
+     */
+    public EventDef(String name, String type, String resolve) {
+        this.name = name;
+        this.type = type;
+        this.resolve = ResolveType.getValueByString(resolve);
+    }
 
-   public EventDef(String name, String type, String resolve) {
-      _name = name;
-      _type = type;
-      _resolve = ResolveType.getValueByString(resolve);
-   }
+    /**
+     * Constructs an EventDef
+     * @param name String
+     * @param type String
+     * @param resolve a ResolveType
+     */
+    public EventDef(String name, String type, ResolveType resolve) {
+        this.name = name;
+        this.resolve = resolve;
+        this.type = type;
+    }
 
-   /**
-    * Constructs an EventDef
-    *
-    * @param name String
-    * @param type String
-    * @param resolve a ResolveType
-    *
-    */
+    public EventDef(EventDef event) {
+        this.name = event.name;
+        this.resolve = event.resolve;
+        this.type = event.type;
+    }
 
-   public EventDef(String name, String type, ResolveType resolve) {
-      _name = name;
-      _resolve = resolve;
-      _type = type;
-   }
+    /**
+     * Returns the name.
+     * @return String name of the EventDef
+     */
+    public String getName() {
+        return name;
+    }
 
-   /**
-    * Returns the name.
-    *
-    * @return String name of the EventDef
-    */
-   public String getName() {
-      return _name;
-   }
+    /**
+     * Returns the type.
+     * @return String type of the EventDef
+     */
+    public String getType() {
+        return type;
+    }
 
-   /**
-    * Returns the type.
-    *
-    * @return String type of the EventDef
-    */
-   public String getType() {
-      return _type;
-   }
+    /**
+     * Returns the ResolveType.
+     * @return ResolveType
+     */
+    public ResolveType getResolveAs() {
+        return resolve;
+    }
 
-   /**
-    * Returns the ResolveType.
-    *
-    * @return ResolveType 
-    */
-   public ResolveType getResolveAs() {
-      return _resolve;
-   }
+    /**
+     * Sets the name.
+     * @param name The EventDef name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-   /**
-    * Sets the name.
-    *
-    * @param name The EventDef name to set
-    */
-   public void setName(String name) {
-      _name = name;
-   }
+    /**
+     * Sets the type.
+     * @param type The EventDef type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
 
-   /**
-    * Sets the type.
-    *
-    * @param type The EventDef type to set
-    */
-   public void setType(String type) {
-      _type = type;
-   }
+    /**
+     * Sets the ResolveType of the EventDef.
+     * @param resolve The String representation of ResolveType to set
+     */
+    public void setResolveAs(String resolve) {
+        this.resolve = ResolveType.getValueByString(resolve);
+    }
 
-   /**
-    * Sets the ResolveType of the EventDef.
-    *
-    * @param resolve The String representation of ResolveType to set
-    */
-   public void setResolveAs(String resolve) {
-      _resolve = ResolveType.getValueByString(resolve);
-   }
-
-   /**
-    * Sets the ResolveType of the EventDef.
-    *
-    * @param resolve The ResolveType to set
-    * 
-    */
-   public void setResolveAs(ResolveType resolve) {
-      _resolve = resolve;
-   }
-
-   public Object clone() {
-      return new EventDef(getName(), getType(), getResolveAs());
-   }
+    /**
+     * Sets the ResolveType of the EventDef.
+     * @param resolve The ResolveType to set
+     */
+    public void setResolveAs(ResolveType resolve) {
+        this.resolve = resolve;
+    }
 }

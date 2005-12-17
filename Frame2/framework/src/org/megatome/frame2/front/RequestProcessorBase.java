@@ -64,12 +64,12 @@ import org.megatome.frame2.front.config.ViewType;
  * The request processor base is the abstract base class for the HTML and SOAP implementations.
  */
 abstract class RequestProcessorBase implements RequestProcessor {
-   private Configuration _config;
-   ContextWrapper _context;
-   Errors _errors = new ErrorsImpl();
+   private Configuration config;
+   protected ContextWrapper context;
+   protected Errors errors = new ErrorsImpl();
 
-   RequestProcessorBase(Configuration config) {
-      _config = config;
+   protected RequestProcessorBase(Configuration config) {
+      this.config = config;
    }
 
    /**
@@ -80,20 +80,20 @@ abstract class RequestProcessorBase implements RequestProcessor {
     *
     * @return String
     */
-   ForwardProxy callHandlers(String eventName, Event event, ViewType vtype)
+   protected ForwardProxy callHandlers(String eventName, Event event, ViewType vtype)
       throws Exception {
       String token = null;
       List handlerList = null;
       ForwardProxy fwd = null;
 
-      ContextWrapper context = getContextWrapper();
+      ContextWrapper ctx = getContextWrapper();
 
       if (event != null) {
          event.setName(eventName);
       } 
-      context.setRequestAttribute(eventName, event);
+      ctx.setRequestAttribute(eventName, event);
 
-      handlerList = _config.getHandlers(eventName);
+      handlerList = config.getHandlers(eventName);
       if (handlerList != null && (handlerList.size() >0)) {
          if(event == null) {
             throw new ConfigException("No event Type specified for its Handlers");
@@ -101,14 +101,14 @@ abstract class RequestProcessorBase implements RequestProcessor {
          for (int i = 0; i < handlerList.size(); i++) {
             EventHandlerProxy handler = (EventHandlerProxy) handlerList.get(i);
 
-            token = processHandler(event, handler, context);
+            token = processHandler(event, handler, ctx);
 
             if (token != null) {
-               fwd = _config.resolveForward(handler, token, configResourceType());
+               fwd = config.resolveForward(handler, token, configResourceType());
 
                if (fwd.isEventType()) {
                   return callHandlers(fwd.getPath(),
-                     _config.getEventProxy(fwd.getPath()).getEvent(), vtype);
+                     config.getEventProxy(fwd.getPath()).getEvent(), vtype);
                }
 
                break; // not an event
@@ -117,11 +117,11 @@ abstract class RequestProcessorBase implements RequestProcessor {
       }
 
       if (token == null) {
-         token = _config.getEventMappingView(eventName, vtype);
-         fwd = _config.resolveForward(token, configResourceType());
+         token = config.getEventMappingView(eventName, vtype);
+         fwd = config.resolveForward(token, configResourceType());
 
          if (fwd.isEventType()) {
-            return callHandlers(fwd.getPath(), _config.getEventProxy(fwd.getPath()).getEvent(),
+            return callHandlers(fwd.getPath(), config.getEventProxy(fwd.getPath()).getEvent(),
                vtype);
          }
       }
@@ -129,38 +129,32 @@ abstract class RequestProcessorBase implements RequestProcessor {
       return fwd;
    }
 
-   abstract ContextWrapper getContextWrapper();
+   abstract protected ContextWrapper getContextWrapper();
 
-   Configuration getConfig() {
-      return _config;
+   public Configuration getConfig() {
+      return config;
    }
 
-   private String processHandler(Event event, EventHandlerProxy proxyHandler, ContextWrapper context)
+   private String processHandler(Event event, EventHandlerProxy proxyHandler, ContextWrapper ctx)
       throws Exception {
-      setInitParmsForHandler(proxyHandler, context);
+      setInitParmsForHandler(proxyHandler, ctx);
 
-      return proxyHandler.handle(event, context);
+      return proxyHandler.handle(event, ctx);
    }
 
-   private void setInitParmsForHandler(EventHandlerProxy proxy, ContextWrapper context) {
-      context.setInitParameters(proxy.getDefinition().getInitParams());
+   private void setInitParmsForHandler(EventHandlerProxy proxy, ContextWrapper ctx) {
+      ctx.setInitParameters(proxy.getDefinition().getInitParams());
    }
 
    public void release() {
-      _config = null;
-      _errors = null;
+      config = null;
+      errors = null;
    }
 
-   abstract String configResourceType();
+   abstract protected String configResourceType();
 
-   abstract boolean isUserAuthorizedForEvent(String event)
+   abstract protected boolean isUserAuthorizedForEvent(String event)
       throws ConfigException;
-
-/*
-	protected boolean isCancelRequest(HttpServletRequest request) {
-      return request.getParameter(Globals.CANCEL) != null;
-   }
-*/
 
 	/**
 	 * Determine if the request to be processed is a cancel request.

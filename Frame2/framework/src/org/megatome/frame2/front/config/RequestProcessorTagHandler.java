@@ -50,48 +50,33 @@
  */
 package org.megatome.frame2.front.config;
 
-import org.megatome.frame2.util.sax.ElementHandler;
-import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
 /**
  * RequestProcessorTagHandler handles the eventHandler elements of the
  * Configuration file.
  */
-class RequestProcessorTagHandler implements ElementHandler {
+class RequestProcessorTagHandler extends ConfigElementHandler {
     public static final String TYPE = "type";
-
-    private RequestProcessorDef _rpDef;
+    private RequestProcessorDef rpDef;
 
     /**
      * Constructs an RequestProcessorTagHandler.
      */
-
-    RequestProcessorTagHandler() {
+    public RequestProcessorTagHandler() {
     }
 
     public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws ParserException {
-        _rpDef = new RequestProcessorDef();
-        _rpDef.setType(attributes.getValue(TYPE));
-    }
-
-    public void endElement(String uri, String localName, String qName)
-            throws ParserException { // Not needed here
-    }
-
-    public void characters(char[] ch, int start, int length)
-            throws ParserException { // Not needed here
+            Attributes attributes) {
+        rpDef = new RequestProcessorDef();
+        rpDef.setType(attributes.getValue(TYPE));
     }
 
     public RequestProcessorDef getRequestProcessorDef() {
-        return _rpDef;
+        return rpDef;
     }
 
-    /**
-     * clear the EventHandlerDef List
-     */
     public void clear() {
-        _rpDef = null;
+        rpDef = null;
     }
 }

@@ -102,11 +102,11 @@ public class HttpRequestProcessor extends RequestProcessorBase {
     public HttpRequestProcessor(Configuration config, ServletContext context,
             HttpServletRequest request, HttpServletResponse response) {
         super(config);
-        _servletContext = context;
-        _context = new ContextImpl();
-        _request = request;
-        _response = response;
-        requestParams = getRequestParameterMap(_request);
+        this._servletContext = context;
+        this.context = new ContextImpl();
+        this._request = request;
+        this._response = response;
+        this.requestParams = getRequestParameterMap(_request);
     }
 
     /**
@@ -164,7 +164,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 
         if ((validate) && (event != null)) {
             try {
-                passed &= event.validate(_errors);
+                passed &= event.validate(errors);
             } catch (NoClassDefFoundError e) {
                 // Bug Fix: 917752
                 // Detect missing CommonsValidator and respond appropriately
@@ -180,15 +180,15 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         }
 
         // always put error in request.
-        _request.setAttribute(Globals.ERRORS, _errors);
+        _request.setAttribute(Globals.ERRORS, errors);
         return passed;
     }
 
     /**
      * Method getContext.
      */
-    ContextWrapper getContextWrapper() {
-        return _context;
+    protected ContextWrapper getContextWrapper() {
+        return context;
     }
 
     void forwardTo(String view) throws ServletException, IOException {
@@ -203,7 +203,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 
     private String encodeRedirectURL(String view) {
         StringBuffer buf = new StringBuffer(view);
-        String[] redirectAttrs = _context.getRedirectAttributes();
+        String[] redirectAttrs = context.getRedirectAttributes();
         int len = redirectAttrs.length;
 
         if (len > 0) {
@@ -224,7 +224,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
     private StringBuffer getParam(int index, String[] redirectAttrs) {
         String attrKey = redirectAttrs[index];
         StringBuffer param = new StringBuffer().append(attrKey).append("=")
-                .append(_context.getRequestAttribute(attrKey));
+                .append(context.getRequestAttribute(attrKey));
 
         return param;
     }
@@ -350,17 +350,17 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         _servletContext = null;
         _request = null;
         _response = null;
-        _errors = null; // NIT: this is a little off, there appears to be a
+        errors = null; // NIT: this is a little off, there appears to be a
                         // hand-off
 
         // from the processor and the request object...
     }
 
-    String configResourceType() {
+    protected String configResourceType() {
         return Configuration.HTML_TOKEN;
     }
 
-    boolean isUserAuthorizedForEvent(String event) throws ConfigException {
+    protected boolean isUserAuthorizedForEvent(String event) throws ConfigException {
         boolean result = false;
 
         String[] roles = getConfig().rolesfor(event);
@@ -434,7 +434,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         }
 
         public Errors getRequestErrors() {
-            return _errors;
+            return errors;
         }
 
         public Object getSessionAttribute(String key) {

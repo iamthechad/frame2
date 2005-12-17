@@ -61,14 +61,14 @@ import org.megatome.frame2.front.config.EventHandlerDef;
  * the instance along with the initialization parameters.
  */
 class EventHandlerProxy implements EventHandler {
-   EventHandler _handler;
-   EventHandlerDef _definition;
-   String _name;
+   EventHandler handler;
+   EventHandlerDef definition;
+   String name;
 
    EventHandlerProxy(String name, EventHandler handler, EventHandlerDef definition) {
-      _name = name;
-      _handler = handler;
-      _definition = definition;
+      this.name = name;
+      this.handler = handler;
+      this.definition = definition;
    }
 
    /**
@@ -77,7 +77,7 @@ class EventHandlerProxy implements EventHandler {
     * @return String
     */
    String getName() {
-      return _name;
+      return name;
    }
 
    /**
@@ -86,11 +86,11 @@ class EventHandlerProxy implements EventHandler {
     * @return EventHandler
     */
    EventHandler getHandler() {
-      return _handler;
+      return handler;
    }
 
    public String handle(Event event, Context context) throws Exception {
-      return _handler.handle(event, context);
+      return handler.handle(event, context);
    }
 
    /**
@@ -99,6 +99,6 @@ class EventHandlerProxy implements EventHandler {
     * @return EventHandlerDef
     */
    EventHandlerDef getDefinition() {
-      return _definition;
+      return definition;
    }
 }

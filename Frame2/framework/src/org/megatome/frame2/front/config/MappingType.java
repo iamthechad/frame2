@@ -50,43 +50,70 @@
  */
 package org.megatome.frame2.front.config;
 
-import org.xml.sax.Attributes;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * SecurityTagHandler handles the security elements contained in the
- * eventMapping element of the configuration file.. The roles in the security
- * element assume role-based security
+ * This class is an abstract enumeration type. It uses the typesafe enum pattern.
  */
-class SecurityTagHandler extends ConfigElementHandler {
-    private RoleTagHandler roleTagHandler;
-    private Security sec;
+public abstract class MappingType {
+    private String value;
 
-    /**
-     * Constructs a SecurityTagHandler.
-     * @param RoleTagHandler
-     */
-    public SecurityTagHandler(RoleTagHandler roleTagHandler) {
-        this.roleTagHandler = roleTagHandler;
-    }
+    private static List mappings = new ArrayList();
 
-    public void startElement(String uri, String localName, String qName,
-            Attributes attributes) {
-        sec = new Security();
-    }
-
-    public void endElement(String uri, String localName, String qName) {
-        sec.setRoles(roleTagHandler.getRoles());
-    }
-
-    public Security getSecurity() {
-        return sec == null ? null : new Security(sec);
+    protected MappingType(final String value) {
+        this.value = value;
+        addMapping(this);
     }
 
     /**
-     * clear the Security
+     * Get the mapping's value
+     * @return value
      */
-    public void clear() {
-        roleTagHandler.clear();
-        sec = null;
+    public String getValue() {
+        return value;
+    }
+
+    public boolean equals(Object obj) {
+        if ((obj == null) || (!(obj instanceof MappingType))) {
+            return false;
+        }
+
+        if (obj == this) {
+            return true;
+        }
+
+        MappingType mt = (MappingType)obj;
+        return value.equals(mt.value);
+    }
+
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    protected static MappingType getMappingByString(String value) {
+        MappingType result = null;
+
+        for (final Iterator i = mappings.iterator(); i.hasNext();) {
+            MappingType current = (MappingType)i.next();
+
+            if (current.getValue().equals(value)) {
+                result = current;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    protected static void addMapping(final MappingType type) {
+        if (!mappings.contains(type)) {
+            mappings.add(type);
+        }
+    }
+    
+    public String toString() {
+        return value;
     }
 }

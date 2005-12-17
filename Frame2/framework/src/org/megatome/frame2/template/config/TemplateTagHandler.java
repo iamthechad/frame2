@@ -51,10 +51,11 @@
 package org.megatome.frame2.template.config;
 
 import java.util.HashMap;
+import java.util.Map;
 
+import org.megatome.frame2.front.config.ConfigElementHandler;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
-import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
@@ -62,18 +63,15 @@ import org.xml.sax.Attributes;
  * EventHandlerTagHandler handles the eventHandler elements of the Configuration
  * file.
  */
-class TemplateTagHandler implements ElementHandler {
+class TemplateTagHandler extends ConfigElementHandler {
     private static Logger LOGGER = LoggerFactory
             .instance(TemplateTagHandler.class.getName());
 
     public static final String NAME = "name";
-
     public static final String PATH = "path";
 
     private PutParamTagHandler _putTagHandler;
-
-    private HashMap _definitions = new HashMap();
-
+    private Map _definitions = new HashMap();
     private TemplateDef _templateDef;
 
     /**
@@ -81,14 +79,13 @@ class TemplateTagHandler implements ElementHandler {
      * @param InitParamTagHandler
      * @param ForwardTagHandler
      */
-
-    TemplateTagHandler(PutParamTagHandler putTagHandler, HashMap definitions) {
+    public TemplateTagHandler(PutParamTagHandler putTagHandler, Map definitions) {
         _definitions = definitions;
         _putTagHandler = putTagHandler;
     }
 
     public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws ParserException {
+            Attributes attributes) {
         _templateDef = new TemplateDef();
         _templateDef.setName(attributes.getValue(NAME));
         _templateDef.setPath(attributes.getValue(PATH));
@@ -108,8 +105,9 @@ class TemplateTagHandler implements ElementHandler {
         _definitions.put(_templateDef.getName(), _templateDef);
     }
 
-    public void characters(char[] ch, int start, int length)
-            throws ParserException {
+    public void clear() {
+        _putTagHandler.clear();
+        _definitions.clear();
+        _templateDef = null;
     }
-
 }

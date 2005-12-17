@@ -50,7 +50,6 @@
  */
 package org.megatome.frame2.template.config;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,114 +57,115 @@ import javax.servlet.jsp.PageContext;
 
 import org.megatome.frame2.template.TemplatePlugin;
 
+public class TemplateDef implements Comparable {
+    private String _name = "";
+    private String _path = "";
+    private Map _putParams = new HashMap();
 
-public class TemplateDef implements Comparable{
-   private String _name = "";
-   private String _path = "";
-   private HashMap _putParams = new HashMap();
-   
-   
-   /**
-    * @return
-    */
-   public Map getPutParams() {
-      return Collections.unmodifiableMap(_putParams);
-   }
-   
-   public String getPutParam(String name) {
-   	return (String)_putParams.get(name);
-   }
+    /**
+     * @return
+     */
+    public Map getPutParams() {
+        return _putParams;
+    }
 
-   /**
-    * @return
-    */
-   public String getName() {
-      return _name;
-   }
+    public String getPutParam(String name) {
+        return (String)_putParams.get(name);
+    }
 
-   /**
-    * @return
-    */
-   public String getPath() {
-      return _path;
-   }
-   
-   public String getTemplateJspPath(){
-      return TemplatePlugin.getConfigDir() + getPath();
-   }
+    /**
+     * @return
+     */
+    public String getName() {
+        return _name;
+    }
 
-   /**
-    * @param map
-    */
-   public void setPutParams(HashMap map) {
-      _putParams = map;
-   }
+    /**
+     * @return
+     */
+    public String getPath() {
+        return _path;
+    }
 
-   /**
-    * @param string
-    */
-   public void setName(String string) {
-      _name = string;
-   }
-   
-   public void overridePutParam(String putName, String putValue, PageContext context, int scope) {
-   	HashMap putMap = null;
-   	putMap = (HashMap)context.getAttribute(_name, scope);
-   	
-   	if (putMap != null) {
-   		putMap.put(putName, putValue);
-   	} else {
-   		putMap = new HashMap();
-   		putMap.put(putName, putValue);
-   		context.setAttribute(_name, putMap, scope);
-   	}
-   }
-   
-   public String getPutParam(String paramName, PageContext context) {
-   	int[] scopeValues = { PageContext.PAGE_SCOPE, PageContext.REQUEST_SCOPE,
-   		                   PageContext.SESSION_SCOPE, PageContext.APPLICATION_SCOPE };
-   		
-      String paramValue = null;                   
-      for (int i = 0; i < scopeValues.length; i++) {
-      	HashMap putParams = (HashMap)context.getAttribute(_name, scopeValues[i]);
-      	if (putParams != null) {
-      		paramValue = (String)putParams.get(paramName);
-      		if (paramValue != null) break;
-      	}
-      }
-      
-      if (paramValue == null) {
-      	paramValue = getPutParam(paramName);
-      }
-      
-      if (paramValue != null){
-         paramValue = TemplatePlugin.getConfigDir() + paramValue;  
-      }
-            
-      return paramValue;
-   } 
+    public String getTemplateJspPath() {
+        return TemplatePlugin.getConfigDir() + getPath();
+    }
 
-   /**
-    * @param string
-    */
-   public void setPath(String string) {
-      _path = string;
-   }
-   
-   public int compareTo(Object other) {
-       return compareTo((TemplateDef)other);
-   }
+    /**
+     * @param map
+     */
+    public void setPutParams(Map map) {
+        _putParams = new HashMap(map);
+    }
 
-   public int compareTo(TemplateDef other) {
-       return _name.compareTo(other.getName( ));
-   }
+    /**
+     * @param string
+     */
+    public void setName(String string) {
+        _name = string;
+    }
 
-   public boolean equals(Object other) {
-       return (other instanceof TemplateDef) && equals((TemplateDef)other);
-   }
+    public void overridePutParam(String putName, String putValue,
+            PageContext context, int scope) {
+        Map putMap = null;
+        putMap = (Map)context.getAttribute(_name, scope);
 
-   public boolean equals(TemplateDef other) {
-       return _name.equals(other.getName( ));
-   }
+        if (putMap != null) {
+            putMap.put(putName, putValue);
+        } else {
+            putMap = new HashMap();
+            putMap.put(putName, putValue);
+            context.setAttribute(_name, putMap, scope);
+        }
+    }
+
+    public String getPutParam(String paramName, PageContext context) {
+        int[] scopeValues = { PageContext.PAGE_SCOPE,
+                PageContext.REQUEST_SCOPE, PageContext.SESSION_SCOPE,
+                PageContext.APPLICATION_SCOPE };
+
+        String paramValue = null;
+        for (int i = 0; i < scopeValues.length; i++) {
+            Map putParams = (Map)context.getAttribute(_name, scopeValues[i]);
+            if (putParams != null) {
+                paramValue = (String)putParams.get(paramName);
+                if (paramValue != null)
+                    break;
+            }
+        }
+
+        if (paramValue == null) {
+            paramValue = getPutParam(paramName);
+        }
+
+        if (paramValue != null) {
+            paramValue = TemplatePlugin.getConfigDir() + paramValue;
+        }
+
+        return paramValue;
+    }
+
+    /**
+     * @param string
+     */
+    public void setPath(String string) {
+        _path = string;
+    }
+
+    public int compareTo(Object other) {
+        return compareTo((TemplateDef)other);
+    }
+
+    public int compareTo(TemplateDef other) {
+        return _name.compareTo(other.getName());
+    }
+
+    public boolean equals(Object other) {
+        return (other instanceof TemplateDef) && equals((TemplateDef)other);
+    }
+
+    public boolean equals(TemplateDef other) {
+        return _name.equals(other.getName());
+    }
 
 }

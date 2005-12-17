@@ -57,39 +57,39 @@ import org.megatome.frame2.front.config.ForwardType;
  * ForwardProxy.java used to wrap a forward for access by request processor
  */
 public class ForwardProxy {
-    private Forward _forward;
+    private Forward forward;
 
     protected ForwardProxy() { // Non-public ctor
     }
 
     public ForwardProxy(Forward forward) {
-        _forward = forward;
+        this.forward = forward;
     }
 
     public String getPath() {
-        return _forward.getPath();
+        return forward.getPath();
     }
 
     public String getName() {
-        return _forward.getName();
+        return forward.getName();
     }
 
     public boolean isResourceType() {
-        return (_forward.getType().equals(ForwardType.HTMLRESOURCE) || _forward
+        return (forward.getType().equals(ForwardType.HTMLRESOURCE) || forward
                 .getType().equals(ForwardType.XMLRESOURCE));
     }
 
     public boolean isEventType() {
-        return (_forward.getType().equals(ForwardType.EVENT));
+        return (forward.getType().equals(ForwardType.EVENT));
     }
 
     public boolean isResponderType() {
-        return (_forward.getType().equals(ForwardType.XMLRESPONDER));
+        return (forward.getType().equals(ForwardType.XMLRESPONDER));
     }
 
     public boolean isRedirect() {
         boolean redirect = false;
-        int index = _forward.getPath().indexOf("://");
+        int index = forward.getPath().indexOf("://");
 
         if (index > -1) {
             redirect = true;

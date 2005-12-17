@@ -48,87 +48,63 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
-import org.megatome.frame2.util.sax.ElementHandler;
-import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * EventHandlerTagHandler handles the eventHandler elements of the Configuration file.
+ * EventHandlerTagHandler handles the eventHandler elements of the Configuration
+ * file.
  */
-class EventHandlerTagHandler implements ElementHandler {
-   public static final String NAME = "name";
-   public static final String TYPE = "type";
-   private InitParamTagHandler _inputParamTagHandler;
-   private ForwardTagHandler _forwardTagHandler;
-   private Map _eventHandlers = new HashMap();
-   private EventHandlerDef _eventHandler;
+class EventHandlerTagHandler extends ConfigElementHandler {
+    public static final String NAME = "name";
+    public static final String TYPE = "type";
+    private InitParamTagHandler inputParamTagHandler;
+    private ForwardTagHandler forwardTagHandler;
+    private Map eventHandlers = new HashMap();
+    private EventHandlerDef eventHandler;
 
-   /**
-    * Constructs an EventHandlerTagHandler.
-    *
-    * @param InitParamTagHandler 
-    * @param ForwardTagHandler 
-    *
-    */
+    /**
+     * Constructs an EventHandlerTagHandler.
+     * @param InitParamTagHandler
+     * @param ForwardTagHandler
+     */
+    public EventHandlerTagHandler(InitParamTagHandler inputParamTagHandler,
+            ForwardTagHandler forwardTagHandler) {
+        this.inputParamTagHandler = inputParamTagHandler;
+        this.forwardTagHandler = forwardTagHandler;
+    }
 
-   EventHandlerTagHandler(InitParamTagHandler inputParamTagHandler,
-      ForwardTagHandler forwardTagHandler) {
-      _inputParamTagHandler = inputParamTagHandler;
-      _forwardTagHandler = forwardTagHandler;
-   }
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) {
+        eventHandler = new EventHandlerDef();
+        eventHandler.setName(attributes.getValue(NAME));
+        eventHandler.setType(attributes.getValue(TYPE));
+    }
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      _eventHandler = new EventHandlerDef();
-      _eventHandler.setName(attributes.getValue(NAME));
-      _eventHandler.setType(attributes.getValue(TYPE));
-   }
+    public void endElement(String uri, String localName, String qName) {
+        eventHandler.setXMLForwards(forwardTagHandler.getXMLForwards());
+        eventHandler.setHTMLForwards(forwardTagHandler.getHTMLForwards());
+        forwardTagHandler.clear();
+        eventHandler.setInitParams(inputParamTagHandler.getParams());
+        inputParamTagHandler.clear();
+        eventHandlers.put(eventHandler.getName(), eventHandler);
+    }
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-      _eventHandler.setXMLForwards(_forwardTagHandler.getXMLForwards());
-      _eventHandler.setHTMLForwards(_forwardTagHandler.getHTMLForwards());
-      _forwardTagHandler.clear();
-      _eventHandler.setInitParams(_inputParamTagHandler.getParams());
-      _inputParamTagHandler.clear();
-      _eventHandlers.put(_eventHandler.getName(), _eventHandler);
-   }
+    /**
+     * @return returns a clone of the EventHandlers List
+     */
+    public Map getEventHandlers() {
+        return eventHandlers;
+    }
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException { // Apparently, this method is not used
-   }
-
-   /**
-    * @return returns a clone of the EventHandlers List
-    */
-   public Map getEventHandlers() {
-      Map copy = new HashMap();
-      Set keys = _eventHandlers.keySet();
-
-      Iterator iter = keys.iterator();
-
-      while (iter.hasNext()) {
-         String name = (String) iter.next();
-         EventHandlerDef eventHandler = (EventHandlerDef) _eventHandlers.get(name);
-
-         copy.put(name, eventHandler.clone());
-      }
-
-      return copy;
-   }
-
-   /**
-    * clear the EventHandlerDef List
-    */
-   public void clear() {
-      _eventHandlers.clear();
-   }
+    /**
+     * clear the EventHandlerDef List
+     */
+    public void clear() {
+        eventHandlers.clear();
+    }
 }

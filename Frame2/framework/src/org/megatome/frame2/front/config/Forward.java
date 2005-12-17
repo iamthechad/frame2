@@ -48,112 +48,105 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 /**
- * Forward is an Object representation of a forward element in the configuration file.
+ * Forward is an Object representation of a forward element in the configuration
+ * file.
  */
 public class Forward {
-   private String _name;
-   private ForwardType _type;
-   private String _path;
+    private String name;
+    private ForwardType type;
+    private String path;
 
-   /**
-    * Constructs an Forward
-    *
-    * @param name String
-    * @param name type (HTMLResource, XMLResource, XMLResponder, or event)
-    * @param name path if type = HTMLResource, then path is an HTTP Resource
-    *                   if type = XMLResource, then path is the key to a request attribute 
-    *                                   which contains the response to be marshalled.
-    *                   if type = XMLResponder, then path specifies the Responder Object to call
-    *                   if type = event, then path specifies the event to execute.
-    *
-    */
-   public Forward(String name, String type, String path) {
-      _name = name;
-      _type = ForwardType.getValueByString(type);
-      _path = path;
-   }
+    /**
+     * Constructs an Forward
+     * @param name String
+     * @param name type (HTMLResource, XMLResource, XMLResponder, or event)
+     * @param name path if type = HTMLResource, then path is an HTTP Resource if
+     *        type = XMLResource, then path is the key to a request attribute
+     *        which contains the response to be marshalled. if type =
+     *        XMLResponder, then path specifies the Responder Object to call if
+     *        type = event, then path specifies the event to execute.
+     */
+    public Forward(String name, String type, String path) {
+        this.name = name;
+        this.type = ForwardType.getValueByString(type);
+        this.path = path;
+    }
 
-   /**
-    * Constructs an Forward
-    *
-    * @param name String
-    * @param name ForwardType
-    * @param name path 
-    *
-    */
-   public Forward(String name, ForwardType type, String path) {
-      _name = name;
-      _type = type;
-      _path = path;
-   }
+    /**
+     * Constructs an Forward
+     * @param name String
+     * @param name ForwardType
+     * @param name path
+     */
+    public Forward(String name, ForwardType type, String path) {
+        this.name = name;
+        this.type = type;
+        this.path = path;
+    }
 
-   /**
-    * Returns the name.
-    *
-    * @return String
-    */
-   public String getName() {
-      return _name;
-   }
+    public Forward(Forward forward) {
+        this.name = forward.name;
+        this.type = forward.type;
+        this.path = forward.path;
+    }
 
-   /**
-    * Returns the path.
-    *
-    * @return String
-    */
-   public String getPath() {
-      return _path;
-   }
+    /**
+     * Returns the name.
+     * @return String
+     */
+    public String getName() {
+        return name;
+    }
 
-   /**
-    * Returns the type.
-    *
-    * @return ForwardType
-    */
-   public ForwardType getType() {
-      return _type;
-   }
+    /**
+     * Returns the path.
+     * @return String
+     */
+    public String getPath() {
+        return path;
+    }
 
-   /**
-    * Sets the name.
-    *
-    * @param name The name to set
-    */
-   public void setName(String name) {
-      _name = name;
-   }
+    /**
+     * Returns the type.
+     * @return ForwardType
+     */
+    public ForwardType getType() {
+        return type;
+    }
 
-   /**
-    * Sets the path.
-    *
-    * @param path The path to set
-    */
-   public void setPath(String path) {
-      _path = path;
-   }
+    /**
+     * Sets the name.
+     * @param name The name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-   /**
-    * Sets the type.
-    *
-    * @param type The type to set (HTMLResource, XMLResource, XMLResponder, or event)
-    */
-   public void setType(String type) {
-      _type = ForwardType.getValueByString(type);
-   }
+    /**
+     * Sets the path.
+     * @param path The path to set
+     */
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-   /**
-    * Sets the type.
-    *
-    * @param type The ForwardType
-    */
-   public void setType(ForwardType type) {
-      _type = type;
-   }
+    /**
+     * Sets the type.
+     * @param type The type to set (HTMLResource, XMLResource, XMLResponder, or
+     *        event)
+     */
+    public void setType(String type) {
+        this.type = ForwardType.getValueByString(type);
+    }
 
-   public Object clone() {
-      return new Forward(getName(), getType(), getPath());
-   }
+    /**
+     * Sets the type.
+     * @param type The ForwardType
+     */
+    public void setType(ForwardType type) {
+        this.type = type;
+    }
 }

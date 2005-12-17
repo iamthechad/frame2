@@ -69,10 +69,7 @@ public class HttpFrontController extends HttpServlet {
     // NIT keeping a reference to config here
     // will cause reload issues later. let
     // ConfigFactory keep reference.
-    private Configuration _config;
-
-    // NIT: plug-in: override RequestProcessor or provide preprocess and
-    // postprocess hooks?
+    private Configuration config;
 
     /**
      * Load the Frame2 configuration file. The servlet's init parameters are
@@ -90,9 +87,9 @@ public class HttpFrontController extends HttpServlet {
         super.init();
 
         try {
-            _config = ConfigFactory.instance();
+            config = ConfigFactory.instance();
         } catch (ConfigException e) {
-            _config = null;
+            config = null;
             throw new ServletException("Failed to initialize with config "
                     + ConfigFactory.getConfigFilePath(), e);
         }
@@ -116,12 +113,12 @@ public class HttpFrontController extends HttpServlet {
         RequestProcessor processor = null;
 
         try {
-            if (_config == null) {
+            if (config == null) {
                 throw new ServletException(
                         "POST called on uninitialized servlet");
             }
 
-            processor = RequestProcessorFactory.instance(_config,
+            processor = RequestProcessorFactory.instance(config,
                     getServletContext(), request, response);
             if (processor == null) {
                 String error = "Unable to instantiate Request Processor";
@@ -175,6 +172,6 @@ public class HttpFrontController extends HttpServlet {
     }
 
     Configuration getConfiguration() {
-        return _config;
+        return config;
     }
 }

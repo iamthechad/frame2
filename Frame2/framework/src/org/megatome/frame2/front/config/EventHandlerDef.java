@@ -50,11 +50,8 @@
  */
 package org.megatome.frame2.front.config;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * EventHandlerDef is an Object representation of the eventHandler element in
@@ -62,22 +59,30 @@ import java.util.Set;
  * because the framework contains an interface called EventHandler.
  */
 public class EventHandlerDef {
-    private String _name = "";
+    private String name = "";
+    private String type = "";
 
-    private String _type = "";
+    private Map initParams = new HashMap();
+    private Map htmlForwards = new HashMap();
+    private Map xmlForwards = new HashMap();
+    
+    public EventHandlerDef() {
+    }
 
-    private Map _initParams = new HashMap();
-
-    private Map _HTMLForwards = new HashMap();
-
-    private Map _XMLForwards = new HashMap();
+    public EventHandlerDef(EventHandlerDef eventHandler) {
+        this.name = eventHandler.name;
+        this.type = eventHandler.type;
+        this.initParams = new HashMap(eventHandler.initParams);
+        this.htmlForwards = new HashMap(eventHandler.htmlForwards);
+        this.xmlForwards = new HashMap(eventHandler.xmlForwards);
+    }
 
     /**
      * Returns the name.
      * @return String the name of the EventHandlerDef
      */
     public String getName() {
-        return _name;
+        return name;
     }
 
     /**
@@ -85,7 +90,7 @@ public class EventHandlerDef {
      * @return String the type of the EventHandlerDef
      */
     public String getType() {
-        return _type;
+        return type;
     }
 
     /**
@@ -93,7 +98,7 @@ public class EventHandlerDef {
      * @param name The name to set
      */
     public void setName(String name) {
-        _name = name;
+        this.name = name;
     }
 
     /**
@@ -101,7 +106,7 @@ public class EventHandlerDef {
      * @param type The type to set
      */
     public void setType(String type) {
-        _type = type;
+        this.type = type;
     }
 
     /**
@@ -109,8 +114,8 @@ public class EventHandlerDef {
      * @param name The name of the XML Forward to get
      * @return XML Forward
      */
-    public Forward getXMLForward(String name) {
-        return (Forward)_XMLForwards.get(name);
+    public Forward getXMLForward(String forwardName) {
+        return (Forward)xmlForwards.get(forwardName);
     }
 
     /**
@@ -118,7 +123,7 @@ public class EventHandlerDef {
      * @param forwards HashMap containing all the EventHandlerDef XML Forwards
      */
     public void setXMLForwards(Map forwards) {
-        _XMLForwards = forwards;
+        xmlForwards = new HashMap(forwards);
     }
 
     /**
@@ -126,8 +131,8 @@ public class EventHandlerDef {
      * @param name The name of the HTML Forward to get
      * @return HTML Forward
      */
-    public Forward getHTMLForward(String name) {
-        return (Forward)_HTMLForwards.get(name);
+    public Forward getHTMLForward(String forwardName) {
+        return (Forward)htmlForwards.get(forwardName);
     }
 
     /**
@@ -135,7 +140,7 @@ public class EventHandlerDef {
      * @param forwards HashMap containing all the EventHandlerDef HTML Forwards
      */
     public void setHTMLForwards(Map forwards) {
-        _HTMLForwards = forwards;
+        htmlForwards = new HashMap(forwards);
     }
 
     /**
@@ -143,7 +148,7 @@ public class EventHandlerDef {
      * @param params HashMap containing all the EventHandlerDef Init Params.
      */
     public void setInitParams(Map params) {
-        _initParams = params;
+        initParams = new HashMap(params);
     }
 
     /**
@@ -151,15 +156,15 @@ public class EventHandlerDef {
      * @return Map
      */
     public Map getInitParams() {
-        return Collections.unmodifiableMap(_initParams);
+        return initParams;
     }
 
     /**
      * Returns an Init Param.
      * @return String
      */
-    public String getInitParam(String name) {
-        return (String)_initParams.get(name);
+    public String getInitParam(String paramName) {
+        return (String)initParams.get(paramName);
     }
 
     /**
@@ -167,41 +172,7 @@ public class EventHandlerDef {
      * @param name String
      * @param name value
      */
-    public void addInitParam(String name, String value) {
-        _initParams.put(name, value);
-    }
-
-    public Object clone() {
-        EventHandlerDef eh = new EventHandlerDef();
-
-        eh.setName(_name);
-        eh.setType(_type);
-        // What an ungly line of code!
-        Map initParamsCopy = (Map)((HashMap)_initParams).clone();
-        eh.setInitParams(initParamsCopy);
-        eh.setHTMLForwards(getForwards(_HTMLForwards));
-        eh.setXMLForwards(getForwards(_XMLForwards));
-
-        return eh;
-    }
-
-    /**
-     * @param forwards HashMap
-     * @return returns a clone of the Forwards Hashmap
-     */
-    private Map getForwards(Map forwards) {
-        Map copy = new HashMap();
-        Set keys = forwards.keySet();
-
-        Iterator iter = keys.iterator();
-
-        while (iter.hasNext()) {
-            String name = (String)iter.next();
-            Forward forward = (Forward)forwards.get(name);
-
-            copy.put(name, forward.clone());
-        }
-
-        return copy;
+    public void addInitParam(String paramName, String value) {
+        initParams.put(paramName, value);
     }
 }

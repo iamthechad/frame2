@@ -59,14 +59,21 @@ import java.util.Set;
  * the roles which can access that eventMapping.
  */
 public class Security {
-    private Set _roles = new HashSet();
+    private Set roles = new HashSet();
+    
+    public Security() {
+    }
+
+    public Security(Security sec) {
+        this.roles = new HashSet(sec.roles);
+    }
 
     /**
      * Returns the role.
      * @return boolean
      */
     public boolean isUserInRole(String role) {
-        return _roles.contains(role);
+        return roles.contains(role);
     }
 
     /**
@@ -74,11 +81,11 @@ public class Security {
      * @param role The role to set
      */
     public void addRole(String role) {
-        _roles.add(role);
+        roles.add(role);
     }
 
     public void setRoles(Set roles) {
-        _roles = roles;
+        this.roles = new HashSet(roles);
     }
 
     /**
@@ -86,21 +93,13 @@ public class Security {
      * @return boolean
      */
     public boolean isRoleBased() {
-        return !_roles.isEmpty();
-    }
-
-    public Object clone() {
-        Security sec = new Security();
-
-        sec.setRoles((Set)((HashSet)_roles).clone());
-
-        return sec;
+        return !roles.isEmpty();
     }
 
     /**
      * @return returns a String Array of the roles HashMap
      */
     public String[] getRoles() {
-        return (String[])_roles.toArray(new String[0]);
+        return (String[])roles.toArray(new String[0]);
     }
 }

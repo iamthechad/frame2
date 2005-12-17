@@ -48,53 +48,38 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
-import org.megatome.frame2.util.sax.ElementHandler;
-import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * HandlerTagHandler handles the eventHandler elements of the Configuration file.
+ * HandlerTagHandler handles the eventHandler elements of the Configuration
+ * file.
  */
-class HandlerTagHandler implements ElementHandler {
-   private static Logger LOGGER = LoggerFactory.instance(HandlerTagHandler.class.getName());
-   List _handlers = new ArrayList();
+class HandlerTagHandler extends ConfigElementHandler {
+    private static Logger LOGGER = LoggerFactory
+            .instance(HandlerTagHandler.class.getName());
+    private List handlers = new ArrayList();
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      String name = attributes.getValue("name");
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) {
+        String name = attributes.getValue("name");
 
-      if (!_handlers.add(name)) {
-         LOGGER.warn("This EventMappingHandler already exists " + name);
-      }
-   }
+        if (!handlers.add(name)) {
+            LOGGER.warn("This EventMappingHandler already exists " + name);
+        }
+    }
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException { // Not needed here
-   }
+    public List getHandlers() {
+        return handlers;
+    }
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException { // Not needed here
-   }
-
-   /**
-    * @return returns a clone of the Events List
-    */
-   public List getHandlers() {
-      return (List)((ArrayList)_handlers).clone();
-   }
-
-   /**
-    * clear the Events List
-    */
-   public void clear() {
-      _handlers.clear();
-   }
+    public void clear() {
+        handlers.clear();
+    }
 }

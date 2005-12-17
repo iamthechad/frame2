@@ -48,123 +48,115 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashMap;
-
+import java.util.Map;
 
 /**
- * ExceptionDef is an Object representation of the exception element in the configuration file.
- * It is named ExceptionDef because Exception is already reserved.
+ * ExceptionDef is an Object representation of the exception element in the
+ * configuration file. It is named ExceptionDef because Exception is already
+ * reserved.
  */
-
 public class ExceptionDef implements Comparable {
 
-   private String _key;
-   private String _type;
-   private HashMap _view = new HashMap();
+    private String key;
+    private String type;
+    private Map view = new HashMap();
 
-   /**
-    * Constructs an ExceptionDef
-    *
-    * @param key String
-    * @param type String representing the class to instantiate
-    *
-    */
-   public ExceptionDef(String key, String type) {
-      _key = key;
-      _type = type;
-   }
-
-   /**
-    * Returns the type.
-    *
-    * @return String
-    */
-   public String getType() {
-      return _type;
-   }
-
-   /**
-    * Sets the type.
-    *
-    * @param type The type to set
-    */
-   public void setType(String type) {
-      _type = type;
-   }
-
-   /**
-    * Returns the key.
-    *
-    * @return String
-    */
-   public String getKey() {
-      return _key;
-   }
-
-   /**
-    * Sets the key.
-    *
-    * @param key The key to set
-    */
-   public void setKey(String key) {
-      _key = key;
-   }
-
-   /**
-    * Returns the view.
-    *
-    * @param type The type (HTML, XML, or Both) to get the view for 
-    * 
-    * @return String global forward name to return
-    */
-   public String getView(String type) {
-      return (String) _view.get(type);
-   }
-
-   /**
-    * Sets the view.
-    *
-    * @param type The type (HTML, XML, or Both) to set the view for 
-    * @param forward The forward name to set the view for
-    * 
-    */
-   public void setView(String type, String forward) {
-      _view.put(type, forward);
-   }
-
-   /**
-    * Sets the view.
-    *
-    * @param map a HashMap of type, forward name to set
-    * 
-    */
-   public void setView(HashMap map) {
-      _view = map;
-   }
-
-   public Object clone() {
-      ExceptionDef def = new ExceptionDef(getKey(), getType());
-
-      def.setView((HashMap) _view.clone());
-
-      return def;
-   }
-
-    public int compareTo(Object other) {
-        return compareTo((ExceptionDef)other);
+    /**
+     * Constructs an ExceptionDef
+     * @param key String
+     * @param type String representing the class to instantiate
+     */
+    public ExceptionDef(String key, String type) {
+        this.key = key;
+        this.type = type;
     }
 
-    public int compareTo(ExceptionDef other) {
-        return _type.compareTo(other.getType( ));
+    public ExceptionDef(ExceptionDef def) {
+        this.key = def.key;
+        this.type = def.type;
+        this.view = new HashMap(def.view);
+    }
+
+    /**
+     * Returns the type.
+     * @return String
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Sets the type.
+     * @param type The type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * Returns the key.
+     * @return String
+     */
+    public String getKey() {
+        return key;
+    }
+
+    /**
+     * Sets the key.
+     * @param key The key to set
+     */
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    /**
+     * Returns the view.
+     * @param type The type (HTML, XML, or Both) to get the view for
+     * @return String global forward name to return
+     */
+    public String getView(String viewType) {
+        return (String)view.get(viewType);
+    }
+
+    /**
+     * Sets the view.
+     * @param type The type (HTML, XML, or Both) to set the view for
+     * @param forward The forward name to set the view for
+     */
+    public void setView(String viewType, String forward) {
+        view.put(viewType, forward);
+    }
+
+    /**
+     * Sets the view.
+     * @param map a HashMap of type, forward name to set
+     */
+    public void setView(Map map) {
+        view = new HashMap(map);
+    }
+
+    public int compareTo(Object other) {
+        ExceptionDef ed = (ExceptionDef)other;
+        return type.compareTo(ed.getType());
     }
 
     public boolean equals(Object other) {
-        return (other instanceof ExceptionDef) && equals((ExceptionDef)other);
+        if ((other == null) || (!(other instanceof ExceptionDef))) {
+            return false;
+        }
+        
+        if (other == this) {
+            return true;
+        }
+        
+        ExceptionDef ed = (ExceptionDef)other;
+        return type.equals(ed.type);
     }
 
-    public boolean equals(ExceptionDef other) {
-        return _type.equals(other.getType( ));
+    public int hashCode() {
+        return type.hashCode();
     }
 }

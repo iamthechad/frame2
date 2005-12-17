@@ -60,35 +60,35 @@ import org.megatome.frame2.front.config.ResolveType;
  * @see org.megatome.frame2.front.config.E
  */
 public class EventProxy {
-   private EventDef _eventDef;
-   private Event _event;
+   private EventDef eventDef;
+   private Event event;
 
    private EventProxy() { // Non-public ctor
    }
 
    public EventProxy(EventDef eventDef, Event event) {
-      _eventDef = eventDef;
-      _event = event;
+      this.eventDef = eventDef;
+      this.event = event;
    }
 
    public String getType() {
-      return _eventDef.getType();
+      return eventDef.getType();
    }
 
    public String getName() {
-      return _eventDef.getName();
+      return eventDef.getName();
    }
 
    public boolean isParent() {
-      return (_eventDef.getResolveAs().equals(ResolveType.PARENT));
+      return (eventDef.getResolveAs().equals(ResolveType.PARENT));
    }
 
    public boolean isChildren() {
-      return (_eventDef.getResolveAs().equals(ResolveType.CHILDREN));
+      return (eventDef.getResolveAs().equals(ResolveType.CHILDREN));
    }
 
    public boolean isPassThru() {
-      return (_eventDef.getResolveAs().equals(ResolveType.PASSTHRU));
+      return (eventDef.getResolveAs().equals(ResolveType.PASSTHRU));
    }
 
    /**
@@ -97,6 +97,6 @@ public class EventProxy {
     * @return Event
     */
    public Event getEvent() {
-      return _event;
+      return event;
    }
 }

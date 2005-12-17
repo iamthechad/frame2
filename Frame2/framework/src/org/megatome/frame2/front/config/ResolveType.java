@@ -48,167 +48,23 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
-
-import java.util.ArrayList;
-
+package org.megatome.frame2.front.config;
 
 /**
- * This file is mainly used as an enumeration for the ResolveType (parent, children, passthru)
+ * This file is mainly used as an enumeration for the ResolveType (parent,
+ * children, passthru)
  */
-public class ResolveType {
-   private static Class __class = ResolveType.class;
-   private static int __instance;
-   private static ArrayList __set = new ArrayList();
+public class ResolveType extends MappingType {
+    // enumeration value declarations
+    public static ResolveType PARENT = new ResolveType("parent");
+    public static ResolveType CHILDREN = new ResolveType("children");
+    public static ResolveType PASSTHRU = new ResolveType("passthru");
 
-   // enumeration value declarations
-   public static ResolveType PARENT = new ResolveType(__instance++, "parent", "");
-   public static ResolveType CHILDREN = new ResolveType(__instance++, "children", "");
-   public static ResolveType PASSTHRU = new ResolveType(__instance++, "passthru", "");
+    private ResolveType(String value) {
+        super(value);
+    }
 
-   //////
-   //  INSTANCE VARIABLES
-   //////
-   private String _mapping;
-   private int _ordinal; // unique ordinal value per instance
-   private String _value;
-
-   //////
-   //  CONSTRUCTORS
-   //////
-   private ResolveType(int ordinal, String value, String mapping) {
-      _ordinal = ordinal;
-      _value = value;
-      _mapping = mapping;
-      __set.add(ordinal, this);
-   }
-
-   //////
-   //  CLASS METHODS
-   //////
-
-   /**
-    * Method <code>getSize</code> returns total number of values in enum.
-    *
-    * @return <code>int</code> size of enumeration set
-    */
-   public static int getSize() {
-      return __instance;
-   }
-
-   /**
-    * Method <code>getValueByOrdinal</code> returns enum instance that matches ordinal value.
-    *
-    * @param ordinal a value of type <code>int</code>
-    *
-    * @return <code>ResolveType</code> value, possibly null if ordinal out of range
-    */
-   public static ResolveType getValueByOrdinal(int ordinal) {
-      ResolveType result = null;
-
-      if ((ordinal >= 0) && (ordinal < __instance)) {
-         result = (ResolveType) __set.get(ordinal);
-      }
-
-      return result;
-   }
-
-   /**
-    * Method <code>getValueByMapping</code> returns enum instance that matches mapping value.
-    *
-    * @param mapping a value of type <code>String</code>
-    *
-    * @return <code>ResolveType</code> value, possibly null if mapping value not matched
-    */
-   public static ResolveType getValueByMapping(String mapping) {
-      ResolveType result = null;
-
-      for (int i = 0; i < __set.size(); i++) {
-         ResolveType current = (ResolveType) __set.get(i);
-
-         if (current.getMapping().equals(mapping)) {
-            result = current;
-
-            break;
-         }
-      }
-
-      return result;
-   }
-
-   /**
-    * Method <code>getValueByString</code> returns enum instance that matches String value.
-    *
-    * @param value a value of type <code>String</code>
-    *
-    * @return <code>ResolveType</code> value, possibly null if String value not matched
-    */
-   public static ResolveType getValueByString(String value) {
-      ResolveType result = null;
-
-      for (int i = 0; i < __set.size(); i++) {
-         ResolveType current = (ResolveType) __set.get(i);
-
-         if (current.toString().equals(value)) {
-            result = current;
-
-            break;
-         }
-      }
-
-      return result;
-   }
-
-   //////
-   //  ACCESSORS
-   //////
-
-   /**
-    * Method <code>equals</code> determines if this enumeration value is equal to the supplied
-    * object.
-    *
-    * @param target a value of type <code>Object</code>
-    *
-    * @return <code>boolean</code> value
-    */
-   public boolean equals(Object target) {
-      boolean result = false;
-
-      if (__class.isAssignableFrom(target.getClass())) {
-         result = equals((ResolveType) target);
-      }
-
-      return result;
-   }
-
-   /**
-    * Method <code>equals</code> determines if two enum instances are equal.
-    *
-    * @param enum a value of type <code>ResolveType</code>
-    *
-    * @return <code>boolean</code> value
-    */
-   public boolean equals(ResolveType enum) {
-      return (_ordinal == enum._ordinal);
-   }
-
-   public String getMapping() {
-      return _mapping;
-   }
-
-   /**
-    * Method <code>getOrdinal</code> returns ordinal of enum value.
-    *
-    * @return <code>int</code> ordinal value
-    */
-   public int getOrdinal() {
-      return _ordinal;
-   }
-
-   public String toString() {
-      return _value;
-   }
+    public static ResolveType getValueByString(String value) {
+        return (ResolveType)getMappingByString(value);
+    }
 }
-
-
-// end of class ResolveType

@@ -63,10 +63,10 @@ import org.megatome.frame2.front.config.ResolveType;
 public class SoapEventMap {
    // used to keep soap event
    // and responses symetrical
-   private String _eventName;
-   private List _events = new ArrayList();
-   private List _responses = new ArrayList();
-   private ResolveType _resolve;
+   private String eventName;
+   private List events = new ArrayList();
+   private List responses = new ArrayList();
+   private ResolveType resolve;
 
    /**
     * Returns the eventName.
@@ -74,7 +74,7 @@ public class SoapEventMap {
     * @return String
     */
    public String getEventName() {
-      return _eventName;
+      return eventName;
    }
 
    /**
@@ -83,7 +83,7 @@ public class SoapEventMap {
     * @param eventName The eventName to set
     */
    public void setEventName(String eventName) {
-      _eventName = eventName;
+      this.eventName = eventName;
    }
 
    /**
@@ -92,19 +92,19 @@ public class SoapEventMap {
     * @param events The events to set
     */
    public void setEvents(List events) {
-      _events = events;
+      this.events = new ArrayList(events);
    }
 
    public Iterator getEventsIterator() {
-      return _events.iterator();
+      return events.iterator();
    }
 
    public Iterator getResponsesIterator() {
-      return _responses.iterator();
+      return responses.iterator();
    }
 
    public void setResponse(int i, Object obj) {
-      _responses.add(i, obj);
+      responses.add(i, obj);
    }
 
    /**
@@ -113,7 +113,7 @@ public class SoapEventMap {
     * @return ResolveType
     */
    public ResolveType getResolve() {
-      return _resolve;
+      return resolve;
    }
 
    /**
@@ -122,6 +122,6 @@ public class SoapEventMap {
     * @param resolve The resolve to set
     */
    public void setResolve(ResolveType resolve) {
-      _resolve = resolve;
+      this.resolve = resolve;
    }
 }

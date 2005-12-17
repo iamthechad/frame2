@@ -51,46 +51,32 @@
 package org.megatome.frame2.template.config;
 
 import java.util.HashMap;
+import java.util.Map;
 
-import org.megatome.frame2.util.sax.ElementHandler;
+import org.megatome.frame2.front.config.ConfigElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
+class PutParamTagHandler extends ConfigElementHandler {
+    public static final String NAME = "name";
+    public static final String PATH = "path";
+    private Map _params = new HashMap();
 
-/**
- * InitParamTagHandler handles the init-param elements for the eventHandler of the Configuration file.
- */
-class PutParamTagHandler implements ElementHandler {
-   public static final String NAME = "name";
-   public static final String PATH = "path";
-   HashMap _params = new HashMap();
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws ParserException {
+        String name = attributes.getValue(NAME);
+        if (_params.containsKey(name)) {
+            throw new ParserException("Duplicate name in put parameter " + name);
+        }
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
-      throws ParserException {
-      String name = attributes.getValue(NAME);
-      if (_params.containsKey(name)) {
-         throw new ParserException("Duplicate name in put parameter " + name);
-      }
-      
-      _params.put(name, attributes.getValue(PATH));
-   }
+        _params.put(name, attributes.getValue(PATH));
+    }
 
-   public void endElement(String uri, String localName, String qName)
-      throws ParserException {
-   }
+    public Map getPutParams() {
+        return _params;
+    }
 
-   public void characters(char[] ch, int start, int length)
-      throws ParserException {
-   }
-
-   /**
-    * @return returns a clone of the init Params HashMap
-    */
-   public HashMap getPutParams() {
-      return (HashMap) _params.clone();
-   }
-
-   public void clear() {
-      _params.clear();
-   }
+    public void clear() {
+        _params.clear();
+    }
 }

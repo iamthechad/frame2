@@ -48,48 +48,35 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.megatome.frame2.util.sax.ElementHandler;
-import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
 /**
- * RoleTagHandler handles the role elements for the security of the Configuration file.
- * Role tag within a security tag
- *  <security>
- *     <role name = "admin"/>
- *  </security>
+ * RoleTagHandler handles the role elements for the security of the
+ * Configuration file. Role tag within a security tag <security> <role name =
+ * "admin"/> </security>
  */
-class RoleTagHandler implements ElementHandler {
-   public final static String NAME = "name";
-   Set _roles = new HashSet();
-   
-     
-   public void startElement(String uri, String localName, String qName,
-                              Attributes attributes) throws ParserException {
-      _roles.add(attributes.getValue(NAME));       
-   }
+class RoleTagHandler extends ConfigElementHandler {
+    public final static String NAME = "name";
+    private Set roles = new HashSet();
 
-   public void endElement(String uri, String localName, String qName) throws ParserException {
-        // Not needed here
-   }
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) {
+        roles.add(attributes.getValue(NAME));
+    }
 
-   public void characters(char[] ch, int start, int length) throws ParserException {
-        // Not needed here
-   }
-   
-   public void clear() {
-      _roles.clear();
-   }
-   
-   /**
-    * @return returns a clone of the roles HashMap
-    */
-   public Set getRoles(){
-      return (Set)((HashSet)_roles).clone();
-   }
+    public void clear() {
+        roles.clear();
+    }
+
+    /**
+     * @return returns a clone of the roles HashMap
+     */
+    public Set getRoles() {
+        return roles;
+    }
 }

@@ -51,23 +51,18 @@
 package org.megatome.frame2.front.config;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
-import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
 /**
  * ForwardTagHandler handles the forward elements of the Configuration file.
  */
-class ForwardTagHandler implements ElementHandler {
+class ForwardTagHandler extends ConfigElementHandler {
     // attribute consts
     public static final String NAME = "name";
-
     public static final String TYPE = "type";
-
     public static final String PATH = "path";
 
     public static final String INVALID_TYPE = "Error: Invalid forward type ";
@@ -76,9 +71,8 @@ class ForwardTagHandler implements ElementHandler {
     // 1 for html forwards, so each forward name
     // can be identical for both. Events are stored
     // in both for ease of access.
-    Map _forwards = new HashMap();
-
-    Map _XMLForwards = new HashMap();
+    private Map forwards = new HashMap();
+    private Map xmlForwards = new HashMap();
 
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws ParserException {
@@ -93,64 +87,37 @@ class ForwardTagHandler implements ElementHandler {
         Forward _forward = new Forward(name, ftype, attributes.getValue(PATH));
 
         if (ftype.equals(ForwardType.HTMLRESOURCE)) {
-            _forwards.put(name, _forward);
+            forwards.put(name, _forward);
         } else if (ftype.equals(ForwardType.XMLRESOURCE)
                 || ftype.equals(ForwardType.XMLRESPONDER)) {
-            _XMLForwards.put(name, _forward);
+            xmlForwards.put(name, _forward);
         } else if (ftype.equals(ForwardType.EVENT)) {
             // put event in both maps
             // for easier lookup by type.
-            _forwards.put(name, _forward);
-            _XMLForwards.put(name, _forward);
+            forwards.put(name, _forward);
+            xmlForwards.put(name, _forward);
         }
-    }
-
-    public void endElement(String uri, String localName, String qName)
-            throws ParserException { // Not needed here
-    }
-
-    public void characters(char[] ch, int start, int length)
-            throws ParserException { // Not needed here
-    }
-
-    /**
-     * @return returns a clone of the Forwards List
-     */
-    public Map getForwards(Map map) {
-        Map copy = new HashMap();
-        Set keys = map.keySet();
-
-        Iterator iter = keys.iterator();
-
-        while (iter.hasNext()) {
-            String name = (String)iter.next();
-            Forward forward = (Forward)map.get(name);
-
-            copy.put(name, forward.clone());
-        }
-
-        return copy;
     }
 
     /**
      * @return returns a HashMap of the XMLForwards
      */
     public Map getXMLForwards() {
-        return getForwards(_XMLForwards);
+        return xmlForwards;
     }
 
     /**
      * @return returns a HashMap of the HTMLForwards
      */
     public Map getHTMLForwards() {
-        return getForwards(_forwards);
+        return forwards;
     }
 
     /**
      * clear the Forwards List
      */
     public void clear() {
-        _forwards.clear();
-        _XMLForwards.clear();
+        forwards.clear();
+        xmlForwards.clear();
     }
 }

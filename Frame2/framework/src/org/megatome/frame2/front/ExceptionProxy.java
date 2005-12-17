@@ -58,7 +58,7 @@ import org.megatome.frame2.front.config.Forward;
  * ForwardProxy.java used to wrap a forward for  access by request processor
  */
 public class ExceptionProxy extends ForwardProxy {
-   private ExceptionDef _edef;
+   private ExceptionDef edef;
 
    // no dft constructor
    public ExceptionProxy() {
@@ -67,14 +67,14 @@ public class ExceptionProxy extends ForwardProxy {
 
    public ExceptionProxy(Forward fwd, ExceptionDef edef) {
       super(fwd);
-      _edef = edef;
+      this.edef = edef;
    }
 
    public String getType() {
-      return _edef.getType();
+      return edef.getType();
    }
 
    public String getKey() {
-      return _edef.getKey();
+      return edef.getKey();
    }
 }

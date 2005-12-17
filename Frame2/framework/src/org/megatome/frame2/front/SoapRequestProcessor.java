@@ -94,9 +94,9 @@ import org.w3c.dom.NodeList;
  * together the data and logic necessary for processing the request.
  */
 public class SoapRequestProcessor extends RequestProcessorBase {
-    private Element[] _elements;
+    private Element[] elements;
 
-    private String _eventPkg;
+    private String eventPkg;
 
     private Logger getLogger() {
         return LoggerFactory.instance(SoapRequestProcessor.class.getName());
@@ -111,10 +111,10 @@ public class SoapRequestProcessor extends RequestProcessorBase {
     public SoapRequestProcessor(Configuration config, Element[] elements,
             String eventPkg) {
         super(config);
-        _elements = elements;
-        _errors = new ErrorsImpl();
-        _context = new ContextImpl();
-        _eventPkg = eventPkg;
+        this.elements = elements;
+        this.errors = new ErrorsImpl();
+        this.context = new ContextImpl();
+        this.eventPkg = eventPkg;
     }
 
     /**
@@ -125,7 +125,6 @@ public class SoapRequestProcessor extends RequestProcessorBase {
      */
     public Object processRequest() throws Exception {
         getLogger().debug("In SoapRequestProcessor processRequest()");
-        final Element[] elements = new Element[0];
         List resultList = new ArrayList();
 
         // get event objects from request
@@ -158,7 +157,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                                 ViewType.XML);
 
                         if (fwd.isResourceType()) {
-                            Element marshalledResult = marshallResponse(_context
+                            Element marshalledResult = marshallResponse(context
                                     .getRequestAttribute(fwd.getPath()));
 
                             event.setResponse(listIndex, marshalledResult);
@@ -180,7 +179,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                             }
                         }
                     } else {
-                        event.setResponse(listIndex, createFault(_errors));
+                        event.setResponse(listIndex, createFault(errors));
                     }
                 }
             } catch (TranslationException e) {
@@ -221,7 +220,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                 resultList.add(parent);
             }
         }
-        return resultList.toArray(elements);
+        return resultList.toArray(new Element[0]);
     }
 
     /**
@@ -243,7 +242,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
     /*
      * private Element marshallResultAsResourceKey(String key) throws
      * TranslationException { Element marshalledResult =
-     * marshallResponse(_context.getRequestAttribute(key)); return
+     * marshallResponse(context.getRequestAttribute(key)); return
      * marshalledResult; }
      */
     private Element createFault(Throwable e) {
@@ -262,14 +261,14 @@ public class SoapRequestProcessor extends RequestProcessorBase {
         return elem;
     }
 
-    private Element createFault(Errors errors) throws SOAPException {
+    private Element createFault(Errors errs) throws SOAPException {
         SOAPFault fault = new SOAPFault();
 
         StringBuffer buffer = new StringBuffer();
 
         ResourceBundle bundle = ResourceLocator.getBundle();
 
-        Error[] error = errors.get();
+        Error[] error = errs.get();
 
         for (int i = 0; i < error.length; i++) {
             String msg = bundle.getString(error[i].getKey());
@@ -289,8 +288,8 @@ public class SoapRequestProcessor extends RequestProcessorBase {
      */
     public void release() {
         super.release();
-        _elements = null;
-        _eventPkg = null;
+        elements = null;
+        eventPkg = null;
     }
 
     /**
@@ -301,17 +300,17 @@ public class SoapRequestProcessor extends RequestProcessorBase {
         List events = new ArrayList();
 
         try {
-            JAXBContext jcontext = JAXBContext.newInstance(_eventPkg);
+            JAXBContext jcontext = JAXBContext.newInstance(eventPkg);
 
             Unmarshaller unmarshaller = jcontext.createUnmarshaller();
 
-            if (_elements != null) {
-                for (int i = 0; i < _elements.length; i++) {
-                    if (_elements[i] != null) {
+            if (elements != null) {
+                for (int i = 0; i < elements.length; i++) {
+                    if (elements[i] != null) {
                         SoapEventMap event = new SoapEventMap();
                         List eventList = new ArrayList();
 
-                        String eventName = _elements[i].getTagName();
+                        String eventName = elements[i].getTagName();
 
                         event.setEventName(eventName);
 
@@ -329,12 +328,12 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                             // put events in list mapped by eventName
                             eventList.add(unmarshaller
                                     .unmarshal(DOMStreamConverter
-                                            .toInputStream(_elements[i])));
+                                            .toInputStream(elements[i])));
                             event.setResolve(ResolveType.PARENT);
                             event.setEvents(eventList);
                             events.add(event);
                         } else if (eventProxy.isChildren()) {
-                            NodeList nodeList = _elements[i].getChildNodes();
+                            NodeList nodeList = elements[i].getChildNodes();
 
                             for (int j = 0; j < nodeList.getLength(); j++) {
                                 if (nodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
@@ -352,7 +351,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                             PassthruEvent psevent = (PassthruEvent)eventProxy
                                     .getEvent();
 
-                            psevent.setPassthruData(_elements[i]);
+                            psevent.setPassthruData(elements[i]);
                             eventList.add(psevent);
                             event.setResolve(ResolveType.PASSTHRU);
                             event.setEvents(eventList);
@@ -371,8 +370,8 @@ public class SoapRequestProcessor extends RequestProcessorBase {
     /**
      * Method getContext.
      */
-    ContextWrapper getContextWrapper() {
-        return _context;
+    protected ContextWrapper getContextWrapper() {
+        return context;
     }
 
     /**
@@ -387,7 +386,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
             result = (Element)obj;
         } else if (obj != null) {
             try {
-                JAXBContext jcontext = JAXBContext.newInstance(_eventPkg);
+                JAXBContext jcontext = JAXBContext.newInstance(eventPkg);
                 Marshaller marshaller = jcontext.createMarshaller();
 
                 Document doc = getTargetDocument();
@@ -421,7 +420,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
         return result;
     }
 
-    String configResourceType() {
+    protected String configResourceType() {
         return Configuration.XML_TOKEN;
     }
 
@@ -432,10 +431,10 @@ public class SoapRequestProcessor extends RequestProcessorBase {
      * @return True if the event passed validation.
      */
     public boolean validateEvent(Event event) {
-        return ((event != null) ? event.validate(_errors) : true);
+        return ((event != null) ? event.validate(errors) : true);
     }
 
-    boolean isUserAuthorizedForEvent(String event) {
+    protected boolean isUserAuthorizedForEvent(String event) {
         return true;
     }
 
@@ -465,7 +464,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
         }
 
         public Errors getRequestErrors() {
-            return _errors;
+            return errors;
         }
 
         public Object getSessionAttribute(String key) {

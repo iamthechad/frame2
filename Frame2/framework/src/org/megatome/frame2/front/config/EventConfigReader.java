@@ -64,98 +64,66 @@ import org.megatome.frame2.util.sax.ParserException;
  * Parser. It creates Handlers for all the elements in the config file, from
  * which run-time configuration objects are extracted.
  */
-
 public class EventConfigReader {
     public static final String FORWARD = "forward";
-
     public static final String EVENT = "event";
-
     public static final String EVENT_MAPPING = "event-mapping";
-
     public static final String HANDLER = "handler";
-
     public static final String VIEW = "view";
-
     public static final String SECURITY = "security";
-
     public static final String ROLE = "role";
-
     public static final String GLOBAL_FORWARDS = "global-forwards";
-
     public static final String EVENT_HANDLER = "event-handler";
-
     public static final String INPUT_PARAM = "init-param";
-
     public static final String EXCEPTION = "exception";
-
     public static final String FRAME2_CONFIG = "frame2-config";
-
     public static final String EVENTS = "events";
-
     public static final String EVENT_MAPPINGS = "event-mappings";
-
     public static final String EVENT_HANDLERS = "event-handlers";
-
     public static final String EXCEPTIONS = "exceptions";
-
     public static final String PLUGINS = "plugins";
-
     public static final String PLUGIN = "plugin";
-
     public static final String REQ_PROC = "request-processors";
-
     public static final String SOAP_REQ_PROC = "soap-request-processor";
-
     public static final String HTTP_REQ_PROC = "http-request-processor";
 
-    private String _configFile;
+    private String configFile;
+    private InputStream is;
 
-    private InputStream _is;
+    private ForwardTagHandler forwardTagHandler = new ForwardTagHandler();
+    private EventTagHandler eventTagHandler = new EventTagHandler();
+    private RoleTagHandler roleTagHandler = new RoleTagHandler();
 
-    private ForwardTagHandler _forwardTagHandler = new ForwardTagHandler();
+    // EventMapping Handlers
+    private HandlerTagHandler handlerTagHandler = new HandlerTagHandler();
+    private ViewTagHandler viewTagHandler = new ViewTagHandler();
+    private InitParamTagHandler inputParamTagHandler = new InitParamTagHandler();
+    private SecurityTagHandler securityTagHandler = new SecurityTagHandler(
+            roleTagHandler);
+    private EventMappingTagHandler eventMappingTagHandler = new EventMappingTagHandler(
+            handlerTagHandler, viewTagHandler, securityTagHandler);
+    private GlobalForwardTagHandler globalForwardTagHandler = new GlobalForwardTagHandler(
+            forwardTagHandler);
+    private EventHandlerTagHandler eventHandlerTagHandler = new EventHandlerTagHandler(
+            inputParamTagHandler, forwardTagHandler);
+    private ExceptionTagHandler exceptionTagHandler = new ExceptionTagHandler(
+            viewTagHandler);
+    private PluginTagHandler pluginTagHandler = new PluginTagHandler(
+            inputParamTagHandler);
 
-    private EventTagHandler _eventTagHandler = new EventTagHandler();
+    private RequestProcessorTagHandler httpReqProcHandler = new RequestProcessorTagHandler();
 
-    private RoleTagHandler _roleTagHandler = new RoleTagHandler();
-
-    //EventMapping Handlers
-    private HandlerTagHandler _handlerTagHandler = new HandlerTagHandler();
-
-    private ViewTagHandler _viewTagHandler = new ViewTagHandler();
-
-    private InitParamTagHandler _inputParamTagHandler = new InitParamTagHandler();
-
-    private SecurityTagHandler _securityTagHandler = new SecurityTagHandler(
-            _roleTagHandler);
-
-    private EventMappingTagHandler _eventMappingTagHandler = new EventMappingTagHandler(
-            _handlerTagHandler, _viewTagHandler, _securityTagHandler);
-
-    private GlobalForwardTagHandler _globalForwardTagHandler = new GlobalForwardTagHandler(
-            _forwardTagHandler);
-
-    private EventHandlerTagHandler _eventHandlerTagHandler = new EventHandlerTagHandler(
-            _inputParamTagHandler, _forwardTagHandler);
-
-    private ExceptionTagHandler _exceptionTagHandler = new ExceptionTagHandler(
-            _viewTagHandler);
-
-    private PluginTagHandler _pluginTagHandler = new PluginTagHandler(
-            _inputParamTagHandler);
-
-    private RequestProcessorTagHandler _httpReqProcHandler = new RequestProcessorTagHandler();
-
-    private RequestProcessorTagHandler _soapReqProcHandler = new RequestProcessorTagHandler();
+    private RequestProcessorTagHandler soapReqProcHandler = new RequestProcessorTagHandler();
 
     /**
      * Constructs an EventConfigReader for the Configuration file passed in as
      * String identifying the location of the file.
      * @param configFile a String containing the File location
      */
-
     public EventConfigReader(String configFile) {
-        _configFile = configFile;
-        _is = getClass().getClassLoader().getResourceAsStream(_configFile);
+        this.configFile = configFile;
+        this.is = getClass().getClassLoader().getResourceAsStream(
+                this.configFile);
     }
 
     /**
@@ -164,7 +132,7 @@ public class EventConfigReader {
      * @param is an InputStream of the Configuration file
      */
     public EventConfigReader(InputStream is) {
-        _is = is;
+        this.is = is;
     }
 
     /**
@@ -176,20 +144,20 @@ public class EventConfigReader {
         try {
             Frame2SAXReader reader = new Frame2SAXReader();
 
-            reader.setElementHandler(FORWARD, _forwardTagHandler);
-            reader.setElementHandler(EVENT, _eventTagHandler);
-            reader.setElementHandler(EVENT_MAPPING, _eventMappingTagHandler);
-            reader.setElementHandler(HANDLER, _handlerTagHandler);
-            reader.setElementHandler(VIEW, _viewTagHandler);
-            reader.setElementHandler(SECURITY, _securityTagHandler);
-            reader.setElementHandler(ROLE, _roleTagHandler);
-            reader.setElementHandler(GLOBAL_FORWARDS, _globalForwardTagHandler);
-            reader.setElementHandler(EVENT_HANDLER, _eventHandlerTagHandler);
-            reader.setElementHandler(INPUT_PARAM, _inputParamTagHandler);
-            reader.setElementHandler(EXCEPTION, _exceptionTagHandler);
-            reader.setElementHandler(PLUGIN, _pluginTagHandler);
-            reader.setElementHandler(SOAP_REQ_PROC, _soapReqProcHandler);
-            reader.setElementHandler(HTTP_REQ_PROC, _httpReqProcHandler);
+            reader.setElementHandler(FORWARD, forwardTagHandler);
+            reader.setElementHandler(EVENT, eventTagHandler);
+            reader.setElementHandler(EVENT_MAPPING, eventMappingTagHandler);
+            reader.setElementHandler(HANDLER, handlerTagHandler);
+            reader.setElementHandler(VIEW, viewTagHandler);
+            reader.setElementHandler(SECURITY, securityTagHandler);
+            reader.setElementHandler(ROLE, roleTagHandler);
+            reader.setElementHandler(GLOBAL_FORWARDS, globalForwardTagHandler);
+            reader.setElementHandler(EVENT_HANDLER, eventHandlerTagHandler);
+            reader.setElementHandler(INPUT_PARAM, inputParamTagHandler);
+            reader.setElementHandler(EXCEPTION, exceptionTagHandler);
+            reader.setElementHandler(PLUGIN, pluginTagHandler);
+            reader.setElementHandler(SOAP_REQ_PROC, soapReqProcHandler);
+            reader.setElementHandler(HTTP_REQ_PROC, httpReqProcHandler);
 
             // Now set the Elements which do not have handlers
             reader.setElement(FRAME2_CONFIG);
@@ -200,11 +168,11 @@ public class EventConfigReader {
             reader.setElement(PLUGINS);
             reader.setElement(REQ_PROC);
 
-            if (_is == null) {
+            if (is == null) {
                 throw new ParserException("Error finding config file ");
             }
 
-            reader.parse(_is);
+            reader.parse(is);
         } catch (ParserException e) {
             throw new Frame2Exception("Unable to load configuration", e);
         }
@@ -215,7 +183,7 @@ public class EventConfigReader {
      * @return Map containing the XML Global Forwards.
      */
     public Map getGlobalXMLForwards() {
-        return Collections.unmodifiableMap(_globalForwardTagHandler
+        return Collections.unmodifiableMap(globalForwardTagHandler
                 .getXMLForwards());
     }
 
@@ -224,7 +192,7 @@ public class EventConfigReader {
      * @return Map containing the HTML Global Forwards.
      */
     public Map getGlobalHTMLForwards() {
-        return Collections.unmodifiableMap(_globalForwardTagHandler
+        return Collections.unmodifiableMap(globalForwardTagHandler
                 .getHTMLForwards());
     }
 
@@ -233,7 +201,7 @@ public class EventConfigReader {
      * @return Map containing the all the EventDef(s).
      */
     public Map getEvents() {
-        return Collections.unmodifiableMap(_eventTagHandler.getEvents());
+        return Collections.unmodifiableMap(eventTagHandler.getEvents());
     }
 
     /**
@@ -241,7 +209,7 @@ public class EventConfigReader {
      * @return Map containing the Event Mappings.
      */
     public Map getEventMappings() {
-        return Collections.unmodifiableMap(_eventMappingTagHandler
+        return Collections.unmodifiableMap(eventMappingTagHandler
                 .getEventMappings());
     }
 
@@ -250,7 +218,7 @@ public class EventConfigReader {
      * @return Map containing the EventHandlerDef(s).
      */
     public Map getEventHandlers() {
-        return Collections.unmodifiableMap(_eventHandlerTagHandler
+        return Collections.unmodifiableMap(eventHandlerTagHandler
                 .getEventHandlers());
     }
 
@@ -259,25 +227,25 @@ public class EventConfigReader {
      * @return List containing the Exceptions.
      */
     public List getExceptions() {
-        return Collections.unmodifiableList(_exceptionTagHandler
-                .getExceptions());
+        return Collections
+                .unmodifiableList(exceptionTagHandler.getExceptions());
     }
 
     public List getPlugins() {
-        return _pluginTagHandler.getPlugins();
+        return Collections.unmodifiableList(pluginTagHandler.getPlugins());
     }
 
     /**
      * Returns soap request processor Handler's requestProcessorDef.
      */
     public RequestProcessorDef getSoapReqProcHandler() {
-        return _soapReqProcHandler.getRequestProcessorDef();
+        return soapReqProcHandler.getRequestProcessorDef();
     }
 
     /**
      * Returns http request processor Handler's requestProcessorDef.
      */
     public RequestProcessorDef getHttpReqProcHandler() {
-        return _httpReqProcHandler.getRequestProcessorDef();
+        return httpReqProcHandler.getRequestProcessorDef();
     }
 }

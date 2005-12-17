@@ -53,65 +53,43 @@ package org.megatome.frame2.front.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.megatome.frame2.util.sax.ElementHandler;
-import org.megatome.frame2.util.sax.ParserException;
-import org.xml.sax.Attributes;
-
 /**
  * GlobalForwardTagHandler handles the Global Forward elements of the
  * Configuration file.
  */
-class GlobalForwardTagHandler implements ElementHandler {
-    private ForwardTagHandler _forwardTagHandler;
-
-    private Map _XMLForwards = new HashMap();
-
-    private Map _HTMLForwards = new HashMap();
+class GlobalForwardTagHandler extends ConfigElementHandler {
+    private ForwardTagHandler forwardTagHandler;
+    private Map xmlForwards = new HashMap();
+    private Map htmlForwards = new HashMap();
 
     /**
      * Constructs an GlobalForwardTagHandler.
      * @param ForwardTagHandler
      */
-
-    GlobalForwardTagHandler(ForwardTagHandler forwardTagHandler) {
-        _forwardTagHandler = forwardTagHandler;
+    public GlobalForwardTagHandler(ForwardTagHandler forwardTagHandler) {
+        this.forwardTagHandler = forwardTagHandler;
     }
 
-    public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws ParserException { // Not needed here
+    public void endElement(String uri, String localName, String qName) {
+        xmlForwards = new HashMap(forwardTagHandler.getXMLForwards());
+        htmlForwards = new HashMap(forwardTagHandler.getHTMLForwards());
+        forwardTagHandler.clear();
     }
 
-    public void endElement(String uri, String localName, String qName)
-            throws ParserException {
-        _XMLForwards = _forwardTagHandler.getXMLForwards();
-        _HTMLForwards = _forwardTagHandler.getHTMLForwards();
-        _forwardTagHandler.clear();
-    }
-
-    public void characters(char[] ch, int start, int length)
-            throws ParserException { // Not needed here
-    }
-
-    /**
-     * @return returns a HashMap of the XML Forwards
-     */
     public Map getXMLForwards() {
-        return _XMLForwards;
+        return xmlForwards;
     }
 
     /**
      * @return returns a HashMap of the HTML Forwards
      */
     public Map getHTMLForwards() {
-        return _HTMLForwards;
+        return htmlForwards;
     }
 
-    /**
-     * clear the Forwards List
-     */
     public void clear() {
-        _XMLForwards.clear();
-        _HTMLForwards.clear();
-        _forwardTagHandler.clear();
+        xmlForwards.clear();
+        htmlForwards.clear();
+        forwardTagHandler.clear();
     }
 }

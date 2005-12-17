@@ -54,31 +54,35 @@ import java.io.InputStream;
 
 
 class ConfigFactory {
-   private static String _configPath;
-   private static InputStream _is;
-   private static Configuration _instance;
+   private static String configPath;
+   private static InputStream is;
+   private static Configuration instance;
+   
+   private ConfigFactory() {
+       // Non-public
+   }
 
-   static void setConfigFile(InputStream is, String path) {
-      if ((path != null) && ! path.equals(_configPath)) {
-         _is = is;
-         _configPath = path;
-         _instance = null; // reset so instance will reload
+   static void setConfigFile(InputStream inputStream, String path) {
+      if ((path != null) && ! path.equals(configPath)) {
+         is = inputStream;
+         configPath = path;
+         instance = null; // reset so instance will reload
       }
    }
 
    static String getConfigFilePath() {
-      return _configPath;
+      return configPath;
    }
 
    static Configuration instance() throws ConfigException {
-      if (_instance == null) {
-         _instance = new Configuration(_is);
+      if (instance == null) {
+         instance = new Configuration(is);
       }
 
-      return _instance;
+      return instance;
    }
    
    static void release() {
-      _instance = null;  
+      instance = null;  
    }
 }

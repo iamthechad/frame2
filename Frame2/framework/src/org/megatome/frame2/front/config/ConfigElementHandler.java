@@ -50,43 +50,22 @@
  */
 package org.megatome.frame2.front.config;
 
+import org.megatome.frame2.util.sax.ElementHandler;
+import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
-/**
- * SecurityTagHandler handles the security elements contained in the
- * eventMapping element of the configuration file.. The roles in the security
- * element assume role-based security
- */
-class SecurityTagHandler extends ConfigElementHandler {
-    private RoleTagHandler roleTagHandler;
-    private Security sec;
-
-    /**
-     * Constructs a SecurityTagHandler.
-     * @param RoleTagHandler
-     */
-    public SecurityTagHandler(RoleTagHandler roleTagHandler) {
-        this.roleTagHandler = roleTagHandler;
-    }
+public abstract class ConfigElementHandler implements ElementHandler {
 
     public void startElement(String uri, String localName, String qName,
-            Attributes attributes) {
-        sec = new Security();
+            Attributes attributes) throws ParserException {
     }
 
-    public void endElement(String uri, String localName, String qName) {
-        sec.setRoles(roleTagHandler.getRoles());
+    public void endElement(String uri, String localName, String qName)
+            throws ParserException {
+    }
+    
+    public void characters(char[] ch, int start, int length) throws ParserException {
     }
 
-    public Security getSecurity() {
-        return sec == null ? null : new Security(sec);
-    }
-
-    /**
-     * clear the Security
-     */
-    public void clear() {
-        roleTagHandler.clear();
-        sec = null;
-    }
+    public abstract void clear();
 }

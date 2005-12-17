@@ -51,10 +51,8 @@
 package org.megatome.frame2.front.config;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.megatome.frame2.util.sax.ElementHandler;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
@@ -62,74 +60,50 @@ import org.xml.sax.Attributes;
  * ExceptionTagHandler handles the exception elements of the Configuration file.
  * It generates a HashMap of all the ExceptionDef.
  */
-class ExceptionTagHandler implements ElementHandler {
+class ExceptionTagHandler extends ConfigElementHandler {
     public static final String REQUEST_KEY = "requestKey";
-
     public static final String TYPE = "type";
 
-    private ViewTagHandler _viewTagHandler;
-
-    List _exceptions = new ArrayList();
-
-    ExceptionDef _def = null;
+    private ViewTagHandler viewTagHandler;
+    private List exceptions = new ArrayList();
+    private ExceptionDef def = null;
 
     /**
      * Constructs an ExceptionTagHandler.
      * @param ViewTagHandler
      */
-    ExceptionTagHandler(ViewTagHandler viewTagHandler) {
-        _viewTagHandler = viewTagHandler;
+    public ExceptionTagHandler(ViewTagHandler viewTagHandler) {
+        this.viewTagHandler = viewTagHandler;
     }
 
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws ParserException {
         String requestKey = attributes.getValue(REQUEST_KEY);
         String type = attributes.getValue(TYPE);
-        _def = new ExceptionDef(requestKey, type);
-        if (_exceptions.contains(_def)) {
+        def = new ExceptionDef(requestKey, type);
+        if (exceptions.contains(def)) {
             throw new ParserException(
                     "Exception tag Error, Duplicate type defined for type "
                             + type);
         }
     }
 
-    public void endElement(String uri, String localName, String qName)
-            throws ParserException {
+    public void endElement(String uri, String localName, String qName) {
         // build event mapping here
-        _def.setView(ViewType.XML.toString(), _viewTagHandler
+        def.setView(ViewType.XML.toString(), viewTagHandler
                 .getXMLForwardName());
-        _def.setView(ViewType.HTML.toString(), _viewTagHandler
+        def.setView(ViewType.HTML.toString(), viewTagHandler
                 .getHTMLForwardName());
-        _exceptions.add(_def);
-        _def = null;
-        _viewTagHandler.clear();
+        exceptions.add(def);
+        def = null;
+        viewTagHandler.clear();
     }
 
-    public void characters(char[] ch, int start, int length)
-            throws ParserException { // Not used here
-    }
-
-    /**
-     * @return returns a clone of the Events List
-     */
     public List getExceptions() {
-        List copy = new ArrayList();
-
-        Iterator iter = _exceptions.iterator();
-
-        while (iter.hasNext()) {
-            ExceptionDef eDef = (ExceptionDef)iter.next();
-
-            copy.add(eDef.clone());
-        }
-
-        return copy;
+        return exceptions;
     }
 
-    /**
-     * clear the Events List
-     */
     public void clear() {
-        _exceptions.clear();
+        exceptions.clear();
     }
 }

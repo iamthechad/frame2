@@ -48,203 +48,176 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front.config;
+package org.megatome.frame2.front.config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * EventMapping is an Object representation of the eventMapping element in the configuration file.
+ * EventMapping is an Object representation of the eventMapping element in the
+ * configuration file.
  */
 public class EventMapping {
-   private List _handlers = new ArrayList();
-   private Map _view = new HashMap();
-   private Security _security;
-   private String _eventName;
-   private String _inputView;
-   private String _cancelView;
-   private boolean _validate = false;
+    private List handlers = new ArrayList();
+    private Map view = new HashMap();
+    private Security security;
+    private String eventName;
+    private String inputView;
+    private String cancelView;
+    private boolean validate = false;
 
-   /**
-    * Constructs an EventMapping
-    *
-    * @param name String
-    *
-    */
+    /**
+     * Constructs an EventMapping
+     * @param name String
+     */
+    public EventMapping(String name) {
+        eventName = name;
+    }
 
-   public EventMapping(String name) {
-      _eventName = name;
-   }
+    public EventMapping(EventMapping eventMapping) {
+        this.handlers = new ArrayList(eventMapping.handlers);
+        this.view = new HashMap(eventMapping.view);
+        this.security = eventMapping.security == null ? null : new Security(
+                eventMapping.security);
+        this.eventName = eventMapping.eventName;
+        this.inputView = eventMapping.inputView;
+        this.cancelView = eventMapping.cancelView;
+        this.validate = eventMapping.validate;
+    }
 
-   /**
-    * Sets the eventMapping Handlers.
-    *
-    * @param handlers ArrayList of all the eventHandlers for that eventMapping
-    */
-   public void setHandlers(List handlers) {
-      _handlers = handlers;
-   }
+    /**
+     * Sets the eventMapping Handlers.
+     * @param handlers ArrayList of all the eventHandlers for that eventMapping
+     */
+    public void setHandlers(List handlers) {
+        this.handlers = new ArrayList(handlers);
+    }
 
-   /**
-    * Returns a clone of the List of eventHandlers.
-    *
-    * @return ArrayList List of eventHandlers
-    */
-   public List getHandlers() {
-      return (List)((ArrayList)_handlers).clone();
-   }
+    /**
+     * Returns a clone of the List of eventHandlers.
+     * @return ArrayList List of eventHandlers
+     */
+    public List getHandlers() {
+        return handlers;
+    }
 
-   /**
-    * Returns the view.
-    *
-    * @param type The type of view to set (XML, HTML, Both)
-    *
-    * @return String returns the view for that type
-    */
-   public String getView(String type) {
-      return (String) _view.get(type);
-   }
+    /**
+     * Returns the view.
+     * @param type The type of view to set (XML, HTML, Both)
+     * @return String returns the view for that type
+     */
+    public String getView(String type) {
+        return (String)view.get(type);
+    }
 
-   /**
-    * Sets the view.
-    *
-    * @param type The type of view to set (XML, HTML, Both)
-    * @param forward The global forward name to use
-    * 
-    */
-   public void setView(String type, String forward) {
-      _view.put(type, forward);
-   }
+    /**
+     * Sets the view.
+     * @param type The type of view to set (XML, HTML, Both)
+     * @param forward The global forward name to use
+     */
+    public void setView(String type, String forward) {
+        view.put(type, forward);
+    }
 
-   /**
-    * Sets the view.
-    *
-    * @param map The HashMap of all the views for that eventMapping
-    * 
-    */
-   public void setView(Map map) {
-      _view = map;
-   }
+    /**
+     * Sets the view.
+     * @param map The HashMap of all the views for that eventMapping
+     */
+    public void setView(Map map) {
+        view = new HashMap(map);
+    }
 
-   /**
-    * Returns the security.
-    *
-    * @return Security
-    */
-   private Security getSecurity() {
-      return _security;
-   }
+    /**
+     * Returns the security.
+     * @return Security
+     */
+    private Security getSecurity() {
+        return security;
+    }
 
-   /**
-    * Sets the security.
-    *
-    * @param security The security to set
-    */
-   public void setSecurity(Security security) {
-      _security = security;
-   }
+    /**
+     * Sets the security.
+     * @param security The security to set
+     */
+    public void setSecurity(Security security) {
+        this.security = security;
+    }
 
-   /**
-    * Returns whether the user has that role or not.
-    *
-    * @return boolean User in that role
-    */
-   public boolean isUserInRole(String role) {
-      boolean ret = false;
+    /**
+     * Returns whether the user has that role or not.
+     * @return boolean User in that role
+     */
+    public boolean isUserInRole(String role) {
+        boolean ret = false;
 
-      if (getSecurity() != null) {
-         ret = getSecurity().isUserInRole(role);
-      }
+        if (getSecurity() != null) {
+            ret = getSecurity().isUserInRole(role);
+        }
 
-      return ret;
-   }
+        return ret;
+    }
 
-   public Object clone() {
-      EventMapping em = new EventMapping(_eventName);
+    /**
+     * Returns the validate flag set in the config file is set to.
+     * @return boolean the validate flag
+     */
+    public boolean isValidate() {
+        return validate;
+    }
 
-      List l = (List)((ArrayList)_handlers).clone();
-      em.setHandlers(l);
+    /**
+     * Sets the validate.
+     * @param validate The validate to set
+     */
+    public void setValidate(boolean validate) {
+        this.validate = validate;
+    }
 
-      if (_security != null) {
-         em.setSecurity((Security) _security.clone());
-      }
+    /**
+     * Returns the inputView.
+     * @return String
+     */
+    public String getInputView() {
+        return inputView;
+    }
 
-      em.setView((Map)((HashMap) _view).clone());
-      em.setInputView(_inputView);
-      em.setCancelView(_cancelView);
-      em.setValidate(_validate);
+    /**
+     * Sets the inputView.
+     * @param inputView The inputView to set
+     */
+    public void setInputView(String inputView) {
+        this.inputView = inputView;
+    }
 
-      return em;
-   }
+    /**
+     * Returns an String array of all the roles allowed for that eventMapping.
+     * @return String[] String array of roles
+     */
+    public String[] getRoles() {
+        final String[] TYPE = new String[0];
 
-   /**
-    * Returns the validate flag set in the config file is set to.
-    *
-    * @return boolean the validate flag
-    */
-   public boolean isValidate() {
-      return _validate;
-   }
+        if (security != null) {
+            return security.getRoles();
+        }
 
-   /**
-    * Sets the validate.
-    *
-    * @param validate The validate to set
-    */
-   public void setValidate(boolean validate) {
-      _validate = validate;
-   }
+        return TYPE;
+    }
 
-   /**
-    * Returns the inputView.
-    *
-    * @return String
-    */
-   public String getInputView() {
-      return _inputView;
-   }
+    /**
+     * Returns the cancelView.
+     * @return String
+     */
+    public String getCancelView() {
+        return cancelView;
+    }
 
-   /**
-    * Sets the inputView.
-    *
-    * @param inputView The inputView to set
-    */
-   public void setInputView(String inputView) {
-      _inputView = inputView;
-   }
-
-   /**
-    * Returns an String array of all the roles allowed for that eventMapping.
-    *
-    * @return String[] String array of roles
-    */
-   public String[] getRoles() {
-      final String[] TYPE = new String[0];
-
-      if (_security != null) {
-         return _security.getRoles();
-      } 
-      
-      return TYPE;
-   }
-
-	/**
-	 * Returns the cancelView.
-	 * @return String
-	 */
-	public String getCancelView() {
-		return _cancelView;
-	}
-
-	/**
-	 * Sets the cancelView.
-	 * @param cancelView The cancelView to set
-	 */
-	public void setCancelView(String cancelView) {
-		_cancelView = cancelView;
-	}
-
+    /**
+     * Sets the cancelView.
+     * @param cancelView The cancelView to set
+     */
+    public void setCancelView(String cancelView) {
+        this.cancelView = cancelView;
+    }
 }

@@ -59,9 +59,6 @@ import org.megatome.frame2.util.soap.SOAPFault;
 import org.w3c.dom.Element;
 
 
-/**
- * WebServiceFrontController.java
- */
 public abstract class SoapFrontController {
    private static Logger LOGGER = LoggerFactory.instance(SoapFrontController.class.getName());
 

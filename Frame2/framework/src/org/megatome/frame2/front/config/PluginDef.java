@@ -50,77 +50,76 @@
  */
 package org.megatome.frame2.front.config;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author cjohnston To change the template for this generated type comment go
- *         to Window>Preferences>Java>Code Generation>Code and Comments
- */
 public class PluginDef implements Comparable {
-    private String _name = "";
+    private String name = "";
+    private String type = "";
 
-    private String _type = "";
-
-    private Map _initParams = new HashMap();
+    private Map initParams = new HashMap();
 
     /**
      * @return
      */
     public Map getInitParams() {
-        return Collections.unmodifiableMap(_initParams);
+        return initParams;
     }
 
     /**
      * @return
      */
     public String getName() {
-        return _name;
+        return name;
     }
 
     /**
      * @return
      */
     public String getType() {
-        return _type;
+        return type;
     }
 
     /**
      * @param map
      */
     public void setInitParams(Map map) {
-        _initParams = map;
+        initParams = new HashMap(map);
     }
 
     /**
      * @param string
      */
-    public void setName(String string) {
-        _name = string;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
      * @param string
      */
-    public void setType(String string) {
-        _type = string;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int compareTo(Object other) {
-        return compareTo((PluginDef)other);
-    }
-
-    public int compareTo(PluginDef other) {
-        return _name.compareTo(other.getName());
+        PluginDef pd = (PluginDef)other;
+        return name.compareTo(pd.getName());
     }
 
     public boolean equals(Object other) {
-        return (other instanceof PluginDef) && equals((PluginDef)other);
+        if ((other == null) || (!(other instanceof PluginDef))) {
+            return false;
+        }
+        
+        if (this == other) {
+            return true;
+        }
+        
+        PluginDef pd = (PluginDef)other;
+        return name.equals(pd.name);
     }
 
-    public boolean equals(PluginDef other) {
-        return _name.equals(other.getName());
+    public int hashCode() {
+        return name.hashCode();
     }
-
 }

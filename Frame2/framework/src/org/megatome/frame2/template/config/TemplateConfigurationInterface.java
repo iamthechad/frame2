@@ -50,15 +50,14 @@
  */
 package org.megatome.frame2.template.config;
 
-import java.util.HashMap;
 import java.util.Map;
 
-
-
 public interface TemplateConfigurationInterface {
-   
-   public TemplateDef getDefinition(String name);
-   public Map getDefinitions();
-   public void setDefinitions(HashMap map);
+
+    public TemplateDef getDefinition(String name);
+
+    public Map getDefinitions();
+
+    public void setDefinitions(Map map);
 
 }
