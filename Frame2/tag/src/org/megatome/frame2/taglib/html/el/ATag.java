@@ -139,7 +139,7 @@ public class ATag extends BaseHtmlTag {
 
     String _bodyContent = null;
 
-    protected StringBuffer buildStartTag() throws JspException {
+    protected StringBuffer buildStartTag() {
         StringBuffer results = new StringBuffer();
         results.append(Constants.LINK_OPEN);
         return results;

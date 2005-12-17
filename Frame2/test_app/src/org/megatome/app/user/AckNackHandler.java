@@ -54,7 +54,6 @@ import org.megatome.app.jaxbgen.ACK;
 import org.megatome.app.jaxbgen.NACK;
 import org.megatome.app.jaxbgen.impl.ACKImpl;
 import org.megatome.app.jaxbgen.impl.NACKImpl;
-import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.event.Context;
@@ -69,7 +68,7 @@ public class AckNackHandler implements EventHandler {
 	/**
 	 * @see org.megatome.frame2.event.EventHandler#handle(Event, Context)
 	 */
-	public String handle(Event event, Context context) throws Frame2Exception {
+	public String handle(Event event, Context context) {
 		User user = (User) event;
 
 		Errors errors = context.getRequestErrors();
@@ -83,7 +82,7 @@ public class AckNackHandler implements EventHandler {
 
 			return "success";
 
-		} else {
+		}
 			System.out.println("Not adding " + user.getFirstName());
 
 			NACK nack = new NACKImpl();
@@ -97,7 +96,6 @@ public class AckNackHandler implements EventHandler {
 			}
          
          return "fail";
-		}
 	}
 }
 

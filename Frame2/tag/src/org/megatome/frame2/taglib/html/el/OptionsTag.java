@@ -75,7 +75,7 @@ public class OptionsTag extends BaseOptionTag {
       _type = Constants.OPTIONS;
    }
    
-   protected StringBuffer buildStartTag() throws JspException {     
+   protected StringBuffer buildStartTag() {     
       StringBuffer buffer = new StringBuffer();
 
       Object[] value = null;

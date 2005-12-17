@@ -51,15 +51,13 @@ public class TestMissingFileUpload extends MockFrame2TestCase {
 	
 	public void testPrerequisites() {
 	   try {
-	      Object o = Class.forName("org.apache.commons.fileupload.DiskFileUpload");
-	   } catch (ClassNotFoundException e) {
+	      Class.forName("org.apache.commons.fileupload.DiskFileUpload");
+          fail("Did not catch expected ClassDef exception");
+	   } catch (ClassNotFoundException expected) {
 	      // This is the expected result
-	      return;
 	   } catch (Exception e) {
 	      fail("Unexpected Exception");
 	   }
-	   
-	   fail("Did not catch expected ClassDef exception");
 	}
 	
 	public void testUploadWithoutLibrary() throws Exception {

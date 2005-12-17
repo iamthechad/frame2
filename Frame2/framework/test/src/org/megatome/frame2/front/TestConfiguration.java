@@ -159,6 +159,7 @@ public class TestConfiguration extends TestCase {
 		assertNotNull(handler1);
 
 		Forward xml = handler1.getDefinition().getXMLForward("local14");
+        assertNotNull(xml);
 		Forward xmlResponder =
 			handler1.getDefinition().getXMLForward("listResponder");
 		assertNotNull(xmlResponder);
@@ -192,6 +193,7 @@ public class TestConfiguration extends TestCase {
 		assertNotNull(handler1);
 		// test xml responder does not exist in HTML Fowards map 
 		Forward html = handler1.getDefinition().getHTMLForward("local14");
+        assertNotNull(html);
 		Forward xmlResponderNotExist =
 			handler1.getDefinition().getHTMLForward("listResponder");
 		assertNull(xmlResponderNotExist);
@@ -457,8 +459,8 @@ public class TestConfiguration extends TestCase {
 
 	private void assertGetEventFails(Configuration config, String eventName) {
 		try {
-			Event event = config.getEventProxy(eventName).getEvent();
+			config.getEventProxy(eventName).getEvent();
 			fail();
-		} catch (ConfigException e) {}
+		} catch (ConfigException expected) {}
 	}
 }

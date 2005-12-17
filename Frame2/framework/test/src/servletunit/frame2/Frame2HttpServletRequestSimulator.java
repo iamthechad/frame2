@@ -1,6 +1,5 @@
 package servletunit.frame2;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.servlet.ServletContext;
@@ -26,7 +25,7 @@ public class Frame2HttpServletRequestSimulator
    /* (non-Javadoc)
     * @see javax.servlet.ServletRequest#getInputStream()
     */
-   public ServletInputStream getInputStream() throws IOException {
+   public ServletInputStream getInputStream() {
       return is;
    }
    

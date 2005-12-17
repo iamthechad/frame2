@@ -83,7 +83,7 @@ public class TestSoapFrontController extends MockFrame2TestCase {
    
    private void checkConfig() {
        try {
-         Configuration config = ConfigFactory.instance();
+         ConfigFactory.instance();
       } catch (ConfigException e) {
          fail();
       }

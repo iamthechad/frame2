@@ -6,12 +6,11 @@ import org.megatome.frame2.Globals;
 
 import servletunit.HttpServletRequestSimulator;
 import servletunit.HttpServletResponseSimulator;
-import servletunit.ServletContextSimulator;
 import servletunit.frame2.MockFrame2TestCase;
 
 public class TestCommonsValidation extends MockFrame2TestCase {
 
-	private ServletContextSimulator _context;
+	//private ServletContextSimulator _context;
 	private HttpServletRequestSimulator _request;
 	private HttpServletResponseSimulator _response;
 
@@ -30,7 +29,7 @@ public class TestCommonsValidation extends MockFrame2TestCase {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-		_context = (ServletContextSimulator)getContext();
+		//_context = (ServletContextSimulator)getContext();
 		_request = (HttpServletRequestSimulator)getRequest();
 		_response = (HttpServletResponseSimulator)getResponse();
 	}

@@ -92,9 +92,9 @@ public final class TemplateHelper {
    }
 
    public static void removeAttribute(PageContext context, int scope) {
-      Enumeration enum = context.getAttributeNamesInScope(scope);
-      while (enum.hasMoreElements()) {
-         String name = (String) enum.nextElement();
+      Enumeration en = context.getAttributeNamesInScope(scope);
+      while (en.hasMoreElements()) {
+         String name = (String) en.nextElement();
          context.removeAttribute(name, scope);
       }
    }

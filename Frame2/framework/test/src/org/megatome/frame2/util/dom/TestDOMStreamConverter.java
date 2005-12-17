@@ -74,7 +74,7 @@ public class TestDOMStreamConverter extends TestCase {
       
       assertNotNull(element);
 
-      String val = DOMStreamConverter.toOutputStream(element).toString();
+      DOMStreamConverter.toOutputStream(element).toString();
       
       assertEquals("tt:test",element.getNodeName());
       assertEquals("test",element.getLocalName());
@@ -90,7 +90,7 @@ public class TestDOMStreamConverter extends TestCase {
       
       assertNotNull(element);
 
-      String val = DOMStreamConverter.toOutputStream(element).toString();
+      DOMStreamConverter.toOutputStream(element).toString();
       
       assertEquals("tt:test",element.getNodeName());
       assertNull(element.getLocalName());

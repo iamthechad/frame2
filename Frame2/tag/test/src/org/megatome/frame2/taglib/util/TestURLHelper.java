@@ -89,8 +89,7 @@ public class TestURLHelper extends TestCase {
 		String uri = BASE_URI;
 		String expected = BASE_URI;
 		String actual = URLHelper.appendQueryParams(uri, null);
-		assertEquals(BASE_URI, actual);
-		
+		assertEquals(expected, actual);
 	}
 
 	public void testEmptyHashMap() throws Exception {

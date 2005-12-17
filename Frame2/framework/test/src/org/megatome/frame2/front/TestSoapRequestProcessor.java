@@ -115,9 +115,6 @@ public class TestSoapRequestProcessor extends TestCase {
       assertTrue(response.isResponderType());
 
       assertEquals("org.megatome.frame2.front.AckResponder", response.getPath());
-
-      Context context = processor.getContextWrapper();
-
    }
    
    public void testCallHandlerReponderChildren() throws Exception {
@@ -131,10 +128,8 @@ public class TestSoapRequestProcessor extends TestCase {
       assertTrue(response.isResponderType());
 
       assertEquals("org.megatome.frame2.front.AckResponder", response.getPath());
-
-      Context context = processor.getContextWrapper();
-
    }
+   
    public void testProcessRequestChildren() throws Exception {
       _elements = Helper.loadEvents("org/megatome/frame2/jaxb/pochildren.xml",getClass());
       SoapRequestProcessor processor = 
@@ -179,12 +174,11 @@ public class TestSoapRequestProcessor extends TestCase {
 
       PurchaseOrderImpl poi = new PurchaseOrderImpl();
 
-      ForwardProxy response;
       try {
-         response = processor.callHandlers("InvalidEvent", poi, ViewType.XML);
+         processor.callHandlers("InvalidEvent", poi, ViewType.XML);
          fail();
       }
-      catch (Frame2Exception e) {
+      catch (Frame2Exception expected) {
       }
 
    }    
@@ -257,14 +251,14 @@ public class TestSoapRequestProcessor extends TestCase {
       Element element = doc.createElement("passthruEvent");
       element.appendChild(doc.importNode(_elements[0],true));
       
-      OutputStream os = DOMStreamConverter.toOutputStream(element);
+      DOMStreamConverter.toOutputStream(element);
       
       SoapRequestProcessor processor =
          (SoapRequestProcessor) RequestProcessorFactory.instance(_config, new Element[] { element },TARGET_PKG);
 
       Element[] result = (Element[]) processor.processRequest();
 
-      os = DOMStreamConverter.toOutputStream(result[0]);
+      DOMStreamConverter.toOutputStream(result[0]);
       
       assertNotNull(result);
       assertEquals("purchaseOrder",result[0].getNodeName());      

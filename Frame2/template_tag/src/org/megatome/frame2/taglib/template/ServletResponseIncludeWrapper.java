@@ -50,7 +50,6 @@
  */
 package org.megatome.frame2.taglib.template;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletOutputStream;
@@ -70,11 +69,11 @@ public class ServletResponseIncludeWrapper extends HttpServletResponseWrapper {
       this.printWriter = new PrintWriter(jspWriter);
    }
 
-   public ServletOutputStream getOutputStream() throws IOException {
+   public ServletOutputStream getOutputStream() {
       throw new IllegalStateException();
    }
    
-	public PrintWriter getWriter() throws IOException {
+	public PrintWriter getWriter() {
 			return printWriter;
 		}
 }

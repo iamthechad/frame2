@@ -4,13 +4,12 @@ import org.megatome.frame2.Globals;
 import org.megatome.frame2.plugin.MockPluginInterface;
 import org.megatome.frame2.plugin.PluginInterface;
 
-import servletunit.ServletContextSimulator;
 import servletunit.frame2.MockFrame2TestCase;
 
 
 public class TestPluginLifecycle extends MockFrame2TestCase {
 
-   private ServletContextSimulator _context;
+   //private ServletContextSimulator _context;
 
    /**
     * Constructor for TestHttpFrontController.
@@ -26,7 +25,7 @@ public class TestPluginLifecycle extends MockFrame2TestCase {
     */
    protected void setUp() throws Exception {
       super.setUp();
-      _context = (ServletContextSimulator) getContext();
+      //_context = (ServletContextSimulator) getContext();
    }
 
    /**

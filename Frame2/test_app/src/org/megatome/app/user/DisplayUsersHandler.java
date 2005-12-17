@@ -50,7 +50,6 @@
  */
 package org.megatome.app.user;
 
-import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.event.Context;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.event.EventHandler;
@@ -70,7 +69,7 @@ public class DisplayUsersHandler implements EventHandler {
    /**
     * @see org.megatome.frame2.event.EventHandler#handle(Event)
     */
-   public String handle(Event event,Context context) throws Frame2Exception {
+   public String handle(Event event,Context context) {
       // Display User              
       UserMgr mgr = UserFactory.instance();
       DisplayUsers displayUser = (DisplayUsers) event;

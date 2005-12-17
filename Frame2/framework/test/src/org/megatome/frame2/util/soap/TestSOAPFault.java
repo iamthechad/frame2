@@ -79,7 +79,7 @@ public class TestSOAPFault extends TestCase {
 
       Element faultElement = fault.getElement();
 
-      String val = DOMStreamConverter.toOutputStream(faultElement).toString();
+      DOMStreamConverter.toOutputStream(faultElement).toString();
 
       assertFaultBody(faultElement);
       

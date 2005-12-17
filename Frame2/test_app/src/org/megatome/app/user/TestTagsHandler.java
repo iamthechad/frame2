@@ -51,7 +51,6 @@
 package org.megatome.app.user;
 
 
-import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.event.Context;
 import org.megatome.frame2.event.Event;
@@ -72,7 +71,7 @@ public class TestTagsHandler implements EventHandler {
    /**
     * @see org.megatome.frame2.event.EventHandler#handle(Event)
     */
-   public String handle(Event event,Context context) throws Frame2Exception {
+   public String handle(Event event,Context context) {
       TestTagEvent testTag = (TestTagEvent) event;                   
       testTag.setTextTag("text tag value");
       testTag.setPasswordTag("password");

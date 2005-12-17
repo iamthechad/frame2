@@ -6,7 +6,6 @@ import java.util.Locale;
 import org.apache.commons.validator.Validator;
 import org.apache.commons.validator.ValidatorException;
 import org.apache.commons.validator.ValidatorResources;
-import org.apache.commons.validator.ValidatorResults;
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
@@ -188,10 +187,8 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       validator.addResource(Globals.ERRORS_KEY, errors);
 
       // Get results of the validation.
-      ValidatorResults results = null;
-
       try {
-         results = validator.validate();
+         validator.validate();
       } catch (ValidatorException e) {
          fail();
       }

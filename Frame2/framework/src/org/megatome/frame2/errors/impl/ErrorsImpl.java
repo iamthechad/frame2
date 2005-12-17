@@ -65,11 +65,9 @@ import org.megatome.frame2.errors.Errors;
  * key).
  */
 final public class ErrorsImpl implements Errors {
-    private Map _errors = new TreeMap();
+    private Map errors = new TreeMap();
 
-    private int _count;
-
-    static private Error[] _typeArray = new Error[0];
+    private int count;
 
     public ErrorsImpl() { // Non-public ctor
     }
@@ -128,8 +126,8 @@ final public class ErrorsImpl implements Errors {
         }
 
         errorsForKey.add(error);
-        _errors.put(error.getKey(), errorsForKey);
-        _count++;
+        errors.put(error.getKey(), errorsForKey);
+        count++;
     }
 
     /**
@@ -145,7 +143,7 @@ final public class ErrorsImpl implements Errors {
     }
 
     private Collection errorsForKey(final String key) {
-        return (Collection)_errors.get(key);
+        return (Collection)errors.get(key);
     }
 
     /**
@@ -198,7 +196,7 @@ final public class ErrorsImpl implements Errors {
      * @return Iterator of all found Error objects, or null if none found.
      */
     public Iterator iterator(String key) {
-        Collection errorsForKey = (Collection)_errors.get(key);
+        Collection errorsForKey = (Collection)errors.get(key);
 
         return (errorsForKey == null) ? null : errorsForKey.iterator();
     }
@@ -216,7 +214,7 @@ final public class ErrorsImpl implements Errors {
      * @return Array of Error objects
      */
     public Error[] get() {
-        return (Error[])allErrors().toArray(_typeArray);
+        return (Error[])allErrors().toArray(new Error[0]);
     }
 
     /**
@@ -232,15 +230,15 @@ final public class ErrorsImpl implements Errors {
 
         Collection col = errorsForKey(key);
         if (col != null) {
-            return (Error[])col.toArray(_typeArray);
+            return (Error[])col.toArray(new Error[0]);
         }
 
-        return _typeArray;
+        return new Error[0];
     }
 
     private Collection allErrors() {
         Collection result = new ArrayList();
-        Iterator errorsForKeys = _errors.values().iterator();
+        Iterator errorsForKeys = errors.values().iterator();
 
         while (errorsForKeys.hasNext()) {
             result.addAll((Collection)errorsForKeys.next());
@@ -255,7 +253,7 @@ final public class ErrorsImpl implements Errors {
      *         otherwise.
      */
     public boolean isEmpty() {
-        return _errors.isEmpty();
+        return errors.isEmpty();
     }
 
     /**
@@ -267,15 +265,8 @@ final public class ErrorsImpl implements Errors {
     }
 
     private void clear() {
-        Iterator errors = iterator();
-
-        while (errors.hasNext()) {
-            Error error = (Error)errors.next();
-            error = null;
-        }
-
-        _errors.clear();
-        _count = 0;
+        errors.clear();
+        count = 0;
     }
 
     /**
@@ -283,7 +274,7 @@ final public class ErrorsImpl implements Errors {
      * @return Number of Error objects in the collection
      */
     public int size() {
-        return _count;
+        return count;
     }
 
     /**
@@ -294,10 +285,10 @@ final public class ErrorsImpl implements Errors {
      */
     public String toString() {
         StringBuffer buffer = new StringBuffer();
-        Iterator errors = iterator();
+        Iterator errs = iterator();
 
-        while (errors.hasNext()) {
-            Error error = (Error)errors.next();
+        while (errs.hasNext()) {
+            Error error = (Error)errs.next();
 
             buffer.append("Errors: Key[" + error.getKey() + "] Value["
                     + error.getValue() + "]\n");

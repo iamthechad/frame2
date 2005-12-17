@@ -62,20 +62,13 @@ public class TestCommonsValidatorWrapper extends MockFrame2TestCase {
 
   public void testNegativeValidatorInitializationFileNotFound() {
                  
-      ValidatorResources resources = null;
       try {       
          CommonsValidatorWrapper.setFilePath("/org/megatome/frame2/validator/config");
          CommonsValidatorWrapper.setMappingsFile("dude.xml");
          CommonsValidatorWrapper.load(getContext());
-         resources = CommonsValidatorWrapper.getValidatorResources(); 
-      } catch (CommonsValidatorException e) {
-        return;
+         CommonsValidatorWrapper.getValidatorResources();
+         fail();
+      } catch (CommonsValidatorException expected) {
       }   
-      fail();
-            
    }
-   
-    
-    
-            
 }

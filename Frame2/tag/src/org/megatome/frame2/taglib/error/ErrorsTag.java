@@ -89,7 +89,7 @@ import org.megatome.frame2.util.ResourceLocator;
 public class ErrorsTag extends TagSupport {
    private String _localeKey;
    private String _errorKey;
-   private String _name;
+   //private String _name;
 
    /**
     * Sets a key for a locale placed in the session.
@@ -109,9 +109,11 @@ public class ErrorsTag extends TagSupport {
       _errorKey = key;
    }
    
+   /*
    public void setName(String name) {
        _name = name;
    }
+   */
 
    /**
     * Generate the HTML for the error information placed in the request.

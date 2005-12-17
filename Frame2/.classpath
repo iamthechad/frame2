@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry output="framework/classes" kind="src" path="framework/src"/>
-	<classpathentry output="framework/test/classes" kind="src" path="framework/test/src"/>
-	<classpathentry output="tag/classes" kind="src" path="tag/src"/>
-	<classpathentry output="tag/test/classes" kind="src" path="tag/test/src"/>
-	<classpathentry output="test_app/classes" kind="src" path="test_app/src"/>
-	<classpathentry output="test_app/test/classes" kind="src" path="test_app/test/src"/>
-	<classpathentry output="template_tag/classes" kind="src" path="template_tag/src"/>
+	<classpathentry kind="src" path="framework/src"/>
+	<classpathentry kind="src" path="framework/test/src"/>
+	<classpathentry kind="src" path="tag/src"/>
+	<classpathentry kind="src" path="tag/test/src"/>
+	<classpathentry kind="src" path="test_app/src"/>
+	<classpathentry kind="src" path="test_app/test/src"/>
+	<classpathentry kind="src" path="template_tag/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/common/lib/jsp-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/common/lib/servlet-api.jar"/>

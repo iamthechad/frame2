@@ -88,8 +88,7 @@ public class CommonsValidatorPlugin implements PluginInterface {
 
    }
 
-   public void destroy(ServletContext context, Map initParams)
-      throws PluginException {
+   public void destroy(ServletContext context, Map initParams) {
       LOGGER.debug("CommonsValidatorPlugin:destroy()");
       CommonsValidatorWrapper.release();
    }

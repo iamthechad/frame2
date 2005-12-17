@@ -1,12 +1,10 @@
 package org.megatome.frame2.util.sax;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.megatome.frame2.Globals;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 public class Frame2EntityResolver implements EntityResolver {
 
@@ -15,8 +13,7 @@ public class Frame2EntityResolver implements EntityResolver {
 	 * @param systemId
 	 * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
 	 */
-	public InputSource resolveEntity(String publicId, String systemId)
-		throws SAXException, IOException {
+	public InputSource resolveEntity(String publicId, String systemId) {
         
         if ((publicId == null) || (systemId == null)) {
         	return null;

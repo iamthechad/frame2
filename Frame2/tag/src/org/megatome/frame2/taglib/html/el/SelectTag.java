@@ -50,8 +50,6 @@
  */
 package org.megatome.frame2.taglib.html.el;
 
-import javax.servlet.jsp.JspException;
-
 import org.megatome.frame2.taglib.html.Constants;
 
 /**
@@ -71,14 +69,14 @@ public class SelectTag extends BaseSelectTag {
       _tagName = Constants.SELECT_TAG;
    }
    
-   protected void specialAttrHandler() throws JspException {
+   protected void specialAttrHandler() {
       // "selected" contains expr to compare options
       // save expression for options to use for compare.
       pageContext.setAttribute(Constants.SELECT_KEY,_selected);
    }
         
    // save body content, otherthan option tags
-   public int doAfterBody() throws JspException {
+   public int doAfterBody() {
       if (bodyContent != null) {
           String content = bodyContent.getString();
           if (content != null) {

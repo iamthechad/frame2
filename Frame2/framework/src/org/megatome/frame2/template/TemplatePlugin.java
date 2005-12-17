@@ -94,8 +94,7 @@ public class TemplatePlugin implements PluginInterface {
 		}
    }
 
-   public void destroy(ServletContext context, Map initParams)
-      throws PluginException {
+   public void destroy(ServletContext context, Map initParams) {
       getLogger().debug("TemplatePlugin destroy()");
       TemplateConfigFactory.release();
    }
