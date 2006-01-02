@@ -2,14 +2,13 @@
 <feature
       id="org.megatome.frame2.feature"
       label="Frame2"
-      version="1.0.0"
+      version="1.2.0"
       provider-name="Megatome Technologies"
       os="linux,macosx,solaris,win32"
       ws="carbon,gtk,motif,win32"
       nl="en"
       arch="amd64,ia64,ppc,sparc,x86"
       image="frame2logo.jpg">
-
    <install-handler/>
 
    <description>
@@ -67,6 +66,6 @@ Frame2 is based upon the TurboM2 framework. For more information about TurboM2, 
          id="org.megatome.frame2"
          download-size="0"
          install-size="0"
-         version="1.0.0"/>
+         version="0.0.0"/>
 
 </feature>
