@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,18 +84,18 @@ class ForwardTagHandler extends ConfigElementHandler {
             throw new ParserException(INVALID_TYPE + name + " type " + type);
         }
 
-        Forward _forward = new Forward(name, ftype, attributes.getValue(PATH));
+        Forward forward = new Forward(name, ftype, attributes.getValue(PATH));
 
         if (ftype.equals(ForwardType.HTMLRESOURCE)) {
-            forwards.put(name, _forward);
+            forwards.put(name, forward);
         } else if (ftype.equals(ForwardType.XMLRESOURCE)
                 || ftype.equals(ForwardType.XMLRESPONDER)) {
-            xmlForwards.put(name, _forward);
+            xmlForwards.put(name, forward);
         } else if (ftype.equals(ForwardType.EVENT)) {
             // put event in both maps
             // for easier lookup by type.
-            forwards.put(name, _forward);
-            xmlForwards.put(name, _forward);
+            forwards.put(name, forward);
+            xmlForwards.put(name, forward);
         }
     }
 

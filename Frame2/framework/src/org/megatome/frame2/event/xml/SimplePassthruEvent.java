@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import org.w3c.dom.Element;
  * validation to a no-op (always valid).
  */
 public class SimplePassthruEvent extends CommonsValidatorEvent implements PassthruEvent {
-   private Element _passthruData;
+   private Element passthruData;
 
    /**
     * Validate the event. This implementation will always return true.
@@ -79,7 +79,7 @@ public class SimplePassthruEvent extends CommonsValidatorEvent implements Passth
     * @see org.megatome.frame2.event.xml.PassthruEvent#getPassthruData()
     */
    public Element getPassthruData() {
-      return _passthruData;
+      return passthruData;
    }
 
    /**
@@ -88,6 +88,6 @@ public class SimplePassthruEvent extends CommonsValidatorEvent implements Passth
     * @see org.megatome.frame2.event.xml.PassthruEvent#setPassthruData(org.w3c.dom.Element)
     */
    public void setPassthruData(Element passthruData) {
-      _passthruData = passthruData;
+      this.passthruData = passthruData;
    }
 }

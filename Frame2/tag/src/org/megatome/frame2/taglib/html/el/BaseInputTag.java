@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ public abstract class BaseInputTag extends BaseHtmlTag {
     * Input tag's tag name is equal to their type.
     */
    public void setTagName() {
-      _tagName = getType();
+      tagName = getType();
 
    }
 

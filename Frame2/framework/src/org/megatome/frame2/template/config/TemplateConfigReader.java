@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,11 +51,11 @@
 package org.megatome.frame2.template.config;
 
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.Map;
 
 import org.megatome.frame2.template.TemplateException;
-import org.megatome.frame2.util.sax.ParserException;
 import org.megatome.frame2.util.sax.Frame2SAXReader;
+import org.megatome.frame2.util.sax.ParserException;
 
 /**
  * EventConfigReader parses the Event Configuration file. It uses the Sax
@@ -74,18 +74,18 @@ public class TemplateConfigReader {
 
     private Frame2SAXReader reader;
 
-    private PutParamTagHandler _putTagHandler;
+    private PutParamTagHandler putTagHandler;
 
-    private TemplateTagHandler _templateTagHandler;
+    private TemplateTagHandler templateTagHandler;
 
-    public TemplateConfigReader(HashMap definitions) {
-        _putTagHandler = new PutParamTagHandler();
-        _templateTagHandler = new TemplateTagHandler(_putTagHandler,
+    public TemplateConfigReader(Map definitions) {
+        putTagHandler = new PutParamTagHandler();
+        templateTagHandler = new TemplateTagHandler(putTagHandler,
                 definitions);
         reader = new Frame2SAXReader();
 
-        reader.setElementHandler(TEMPLATE, _templateTagHandler);
-        reader.setElementHandler(PUT, _putTagHandler);
+        reader.setElementHandler(TEMPLATE, templateTagHandler);
+        reader.setElementHandler(PUT, putTagHandler);
 
         // Now set the Elements which do not have handlers
         reader.setElement(TEMPLATES);

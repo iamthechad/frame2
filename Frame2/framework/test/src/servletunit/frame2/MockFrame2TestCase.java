@@ -64,24 +64,24 @@ public class MockFrame2TestCase extends TestCase {
         super(name);
     }
 
-    //HttpServletRequestSimulator _request;
-    Frame2HttpServletRequestSimulator _request;
+    //HttpServletRequestSimulator request;
+    Frame2HttpServletRequestSimulator request;
 
-    HttpServletResponseSimulator _response;
+    HttpServletResponseSimulator response;
 
-    MockFrame2ServletContextSimulator _context;
+    MockFrame2ServletContextSimulator context;
 
-    MockFrame2ServletConfigSimulator _config;
+    MockFrame2ServletConfigSimulator config;
 
-    ServletContextListener _listener;
+    ServletContextListener listener;
 
-    String _eventPath;
+    String eventPath;
 
-    boolean _isInitialized;
+    boolean isInitialized;
 
-    boolean _servletIsInitialized;
+    boolean servletIsInitialized;
 
-    HttpFrontController _servlet;
+    HttpFrontController servlet;
 
     /**
      * A check that every method should run to ensure that the base class setUp
@@ -89,7 +89,7 @@ public class MockFrame2TestCase extends TestCase {
      */
 
     private void confirmSetup() {
-        if (!_isInitialized) {
+        if (!isInitialized) {
             throw new AssertionFailedError(
                     "You are overriding the setUp() method without calling super.setUp().  You must call the superclass setUp() method in your TestCase subclass to ensure proper initialization.");
         }
@@ -102,53 +102,53 @@ public class MockFrame2TestCase extends TestCase {
      * object to use in this test.
      */
     protected void setUp() throws Exception {
-        if (_servlet == null) {
-            _servlet = new HttpFrontController();
+        if (servlet == null) {
+            servlet = new HttpFrontController();
         }
         LoggerFactory.setType("org.megatome.frame2.log.impl.StandardLogger",
                 getClass().getClassLoader());
-        _config = new MockFrame2ServletConfigSimulator();
-        //_request = new
-        // HttpServletRequestSimulator(_config.getServletContext());
-        _request = new Frame2HttpServletRequestSimulator(_config
+        config = new MockFrame2ServletConfigSimulator();
+        //request = new
+        // HttpServletRequestSimulator(config.getServletContext());
+        request = new Frame2HttpServletRequestSimulator(config
                 .getServletContext());
-        _response = new HttpServletResponseSimulator();
-        _context = (MockFrame2ServletContextSimulator)_config
+        response = new HttpServletResponseSimulator();
+        context = (MockFrame2ServletContextSimulator)config
                 .getServletContext();
-        _listener = new Frame2ContextListener();
-        _isInitialized = true;
+        listener = new Frame2ContextListener();
+        isInitialized = true;
 
         sendContextInitializedEvent(null, null);
 
-        _servlet.init(_config);
+        servlet.init(config);
     }
 
     public ServletContextListener getContextListener() {
-        return _listener;
+        return listener;
     }
 
     public void sendContextInitializedEvent(String key, String value) {
         if (key != null && value != null) {
-            _context.setInitParameter(key, value);
+            context.setInitParameter(key, value);
         }
-        _listener.contextInitialized(new ServletContextEvent(_context));
+        listener.contextInitialized(new ServletContextEvent(context));
     }
 
     public void sendContextDestroyedEvent() {
-        _listener.contextDestroyed(new ServletContextEvent(_context));
+        listener.contextDestroyed(new ServletContextEvent(context));
     }
 
     public void sendContextInitializedEvent(String key1, String value1,
             String key2, String value2) {
         if (key1 != null && value1 != null) {
-            _context.setInitParameter(key1, value1);
+            context.setInitParameter(key1, value1);
         }
 
         if (key2 != null && value2 != null) {
-            _context.setInitParameter(key2, value2);
+            context.setInitParameter(key2, value2);
         }
 
-        _listener.contextInitialized(new ServletContextEvent(_context));
+        listener.contextInitialized(new ServletContextEvent(context));
     }
 
     /**
@@ -156,7 +156,7 @@ public class MockFrame2TestCase extends TestCase {
      */
     public HttpServletRequest getRequest() {
         confirmSetup();
-        return _request;
+        return request;
     }
 
     // 	/**
@@ -172,7 +172,7 @@ public class MockFrame2TestCase extends TestCase {
     // 		if (requestWrapper == null) {
     // 			if (logger.isDebugEnabled())
     // 				logger.debug("Exiting getRequestWrapper()");
-    // 			return new HttpServletRequestWrapper(_request);
+    // 			return new HttpServletRequestWrapper(request);
     // 		} else {
     // 			if (logger.isDebugEnabled()) {
     // 				logger.debug(
@@ -202,7 +202,7 @@ public class MockFrame2TestCase extends TestCase {
     // 			throw new IllegalArgumentException("wrapper class cannot be null!");
     // 		else {
     // 			if (wrapper.getRequest() == null)
-    // 				wrapper.setRequest(_request);
+    // 				wrapper.setRequest(request);
     // 			_requestWrapper = wrapper;
     // 		}
     // 		if (logger.isDebugEnabled())
@@ -214,7 +214,7 @@ public class MockFrame2TestCase extends TestCase {
      */
     public HttpServletResponse getResponse() {
         confirmSetup();
-        return _response;
+        return response;
     }
 
     // 	/**
@@ -230,7 +230,7 @@ public class MockFrame2TestCase extends TestCase {
     // 		if (responseWrapper == null) {
     // 			if (logger.isDebugEnabled())
     // 				logger.debug("Exiting getResponseWrapper()");
-    // 			return new HttpServletResponseWrapper(_response);
+    // 			return new HttpServletResponseWrapper(response);
     // 		} else {
     // 			if (logger.isDebugEnabled()) {
     // 				logger.debug(
@@ -260,7 +260,7 @@ public class MockFrame2TestCase extends TestCase {
     // 			throw new IllegalArgumentException("wrapper class cannot be null!");
     // 		else {
     // 			if (wrapper.getResponse() == null)
-    // 				wrapper.setResponse(_response);
+    // 				wrapper.setResponse(response);
     // 			_responseWrapper = wrapper;
     // 		}
     // 		if (logger.isDebugEnabled())
@@ -272,17 +272,17 @@ public class MockFrame2TestCase extends TestCase {
      */
     public HttpSession getSession() {
         confirmSetup();
-        return _request.getSession(true);
+        return request.getSession(true);
     }
 
     public ServletContext getContext() {
         confirmSetup();
-        return _context;
+        return context;
     }
 
     public HttpFrontController getServlet() {
         confirmSetup();
-        return _servlet;
+        return servlet;
     }
 
     // 	/**
@@ -295,12 +295,12 @@ public class MockFrame2TestCase extends TestCase {
     // 			logger.debug("Entering getActionServlet()");
     // 		init();
     // 		try {
-    // 			if (!_servletIsInitialized) {
+    // 			if (!servletIsInitialized) {
     // 				if (logger.isDebugEnabled()) {
-    // 					logger.debug("getActionServlet() : intializing _servlet");
+    // 					logger.debug("getActionServlet() : intializing servlet");
     // 				}
     // 				this._servlet.init(config);
-    // 				_servletIsInitialized = true;
+    // 				servletIsInitialized = true;
     // 			}
     // 		} catch (ServletException e) {
     // 			if (logger.isDebugEnabled())
@@ -309,7 +309,7 @@ public class MockFrame2TestCase extends TestCase {
     // 		}
     // 		if (logger.isDebugEnabled())
     // 			logger.debug("Exiting getActionServlet()");
-    // 		return _servlet;
+    // 		return servlet;
     // 	}
 
     // 	/**
@@ -326,7 +326,7 @@ public class MockFrame2TestCase extends TestCase {
     // 		this._servlet = servlet;
     // 		if (logger.isDebugEnabled())
     // 			logger.debug("Exiting setActionServlet()");
-    // 		_servletIsInitialized = false;
+    // 		servletIsInitialized = false;
     // 	}
 
     /**
@@ -341,7 +341,7 @@ public class MockFrame2TestCase extends TestCase {
         confirmSetup();
 
         try {
-            _servlet.doPost(_request, _response);
+            servlet.doPost(request, response);
         } catch (ServletException se) {
             fail("Error running doEvent(): " + se.getRootCause().getClass()
                     + " - " + se.getRootCause().getMessage());
@@ -359,7 +359,7 @@ public class MockFrame2TestCase extends TestCase {
      */
     public void addRequestParameter(String parameterName, String parameterValue) {
         confirmSetup();
-        _request.addParameter(parameterName, parameterValue);
+        request.addParameter(parameterName, parameterValue);
     }
 
     /**
@@ -371,7 +371,7 @@ public class MockFrame2TestCase extends TestCase {
     public void addRequestParameter(String parameterName,
             String[] parameterValues) {
         confirmSetup();
-        _request.addParameter(parameterName, parameterValues);
+        request.addParameter(parameterName, parameterValues);
     }
 
     /**
@@ -384,16 +384,16 @@ public class MockFrame2TestCase extends TestCase {
 
     public void setRequestPathInfo(String pathInfo) {
         confirmSetup();
-        _eventPath = stripActionPath(pathInfo);
+        eventPath = stripActionPath(pathInfo);
 
-        _request.setPathInfo(_eventPath);
+        request.setPathInfo(eventPath);
     }
 
     public void setServletPath(String pathInfo) {
         confirmSetup();
-        _eventPath = stripActionPath(pathInfo);
+        eventPath = stripActionPath(pathInfo);
 
-        _request.setServletPath(_eventPath);
+        request.setServletPath(eventPath);
     }
 
     protected static String stripActionPath(String path) {
@@ -416,9 +416,9 @@ public class MockFrame2TestCase extends TestCase {
      */
     public void setInitParameter(String key, String value) {
         confirmSetup();
-        _config.setInitParameter(key, value);
-        _context.setInitParameter(key, value);
-        _servletIsInitialized = false;
+        config.setInitParameter(key, value);
+        context.setInitParameter(key, value);
+        servletIsInitialized = false;
     }
 
     /**
@@ -429,8 +429,8 @@ public class MockFrame2TestCase extends TestCase {
      */
     public void setContextDirectory(File contextDirectory) {
         confirmSetup();
-        _context.setContextDirectory(contextDirectory);
-        _servletIsInitialized = false;
+        context.setContextDirectory(contextDirectory);
+        servletIsInitialized = false;
     }
 
     /**
@@ -443,8 +443,8 @@ public class MockFrame2TestCase extends TestCase {
      */
     public void setConfigFile(String pathname) {
         confirmSetup();
-        _config.setInitParameter("config", pathname);
-        _servletIsInitialized = false;
+        config.setInitParameter("config", pathname);
+        servletIsInitialized = false;
     }
 
     /**
@@ -462,14 +462,14 @@ public class MockFrame2TestCase extends TestCase {
         // pull in the appropriate parts of the
         // web.xml file -- first the init-parameters
         Digester digester = new Digester();
-        digester.push(_config);
+        digester.push(config);
         digester.setValidating(false);
         digester.addCallMethod("web-app/servlet/init-param",
                 "setInitParameter", 2);
         digester.addCallParam("web-app/servlet/init-param/param-name", 0);
         digester.addCallParam("web-app/servlet/init-param/param-value", 1);
         try {
-            InputStream input = _context.getResourceAsStream(pathname);
+            InputStream input = context.getResourceAsStream(pathname);
             if (input == null)
                 throw new AssertionFailedError("Invalid pathname: " + pathname);
             digester.parse(input);
@@ -483,12 +483,12 @@ public class MockFrame2TestCase extends TestCase {
         // now the context parameters..
         digester = new Digester();
         digester.setValidating(false);
-        digester.push(_context);
+        digester.push(context);
         digester.addCallMethod("web-app/context-param", "setInitParameter", 2);
         digester.addCallParam("web-app/context-param/param-name", 0);
         digester.addCallParam("web-app/context-param/param-value", 1);
         try {
-            InputStream input = _context.getResourceAsStream(pathname);
+            InputStream input = context.getResourceAsStream(pathname);
             if (input == null)
                 throw new AssertionFailedError("Invalid pathname: " + pathname);
             digester.parse(input);
@@ -498,19 +498,19 @@ public class MockFrame2TestCase extends TestCase {
                     "Received an exception while loading web.xml - "
                             + e.getClass() + " : " + e.getMessage());
         }
-        _servletIsInitialized = false;
+        servletIsInitialized = false;
     }
 
     /**
      * Returns the forward sent to RequestDispatcher.
      */
     private String getActualForward() {
-        if (_response.containsHeader("Location")) {
-            return stripJSessionID(_response.getHeader("Location"));
+        if (response.containsHeader("Location")) {
+            return stripJSessionID(response.getHeader("Location"));
         }
         try {
-            String strippedForward = _request.getContextPath()
-                    + stripJSessionID(((ServletContextSimulator)_config
+            String strippedForward = request.getContextPath()
+                    + stripJSessionID(((ServletContextSimulator)config
                             .getServletContext())
                             .getRequestDispatcherSimulator().getForward());
             return strippedForward;
@@ -549,14 +549,14 @@ public class MockFrame2TestCase extends TestCase {
     public void verifyForward(String forwardName) throws AssertionFailedError {
         confirmSetup();
         //		verifyForwardPath(
-        //			_servlet,
-        //			_eventPath,
+        //			servlet,
+        //			eventPath,
         //			forwardName,
         //			getActualForward(),
         //			false,
-        //			_request,
-        //			_config.getServletContext(),
-        //			_config);
+        //			request,
+        //			config.getServletContext(),
+        //			config);
     }
 
     /**
@@ -571,7 +571,7 @@ public class MockFrame2TestCase extends TestCase {
     public void verifyForwardPath(String forwardPath)
             throws AssertionFailedError {
         confirmSetup();
-        forwardPath = _request.getContextPath() + forwardPath;
+        forwardPath = request.getContextPath() + forwardPath;
 
         String actualForward = getActualForward();
         if (actualForward == null) {
@@ -598,7 +598,7 @@ public class MockFrame2TestCase extends TestCase {
     // 			logger.debug("Entering verifyInputForward()");
     // 		init();
     // 		Common.verifyForwardPath(
-    // 			_servlet,
+    // 			servlet,
     // 			eventPath,
     // 			null,
     // 			getActualForward(),
@@ -707,7 +707,7 @@ public class MockFrame2TestCase extends TestCase {
     // 		init();
     // 		if (logger.isDebugEnabled())
     // 			logger.debug("Exiting getActionForm()");
-    // 		return Common.getActionForm(_servlet, eventPath, request, context);
+    // 		return Common.getActionForm(servlet, eventPath, request, context);
     // 	}
 
     // 	/**
@@ -785,10 +785,10 @@ public class MockFrame2TestCase extends TestCase {
     //	}
 
     protected void setUserRole(String role) {
-        _request.setUserRole(role);
+        request.setUserRole(role);
     }
 
     protected void setRemoteUser(String login) {
-        _request.setRemoteUser(login);
+        request.setRemoteUser(login);
     }
 }

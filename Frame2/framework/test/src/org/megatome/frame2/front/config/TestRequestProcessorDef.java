@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,12 +54,6 @@ import junit.framework.TestCase;
 
 import org.megatome.frame2.front.config.RequestProcessorDef;
 
-/**
- * @author cjohnston
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
 public class TestRequestProcessorDef extends TestCase {
 
    /**

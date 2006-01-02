@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ import java.util.Collection;
  */
 public class MappingsException extends IntrospectorException {
 
-   private MappingException[] _mappingExceptions;
+   private MappingException[] mappingExceptions;
 
    static private MappingException[] TYPE_ARRAY = new MappingException[0];
 
@@ -68,7 +68,7 @@ public class MappingsException extends IntrospectorException {
 	 * @param errors Collection of errors to aggregate
 	 */
 	MappingsException(Collection errors) {
-      _mappingExceptions = (MappingException[]) errors.toArray(TYPE_ARRAY);
+      mappingExceptions = (MappingException[]) errors.toArray(TYPE_ARRAY);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class MappingsException extends IntrospectorException {
 	 */
 	MappingsException(String message,Collection errors) {
 		super(message);
-      _mappingExceptions = (MappingException[]) errors.toArray(TYPE_ARRAY);
+      mappingExceptions = (MappingException[]) errors.toArray(TYPE_ARRAY);
 	}
    
    /**
@@ -86,6 +86,6 @@ public class MappingsException extends IntrospectorException {
     * @return An array of all errors generated for a map call.
     */
    public MappingException[] getMappingExceptions() {
-      return _mappingExceptions;
+      return mappingExceptions;
    }
 }

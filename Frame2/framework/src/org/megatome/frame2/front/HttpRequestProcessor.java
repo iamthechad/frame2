@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,11 +78,11 @@ import org.megatome.frame2.validator.CommonsValidatorException;
  * together the data and logic necessary for processing the request.
  */
 public class HttpRequestProcessor extends RequestProcessorBase {
-    protected ServletContext _servletContext;
+    protected ServletContext servletContext;
 
-    protected HttpServletRequest _request;
+    protected HttpServletRequest request;
 
-    private HttpServletResponse _response;
+    private HttpServletResponse response;
 
     private Map requestParams;
 
@@ -102,11 +102,11 @@ public class HttpRequestProcessor extends RequestProcessorBase {
     public HttpRequestProcessor(Configuration config, ServletContext context,
             HttpServletRequest request, HttpServletResponse response) {
         super(config);
-        this._servletContext = context;
+        this.servletContext = context;
         this.context = new ContextImpl();
-        this._request = request;
-        this._response = response;
-        this.requestParams = getRequestParameterMap(_request);
+        this.request = request;
+        this.response = response;
+        this.requestParams = getRequestParameterMap(request);
     }
 
     /**
@@ -124,7 +124,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
      *         configuration.
      */
     public Event getEvent() throws ConfigException {
-        String eventName = getEventName(_request.getServletPath());
+        String eventName = getEventName(request.getServletPath());
         Event event = getConfig().getEventProxy(eventName).getEvent();
         if (event != null) {
             event.setName(eventName);
@@ -180,7 +180,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         }
 
         // always put error in request.
-        _request.setAttribute(Globals.ERRORS, errors);
+        request.setAttribute(Globals.ERRORS, errors);
         return passed;
     }
 
@@ -192,13 +192,13 @@ public class HttpRequestProcessor extends RequestProcessorBase {
     }
 
     void forwardTo(String view) throws ServletException, IOException {
-        _servletContext.getRequestDispatcher(view).forward(_request, _response);
+        servletContext.getRequestDispatcher(view).forward(request, response);
     }
 
     void redirectTo(String view) throws IOException {
         String encodedURL = encodeRedirectURL(view);
 
-        _response.sendRedirect(encodedURL);
+        response.sendRedirect(encodedURL);
     }
 
     private String encodeRedirectURL(String view) {
@@ -248,7 +248,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         String view = null;
         ForwardProxy result = null;
         try {
-            String eventName = getEventName(_request.getServletPath());
+            String eventName = getEventName(request.getServletPath());
             Event event = getEvent();
 
             if (requestParams == null) {
@@ -264,15 +264,15 @@ public class HttpRequestProcessor extends RequestProcessorBase {
             }
 
             if (!isUserAuthorizedForEvent(eventName)) {
-                String login = _request.getRemoteUser();
+                String login = request.getRemoteUser();
 
                 login = (login != null) ? login : "";
                 throw new AuthorizationException("User " + login
                         + " not authorized for mapping " + eventName);
             }
-            //requestParams = getRequestParameterMap(_request);
+            //requestParams = getRequestParameterMap(request);
 
-            //if (isCancelRequest(_request)) {
+            //if (isCancelRequest(request)) {
             if (isCancelRequest(requestParams)) {
                 result = getConfig().cancelViewFor(eventName,
                         Configuration.HTML_TOKEN);
@@ -347,9 +347,9 @@ public class HttpRequestProcessor extends RequestProcessorBase {
      * @see org.megatome.frame2.front.RequestProcessor#release()
      */
     public void release() {
-        _servletContext = null;
-        _request = null;
-        _response = null;
+        servletContext = null;
+        request = null;
+        response = null;
         errors = null; // NIT: this is a little off, there appears to be a
                         // hand-off
 
@@ -367,7 +367,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 
         if (roles.length > 0) {
             for (int i = 0; (i < roles.length) && !result; i++) {
-                result = _request.isUserInRole(roles[i]);
+                result = request.isUserInRole(roles[i]);
             }
         } else {
             result = true;
@@ -376,10 +376,10 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         return result;
     }
 
-    private Map getRequestParameterMap(HttpServletRequest request) {
+    private Map getRequestParameterMap(HttpServletRequest rq) {
         Map parameters = new HashMap();
 
-        if (isMultipartRequest(request)) {
+        if (isMultipartRequest(rq)) {
 
             try {
                 Class.forName("org.apache.commons.fileupload.DiskFileUpload");
@@ -397,19 +397,19 @@ public class HttpRequestProcessor extends RequestProcessorBase {
                 // errors
                 // when trying to instantiate this class when the file upload
                 // library is missing
-                parameters = FileUploadSupport.processMultipartRequest(request);
+                parameters = FileUploadSupport.processMultipartRequest(rq);
             } catch (Frame2Exception e) {
                 fileUploadException = e;
                 return null;
             }
         } else {
-            parameters.putAll(request.getParameterMap());
+            parameters.putAll(rq.getParameterMap());
         }
         return parameters;
     }
 
-    private final boolean isMultipartRequest(final HttpServletRequest request) {
-        String contentType = request.getHeader(CONTENT_TYPE);
+    private final boolean isMultipartRequest(final HttpServletRequest rq) {
+        String contentType = rq.getHeader(CONTENT_TYPE);
         if ((contentType == null) || (!contentType.startsWith(MULTIPART))) {
             return false;
         }
@@ -417,20 +417,20 @@ public class HttpRequestProcessor extends RequestProcessorBase {
     }
 
     private class ContextImpl implements ContextWrapper {
-        private Map _initParms;
+        private Map initParms;
 
-        private Set _redirectAttrs = new TreeSet();
+        private Set redirectAttrs = new TreeSet();
 
         public ServletContext getServletContext() {
-            return _servletContext;
+            return servletContext;
         }
 
         public Object getRequestAttribute(String key) {
-            return _request.getAttribute(key);
+            return request.getAttribute(key);
         }
 
         public String[] getRedirectAttributes() {
-            return (String[])_redirectAttrs.toArray(new String[0]);
+            return (String[])redirectAttrs.toArray(new String[0]);
         }
 
         public Errors getRequestErrors() {
@@ -438,49 +438,49 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         }
 
         public Object getSessionAttribute(String key) {
-            return _request.getSession().getAttribute(key);
+            return request.getSession().getAttribute(key);
         }
 
         public void setRequestAttribute(String key, Object value) {
-            _request.setAttribute(key, value);
+            request.setAttribute(key, value);
         }
 
         public void setRequestAttribute(String key, Object value,
                 boolean redirectAttr) {
             if (redirectAttr) {
-                _redirectAttrs.add(key);
+                redirectAttrs.add(key);
             } else {
-                _redirectAttrs.remove(key);
+                redirectAttrs.remove(key);
             }
 
             setRequestAttribute(key, value);
         }
 
         public void setSessionAttribute(String key, Object value) {
-            _request.getSession().setAttribute(key, value);
+            request.getSession().setAttribute(key, value);
         }
 
         public void removeRequestAttribute(String key) {
-            _request.removeAttribute(key);
-            _redirectAttrs.remove(key);
+            request.removeAttribute(key);
+            redirectAttrs.remove(key);
         }
 
         public void removeSessionAttribute(String key) {
-            _request.getSession().removeAttribute(key);
+            request.getSession().removeAttribute(key);
         }
 
         public String getInitParameter(String key) {
             String result = null;
 
-            if (_initParms != null) {
-                result = (String)_initParms.get(key);
+            if (initParms != null) {
+                result = (String)initParms.get(key);
             }
 
             return result;
         }
 
         public void setInitParameters(Map initParms) {
-            _initParms = initParms;
+            this.initParms = initParms;
         }
     }
 }

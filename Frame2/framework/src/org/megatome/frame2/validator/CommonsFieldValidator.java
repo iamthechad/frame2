@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import org.apache.commons.validator.ValidatorAction;
 import org.apache.commons.validator.ValidatorUtil;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.errors.impl.ErrorImpl;
+import org.megatome.frame2.errors.impl.ErrorFactory;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
 
@@ -126,8 +126,8 @@ public class CommonsFieldValidator {
         if (arg != null) {
             String fieldMsgKey = arg.getKey();
             if (fieldMsgKey != null) {
-                Error fieldMsg = new ErrorImpl(fieldMsgKey);
-                Error validateError = new ErrorImpl(validatorKey, fieldMsg,
+                Error fieldMsg = ErrorFactory.createError(fieldMsgKey);
+                Error validateError = ErrorFactory.createError(validatorKey, fieldMsg,
                         validatorErrorValue1, validatorErrorValue2);
                 errors.add(validateError);
             }
@@ -848,7 +848,7 @@ public class CommonsFieldValidator {
                     if (arg != null) {
                         String fieldMsgKey = arg.getKey();
                         if (fieldMsgKey != null) {
-                            fieldMsg = new ErrorImpl(fieldMsgKey);
+                            fieldMsg = ErrorFactory.createError(fieldMsgKey);
                         }
                     }
                     addError(va, errors, field, fieldMsg);

@@ -1,3 +1,53 @@
+/*
+ * ====================================================================
+ *
+ * Frame2 Open Source License
+ *
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by
+ *        Megatome Technologies."
+ *    Alternately, this acknowlegement may appear in the software itself,
+ *    if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "The Frame2 Project", and "Frame2", 
+ *    must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
+ *    permission, please contact iamthechad@sourceforge.net.
+ *
+ * 5. Products derived from this software may not be called "Frame2"
+ *    nor may "Frame2" appear in their names without prior written
+ *    permission of Megatome Technologies.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL MEGATOME TECHNOLOGIES OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ */
 package org.megatome.frame2.validator;
 
 public class CommonsValidatorBean {
@@ -9,56 +59,56 @@ public class CommonsValidatorBean {
       super();
    }
    
-   String _empty;
-   String _email;
-   String _required;
-   String _phone;
-   String _byte;
-   String _short;
-   String _integer;
-   String _long;
-   String _float;
-   String _double;
-   String _date;
-   String _creditCard;
-   String _minLength;
-   String _maxLength;
-   String _twoField1;
-   String _twoField2;
+   String empty;
+   String email;
+   String required;
+   String phone;
+   String byteCV;
+   String shortCV;
+   String integer;
+   String longCV;
+   String floatCV;
+   String doubleCV;
+   String date;
+   String creditCard;
+   String minLength;
+   String maxLength;
+   String twoField1;
+   String twoField2;
          
 
    /**
-    * Returns the _email.
+    * Returns the email.
     * @return String
     */
    public String getEmail() {
-      return _email;
+      return email;
    }
 
    /**
-    * Returns the _empty.
+    * Returns the empty.
     * @return String
     */
    public String getEmpty() {
-      return _empty;
+      return empty;
    }
 
    /**
-    * Sets the _email.
-    * @param _email The _email to set
+    * Sets the email.
+    * @param email The email to set
     */
    public void setEmail(String email) {
-      this._email = email;
+      this.email = email;
    }
    
    
 
    /**
-    * Sets the _empty.
-    * @param _empty The _empty to set
+    * Sets the empty.
+    * @param empty The empty to set
     */
    public void setEmpty(String empty) {
-      this._empty = empty;
+      this.empty = empty;
    }
 
    /**
@@ -66,7 +116,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getRequired() {
-      return _required;
+      return required;
    }
 
    /**
@@ -74,7 +124,7 @@ public class CommonsValidatorBean {
     * @param required The required to set
     */
    public void setRequired(String required) {
-      _required = required;
+      this.required = required;
    }
 
    /**
@@ -82,7 +132,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getPhone() {
-      return _phone;
+      return phone;
    }
 
    /**
@@ -90,7 +140,7 @@ public class CommonsValidatorBean {
     * @param phone The phone to set
     */
    public void setPhone(String phone) {
-      _phone = phone;
+      this.phone = phone;
    }
 
    /**
@@ -98,7 +148,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getByte() {
-      return _byte;
+      return byteCV;
    }
 
    /**
@@ -106,7 +156,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getShort() {
-      return _short;
+      return shortCV;
    }
 
    /**
@@ -114,7 +164,7 @@ public class CommonsValidatorBean {
     * @param b The b to set
     */
    public void setByte(String b) {
-      _byte = b;
+      this.byteCV = b;
    }
 
    /**
@@ -122,7 +172,7 @@ public class CommonsValidatorBean {
     * @param s The s to set
     */
    public void setShort(String s) {
-      _short = s;
+      this.shortCV = s;
    }
 
    /**
@@ -130,7 +180,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getDouble() {
-      return _double;
+      return doubleCV;
    }
 
    /**
@@ -138,7 +188,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getFloat() {
-      return _float;
+      return floatCV;
    }
 
    /**
@@ -146,7 +196,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getInteger() {
-      return _integer;
+      return integer;
    }
 
    /**
@@ -154,7 +204,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getLong() {
-      return _long;
+      return longCV;
    }
 
    /**
@@ -162,7 +212,7 @@ public class CommonsValidatorBean {
     * @param d The d to set
     */
    public void setDouble(String d) {
-      _double = d;
+      this.doubleCV = d;
    }
 
    /**
@@ -170,7 +220,7 @@ public class CommonsValidatorBean {
     * @param f The f to set
     */
    public void setFloat(String f) {
-      _float = f;
+      this.floatCV = f;
    }
 
    /**
@@ -178,7 +228,7 @@ public class CommonsValidatorBean {
     * @param integer The integer to set
     */
    public void setInteger(String integer) {
-      _integer = integer;
+      this.integer = integer;
    }
 
    /**
@@ -186,7 +236,7 @@ public class CommonsValidatorBean {
     * @param l The l to set
     */
    public void setLong(String l) {
-      _long = l;
+      this.longCV = l;
    }
 
    /**
@@ -194,7 +244,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getDate() {
-      return _date;
+      return date;
    }
 
    /**
@@ -202,7 +252,7 @@ public class CommonsValidatorBean {
     * @param date The date to set
     */
    public void setDate(String date) {
-      _date = date;
+      this.date = date;
    }
 
    /**
@@ -210,7 +260,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getCreditCard() {
-      return _creditCard;
+      return creditCard;
    }
 
    /**
@@ -218,7 +268,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getMaxLength() {
-      return _maxLength;
+      return maxLength;
    }
 
    /**
@@ -226,7 +276,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getMinLength() {
-      return _minLength;
+      return minLength;
    }
 
    /**
@@ -234,7 +284,7 @@ public class CommonsValidatorBean {
     * @param creditCard The creditCard to set
     */
    public void setCreditCard(String creditCard) {
-      _creditCard = creditCard;
+      this.creditCard = creditCard;
    }
 
    /**
@@ -242,7 +292,7 @@ public class CommonsValidatorBean {
     * @param maxLength The maxLength to set
     */
    public void setMaxLength(String maxLength) {
-      _maxLength = maxLength;
+      this.maxLength = maxLength;
    }
 
    /**
@@ -250,35 +300,35 @@ public class CommonsValidatorBean {
     * @param minLength The minLength to set
     */
    public void setMinLength(String minLength) {
-      _minLength = minLength;
+      this.minLength = minLength;
    }
 
    /**
     * @return
     */
    public String getTwoField1() {
-      return _twoField1;
+      return twoField1;
    }
 
    /**
     * @return
     */
    public String getTwoField2() {
-      return _twoField2;
+      return twoField2;
    }
 
    /**
     * @param string
     */
    public void setTwoField1(String string) {
-      _twoField1 = string;
+      this.twoField1 = string;
    }
 
    /**
     * @param string
     */
    public void setTwoField2(String string) {
-      _twoField2 = string;
+      this.twoField2 = string;
    }
 
 }

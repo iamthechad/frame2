@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,9 +68,9 @@ public class SOAPFault {
 
     static public final String SOAP_URI = "http://schemas.xmlsoap.org/soap/envelope/";
 
-    private String _detailMessage;
+    private String detailMessage;
 
-    private boolean _encode;
+    private boolean encode;
 
     /**
      * Get the element representation of the fault. This representation can be
@@ -80,7 +80,7 @@ public class SOAPFault {
      */
     public Element getElement() throws SOAPException {
         try {
-            String body = getBody(_detailMessage);
+            String body = getBody(detailMessage);
 
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Creating element for SOAP fault : " + body);
@@ -100,7 +100,7 @@ public class SOAPFault {
         final String faultBodyEnd = "</detail></SOAP-ENV:Fault>";
 
         if (message != null) {
-            if (_encode == true) {
+            if (encode == true) {
                 message = DOMStreamConverter.encode(message);
             }
 
@@ -124,7 +124,7 @@ public class SOAPFault {
      * @param b
      */
     public void setDetailMessage(String message, boolean encode) {
-        _detailMessage = message;
-        _encode = encode;
+        detailMessage = message;
+        this.encode = encode;
     }
 }

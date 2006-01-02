@@ -376,7 +376,8 @@
             breakiterator="yes">
             <packageset dir="./framework/src" defaultexcludes="yes">
      			<include name="org/megatome/frame2/errors/**" />
-            	<exclude name="org/megatome/frame2/errors/impl/**"/>
+            	<exclude name="org/megatome/frame2/errors/impl/ErrorImpl.java"/>
+            	<exclude name="org/megatome/frame2/errors/impl/ErrorsImpl.java"/>
      			<include name="org/megatome/frame2/event/**"/>
      			<include name="org/megatome/frame2/jaxb/**"/>
      			<include name="org/megatome/frame2/log/**"/>

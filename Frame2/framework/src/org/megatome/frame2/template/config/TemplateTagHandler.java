@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,9 +70,9 @@ class TemplateTagHandler extends ConfigElementHandler {
     public static final String NAME = "name";
     public static final String PATH = "path";
 
-    private PutParamTagHandler _putTagHandler;
-    private Map _definitions = new HashMap();
-    private TemplateDef _templateDef;
+    private PutParamTagHandler putTagHandler;
+    private Map definitions = new HashMap();
+    private TemplateDef templateDef;
 
     /**
      * Constructs an EventHandlerTagHandler.
@@ -80,34 +80,34 @@ class TemplateTagHandler extends ConfigElementHandler {
      * @param ForwardTagHandler
      */
     public TemplateTagHandler(PutParamTagHandler putTagHandler, Map definitions) {
-        _definitions = definitions;
-        _putTagHandler = putTagHandler;
+        this.definitions = definitions;
+        this.putTagHandler = putTagHandler;
     }
 
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) {
-        _templateDef = new TemplateDef();
-        _templateDef.setName(attributes.getValue(NAME));
-        _templateDef.setPath(attributes.getValue(PATH));
+        templateDef = new TemplateDef();
+        templateDef.setName(attributes.getValue(NAME));
+        templateDef.setPath(attributes.getValue(PATH));
     }
 
     public void endElement(String uri, String localName, String qName)
             throws ParserException {
-        _templateDef.setPutParams(_putTagHandler.getPutParams());
-        _putTagHandler.clear();
-        if (_definitions.containsKey(_templateDef.getName())) {
+        templateDef.setPutParams(putTagHandler.getPutParams());
+        putTagHandler.clear();
+        if (definitions.containsKey(templateDef.getName())) {
             // do not add duplicate named plugin defs to list.
             LOGGER.severe("Error: Duplicate definition "
-                    + _templateDef.getName());
+                    + templateDef.getName());
             throw new ParserException("Error: Duplicate definition "
-                    + _templateDef.getName());
+                    + templateDef.getName());
         }
-        _definitions.put(_templateDef.getName(), _templateDef);
+        definitions.put(templateDef.getName(), templateDef);
     }
 
     public void clear() {
-        _putTagHandler.clear();
-        _definitions.clear();
-        _templateDef = null;
+        putTagHandler.clear();
+        definitions.clear();
+        templateDef = null;
     }
 }

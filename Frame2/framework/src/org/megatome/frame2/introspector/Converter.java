@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,41 +63,41 @@ import org.apache.commons.fileupload.FileItem;
  * setting of properties.
  */
 final class Converter {
-   static private Map _converterMap = new HashMap();
+   static private Map converterMap = new HashMap();
 
    static {
-      _converterMap.put(BigDecimal.class, new BigDecimalConverter());
-		_converterMap.put(BigDecimal[].class, new BigDecimalConverter());
-      _converterMap.put(BigInteger.class, new BigIntegerConverter());
-		_converterMap.put(BigInteger[].class, new BigIntegerConverter());
-      _converterMap.put(Boolean.TYPE, new BooleanConverter());
-      _converterMap.put(Boolean.class, new BooleanConverter());
-		_converterMap.put(Boolean[].class, new BooleanConverter());
-      _converterMap.put(Byte.TYPE, new ByteConverter());
-      _converterMap.put(Byte.class, new ByteConverter());
-		_converterMap.put(Byte[].class, new ByteConverter());
-      _converterMap.put(Character.TYPE, new CharacterConverter());
-      _converterMap.put(Character.class, new CharacterConverter());
-		_converterMap.put(Character[].class, new CharacterConverter());
-      _converterMap.put(Double.TYPE, new DoubleConverter());
-      _converterMap.put(Double.class, new DoubleConverter());
-		_converterMap.put(Double[].class, new DoubleConverter());
-      _converterMap.put(Float.TYPE, new FloatConverter());
-      _converterMap.put(Float.class, new FloatConverter());
-		_converterMap.put(Float[].class, new FloatConverter());
-      _converterMap.put(Integer.TYPE, new IntegerConverter());
-      _converterMap.put(Integer.class, new IntegerConverter());
-		_converterMap.put(Integer[].class, new IntegerConverter());
-      _converterMap.put(Long.TYPE, new LongConverter());
-      _converterMap.put(Long.class, new LongConverter());
-		_converterMap.put(Long[].class, new LongConverter());
-      _converterMap.put(Short.TYPE, new ShortConverter());
-      _converterMap.put(Short.class, new ShortConverter());
-		_converterMap.put(Short[].class, new ShortConverter());
-      _converterMap.put(StringBuffer.class, new StringBufferConverter());
-		_converterMap.put(StringBuffer[].class, new StringBufferConverter());
-      _converterMap.put(String.class, new StringConverter());
-      _converterMap.put(String[].class, new StringConverter());
+      converterMap.put(BigDecimal.class, new BigDecimalConverter());
+		converterMap.put(BigDecimal[].class, new BigDecimalConverter());
+      converterMap.put(BigInteger.class, new BigIntegerConverter());
+		converterMap.put(BigInteger[].class, new BigIntegerConverter());
+      converterMap.put(Boolean.TYPE, new BooleanConverter());
+      converterMap.put(Boolean.class, new BooleanConverter());
+		converterMap.put(Boolean[].class, new BooleanConverter());
+      converterMap.put(Byte.TYPE, new ByteConverter());
+      converterMap.put(Byte.class, new ByteConverter());
+		converterMap.put(Byte[].class, new ByteConverter());
+      converterMap.put(Character.TYPE, new CharacterConverter());
+      converterMap.put(Character.class, new CharacterConverter());
+		converterMap.put(Character[].class, new CharacterConverter());
+      converterMap.put(Double.TYPE, new DoubleConverter());
+      converterMap.put(Double.class, new DoubleConverter());
+		converterMap.put(Double[].class, new DoubleConverter());
+      converterMap.put(Float.TYPE, new FloatConverter());
+      converterMap.put(Float.class, new FloatConverter());
+		converterMap.put(Float[].class, new FloatConverter());
+      converterMap.put(Integer.TYPE, new IntegerConverter());
+      converterMap.put(Integer.class, new IntegerConverter());
+		converterMap.put(Integer[].class, new IntegerConverter());
+      converterMap.put(Long.TYPE, new LongConverter());
+      converterMap.put(Long.class, new LongConverter());
+		converterMap.put(Long[].class, new LongConverter());
+      converterMap.put(Short.TYPE, new ShortConverter());
+      converterMap.put(Short.class, new ShortConverter());
+		converterMap.put(Short[].class, new ShortConverter());
+      converterMap.put(StringBuffer.class, new StringBufferConverter());
+		converterMap.put(StringBuffer[].class, new StringBufferConverter());
+      converterMap.put(String.class, new StringConverter());
+      converterMap.put(String[].class, new StringConverter());
    }
 
    private Converter() { // Non-public ctor
@@ -124,7 +124,7 @@ final class Converter {
          throw new IllegalArgumentException("Conversion from non-string types not supported");
       }
 
-      TypeConverter converter = (TypeConverter) _converterMap.get(type);
+      TypeConverter converter = (TypeConverter) converterMap.get(type);
 
       if (converter != null) {
          return converter.convert(strValue);
@@ -154,7 +154,7 @@ final class Converter {
 			throw new IllegalArgumentException("Conversion from non-string types not supported");
 		}
 
-		TypeConverter converter = (TypeConverter) _converterMap.get(type);
+		TypeConverter converter = (TypeConverter) converterMap.get(type);
 
 		if (converter != null) {
 			return converter.convertToArray(strValue);

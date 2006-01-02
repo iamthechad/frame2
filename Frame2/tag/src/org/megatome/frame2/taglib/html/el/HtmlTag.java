@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ public class HtmlTag extends BaseHtmlTag {
    }   
    
    public void setTagName() {
-      _tagName = Constants.HTML_TAG;
+      tagName = Constants.HTML_TAG;
    }
    
    protected String genXHtmlTagAttr() {

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,11 +72,11 @@ public class CommonsValidatorWrapper {
    //public static final String MAPPINGS_FILE = "commons-validation-mappings.xml";
    //public static final String ERRORS_KEY = "org.megatome.frame2.errors.Errors";   
           
-   static String _filePath = "/WEB-INF/commonsvalidator";
-   static String _rulesFile = Globals.RULES_FILE;
-   static String _mappingsFile = Globals.MAPPINGS_FILE;
+   static String cvFilePath = "/WEB-INF/commonsvalidator";
+   static String cvRulesFile = Globals.RULES_FILE;
+   static String cvMappingsFile = Globals.MAPPINGS_FILE;
    
-   static ValidatorResources _validatorResources;
+   static ValidatorResources validatorResources;
    
    private static Logger LOGGER = LoggerFactory.instance(CommonsValidatorWrapper.class.getName());
 
@@ -85,24 +85,24 @@ public class CommonsValidatorWrapper {
    public static void load(ServletContext context)
       throws CommonsValidatorException {
 
-      _validatorResources = new ValidatorResources();  
+      validatorResources = new ValidatorResources();  
       
       List fileNames = new ArrayList();
-      fileNames.add(_rulesFile);
-      fileNames.add(_mappingsFile);
+      fileNames.add(cvRulesFile);
+      fileNames.add(cvMappingsFile);
 
       for (int i = 0; i < fileNames.size(); i++) {
-         String filePath =  _filePath + Globals.FORWARD_SLASH + fileNames.get(i);
+         String filePath =  cvFilePath + Globals.FORWARD_SLASH + fileNames.get(i);
          InputStream in =
             context.getResourceAsStream(filePath);
          if (in == null) {
-             _validatorResources = null;
+             validatorResources = null;
             throw new CommonsValidatorException("invalid filePath: " + filePath);             
          }
          try {
-            ValidatorResourcesInitializer.initialize(_validatorResources, in);
+            ValidatorResourcesInitializer.initialize(validatorResources, in);
          } catch (IOException e) {
-            _validatorResources = null;
+            validatorResources = null;
             throw new CommonsValidatorException(e);              
          }
       }
@@ -110,7 +110,7 @@ public class CommonsValidatorWrapper {
    }
 
    public static ValidatorResources getValidatorResources() {
-      return _validatorResources;
+      return validatorResources;
    }
 
    /**
@@ -118,7 +118,7 @@ public class CommonsValidatorWrapper {
     * @return String
     */
    public static String getFilePath() {
-      return _filePath;
+      return cvFilePath;
    }
 
    /**
@@ -126,7 +126,7 @@ public class CommonsValidatorWrapper {
     * @param filePath The filePath to set
     */
    public static void setFilePath(String filePath) {
-      _filePath = filePath;
+      cvFilePath = filePath;
    }
    
       
@@ -137,7 +137,7 @@ public class CommonsValidatorWrapper {
     */
    public static void validate(String beanName,  Object o, Errors errors) {
       
-      Validator validator = new Validator(_validatorResources, beanName);
+      Validator validator = new Validator(validatorResources, beanName);
       // add the name bean to the validator as a resource
       // for the validations to be performed on.
       validator.addResource(Validator.BEAN_KEY, o);
@@ -156,7 +156,7 @@ public class CommonsValidatorWrapper {
     * @return String
     */
    public static String getMappingsFile() {
-      return _mappingsFile;
+      return cvMappingsFile;
    }
 
    /**
@@ -164,7 +164,7 @@ public class CommonsValidatorWrapper {
     * @return String
     */
    public static String getRulesFile() {
-      return _rulesFile;
+      return cvRulesFile;
    }
 
    /**
@@ -172,7 +172,7 @@ public class CommonsValidatorWrapper {
     * @param mappingsFile The mappingsFile to set
     */
    public static void setMappingsFile(String mappingsFile) {
-      _mappingsFile = mappingsFile;
+      cvMappingsFile = mappingsFile;
    }
 
    /**
@@ -180,14 +180,14 @@ public class CommonsValidatorWrapper {
     * @param rulesFile The rulesFile to set
     */
    public static void setRulesFile(String rulesFile) {
-      _rulesFile = rulesFile;
+      cvRulesFile = rulesFile;
    }
    
    /**
     *  Release the validatorResources object.
     */
    public static void release() {
-      _validatorResources = null;
+      validatorResources = null;
    }
 
 }

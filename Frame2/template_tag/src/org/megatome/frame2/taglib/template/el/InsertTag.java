@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,8 +71,8 @@ import org.megatome.frame2.template.config.TemplateDef;
 
 public class InsertTag extends BaseFrame2Tag {
 
-   private Map _parameters = new HashMap();
-   private TemplateDef _def = null;
+   private Map parameters = new HashMap();
+   private TemplateDef def = null;
    /**
     * 
     */
@@ -95,30 +95,30 @@ public class InsertTag extends BaseFrame2Tag {
    }
 
    public Map getParameterMap() {
-      return _parameters;
+      return parameters;
    }
 
    public Iterator getParameterNames() {
-      return _parameters.keySet().iterator();
+      return parameters.keySet().iterator();
    }
 
    public void addParameter(String name, String value) {
       String[] newValues = null;
-      if (_parameters.containsKey(name)) {
-         String[] origValues = (String[]) _parameters.get(name);
+      if (parameters.containsKey(name)) {
+         String[] origValues = (String[]) parameters.get(name);
          newValues = new String[origValues.length + 1];
          System.arraycopy(origValues, 0, newValues, 0, origValues.length);
       } else {
          newValues = new String[1];
       }
       newValues[newValues.length - 1] = value;
-      _parameters.put(name, newValues);
+      parameters.put(name, newValues);
    }
 
    public String getParameter(String name) {
       String retValue = null;
-      if (_parameters.containsKey(name)) {
-         String[] paramValues = (String[]) _parameters.get(name);
+      if (parameters.containsKey(name)) {
+         String[] paramValues = (String[]) parameters.get(name);
          retValue = paramValues[0];
       }
 
@@ -126,7 +126,7 @@ public class InsertTag extends BaseFrame2Tag {
    }
 
    public String[] getParameterValues(String name) {
-      return (String[]) _parameters.get(name);
+      return (String[]) parameters.get(name);
    }
 
    public void addParamsToRequest() {
@@ -146,8 +146,8 @@ public class InsertTag extends BaseFrame2Tag {
    public void doFinally() {
       super.doFinally();
       pageContext.removeAttribute(TemplateConstants.FRAME2_INSERT_KEY);
-      _parameters.clear();
-      _def = null;
+      parameters.clear();
+      def = null;
    }
 
    /**
@@ -165,7 +165,7 @@ public class InsertTag extends BaseFrame2Tag {
 
 			RequestDispatcher rd =
 			    pageContext.getRequest().getRequestDispatcher(
-			       _def.getTemplateJspPath());
+			       def.getTemplateJspPath());
 			rd.include(pageContext.getRequest(), wrapper);
 
       } catch (ServletException e) {
@@ -185,24 +185,24 @@ public class InsertTag extends BaseFrame2Tag {
       String definition = evaluateStringAttribute(TemplateConstants.DEFINITION);
 
       try {
-         _def = TemplateConfigFactory.instance().getDefinition(definition);
+         def = TemplateConfigFactory.instance().getDefinition(definition);
       } catch (TemplateException e) {
          // We'll throw an error in just a minute, so an empty catch is OK
       }
 
-      if (_def == null) {
+      if (def == null) {
          throw new JspException(
             "Could not access definition for template \"" + definition + "\"");
       }
       pageContext.setAttribute(
          TemplateConstants.FRAME2_INSERT_KEY,
-         _def,
+         def,
          PageContext.REQUEST_SCOPE);
 
       return BodyTag.EVAL_BODY_BUFFERED;
    }
 
    protected void setTagName() {
-      _tagName = TemplateConstants.INSERT_TAG;
+      tagName = TemplateConstants.INSERT_TAG;
    }
 }

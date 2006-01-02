@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ import org.megatome.app.jaxbgen.impl.ACKImpl;
 import org.megatome.app.jaxbgen.impl.NACKImpl;
 import org.megatome.app.jaxbgen.impl.UserImpl;
 import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.errors.impl.ErrorsImpl;
+import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.util.Helper;
 
 public class TestUser extends TestCase {
@@ -70,7 +70,7 @@ public class TestUser extends TestCase {
    public void testUser() {
 		UserImpl user = makeFred();
 
-      Errors errors = new ErrorsImpl();
+      Errors errors = ErrorsFactory.newInstance();
       
       assertTrue(user.validate(errors));
       assertTrue(errors.isEmpty());

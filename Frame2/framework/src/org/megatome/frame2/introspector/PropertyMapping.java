@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,12 +55,12 @@ package org.megatome.frame2.introspector;
  * The property may be indexed, nested, or both.
  */
 class PropertyMapping {
-   private Object _bean;
-   private String _key;
+   private Object bean;
+   private String key;
 
    PropertyMapping(Object bean, String key) {
-      _bean = bean;
-      _key = key;
+      this.bean = bean;
+      this.key = key;
    }
 
    /**
@@ -69,7 +69,7 @@ class PropertyMapping {
     * @return String
     */
    String getKey() {
-      return _key;
+      return key;
    }
 
    /**
@@ -78,6 +78,6 @@ class PropertyMapping {
     * @return Object
     */
    Object getBean() {
-      return _bean;
+      return bean;
    }
 }

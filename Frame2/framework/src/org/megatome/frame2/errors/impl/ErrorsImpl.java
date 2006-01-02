@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,12 +64,12 @@ import org.megatome.frame2.errors.Errors;
  * implementation maintains ordering behaviors (results are returned sorted by
  * key).
  */
-final public class ErrorsImpl implements Errors {
+final class ErrorsImpl implements Errors {
     private Map errors = new TreeMap();
 
     private int count;
 
-    public ErrorsImpl() { // Non-public ctor
+    public ErrorsImpl() { 
     }
 
     /**
@@ -109,7 +109,7 @@ final public class ErrorsImpl implements Errors {
      */
     public Error add(final String key, final Object value1,
             final Object value2, final Object value3) {
-        Error e = new ErrorImpl(key, value1, value2, value3);
+        Error e = ErrorFactory.createError(key, value1, value2, value3);
         add(e);
         return e;
     }

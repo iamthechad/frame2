@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,23 +60,23 @@ import org.xml.sax.Attributes;
 class PutParamTagHandler extends ConfigElementHandler {
     public static final String NAME = "name";
     public static final String PATH = "path";
-    private Map _params = new HashMap();
+    private Map params = new HashMap();
 
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws ParserException {
         String name = attributes.getValue(NAME);
-        if (_params.containsKey(name)) {
+        if (params.containsKey(name)) {
             throw new ParserException("Duplicate name in put parameter " + name);
         }
 
-        _params.put(name, attributes.getValue(PATH));
+        params.put(name, attributes.getValue(PATH));
     }
 
     public Map getPutParams() {
-        return _params;
+        return params;
     }
 
     public void clear() {
-        _params.clear();
+        params.clear();
     }
 }

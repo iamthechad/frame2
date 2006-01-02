@@ -1,3 +1,53 @@
+/*
+ * ====================================================================
+ *
+ * Frame2 Open Source License
+ *
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by
+ *        Megatome Technologies."
+ *    Alternately, this acknowlegement may appear in the software itself,
+ *    if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "The Frame2 Project", and "Frame2", 
+ *    must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
+ *    permission, please contact iamthechad@sourceforge.net.
+ *
+ * 5. Products derived from this software may not be called "Frame2"
+ *    nor may "Frame2" appear in their names without prior written
+ *    permission of Megatome Technologies.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL MEGATOME TECHNOLOGIES OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ */
 package org.megatome.frame2.log;
 
 import java.io.ByteArrayOutputStream;
@@ -15,120 +65,120 @@ public class TestStandardLogging extends TestCase {
 
 	final static String LOGGER_NAME = "org.megatome.frame2.log.TestLogging";
 
-	private java.util.logging.Logger _stdLogger;
-	private java.util.logging.Handler _stdHandler;
-	private java.util.logging.Formatter _stdFormatter;
-	private ByteArrayOutputStream _stdStream;
+	private java.util.logging.Logger stdLogger;
+	private java.util.logging.Handler stdHandler;
+	private java.util.logging.Formatter stdFormatter;
+	private ByteArrayOutputStream stdStream;
 
-	private Logger _logger;
+	private Logger logger;
 
 	protected void setUp() {
-		_stdFormatter = new java.util.logging.SimpleFormatter();
-		_stdStream = new ByteArrayOutputStream(1000);
-		_stdLogger = java.util.logging.Logger.getLogger(LOGGER_NAME);
-		_stdHandler = new java.util.logging.StreamHandler(_stdStream, _stdFormatter);
+		stdFormatter = new java.util.logging.SimpleFormatter();
+		stdStream = new ByteArrayOutputStream(1000);
+		stdLogger = java.util.logging.Logger.getLogger(LOGGER_NAME);
+		stdHandler = new java.util.logging.StreamHandler(stdStream, stdFormatter);
 
       // Strip other handlers
       
-      java.util.logging.Handler[] defaultHandlers = _stdLogger.getHandlers();
+      java.util.logging.Handler[] defaultHandlers = stdLogger.getHandlers();
       
       for ( int i = 0 ; i < defaultHandlers.length ; i++ ) {
-         _stdLogger.removeHandler(defaultHandlers[i]);
+         stdLogger.removeHandler(defaultHandlers[i]);
       }
 
-		_stdLogger.addHandler(_stdHandler);
+		stdLogger.addHandler(stdHandler);
 
-		_stdLogger.setLevel(java.util.logging.Level.ALL);
-		_stdHandler.setLevel(java.util.logging.Level.ALL);
+		stdLogger.setLevel(java.util.logging.Level.ALL);
+		stdHandler.setLevel(java.util.logging.Level.ALL);
 
-		_logger = LoggerFactory.instance(LOGGER_NAME);
+		logger = LoggerFactory.instance(LOGGER_NAME);
 	}
 
 	protected void tearDown() {
-		_stdStream.reset();
+		stdStream.reset();
 	}
 
 	public void testName() {
-		assertNotNull(_logger);
-		assertTrue(_logger instanceof StandardLogger);
-		assertEquals(LOGGER_NAME, _logger.getName());
+		assertNotNull(logger);
+		assertTrue(logger instanceof StandardLogger);
+		assertEquals(LOGGER_NAME, logger.getName());
 	}
 
 	public void testStatusDebug() {
-		_stdLogger.setLevel(java.util.logging.Level.INFO);
-		assertFalse(_logger.isDebugEnabled());
-		_stdLogger.setLevel(java.util.logging.Level.FINE);
-		assertTrue(_logger.isDebugEnabled());
+		stdLogger.setLevel(java.util.logging.Level.INFO);
+		assertFalse(logger.isDebugEnabled());
+		stdLogger.setLevel(java.util.logging.Level.FINE);
+		assertTrue(logger.isDebugEnabled());
 	}
 
 	public void testStatusInfo() {
-		_stdLogger.setLevel(java.util.logging.Level.WARNING);
-		assertFalse(_logger.isInfoEnabled());
-		_stdLogger.setLevel(java.util.logging.Level.INFO);
-		assertTrue(_logger.isInfoEnabled());
+		stdLogger.setLevel(java.util.logging.Level.WARNING);
+		assertFalse(logger.isInfoEnabled());
+		stdLogger.setLevel(java.util.logging.Level.INFO);
+		assertTrue(logger.isInfoEnabled());
 	}
 
 	public void testStatusWarn() {
-		_stdLogger.setLevel(java.util.logging.Level.SEVERE);
-		assertFalse(_logger.isWarnEnabled());
-		_stdLogger.setLevel(java.util.logging.Level.WARNING);
-		assertTrue(_logger.isWarnEnabled());
+		stdLogger.setLevel(java.util.logging.Level.SEVERE);
+		assertFalse(logger.isWarnEnabled());
+		stdLogger.setLevel(java.util.logging.Level.WARNING);
+		assertTrue(logger.isWarnEnabled());
 	}
 
 	public void testStatusSevere() {
-		_stdLogger.setLevel(java.util.logging.Level.OFF);
-		assertFalse(_logger.isSevereEnabled());
-		_stdLogger.setLevel(java.util.logging.Level.SEVERE);
-		assertTrue(_logger.isSevereEnabled());
+		stdLogger.setLevel(java.util.logging.Level.OFF);
+		assertFalse(logger.isSevereEnabled());
+		stdLogger.setLevel(java.util.logging.Level.SEVERE);
+		assertTrue(logger.isSevereEnabled());
 	}
 
    public void testLogDebug() {
-      _logger.debug("debug message");
+      logger.debug("debug message");
 
-      _stdHandler.flush();
-      assertTrue(_stdStream.toString().indexOf("debug message") > 0);
+      stdHandler.flush();
+      assertTrue(stdStream.toString().indexOf("debug message") > 0);
 
-      _logger.debug("exception debug", new TestException("test exception"));
+      logger.debug("exception debug", new TestException("test exception"));
 
       assertLog("debug");
    }
 
 	public void testLogInfo() {
-		_logger.info("info message");
+		logger.info("info message");
 
-		_stdHandler.flush();
-		assertTrue(_stdStream.toString().indexOf("info message") > 0);
+		stdHandler.flush();
+		assertTrue(stdStream.toString().indexOf("info message") > 0);
 
-		_logger.info("exception info", new TestException("test exception"));
+		logger.info("exception info", new TestException("test exception"));
 
       assertLog("info");
 	}
 
 	public void testLogSevere() {
-		_logger.severe("severe message");
+		logger.severe("severe message");
 
-		_stdHandler.flush();
-		assertTrue(_stdStream.toString().indexOf("severe message") > 0);
+		stdHandler.flush();
+		assertTrue(stdStream.toString().indexOf("severe message") > 0);
 
-		_logger.severe("exception severe", new TestException("test exception"));
+		logger.severe("exception severe", new TestException("test exception"));
 
       assertLog("severe");
 	}
 
 	public void testLogWarn() {
-		_logger.warn("warn message");
+		logger.warn("warn message");
 
-		_stdHandler.flush();
-		assertTrue(_stdStream.toString().indexOf("warn message") > 0);
+		stdHandler.flush();
+		assertTrue(stdStream.toString().indexOf("warn message") > 0);
 
-		_logger.warn("exception warn", new TestException("test exception"));
+		logger.warn("exception warn", new TestException("test exception"));
 
       assertLog("warn");
 	}
 
    private void assertLog(String level) {
-      _stdHandler.flush();
-      String log = _stdStream.toString();
+      stdHandler.flush();
+      String log = stdStream.toString();
 
       String titleLevel = Character.toUpperCase(level.charAt(0)) + level.substring(1);
 

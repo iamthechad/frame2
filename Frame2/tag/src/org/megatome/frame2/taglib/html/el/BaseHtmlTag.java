@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -205,7 +205,7 @@ public abstract class BaseHtmlTag extends BaseFrame2Tag {
    }
 
    public void getStartElementClose(StringBuffer buffer) {
-      if (isXhtml() && !_tagHasBody) {
+      if (isXhtml() && !tagHasBody) {
          buffer.append(TagConstants.RT_ANGLE_CLOSE);
       } else {
          buffer.append(TagConstants.RT_ANGLE);
@@ -237,10 +237,10 @@ public abstract class BaseHtmlTag extends BaseFrame2Tag {
 
    //	basic lifecycle for end
    public StringBuffer buildEndTag() throws JspException {
-      _tagHasBody = evalTagBody();
+      tagHasBody = evalTagBody();
       StringBuffer results = new StringBuffer();
       getStartElementClose(results);
-      if (_tagHasBody) {
+      if (tagHasBody) {
          getBody(results);
          getEndElementClose(results);
       }
@@ -300,13 +300,13 @@ public abstract class BaseHtmlTag extends BaseFrame2Tag {
    // set new attr for encode ="true" to encode or not.
    protected String genTagAttrs() throws JspException {
       StringBuffer tagAttrs = new StringBuffer();
-      Iterator it = _attrs.keySet().iterator();
+      Iterator it = attrs.keySet().iterator();
       while (it.hasNext()) {
          String attrName = (String) it.next();
 
          // Some of the attributes have unique behaviors.
          String attrValue = null;
-         String attrExprValue = (String) _attrs.get(attrName);
+         String attrExprValue = (String) attrs.get(attrName);
          if (!attrExprValue.equals(Constants.NULL_VALUE)) {
 	         try {
 	            attrValue = evalStringAttr(attrName, attrExprValue);

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,9 +87,8 @@ import org.megatome.frame2.util.ResourceLocator;
  * @see org.megatome.frame2.Globals#ERRORS
  */
 public class ErrorsTag extends TagSupport {
-   private String _localeKey;
-   private String _errorKey;
-   //private String _name;
+   private String localeKey;
+   private String errorKey;
 
    /**
     * Sets a key for a locale placed in the session.
@@ -97,7 +96,7 @@ public class ErrorsTag extends TagSupport {
     * @param locale The locale to set
     */
    public void setLocaleKey(String locale) {
-      _localeKey = locale;
+      localeKey = locale;
    }
 
    /**
@@ -106,15 +105,9 @@ public class ErrorsTag extends TagSupport {
     * @param key The key to set
     */
    public void setErrorKey(String key) {
-      _errorKey = key;
+      errorKey = key;
    }
    
-   /*
-   public void setName(String name) {
-       _name = name;
-   }
-   */
-
    /**
     * Generate the HTML for the error information placed in the request.
     *
@@ -129,9 +122,9 @@ public class ErrorsTag extends TagSupport {
 
       StringBuffer buffer = new StringBuffer();
 
-      Error[] errs = errors.get(_errorKey);
+      Error[] errs = errors.get(errorKey);
 
-      Locale locale = HTMLHelpers.getLocale(pageContext,_localeKey);
+      Locale locale = HTMLHelpers.getLocale(pageContext,localeKey);
       ResourceBundle bundle = ResourceLocator.getBundle(locale);
 
       addElement(bundle, locale, buffer, Globals.ERRORS_HEADER, true);
@@ -189,8 +182,8 @@ public class ErrorsTag extends TagSupport {
     */
    public void release() {
       super.release();
-      _localeKey = null;
-      _errorKey = null;
+      localeKey = null;
+      errorKey = null;
    }
 
 }

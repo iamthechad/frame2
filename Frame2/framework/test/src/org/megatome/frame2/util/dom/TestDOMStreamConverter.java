@@ -1,3 +1,53 @@
+/*
+ * ====================================================================
+ *
+ * Frame2 Open Source License
+ *
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by
+ *        Megatome Technologies."
+ *    Alternately, this acknowlegement may appear in the software itself,
+ *    if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "The Frame2 Project", and "Frame2", 
+ *    must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
+ *    permission, please contact iamthechad@sourceforge.net.
+ *
+ * 5. Products derived from this software may not be called "Frame2"
+ *    nor may "Frame2" appear in their names without prior written
+ *    permission of Megatome Technologies.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL MEGATOME TECHNOLOGIES OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ */
 package org.megatome.frame2.util.dom;
 
 import java.io.InputStream;
@@ -15,24 +65,24 @@ import org.w3c.dom.Node;
 
 
 public class TestDOMStreamConverter extends TestCase {
-   private Node _node;
-   private DocumentBuilder _builder;
+   private Node node;
+   private DocumentBuilder builder;
 
    protected void setUp() throws Exception {
-      _builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		_node = toNode(ClassLoader.getSystemResourceAsStream("org/megatome/frame2/util/dom/dom1.xml"));
+      builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		node = toNode(ClassLoader.getSystemResourceAsStream("org/megatome/frame2/util/dom/dom1.xml"));
    }
 
    public void testToInputStream() throws Exception {
-      InputStream is = DOMStreamConverter.toInputStream(_node);
+      InputStream is = DOMStreamConverter.toInputStream(node);
 
       assertNotNull(is);
 
-      Node node = toNode(is);
+      Node n = toNode(is);
 
-      assertNotNull(node);
+      assertNotNull(n);
 
-      assertEquals("purchaseOrder", node.getFirstChild().getNodeName());
+      assertEquals("purchaseOrder", n.getFirstChild().getNodeName());
    }
 
    public void testToInputStream_Null() throws Exception {
@@ -44,11 +94,11 @@ public class TestDOMStreamConverter extends TestCase {
    }
 
    public void testToInputStream_Empty() throws Exception {
-      assertNotNull(DOMStreamConverter.toInputStream(_builder.newDocument()));
+      assertNotNull(DOMStreamConverter.toInputStream(builder.newDocument()));
    }
 
    public void testToOutputStream() throws Exception {
-      OutputStream os = DOMStreamConverter.toOutputStream(_node);
+      OutputStream os = DOMStreamConverter.toOutputStream(node);
 
       assertNotNull(os);
 
@@ -56,7 +106,7 @@ public class TestDOMStreamConverter extends TestCase {
    }
 
    public void testToOutputStream_Empty() throws Exception {
-      assertNotNull(DOMStreamConverter.toOutputStream(_builder.newDocument()));
+      assertNotNull(DOMStreamConverter.toOutputStream(builder.newDocument()));
    }
 
    public void testToOutputStream_Null() throws Exception {
@@ -100,7 +150,7 @@ public class TestDOMStreamConverter extends TestCase {
    }
 
    private Node toNode(InputStream istream) throws Exception {
-      return _builder.parse(istream);
+      return builder.parse(istream);
    }
    
    public void testEncodeString() throws Exception {

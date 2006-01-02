@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,33 +58,33 @@ import javax.servlet.jsp.PageContext;
 import org.megatome.frame2.template.TemplatePlugin;
 
 public class TemplateDef implements Comparable {
-    private String _name = "";
-    private String _path = "";
-    private Map _putParams = new HashMap();
+    private String name = "";
+    private String path = "";
+    private Map putParams = new HashMap();
 
     /**
      * @return
      */
     public Map getPutParams() {
-        return _putParams;
+        return putParams;
     }
 
-    public String getPutParam(String name) {
-        return (String)_putParams.get(name);
+    public String getPutParam(String paramName) {
+        return (String)putParams.get(paramName);
     }
 
     /**
      * @return
      */
     public String getName() {
-        return _name;
+        return name;
     }
 
     /**
      * @return
      */
     public String getPath() {
-        return _path;
+        return path;
     }
 
     public String getTemplateJspPath() {
@@ -95,27 +95,27 @@ public class TemplateDef implements Comparable {
      * @param map
      */
     public void setPutParams(Map map) {
-        _putParams = new HashMap(map);
+        this.putParams = new HashMap(map);
     }
 
     /**
      * @param string
      */
-    public void setName(String string) {
-        _name = string;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void overridePutParam(String putName, String putValue,
             PageContext context, int scope) {
         Map putMap = null;
-        putMap = (Map)context.getAttribute(_name, scope);
+        putMap = (Map)context.getAttribute(name, scope);
 
         if (putMap != null) {
             putMap.put(putName, putValue);
         } else {
             putMap = new HashMap();
             putMap.put(putName, putValue);
-            context.setAttribute(_name, putMap, scope);
+            context.setAttribute(name, putMap, scope);
         }
     }
 
@@ -126,9 +126,9 @@ public class TemplateDef implements Comparable {
 
         String paramValue = null;
         for (int i = 0; i < scopeValues.length; i++) {
-            Map putParams = (Map)context.getAttribute(_name, scopeValues[i]);
-            if (putParams != null) {
-                paramValue = (String)putParams.get(paramName);
+            Map pp = (Map)context.getAttribute(name, scopeValues[i]);
+            if (pp != null) {
+                paramValue = (String)pp.get(paramName);
                 if (paramValue != null)
                     break;
             }
@@ -148,8 +148,8 @@ public class TemplateDef implements Comparable {
     /**
      * @param string
      */
-    public void setPath(String string) {
-        _path = string;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public int compareTo(Object other) {
@@ -157,7 +157,7 @@ public class TemplateDef implements Comparable {
     }
 
     public int compareTo(TemplateDef other) {
-        return _name.compareTo(other.getName());
+        return name.compareTo(other.getName());
     }
 
     public boolean equals(Object other) {
@@ -165,7 +165,7 @@ public class TemplateDef implements Comparable {
     }
 
     public boolean equals(TemplateDef other) {
-        return _name.equals(other.getName());
+        return name.equals(other.getName());
     }
 
 }

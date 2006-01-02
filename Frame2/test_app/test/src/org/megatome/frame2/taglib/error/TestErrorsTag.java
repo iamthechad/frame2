@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,8 +58,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.cactus.JspTestCase;
 import org.apache.cactus.WebResponse;
 import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.errors.impl.ErrorsImpl;
-import org.megatome.frame2.taglib.error.ErrorsTag;
+import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.util.ResourceLocator;
 
 /**
@@ -95,7 +94,7 @@ public class TestErrorsTag extends JspTestCase {
 	}
 
    public void testEmptyErrors() throws Exception {
-      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,new ErrorsImpl());
+      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,ErrorsFactory.newInstance());
       assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
    }
 
@@ -107,7 +106,7 @@ public class TestErrorsTag extends JspTestCase {
    public void testOneError() throws Exception {
       ResourceLocator.setBasename("test-errors-simple");
 
-      Errors errors = new ErrorsImpl();
+      Errors errors = ErrorsFactory.newInstance();
 
       errors.add("example.error.key.1","foo");
 
@@ -123,7 +122,7 @@ public class TestErrorsTag extends JspTestCase {
    public void testTwoErrors() throws Exception {
       ResourceLocator.setBasename("test-errors-simple");
 
-      Errors errors = new ErrorsImpl();
+      Errors errors = ErrorsFactory.newInstance();
 
       errors.add("example.error.key.1","foo");
       errors.add("example.error.key.2","bar");
@@ -142,7 +141,7 @@ public class TestErrorsTag extends JspTestCase {
 
       _tag.setErrorKey("example.error.key.2");
 
-      Errors errors = new ErrorsImpl();
+      Errors errors = ErrorsFactory.newInstance();
 
       errors.add("example.error.key.1","foo");
       errors.add("example.error.key.2","bar");
@@ -164,7 +163,7 @@ public class TestErrorsTag extends JspTestCase {
       _tag.setLocaleKey(localeKey);
       pageContext.setAttribute(localeKey,Locale.FRENCH,PageContext.SESSION_SCOPE);
 
-      Errors errors = new ErrorsImpl();
+      Errors errors = ErrorsFactory.newInstance();
 
       errors.add("example.error.key.1","foo");
 
@@ -180,7 +179,7 @@ public class TestErrorsTag extends JspTestCase {
    public void testDecoratedErrors() throws Exception {
       ResourceLocator.setBasename("test-errors-decorated");
 
-      Errors errors = new ErrorsImpl();
+      Errors errors = ErrorsFactory.newInstance();
 
       errors.add("example.error.key.1","foo");
       errors.add("example.error.key.2","bar");

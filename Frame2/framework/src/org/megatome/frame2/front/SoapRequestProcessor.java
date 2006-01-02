@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.errors.impl.ErrorsImpl;
+import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.event.Responder;
 import org.megatome.frame2.event.xml.PassthruEvent;
@@ -112,7 +112,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
             String eventPkg) {
         super(config);
         this.elements = elements;
-        this.errors = new ErrorsImpl();
+        this.errors = ErrorsFactory.newInstance();
         this.context = new ContextImpl();
         this.eventPkg = eventPkg;
     }
@@ -439,28 +439,28 @@ public class SoapRequestProcessor extends RequestProcessorBase {
     }
 
     class ContextImpl implements ContextWrapper {
-        private Map _initParms;
+        private Map initParms;
 
-        private Map _requestAttributes;
+        private Map requestAttributes;
 
-        private Map _sessionAttributes;
+        private Map sessionAttributes;
 
-        private Set _redirectAttrs = new TreeSet();
+        private Set redirectAttrs = new TreeSet();
 
         public ServletContext getServletContext() {
             return null;
         }
 
         public String getInitParameter(String key) {
-            return (String)getIfNotNull(key, _initParms);
+            return (String)getIfNotNull(key, initParms);
         }
 
         public Object getRequestAttribute(String key) {
-            return getIfNotNull(key, _requestAttributes);
+            return getIfNotNull(key, requestAttributes);
         }
 
         public String[] getRedirectAttributes() {
-            return (String[])_redirectAttrs.toArray();
+            return (String[])redirectAttrs.toArray();
         }
 
         public Errors getRequestErrors() {
@@ -468,47 +468,47 @@ public class SoapRequestProcessor extends RequestProcessorBase {
         }
 
         public Object getSessionAttribute(String key) {
-            return getIfNotNull(key, _sessionAttributes);
+            return getIfNotNull(key, sessionAttributes);
         }
 
         public void removeRequestAttribute(String key) {
-            removeIfNotNull(key, _requestAttributes);
-            _redirectAttrs.remove(key);
+            removeIfNotNull(key, requestAttributes);
+            redirectAttrs.remove(key);
         }
 
         public void removeSessionAttribute(String key) {
-            removeIfNotNull(key, _sessionAttributes);
+            removeIfNotNull(key, sessionAttributes);
         }
 
         public void setRequestAttribute(String key, Object value) {
-            if (_requestAttributes == null) {
-                _requestAttributes = new HashMap();
+            if (requestAttributes == null) {
+                requestAttributes = new HashMap();
             }
 
-            _requestAttributes.put(key, value);
+            requestAttributes.put(key, value);
         }
 
         public void setRequestAttribute(String key, Object value,
                 boolean redirectAttr) {
             if (redirectAttr) {
-                _redirectAttrs.add(key);
+                redirectAttrs.add(key);
             } else {
-                _redirectAttrs.remove(key);
+                redirectAttrs.remove(key);
             }
 
             setRequestAttribute(key, value);
         }
 
         public void setSessionAttribute(String key, Object value) {
-            if (_sessionAttributes == null) {
-                _sessionAttributes = new HashMap();
+            if (sessionAttributes == null) {
+                sessionAttributes = new HashMap();
             }
 
-            _sessionAttributes.put(key, value);
+            sessionAttributes.put(key, value);
         }
 
         public void setInitParameters(Map initParms) {
-            _initParms = initParms;
+            this.initParms = initParms;
         }
 
         private Object getIfNotNull(String key, Map map) {

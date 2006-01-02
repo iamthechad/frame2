@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,11 +69,11 @@ public abstract class BaseFrame2Tag
    extends BodyTagSupport
    implements TryCatchFinally {
    /** Attributes of this tag */
-   protected Map _attrs = new TreeMap();
+   protected Map attrs = new TreeMap();
    /** This tag's name */
-   protected String _tagName;
+   protected String tagName;
    /** Indicate if this tag has a body */
-   protected boolean _tagHasBody;
+   protected boolean tagHasBody;
 
    /**
     * Constructor
@@ -87,7 +87,7 @@ public abstract class BaseFrame2Tag
     * @return String
     */
    public String getTagName() {
-      return _tagName;
+      return tagName;
    }
 
    /**
@@ -101,14 +101,14 @@ public abstract class BaseFrame2Tag
    * @param value The value of the attribute
    */
    protected void setAttr(String key, String value) {
-      _attrs.put(key, value);
+      attrs.put(key, value);
    }
    /**
     * Remove an attribute from this tag
     * @param key Attribute to remove
     */
    protected void removeAttr(String key) {
-      _attrs.remove(key);
+      attrs.remove(key);
    }
    /**
     * Get the attribute associated with a key.
@@ -117,7 +117,7 @@ public abstract class BaseFrame2Tag
     * nor null if none found.
     */
    protected String getAttr(String key) {
-      return (String) _attrs.get(key);
+      return (String) attrs.get(key);
    }
 
    /**
@@ -125,7 +125,7 @@ public abstract class BaseFrame2Tag
     */
    public void release() {
       super.release();
-      _attrs.clear();
+      attrs.clear();
    }
    /**
     * Release not called until garbage collect.
@@ -133,7 +133,7 @@ public abstract class BaseFrame2Tag
     */
    public void doFinally() {
       // free resources,
-      _attrs.clear();
+      attrs.clear();
       initializeAttributes();
    }
    
@@ -163,10 +163,10 @@ public abstract class BaseFrame2Tag
     * value. 
     *
     * @param attrName attribute name being evaluated
-    * @param attrValue String _value of attribute to be evaluated using EL     * 
+    * @param attrValue String value of attribute to be evaluated using EL     * 
     * @exception Exception if either the <code>attrValue</code>
-    * was null, or the resulting evaluated _value was null.
-    * @return Resulting attribute _value
+    * was null, or the resulting evaluated value was null.
+    * @return Resulting attribute value
     */
    protected String evalStringAttr(String attrName, String attrValue)
       throws Exception {

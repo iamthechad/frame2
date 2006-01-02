@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@ package org.megatome.frame2.introspector;
  */
 public class BeanException extends IntrospectorException {
 
-	private String _type;
+	private String type;
 
 	/**
 	 * Construct a BeanException
@@ -64,7 +64,7 @@ public class BeanException extends IntrospectorException {
     */
    public BeanException(String msg, String type) {
 		super(msg);
-		_type = type;
+		this.type = type;
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class BeanException extends IntrospectorException {
     */
    public BeanException(String msg, String type, Throwable cause) {
 		super(msg, cause);
-		_type = type;
+		this.type = type;
 	}
 
    /**
@@ -100,6 +100,6 @@ public class BeanException extends IntrospectorException {
     * @return Bean type as string
     */
    public String getType() {
-      return _type;
+      return type;
    }
 }

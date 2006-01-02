@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import org.megatome.frame2.util.ResourceLocator;
  * the error, and may be a resource key), and up to three object values that
  * represent the data in error.
  */
-final public class ErrorImpl implements Error {
+final class ErrorImpl implements Error {
     private static final int MAX_VALUES = 3;
 
     /**
@@ -72,9 +72,9 @@ final public class ErrorImpl implements Error {
      */
     public static final String MISSING_KEY = "org.megatome.frame2.errors.MISSING_KEY";
 
-    private String _key;
+    private String key;
 
-    private Object[] _value = new Object[MAX_VALUES];
+    private Object[] value = new Object[MAX_VALUES];
 
     /**
      * Construct an error object with the specified key.
@@ -126,10 +126,10 @@ final public class ErrorImpl implements Error {
      */
     public ErrorImpl(final String key, final Object value1, final Object value2,
             final Object value3) {
-        _key = (key != null) ? key : MISSING_KEY;
-        _value[0] = value1;
-        _value[1] = value2;
-        _value[2] = value3;
+        this.key = (key != null) ? key : MISSING_KEY;
+        this.value[0] = value1;
+        this.value[1] = value2;
+        this.value[2] = value3;
     }
 
     /**
@@ -138,7 +138,7 @@ final public class ErrorImpl implements Error {
      * @return The key associated with this error.
      */
     public String getKey() {
-        return _key;
+        return key;
     }
 
     /**
@@ -147,17 +147,17 @@ final public class ErrorImpl implements Error {
      * @return All values associated with this error in a list.
      */
     public List getValueList() {
-        return Arrays.asList(_value).subList(0, getTopIndex());
+        return Arrays.asList(value).subList(0, getTopIndex());
     }
 
     private int getTopIndex() {
         int topIndex = 0;
 
-        if (_value[2] != null) {
+        if (value[2] != null) {
             topIndex = 3;
-        } else if (_value[1] != null) {
+        } else if (value[1] != null) {
             topIndex = 2;
-        } else if (_value[0] != null) {
+        } else if (value[0] != null) {
             topIndex = 1;
         }
 
@@ -173,7 +173,7 @@ final public class ErrorImpl implements Error {
     public Object[] getValues() {
         Object[] result = new Object[getTopIndex()];
 
-        System.arraycopy(_value, 0, result, 0, result.length);
+        System.arraycopy(value, 0, result, 0, result.length);
 
         return result;
     }
@@ -184,7 +184,7 @@ final public class ErrorImpl implements Error {
      * @return The first value. May be null.
      */
     public Object getValue() {
-        return _value[0];
+        return value[0];
     }
 
     /**
@@ -193,7 +193,7 @@ final public class ErrorImpl implements Error {
      * @return The first value. May be null.
      */
     public Object getValue1() {
-        return _value[0];
+        return value[0];
     }
 
     /**
@@ -202,7 +202,7 @@ final public class ErrorImpl implements Error {
      * @return The second value. May be null.
      */
     public Object getValue2() {
-        return _value[1];
+        return value[1];
     }
 
     /**
@@ -211,7 +211,7 @@ final public class ErrorImpl implements Error {
      * @return The third value. May be null.
      */
     public Object getValue3() {
-        return _value[2];
+        return value[2];
     }
 
     /**
@@ -220,11 +220,11 @@ final public class ErrorImpl implements Error {
      * @return Count of non-null values.
      */
     public int numValues() {
-        if (_value[2] != null) {
+        if (value[2] != null) {
             return 3;
-        } else if (_value[1] != null) {
+        } else if (value[1] != null) {
             return 2;
-        } else if (_value[0] != null) {
+        } else if (value[0] != null) {
             return 1;
         } else {
             return 0;
@@ -248,29 +248,29 @@ final public class ErrorImpl implements Error {
             return true;
         }
         
-        return (_key.equals(e._key) &&
-                compareValues(_value[0], e._value[0]) &&
-                compareValues(_value[1], e._value[1]) &&
-                compareValues(_value[2], e._value[2]));
+        return (key.equals(e.key) &&
+                compareValues(value[0], e.value[0]) &&
+                compareValues(value[1], e.value[1]) &&
+                compareValues(value[2], e.value[2]));
     }
 
     public int hashCode() {
         int result = 17;
-        result = 37 * result + _key.hashCode();
-        result = 37 * result + (_value[0] == null ? 0 : _value[0].hashCode());
-        result = 37 * result + (_value[1] == null ? 0 : _value[1].hashCode());
-        result = 37 * result + (_value[2] == null ? 0 : _value[2].hashCode());
+        result = 37 * result + key.hashCode();
+        result = 37 * result + (value[0] == null ? 0 : value[0].hashCode());
+        result = 37 * result + (value[1] == null ? 0 : value[1].hashCode());
+        result = 37 * result + (value[2] == null ? 0 : value[2].hashCode());
         
         return result;
     }
 
     private String lookupMessage(final Locale locale) {
-        return lookupMessage(_key, locale);
+        return lookupMessage(key, locale);
     }
 
-    private String lookupMessage(final String key, final Locale locale) {
+    private String lookupMessage(final String messageKey, final Locale locale) {
         ResourceBundle bundle = ResourceLocator.getBundle(locale);
-        String msg = bundle.getString(key);
+        String msg = bundle.getString(messageKey);
         Object[] values = getValues();
         if (values != null) {
             for (int i = 0; i < values.length; i++) {

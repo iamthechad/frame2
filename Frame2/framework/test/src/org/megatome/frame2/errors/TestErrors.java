@@ -1,3 +1,53 @@
+/*
+ * ====================================================================
+ *
+ * Frame2 Open Source License
+ *
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by
+ *        Megatome Technologies."
+ *    Alternately, this acknowlegement may appear in the software itself,
+ *    if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "The Frame2 Project", and "Frame2", 
+ *    must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
+ *    permission, please contact iamthechad@sourceforge.net.
+ *
+ * 5. Products derived from this software may not be called "Frame2"
+ *    nor may "Frame2" appear in their names without prior written
+ *    permission of Megatome Technologies.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL MEGATOME TECHNOLOGIES OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ */
 package org.megatome.frame2.errors;
 
 import java.util.Iterator;
@@ -5,10 +55,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.megatome.frame2.errors.Error;
-import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.errors.impl.ErrorImpl;
-import org.megatome.frame2.errors.impl.ErrorsImpl;
+import org.megatome.frame2.errors.impl.ErrorFactory;
+import org.megatome.frame2.errors.impl.ErrorsFactory;
 
 /**
  * 
@@ -23,7 +71,7 @@ private static final String KEY3 = "KEY3";
 private static final String KEY2 = "KEY2";
 private static final String KEY1 = "KEY1";
 private static final String FOO = "FOO";
-private Errors _errors;
+private Errors errors;
 
 	/**
 	 * Constructor for TestErrors.
@@ -34,40 +82,40 @@ private Errors _errors;
 	}
    
    protected void setUp( ) {
-      _errors = new ErrorsImpl();
+      errors = ErrorsFactory.newInstance();
    }
    
    protected void tearDown()  {
-      _errors.release();
+      errors.release();
    }
 
    public void testGetIfEmpty( ) {
-      assertTrue(_errors.isEmpty());
-      assertNull(_errors.iterator(FOO));
-      assertEquals(0,_errors.get().length);
-      assertEquals(0,_errors.get(FOO).length);
+      assertTrue(errors.isEmpty());
+      assertNull(errors.iterator(FOO));
+      assertEquals(0,errors.get().length);
+      assertEquals(0,errors.get(FOO).length);
    }
 
 	public void testAdd() {
-		assertTrue(_errors.isEmpty());
-		assertEquals(0, _errors.size());
+		assertTrue(errors.isEmpty());
+		assertEquals(0, errors.size());
       
-		_errors.add(KEY1, ONE);
+		errors.add(KEY1, ONE);
 
-		assertFalse(_errors.isEmpty());
-		assertEquals(1, _errors.size());
+		assertFalse(errors.isEmpty());
+		assertEquals(1, errors.size());
       
-		_errors.add(KEY2, ONE, TWO);
+		errors.add(KEY2, ONE, TWO);
 
-		assertFalse(_errors.isEmpty());
-		assertEquals(2, _errors.size());
+		assertFalse(errors.isEmpty());
+		assertEquals(2, errors.size());
 
-		_errors.add(KEY3, ONE, TWO, THREE);
+		errors.add(KEY3, ONE, TWO, THREE);
 
-		assertFalse(_errors.isEmpty());
-		assertEquals(3, _errors.size());
+		assertFalse(errors.isEmpty());
+		assertEquals(3, errors.size());
 
-		Iterator allKeys = _errors.iterator();
+		Iterator allKeys = errors.iterator();
 
 		assertError((Error) allKeys.next(), KEY1, ONE, null, null);
 		assertError((Error) allKeys.next(), KEY2, ONE, TWO, null);
@@ -75,7 +123,7 @@ private Errors _errors;
 
       assertFalse(allKeys.hasNext());
 
-      Error[] errorArray = _errors.get();
+      Error[] errorArray = errors.get();
       
       assertNotNull(errorArray);
       assertEquals(3,errorArray.length);
@@ -84,7 +132,7 @@ private Errors _errors;
       assertError(errorArray[1], KEY2, ONE, TWO, null);
       assertError(errorArray[2], KEY3, ONE, TWO, THREE);
       
-      errorArray = _errors.get(KEY2);
+      errorArray = errors.get(KEY2);
       
       assertNotNull(errorArray);
       assertEquals(1,errorArray.length);
@@ -92,15 +140,15 @@ private Errors _errors;
 	}
 
 	public void testAddDuplicateKeys() {
-		_errors.add(KEY1, ONE);
-		_errors.add(KEY1, ONE, TWO);
-		_errors.add(KEY1, ONE, TWO, THREE);
-		_errors.add(KEY2, ZERO);
+		errors.add(KEY1, ONE);
+		errors.add(KEY1, ONE, TWO);
+		errors.add(KEY1, ONE, TWO, THREE);
+		errors.add(KEY2, ZERO);
 
-		assertFalse(_errors.isEmpty());
-		assertEquals(4, _errors.size());
+		assertFalse(errors.isEmpty());
+		assertEquals(4, errors.size());
 
-		Iterator allKeys = _errors.iterator();
+		Iterator allKeys = errors.iterator();
 
 		assertError((Error) allKeys.next(), KEY1, ONE, null, null);
 		assertError((Error) allKeys.next(), KEY1, ONE, TWO, null);
@@ -109,7 +157,7 @@ private Errors _errors;
 
 		assertFalse(allKeys.hasNext());
 
-		Iterator key1keys = _errors.iterator(KEY1);
+		Iterator key1keys = errors.iterator(KEY1);
 
 		assertError((Error) key1keys.next(), KEY1, ONE, null, null);
 		assertError((Error) key1keys.next(), KEY1, ONE, TWO, null);
@@ -119,9 +167,9 @@ private Errors _errors;
 	}
    
    public void testValueList_3( ) {
-      _errors.add(KEY1,ONE,TWO,THREE);
+      errors.add(KEY1,ONE,TWO,THREE);
 
-      Error error = (Error) _errors.iterator().next();
+      Error error = (Error) errors.iterator().next();
 
       Object[] valueArray = error.getValues();
       assertNotNull(valueArray);
@@ -143,9 +191,9 @@ private Errors _errors;
    }
 
    public void testValueList_1() {
-      _errors.add(KEY1,ONE);
+      errors.add(KEY1,ONE);
 
-      Error error = (Error) _errors.iterator().next();
+      Error error = (Error) errors.iterator().next();
 
       Object[] valueArray = error.getValues();
       assertNotNull(valueArray);
@@ -163,9 +211,9 @@ private Errors _errors;
    }
 
    public void testEmptyValueList( ) {
-      _errors.add(KEY1,null);
+      errors.add(KEY1,null);
 
-      Error error = (Error) _errors.iterator().next();
+      Error error = (Error) errors.iterator().next();
 
       Object[] valueArray = error.getValues();
       assertNotNull(valueArray);
@@ -182,63 +230,63 @@ private Errors _errors;
    }
 
 	public void testRelease() {
-		_errors.add(KEY1, ONE);
+		errors.add(KEY1, ONE);
 
-		assertEquals(1, _errors.size());
+		assertEquals(1, errors.size());
 
-		_errors.release();
+		errors.release();
 
-		assertEquals(0, _errors.size());
-      assertTrue(_errors.isEmpty());
+		assertEquals(0, errors.size());
+      assertTrue(errors.isEmpty());
 	}
    
    public void testAddUnique( ) {
-      _errors.add(KEY1, ONE);
-      _errors.add(KEY1, ONE);
-      _errors.add(KEY1, ONE, TWO);
+      errors.add(KEY1, ONE);
+      errors.add(KEY1, ONE);
+      errors.add(KEY1, ONE, TWO);
 
-      assertEquals(3,_errors.size());
+      assertEquals(3,errors.size());
 
-      _errors.addIfUnique(KEY1, ONE);
-      _errors.addIfUnique(KEY1, ONE);
-      _errors.addIfUnique(KEY1, ONE, TWO);
+      errors.addIfUnique(KEY1, ONE);
+      errors.addIfUnique(KEY1, ONE);
+      errors.addIfUnique(KEY1, ONE, TWO);
 
-      assertEquals(3,_errors.size());
+      assertEquals(3,errors.size());
    }
    
    public void testEmpty( ) {
-      _errors.add(KEY1,null);
+      errors.add(KEY1,null);
 
-      assertEquals(1, _errors.size());
+      assertEquals(1, errors.size());
 
-      _errors.add(null,null);
+      errors.add(null,null);
       
-      assertEquals(2, _errors.size());
+      assertEquals(2, errors.size());
 
-      Iterator emptyKeys = _errors.iterator(Error.MISSING_KEY);
+      Iterator emptyKeys = errors.iterator(Error.MISSING_KEY);
       
       assertTrue(emptyKeys.hasNext());
    }
    
    public void testAddKeyOnly() {
-      assertTrue(_errors.isEmpty());
-      assertEquals(0, _errors.size());
+      assertTrue(errors.isEmpty());
+      assertEquals(0, errors.size());
       
-      _errors.add(KEY1);
+      errors.add(KEY1);
 
-      assertFalse(_errors.isEmpty());
-      assertEquals(1, _errors.size());
+      assertFalse(errors.isEmpty());
+      assertEquals(1, errors.size());
    }
    
    public void testAddError() {
-     assertTrue(_errors.isEmpty());
-      assertEquals(0, _errors.size());
+     assertTrue(errors.isEmpty());
+      assertEquals(0, errors.size());
       
-     Error mainError = new ErrorImpl(FOO, ONE);
-     _errors.add(mainError); 
+     Error mainError = ErrorFactory.createError(FOO, ONE);
+     errors.add(mainError); 
       
-     assertFalse(_errors.isEmpty());
-     assertEquals(1, _errors.size());
+     assertFalse(errors.isEmpty());
+     assertEquals(1, errors.size());
            
    }
    

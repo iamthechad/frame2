@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,10 @@ import org.megatome.frame2.plugin.PluginInterface;
 public class TemplatePlugin implements PluginInterface {
    
    private static String DEFAULT_TEMPLATE_DIR = "/WEB-INF/templates/";
-   private static String _configDir = DEFAULT_TEMPLATE_DIR;
+   private static String configDir = DEFAULT_TEMPLATE_DIR;
    private static String DEFAULT_TEMPLATE_FILE = "templates.xml";
    public  static String PLUGIN_INIT_ERROR = "Template Plugin Initialization Error: ";
-   private String _templateFile = DEFAULT_TEMPLATE_FILE;
+   private String templateFile = DEFAULT_TEMPLATE_FILE;
 
    private Logger getLogger() {
       return LoggerFactory.instance(TemplatePlugin.class.getName());
@@ -78,7 +78,7 @@ public class TemplatePlugin implements PluginInterface {
    }
    
    public void setConfigDir(String templateDir) {
-      _configDir = templateDir;
+      configDir = templateDir;
    }
 
    
@@ -87,7 +87,7 @@ public class TemplatePlugin implements PluginInterface {
       getLogger().debug("TemplatePlugin init()");
       
 		try {
-			TemplateConfigFactory.loadTemplateFile(context, _configDir + _templateFile);
+			TemplateConfigFactory.loadTemplateFile(context, configDir + templateFile);
 		} catch (TemplateException e) {
          getLogger().severe(PLUGIN_INIT_ERROR + e.getMessage());
 			throw new PluginException(PLUGIN_INIT_ERROR + e.getMessage(), e);
@@ -104,7 +104,7 @@ public class TemplatePlugin implements PluginInterface {
     * @return String
     */
    public static String getConfigDir() {
-      return _configDir;
+      return configDir;
    }
 
 }

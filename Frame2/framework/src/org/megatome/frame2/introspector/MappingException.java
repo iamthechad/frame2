@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,29 +62,29 @@ import org.megatome.frame2.Globals;
  * @see org.megatome.frame2.introspector.MappingException#getKey
  */
 public class MappingException extends BeanException {
-   private PropertyMapping _mapping;
-   private Object _value = "[unknown]";
+   private PropertyMapping mapping;
+   private Object value = "[unknown]";
 
    MappingException(String message, PropertyMapping mapping) {
       super(message);
-      _mapping = mapping;
+      this.mapping = mapping;
    }
 
    MappingException(String message, PropertyMapping mapping, Throwable t) {
       super(message, t);
-      _mapping = mapping;
+      this.mapping = mapping;
    }
 
    MappingException(String message, PropertyMapping mapping, Object value) {
       super(message);
-      _mapping = mapping;
-      _value = value;
+      this.mapping = mapping;
+      this.value = value;
    }
 
    MappingException(String message, PropertyMapping mapping, Object value, Throwable t) {
       super(message, t);
-      _mapping = mapping;
-      _value = value;
+      this.mapping = mapping;
+      this.value = value;
    }
 
    /**
@@ -94,8 +94,8 @@ public class MappingException extends BeanException {
    public String getBeanName() {
       String result = null;
 
-      if (_mapping != null) {
-         result = _mapping.getBean().getClass().getName();
+      if (mapping != null) {
+         result = mapping.getBean().getClass().getName();
       }
 
       return result;
@@ -109,8 +109,8 @@ public class MappingException extends BeanException {
    public String getProperty() {
       String result = null;
 
-      if (_mapping != null) {
-         result = _mapping.getKey();
+      if (mapping != null) {
+         result = mapping.getKey();
       }
 
       return result;
@@ -123,7 +123,7 @@ public class MappingException extends BeanException {
     * @return As above
     */
    public Object getValue() {
-      return _value;
+      return value;
    }
 
    /**
@@ -136,12 +136,12 @@ public class MappingException extends BeanException {
     * @return As above
     */
    public String getKey() {
-      if (_mapping != null) {
+      if (mapping != null) {
          StringBuffer result = new StringBuffer(Globals.MAPPING_KEY_PREFIX);
 
          result.append(getBeanName());
          result.append(".");
-         result.append(_mapping.getKey());
+         result.append(mapping.getKey());
 
          return result.toString();
       }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,8 +59,6 @@ import org.megatome.frame2.Frame2Exception;
  */
 public class TemplateException extends Frame2Exception {
 
-   private Throwable _throwable;
-
    /**
     * Constructor for TemplateException.
     */
@@ -84,8 +82,7 @@ public class TemplateException extends Frame2Exception {
     * @param arg1
     */
    public TemplateException(String arg0, Throwable arg1) {
-      super(arg0);
-      _throwable = arg1;
+      super(arg0, arg1);
    }
 
    /**
@@ -94,11 +91,6 @@ public class TemplateException extends Frame2Exception {
     * @param arg0
     */
    public TemplateException(Throwable arg0) {
-      super();
-      _throwable = arg0;
-   }
-   
-   public Throwable getCause() {
-      return _throwable;
+      super(arg0);
    }
 }

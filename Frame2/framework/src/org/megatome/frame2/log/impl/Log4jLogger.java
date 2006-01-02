@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,68 +63,68 @@ import org.megatome.frame2.log.Logger;
  * <code>org.megatome.frame2.log.severe(msg)</code> maps to <code>org.apache.log4j.Level.ERROR</code><br>
  */
 public class Log4jLogger implements Logger {
-   private org.apache.log4j.Logger _stdLogger;
-   private org.apache.log4j.Level _debugLevel = org.apache.log4j.Level.DEBUG;
-   private org.apache.log4j.Level _infoLevel = org.apache.log4j.Level.INFO;
-   private org.apache.log4j.Level _warnLevel = org.apache.log4j.Level.WARN;
-   private org.apache.log4j.Level _severeLevel = org.apache.log4j.Level.ERROR;
+   private org.apache.log4j.Logger stdLogger;
+   private org.apache.log4j.Level debugLevel = org.apache.log4j.Level.DEBUG;
+   private org.apache.log4j.Level infoLevel = org.apache.log4j.Level.INFO;
+   private org.apache.log4j.Level warnLevel = org.apache.log4j.Level.WARN;
+   private org.apache.log4j.Level severeLevel = org.apache.log4j.Level.ERROR;
 
    /**
     * Constructor for Log4jLogger.
     */
    public Log4jLogger(String name) {
-      _stdLogger = org.apache.log4j.Logger.getLogger(name);
+      stdLogger = org.apache.log4j.Logger.getLogger(name);
    }
 
    public String getName() {
-      return _stdLogger.getName();
+      return stdLogger.getName();
    }
 
    public void debug(String message) {
-      _stdLogger.log(_debugLevel, message);
+      stdLogger.log(debugLevel, message);
    }
 
    public void debug(String message, Throwable t) {
-      _stdLogger.log(_debugLevel, message, t);
+      stdLogger.log(debugLevel, message, t);
    }
 
    public boolean isDebugEnabled() {
-      return _debugLevel.isGreaterOrEqual(_stdLogger.getEffectiveLevel());
+      return debugLevel.isGreaterOrEqual(stdLogger.getEffectiveLevel());
    }
 
    public boolean isInfoEnabled() {
-      return _infoLevel.isGreaterOrEqual(_stdLogger.getEffectiveLevel());
+      return infoLevel.isGreaterOrEqual(stdLogger.getEffectiveLevel());
    }
 
    public boolean isSevereEnabled() {
-      return _severeLevel.isGreaterOrEqual(_stdLogger.getEffectiveLevel());
+      return severeLevel.isGreaterOrEqual(stdLogger.getEffectiveLevel());
    }
 
    public boolean isWarnEnabled() {
-      return _warnLevel.isGreaterOrEqual(_stdLogger.getEffectiveLevel());
+      return warnLevel.isGreaterOrEqual(stdLogger.getEffectiveLevel());
    }
 
    public void info(String message) {
-      _stdLogger.log(_infoLevel, message);
+      stdLogger.log(infoLevel, message);
    }
 
    public void info(String message, Throwable t) {
-      _stdLogger.log(_infoLevel, message, t);
+      stdLogger.log(infoLevel, message, t);
    }
 
    public void warn(String message) {
-      _stdLogger.log(_warnLevel, message);
+      stdLogger.log(warnLevel, message);
    }
 
    public void warn(String message, Throwable t) {
-      _stdLogger.log(_warnLevel, message, t);
+      stdLogger.log(warnLevel, message, t);
    }
 
    public void severe(String message) {
-      _stdLogger.log(_severeLevel, message);
+      stdLogger.log(severeLevel, message);
    }
 
    public void severe(String message, Throwable t) {
-      _stdLogger.log(_severeLevel, message, t);
+      stdLogger.log(severeLevel, message, t);
    }
 }

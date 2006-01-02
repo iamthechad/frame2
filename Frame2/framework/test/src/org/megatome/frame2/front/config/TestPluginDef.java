@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,15 +57,9 @@ import junit.framework.TestCase;
 
 import org.megatome.frame2.front.config.PluginDef;
 
-/**
- * @author cjohnston
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
 public class TestPluginDef extends TestCase {
    
-   private PluginDef _pluginDef;
+   private PluginDef pluginDef;
    
    public TestPluginDef() {
       super();
@@ -80,7 +74,7 @@ public class TestPluginDef extends TestCase {
     */
    protected void setUp() throws Exception {
       super.setUp();
-      _pluginDef = new PluginDef();
+      pluginDef = new PluginDef();
    }
 
    /**
@@ -92,11 +86,11 @@ public class TestPluginDef extends TestCase {
    
    public void testPluginDef()
    {
-      _pluginDef.setName("pluginName");
-      _pluginDef.setType("org.megatome.something");
+      pluginDef.setName("pluginName");
+      pluginDef.setType("org.megatome.something");
       
-      assertEquals("pluginName", _pluginDef.getName());
-      assertEquals("org.megatome.something", _pluginDef.getType());
+      assertEquals("pluginName", pluginDef.getName());
+      assertEquals("org.megatome.something", pluginDef.getType());
    }
    
    public void testPluginDefParams()
@@ -104,10 +98,10 @@ public class TestPluginDef extends TestCase {
       HashMap fakeParams = new HashMap();
       fakeParams.put("param1", "value1");
       
-      _pluginDef.setInitParams(fakeParams);
+      pluginDef.setInitParams(fakeParams);
       
       testPluginDef();
-      Map returnedParams = _pluginDef.getInitParams();
+      Map returnedParams = pluginDef.getInitParams();
       assertTrue(returnedParams.containsKey("param1"));
    }
 

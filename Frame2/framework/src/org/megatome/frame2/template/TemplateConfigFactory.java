@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,24 +59,24 @@ import org.megatome.frame2.template.config.TemplateConfiguration;
 
 public class TemplateConfigFactory {
 
-   private static TemplateConfiguration _instance;
+   private static TemplateConfiguration instance;
 
    public static void loadTemplateFile(ServletContext context, String fileName) throws TemplateException{
       TemplateConfiguration config = new TemplateConfiguration();
       InputStream is = context.getResourceAsStream(fileName);
       config.loadTemplateFile(is);
       config.validateTemplateFiles(context);
-      _instance = config;
+      instance = config;
    }
 
    public static TemplateConfiguration instance() throws TemplateException {
-      if (_instance == null) {
+      if (instance == null) {
          throw new TemplateException("Could not retrieve TemplateConfiguration");
       }
-      return _instance;
+      return instance;
    }
    
    public static void release() {
-      _instance = null;  
+      instance = null;  
    }
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@ import java.util.Map;
 
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.errors.impl.ErrorsImpl;
+import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.front.config.ViewType;
 
@@ -66,7 +66,7 @@ import org.megatome.frame2.front.config.ViewType;
 abstract class RequestProcessorBase implements RequestProcessor {
    private Configuration config;
    protected ContextWrapper context;
-   protected Errors errors = new ErrorsImpl();
+   protected Errors errors = ErrorsFactory.newInstance();
 
    protected RequestProcessorBase(Configuration config) {
       this.config = config;
@@ -75,10 +75,11 @@ abstract class RequestProcessorBase implements RequestProcessor {
    /**
     * Method callHandlers.
     *
-    * @param string
+    * @param eventName
     * @param event
+    * @param vtype
     *
-    * @return String
+    * @return ForwardProxy
     */
    protected ForwardProxy callHandlers(String eventName, Event event, ViewType vtype)
       throws Exception {

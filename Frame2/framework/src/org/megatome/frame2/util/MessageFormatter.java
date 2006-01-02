@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ import java.util.Map;
  * @see java.text.MessageFormat
  */
 public class MessageFormatter {
-    static private Map _formats = Collections.synchronizedMap(new HashMap());
+    static private Map formats = Collections.synchronizedMap(new HashMap());
 
     private MessageFormatter() {
     }
@@ -113,7 +113,7 @@ public class MessageFormatter {
     }
 
     static private MessageFormat getFromCache(String pattern, Locale locale) {
-        Map localeMap = (Map)_formats.get(locale);
+        Map localeMap = (Map)formats.get(locale);
 
         if (localeMap != null) {
             return (MessageFormat)localeMap.get(pattern);
@@ -124,12 +124,12 @@ public class MessageFormatter {
 
     static private void storeInCache(MessageFormat format, String pattern,
             Locale locale) {
-        Map localeMap = (Map)_formats.get(locale);
+        Map localeMap = (Map)formats.get(locale);
 
         if (localeMap == null) {
             localeMap = Collections.synchronizedMap(new HashMap());
 
-            _formats.put(locale, localeMap);
+            formats.put(locale, localeMap);
         }
 
         localeMap.put(pattern, format);

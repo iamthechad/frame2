@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,22 +66,22 @@ public class TemplateConfiguration implements TemplateConfigurationInterface {
       "validateTemplateFiles(), Unable to load template path= ";
    public static final String TEMPLATE_PUT_PATH_EXCEPTION_MSG =
       "validateTemplateFiles(), Unable to load template put path= ";
-   HashMap _definitions = new HashMap();
+   private Map definitions = new HashMap();
 
    public TemplateDef getDefinition(String name) {
-      return (TemplateDef) _definitions.get(name);
+      return (TemplateDef) definitions.get(name);
    }
 
    public Map getDefinitions() {
-      return _definitions;
+      return definitions;
    }
 
    public void setDefinitions(Map map) {
-      _definitions = new HashMap(map);
+      this.definitions = new HashMap(map);
    }
 
    public void loadTemplateFile(InputStream is) throws TemplateException {
-      TemplateConfigReader reader = new TemplateConfigReader(_definitions);
+      TemplateConfigReader reader = new TemplateConfigReader(definitions);
       try {
          reader.execute(is);
       } catch (Exception e) {
@@ -94,7 +94,7 @@ public class TemplateConfiguration implements TemplateConfigurationInterface {
 
    public void validateTemplateFiles(ServletContext context)
       throws TemplateException {
-      Collection defs = _definitions.values();
+      Collection defs = definitions.values();
 
       for (Iterator iterator = defs.iterator(); iterator.hasNext();) {
          TemplateDef def = (TemplateDef) iterator.next();

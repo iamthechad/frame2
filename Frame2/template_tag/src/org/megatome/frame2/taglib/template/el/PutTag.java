@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -92,7 +92,7 @@ public class PutTag extends BaseFrame2Tag {
    }
 
    protected void setTagName() {
-      _tagName = TemplateConstants.PUT_TAG;
+      tagName = TemplateConstants.PUT_TAG;
 
    }
 

@@ -1,3 +1,53 @@
+/*
+ * ====================================================================
+ *
+ * Frame2 Open Source License
+ *
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by
+ *        Megatome Technologies."
+ *    Alternately, this acknowlegement may appear in the software itself,
+ *    if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "The Frame2 Project", and "Frame2", 
+ *    must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
+ *    permission, please contact iamthechad@sourceforge.net.
+ *
+ * 5. Products derived from this software may not be called "Frame2"
+ *    nor may "Frame2" appear in their names without prior written
+ *    permission of Megatome Technologies.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL MEGATOME TECHNOLOGIES OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ */
 package org.megatome.frame2.introspector;
 
 import java.math.BigDecimal;
@@ -11,42 +61,42 @@ import java.math.BigInteger;
 
 public class Bean1 {
 
-	private String _stringP;
-   private StringBuffer _stringBufferP;
-   private BigDecimal _bigDecimalP;
-   private BigInteger _bigIntegerP;
+	private String stringP;
+   private StringBuffer stringBufferP;
+   private BigDecimal bigDecimalP;
+   private BigInteger bigIntegerP;
 
-	private int _intP;
-	private long _longP;
-   private boolean _booleanP;
-   private short _shortP;
-	private char _charP;
-   private byte _byteP;
-	private double _doubleP;
-   private float _floatP;
+	private int intP;
+	private long longP;
+   private boolean booleanP;
+   private short shortP;
+	private char charP;
+   private byte byteP;
+	private double doubleP;
+   private float floatP;
    
-   private Integer _intPObj;
-   private Long _longPObj;
-   private Boolean _booleanPObj;
-   private Short _shortPObj;
-   private Character _characterPObj;
-   private Byte _bytePObj;
-   private Double _doublePObj;
-   private Float _floatPObj;
+   private Integer intPObj;
+   private Long longPObj;
+   private Boolean booleanPObj;
+   private Short shortPObj;
+   private Character characterPObj;
+   private Byte bytePObj;
+   private Double doublePObj;
+   private Float floatPObj;
    
-   private String[] _stringArrayP1;
-   private String[] _stringArrayP2;
+   private String[] stringArrayP1;
+   private String[] stringArrayP2;
 
-	private Bean2 _bean2P;
+	private Bean2 bean2P;
 
-   private int[] _intPArray = new int[10];
+   private int[] intPArray = new int[10];
 
 	/**
 	 * Returns the bigDecimalP.
 	 * @return BigDecimal
 	 */
 	public BigDecimal getBigDecimalP() {
-		return _bigDecimalP;
+		return bigDecimalP;
 	}
 
 	/**
@@ -54,7 +104,7 @@ public class Bean1 {
 	 * @return BigInteger
 	 */
 	public BigInteger getBigIntegerP() {
-		return _bigIntegerP;
+		return bigIntegerP;
 	}
 
 	/**
@@ -62,7 +112,7 @@ public class Bean1 {
 	 * @return boolean
 	 */
 	public boolean isBooleanP() {
-		return _booleanP;
+		return booleanP;
 	}
 
 	/**
@@ -70,7 +120,7 @@ public class Bean1 {
 	 * @return Boolean
 	 */
 	public Boolean getBooleanPObj() {
-		return _booleanPObj;
+		return booleanPObj;
 	}
 
 	/**
@@ -78,7 +128,7 @@ public class Bean1 {
 	 * @return byte
 	 */
 	public byte getByteP() {
-		return _byteP;
+		return byteP;
 	}
 
 	/**
@@ -86,7 +136,7 @@ public class Bean1 {
 	 * @return Byte
 	 */
 	public Byte getBytePObj() {
-		return _bytePObj;
+		return bytePObj;
 	}
 
 	/**
@@ -94,7 +144,7 @@ public class Bean1 {
 	 * @return Character
 	 */
 	public Character getCharacterPObj() {
-		return _characterPObj;
+		return characterPObj;
 	}
 
 	/**
@@ -102,7 +152,7 @@ public class Bean1 {
 	 * @return char
 	 */
 	public char getCharP() {
-		return _charP;
+		return charP;
 	}
 
 	/**
@@ -110,7 +160,7 @@ public class Bean1 {
 	 * @return double
 	 */
 	public double getDoubleP() {
-		return _doubleP;
+		return doubleP;
 	}
 
 	/**
@@ -118,7 +168,7 @@ public class Bean1 {
 	 * @return Double
 	 */
 	public Double getDoublePObj() {
-		return _doublePObj;
+		return doublePObj;
 	}
 
 	/**
@@ -126,10 +176,10 @@ public class Bean1 {
 	 * @return Bean2
 	 */
 	public Bean2 getBean2P() {
-      if ( _bean2P == null ) {
-         _bean2P = new Bean2( );
+      if ( bean2P == null ) {
+         bean2P = new Bean2( );
       }
-		return _bean2P;
+		return bean2P;
 	}
 
 	/**
@@ -137,7 +187,7 @@ public class Bean1 {
 	 * @return float
 	 */
 	public float getFloatP() {
-		return _floatP;
+		return floatP;
 	}
 
 	/**
@@ -145,7 +195,7 @@ public class Bean1 {
 	 * @return Float
 	 */
 	public Float getFloatPObj() {
-		return _floatPObj;
+		return floatPObj;
 	}
 
 	/**
@@ -153,7 +203,7 @@ public class Bean1 {
 	 * @return int
 	 */
 	public int getIntP() {
-		return _intP;
+		return intP;
 	}
 
 	/**
@@ -161,7 +211,7 @@ public class Bean1 {
 	 * @return Integer
 	 */
 	public Integer getIntPObj() {
-		return _intPObj;
+		return intPObj;
 	}
 
 	/**
@@ -169,7 +219,7 @@ public class Bean1 {
 	 * @return long
 	 */
 	public long getLongP() {
-		return _longP;
+		return longP;
 	}
 
 	/**
@@ -177,7 +227,7 @@ public class Bean1 {
 	 * @return Long
 	 */
 	public Long getLongPObj() {
-		return _longPObj;
+		return longPObj;
 	}
 
 	/**
@@ -185,7 +235,7 @@ public class Bean1 {
 	 * @return short
 	 */
 	public short getShortP() {
-		return _shortP;
+		return shortP;
 	}
 
 	/**
@@ -193,7 +243,7 @@ public class Bean1 {
 	 * @return Short
 	 */
 	public Short getShortPObj() {
-		return _shortPObj;
+		return shortPObj;
 	}
 
 	/**
@@ -201,7 +251,7 @@ public class Bean1 {
 	 * @return StringBuffer
 	 */
 	public StringBuffer getStringBufferP() {
-		return _stringBufferP;
+		return stringBufferP;
 	}
 
 	/**
@@ -209,7 +259,7 @@ public class Bean1 {
 	 * @return String
 	 */
 	public String getStringP() {
-		return _stringP;
+		return stringP;
 	}
 
 	/**
@@ -217,7 +267,7 @@ public class Bean1 {
 	 * @param bigDecimalP The bigDecimalP to set
 	 */
 	public void setBigDecimalP(BigDecimal bigDecimalP) {
-		_bigDecimalP = bigDecimalP;
+		this.bigDecimalP = bigDecimalP;
 	}
 
 	/**
@@ -225,7 +275,7 @@ public class Bean1 {
 	 * @param bigIntegerP The bigIntegerP to set
 	 */
 	public void setBigIntegerP(BigInteger bigIntegerP) {
-		_bigIntegerP = bigIntegerP;
+		this.bigIntegerP = bigIntegerP;
 	}
 
 	/**
@@ -233,7 +283,7 @@ public class Bean1 {
 	 * @param booleanP The booleanP to set
 	 */
 	public void setBooleanP(boolean booleanP) {
-		_booleanP = booleanP;
+		this.booleanP = booleanP;
 	}
 
 	/**
@@ -241,7 +291,7 @@ public class Bean1 {
 	 * @param booleanPObj The booleanPObj to set
 	 */
 	public void setBooleanPObj(Boolean booleanPObj) {
-		_booleanPObj = booleanPObj;
+		this.booleanPObj = booleanPObj;
 	}
 
 	/**
@@ -249,7 +299,7 @@ public class Bean1 {
 	 * @param byteP The byteP to set
 	 */
 	public void setByteP(byte byteP) {
-		_byteP = byteP;
+		this.byteP = byteP;
 	}
 
 	/**
@@ -257,7 +307,7 @@ public class Bean1 {
 	 * @param bytePObj The bytePObj to set
 	 */
 	public void setBytePObj(Byte bytePObj) {
-		_bytePObj = bytePObj;
+		this.bytePObj = bytePObj;
 	}
 
 	/**
@@ -265,7 +315,7 @@ public class Bean1 {
 	 * @param characterPObj The characterPObj to set
 	 */
 	public void setCharacterPObj(Character characterPObj) {
-		_characterPObj = characterPObj;
+		this.characterPObj = characterPObj;
 	}
 
 	/**
@@ -273,7 +323,7 @@ public class Bean1 {
 	 * @param charP The charP to set
 	 */
 	public void setCharP(char charP) {
-		_charP = charP;
+		this.charP = charP;
 	}
 
 	/**
@@ -281,7 +331,7 @@ public class Bean1 {
 	 * @param doubleP The doubleP to set
 	 */
 	public void setDoubleP(double doubleP) {
-		_doubleP = doubleP;
+		this.doubleP = doubleP;
 	}
 
 	/**
@@ -289,7 +339,7 @@ public class Bean1 {
 	 * @param doublePObj The doublePObj to set
 	 */
 	public void setDoublePObj(Double doublePObj) {
-		_doublePObj = doublePObj;
+		this.doublePObj = doublePObj;
 	}
 
 	/**
@@ -297,7 +347,7 @@ public class Bean1 {
 	 * @param bean2P The bean2P to set
 	 */
 	public void setBean2P(Bean2 bean2P) {
-		_bean2P = bean2P;
+		this.bean2P = bean2P;
 	}
 
 	/**
@@ -305,7 +355,7 @@ public class Bean1 {
 	 * @param floatP The floatP to set
 	 */
 	public void setFloatP(float floatP) {
-		_floatP = floatP;
+		this.floatP = floatP;
 	}
 
 	/**
@@ -313,7 +363,7 @@ public class Bean1 {
 	 * @param floatPObj The floatPObj to set
 	 */
 	public void setFloatPObj(Float floatPObj) {
-		_floatPObj = floatPObj;
+		this.floatPObj = floatPObj;
 	}
 
 	/**
@@ -321,7 +371,7 @@ public class Bean1 {
 	 * @param intP The intP to set
 	 */
 	public void setIntP(int intP) {
-		_intP = intP;
+		this.intP = intP;
 	}
 
 	/**
@@ -329,7 +379,7 @@ public class Bean1 {
 	 * @param intPObj The intPObj to set
 	 */
 	public void setIntPObj(Integer intPObj) {
-		_intPObj = intPObj;
+		this.intPObj = intPObj;
 	}
 
 	/**
@@ -337,7 +387,7 @@ public class Bean1 {
 	 * @param longP The longP to set
 	 */
 	public void setLongP(long longP) {
-		_longP = longP;
+		this.longP = longP;
 	}
 
 	/**
@@ -345,7 +395,7 @@ public class Bean1 {
 	 * @param longPObj The longPObj to set
 	 */
 	public void setLongPObj(Long longPObj) {
-		_longPObj = longPObj;
+		this.longPObj = longPObj;
 	}
 
 	/**
@@ -353,7 +403,7 @@ public class Bean1 {
 	 * @param shortP The shortP to set
 	 */
 	public void setShortP(short shortP) {
-		_shortP = shortP;
+		this.shortP = shortP;
 	}
 
 	/**
@@ -361,7 +411,7 @@ public class Bean1 {
 	 * @param shortPObj The shortPObj to set
 	 */
 	public void setShortPObj(Short shortPObj) {
-		_shortPObj = shortPObj;
+		this.shortPObj = shortPObj;
 	}
 
 	/**
@@ -369,7 +419,7 @@ public class Bean1 {
 	 * @param stringBufferP The stringBufferP to set
 	 */
 	public void setStringBufferP(StringBuffer stringBufferP) {
-		_stringBufferP = stringBufferP;
+		this.stringBufferP = stringBufferP;
 	}
 
 	/**
@@ -377,7 +427,7 @@ public class Bean1 {
 	 * @param stringP The stringP to set
 	 */
 	public void setStringP(String stringP) {
-		_stringP = stringP;
+		this.stringP = stringP;
 	}
 
 	/**
@@ -385,7 +435,7 @@ public class Bean1 {
 	 * @return int[]
 	 */
 	public int[] getIntPArray() {
-		return _intPArray;
+		return intPArray;
 	}
 
 	/**
@@ -393,25 +443,25 @@ public class Bean1 {
 	 * @param intPArray The intPArray to set
 	 */
 	public void setIntPArray(int[] intPArray) {
-		_intPArray = intPArray;
+		this.intPArray = intPArray;
 	}
    
    public int getIntPArray(int index) {
-      if ( _intPArray == null ) {
-         _intPArray = new int[index+1];
+      if ( intPArray == null ) {
+         intPArray = new int[index+1];
       }
-      return _intPArray[index];
+      return intPArray[index];
    }
    
    public void setIntPArray(int index,int indexedInt) {
-      _intPArray[index] = indexedInt;
+      intPArray[index] = indexedInt;
    }
 	/**
 	 * Returns the stringArrayP1.
 	 * @return String
 	 */
 	public String[] getStringArrayP1() {
-		return _stringArrayP1;
+		return stringArrayP1;
 	}
 
 	/**
@@ -419,7 +469,7 @@ public class Bean1 {
 	 * @return String
 	 */
 	public String[] getStringArrayP2() {
-		return _stringArrayP2;
+		return stringArrayP2;
 	}
 
 	/**
@@ -427,7 +477,7 @@ public class Bean1 {
 	 * @param stringArrayP1 The stringArrayP1 to set
 	 */
 	public void setStringArrayP1(String[] stringArrayP1) {
-		_stringArrayP1 = stringArrayP1;
+		this.stringArrayP1 = stringArrayP1;
 	}
 
 	/**
@@ -435,7 +485,7 @@ public class Bean1 {
 	 * @param stringArrayP2 The stringArrayP2 to set
 	 */
 	public void setStringArrayP2(String[] stringArrayP2) {
-		_stringArrayP2 = stringArrayP2;
+		this.stringArrayP2 = stringArrayP2;
 	}
 
 }

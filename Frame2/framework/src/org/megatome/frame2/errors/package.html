@@ -28,7 +28,7 @@ that need to be made in the message.<br><br>
 For example, if there is an entry the application resource bundle like this:<br>
 <code>some.error.message={0} messed up the {1}!</code><br><br>
 An Error can be created in this manner:<br>
-<code>Error err = new Error("some.error.message", "Bob", "widget");</code><br><br>
+<code>Error err = ErrorFactory.createError("some.error.message", "Bob", "widget");</code><br><br>
 The generated message (assuming a US locale) will be this:<br>
 <code>Bob messed up the widget!</code>
 </p>

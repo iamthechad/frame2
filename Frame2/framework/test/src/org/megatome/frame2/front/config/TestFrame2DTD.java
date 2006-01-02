@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ import org.xml.sax.SAXParseException;
  */
 public class TestFrame2DTD extends TestCase {
 
-	private DocumentBuilder _documentBuilder = null;
+	private DocumentBuilder documentBuilder = null;
 	/**
 	 * Constructor for TestFrame2DTD_1.0
 	 */
@@ -92,9 +92,9 @@ public class TestFrame2DTD extends TestCase {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setValidating(true);
 
-		_documentBuilder = dbf.newDocumentBuilder();
-		_documentBuilder.setErrorHandler(new Frame2ParseErrorHandler());
-		_documentBuilder.setEntityResolver(new Frame2EntityResolver());
+		documentBuilder = dbf.newDocumentBuilder();
+		documentBuilder.setErrorHandler(new Frame2ParseErrorHandler());
+		documentBuilder.setEntityResolver(new Frame2EntityResolver());
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class TestFrame2DTD extends TestCase {
 		try {
 			InputStream is =
 				getClass().getClassLoader().getResourceAsStream(configFile);
-			_documentBuilder.parse(is);
+			documentBuilder.parse(is);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			fail("Unexpected IOException");
@@ -213,7 +213,7 @@ public class TestFrame2DTD extends TestCase {
 		try {
 			InputStream is =
 				getClass().getClassLoader().getResourceAsStream(configFile);
-			_documentBuilder.parse(is);
+			documentBuilder.parse(is);
 		} catch (IOException ioe) {
 			fail("Unexpected IO Exception");
 		} catch (SAXParseException spe) {

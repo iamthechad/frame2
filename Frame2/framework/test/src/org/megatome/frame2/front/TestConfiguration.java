@@ -1,3 +1,53 @@
+/*
+ * ====================================================================
+ *
+ * Frame2 Open Source License
+ *
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by
+ *        Megatome Technologies."
+ *    Alternately, this acknowlegement may appear in the software itself,
+ *    if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "The Frame2 Project", and "Frame2", 
+ *    must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
+ *    permission, please contact iamthechad@sourceforge.net.
+ *
+ * 5. Products derived from this software may not be called "Frame2"
+ *    nor may "Frame2" appear in their names without prior written
+ *    permission of Megatome Technologies.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL MEGATOME TECHNOLOGIES OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ */
 package org.megatome.frame2.front;
 
 import java.util.List;
@@ -13,7 +63,7 @@ import org.megatome.frame2.front.config.ViewType;
  *
  */
 public class TestConfiguration extends TestCase {
-	private Configuration _config;
+	private Configuration config;
 
 	/**
 	* Constructor for TestConfiguration.
@@ -35,14 +85,14 @@ public class TestConfiguration extends TestCase {
 	*/
 	protected void setUp() throws Exception {
 		super.setUp();
-		_config =
+		config =
 			new Configuration("org/megatome/frame2/front/test-config.xml");
 	}
 
 	public void testEventBinding() {
 		Event event = null;
 		try {
-			event = _config.getEventProxy("event1").getEvent();
+			event = config.getEventProxy("event1").getEvent();
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage());
 		}
@@ -51,29 +101,29 @@ public class TestConfiguration extends TestCase {
 	}
 
 	public void testEventBinding_Empty() {
-		assertGetEventFails(_config, "");
+		assertGetEventFails(config, "");
 	}
 
 	public void testEventBinding_WrongEventType() {
-		assertGetEventFails(_config, "wrongEventType");
+		assertGetEventFails(config, "wrongEventType");
 	}
 
 	public void testEventBinding_TypeMissing() {
-		assertGetEventFails(_config, "bogus1");
+		assertGetEventFails(config, "bogus1");
 	}
 
 	public void testEventBinding_TypeNotEvent() {
-		assertGetEventFails(_config, "bogus2");
+		assertGetEventFails(config, "bogus2");
 	}
 
 	public void testEventBinding_NullName() {
-		assertGetEventFails(_config, null);
+		assertGetEventFails(config, null);
 	}
 
 	public void testHandlerBinding() {
 		List eventHandlers = null;
 		try {
-			eventHandlers = _config.getHandlers("event1");
+			eventHandlers = config.getHandlers("event1");
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage());
 		}
@@ -92,7 +142,7 @@ public class TestConfiguration extends TestCase {
 		assertTrue(handler2.getHandler() instanceof Ev1handler2);
 
 		try {
-			eventHandlers = _config.getHandlers("event2");
+			eventHandlers = config.getHandlers("event2");
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage());
 		}
@@ -112,7 +162,7 @@ public class TestConfiguration extends TestCase {
 	public void testXMLHandlerBinding() {
 		List eventHandlers = null;
 		try {
-			eventHandlers = _config.getHandlers("event111");
+			eventHandlers = config.getHandlers("event111");
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage());
 		}
@@ -134,7 +184,7 @@ public class TestConfiguration extends TestCase {
 		ForwardProxy fwd = null;
 		try {
 			fwd =
-				_config.resolveForward(
+				config.resolveForward(
 					handler1,
 					"view15",
 					Configuration.XML_TOKEN);
@@ -148,7 +198,7 @@ public class TestConfiguration extends TestCase {
 	public void testXMLResponder() {
 		List eventHandlers = null;
 		try {
-			eventHandlers = _config.getHandlers("event112");
+			eventHandlers = config.getHandlers("event112");
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage());
 		}
@@ -168,7 +218,7 @@ public class TestConfiguration extends TestCase {
 		ForwardProxy fwd = null;
 		try {
 			fwd =
-				_config.resolveForward(
+				config.resolveForward(
 					handler1,
 					"listResponder",
 					Configuration.XML_TOKEN);
@@ -183,7 +233,7 @@ public class TestConfiguration extends TestCase {
 	public void testXMLResponderNotInHTMLForwardsMap() {
 		List eventHandlers = null;
 		try {
-			eventHandlers = _config.getHandlers("event112");
+			eventHandlers = config.getHandlers("event112");
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage());
 		}
@@ -201,8 +251,8 @@ public class TestConfiguration extends TestCase {
 
 	public void testHandlerBinding_Cache() {
 		try {
-			List eventHandlers1 = _config.getHandlers("event1");
-			List eventHandlers2 = _config.getHandlers("event1");
+			List eventHandlers1 = config.getHandlers("event1");
+			List eventHandlers2 = config.getHandlers("event1");
 
 			assertSame(eventHandlers1, eventHandlers2);
 		} catch (ConfigException e) {
@@ -211,24 +261,24 @@ public class TestConfiguration extends TestCase {
 	}
 
 	public void testHandlerBinding_UnimplementedHandler() {
-		assertGetHandlerFails(_config, "event10");
+		assertGetHandlerFails(config, "event10");
 	}
 
 	public void testHandlerBinding_InvalidNames() {
-		assertGetHandlerFails(_config, null);
-		assertGetHandlerFails(_config, "");
-		assertGetHandlerFails(_config, "bogusEventName");
+		assertGetHandlerFails(config, null);
+		assertGetHandlerFails(config, "");
+		assertGetHandlerFails(config, "bogusEventName");
 	}
 
 	public void testHandlerBinding_NoHandlerConfigured() {
-		assertGetHandlerFails(_config, "event9");
+		assertGetHandlerFails(config, "event9");
 	}
 
 	public void testBothViewType() {
 		String htmlForwardName = null;
 		try {
 			htmlForwardName =
-				_config.getEventMappingView("event2", ViewType.HTML);
+				config.getEventMappingView("event2", ViewType.HTML);
 		} catch (ViewException e) {
 			fail("Unexpected ViewException: " + e.getMessage());
 		}
@@ -236,7 +286,7 @@ public class TestConfiguration extends TestCase {
 		String xmlForwardName = null;
 		try {
 			xmlForwardName =
-				_config.getEventMappingView("event2", ViewType.XML);
+				config.getEventMappingView("event2", ViewType.XML);
 		} catch (ViewException e) {
 			fail("Unexpected ViewException: " + e.getMessage());
 		}
@@ -245,7 +295,7 @@ public class TestConfiguration extends TestCase {
 		// test XML View
 		ForwardProxy fwd = null;
 		try {
-			fwd = _config.resolveForward("view4", Configuration.XML_TOKEN);
+			fwd = config.resolveForward("view4", Configuration.XML_TOKEN);
 		} catch (ViewException e) {
 			fail("Unexpected ViewException: " + e.getMessage());
 		}
@@ -256,7 +306,7 @@ public class TestConfiguration extends TestCase {
 
 		// test HTML View
 		try {
-			fwd = _config.resolveForward("view4", Configuration.HTML_TOKEN);
+			fwd = config.resolveForward("view4", Configuration.HTML_TOKEN);
 		} catch (ViewException e) {
 			fail("Unexpected ViewException: " + e.getMessage());
 		}
@@ -270,7 +320,7 @@ public class TestConfiguration extends TestCase {
 		String xmlForwardName = null;
 		try {
 			xmlForwardName =
-				_config.getEventMappingView("event14", ViewType.XML);
+				config.getEventMappingView("event14", ViewType.XML);
 			fail("We should have gotten an exception");
 		} catch (ViewException e) {
 			assertNull(xmlForwardName);
@@ -281,7 +331,7 @@ public class TestConfiguration extends TestCase {
 		// test XML View
 		ForwardProxy fwd = null;
 		try {
-			fwd = _config.resolveForward("event1", Configuration.XML_TOKEN);
+			fwd = config.resolveForward("event1", Configuration.XML_TOKEN);
 			fail("We should have gotten an exception");
 		} catch (ViewException e) {
 			assertNull(fwd);
@@ -290,7 +340,7 @@ public class TestConfiguration extends TestCase {
 
 	public void testEventDefaultResolveAs() {
 		try {
-			EventProxy eProxy = _config.getEventProxy("event1");
+			EventProxy eProxy = config.getEventProxy("event1");
 			assertTrue(eProxy.isParent());
 			assertFalse(eProxy.isChildren());
 			assertFalse(eProxy.isPassThru());
@@ -301,7 +351,7 @@ public class TestConfiguration extends TestCase {
 
 	public void testEventResolveAsChildren() {
 		try {
-			EventProxy eProxy = _config.getEventProxy("event12");
+			EventProxy eProxy = config.getEventProxy("event12");
 			assertFalse(eProxy.isParent());
 			assertTrue(eProxy.isChildren());
 			assertFalse(eProxy.isPassThru());
@@ -312,7 +362,7 @@ public class TestConfiguration extends TestCase {
 
 	public void testEventResolveAsPassThru() {
 		try {
-			EventProxy eProxy = _config.getEventProxy("event2");
+			EventProxy eProxy = config.getEventProxy("event2");
 			assertFalse(eProxy.isParent());
 			assertFalse(eProxy.isChildren());
 			assertTrue(eProxy.isPassThru());
@@ -326,7 +376,7 @@ public class TestConfiguration extends TestCase {
 		ExceptionProxy exception = null;
 		try {
 			exception =
-				_config.resolveException(
+				config.resolveException(
 					ex,
 					Configuration.HTML_TOKEN,
 					ViewType.HTML);
@@ -342,7 +392,7 @@ public class TestConfiguration extends TestCase {
 		ExceptionProxy exception = null;
 		try {
 			exception =
-				_config.resolveException(
+				config.resolveException(
 					ex,
 					Configuration.HTML_TOKEN,
 					ViewType.HTML);
@@ -359,7 +409,7 @@ public class TestConfiguration extends TestCase {
 		ExceptionProxy exception = null;
 		try {
 			exception =
-				_config.resolveException(
+				config.resolveException(
 					ex,
 					Configuration.XML_TOKEN,
 					ViewType.XML);
@@ -374,13 +424,13 @@ public class TestConfiguration extends TestCase {
 	public void testRedirect() {
 		ForwardProxy fwd = null;
 		try {
-			fwd = _config.resolveForward("view1", Configuration.HTML_TOKEN);
+			fwd = config.resolveForward("view1", Configuration.HTML_TOKEN);
 		} catch (ViewException e) {
 			fail("Unexpected ViewException: " + e.getMessage());
 		}
 		assertFalse(fwd.isRedirect());
 		try {
-			fwd = _config.resolveForward("redirect", Configuration.HTML_TOKEN);
+			fwd = config.resolveForward("redirect", Configuration.HTML_TOKEN);
 		} catch (ViewException e) {
 			fail("Unexpected ViewException: " + e.getMessage());
 		}
@@ -391,7 +441,7 @@ public class TestConfiguration extends TestCase {
 		try {
 			assertEquals(
 				"/view3.jsp",
-				_config.inputViewFor("event3", Configuration.HTML_TOKEN));
+				config.inputViewFor("event3", Configuration.HTML_TOKEN));
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage());
 		} catch (ViewException e) {
@@ -399,7 +449,7 @@ public class TestConfiguration extends TestCase {
 		}
 
 		try {
-			_config.inputViewFor("event111", Configuration.XML_TOKEN);
+			config.inputViewFor("event111", Configuration.XML_TOKEN);
 			fail();
 		} catch (Exception e) {}
 	}
@@ -407,7 +457,7 @@ public class TestConfiguration extends TestCase {
 	public void testCancelViewFor() {
 		ForwardProxy fwd = null;
 		try {
-			fwd = _config.cancelViewFor("event3", Configuration.HTML_TOKEN);
+			fwd = config.cancelViewFor("event3", Configuration.HTML_TOKEN);
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage());
 		} catch (ViewException e) {
@@ -417,13 +467,13 @@ public class TestConfiguration extends TestCase {
 		assertEquals("/view2.jsp", fwd.getPath());
 
 		try {
-			_config.cancelViewFor("event111", Configuration.XML_TOKEN);
+			config.cancelViewFor("event111", Configuration.XML_TOKEN);
 			fail();
 		} catch (Exception e) {}
 	}
 
 	public void testPluginProxy() {
-		List proxies = _config.getPluginProxies();
+		List proxies = config.getPluginProxies();
 		assertTrue(proxies.size() == 5);
 
 		PluginProxy proxy = (PluginProxy)proxies.get(0);
@@ -440,7 +490,7 @@ public class TestConfiguration extends TestCase {
 
 	public void testNegativePluginProxy() {
 		try {
-			_config =
+			config =
 				new Configuration("org/megatome/frame2/front/test-negative-plugin-config.xml");
 		} catch (ConfigException e) {
 			return;
@@ -449,17 +499,17 @@ public class TestConfiguration extends TestCase {
 	}
 
 	private void assertGetHandlerFails(
-		Configuration config,
+		Configuration cfg,
 		String eventName) {
 		try {
-			config.getHandlers(eventName);
+			cfg.getHandlers(eventName);
 			fail();
 		} catch (ConfigException e) {}
 	}
 
-	private void assertGetEventFails(Configuration config, String eventName) {
+	private void assertGetEventFails(Configuration cfg, String eventName) {
 		try {
-			config.getEventProxy(eventName).getEvent();
+			cfg.getEventProxy(eventName).getEvent();
 			fail();
 		} catch (ConfigException expected) {}
 	}

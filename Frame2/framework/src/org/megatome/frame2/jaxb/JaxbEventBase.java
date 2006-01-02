@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -116,22 +116,22 @@ public class JaxbEventBase extends CommonsValidatorEvent {
     }
 
     private class ValidationMonitor implements ValidationEventHandler {
-        private List _events = new ArrayList();
+        private List events = new ArrayList();
 
         /**
          * @see javax.xml.bind.ValidationEventHandler#handleEvent(ValidationEvent)
          */
         public boolean handleEvent(ValidationEvent arg0) {
-            _events.add(arg0);
+            events.add(arg0);
 
             return true;
         }
 
         void populate(Errors errors) {
-            if ((errors != null) && !_events.isEmpty()) {
+            if ((errors != null) && !events.isEmpty()) {
 
-                for (int i = 0; i < _events.size(); i++) {
-                    ValidationEvent event = (ValidationEvent)_events.get(i);
+                for (int i = 0; i < events.size(); i++) {
+                    ValidationEvent event = (ValidationEvent)events.get(i);
 
                     String key = getKey(event);
                     String msg = getMessage(event);

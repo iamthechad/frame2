@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,9 +73,9 @@ import org.megatome.frame2.log.LoggerFactory;
  */
 public class ResourceLocator {
 	static private Logger LOGGER = LoggerFactory.instance(ResourceLocator.class.getName());
-	static private ResourceBundle _emptyBundle = new EmptyBundle();
-	static private String _basename;
-	static private Map _bundleCache = new HashMap();
+	static private ResourceBundle emptyBundle = new EmptyBundle();
+	static private String basename;
+	static private Map bundleCache = new HashMap();
 
 	private ResourceLocator() {
 	}
@@ -95,9 +95,9 @@ public class ResourceLocator {
     * @return ResourceBundle resource bundle for that locale, null if not found.
     */
 	static public ResourceBundle getBundle(Locale locale) {
-		if (_basename == null) {
+		if (basename == null) {
 			LOGGER.warn("Empty (default) resource being used");
-			return _emptyBundle;
+			return emptyBundle;
 		}
 
 		ResourceBundle result = null;
@@ -106,13 +106,13 @@ public class ResourceLocator {
 			locale = Locale.getDefault();
 		}
 
-		result = (ResourceBundle) _bundleCache.get(locale);
+		result = (ResourceBundle) bundleCache.get(locale);
 
 		if (result == null) {
-			result = ResourceBundle.getBundle(_basename, locale);
+			result = ResourceBundle.getBundle(basename, locale);
 
 			if (result != null) {
-				_bundleCache.put(locale, result);
+				bundleCache.put(locale, result);
 			}
 		}
 
@@ -125,19 +125,19 @@ public class ResourceLocator {
     * @param name
     */
 	static public void setBasename(String basename) {
-      _bundleCache.clear();
-		_basename = basename;
+      bundleCache.clear();
+		ResourceLocator.basename = basename;
 	}
 
 	private static class EmptyBundle extends ResourceBundle {
-		Enumeration _emptyEnumeration = new EmptyEnumeration();
+		Enumeration emptyEnumeration = new EmptyEnumeration();
 
 		protected Object handleGetObject(String key) {
 			return null;
 		}
 
 		public Enumeration getKeys() {
-			return _emptyEnumeration;
+			return emptyEnumeration;
 		}
 
 		private class EmptyEnumeration implements Enumeration {
@@ -156,7 +156,7 @@ public class ResourceLocator {
     * @return String
     */
 	public static String getBasename() {
-		return _basename;
+		return basename;
 	}
 
 }

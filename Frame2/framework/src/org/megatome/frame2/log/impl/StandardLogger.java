@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2006 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,79 +63,79 @@ import org.megatome.frame2.log.Logger;
  */
 
 public class StandardLogger implements Logger {
-	private java.util.logging.Logger _stdLogger;
-	private java.util.logging.Level _debugLevel = java.util.logging.Level.FINE;
-	private java.util.logging.Level _infoLevel = java.util.logging.Level.INFO;
-	private java.util.logging.Level _warnLevel = java.util.logging.Level.WARNING;
-	private java.util.logging.Level _severeLevel = java.util.logging.Level.SEVERE;
+	private java.util.logging.Logger stdLogger;
+	private java.util.logging.Level debugLevel = java.util.logging.Level.FINE;
+	private java.util.logging.Level infoLevel = java.util.logging.Level.INFO;
+	private java.util.logging.Level warnLevel = java.util.logging.Level.WARNING;
+	private java.util.logging.Level severeLevel = java.util.logging.Level.SEVERE;
 
 	/**
 	 * Constructor for StandardLogger.
 	 */
 	public StandardLogger(String name) {
-		_stdLogger = java.util.logging.Logger.getLogger(name);
+		stdLogger = java.util.logging.Logger.getLogger(name);
 	}
 
 	public String getName() {
-		return _stdLogger.getName();
+		return stdLogger.getName();
 	}
 
 	public void debug(String message) {
-      log(_debugLevel,message);
+      log(debugLevel,message);
 	}
 
 	public void debug(String message, Throwable t) {
-      log(_debugLevel,message,t);
+      log(debugLevel,message,t);
 	}
 
 	public boolean isDebugEnabled() {
-		return _stdLogger.isLoggable(_debugLevel);
+		return stdLogger.isLoggable(debugLevel);
 	}
 
 	public boolean isInfoEnabled() {
-		return _stdLogger.isLoggable(_infoLevel);
+		return stdLogger.isLoggable(infoLevel);
 	}
 
 	public boolean isSevereEnabled() {
-		return _stdLogger.isLoggable(_severeLevel);
+		return stdLogger.isLoggable(severeLevel);
 	}
 
 	public boolean isWarnEnabled() {
-		return _stdLogger.isLoggable(_warnLevel);
+		return stdLogger.isLoggable(warnLevel);
 	}
 
 	public void info(String message) {
-      log(_infoLevel,message);
+      log(infoLevel,message);
 	}
 
 	public void info(String message, Throwable t) {
-      log(_infoLevel,message,t);
+      log(infoLevel,message,t);
 	}
 
 	public void warn(String message) {
-      log(_warnLevel,message);
+      log(warnLevel,message);
 	}
 
 	public void warn(String message, Throwable t) {
-      log(_warnLevel,message,t);
+      log(warnLevel,message,t);
 	}
 
 	public void severe(String message) {
-      log(_severeLevel,message);
+      log(severeLevel,message);
 	}
 
 	public void severe(String message, Throwable t) {
-      log(_severeLevel,message,t);
+      log(severeLevel,message,t);
 	}
 
    private void log(java.util.logging.Level level,String message) {
       StackTraceElement frame = getOriginalCallingFrame();
-      _stdLogger.logp(level,frame.getClassName(),frame.getMethodName(), message);
+      stdLogger.logp(level,frame.getClassName(),frame.getMethodName(), message);
    }
 
    private void log(java.util.logging.Level level,String message,Throwable t) {
       StackTraceElement frame = getOriginalCallingFrame();
-      _stdLogger.logp(level,frame.getClassName(),frame.getMethodName(), message, t);
+      stdLogger.logp(level,frame.getClassName(),frame.getMethodName(), message, t);
    }
 
 	private StackTraceElement getOriginalCallingFrame() {
