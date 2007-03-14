@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,8 @@ import java.util.Collection;
  */
 public class MappingsException extends IntrospectorException {
 
+   private static final long serialVersionUID = -8210673102700291097L;
+
    private MappingException[] mappingExceptions;
 
    static private MappingException[] TYPE_ARRAY = new MappingException[0];
@@ -67,8 +69,8 @@ public class MappingsException extends IntrospectorException {
 	 * Constructor for MappingsException.
 	 * @param errors Collection of errors to aggregate
 	 */
-	MappingsException(Collection errors) {
-      mappingExceptions = (MappingException[]) errors.toArray(TYPE_ARRAY);
+	MappingsException(Collection<MappingException> errors) {
+      this.mappingExceptions = errors.toArray(TYPE_ARRAY);
 	}
 
 	/**
@@ -76,9 +78,9 @@ public class MappingsException extends IntrospectorException {
 	 * @param message The message for this exception
 	 * @param errors The errors to aggregate
 	 */
-	MappingsException(String message,Collection errors) {
+	MappingsException(String message,Collection<MappingException> errors) {
 		super(message);
-      mappingExceptions = (MappingException[]) errors.toArray(TYPE_ARRAY);
+      this.mappingExceptions = errors.toArray(TYPE_ARRAY);
 	}
    
    /**
@@ -86,6 +88,6 @@ public class MappingsException extends IntrospectorException {
     * @return An array of all errors generated for a map call.
     */
    public MappingException[] getMappingExceptions() {
-      return mappingExceptions;
+      return this.mappingExceptions;
    }
 }

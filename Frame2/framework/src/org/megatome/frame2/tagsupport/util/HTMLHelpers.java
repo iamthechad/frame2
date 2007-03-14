@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,7 @@ import org.megatome.frame2.tagsupport.TagConstants;
 
 public final class HTMLHelpers {
     private HTMLHelpers() {
+    	// Not public
     }
 
     /**
@@ -78,7 +79,7 @@ public final class HTMLHelpers {
      *         null.
      */
     public static String buildHtmlAttr(String attrName, String attrValue) {
-        if (attrValue != null && !attrValue.trim().equals("")) {
+        if (attrValue != null && !attrValue.trim().equals("")) { //$NON-NLS-1$
             StringBuffer exprAttr = new StringBuffer();
             exprAttr.append(TagConstants.SPACE);
             exprAttr.append(attrName);
@@ -88,18 +89,18 @@ public final class HTMLHelpers {
             return exprAttr.toString();
         }
 
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
     public static String buildHtmlAttr(String attrName) {
-        if ((attrName != null) && (!attrName.trim().equals(""))) {
+        if ((attrName != null) && (!attrName.trim().equals(""))) { //$NON-NLS-1$
             StringBuffer exprAttr = new StringBuffer();
             exprAttr.append(TagConstants.SPACE);
             exprAttr.append(attrName);
             return exprAttr.toString();
         }
 
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
     /**
@@ -115,7 +116,7 @@ public final class HTMLHelpers {
             writer.print(data);
         } catch (Exception e) {
             throw new JspException(
-                    "Failure writing to pageContext.  Exception = "
+                    "Failure writing to pageContext.  Exception = " //$NON-NLS-1$
                             + e.getMessage(), e);
         }
     }
@@ -128,9 +129,9 @@ public final class HTMLHelpers {
      */
     public static String buildExprAttr(String attrName) {
         StringBuffer exprAttr = new StringBuffer();
-        exprAttr.append("${");
+        exprAttr.append("${"); //$NON-NLS-1$
         exprAttr.append(attrName);
-        exprAttr.append("}");
+        exprAttr.append("}"); //$NON-NLS-1$
         return exprAttr.toString();
     }
 

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,45 +52,46 @@ package org.megatome.frame2.template;
 
 import org.megatome.frame2.Frame2Exception;
 
-
 /*
- * This is the base exception type for all WAM framework code.  Each package
- * will define its own exception based on this.
+ * This is the base exception type for all WAM framework code. Each package will
+ * define its own exception based on this.
  */
 public class TemplateException extends Frame2Exception {
 
-   /**
-    * Constructor for TemplateException.
-    */
-   public TemplateException() {
-      super();
-   }
+	private static final long serialVersionUID = 529400582900627338L;
 
-   /**
-    * Constructor for TemplateException.
-    *
-    * @param arg0
-    */
-   public TemplateException(String arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for TemplateException.
+	 */
+	public TemplateException() {
+		super();
+	}
 
-   /**
-    * Constructor for TemplateException.
-    *
-    * @param arg0
-    * @param arg1
-    */
-   public TemplateException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
-   }
+	/**
+	 * Constructor for TemplateException.
+	 * 
+	 * @param arg0
+	 */
+	public TemplateException(String arg0) {
+		super(arg0);
+	}
 
-   /**
-    * Constructor for TemplateException.
-    *
-    * @param arg0
-    */
-   public TemplateException(Throwable arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for TemplateException.
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 */
+	public TemplateException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+	}
+
+	/**
+	 * Constructor for TemplateException.
+	 * 
+	 * @param arg0
+	 */
+	public TemplateException(Throwable arg0) {
+		super(arg0);
+	}
 }

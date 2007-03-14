@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,11 +60,11 @@ import org.xml.sax.Attributes;
  * file.
  */
 class EventHandlerTagHandler extends ConfigElementHandler {
-    public static final String NAME = "name";
-    public static final String TYPE = "type";
+    public static final String NAME = "name"; //$NON-NLS-1$
+    public static final String TYPE = "type"; //$NON-NLS-1$
     private InitParamTagHandler inputParamTagHandler;
     private ForwardTagHandler forwardTagHandler;
-    private Map eventHandlers = new HashMap();
+    private Map<String, EventHandlerDef> eventHandlers = new HashMap<String, EventHandlerDef>();
     private EventHandlerDef eventHandler;
 
     /**
@@ -78,33 +78,42 @@ class EventHandlerTagHandler extends ConfigElementHandler {
         this.forwardTagHandler = forwardTagHandler;
     }
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) {
-        eventHandler = new EventHandlerDef();
-        eventHandler.setName(attributes.getValue(NAME));
-        eventHandler.setType(attributes.getValue(TYPE));
+        this.eventHandler = new EventHandlerDef();
+        this.eventHandler.setName(attributes.getValue(NAME));
+        this.eventHandler.setType(attributes.getValue(TYPE));
     }
 
-    public void endElement(String uri, String localName, String qName) {
-        eventHandler.setXMLForwards(forwardTagHandler.getXMLForwards());
-        eventHandler.setHTMLForwards(forwardTagHandler.getHTMLForwards());
-        forwardTagHandler.clear();
-        eventHandler.setInitParams(inputParamTagHandler.getParams());
-        inputParamTagHandler.clear();
-        eventHandlers.put(eventHandler.getName(), eventHandler);
+    @Override
+	public void endElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName) {
+        this.eventHandler.setXMLForwards(this.forwardTagHandler.getXMLForwards());
+        this.eventHandler.setHTMLForwards(this.forwardTagHandler.getHTMLForwards());
+        this.forwardTagHandler.clear();
+        this.eventHandler.setInitParams(this.inputParamTagHandler.getParams());
+        this.inputParamTagHandler.clear();
+        this.eventHandlers.put(this.eventHandler.getName(), this.eventHandler);
     }
 
     /**
      * @return returns a clone of the EventHandlers List
      */
-    public Map getEventHandlers() {
-        return eventHandlers;
+    public Map<String, EventHandlerDef> getEventHandlers() {
+        return this.eventHandlers;
     }
 
     /**
      * clear the EventHandlerDef List
      */
-    public void clear() {
-        eventHandlers.clear();
+    @Override
+	public void clear() {
+        this.eventHandlers.clear();
     }
 }

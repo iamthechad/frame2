@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,6 @@ import org.megatome.frame2.front.config.Forward;
 public class ExceptionProxy extends ForwardProxy {
    private ExceptionDef edef;
 
-   // no dft constructor
    public ExceptionProxy() {
       super();
    }
@@ -71,10 +70,10 @@ public class ExceptionProxy extends ForwardProxy {
    }
 
    public String getType() {
-      return edef.getType();
+      return this.edef.getType();
    }
 
    public String getKey() {
-      return edef.getKey();
+      return this.edef.getKey();
    }
 }

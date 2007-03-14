@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,36 +52,41 @@ package org.megatome.frame2.validator;
 
 public class CommonsValidatorException extends Exception {
 
-   /**
-    * Constructor for CommonsValidatorException.
-    */
-   public CommonsValidatorException() {
-      super();
-   }
+	private static final long serialVersionUID = -6525689789408572768L;
 
-   /**
-    * Constructor for CommonsValidatorException.
-    * @param message
-    */
-   public CommonsValidatorException(String message) {
-      super(message);
-   }
+	/**
+	 * Constructor for CommonsValidatorException.
+	 */
+	public CommonsValidatorException() {
+		super();
+	}
 
-   /**
-    * Constructor for CommonsValidatorException.
-    * @param message
-    * @param cause
-    */
-   public CommonsValidatorException(String message, Throwable cause) {
-      super(message, cause);
-   }
+	/**
+	 * Constructor for CommonsValidatorException.
+	 * 
+	 * @param message
+	 */
+	public CommonsValidatorException(String message) {
+		super(message);
+	}
 
-   /**
-    * Constructor for CommonsValidatorException.
-    * @param cause
-    */
-   public CommonsValidatorException(Throwable cause) {
-      super(cause);
-   }
+	/**
+	 * Constructor for CommonsValidatorException.
+	 * 
+	 * @param message
+	 * @param cause
+	 */
+	public CommonsValidatorException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * Constructor for CommonsValidatorException.
+	 * 
+	 * @param cause
+	 */
+	public CommonsValidatorException(Throwable cause) {
+		super(cause);
+	}
 
 }

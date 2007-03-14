@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,24 +76,24 @@ class IntrospectorImpl implements Introspector {
     *        objects.
     * @param toBean Bean object to
     */
-   public void mapProperties(Map fromMap, Object toBean) throws IntrospectorException {
+   public void mapProperties(Map<String, Object> fromMap, Object toBean) throws IntrospectorException {
       if ((fromMap == null) || (toBean == null)) {
          return;
       }
 
-      Iterator propertyKeys = fromMap.keySet().iterator();
+      Iterator<String> propertyKeys = fromMap.keySet().iterator();
 
-      Collection mapexcs = null;
+      Collection<MappingException> mapexcs = null;
 
       while (propertyKeys.hasNext()) {
-         String key = (String) propertyKeys.next();
+         String key = propertyKeys.next();
 
          if (key != null) {
             try {
                setProperty(toBean, key, fromMap.get(key));
             } catch (MappingException e) {
                if (mapexcs == null) {
-                  mapexcs = new ArrayList();
+                  mapexcs = new ArrayList<MappingException>();
                }
 
                mapexcs.add(e);
@@ -102,12 +102,12 @@ class IntrospectorImpl implements Introspector {
       }
 
       if (mapexcs != null) {
-         LOGGER.severe("Unable to perform mapping due to bean errors:");
-         for (Iterator i = mapexcs.iterator(); i.hasNext();) {
-            MappingException me = (MappingException)i.next();
-            LOGGER.severe("Mapping error for bean [" + me.getBeanName() + "." + me.getProperty() +"]: " + me.getMessage(), me);
+         LOGGER.severe("Unable to perform mapping due to bean errors:"); //$NON-NLS-1$
+         for (Iterator<MappingException> i = mapexcs.iterator(); i.hasNext();) {
+            MappingException me = i.next();
+            LOGGER.severe("Mapping error for bean [" + me.getBeanName() + "." + me.getProperty() +"]: " + me.getMessage(), me); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          }
-         throw new MappingsException("Unable to perform mapping due to bean errors", mapexcs);
+         throw new MappingsException("Unable to perform mapping due to bean errors", mapexcs); //$NON-NLS-1$
       }
    }
 
@@ -122,12 +122,12 @@ class IntrospectorImpl implements Introspector {
 
          if (LOGGER.isDebugEnabled()) {
             LOGGER.debug(
-               "Setting property [" + key + "," + value + "] in " + inBean.getClass().getName());
+               "Setting property [" + key + "," + value + "] in " + inBean.getClass().getName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          }
 
          command.set(mapping, value);
       } else {
-         LOGGER.debug("Property " + key + " not available in bean");
+         LOGGER.debug("Property " + key + " not available in bean"); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 /*

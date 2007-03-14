@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import java.util.List;
 public abstract class MappingType {
     private String value;
 
-    private static List mappings = new ArrayList();
+    private static List<MappingType> mappings = new ArrayList<MappingType>();
 
     protected MappingType(final String value) {
         this.value = value;
@@ -72,10 +72,11 @@ public abstract class MappingType {
      * @return value
      */
     public String getValue() {
-        return value;
+        return this.value;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if ((obj == null) || (!(obj instanceof MappingType))) {
             return false;
         }
@@ -85,18 +86,19 @@ public abstract class MappingType {
         }
 
         MappingType mt = (MappingType)obj;
-        return value.equals(mt.value);
+        return this.value.equals(mt.value);
     }
 
-    public int hashCode() {
-        return value.hashCode();
+    @Override
+	public int hashCode() {
+        return this.value.hashCode();
     }
 
     protected static MappingType getMappingByString(String value) {
         MappingType result = null;
 
-        for (final Iterator i = mappings.iterator(); i.hasNext();) {
-            MappingType current = (MappingType)i.next();
+        for (final Iterator<MappingType> i = mappings.iterator(); i.hasNext();) {
+            MappingType current = i.next();
 
             if (current.getValue().equals(value)) {
                 result = current;
@@ -113,7 +115,8 @@ public abstract class MappingType {
         }
     }
     
-    public String toString() {
-        return value;
+    @Override
+	public String toString() {
+        return this.value;
     }
 }

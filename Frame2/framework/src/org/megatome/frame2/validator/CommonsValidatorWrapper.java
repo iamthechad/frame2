@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ public class CommonsValidatorWrapper {
    //public static final String MAPPINGS_FILE = "commons-validation-mappings.xml";
    //public static final String ERRORS_KEY = "org.megatome.frame2.errors.Errors";   
           
-   static String cvFilePath = "/WEB-INF/commonsvalidator";
+   static String cvFilePath = "/WEB-INF/commonsvalidator"; //$NON-NLS-1$
    static String cvRulesFile = Globals.RULES_FILE;
    static String cvMappingsFile = Globals.MAPPINGS_FILE;
    
@@ -80,14 +80,16 @@ public class CommonsValidatorWrapper {
    
    private static Logger LOGGER = LoggerFactory.instance(CommonsValidatorWrapper.class.getName());
 
-   private CommonsValidatorWrapper() {}
+   private CommonsValidatorWrapper() {
+	   // not public
+   }
 
    public static void load(ServletContext context)
       throws CommonsValidatorException {
 
       validatorResources = new ValidatorResources();  
       
-      List fileNames = new ArrayList();
+      List<String> fileNames = new ArrayList<String>();
       fileNames.add(cvRulesFile);
       fileNames.add(cvMappingsFile);
 
@@ -97,7 +99,7 @@ public class CommonsValidatorWrapper {
             context.getResourceAsStream(filePath);
          if (in == null) {
              validatorResources = null;
-            throw new CommonsValidatorException("invalid filePath: " + filePath);             
+            throw new CommonsValidatorException("invalid filePath: " + filePath);              //$NON-NLS-1$
          }
          try {
             ValidatorResourcesInitializer.initialize(validatorResources, in);
@@ -146,7 +148,7 @@ public class CommonsValidatorWrapper {
       try {
         validator.validate();
       } catch (ValidatorException e) {
-        LOGGER.info("Error validating HttpEvent " + " beanName : " + e)  ;
+        LOGGER.info("Error validating HttpEvent beanName : " + e)  ; //$NON-NLS-1$
       }
       
    }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ import org.apache.commons.fileupload.FileItem;
  * setting of properties.
  */
 final class Converter {
-   static private Map converterMap = new HashMap();
+   static private Map<Class<?>, TypeConverter> converterMap = new HashMap<Class<?>, TypeConverter>();
 
    static {
       converterMap.put(BigDecimal.class, new BigDecimalConverter());
@@ -103,7 +103,7 @@ final class Converter {
    private Converter() { // Non-public ctor
    }
 
-   static Object convertValueToType(Object value, Class type) {
+   static Object convertValueToType(Object value, Class<?> type) {
       if ((value == null) || (type == null)) {
          return null;
       }
@@ -121,10 +121,10 @@ final class Converter {
       if (value instanceof String) {
          strValue = (String) value;
       } else {
-         throw new IllegalArgumentException("Conversion from non-string types not supported");
+         throw new IllegalArgumentException("Conversion from non-string types not supported"); //$NON-NLS-1$
       }
 
-      TypeConverter converter = (TypeConverter) converterMap.get(type);
+      TypeConverter converter = converterMap.get(type);
 
       if (converter != null) {
          return converter.convert(strValue);
@@ -133,7 +133,7 @@ final class Converter {
       return null;
    }
    
-	static Object convertValueToArrayType(Object value, Class type) {
+	static Object convertValueToArrayType(Object value, Class<?> type) {
 		if ((value == null) || (type == null)) {
 			return null;
 		}
@@ -151,10 +151,10 @@ final class Converter {
 		if (value instanceof String) {
 			strValue = (String) value;
 		} else {
-			throw new IllegalArgumentException("Conversion from non-string types not supported");
+			throw new IllegalArgumentException("Conversion from non-string types not supported"); //$NON-NLS-1$
 		}
 
-		TypeConverter converter = (TypeConverter) converterMap.get(type);
+		TypeConverter converter = converterMap.get(type);
 
 		if (converter != null) {
 			return converter.convertToArray(strValue);
@@ -163,130 +163,122 @@ final class Converter {
 		return null;
 	}
 
-   abstract private static class TypeConverter {
-      abstract Object convert(String fromString);
-      
-      Object[] convertToArray(String fromString) {
-      	return null;
-      }
-   }
-
-   private static class StringConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class StringConverter implements TypeConverter {
+	public Object convert(String fromString) {
          return fromString;
       }
       
-      Object[] convertToArray(String fromString) {
+	public Object[] convertToArray(String fromString) {
       	return new String[] { fromString };
       }
    }
 
-   private static class IntegerConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class IntegerConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new Integer(fromString.trim());
       }
       
-      Object[] convertToArray(String fromString) {
+      public Object[] convertToArray(String fromString) {
       	return new Integer[] { new Integer(fromString.trim()) };
       }
    }
 
-   private static class StringBufferConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class StringBufferConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new StringBuffer(fromString);
       }
       
-      Object[] convertToArray(String fromString) {
+      public Object[] convertToArray(String fromString) {
       	return new StringBuffer[] { new StringBuffer(fromString) };
       }
    }
 
-   private static class FloatConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class FloatConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new Float(fromString.trim());
       }
       
-      Object[] convertToArray(String fromString) {
+      public Object[] convertToArray(String fromString) {
       	return new Float[] { new Float(fromString.trim()) };
       }
    }
 
-   private static class DoubleConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class DoubleConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new Double(fromString.trim());
       }
       
-      Object[] convertToArray(String fromString) {
+      public Object[] convertToArray(String fromString) {
       	return new Double[] { new Double(fromString.trim()) };
       }
    }
 
-   private static class ByteConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class ByteConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new Byte(fromString);
       }
       
-      Object[] convertToArray(String fromString) {
+      public Object[] convertToArray(String fromString) {
       	return new Byte[] { new Byte(fromString) };
       }
    }
 
-   private static class CharacterConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class CharacterConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new Character(fromString.charAt(0));
       }
       
-      Object[] convertToArray(String fromString) {
+      public Object[] convertToArray(String fromString) {
       	return new Character[] { new Character(fromString.charAt(0)) };
       }
    }
 
-   private static class ShortConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class ShortConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new Short(fromString.trim());
       }
       
-		Object[] convertToArray(String fromString) {
+		public Object[] convertToArray(String fromString) {
 			return new Short[] { new Short(fromString.trim()) };
 		}
    }
 
-   private static class BooleanConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class BooleanConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new Boolean(fromString.trim());
       }
       
-		Object[] convertToArray(String fromString) {
+		public Object[] convertToArray(String fromString) {
 			return new Boolean[] { new Boolean(fromString.trim()) };
 		}
    }
 
-   private static class LongConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class LongConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new Long(fromString.trim());
       }
       
-		Object[] convertToArray(String fromString) {
+		public Object[] convertToArray(String fromString) {
 			return new Long[] { new Long(fromString.trim()) };
 		}
    }
 
-   private static class BigIntegerConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class BigIntegerConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new BigInteger(fromString.trim());
       }
       
-		Object[] convertToArray(String fromString) {
+		public Object[] convertToArray(String fromString) {
 			return new BigInteger[] { new BigInteger(fromString.trim()) };
 		}
    }
 
-   private static class BigDecimalConverter extends TypeConverter {
-      Object convert(String fromString) {
+   static class BigDecimalConverter implements TypeConverter {
+      public Object convert(String fromString) {
          return new BigDecimal(fromString.trim());
       }
       
-		Object[] convertToArray(String fromString) {
+		public Object[] convertToArray(String fromString) {
 			return new BigDecimal[] { new BigDecimal(fromString.trim()) };
 		}
    }

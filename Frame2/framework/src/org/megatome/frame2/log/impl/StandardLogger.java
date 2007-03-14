@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,69 +73,69 @@ public class StandardLogger implements Logger {
 	 * Constructor for StandardLogger.
 	 */
 	public StandardLogger(String name) {
-		stdLogger = java.util.logging.Logger.getLogger(name);
+		this.stdLogger = java.util.logging.Logger.getLogger(name);
 	}
 
 	public String getName() {
-		return stdLogger.getName();
+		return this.stdLogger.getName();
 	}
 
 	public void debug(String message) {
-      log(debugLevel,message);
+      log(this.debugLevel,message);
 	}
 
 	public void debug(String message, Throwable t) {
-      log(debugLevel,message,t);
+      log(this.debugLevel,message,t);
 	}
 
 	public boolean isDebugEnabled() {
-		return stdLogger.isLoggable(debugLevel);
+		return this.stdLogger.isLoggable(this.debugLevel);
 	}
 
 	public boolean isInfoEnabled() {
-		return stdLogger.isLoggable(infoLevel);
+		return this.stdLogger.isLoggable(this.infoLevel);
 	}
 
 	public boolean isSevereEnabled() {
-		return stdLogger.isLoggable(severeLevel);
+		return this.stdLogger.isLoggable(this.severeLevel);
 	}
 
 	public boolean isWarnEnabled() {
-		return stdLogger.isLoggable(warnLevel);
+		return this.stdLogger.isLoggable(this.warnLevel);
 	}
 
 	public void info(String message) {
-      log(infoLevel,message);
+      log(this.infoLevel,message);
 	}
 
 	public void info(String message, Throwable t) {
-      log(infoLevel,message,t);
+      log(this.infoLevel,message,t);
 	}
 
 	public void warn(String message) {
-      log(warnLevel,message);
+      log(this.warnLevel,message);
 	}
 
 	public void warn(String message, Throwable t) {
-      log(warnLevel,message,t);
+      log(this.warnLevel,message,t);
 	}
 
 	public void severe(String message) {
-      log(severeLevel,message);
+      log(this.severeLevel,message);
 	}
 
 	public void severe(String message, Throwable t) {
-      log(severeLevel,message,t);
+      log(this.severeLevel,message,t);
 	}
 
    private void log(java.util.logging.Level level,String message) {
       StackTraceElement frame = getOriginalCallingFrame();
-      stdLogger.logp(level,frame.getClassName(),frame.getMethodName(), message);
+      this.stdLogger.logp(level,frame.getClassName(),frame.getMethodName(), message);
    }
 
    private void log(java.util.logging.Level level,String message,Throwable t) {
       StackTraceElement frame = getOriginalCallingFrame();
-      stdLogger.logp(level,frame.getClassName(),frame.getMethodName(), message, t);
+      this.stdLogger.logp(level,frame.getClassName(),frame.getMethodName(), message, t);
    }
 
 	private StackTraceElement getOriginalCallingFrame() {

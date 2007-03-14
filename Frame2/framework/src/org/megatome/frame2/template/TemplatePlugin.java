@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,51 +60,59 @@ import org.megatome.frame2.plugin.PluginException;
 import org.megatome.frame2.plugin.PluginInterface;
 
 public class TemplatePlugin implements PluginInterface {
-   
-   private static String DEFAULT_TEMPLATE_DIR = "/WEB-INF/templates/";
-   private static String configDir = DEFAULT_TEMPLATE_DIR;
-   private static String DEFAULT_TEMPLATE_FILE = "templates.xml";
-   public  static String PLUGIN_INIT_ERROR = "Template Plugin Initialization Error: ";
-   private String templateFile = DEFAULT_TEMPLATE_FILE;
 
-   private Logger getLogger() {
-      return LoggerFactory.instance(TemplatePlugin.class.getName());
-   }
-   /**
-    * 
-    */
-   public TemplatePlugin() {
-      super();
-   }
-   
-   public void setConfigDir(String templateDir) {
-      configDir = templateDir;
-   }
+	private static String DEFAULT_TEMPLATE_DIR = "/WEB-INF/templates/"; //$NON-NLS-1$
 
-   
-   public void init(ServletContext context, Map initParams)
-      throws PluginException {
-      getLogger().debug("TemplatePlugin init()");
-      
+	private static String configDir = DEFAULT_TEMPLATE_DIR;
+
+	private static String DEFAULT_TEMPLATE_FILE = "templates.xml"; //$NON-NLS-1$
+
+	public static String PLUGIN_INIT_ERROR = "Template Plugin Initialization Error: "; //$NON-NLS-1$
+
+	private String templateFile = DEFAULT_TEMPLATE_FILE;
+
+	private Logger getLogger() {
+		return LoggerFactory.instance(TemplatePlugin.class.getName());
+	}
+
+	/**
+	 * 
+	 */
+	public TemplatePlugin() {
+		super();
+	}
+
+	public void setConfigDir(String templateDir) {
+		configDir = templateDir;
+	}
+
+	public void init(ServletContext context, @SuppressWarnings("unused")
+	Map<String, String> initParams) throws PluginException {
+		getLogger().debug("TemplatePlugin init()"); //$NON-NLS-1$
+
 		try {
-			TemplateConfigFactory.loadTemplateFile(context, configDir + templateFile);
+			TemplateConfigFactory.loadTemplateFile(context, configDir
+					+ this.templateFile);
 		} catch (TemplateException e) {
-         getLogger().severe(PLUGIN_INIT_ERROR + e.getMessage());
+			getLogger().severe(PLUGIN_INIT_ERROR + e.getMessage());
 			throw new PluginException(PLUGIN_INIT_ERROR + e.getMessage(), e);
 		}
-   }
+	}
 
-   public void destroy(ServletContext context, Map initParams) {
-      getLogger().debug("TemplatePlugin destroy()");
-      TemplateConfigFactory.release();
-   }
+	public void destroy(@SuppressWarnings("unused")
+	ServletContext context, @SuppressWarnings("unused")
+	Map<String, String> initParams) {
+		getLogger().debug("TemplatePlugin destroy()"); //$NON-NLS-1$
+		TemplateConfigFactory.release();
+	}
 
-   /**
-    * Returns the configDir.
-    * @return String
-    */
-   public static String getConfigDir() {
-      return configDir;
-   }
+	/**
+	 * Returns the configDir.
+	 * 
+	 * @return String
+	 */
+	public static String getConfigDir() {
+		return configDir;
+	}
 
 }

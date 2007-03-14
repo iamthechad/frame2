@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,8 +62,9 @@ import org.megatome.frame2.Globals;
  * @see org.megatome.frame2.introspector.MappingException#getKey
  */
 public class MappingException extends BeanException {
-   private PropertyMapping mapping;
-   private Object value = "[unknown]";
+	private static final long serialVersionUID = 2446083195663847286L;
+	private PropertyMapping mapping;
+   private Object value = "[unknown]"; //$NON-NLS-1$
 
    MappingException(String message, PropertyMapping mapping) {
       super(message);
@@ -94,8 +95,8 @@ public class MappingException extends BeanException {
    public String getBeanName() {
       String result = null;
 
-      if (mapping != null) {
-         result = mapping.getBean().getClass().getName();
+      if (this.mapping != null) {
+         result = this.mapping.getBean().getClass().getName();
       }
 
       return result;
@@ -109,8 +110,8 @@ public class MappingException extends BeanException {
    public String getProperty() {
       String result = null;
 
-      if (mapping != null) {
-         result = mapping.getKey();
+      if (this.mapping != null) {
+         result = this.mapping.getKey();
       }
 
       return result;
@@ -123,7 +124,7 @@ public class MappingException extends BeanException {
     * @return As above
     */
    public Object getValue() {
-      return value;
+      return this.value;
    }
 
    /**
@@ -136,12 +137,12 @@ public class MappingException extends BeanException {
     * @return As above
     */
    public String getKey() {
-      if (mapping != null) {
+      if (this.mapping != null) {
          StringBuffer result = new StringBuffer(Globals.MAPPING_KEY_PREFIX);
 
          result.append(getBeanName());
-         result.append(".");
-         result.append(mapping.getKey());
+         result.append("."); //$NON-NLS-1$
+         result.append(this.mapping.getKey());
 
          return result.toString();
       }

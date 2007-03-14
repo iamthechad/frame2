@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,7 +108,7 @@ public class Frame2ContextListener implements ServletContextListener {
     * for Frame2 by use of the RESOURCE_BUNDLE parameter.
     */
 
-   static String JSTL_CONTEXT_BUNDLE_PARAM = "javax.servlet.jsp.jstl.fmt.basename";
+   static String JSTL_CONTEXT_BUNDLE_PARAM = "javax.servlet.jsp.jstl.fmt.basename"; //$NON-NLS-1$
 
    /**
     * @see javax.servlet.ServletContextListener#contextInitialized(ServletContextEvent)
@@ -142,18 +142,18 @@ public class Frame2ContextListener implements ServletContextListener {
          configFileName = Globals.DEFAULT_CONFIG_FILE;
 
          getLogger().info(
-            "Configuration file not set through context params, using default path of "
+            "Configuration file not set through context params, using default path of " //$NON-NLS-1$
                + configFileName);
       } else {
-         getLogger().info("Configuration file set to " + configFileName);
+         getLogger().info("Configuration file set to " + configFileName); //$NON-NLS-1$
       }
 
       InputStream is = context.getResourceAsStream(configFileName);
 
       if (is == null) {
-         getLogger().severe("Unable to locate resource " + configFileName);
+         getLogger().severe("Unable to locate resource " + configFileName); //$NON-NLS-1$
       } else {
-         getLogger().info("Located resource " + configFileName);
+         getLogger().info("Located resource " + configFileName); //$NON-NLS-1$
       }
 
       ConfigFactory.setConfigFile(is, configFileName);
@@ -165,10 +165,10 @@ public class Frame2ContextListener implements ServletContextListener {
       try {
          if (loggerType != null) {
             LoggerFactory.setType(loggerType, getClass().getClassLoader());
-            getLogger().info("Configuring Frame2 logging to use " + loggerType);
+            getLogger().info("Configuring Frame2 logging to use " + loggerType); //$NON-NLS-1$
          }
       } catch (LoggerException e) {
-         throw new RuntimeException("Unable to set logger type to " + loggerType, e);
+         throw new RuntimeException("Unable to set logger type to " + loggerType, e); //$NON-NLS-1$
       }
    }
    
@@ -184,7 +184,7 @@ public class Frame2ContextListener implements ServletContextListener {
 				int bufferSize = Integer.parseInt(fileBufferSize);
 				FileUploadConfig.setBufferSize(bufferSize);
 			} catch (NumberFormatException nfe) {
-				getLogger().warn("Invalid file buffer size specified in init-param");
+				getLogger().warn("Invalid file buffer size specified in init-param"); //$NON-NLS-1$
 			}
 		}
 		
@@ -194,47 +194,47 @@ public class Frame2ContextListener implements ServletContextListener {
 				Long maxFile = new Long(maxFileSize);
 				FileUploadConfig.setMaxFileSize(maxFile.longValue());
 			} catch (NumberFormatException nfe) {
-				getLogger().warn("Invalid maximum file size specified in init-param");
+				getLogger().warn("Invalid maximum file size specified in init-param"); //$NON-NLS-1$
 			}
 		}
    }
    
    private void initPlugins(ServletContext context) {
-      getLogger().info("Frame2ContextListener, initPlugins()");
+      getLogger().info("Frame2ContextListener, initPlugins()"); //$NON-NLS-1$
       
-      List proxys;
+      List<PluginProxy> proxys;
       try {
          proxys = ConfigFactory.instance().getPluginProxies();
       } catch (ConfigException e) {
-         getLogger().severe("Error: initPlugins(), Unable to load configFile,Not Loading Plugins.");
+         getLogger().severe("Error: initPlugins(), Unable to load configFile,Not Loading Plugins."); //$NON-NLS-1$
          return;
       }
       
-      for (Iterator iter=proxys.iterator(); iter.hasNext();){
-         PluginProxy proxy = (PluginProxy)iter.next(); 
+      for (Iterator<PluginProxy> iter=proxys.iterator(); iter.hasNext();){
+         PluginProxy proxy = iter.next(); 
          try {            
             PluginInterface plugin = proxy.getPlugin();
             plugin.init(context,proxy.getInitParams());
          } catch (PluginException e) {
-            getLogger().warn("Warning: initPlugins(), Unable to initialize plugin: " + proxy.getName() + " (" + e.getMessage() + ")");
+            getLogger().warn("Warning: initPlugins(), Unable to initialize plugin: " + proxy.getName() + " (" + e.getMessage() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             proxy.setInitThrewException(true);
          }
       }    
    }
 
    private void destroyPlugins(ServletContext context) {
-       getLogger().info("Frame2ContextListener, destroyPlugins()");
+       getLogger().info("Frame2ContextListener, destroyPlugins()"); //$NON-NLS-1$
            
-      List proxys;
+      List<PluginProxy> proxys;
       try {
          proxys = ConfigFactory.instance().getPluginProxies();
       } catch (ConfigException e) {
-         getLogger().severe("Error: destroyPlugins(), Unable to load configFile,Not Loading Plugins.");
+         getLogger().severe("Error: destroyPlugins(), Unable to load configFile,Not Loading Plugins."); //$NON-NLS-1$
          return;
       }
       
-      for (Iterator iter=proxys.iterator(); iter.hasNext();){
-         PluginProxy proxy = (PluginProxy)iter.next(); 
+      for (Iterator<PluginProxy> iter=proxys.iterator(); iter.hasNext();){
+         PluginProxy proxy = iter.next(); 
          if (proxy.initThrewException()) {
             continue;
          }
@@ -243,7 +243,7 @@ public class Frame2ContextListener implements ServletContextListener {
             PluginInterface plugin = proxy.getPlugin();
             plugin.destroy(context,proxy.getInitParams());
          } catch (PluginException e) {
-            getLogger().warn("Warning: destroyPlugins(), Unable to destroy plugin: " + proxy.getName());        
+            getLogger().warn("Warning: destroyPlugins(), Unable to destroy plugin: " + proxy.getName());         //$NON-NLS-1$
          }
       }    
    }

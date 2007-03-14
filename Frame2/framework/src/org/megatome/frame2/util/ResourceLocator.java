@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,9 +75,10 @@ public class ResourceLocator {
 	static private Logger LOGGER = LoggerFactory.instance(ResourceLocator.class.getName());
 	static private ResourceBundle emptyBundle = new EmptyBundle();
 	static private String basename;
-	static private Map bundleCache = new HashMap();
+	static private Map<Locale, ResourceBundle> bundleCache = new HashMap<Locale, ResourceBundle>();
 
 	private ResourceLocator() {
+		// Not Visible
 	}
 
    /**
@@ -94,25 +95,26 @@ public class ResourceLocator {
     * @param locale desired locale
     * @return ResourceBundle resource bundle for that locale, null if not found.
     */
-	static public ResourceBundle getBundle(Locale locale) {
+	static public ResourceBundle getBundle(final Locale locale) {
 		if (basename == null) {
-			LOGGER.warn("Empty (default) resource being used");
+			LOGGER.warn("Empty (default) resource being used"); //$NON-NLS-1$
 			return emptyBundle;
 		}
 
 		ResourceBundle result = null;
+		Locale thisLocale = locale;
 
 		if (locale == null) {
-			locale = Locale.getDefault();
+			thisLocale = Locale.getDefault();
 		}
 
-		result = (ResourceBundle) bundleCache.get(locale);
+		result = bundleCache.get(thisLocale);
 
 		if (result == null) {
-			result = ResourceBundle.getBundle(basename, locale);
+			result = ResourceBundle.getBundle(basename, thisLocale);
 
 			if (result != null) {
-				bundleCache.put(locale, result);
+				bundleCache.put(thisLocale, result);
 			}
 		}
 
@@ -129,23 +131,26 @@ public class ResourceLocator {
 		ResourceLocator.basename = basename;
 	}
 
-	private static class EmptyBundle extends ResourceBundle {
-		Enumeration emptyEnumeration = new EmptyEnumeration();
+	static class EmptyBundle extends ResourceBundle {
+		Enumeration<String> emptyEnumeration = new EmptyEnumeration();
 
-		protected Object handleGetObject(String key) {
+		@Override
+		protected Object handleGetObject(@SuppressWarnings("unused")
+		String key) {
 			return null;
 		}
 
-		public Enumeration getKeys() {
-			return emptyEnumeration;
+		@Override
+		public Enumeration<String> getKeys() {
+			return this.emptyEnumeration;
 		}
 
-		private class EmptyEnumeration implements Enumeration {
+		class EmptyEnumeration implements Enumeration<String> {
 			public boolean hasMoreElements() {
 				return false;
 			}
 
-			public Object nextElement() {
+			public String nextElement() {
 				return null;
 			}
 		}

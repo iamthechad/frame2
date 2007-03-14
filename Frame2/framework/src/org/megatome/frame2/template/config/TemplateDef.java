@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,34 +57,34 @@ import javax.servlet.jsp.PageContext;
 
 import org.megatome.frame2.template.TemplatePlugin;
 
-public class TemplateDef implements Comparable {
-    private String name = "";
-    private String path = "";
-    private Map putParams = new HashMap();
+public class TemplateDef implements Comparable<Object> {
+    private String name = ""; //$NON-NLS-1$
+    private String path = ""; //$NON-NLS-1$
+    private Map<String, String> putParams = new HashMap<String, String>();
 
     /**
      * @return
      */
-    public Map getPutParams() {
-        return putParams;
+    public Map<String, String> getPutParams() {
+        return this.putParams;
     }
 
     public String getPutParam(String paramName) {
-        return (String)putParams.get(paramName);
+        return this.putParams.get(paramName);
     }
 
     /**
      * @return
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
      * @return
      */
     public String getPath() {
-        return path;
+        return this.path;
     }
 
     public String getTemplateJspPath() {
@@ -94,8 +94,8 @@ public class TemplateDef implements Comparable {
     /**
      * @param map
      */
-    public void setPutParams(Map map) {
-        this.putParams = new HashMap(map);
+    public void setPutParams(Map<String, String> map) {
+        this.putParams = new HashMap<String, String>(map);
     }
 
     /**
@@ -105,30 +105,32 @@ public class TemplateDef implements Comparable {
         this.name = name;
     }
 
-    public void overridePutParam(String putName, String putValue,
+    @SuppressWarnings("unchecked")
+	public void overridePutParam(String putName, String putValue,
             PageContext context, int scope) {
-        Map putMap = null;
-        putMap = (Map)context.getAttribute(name, scope);
+        Map<String, String> putMap = null;
+        putMap = (Map<String, String>)context.getAttribute(this.name, scope);
 
         if (putMap != null) {
             putMap.put(putName, putValue);
         } else {
-            putMap = new HashMap();
+            putMap = new HashMap<String, String>();
             putMap.put(putName, putValue);
-            context.setAttribute(name, putMap, scope);
+            context.setAttribute(this.name, putMap, scope);
         }
     }
 
-    public String getPutParam(String paramName, PageContext context) {
+    @SuppressWarnings("unchecked")
+	public String getPutParam(String paramName, PageContext context) {
         int[] scopeValues = { PageContext.PAGE_SCOPE,
                 PageContext.REQUEST_SCOPE, PageContext.SESSION_SCOPE,
                 PageContext.APPLICATION_SCOPE };
 
         String paramValue = null;
         for (int i = 0; i < scopeValues.length; i++) {
-            Map pp = (Map)context.getAttribute(name, scopeValues[i]);
+            Map<String, String> pp = (Map<String, String>)context.getAttribute(this.name, scopeValues[i]);
             if (pp != null) {
-                paramValue = (String)pp.get(paramName);
+                paramValue = pp.get(paramName);
                 if (paramValue != null)
                     break;
             }
@@ -157,15 +159,16 @@ public class TemplateDef implements Comparable {
     }
 
     public int compareTo(TemplateDef other) {
-        return name.compareTo(other.getName());
+        return this.name.compareTo(other.getName());
     }
 
-    public boolean equals(Object other) {
+    @Override
+	public boolean equals(Object other) {
         return (other instanceof TemplateDef) && equals((TemplateDef)other);
     }
 
     public boolean equals(TemplateDef other) {
-        return name.equals(other.getName());
+        return this.name.equals(other.getName());
     }
 
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@ import java.util.Map;
 import org.megatome.frame2.front.config.PluginDef;
 import org.megatome.frame2.plugin.PluginInterface;
 
-public class PluginProxy implements Comparable {
+public class PluginProxy implements Comparable<Object> {
     private PluginDef pluginDef;
     private PluginInterface plugin;
     private boolean initThrewException = false;
@@ -66,19 +66,19 @@ public class PluginProxy implements Comparable {
     }
 
     public String getName() {
-        return pluginDef.getName();
+        return this.pluginDef.getName();
     }
 
     public String getType() {
-        return pluginDef.getType();
+        return this.pluginDef.getType();
     }
 
-    public Map getInitParams() {
-        return pluginDef.getInitParams();
+    public Map<String, String> getInitParams() {
+        return this.pluginDef.getInitParams();
     }
 
     public PluginInterface getPlugin() {
-        return plugin;
+        return this.plugin;
     }
 
     public void setInitThrewException(boolean initThrewException) {
@@ -86,14 +86,15 @@ public class PluginProxy implements Comparable {
     }
 
     public boolean initThrewException() {
-        return initThrewException;
+        return this.initThrewException;
     }
 
     public int compareTo(Object other) {
-        return pluginDef.compareTo(other);
+        return this.pluginDef.compareTo(other);
     }
 
-    public boolean equals(Object other) {
+    @Override
+	public boolean equals(Object other) {
         if ((other == null) || (!(other instanceof PluginProxy))) {
             return false;
         }
@@ -102,10 +103,11 @@ public class PluginProxy implements Comparable {
             return true;
         }
         
-        return pluginDef.equals(other);
+        return this.pluginDef.equals(other);
     }
 
-    public int hashCode() {
-        return pluginDef.hashCode();
+    @Override
+	public int hashCode() {
+        return this.pluginDef.hashCode();
     }
 }

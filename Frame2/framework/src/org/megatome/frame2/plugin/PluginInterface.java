@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ public interface PluginInterface {
    * @param initParams Any init-params specified in the Frame2 config file.
    * @throws PluginException
    */
-   public void init(ServletContext context, Map initParams)
+   public void init(ServletContext context, Map<String, String> initParams)
       throws PluginException;
 
    /**
@@ -77,6 +77,6 @@ public interface PluginInterface {
    * @param initParams Any init-params specified in the Frame2 config file
    * @throws PluginException
    */
-   public void destroy(ServletContext context, Map initParams)
+   public void destroy(ServletContext context, Map<String, String> initParams)
       throws PluginException;
 }

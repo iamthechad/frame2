@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ import org.megatome.frame2.event.Context;
  * ContextWrapper.java
  */
 interface ContextWrapper extends Context {
-   void setInitParameters(Map initParms);
+   void setInitParameters(Map<String, String> initParms);
 
    /**
     * Returns a List of Redirect Attributes

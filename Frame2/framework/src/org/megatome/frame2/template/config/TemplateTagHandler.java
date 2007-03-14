@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,11 +67,11 @@ class TemplateTagHandler extends ConfigElementHandler {
     private static Logger LOGGER = LoggerFactory
             .instance(TemplateTagHandler.class.getName());
 
-    public static final String NAME = "name";
-    public static final String PATH = "path";
+    public static final String NAME = "name"; //$NON-NLS-1$
+    public static final String PATH = "path"; //$NON-NLS-1$
 
     private PutParamTagHandler putTagHandler;
-    private Map definitions = new HashMap();
+    private Map<String, TemplateDef> definitions = new HashMap<String, TemplateDef>();
     private TemplateDef templateDef;
 
     /**
@@ -79,35 +79,44 @@ class TemplateTagHandler extends ConfigElementHandler {
      * @param InitParamTagHandler
      * @param ForwardTagHandler
      */
-    public TemplateTagHandler(PutParamTagHandler putTagHandler, Map definitions) {
+    public TemplateTagHandler(PutParamTagHandler putTagHandler, Map<String, TemplateDef> definitions) {
         this.definitions = definitions;
         this.putTagHandler = putTagHandler;
     }
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) {
-        templateDef = new TemplateDef();
-        templateDef.setName(attributes.getValue(NAME));
-        templateDef.setPath(attributes.getValue(PATH));
+        this.templateDef = new TemplateDef();
+        this.templateDef.setName(attributes.getValue(NAME));
+        this.templateDef.setPath(attributes.getValue(PATH));
     }
 
-    public void endElement(String uri, String localName, String qName)
+    @Override
+	public void endElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName)
             throws ParserException {
-        templateDef.setPutParams(putTagHandler.getPutParams());
-        putTagHandler.clear();
-        if (definitions.containsKey(templateDef.getName())) {
+        this.templateDef.setPutParams(this.putTagHandler.getPutParams());
+        this.putTagHandler.clear();
+        if (this.definitions.containsKey(this.templateDef.getName())) {
             // do not add duplicate named plugin defs to list.
-            LOGGER.severe("Error: Duplicate definition "
-                    + templateDef.getName());
-            throw new ParserException("Error: Duplicate definition "
-                    + templateDef.getName());
+            LOGGER.severe("Error: Duplicate definition " //$NON-NLS-1$
+                    + this.templateDef.getName());
+            throw new ParserException("Error: Duplicate definition " //$NON-NLS-1$
+                    + this.templateDef.getName());
         }
-        definitions.put(templateDef.getName(), templateDef);
+        this.definitions.put(this.templateDef.getName(), this.templateDef);
     }
 
-    public void clear() {
-        putTagHandler.clear();
-        definitions.clear();
-        templateDef = null;
+    @Override
+	public void clear() {
+        this.putTagHandler.clear();
+        this.definitions.clear();
+        this.templateDef = null;
     }
 }

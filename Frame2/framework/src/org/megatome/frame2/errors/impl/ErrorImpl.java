@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ final class ErrorImpl implements Error {
     /**
      * This key is used if an error is created with a null key.
      */
-    public static final String MISSING_KEY = "org.megatome.frame2.errors.MISSING_KEY";
+    public static final String MISSING_KEY = "org.megatome.frame2.errors.MISSING_KEY"; //$NON-NLS-1$
 
     private String key;
 
@@ -138,7 +138,7 @@ final class ErrorImpl implements Error {
      * @return The key associated with this error.
      */
     public String getKey() {
-        return key;
+        return this.key;
     }
 
     /**
@@ -146,18 +146,18 @@ final class ErrorImpl implements Error {
      * 
      * @return All values associated with this error in a list.
      */
-    public List getValueList() {
-        return Arrays.asList(value).subList(0, getTopIndex());
+    public List<Object> getValueList() {
+        return Arrays.asList(this.value).subList(0, getTopIndex());
     }
 
     private int getTopIndex() {
         int topIndex = 0;
 
-        if (value[2] != null) {
+        if (this.value[2] != null) {
             topIndex = 3;
-        } else if (value[1] != null) {
+        } else if (this.value[1] != null) {
             topIndex = 2;
-        } else if (value[0] != null) {
+        } else if (this.value[0] != null) {
             topIndex = 1;
         }
 
@@ -173,7 +173,7 @@ final class ErrorImpl implements Error {
     public Object[] getValues() {
         Object[] result = new Object[getTopIndex()];
 
-        System.arraycopy(value, 0, result, 0, result.length);
+        System.arraycopy(this.value, 0, result, 0, result.length);
 
         return result;
     }
@@ -184,7 +184,7 @@ final class ErrorImpl implements Error {
      * @return The first value. May be null.
      */
     public Object getValue() {
-        return value[0];
+        return this.value[0];
     }
 
     /**
@@ -193,7 +193,7 @@ final class ErrorImpl implements Error {
      * @return The first value. May be null.
      */
     public Object getValue1() {
-        return value[0];
+        return this.value[0];
     }
 
     /**
@@ -202,7 +202,7 @@ final class ErrorImpl implements Error {
      * @return The second value. May be null.
      */
     public Object getValue2() {
-        return value[1];
+        return this.value[1];
     }
 
     /**
@@ -211,7 +211,7 @@ final class ErrorImpl implements Error {
      * @return The third value. May be null.
      */
     public Object getValue3() {
-        return value[2];
+        return this.value[2];
     }
 
     /**
@@ -220,11 +220,11 @@ final class ErrorImpl implements Error {
      * @return Count of non-null values.
      */
     public int numValues() {
-        if (value[2] != null) {
+        if (this.value[2] != null) {
             return 3;
-        } else if (value[1] != null) {
+        } else if (this.value[1] != null) {
             return 2;
-        } else if (value[0] != null) {
+        } else if (this.value[0] != null) {
             return 1;
         } else {
             return 0;
@@ -238,7 +238,8 @@ final class ErrorImpl implements Error {
      *         tested across the key and values.
      * @see java.lang.Object#equals(Object)
      */
-    public boolean equals(final Object obj) {
+    @Override
+	public boolean equals(final Object obj) {
         if ((obj == null) || (!(obj instanceof ErrorImpl))) {
             return false;
         }
@@ -248,24 +249,25 @@ final class ErrorImpl implements Error {
             return true;
         }
         
-        return (key.equals(e.key) &&
-                compareValues(value[0], e.value[0]) &&
-                compareValues(value[1], e.value[1]) &&
-                compareValues(value[2], e.value[2]));
+        return (this.key.equals(e.key) &&
+                compareValues(this.value[0], e.value[0]) &&
+                compareValues(this.value[1], e.value[1]) &&
+                compareValues(this.value[2], e.value[2]));
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int result = 17;
-        result = 37 * result + key.hashCode();
-        result = 37 * result + (value[0] == null ? 0 : value[0].hashCode());
-        result = 37 * result + (value[1] == null ? 0 : value[1].hashCode());
-        result = 37 * result + (value[2] == null ? 0 : value[2].hashCode());
+        result = 37 * result + this.key.hashCode();
+        result = 37 * result + (this.value[0] == null ? 0 : this.value[0].hashCode());
+        result = 37 * result + (this.value[1] == null ? 0 : this.value[1].hashCode());
+        result = 37 * result + (this.value[2] == null ? 0 : this.value[2].hashCode());
         
         return result;
     }
 
     private String lookupMessage(final Locale locale) {
-        return lookupMessage(key, locale);
+        return lookupMessage(this.key, locale);
     }
 
     private String lookupMessage(final String messageKey, final Locale locale) {

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,30 +61,35 @@ import org.xml.sax.Attributes;
  * the Configuration file.
  */
 class InitParamTagHandler extends ConfigElementHandler {
-    public static final String NAME = "name";
-    public static final String VALUE = "value";
+    public static final String NAME = "name"; //$NON-NLS-1$
+    public static final String VALUE = "value"; //$NON-NLS-1$
 
-    private Map params = new HashMap();
+    private Map<String, String> params = new HashMap<String, String>();
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) throws ParserException {
         String name = attributes.getValue(NAME);
-        if (params.containsKey(name)) {
-            throw new ParserException("Duplicate name in init parameter: "
+        if (this.params.containsKey(name)) {
+            throw new ParserException("Duplicate name in init parameter: " //$NON-NLS-1$
                     + name);
         }
 
-        params.put(name, attributes.getValue(VALUE));
+        this.params.put(name, attributes.getValue(VALUE));
     }
 
     /**
      * @return returns a clone of the init Params HashMap
      */
-    public Map getParams() {
-        return params;
+    public Map<String, String> getParams() {
+        return this.params;
     }
 
-    public void clear() {
-        params.clear();
+    @Override
+	public void clear() {
+        this.params.clear();
     }
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,11 +61,11 @@ import org.xml.sax.Attributes;
  * It generates a HashMap of all the ExceptionDef.
  */
 class ExceptionTagHandler extends ConfigElementHandler {
-    public static final String REQUEST_KEY = "requestKey";
-    public static final String TYPE = "type";
+    public static final String REQUEST_KEY = "requestKey"; //$NON-NLS-1$
+    public static final String TYPE = "type"; //$NON-NLS-1$
 
     private ViewTagHandler viewTagHandler;
-    private List exceptions = new ArrayList();
+    private List<ExceptionDef> exceptions = new ArrayList<ExceptionDef>();
     private ExceptionDef def = null;
 
     /**
@@ -76,34 +76,43 @@ class ExceptionTagHandler extends ConfigElementHandler {
         this.viewTagHandler = viewTagHandler;
     }
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) throws ParserException {
         String requestKey = attributes.getValue(REQUEST_KEY);
         String type = attributes.getValue(TYPE);
-        def = new ExceptionDef(requestKey, type);
-        if (exceptions.contains(def)) {
+        this.def = new ExceptionDef(requestKey, type);
+        if (this.exceptions.contains(this.def)) {
             throw new ParserException(
-                    "Exception tag Error, Duplicate type defined for type "
+                    "Exception tag Error, Duplicate type defined for type " //$NON-NLS-1$
                             + type);
         }
     }
 
-    public void endElement(String uri, String localName, String qName) {
+    @Override
+	public void endElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName) {
         // build event mapping here
-        def.setView(ViewType.XML.toString(), viewTagHandler
+        this.def.setView(ViewType.XML.toString(), this.viewTagHandler
                 .getXMLForwardName());
-        def.setView(ViewType.HTML.toString(), viewTagHandler
+        this.def.setView(ViewType.HTML.toString(), this.viewTagHandler
                 .getHTMLForwardName());
-        exceptions.add(def);
-        def = null;
-        viewTagHandler.clear();
+        this.exceptions.add(this.def);
+        this.def = null;
+        this.viewTagHandler.clear();
     }
 
-    public List getExceptions() {
-        return exceptions;
+    public List<ExceptionDef> getExceptions() {
+        return this.exceptions;
     }
 
-    public void clear() {
-        exceptions.clear();
+    @Override
+	public void clear() {
+        this.exceptions.clear();
     }
 }

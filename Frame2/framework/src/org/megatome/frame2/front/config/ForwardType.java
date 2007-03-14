@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,12 +56,12 @@ package org.megatome.frame2.front.config;
  */
 public class ForwardType extends MappingType {
     // enumeration value declarations
-    public static final ForwardType EVENT = new ForwardType("event");
-    public static final ForwardType XMLRESOURCE = new ForwardType("XMLResource");
+    public static final ForwardType EVENT = new ForwardType("event"); //$NON-NLS-1$
+    public static final ForwardType XMLRESOURCE = new ForwardType("XMLResource"); //$NON-NLS-1$
     public static final ForwardType HTMLRESOURCE = new ForwardType(
-            "HTMLResource");
+            "HTMLResource"); //$NON-NLS-1$
     public static final ForwardType XMLRESPONDER = new ForwardType(
-            "XMLResponder");
+            "XMLResponder"); //$NON-NLS-1$
 
     private ForwardType(String value) {
         super(value);

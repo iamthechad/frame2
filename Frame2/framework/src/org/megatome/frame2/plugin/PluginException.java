@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,43 +51,49 @@
 package org.megatome.frame2.plugin;
 
 /**
- * This is the type of exceptions that plugins must throw during the
- * initialize or destroy stages.
+ * This is the type of exceptions that plugins must throw during the initialize
+ * or destroy stages.
  */
 public class PluginException extends Exception {
 
-   /**
-    * Constructor for PluginException.
-    */
-   public PluginException() {
-      super();
-   }
+	private static final long serialVersionUID = -3648024426008968124L;
 
-   /**
-    * Constructor for PluginException.
-    *
-    * @param message The message for this exception
-    */
-   public PluginException(String message) {
-      super(message);
-   }
+	/**
+	 * Constructor for PluginException.
+	 */
+	public PluginException() {
+		super();
+	}
 
-   /**
-    * Constructor for PluginException.
-    *
-    * @param message The message for this exception
-    * @param cause The cause for this exception
-    */
-   public PluginException(String message, Throwable cause) {
-      super(message, cause);
-   }
+	/**
+	 * Constructor for PluginException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 */
+	public PluginException(String message) {
+		super(message);
+	}
 
-   /**
-    * Constructor for PluginException.
-    *
-    * @param cause The cause for this exception
-    */
-   public PluginException(Throwable cause) {
-      super(cause);
-   }
+	/**
+	 * Constructor for PluginException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public PluginException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * Constructor for PluginException.
+	 * 
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public PluginException(Throwable cause) {
+		super(cause);
+	}
 }

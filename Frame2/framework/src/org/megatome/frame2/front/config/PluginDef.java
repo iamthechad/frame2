@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,38 +53,38 @@ package org.megatome.frame2.front.config;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PluginDef implements Comparable {
-    private String name = "";
-    private String type = "";
+public class PluginDef implements Comparable<Object> {
+    private String name = ""; //$NON-NLS-1$
+    private String type = ""; //$NON-NLS-1$
 
-    private Map initParams = new HashMap();
+    private Map<String, String> initParams = new HashMap<String, String>();
 
     /**
      * @return
      */
-    public Map getInitParams() {
-        return initParams;
+    public Map<String, String> getInitParams() {
+        return this.initParams;
     }
 
     /**
      * @return
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
      * @return
      */
     public String getType() {
-        return type;
+        return this.type;
     }
 
     /**
      * @param map
      */
-    public void setInitParams(Map map) {
-        initParams = new HashMap(map);
+    public void setInitParams(Map<String, String> map) {
+        this.initParams = new HashMap<String, String>(map);
     }
 
     /**
@@ -103,10 +103,11 @@ public class PluginDef implements Comparable {
 
     public int compareTo(Object other) {
         PluginDef pd = (PluginDef)other;
-        return name.compareTo(pd.getName());
+        return this.name.compareTo(pd.getName());
     }
 
-    public boolean equals(Object other) {
+    @Override
+	public boolean equals(Object other) {
         if ((other == null) || (!(other instanceof PluginDef))) {
             return false;
         }
@@ -116,10 +117,11 @@ public class PluginDef implements Comparable {
         }
         
         PluginDef pd = (PluginDef)other;
-        return name.equals(pd.name);
+        return this.name.equals(pd.name);
     }
 
-    public int hashCode() {
-        return name.hashCode();
+    @Override
+	public int hashCode() {
+        return this.name.hashCode();
     }
 }

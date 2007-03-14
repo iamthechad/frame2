@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,9 @@ package org.megatome.frame2.introspector;
  * Contains constant values for the package.
  */
 final class Globals {
-	private Globals() {}
+	private Globals() { 
+		// not public 
+	}
    // DOC: Will need to make sure all the delims, etc are in the user docs.
 
    /**

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,11 +59,11 @@ public class HTMLEncoder {
    public static final char AMP = '&';
    public static final char QUOTE = '"';
    public static final char TICK = '\'';
-   public static final String LTSTR = "&lt;";
-   public static final String GTSTR = "&gt;";
-   public static final String AMPSTR = "&amp;";
-   public static final String QUOTESTR = "&quot;";
-   public static final String TICKSTR = "&#39;";
+   public static final String LTSTR = "&lt;"; //$NON-NLS-1$
+   public static final String GTSTR = "&gt;"; //$NON-NLS-1$
+   public static final String AMPSTR = "&amp;"; //$NON-NLS-1$
+   public static final String QUOTESTR = "&quot;"; //$NON-NLS-1$
+   public static final String TICKSTR = "&#39;"; //$NON-NLS-1$
    public static final int XSIZE = 100;
 
    public static String encode(String input) {

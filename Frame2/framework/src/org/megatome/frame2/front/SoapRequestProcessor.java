@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -124,26 +124,26 @@ public class SoapRequestProcessor extends RequestProcessorBase {
      * @see org.megatome.frame2.front.RequestProcessor#processRequest()
      */
     public Object processRequest() throws Exception {
-        getLogger().debug("In SoapRequestProcessor processRequest()");
-        List resultList = new ArrayList();
+        getLogger().debug("In SoapRequestProcessor processRequest()"); //$NON-NLS-1$
+        List<Element> resultList = new ArrayList<Element>();
 
         // get event objects from request
-        List events = getEvents();
+        List<SoapEventMap> events = getEvents();
 
         for (int i = 0; i < events.size(); i++) {
-            SoapEventMap event = (SoapEventMap)events.get(i);
+            SoapEventMap event = events.get(i);
             String eventName = event.getEventName();
             boolean validate = getConfig().validateFor(eventName);
             int listIndex = -1;
 
             try {
                 // iterate over this event's list of events
-                Iterator eventList = event.getEventsIterator();
+                Iterator<Event> eventList = event.getEventsIterator();
 
                 while (eventList.hasNext()) {
                     listIndex++;
 
-                    Event childEvent = (Event)eventList.next();
+                    Event childEvent = eventList.next();
                     childEvent.setName(eventName);
 
                     boolean valid = true;
@@ -157,7 +157,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                                 ViewType.XML);
 
                         if (fwd.isResourceType()) {
-                            Element marshalledResult = marshallResponse(context
+                            Element marshalledResult = marshallResponse(this.context
                                     .getRequestAttribute(fwd.getPath()));
 
                             event.setResponse(listIndex, marshalledResult);
@@ -170,7 +170,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                                     .respond(getContextWrapper());
 
                             if (response instanceof org.w3c.dom.Element) {
-                                event.setResponse(listIndex, response);
+                                event.setResponse(listIndex, (Element)response);
                             } else { // marshall response
 
                                 Element marshalledResult = marshallResponse(response);
@@ -179,7 +179,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                             }
                         }
                     } else {
-                        event.setResponse(listIndex, createFault(errors));
+                        event.setResponse(listIndex, createFault(this.errors));
                     }
                 }
             } catch (TranslationException e) {
@@ -197,8 +197,8 @@ public class SoapRequestProcessor extends RequestProcessorBase {
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         for (int i = 0; i < events.size(); i++) {
-            SoapEventMap event = (SoapEventMap)events.get(i);
-            Iterator iter = event.getResponsesIterator();
+            SoapEventMap event = events.get(i);
+            Iterator<Element> iter = event.getResponsesIterator();
 
             if ((event.getResolve() == ResolveType.PARENT)
                     || (event.getResolve() == ResolveType.PASSTHRU)) {
@@ -212,7 +212,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                 doc.appendChild(parent);
 
                 while (iter.hasNext()) {
-                    Element elem = (Element)iter.next();
+                    Element elem = iter.next();
 
                     parent.appendChild(doc.importNode(elem, true));
                 }
@@ -228,7 +228,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
      * @see org.megatome.frame2.front.RequestProcessor#preProcess()
      */
     public void preProcess() {
-        getLogger().debug("In SoapRequestProcessor preProcess()");
+        getLogger().debug("In SoapRequestProcessor preProcess()"); //$NON-NLS-1$
     }
 
     /**
@@ -236,7 +236,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
      * @see org.megatome.frame2.front.RequestProcessor#preProcess()
      */
     public void postProcess() {
-        getLogger().debug("In SoapRequestProcessor postProcess()");
+        getLogger().debug("In SoapRequestProcessor postProcess()"); //$NON-NLS-1$
     }
 
     /*
@@ -274,7 +274,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
             String msg = bundle.getString(error[i].getKey());
 
             buffer.append(MessageFormatter.format(msg, error[i].getValues()));
-            buffer.append("\n");
+            buffer.append("\n"); //$NON-NLS-1$
         }
 
         fault.setDetailMessage(buffer.toString(), true);
@@ -286,31 +286,32 @@ public class SoapRequestProcessor extends RequestProcessorBase {
      * Release resources held by the processor.
      * @see org.megatome.frame2.front.RequestProcessor#release()
      */
-    public void release() {
+    @Override
+	public void release() {
         super.release();
-        elements = null;
-        eventPkg = null;
+        this.elements = null;
+        this.eventPkg = null;
     }
 
     /**
      * Method getEvents.
      */
-    List getEvents() throws TranslationException {
+    List<SoapEventMap> getEvents() throws TranslationException {
         // list of SoapEventMap objs
-        List events = new ArrayList();
+        List<SoapEventMap> events = new ArrayList<SoapEventMap>();
 
         try {
-            JAXBContext jcontext = JAXBContext.newInstance(eventPkg);
+            JAXBContext jcontext = JAXBContext.newInstance(this.eventPkg);
 
             Unmarshaller unmarshaller = jcontext.createUnmarshaller();
 
-            if (elements != null) {
-                for (int i = 0; i < elements.length; i++) {
-                    if (elements[i] != null) {
+            if (this.elements != null) {
+                for (int i = 0; i < this.elements.length; i++) {
+                    if (this.elements[i] != null) {
                         SoapEventMap event = new SoapEventMap();
-                        List eventList = new ArrayList();
+                        List<Event> eventList = new ArrayList<Event>();
 
-                        String eventName = elements[i].getTagName();
+                        String eventName = this.elements[i].getTagName();
 
                         event.setEventName(eventName);
 
@@ -319,25 +320,25 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
                         if (eventProxy == null) {
                             throw new TranslationException(
-                                    "Unable to map event: " + eventName
-                                            + " to Config file");
+                                    "Unable to map event: " + eventName //$NON-NLS-1$
+                                            + " to Config file"); //$NON-NLS-1$
                         }
 
                         if (eventProxy.isParent()) {
                             // put eventNames in arraylist for iteration
                             // put events in list mapped by eventName
-                            eventList.add(unmarshaller
+                            eventList.add((Event)unmarshaller
                                     .unmarshal(DOMStreamConverter
-                                            .toInputStream(elements[i])));
+                                            .toInputStream(this.elements[i])));
                             event.setResolve(ResolveType.PARENT);
                             event.setEvents(eventList);
                             events.add(event);
                         } else if (eventProxy.isChildren()) {
-                            NodeList nodeList = elements[i].getChildNodes();
+                            NodeList nodeList = this.elements[i].getChildNodes();
 
                             for (int j = 0; j < nodeList.getLength(); j++) {
                                 if (nodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
-                                    eventList.add(unmarshaller
+                                    eventList.add((Event)unmarshaller
                                             .unmarshal(DOMStreamConverter
                                                     .toInputStream(nodeList
                                                             .item(j))));
@@ -351,7 +352,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                             PassthruEvent psevent = (PassthruEvent)eventProxy
                                     .getEvent();
 
-                            psevent.setPassthruData(elements[i]);
+                            psevent.setPassthruData(this.elements[i]);
                             eventList.add(psevent);
                             event.setResolve(ResolveType.PASSTHRU);
                             event.setEvents(eventList);
@@ -361,7 +362,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                 }
             }
         } catch (Exception e) {
-            throw new TranslationException("Unable to unmarshall element", e);
+            throw new TranslationException("Unable to unmarshall element", e); //$NON-NLS-1$
         }
 
         return events;
@@ -370,8 +371,9 @@ public class SoapRequestProcessor extends RequestProcessorBase {
     /**
      * Method getContext.
      */
-    protected ContextWrapper getContextWrapper() {
-        return context;
+    @Override
+	protected ContextWrapper getContextWrapper() {
+        return this.context;
     }
 
     /**
@@ -386,7 +388,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
             result = (Element)obj;
         } else if (obj != null) {
             try {
-                JAXBContext jcontext = JAXBContext.newInstance(eventPkg);
+                JAXBContext jcontext = JAXBContext.newInstance(this.eventPkg);
                 Marshaller marshaller = jcontext.createMarshaller();
 
                 Document doc = getTargetDocument();
@@ -394,7 +396,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
                 marshaller.marshal(obj, doc);
                 result = doc.getDocumentElement();
             } catch (JAXBException e) {
-                throw new TranslationException("Unable to marshall response", e);
+                throw new TranslationException("Unable to marshall response", e); //$NON-NLS-1$
             }
         }
 
@@ -413,14 +415,15 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
             result = db.newDocument();
         } catch (Exception e) {
-            throw new TranslationException("Unable to create target document",
+            throw new TranslationException("Unable to create target document", //$NON-NLS-1$
                     e);
         }
 
         return result;
     }
 
-    protected String configResourceType() {
+    @Override
+	protected String configResourceType() {
         return Configuration.XML_TOKEN;
     }
 
@@ -431,91 +434,93 @@ public class SoapRequestProcessor extends RequestProcessorBase {
      * @return True if the event passed validation.
      */
     public boolean validateEvent(Event event) {
-        return ((event != null) ? event.validate(errors) : true);
+        return ((event != null) ? event.validate(this.errors) : true);
     }
 
-    protected boolean isUserAuthorizedForEvent(String event) {
+    @Override
+	protected boolean isUserAuthorizedForEvent(@SuppressWarnings("unused")
+	String event) {
         return true;
     }
 
     class ContextImpl implements ContextWrapper {
-        private Map initParms;
+        private Map<String, String> initParms;
 
-        private Map requestAttributes;
+        private Map<String, Object> requestAttributes;
 
-        private Map sessionAttributes;
+        private Map<String, Object> sessionAttributes;
 
-        private Set redirectAttrs = new TreeSet();
+        private Set<String> redirectAttrs = new TreeSet<String>();
 
         public ServletContext getServletContext() {
             return null;
         }
 
         public String getInitParameter(String key) {
-            return (String)getIfNotNull(key, initParms);
+            return (String)getIfNotNull(key, this.initParms);
         }
 
         public Object getRequestAttribute(String key) {
-            return getIfNotNull(key, requestAttributes);
+            return getIfNotNull(key, this.requestAttributes);
         }
 
         public String[] getRedirectAttributes() {
-            return (String[])redirectAttrs.toArray();
+            return (String[])this.redirectAttrs.toArray();
         }
 
         public Errors getRequestErrors() {
-            return errors;
+            return SoapRequestProcessor.this.errors;
         }
 
         public Object getSessionAttribute(String key) {
-            return getIfNotNull(key, sessionAttributes);
+            return getIfNotNull(key, this.sessionAttributes);
         }
 
         public void removeRequestAttribute(String key) {
-            removeIfNotNull(key, requestAttributes);
-            redirectAttrs.remove(key);
+            removeIfNotNull(key, this.requestAttributes);
+            this.redirectAttrs.remove(key);
         }
 
         public void removeSessionAttribute(String key) {
-            removeIfNotNull(key, sessionAttributes);
+            removeIfNotNull(key, this.sessionAttributes);
         }
 
         public void setRequestAttribute(String key, Object value) {
-            if (requestAttributes == null) {
-                requestAttributes = new HashMap();
+            if (this.requestAttributes == null) {
+                this.requestAttributes = new HashMap<String, Object>();
             }
 
-            requestAttributes.put(key, value);
+            this.requestAttributes.put(key, value);
         }
 
         public void setRequestAttribute(String key, Object value,
                 boolean redirectAttr) {
             if (redirectAttr) {
-                redirectAttrs.add(key);
+                this.redirectAttrs.add(key);
             } else {
-                redirectAttrs.remove(key);
+                this.redirectAttrs.remove(key);
             }
 
             setRequestAttribute(key, value);
         }
 
         public void setSessionAttribute(String key, Object value) {
-            if (sessionAttributes == null) {
-                sessionAttributes = new HashMap();
+            if (this.sessionAttributes == null) {
+                this.sessionAttributes = new HashMap<String, Object>();
             }
 
-            sessionAttributes.put(key, value);
+            this.sessionAttributes.put(key, value);
         }
 
-        public void setInitParameters(Map initParms) {
+        public void setInitParameters(Map<String, String> initParms) {
             this.initParms = initParms;
         }
 
-        private Object getIfNotNull(String key, Map map) {
+        private Object getIfNotNull(String key, Map<String, ? extends Object> map) {
             return ((map != null) ? map.get(key) : null);
         }
 
-        private void removeIfNotNull(String key, Map map) {
+        private void removeIfNotNull(String key, Map<String, Object> map) {
             if (map != null) {
                 map.remove(key);
             }

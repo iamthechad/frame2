@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,58 +73,58 @@ public class Log4jLogger implements Logger {
     * Constructor for Log4jLogger.
     */
    public Log4jLogger(String name) {
-      stdLogger = org.apache.log4j.Logger.getLogger(name);
+      this.stdLogger = org.apache.log4j.Logger.getLogger(name);
    }
 
    public String getName() {
-      return stdLogger.getName();
+      return this.stdLogger.getName();
    }
 
    public void debug(String message) {
-      stdLogger.log(debugLevel, message);
+      this.stdLogger.log(this.debugLevel, message);
    }
 
    public void debug(String message, Throwable t) {
-      stdLogger.log(debugLevel, message, t);
+      this.stdLogger.log(this.debugLevel, message, t);
    }
 
    public boolean isDebugEnabled() {
-      return debugLevel.isGreaterOrEqual(stdLogger.getEffectiveLevel());
+      return this.debugLevel.isGreaterOrEqual(this.stdLogger.getEffectiveLevel());
    }
 
    public boolean isInfoEnabled() {
-      return infoLevel.isGreaterOrEqual(stdLogger.getEffectiveLevel());
+      return this.infoLevel.isGreaterOrEqual(this.stdLogger.getEffectiveLevel());
    }
 
    public boolean isSevereEnabled() {
-      return severeLevel.isGreaterOrEqual(stdLogger.getEffectiveLevel());
+      return this.severeLevel.isGreaterOrEqual(this.stdLogger.getEffectiveLevel());
    }
 
    public boolean isWarnEnabled() {
-      return warnLevel.isGreaterOrEqual(stdLogger.getEffectiveLevel());
+      return this.warnLevel.isGreaterOrEqual(this.stdLogger.getEffectiveLevel());
    }
 
    public void info(String message) {
-      stdLogger.log(infoLevel, message);
+      this.stdLogger.log(this.infoLevel, message);
    }
 
    public void info(String message, Throwable t) {
-      stdLogger.log(infoLevel, message, t);
+      this.stdLogger.log(this.infoLevel, message, t);
    }
 
    public void warn(String message) {
-      stdLogger.log(warnLevel, message);
+      this.stdLogger.log(this.warnLevel, message);
    }
 
    public void warn(String message, Throwable t) {
-      stdLogger.log(warnLevel, message, t);
+      this.stdLogger.log(this.warnLevel, message, t);
    }
 
    public void severe(String message) {
-      stdLogger.log(severeLevel, message);
+      this.stdLogger.log(this.severeLevel, message);
    }
 
    public void severe(String message, Throwable t) {
-      stdLogger.log(severeLevel, message, t);
+      this.stdLogger.log(this.severeLevel, message, t);
    }
 }

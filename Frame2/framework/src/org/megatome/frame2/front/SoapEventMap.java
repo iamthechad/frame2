@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.megatome.frame2.event.Event;
 import org.megatome.frame2.front.config.ResolveType;
+import org.w3c.dom.Element;
 
 
 /**
@@ -64,8 +66,8 @@ public class SoapEventMap {
    // used to keep soap event
    // and responses symetrical
    private String eventName;
-   private List events = new ArrayList();
-   private List responses = new ArrayList();
+   private List<Event> events = new ArrayList<Event>();
+   private List<Element> responses = new ArrayList<Element>();
    private ResolveType resolve;
 
    /**
@@ -74,7 +76,7 @@ public class SoapEventMap {
     * @return String
     */
    public String getEventName() {
-      return eventName;
+      return this.eventName;
    }
 
    /**
@@ -91,20 +93,20 @@ public class SoapEventMap {
     *
     * @param events The events to set
     */
-   public void setEvents(List events) {
-      this.events = new ArrayList(events);
+   public void setEvents(List<Event> events) {
+      this.events = new ArrayList<Event>(events);
    }
 
-   public Iterator getEventsIterator() {
-      return events.iterator();
+   public Iterator<Event> getEventsIterator() {
+      return this.events.iterator();
    }
 
-   public Iterator getResponsesIterator() {
-      return responses.iterator();
+   public Iterator<Element> getResponsesIterator() {
+      return this.responses.iterator();
    }
 
-   public void setResponse(int i, Object obj) {
-      responses.add(i, obj);
+   public void setResponse(int i, Element obj) {
+      this.responses.add(i, obj);
    }
 
    /**
@@ -113,7 +115,7 @@ public class SoapEventMap {
     * @return ResolveType
     */
    public ResolveType getResolve() {
-      return resolve;
+      return this.resolve;
    }
 
    /**

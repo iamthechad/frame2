@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,44 +57,49 @@ import org.xml.sax.Attributes;
  * ViewTagHandler handles the view elements in the configuration file.
  */
 class ViewTagHandler extends ConfigElementHandler {
-    public static final String FORWARD_NAME = "forwardName";
-    public static final String TYPE = "type";
-    public static final String INVALID_TYPE = "Error: Invalid view type ";
+    public static final String FORWARD_NAME = "forwardName"; //$NON-NLS-1$
+    public static final String TYPE = "type"; //$NON-NLS-1$
+    public static final String INVALID_TYPE = "Error: Invalid view type "; //$NON-NLS-1$
 
     private String htmlForwardName;
     private String xmlForwardName;
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) throws ParserException {
         String forwardName = attributes.getValue(FORWARD_NAME);
         String viewattr = attributes.getValue(TYPE);
         ViewType vtype = ViewType.getValueByString(viewattr);
 
         if (vtype == null) {
-            throw new ParserException(INVALID_TYPE + forwardName + " type "
+            throw new ParserException(INVALID_TYPE + forwardName + " type " //$NON-NLS-1$
                     + viewattr);
         }
 
         if (vtype.equals(ViewType.BOTH)) {
-            htmlForwardName = forwardName;
-            xmlForwardName = forwardName;
+            this.htmlForwardName = forwardName;
+            this.xmlForwardName = forwardName;
         } else if (vtype.equals(ViewType.HTML)) {
-            htmlForwardName = forwardName;
+            this.htmlForwardName = forwardName;
         } else if (vtype.equals(ViewType.XML)) {
-            xmlForwardName = forwardName;
+            this.xmlForwardName = forwardName;
         }
     }
 
     public String getXMLForwardName() {
-        return xmlForwardName;
+        return this.xmlForwardName;
     }
 
     public String getHTMLForwardName() {
-        return htmlForwardName;
+        return this.htmlForwardName;
     }
 
-    public void clear() {
-        xmlForwardName = null;
-        htmlForwardName = null;
+    @Override
+	public void clear() {
+        this.xmlForwardName = null;
+        this.htmlForwardName = null;
     }
 }

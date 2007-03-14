@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,11 +58,11 @@ import java.util.Map;
  * configuration file. It is named ExceptionDef because Exception is already
  * reserved.
  */
-public class ExceptionDef implements Comparable {
+public class ExceptionDef implements Comparable<Object> {
 
     private String key;
     private String type;
-    private Map view = new HashMap();
+    private Map<String, String> view = new HashMap<String, String>();
 
     /**
      * Constructs an ExceptionDef
@@ -77,7 +77,7 @@ public class ExceptionDef implements Comparable {
     public ExceptionDef(ExceptionDef def) {
         this.key = def.key;
         this.type = def.type;
-        this.view = new HashMap(def.view);
+        this.view = new HashMap<String, String>(def.view);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ExceptionDef implements Comparable {
      * @return String
      */
     public String getType() {
-        return type;
+        return this.type;
     }
 
     /**
@@ -101,7 +101,7 @@ public class ExceptionDef implements Comparable {
      * @return String
      */
     public String getKey() {
-        return key;
+        return this.key;
     }
 
     /**
@@ -118,7 +118,7 @@ public class ExceptionDef implements Comparable {
      * @return String global forward name to return
      */
     public String getView(String viewType) {
-        return (String)view.get(viewType);
+        return this.view.get(viewType);
     }
 
     /**
@@ -127,23 +127,24 @@ public class ExceptionDef implements Comparable {
      * @param forward The forward name to set the view for
      */
     public void setView(String viewType, String forward) {
-        view.put(viewType, forward);
+        this.view.put(viewType, forward);
     }
 
     /**
      * Sets the view.
      * @param map a HashMap of type, forward name to set
      */
-    public void setView(Map map) {
-        view = new HashMap(map);
+    public void setView(Map<String, String> map) {
+        this.view = new HashMap<String, String>(map);
     }
 
     public int compareTo(Object other) {
         ExceptionDef ed = (ExceptionDef)other;
-        return type.compareTo(ed.getType());
+        return this.type.compareTo(ed.getType());
     }
 
-    public boolean equals(Object other) {
+    @Override
+	public boolean equals(Object other) {
         if ((other == null) || (!(other instanceof ExceptionDef))) {
             return false;
         }
@@ -153,10 +154,11 @@ public class ExceptionDef implements Comparable {
         }
         
         ExceptionDef ed = (ExceptionDef)other;
-        return type.equals(ed.type);
+        return this.type.equals(ed.type);
     }
 
-    public int hashCode() {
-        return type.hashCode();
+    @Override
+	public int hashCode() {
+        return this.type.hashCode();
     }
 }

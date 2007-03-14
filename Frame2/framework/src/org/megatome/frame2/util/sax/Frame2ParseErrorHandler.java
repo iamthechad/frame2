@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ public class Frame2ParseErrorHandler implements ErrorHandler {
     * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
     */
    public void error(SAXParseException exception) throws SAXException {
-      getLogger().severe("Caught error in SAX Error Handler " + exception.getMessage());
+      getLogger().severe("Caught error in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
       throw (exception);
    }
 
@@ -79,7 +79,7 @@ public class Frame2ParseErrorHandler implements ErrorHandler {
     * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
     */
    public void fatalError(SAXParseException exception) throws SAXException {
-      getLogger().severe("Caught fatalError in SAX Error Handler " + exception.getMessage());
+      getLogger().severe("Caught fatalError in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
       throw (exception);
    }
 
@@ -87,7 +87,7 @@ public class Frame2ParseErrorHandler implements ErrorHandler {
     * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
     */
    public void warning(SAXParseException exception) throws SAXException {
-      getLogger().severe("Caught warning in SAX Error Handler " + exception.getMessage());
+      getLogger().severe("Caught warning in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
       throw (exception);
    }
 

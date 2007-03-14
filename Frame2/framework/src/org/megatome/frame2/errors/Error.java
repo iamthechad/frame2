@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ public interface Error {
     /**
      * This key is used if an error is created with a null key.
      */
-    public static final String MISSING_KEY = "org.megatome.frame2.errors.MISSING_KEY";
+    public static final String MISSING_KEY = "org.megatome.frame2.errors.MISSING_KEY"; //$NON-NLS-1$
 
     /**
      * Get the key for this error.
@@ -76,7 +76,7 @@ public interface Error {
      * 
      * @return All values associated with this error in a list.
      */
-    public abstract List getValueList();
+    public abstract List<Object> getValueList();
 
     /**
      * Get all values for this error object as an array.

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ public class SOAPFault {
     private static Logger LOGGER = LoggerFactory.instance(SOAPFault.class
             .getName());
 
-    static public final String SOAP_URI = "http://schemas.xmlsoap.org/soap/envelope/";
+    static public final String SOAP_URI = "http://schemas.xmlsoap.org/soap/envelope/"; //$NON-NLS-1$
 
     private String detailMessage;
 
@@ -80,31 +80,32 @@ public class SOAPFault {
      */
     public Element getElement() throws SOAPException {
         try {
-            String body = getBody(detailMessage);
+            String body = getBody(this.detailMessage);
 
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Creating element for SOAP fault : " + body);
+                LOGGER.debug("Creating element for SOAP fault : " + body); //$NON-NLS-1$
             }
 
             return (Element)DOMStreamConverter.fromString(body, true);
         } catch (DocumentException e) {
-            throw new SOAPException("Unable to create fault element", e);
+            throw new SOAPException("Unable to create fault element", e); //$NON-NLS-1$
         }
     }
 
     private String getBody(String message) {
-        final String faultBodyStart = "<SOAP-ENV:Fault xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-                + "<faultcode>SOAP-ENV:Server</faultcode>"
-                + "<faultstring>Server Error</faultstring>" + "<detail>";
+        final String faultBodyStart = "<SOAP-ENV:Fault xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">" //$NON-NLS-1$
+                + "<faultcode>SOAP-ENV:Server</faultcode>" //$NON-NLS-1$
+                + "<faultstring>Server Error</faultstring>" + "<detail>"; //$NON-NLS-1$ //$NON-NLS-2$
 
-        final String faultBodyEnd = "</detail></SOAP-ENV:Fault>";
+        final String faultBodyEnd = "</detail></SOAP-ENV:Fault>"; //$NON-NLS-1$
 
         if (message != null) {
-            if (encode == true) {
-                message = DOMStreamConverter.encode(message);
+        	String encodeMessage = message;
+            if (this.encode == true) {
+                encodeMessage = DOMStreamConverter.encode(message);
             }
 
-            return faultBodyStart + message + faultBodyEnd;
+            return faultBodyStart + encodeMessage + faultBodyEnd;
         }
 
         return faultBodyStart + faultBodyEnd;
@@ -124,7 +125,7 @@ public class SOAPFault {
      * @param b
      */
     public void setDetailMessage(String message, boolean encode) {
-        detailMessage = message;
+        this.detailMessage = message;
         this.encode = encode;
     }
 }

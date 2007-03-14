@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,22 +56,24 @@ package org.megatome.frame2.tagsupport;
  */
 
 public final class TagConstants {
-	private TagConstants() {}
+	private TagConstants() {
+		// not public
+	}
 	
 	/** Quotes (") */
-   public static final String QUOTE           = "\"";
+   public static final String QUOTE           = "\""; //$NON-NLS-1$
    /** Tag end with slash characters (/&gt;) */
-	public static final String RT_ANGLE_CLOSE  = "/>";
+	public static final String RT_ANGLE_CLOSE  = "/>"; //$NON-NLS-1$
 	/** Tag end character (&gt;) */
-	public static final String RT_ANGLE        = ">";
+	public static final String RT_ANGLE        = ">"; //$NON-NLS-1$
 	/** Tag start with slash characters (&lt;/) */
-	public static final String LT_ANGLE_CLOSE  = "</";
+	public static final String LT_ANGLE_CLOSE  = "</"; //$NON-NLS-1$
 	/** Space character ( ) */
-	public static final String SPACE           = " ";
+	public static final String SPACE           = " "; //$NON-NLS-1$
 	/** Equal sign (=) */   
-	public static final String EQUAL           = "=";
+	public static final String EQUAL           = "="; //$NON-NLS-1$
 	/** Align string (align) */    
-   public static final String ALIGN       = "align";
+   public static final String ALIGN       = "align"; //$NON-NLS-1$
    /** XML Namespace constant */
-   public static final String XMLNS = " xmlns=\"http://www.w3.org/1999/xhtml\"";
+   public static final String XMLNS = " xmlns=\"http://www.w3.org/1999/xhtml\""; //$NON-NLS-1$
 }

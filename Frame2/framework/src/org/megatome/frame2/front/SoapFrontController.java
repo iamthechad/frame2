@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ public abstract class SoapFrontController {
          processor = RequestProcessorFactory.instance(ConfigFactory.instance(),
                elements, eventPkg);
 			if (processor == null){
-				String error = "Unable to instantiate Request Processor";
+				String error = "Unable to instantiate Request Processor"; //$NON-NLS-1$
 				LOGGER.severe(error);
 				throw new ServletException(error);
 			}
@@ -80,21 +80,21 @@ public abstract class SoapFrontController {
 				processor.preProcess();
 			}
 			catch (RuntimeException re) {
-				LOGGER.severe("Caught exception in RequestProcessor:preProcess() " + re);
+				LOGGER.severe("Caught exception in RequestProcessor:preProcess() " + re); //$NON-NLS-1$
 				re.printStackTrace();
 			}
          result = (Element[]) processor.processRequest();
       } catch (ConfigException e) {
-         result[0] = createFault(e);
+         result = new Element[] { createFault(e) };
       } catch (Throwable e) {
-         result[0] = createFault(e);
+    	 result = new Element[] { createFault(e) };
       } finally {
          if (processor != null) {
 			   try {
 			      processor.postProcess();
 				}
 				catch (RuntimeException re) {
-					 LOGGER.severe("Caught exception in RequestProcessor:postProcess() " + re);
+					 LOGGER.severe("Caught exception in RequestProcessor:postProcess() " + re); //$NON-NLS-1$
 					 re.printStackTrace();
 				}
             processor.release();
@@ -114,7 +114,7 @@ public abstract class SoapFrontController {
       try {
          elem = fault.getElement();
       } catch (SOAPException se) {
-         LOGGER.warn("Unable to generate SOAP fault", se);
+         LOGGER.warn("Unable to generate SOAP fault", se); //$NON-NLS-1$
       }
 
       return elem;

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,8 +59,8 @@ import java.util.Map;
  */
 class GlobalForwardTagHandler extends ConfigElementHandler {
     private ForwardTagHandler forwardTagHandler;
-    private Map xmlForwards = new HashMap();
-    private Map htmlForwards = new HashMap();
+    private Map<String, Forward> xmlForwards = new HashMap<String, Forward>();
+    private Map<String, Forward> htmlForwards = new HashMap<String, Forward>();
 
     /**
      * Constructs an GlobalForwardTagHandler.
@@ -70,26 +70,31 @@ class GlobalForwardTagHandler extends ConfigElementHandler {
         this.forwardTagHandler = forwardTagHandler;
     }
 
-    public void endElement(String uri, String localName, String qName) {
-        xmlForwards = new HashMap(forwardTagHandler.getXMLForwards());
-        htmlForwards = new HashMap(forwardTagHandler.getHTMLForwards());
-        forwardTagHandler.clear();
+    @Override
+	public void endElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName) {
+        this.xmlForwards = new HashMap<String, Forward>(this.forwardTagHandler.getXMLForwards());
+        this.htmlForwards = new HashMap<String, Forward>(this.forwardTagHandler.getHTMLForwards());
+        this.forwardTagHandler.clear();
     }
 
-    public Map getXMLForwards() {
-        return xmlForwards;
+    public Map<String, Forward> getXMLForwards() {
+        return this.xmlForwards;
     }
 
     /**
      * @return returns a HashMap of the HTML Forwards
      */
-    public Map getHTMLForwards() {
-        return htmlForwards;
+    public Map<String, Forward> getHTMLForwards() {
+        return this.htmlForwards;
     }
 
-    public void clear() {
-        xmlForwards.clear();
-        htmlForwards.clear();
-        forwardTagHandler.clear();
+    @Override
+	public void clear() {
+        this.xmlForwards.clear();
+        this.htmlForwards.clear();
+        this.forwardTagHandler.clear();
     }
 }

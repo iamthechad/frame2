@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,22 +61,27 @@ import org.xml.sax.Attributes;
  * "admin"/> </security>
  */
 class RoleTagHandler extends ConfigElementHandler {
-    public final static String NAME = "name";
-    private Set roles = new HashSet();
+    public final static String NAME = "name"; //$NON-NLS-1$
+    private Set<String> roles = new HashSet<String>();
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) {
-        roles.add(attributes.getValue(NAME));
+        this.roles.add(attributes.getValue(NAME));
     }
 
-    public void clear() {
-        roles.clear();
+    @Override
+	public void clear() {
+        this.roles.clear();
     }
 
     /**
      * @return returns a clone of the roles HashMap
      */
-    public Set getRoles() {
-        return roles;
+    public Set<String> getRoles() {
+        return this.roles;
     }
 }

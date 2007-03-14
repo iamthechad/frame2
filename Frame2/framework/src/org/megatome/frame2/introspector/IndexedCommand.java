@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,13 +63,14 @@ class IndexedCommand extends BeanCommand {
     private static Logger LOGGER = LoggerFactory.instance(IndexedCommand.class
             .getName());
 
-    void set(PropertyMapping mapping, Object value) throws BeanException {
+    @Override
+	void set(PropertyMapping mapping, Object value) throws BeanException {
         IndexedPropertyDescriptor descriptor = (IndexedPropertyDescriptor)getDescriptor(
                 mapping.getBean(), mapping.getKey());
 
         if (descriptor != null) {
             Method setMethod = descriptor.getIndexedWriteMethod();
-            Class type = descriptor.getIndexedPropertyType();
+            Class<?> type = descriptor.getIndexedPropertyType();
             int index = KeyHelper.getIndex(mapping.getKey());
 
             try {
@@ -79,16 +80,17 @@ class IndexedCommand extends BeanCommand {
                 setMethod.invoke(mapping.getBean(), new Object[] {
                         new Integer(index), convertedValue });
             } catch (Exception e) {
-                throw new MappingException("Unable to set property", mapping,
+                throw new MappingException("Unable to set property", mapping, //$NON-NLS-1$
                         value, e);
             }
         } else {
-            LOGGER.info("Unable to locate descriptor for property "
+            LOGGER.info("Unable to locate descriptor for property " //$NON-NLS-1$
                     + mapping.getKey());
         }
     }
 
-    Object get(PropertyMapping mapping) throws BeanException {
+    @Override
+	Object get(PropertyMapping mapping) throws BeanException {
         IndexedPropertyDescriptor descriptor = (IndexedPropertyDescriptor)getDescriptor(
                 mapping.getBean(), mapping.getKey());
 
@@ -100,11 +102,11 @@ class IndexedCommand extends BeanCommand {
                 return getMethod.invoke(mapping.getBean(),
                         new Object[] { new Integer(index) });
             } catch (Exception e) {
-                throw new MappingException("Unable to get property", mapping, e);
+                throw new MappingException("Unable to get property", mapping, e); //$NON-NLS-1$
             }
         }
 
-        LOGGER.info("Unable to locate descriptor for property "
+        LOGGER.info("Unable to locate descriptor for property " //$NON-NLS-1$
                 + mapping.getKey());
         return null;
     }

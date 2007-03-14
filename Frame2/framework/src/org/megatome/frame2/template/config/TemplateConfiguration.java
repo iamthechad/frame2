@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,41 +63,41 @@ import org.megatome.frame2.template.TemplatePlugin;
 
 public class TemplateConfiguration implements TemplateConfigurationInterface {
    public static final String TEMPLATE_PATH_EXCEPTION_MSG =
-      "validateTemplateFiles(), Unable to load template path= ";
+      "validateTemplateFiles(), Unable to load template path= "; //$NON-NLS-1$
    public static final String TEMPLATE_PUT_PATH_EXCEPTION_MSG =
-      "validateTemplateFiles(), Unable to load template put path= ";
-   private Map definitions = new HashMap();
+      "validateTemplateFiles(), Unable to load template put path= "; //$NON-NLS-1$
+   private Map<String, TemplateDef> definitions = new HashMap<String, TemplateDef>();
 
    public TemplateDef getDefinition(String name) {
-      return (TemplateDef) definitions.get(name);
+      return this.definitions.get(name);
    }
 
-   public Map getDefinitions() {
-      return definitions;
+   public Map<String, TemplateDef> getDefinitions() {
+      return this.definitions;
    }
 
-   public void setDefinitions(Map map) {
-      this.definitions = new HashMap(map);
+   public void setDefinitions(Map<String, TemplateDef> map) {
+      this.definitions = new HashMap<String, TemplateDef>(map);
    }
 
    public void loadTemplateFile(InputStream is) throws TemplateException {
-      TemplateConfigReader reader = new TemplateConfigReader(definitions);
+      TemplateConfigReader reader = new TemplateConfigReader(this.definitions);
       try {
          reader.execute(is);
       } catch (Exception e) {
          e.printStackTrace();
          throw new TemplateException(
-            "Unable to load template definition file",
+            "Unable to load template definition file", //$NON-NLS-1$
             e);
       }
    }
 
    public void validateTemplateFiles(ServletContext context)
       throws TemplateException {
-      Collection defs = definitions.values();
+      Collection<TemplateDef> defs = this.definitions.values();
 
-      for (Iterator iterator = defs.iterator(); iterator.hasNext();) {
-         TemplateDef def = (TemplateDef) iterator.next();
+      for (Iterator<TemplateDef> iterator = defs.iterator(); iterator.hasNext();) {
+         TemplateDef def = iterator.next();
          validateDefinitionPath(context, def);
          validateDefinitionPutPaths(context, def);
       }
@@ -115,10 +115,10 @@ public class TemplateConfiguration implements TemplateConfigurationInterface {
 
    protected void validateDefinitionPutPaths(ServletContext context,TemplateDef def)
                                                             throws TemplateException {
-      Map puts = def.getPutParams();
-      Collection paths = puts.values();
-      for (Iterator iter = paths.iterator(); iter.hasNext();) {
-         String path = (String) iter.next();
+      Map<String, String> puts = def.getPutParams();
+      Collection<String> paths = puts.values();
+      for (Iterator<String> iter = paths.iterator(); iter.hasNext();) {
+         String path = iter.next();
          InputStream is = context.getResourceAsStream(TemplatePlugin.getConfigDir() + path);
          if (is == null) {
             throw new TemplateException(TEMPLATE_PUT_PATH_EXCEPTION_MSG + 

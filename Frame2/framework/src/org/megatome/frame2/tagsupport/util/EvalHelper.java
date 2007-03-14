@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,10 +70,11 @@ public final class EvalHelper {
 
    // DOC: document the conventions and rules for referencing a resource key (vice expression)
 
-   private static String RESOURCE_PREFIX = "%{";
-   private static char RESOURCE_SUFFIX = '}';
+   private final static String RESOURCE_PREFIX = "%{"; //$NON-NLS-1$
+   private final static char RESOURCE_SUFFIX = '}';
 
    private EvalHelper() {
+	   // not public
    }
 
    /**
@@ -102,7 +103,7 @@ public final class EvalHelper {
       String tagName,
       String attrName,
       String attrValue,
-      Class attrType,
+      Class<?> attrType,
       Tag tagObject,
       PageContext pageContext)
       throws JspException, NullAttributeException {
@@ -144,7 +145,7 @@ public final class EvalHelper {
             result = bundle.getObject(key);
          }
       } catch (MissingResourceException e) {
-         throw new JspException("Unable to load resource for key " + key, e);
+         throw new JspException("Unable to load resource for key " + key, e); //$NON-NLS-1$
       }
       return result;
    }

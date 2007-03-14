@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,11 +68,11 @@ import org.w3c.dom.Element;
  */
 final public class RequestProcessorFactory {
    public static final String RP_TYPE =
-      "org.megatome.frame2.front.RequestProcessor";
+      "org.megatome.frame2.front.RequestProcessor"; //$NON-NLS-1$
    private RequestProcessorFactory() { // Non-public ctor
    }
 
-   private static Class createClass(String className) {
+   private static Class<RequestProcessor> createClass(String className) {
       Class c = null;
       try {
          c = Class.forName(className);
@@ -87,7 +87,7 @@ final public class RequestProcessorFactory {
    }
    
    private static Class[] generateParamTypes( String[] classNames) {
-      List paramTypes = new ArrayList();
+      List<Class> paramTypes = new ArrayList<Class>();
       
       try {
          for (int i = 0; i < classNames.length; i++) {
@@ -99,16 +99,16 @@ final public class RequestProcessorFactory {
       }
       
       Class[] classParamTypes =
-         (Class[]) paramTypes.toArray(new Class[paramTypes.size()]);
+         paramTypes.toArray(new Class[paramTypes.size()]);
       return classParamTypes;
    }
 
    private static RequestProcessor buildRequestProcessor(
-      Class c,
+      Class<RequestProcessor> c,
       Object[] objects,
       Class[] paramTypes) {
       RequestProcessor reqProc = null;
-      Constructor constructor;
+      Constructor<RequestProcessor> constructor;
       try {
          constructor = c.getDeclaredConstructor(paramTypes);
       } catch (NoSuchMethodException e) {
@@ -117,7 +117,7 @@ final public class RequestProcessorFactory {
       }
 
       try {
-         reqProc = (RequestProcessor) constructor.newInstance(objects);
+         reqProc = constructor.newInstance(objects);
 
          if (!Class.forName(RP_TYPE).isInstance(reqProc)) {
             return null;
@@ -160,7 +160,7 @@ final public class RequestProcessorFactory {
          config.getHttpRequestProcessor();
       if (requestProcessorDef != null) {
 
-         Class c = createClass(requestProcessorDef.getType());
+         Class<RequestProcessor> c = createClass(requestProcessorDef.getType());
          if (c == null) {
             return null;
          }
@@ -169,10 +169,10 @@ final public class RequestProcessorFactory {
         
          String[] classNames =
             {
-               "org.megatome.frame2.front.Configuration",
-               "javax.servlet.ServletContext",
-               "javax.servlet.http.HttpServletRequest",
-               "javax.servlet.http.HttpServletResponse" };
+               "org.megatome.frame2.front.Configuration", //$NON-NLS-1$
+               "javax.servlet.ServletContext", //$NON-NLS-1$
+               "javax.servlet.http.HttpServletRequest", //$NON-NLS-1$
+               "javax.servlet.http.HttpServletResponse" }; //$NON-NLS-1$
                
          Class[] classParamTypes = generateParamTypes(classNames);
          
@@ -203,9 +203,9 @@ final public class RequestProcessorFactory {
          Object[] objects = { config, elements, eventPkg};
          String[] classNames =
          {
-            "org.megatome.frame2.front.Configuration",            
-            "[Lorg.w3c.dom.Element;",  // This of course is intuitive, but... This is the way to specify an array of org.w3c.dom.Element.   Look at javadoc 
-            "java.lang.String"};
+            "org.megatome.frame2.front.Configuration",             //$NON-NLS-1$
+            "[Lorg.w3c.dom.Element;",  // This of course is intuitive, but... This is the way to specify an array of org.w3c.dom.Element.   Look at javadoc  //$NON-NLS-1$
+            "java.lang.String"}; //$NON-NLS-1$
                           
          Class[] classParamTypes = generateParamTypes(classNames);
          

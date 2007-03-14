@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -98,7 +98,7 @@ public class Forward {
      * @return String
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -106,7 +106,7 @@ public class Forward {
      * @return String
      */
     public String getPath() {
-        return path;
+        return this.path;
     }
 
     /**
@@ -114,7 +114,7 @@ public class Forward {
      * @return ForwardType
      */
     public ForwardType getType() {
-        return type;
+        return this.type;
     }
 
     /**

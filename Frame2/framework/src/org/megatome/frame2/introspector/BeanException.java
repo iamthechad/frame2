@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,7 @@ package org.megatome.frame2.introspector;
  */
 public class BeanException extends IntrospectorException {
 
+	private static final long serialVersionUID = 3718071898258783034L;
 	private String type;
 
 	/**
@@ -100,6 +101,6 @@ public class BeanException extends IntrospectorException {
     * @return Bean type as string
     */
    public String getType() {
-      return type;
+      return this.type;
    }
 }

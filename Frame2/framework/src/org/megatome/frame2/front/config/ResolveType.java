@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,9 +56,9 @@ package org.megatome.frame2.front.config;
  */
 public class ResolveType extends MappingType {
     // enumeration value declarations
-    public static ResolveType PARENT = new ResolveType("parent");
-    public static ResolveType CHILDREN = new ResolveType("children");
-    public static ResolveType PASSTHRU = new ResolveType("passthru");
+    public static ResolveType PARENT = new ResolveType("parent"); //$NON-NLS-1$
+    public static ResolveType CHILDREN = new ResolveType("children"); //$NON-NLS-1$
+    public static ResolveType PASSTHRU = new ResolveType("passthru"); //$NON-NLS-1$
 
     private ResolveType(String value) {
         super(value);

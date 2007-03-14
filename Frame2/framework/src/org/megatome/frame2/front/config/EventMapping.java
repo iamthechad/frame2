@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,8 +60,8 @@ import java.util.Map;
  * configuration file.
  */
 public class EventMapping {
-    private List handlers = new ArrayList();
-    private Map view = new HashMap();
+    private List<String> handlers = new ArrayList<String>();
+    private Map<String, String> view = new HashMap<String, String>();
     private Security security;
     private String eventName;
     private String inputView;
@@ -73,12 +73,12 @@ public class EventMapping {
      * @param name String
      */
     public EventMapping(String name) {
-        eventName = name;
+        this.eventName = name;
     }
 
     public EventMapping(EventMapping eventMapping) {
-        this.handlers = new ArrayList(eventMapping.handlers);
-        this.view = new HashMap(eventMapping.view);
+        this.handlers = new ArrayList<String>(eventMapping.handlers);
+        this.view = new HashMap<String, String>(eventMapping.view);
         this.security = eventMapping.security == null ? null : new Security(
                 eventMapping.security);
         this.eventName = eventMapping.eventName;
@@ -91,16 +91,16 @@ public class EventMapping {
      * Sets the eventMapping Handlers.
      * @param handlers ArrayList of all the eventHandlers for that eventMapping
      */
-    public void setHandlers(List handlers) {
-        this.handlers = new ArrayList(handlers);
+    public void setHandlers(List<String> handlers) {
+        this.handlers = new ArrayList<String>(handlers);
     }
 
     /**
      * Returns a clone of the List of eventHandlers.
      * @return ArrayList List of eventHandlers
      */
-    public List getHandlers() {
-        return handlers;
+    public List<String> getHandlers() {
+        return this.handlers;
     }
 
     /**
@@ -109,7 +109,7 @@ public class EventMapping {
      * @return String returns the view for that type
      */
     public String getView(String type) {
-        return (String)view.get(type);
+        return this.view.get(type);
     }
 
     /**
@@ -118,15 +118,15 @@ public class EventMapping {
      * @param forward The global forward name to use
      */
     public void setView(String type, String forward) {
-        view.put(type, forward);
+        this.view.put(type, forward);
     }
 
     /**
      * Sets the view.
      * @param map The HashMap of all the views for that eventMapping
      */
-    public void setView(Map map) {
-        view = new HashMap(map);
+    public void setView(Map<String, String> map) {
+        this.view = new HashMap<String, String>(map);
     }
 
     /**
@@ -134,7 +134,7 @@ public class EventMapping {
      * @return Security
      */
     private Security getSecurity() {
-        return security;
+        return this.security;
     }
 
     /**
@@ -164,7 +164,7 @@ public class EventMapping {
      * @return boolean the validate flag
      */
     public boolean isValidate() {
-        return validate;
+        return this.validate;
     }
 
     /**
@@ -180,7 +180,7 @@ public class EventMapping {
      * @return String
      */
     public String getInputView() {
-        return inputView;
+        return this.inputView;
     }
 
     /**
@@ -198,8 +198,8 @@ public class EventMapping {
     public String[] getRoles() {
         final String[] TYPE = new String[0];
 
-        if (security != null) {
-            return security.getRoles();
+        if (this.security != null) {
+            return this.security.getRoles();
         }
 
         return TYPE;
@@ -210,7 +210,7 @@ public class EventMapping {
      * @return String
      */
     public String getCancelView() {
-        return cancelView;
+        return this.cancelView;
     }
 
     /**

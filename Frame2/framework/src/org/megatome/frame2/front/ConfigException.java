@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,9 +59,11 @@ import org.megatome.frame2.Frame2Exception;
  * it, configuration validation, or instantiation of the application types.
  */
 public class ConfigException extends Frame2Exception {
-   /**
-    * Constructor for ConfigException.
-    */
+	private static final long serialVersionUID = -8481560060048290624L;
+
+	/**
+	* Constructor for ConfigException.
+	*/
    public ConfigException() {
       super();
    }

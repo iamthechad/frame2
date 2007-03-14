@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,8 +85,9 @@ public abstract class CommonsValidatorEvent extends AbstractEvent {
     * @return True if the event passed validation, false otherwise.
     * @see org.megatome.frame2.event.Event#validate(org.megatome.frame2.errors.Errors)
     */
+   @Override
    public boolean validate(Errors errors) {
-      LOGGER.debug("CommonsValidatorEvent:validate()");
+      LOGGER.debug("CommonsValidatorEvent:validate()"); //$NON-NLS-1$
 
       boolean valid = true;
       CommonsValidatorWrapper.validate(getName(), this, errors);

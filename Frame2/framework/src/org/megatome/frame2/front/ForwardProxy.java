@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,29 +67,29 @@ public class ForwardProxy {
     }
 
     public String getPath() {
-        return forward.getPath();
+        return this.forward.getPath();
     }
 
     public String getName() {
-        return forward.getName();
+        return this.forward.getName();
     }
 
     public boolean isResourceType() {
-        return (forward.getType().equals(ForwardType.HTMLRESOURCE) || forward
+        return (this.forward.getType().equals(ForwardType.HTMLRESOURCE) || this.forward
                 .getType().equals(ForwardType.XMLRESOURCE));
     }
 
     public boolean isEventType() {
-        return (forward.getType().equals(ForwardType.EVENT));
+        return (this.forward.getType().equals(ForwardType.EVENT));
     }
 
     public boolean isResponderType() {
-        return (forward.getType().equals(ForwardType.XMLRESPONDER));
+        return (this.forward.getType().equals(ForwardType.XMLRESPONDER));
     }
 
     public boolean isRedirect() {
         boolean redirect = false;
-        int index = forward.getPath().indexOf("://");
+        int index = this.forward.getPath().indexOf("://"); //$NON-NLS-1$
 
         if (index > -1) {
             redirect = true;

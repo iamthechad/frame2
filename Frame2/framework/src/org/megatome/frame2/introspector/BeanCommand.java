@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,11 +103,11 @@ abstract class BeanCommand {
             result = beanInfo.getPropertyDescriptors();
          }
       } catch (IntrospectionException e) {
-         String type = "null";
+         String type = "null"; //$NON-NLS-1$
          if ( fromBean != null ) {
             type = fromBean.getClass().getName();
          }
-         throw new BeanException("Unable to get property descriptors",type, e);
+         throw new BeanException("Unable to get property descriptors",type, e); //$NON-NLS-1$
       }
 
       return result;
@@ -127,8 +127,9 @@ abstract class BeanCommand {
 
    // NIT: Should probably cache the descriptor, need to get some performance
    // measures for the lookup.
-   protected PropertyDescriptor getDescriptor(Object fromBean, String name)
+   protected PropertyDescriptor getDescriptor(Object fromBean, String propName)
       throws BeanException {
+	   String name = propName;
       PropertyDescriptor[] descriptors = getDescriptors(fromBean);
 
       if (KeyHelper.isIndexed(name)) {

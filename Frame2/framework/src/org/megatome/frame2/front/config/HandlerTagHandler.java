@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,22 +64,27 @@ import org.xml.sax.Attributes;
 class HandlerTagHandler extends ConfigElementHandler {
     private static Logger LOGGER = LoggerFactory
             .instance(HandlerTagHandler.class.getName());
-    private List handlers = new ArrayList();
+    private List<String> handlers = new ArrayList<String>();
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) {
-        String name = attributes.getValue("name");
+        String name = attributes.getValue("name"); //$NON-NLS-1$
 
-        if (!handlers.add(name)) {
-            LOGGER.warn("This EventMappingHandler already exists " + name);
+        if (!this.handlers.add(name)) {
+            LOGGER.warn("This EventMappingHandler already exists " + name); //$NON-NLS-1$
         }
     }
 
-    public List getHandlers() {
-        return handlers;
+    public List<String> getHandlers() {
+        return this.handlers;
     }
 
-    public void clear() {
-        handlers.clear();
+    @Override
+	public void clear() {
+        this.handlers.clear();
     }
 }

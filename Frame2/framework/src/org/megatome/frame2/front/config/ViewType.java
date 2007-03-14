@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,9 +55,9 @@ package org.megatome.frame2.front.config;
  */
 public class ViewType extends MappingType {
     // enumeration value declarations
-    public static ViewType XML = new ViewType("XML");
-    public static ViewType HTML = new ViewType("HTML");
-    public static ViewType BOTH = new ViewType("Both");
+    public static ViewType XML = new ViewType("XML"); //$NON-NLS-1$
+    public static ViewType HTML = new ViewType("HTML"); //$NON-NLS-1$
+    public static ViewType BOTH = new ViewType("Both"); //$NON-NLS-1$
 
     private ViewType(String value) {
         super(value);

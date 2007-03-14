@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ import org.megatome.frame2.log.impl.StdoutLogger;
  * Frame2ContextListener.
  */
 public class LoggerFactory {
-    private static Constructor loggerConstructor;
+    private static Constructor<?> loggerConstructor;
 
     private static boolean STD_LOGGING_AVAILABLE = true;
 
@@ -69,6 +69,7 @@ public class LoggerFactory {
      * Constructor for LoggerFactory.
      */
     private LoggerFactory() {
+    	// not public
     }
 
     /**
@@ -85,7 +86,7 @@ public class LoggerFactory {
 
                 return (Logger)o;
             } catch (Exception e) {
-                throw new RuntimeException("Instantiating object failed.", e);
+                throw new RuntimeException("Instantiating object failed.", e); //$NON-NLS-1$
             }
         }
 
@@ -120,12 +121,12 @@ public class LoggerFactory {
      */
     public static void setType(String className, ClassLoader classLoader)
             throws LoggerException {
-        Class loggerClass = null;
+        Class<?> loggerClass = null;
 
         try {
             loggerClass = classLoader.loadClass(className);
 
-            Class[] interfaces = loggerClass.getInterfaces();
+            Class<?>[] interfaces = loggerClass.getInterfaces();
             boolean loggerIntFound = false;
 
             for (int i = 0; i < interfaces.length; i++) {
@@ -138,12 +139,12 @@ public class LoggerFactory {
 
             if (!loggerIntFound) {
                 loggerConstructor = null;
-                throw new LoggerException(className + " does not implement "
+                throw new LoggerException(className + " does not implement " //$NON-NLS-1$
                         + Logger.class.getName());
             }
         } catch (ClassNotFoundException e) {
             loggerConstructor = null;
-            throw new LoggerException("Unable to load class " + className, e);
+            throw new LoggerException("Unable to load class " + className, e); //$NON-NLS-1$
         }
 
         try {
@@ -151,7 +152,7 @@ public class LoggerFactory {
                     .getConstructor(new Class[] { String.class });
         } catch (NoSuchMethodException e) {
             loggerConstructor = null;
-            throw new LoggerException("Invalid constructor for " + loggerClass,
+            throw new LoggerException("Invalid constructor for " + loggerClass, //$NON-NLS-1$
                     e);
         }
     }

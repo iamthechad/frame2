@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,26 +57,25 @@ import org.xml.sax.Attributes;
  * Configuration file.
  */
 class RequestProcessorTagHandler extends ConfigElementHandler {
-    public static final String TYPE = "type";
+    public static final String TYPE = "type"; //$NON-NLS-1$
     private RequestProcessorDef rpDef;
 
-    /**
-     * Constructs an RequestProcessorTagHandler.
-     */
-    public RequestProcessorTagHandler() {
-    }
-
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) {
-        rpDef = new RequestProcessorDef();
-        rpDef.setType(attributes.getValue(TYPE));
+        this.rpDef = new RequestProcessorDef();
+        this.rpDef.setType(attributes.getValue(TYPE));
     }
 
     public RequestProcessorDef getRequestProcessorDef() {
-        return rpDef;
+        return this.rpDef;
     }
 
-    public void clear() {
-        rpDef = null;
+    @Override
+	public void clear() {
+        this.rpDef = null;
     }
 }

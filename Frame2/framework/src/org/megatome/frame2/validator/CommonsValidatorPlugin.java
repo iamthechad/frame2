@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,36 +60,38 @@ import org.megatome.frame2.plugin.PluginException;
 import org.megatome.frame2.plugin.PluginInterface;
 
 public class CommonsValidatorPlugin implements PluginInterface {
-   private static Logger LOGGER =
-      LoggerFactory.instance(CommonsValidatorPlugin.class.getName());
-   
-   /**
-    * 
-    */
-   public CommonsValidatorPlugin() {
-      super();
-   }
+	private static Logger LOGGER = LoggerFactory
+			.instance(CommonsValidatorPlugin.class.getName());
 
-   public void init(ServletContext context, Map initParams)
-      throws PluginException {
-      LOGGER.debug("CommonsValidatorPlugin:init()");
-      try {
-         CommonsValidatorWrapper.load(context);
-      } catch (CommonsValidatorException e) {
-         LOGGER.severe("CommonsValidatorPlugin not loaded : " + e);
-         throw new PluginException(e);
-      } catch (NoClassDefFoundError e) {
-         // Bug Fix: 917752
-         // Throw exception when plugin is specified, but class files
-         // are missing
-         LOGGER.severe("CommonsValidatorPlugin not loaded : " + e);
-         throw new PluginException(e);
-      }
+	/**
+	 * 
+	 */
+	public CommonsValidatorPlugin() {
+		super();
+	}
 
-   }
+	public void init(ServletContext context, @SuppressWarnings("unused")
+	Map<String, String> initParams) throws PluginException {
+		LOGGER.debug("CommonsValidatorPlugin:init()"); //$NON-NLS-1$
+		try {
+			CommonsValidatorWrapper.load(context);
+		} catch (CommonsValidatorException e) {
+			LOGGER.severe("CommonsValidatorPlugin not loaded : " + e); //$NON-NLS-1$
+			throw new PluginException(e);
+		} catch (NoClassDefFoundError e) {
+			// Bug Fix: 917752
+			// Throw exception when plugin is specified, but class files
+			// are missing
+			LOGGER.severe("CommonsValidatorPlugin not loaded : " + e); //$NON-NLS-1$
+			throw new PluginException(e);
+		}
 
-   public void destroy(ServletContext context, Map initParams) {
-      LOGGER.debug("CommonsValidatorPlugin:destroy()");
-      CommonsValidatorWrapper.release();
-   }
+	}
+
+	public void destroy(@SuppressWarnings("unused")
+	ServletContext context, @SuppressWarnings("unused")
+	Map<String, String> initParams) {
+		LOGGER.debug("CommonsValidatorPlugin:destroy()"); //$NON-NLS-1$
+		CommonsValidatorWrapper.release();
+	}
 }

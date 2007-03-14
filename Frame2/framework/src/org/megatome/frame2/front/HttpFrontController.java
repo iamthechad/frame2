@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,9 @@ import org.megatome.frame2.log.LoggerFactory;
  * mapped to the servlet paths of the event names.
  */
 public class HttpFrontController extends HttpServlet {
-    private static Logger LOGGER = LoggerFactory
+	private static final long serialVersionUID = -1352822098236647088L;
+
+	private static Logger LOGGER = LoggerFactory
             .instance(HttpFrontController.class.getName());
 
     // NIT keeping a reference to config here
@@ -83,14 +85,15 @@ public class HttpFrontController extends HttpServlet {
 
     // DOC: tell the user that the init controls the reading of the config, so
     // that the user can control lazy reading through the init-on-startup.
-    public void init() throws ServletException {
+    @Override
+	public void init() throws ServletException {
         super.init();
 
         try {
-            config = ConfigFactory.instance();
+            this.config = ConfigFactory.instance();
         } catch (ConfigException e) {
-            config = null;
-            throw new ServletException("Failed to initialize with config "
+            this.config = null;
+            throw new ServletException("Failed to initialize with config " //$NON-NLS-1$
                     + ConfigFactory.getConfigFilePath(), e);
         }
     }
@@ -99,7 +102,8 @@ public class HttpFrontController extends HttpServlet {
      * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest,
      *      HttpServletResponse)
      */
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    @Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
         doPost(request, response);
     }
@@ -108,20 +112,21 @@ public class HttpFrontController extends HttpServlet {
      * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest,
      *      HttpServletResponse)
      */
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    @Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
         RequestProcessor processor = null;
 
         try {
-            if (config == null) {
+            if (this.config == null) {
                 throw new ServletException(
-                        "POST called on uninitialized servlet");
+                        "POST called on uninitialized servlet"); //$NON-NLS-1$
             }
 
-            processor = RequestProcessorFactory.instance(config,
+            processor = RequestProcessorFactory.instance(this.config,
                     getServletContext(), request, response);
             if (processor == null) {
-                String error = "Unable to instantiate Request Processor";
+                String error = "Unable to instantiate Request Processor"; //$NON-NLS-1$
                 LOGGER.severe(error);
                 throw new ServletException(error);
             }
@@ -130,7 +135,7 @@ public class HttpFrontController extends HttpServlet {
                 processor.preProcess();
             } catch (RuntimeException re) {
                 LOGGER
-                        .severe("Caught exception in RequestProcessor:preProcess() "
+                        .severe("Caught exception in RequestProcessor:preProcess() " //$NON-NLS-1$
                                 + re);
                 re.printStackTrace();
             }
@@ -140,15 +145,15 @@ public class HttpFrontController extends HttpServlet {
         } catch (ServletException e) {
             throw e;
         } catch (Throwable e) {
-            LOGGER.warn("Unable to process request: " + e);
-            throw new ServletException("Unable to process request", e);
+            LOGGER.warn("Unable to process request: " + e); //$NON-NLS-1$
+            throw new ServletException("Unable to process request", e); //$NON-NLS-1$
         } finally {
             if (processor != null) {
                 try {
                     processor.postProcess();
                 } catch (RuntimeException re) {
                     LOGGER
-                            .severe("Caught exception in RequestProcessor:postProcess() "
+                            .severe("Caught exception in RequestProcessor:postProcess() " //$NON-NLS-1$
                                     + re);
                     re.printStackTrace();
                 }
@@ -160,18 +165,20 @@ public class HttpFrontController extends HttpServlet {
     /**
      * @see javax.servlet.Servlet#destroy()
      */
-    public void destroy() {
+    @Override
+	public void destroy() {
         super.destroy();
     }
 
     /**
      * @see javax.servlet.Servlet#getServletInfo()
      */
-    public String getServletInfo() {
+    @Override
+	public String getServletInfo() {
         return getClass().getName();
     }
 
     Configuration getConfiguration() {
-        return config;
+        return this.config;
     }
 }

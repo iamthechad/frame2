@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -95,7 +95,7 @@ public class EventDef {
      * @return String name of the EventDef
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -103,7 +103,7 @@ public class EventDef {
      * @return String type of the EventDef
      */
     public String getType() {
-        return type;
+        return this.type;
     }
 
     /**
@@ -111,7 +111,7 @@ public class EventDef {
      * @return ResolveType
      */
     public ResolveType getResolveAs() {
-        return resolve;
+        return this.resolve;
     }
 
     /**

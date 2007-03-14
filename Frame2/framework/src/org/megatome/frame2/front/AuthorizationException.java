@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,43 +52,48 @@ package org.megatome.frame2.front;
 
 import org.megatome.frame2.Frame2Exception;
 
-
 /**
  * Exception thrown when a user does not have access to a resource.
  */
 public class AuthorizationException extends Frame2Exception {
-   /**
-    * Constructor for AuthorizationException.
-    */
-   public AuthorizationException() {
-      super();
-   }
+	private static final long serialVersionUID = 3573948171392795287L;
 
-   /**
-    * Constructor for AuthorizationException.
-    *
-    * @param message The message for this exception
-    */
-   public AuthorizationException(String message) {
-      super(message);
-   }
+	/**
+	 * Constructor for AuthorizationException.
+	 */
+	public AuthorizationException() {
+		super();
+	}
 
-   /**
-    * Constructor for AuthorizationException.
-    *
-    * @param message The message for this exception
-    * @param cause The cause of this exception
-    */
-   public AuthorizationException(String message, Throwable cause) {
-      super(message, cause);
-   }
+	/**
+	 * Constructor for AuthorizationException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 */
+	public AuthorizationException(String message) {
+		super(message);
+	}
 
-   /**
-    * Constructor for AuthorizationException.
-    *
-    * @param cause The cause for this exception
-    */
-   public AuthorizationException(Throwable cause) {
-      super(cause);
-   }
+	/**
+	 * Constructor for AuthorizationException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 * @param cause
+	 *            The cause of this exception
+	 */
+	public AuthorizationException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * Constructor for AuthorizationException.
+	 * 
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public AuthorizationException(Throwable cause) {
+		super(cause);
+	}
 }

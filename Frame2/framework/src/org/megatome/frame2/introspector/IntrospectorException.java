@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,38 +56,40 @@ import org.megatome.frame2.Frame2Exception;
  * Base class for all introspection exceptions.
  */
 public class IntrospectorException extends Frame2Exception {
-   /**
-    * Constructor for IntrospectorException.
-    */
-   IntrospectorException() {
-      super();
-   }
+	private static final long serialVersionUID = 6859212680349040139L;
 
-   /**
-    * Constructor for IntrospectorException.
-    *
-    * @param arg0
-    */
-   IntrospectorException(String arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for IntrospectorException.
+	 */
+	IntrospectorException() {
+		super();
+	}
 
-   /**
-    * Constructor for IntrospectorException.
-    *
-    * @param arg0
-    * @param arg1
-    */
-   IntrospectorException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
-   }
+	/**
+	 * Constructor for IntrospectorException.
+	 * 
+	 * @param arg0
+	 */
+	IntrospectorException(String arg0) {
+		super(arg0);
+	}
 
-   /**
-    * Constructor for IntrospectorException.
-    *
-    * @param arg0
-    */
-   IntrospectorException(Throwable arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for IntrospectorException.
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 */
+	IntrospectorException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+	}
+
+	/**
+	 * Constructor for IntrospectorException.
+	 * 
+	 * @param arg0
+	 */
+	IntrospectorException(Throwable arg0) {
+		super(arg0);
+	}
 }

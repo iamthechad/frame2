@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,15 +56,21 @@ import org.xml.sax.Attributes;
 
 public abstract class ConfigElementHandler implements ElementHandler {
 
-    public void startElement(String uri, String localName, String qName,
+    @SuppressWarnings("unused")
+	public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws ParserException {
+    	// Empty
     }
 
-    public void endElement(String uri, String localName, String qName)
+    @SuppressWarnings("unused")
+	public void endElement(String uri, String localName, String qName)
             throws ParserException {
+    	// Empty
     }
     
-    public void characters(char[] ch, int start, int length) throws ParserException {
+    @SuppressWarnings("unused")
+	public void characters(char[] ch, int start, int length) throws ParserException {
+    	// Empty
     }
 
     public abstract void clear();

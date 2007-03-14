@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -149,13 +149,13 @@ public interface Errors {
      * @param key Error key to retrieve Error objects for
      * @return Iterator of all found Error objects, or null if none found.
      */
-    public abstract Iterator iterator(String key);
+    public abstract Iterator<Error> iterator(String key);
 
     /**
      * Get an iterator of all errors in this object.
      * @return Iterator of all errors in this collection.
      */
-    public abstract Iterator iterator();
+    public abstract Iterator<Error> iterator();
 
     /**
      * Get all errors in the collection in an array

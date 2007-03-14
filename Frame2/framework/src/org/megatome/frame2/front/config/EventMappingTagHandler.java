@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,15 +60,15 @@ import org.xml.sax.Attributes;
  * Configuration file.
  */
 class EventMappingTagHandler extends ConfigElementHandler {
-    public static final String INPUT_VIEW = "inputView";
-    public static final String CANCEL_VIEW = "cancelView";
-    public static final String VALIDATE = "validate";
+    public static final String INPUT_VIEW = "inputView"; //$NON-NLS-1$
+    public static final String CANCEL_VIEW = "cancelView"; //$NON-NLS-1$
+    public static final String VALIDATE = "validate"; //$NON-NLS-1$
 
     private String eventName;
     private HandlerTagHandler handlerTagHandler;
     private ViewTagHandler viewTagHandler;
     private SecurityTagHandler securityTagHandler;
-    private Map eventMappings = new HashMap();
+    private Map<String, EventMapping> eventMappings = new HashMap<String, EventMapping>();
 
     /**
      * Constructs an EventMappingTagHandler.
@@ -83,46 +83,55 @@ class EventMappingTagHandler extends ConfigElementHandler {
         this.securityTagHandler = securityTagHandler;
     }
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) {
-        eventName = attributes.getValue("eventName");
+        this.eventName = attributes.getValue("eventName"); //$NON-NLS-1$
 
-        EventMapping eventMapping = new EventMapping(eventName);
+        EventMapping eventMapping = new EventMapping(this.eventName);
 
         eventMapping.setInputView(attributes.getValue(INPUT_VIEW));
         eventMapping.setCancelView(attributes.getValue(CANCEL_VIEW));
         eventMapping.setValidate(Boolean.valueOf(attributes.getValue(VALIDATE))
                 .booleanValue());
-        eventMappings.put(eventName, eventMapping);
+        this.eventMappings.put(this.eventName, eventMapping);
     }
 
-    public void endElement(String uri, String localName, String qName) {
-        EventMapping eventMapping = (EventMapping)eventMappings
-                .get(eventName);
+    @Override
+	public void endElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName) {
+        EventMapping eventMapping = this.eventMappings
+                .get(this.eventName);
 
         // build event mapping here
-        eventMapping.setHandlers(handlerTagHandler.getHandlers());
-        handlerTagHandler.clear();
-        eventMapping.setSecurity(securityTagHandler.getSecurity());
-        securityTagHandler.clear();
-        eventMapping.setView(ViewType.XML.toString(), viewTagHandler
+        eventMapping.setHandlers(this.handlerTagHandler.getHandlers());
+        this.handlerTagHandler.clear();
+        eventMapping.setSecurity(this.securityTagHandler.getSecurity());
+        this.securityTagHandler.clear();
+        eventMapping.setView(ViewType.XML.toString(), this.viewTagHandler
                 .getXMLForwardName());
-        eventMapping.setView(ViewType.HTML.toString(), viewTagHandler
+        eventMapping.setView(ViewType.HTML.toString(), this.viewTagHandler
                 .getHTMLForwardName());
-        viewTagHandler.clear();
+        this.viewTagHandler.clear();
     }
 
     /**
      * @return returns a clone of the Events List
      */
-    public Map getEventMappings() {
-        return eventMappings;
+    public Map<String, EventMapping> getEventMappings() {
+        return this.eventMappings;
     }
 
     /**
      * clear the Events List
      */
-    public void clear() {
-        eventMappings.clear();
+    @Override
+	public void clear() {
+        this.eventMappings.clear();
     }
 }

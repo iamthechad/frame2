@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,20 +52,21 @@ package org.megatome.frame2.util.sax;
 
 import org.xml.sax.SAXException;
 
-
 /**
  * enclosing_type ParserException.java
  */
 public class ParserException extends SAXException {
-   public ParserException(String msg) {
-      super(msg);
-   }
+	private static final long serialVersionUID = -5788822789106634433L;
 
-   public ParserException(Exception ex) {
-      super(ex);
-   }
+	public ParserException(String msg) {
+		super(msg);
+	}
 
-   public ParserException(String msg, Exception ex) {
-      super(msg, ex);
-   }
+	public ParserException(Exception ex) {
+		super(ex);
+	}
+
+	public ParserException(String msg, Exception ex) {
+		super(msg, ex);
+	}
 }

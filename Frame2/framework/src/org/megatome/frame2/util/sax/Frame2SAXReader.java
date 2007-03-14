@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,16 +73,16 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class Frame2SAXReader extends DefaultHandler {
    private static Logger LOGGER = LoggerFactory.instance(Frame2SAXReader.class.getName());
-   private Map handlers = new HashMap();
-   private List elementsWithNoHandlers = new ArrayList();
-   private Stack stack = new Stack();
+   private Map<String, ElementHandler> handlers = new HashMap<String, ElementHandler>();
+   private List<String> elementsWithNoHandlers = new ArrayList<String>();
+   private Stack<ElementHandler> stack = new Stack<ElementHandler>();
 
    public void setElementHandler(String name, ElementHandler handler) {
-      handlers.put(name, handler);
+      this.handlers.put(name, handler);
    }
 
    public void setElement(String name) {
-      elementsWithNoHandlers.add(name);
+      this.elementsWithNoHandlers.add(name);
    }
 
    public void parse(InputStream io) throws ParserException {
@@ -109,28 +109,30 @@ public class Frame2SAXReader extends DefaultHandler {
       }
    }
 
-   public void startElement(String uri, String localName, String qName, Attributes attributes)
+   @Override
+public void startElement(String uri, String localName, String qName, Attributes attributes)
       throws ParserException {
-      ElementHandler handler = (ElementHandler) handlers.get(qName);
+      ElementHandler handler = this.handlers.get(qName);
 
       if (handler == null) {
-         if (!elementsWithNoHandlers.contains(qName)) {
-            LOGGER.severe("Frame2XMLReader Handler not found " + qName);
+         if (!this.elementsWithNoHandlers.contains(qName)) {
+            LOGGER.severe("Frame2XMLReader Handler not found " + qName); //$NON-NLS-1$
 
             return;
          }
       }
 
-      stack.push(handler);
+      this.stack.push(handler);
 
       if (handler != null) {
          handler.startElement(uri, localName, qName, attributes);
       }
    }
 
-   public void endElement(String uri, String localName, String qName)
+   @Override
+public void endElement(String uri, String localName, String qName)
       throws ParserException {
-      ElementHandler handler = (ElementHandler) stack.pop();
+      ElementHandler handler = this.stack.pop();
 
       if (handler != null) {
          try {
@@ -141,9 +143,10 @@ public class Frame2SAXReader extends DefaultHandler {
       }
    }
 
-   public void characters(char[] ch, int start, int length)
+   @Override
+public void characters(char[] ch, int start, int length)
       throws ParserException {
-      ElementHandler handler = (ElementHandler) stack.peek();
+      ElementHandler handler = this.stack.peek();
 
       if (handler != null) {
          try {

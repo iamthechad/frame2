@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ public class TemplateConfigFactory {
 
    public static TemplateConfiguration instance() throws TemplateException {
       if (instance == null) {
-         throw new TemplateException("Could not retrieve TemplateConfiguration");
+         throw new TemplateException("Could not retrieve TemplateConfiguration"); //$NON-NLS-1$
       }
       return instance;
    }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,43 +52,45 @@ package org.megatome.frame2.util.soap;
 
 import org.megatome.frame2.Frame2Exception;
 
-
 /**
- * Represents an error in the processing of SOAP information within the framework.
+ * Represents an error in the processing of SOAP information within the
+ * framework.
  */
 public class SOAPException extends Frame2Exception {
-   /**
-    * Constructor for SOAPException.
-    */
-   SOAPException() {
-      super();
-   }
+	private static final long serialVersionUID = -5782280933442372569L;
 
-   /**
-    * Constructor for SOAPException.
-    *
-    * @param arg0
-    */
-   SOAPException(String arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for SOAPException.
+	 */
+	SOAPException() {
+		super();
+	}
 
-   /**
-    * Constructor for SOAPException.
-    *
-    * @param arg0
-    * @param arg1
-    */
-   SOAPException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
-   }
+	/**
+	 * Constructor for SOAPException.
+	 * 
+	 * @param arg0
+	 */
+	SOAPException(String arg0) {
+		super(arg0);
+	}
 
-   /**
-    * Constructor for SOAPException.
-    *
-    * @param arg0
-    */
-   SOAPException(Throwable arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for SOAPException.
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 */
+	SOAPException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+	}
+
+	/**
+	 * Constructor for SOAPException.
+	 * 
+	 * @param arg0
+	 */
+	SOAPException(Throwable arg0) {
+		super(arg0);
+	}
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -90,6 +90,6 @@ public abstract class AbstractEvent implements Event {
     * @return Event name
     */
    public String getName() {
-      return name;
+      return this.name;
    }
 }

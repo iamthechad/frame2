@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ public class FileUploadConfig {
     private static long maxFileSize; //= 1024 * 1000 * 5;
 
     static {
-        fileTempDir = System.getProperty("java.io.tmpdir");
+        fileTempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
         bufferSize = 4096;
         maxFileSize = 1024 * 1000 * 5;
 

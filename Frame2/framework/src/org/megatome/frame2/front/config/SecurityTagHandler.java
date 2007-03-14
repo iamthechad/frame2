@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,24 +69,34 @@ class SecurityTagHandler extends ConfigElementHandler {
         this.roleTagHandler = roleTagHandler;
     }
 
-    public void startElement(String uri, String localName, String qName,
-            Attributes attributes) {
-        sec = new Security();
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
+            @SuppressWarnings("unused")
+			Attributes attributes) {
+        this.sec = new Security();
     }
 
-    public void endElement(String uri, String localName, String qName) {
-        sec.setRoles(roleTagHandler.getRoles());
+    @Override
+	public void endElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName) {
+        this.sec.setRoles(this.roleTagHandler.getRoles());
     }
 
     public Security getSecurity() {
-        return sec == null ? null : new Security(sec);
+        return this.sec == null ? null : new Security(this.sec);
     }
 
     /**
      * clear the Security
      */
-    public void clear() {
-        roleTagHandler.clear();
-        sec = null;
+    @Override
+	public void clear() {
+        this.roleTagHandler.clear();
+        this.sec = null;
     }
 }

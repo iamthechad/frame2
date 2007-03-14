@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,43 +52,48 @@ package org.megatome.frame2.log;
 
 import org.megatome.frame2.Frame2Exception;
 
-
 /**
  * Indicates an error in using the Frame2 log package or implementation.
  */
 public class LoggerException extends Frame2Exception {
-   /**
-    * Constructor for LoggerException.
-    */
-   public LoggerException() {
-      super();
-   }
+	private static final long serialVersionUID = -744664295516153185L;
 
-   /**
-    * Constructor for LoggerException.
-    *
-    * @param message The message for this exception
-    */
-   public LoggerException(String message) {
-      super(message);
-   }
+	/**
+	 * Constructor for LoggerException.
+	 */
+	public LoggerException() {
+		super();
+	}
 
-   /**
-    * Constructor for LoggerException.
-    *
-    * @param message The message for this exception
-    * @param cause The cause for this exception
-    */
-   public LoggerException(String message, Throwable cause) {
-      super(message, cause);
-   }
+	/**
+	 * Constructor for LoggerException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 */
+	public LoggerException(String message) {
+		super(message);
+	}
 
-   /**
-    * Constructor for LoggerException.
-    *
-    * @param cause The cause for this exception
-    */
-   public LoggerException(Throwable cause) {
-      super(cause);
-   }
+	/**
+	 * Constructor for LoggerException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public LoggerException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * Constructor for LoggerException.
+	 * 
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public LoggerException(Throwable cause) {
+		super(cause);
+	}
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,47 +48,53 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front;
+package org.megatome.frame2.front;
 
 import org.megatome.frame2.Frame2Exception;
 
-
 /**
- * Exception thrown whenever an error occurrs translating a SOAP message to an event
+ * Exception thrown whenever an error occurrs translating a SOAP message to an
+ * event
  */
 public class TranslationException extends Frame2Exception {
-   /**
-    * Constructor for TranslationException.
-    */
-   public TranslationException() {
-      super();
-   }
+	private static final long serialVersionUID = -4801179740947093860L;
 
-   /**
-    * Constructor for TranslationException.
-    *
-    * @param message The message for this exception
-    */
-   public TranslationException(String message) {
-      super(message);
-   }
+	/**
+	 * Constructor for TranslationException.
+	 */
+	public TranslationException() {
+		super();
+	}
 
-   /**
-    * Constructor for TranslationException.
-    *
-    * @param message The message for this exception
-    * @param cause The cause for this exception
-    */
-   public TranslationException(String message, Throwable cause) {
-      super(message, cause);
-   }
+	/**
+	 * Constructor for TranslationException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 */
+	public TranslationException(String message) {
+		super(message);
+	}
 
-   /**
-    * Constructor for TranslationException.
-    *
-    * @param cause The cause for this exception
-    */
-   public TranslationException(Throwable cause) {
-      super(cause);
-   }
+	/**
+	 * Constructor for TranslationException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public TranslationException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * Constructor for TranslationException.
+	 * 
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public TranslationException(Throwable cause) {
+		super(cause);
+	}
 }

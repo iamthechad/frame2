@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,47 +48,52 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front;
+package org.megatome.frame2.front;
 
 import org.megatome.frame2.Frame2Exception;
-
 
 /**
  * Exception thrown when an error occurs looking up or resolving a view.
  */
 public class ViewException extends Frame2Exception {
-   /**
-    * Constructor for ViewException.
-    */
-   public ViewException() {
-      super();
-   }
+	private static final long serialVersionUID = 6183834803972506112L;
 
-   /**
-    * Constructor for ViewException.
-    *
-    * @param message The message for the exception
-    */
-   public ViewException(String message) {
-      super(message);
-   }
+	/**
+	 * Constructor for ViewException.
+	 */
+	public ViewException() {
+		super();
+	}
 
-   /**
-    * Constructor for ViewException.
-    *
-    * @param message The message for this exception
-    * @param cause The cause for this exception
-    */
-   public ViewException(String message, Throwable cause) {
-      super(message, cause);
-   }
+	/**
+	 * Constructor for ViewException.
+	 * 
+	 * @param message
+	 *            The message for the exception
+	 */
+	public ViewException(String message) {
+		super(message);
+	}
 
-   /**
-    * Constructor for ViewException.
-    *
-    * @param cause The cause for this exception
-    */
-   public ViewException(Throwable cause) {
-      super(cause);
-   }
+	/**
+	 * Constructor for ViewException.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public ViewException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * Constructor for ViewException.
+	 * 
+	 * @param cause
+	 *            The cause for this exception
+	 */
+	public ViewException(Throwable cause) {
+		super(cause);
+	}
 }

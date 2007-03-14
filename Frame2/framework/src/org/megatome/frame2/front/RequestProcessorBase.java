@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ abstract class RequestProcessorBase implements RequestProcessor {
    protected ForwardProxy callHandlers(String eventName, Event event, ViewType vtype)
       throws Exception {
       String token = null;
-      List handlerList = null;
+      List<EventHandlerProxy> handlerList = null;
       ForwardProxy fwd = null;
 
       ContextWrapper ctx = getContextWrapper();
@@ -94,22 +94,22 @@ abstract class RequestProcessorBase implements RequestProcessor {
       } 
       ctx.setRequestAttribute(eventName, event);
 
-      handlerList = config.getHandlers(eventName);
+      handlerList = this.config.getHandlers(eventName);
       if (handlerList != null && (handlerList.size() >0)) {
          if(event == null) {
-            throw new ConfigException("No event Type specified for its Handlers");
+            throw new ConfigException("No event Type specified for its Handlers"); //$NON-NLS-1$
          }
          for (int i = 0; i < handlerList.size(); i++) {
-            EventHandlerProxy handler = (EventHandlerProxy) handlerList.get(i);
+            EventHandlerProxy handler = handlerList.get(i);
 
             token = processHandler(event, handler, ctx);
 
             if (token != null) {
-               fwd = config.resolveForward(handler, token, configResourceType());
+               fwd = this.config.resolveForward(handler, token, configResourceType());
 
                if (fwd.isEventType()) {
                   return callHandlers(fwd.getPath(),
-                     config.getEventProxy(fwd.getPath()).getEvent(), vtype);
+                     this.config.getEventProxy(fwd.getPath()).getEvent(), vtype);
                }
 
                break; // not an event
@@ -118,11 +118,11 @@ abstract class RequestProcessorBase implements RequestProcessor {
       }
 
       if (token == null) {
-         token = config.getEventMappingView(eventName, vtype);
-         fwd = config.resolveForward(token, configResourceType());
+         token = this.config.getEventMappingView(eventName, vtype);
+         fwd = this.config.resolveForward(token, configResourceType());
 
          if (fwd.isEventType()) {
-            return callHandlers(fwd.getPath(), config.getEventProxy(fwd.getPath()).getEvent(),
+            return callHandlers(fwd.getPath(), this.config.getEventProxy(fwd.getPath()).getEvent(),
                vtype);
          }
       }
@@ -133,7 +133,7 @@ abstract class RequestProcessorBase implements RequestProcessor {
    abstract protected ContextWrapper getContextWrapper();
 
    public Configuration getConfig() {
-      return config;
+      return this.config;
    }
 
    private String processHandler(Event event, EventHandlerProxy proxyHandler, ContextWrapper ctx)
@@ -148,8 +148,8 @@ abstract class RequestProcessorBase implements RequestProcessor {
    }
 
    public void release() {
-      config = null;
-      errors = null;
+      this.config = null;
+      this.errors = null;
    }
 
    abstract protected String configResourceType();
@@ -162,7 +162,7 @@ abstract class RequestProcessorBase implements RequestProcessor {
  	 * @param requestParameters All request parameters
 	 * @return True if this request should be cancelled
 	 */
-	protected boolean isCancelRequest(Map requestParameters) {
+	protected boolean isCancelRequest(Map<String, Object> requestParameters) {
 		return requestParameters.get(Globals.CANCEL) != null;
 	}
 }

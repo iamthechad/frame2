@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,41 +61,50 @@ class PluginTagHandler extends ConfigElementHandler {
     private static Logger LOGGER = LoggerFactory
             .instance(PluginTagHandler.class.getName());
 
-    public static final String NAME = "name";
-    public static final String TYPE = "type";
+    public static final String NAME = "name"; //$NON-NLS-1$
+    public static final String TYPE = "type"; //$NON-NLS-1$
 
     private InitParamTagHandler inputParamTagHandler;
-    private List plugins = new ArrayList();
+    private List<PluginDef> plugins = new ArrayList<PluginDef>();
     private PluginDef pluginDef;
 
     public PluginTagHandler(InitParamTagHandler inputParamTagHandler) {
         this.inputParamTagHandler = inputParamTagHandler;
     }
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) {
-        pluginDef = new PluginDef();
-        pluginDef.setName(attributes.getValue(NAME));
-        pluginDef.setType(attributes.getValue(TYPE));
+        this.pluginDef = new PluginDef();
+        this.pluginDef.setName(attributes.getValue(NAME));
+        this.pluginDef.setType(attributes.getValue(TYPE));
     }
 
-    public void endElement(String uri, String localName, String qName) {
-        pluginDef.setInitParams(inputParamTagHandler.getParams());
-        inputParamTagHandler.clear();
-        if (plugins.contains(pluginDef)) {
+    @Override
+	public void endElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName) {
+        this.pluginDef.setInitParams(this.inputParamTagHandler.getParams());
+        this.inputParamTagHandler.clear();
+        if (this.plugins.contains(this.pluginDef)) {
             // do not add duplicate named plugin defs to list.
-            LOGGER.severe("Error: Duplicate plugin definition "
-                    + pluginDef.getName());
+            LOGGER.severe("Error: Duplicate plugin definition " //$NON-NLS-1$
+                    + this.pluginDef.getName());
         } else {
-            plugins.add(pluginDef);
+            this.plugins.add(this.pluginDef);
         }
     }
 
-    public List getPlugins() {
-        return plugins;
+    public List<PluginDef> getPlugins() {
+        return this.plugins;
     }
 
-    public void clear() {
-        plugins.clear();
+    @Override
+	public void clear() {
+        this.plugins.clear();
     }
 }

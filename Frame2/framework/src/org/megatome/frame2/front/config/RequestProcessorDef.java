@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,17 +51,14 @@
 package org.megatome.frame2.front.config;
 
 public class RequestProcessorDef {
-    private String type = "";
-
-    public RequestProcessorDef() {
-    }
+    private String type = ""; //$NON-NLS-1$
 
     public void setType(String type) {
         this.type = type;
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
 }

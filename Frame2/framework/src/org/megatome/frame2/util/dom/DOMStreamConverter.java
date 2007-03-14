@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,6 +74,7 @@ final public class DOMStreamConverter {
     * Hidden constructor for DOMStreamConverter.
     */
    private DOMStreamConverter() {
+	   // not public
    }
 
    /**
@@ -91,7 +92,7 @@ final public class DOMStreamConverter {
       try {
          result = new ByteArrayInputStream(toByteArrayOutputStream(node).toByteArray());
       } catch (Exception e) {
-         throw new DocumentException("Unable to convert node to input stream", e);
+         throw new DocumentException("Unable to convert node to input stream", e); //$NON-NLS-1$
       }
 
       return result;
@@ -121,7 +122,7 @@ final public class DOMStreamConverter {
          TransformerFactory.newInstance().newTransformer().transform(new DOMSource(node),
             new StreamResult(result));
       } catch (Exception e) {
-         throw new DocumentException("Unable to convert node to output stream", e);
+         throw new DocumentException("Unable to convert node to output stream", e); //$NON-NLS-1$
       }
 
       return result;
@@ -164,7 +165,7 @@ final public class DOMStreamConverter {
 
          return doc.getFirstChild();
       } catch (Exception e) {
-         throw new DocumentException("Unable to convert string to node", e);
+         throw new DocumentException("Unable to convert string to node", e); //$NON-NLS-1$
       }
    }
 
@@ -186,27 +187,27 @@ final public class DOMStreamConverter {
 
             switch (c) {
             case '&':
-               buffer.append("&amp;");
+               buffer.append("&amp;"); //$NON-NLS-1$
 
                break;
 
             case '<':
-               buffer.append("&lt;");
+               buffer.append("&lt;"); //$NON-NLS-1$
 
                break;
 
             case '>':
-               buffer.append("&gt;");
+               buffer.append("&gt;"); //$NON-NLS-1$
 
                break;
 
             case '\"':
-               buffer.append("&quot;");
+               buffer.append("&quot;"); //$NON-NLS-1$
 
                break;
 
             case '\'':
-               buffer.append("&apos;");
+               buffer.append("&apos;"); //$NON-NLS-1$
 
                break;
 

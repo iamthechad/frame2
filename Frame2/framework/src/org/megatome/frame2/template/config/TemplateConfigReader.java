@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,13 +64,13 @@ import org.megatome.frame2.util.sax.ParserException;
  */
 
 public class TemplateConfigReader {
-    public static final String PUT = "put";
+    public static final String PUT = "put"; //$NON-NLS-1$
 
-    public static final String TEMPLATE = "template";
+    public static final String TEMPLATE = "template"; //$NON-NLS-1$
 
-    public static final String TEMPLATES = "templates";
+    public static final String TEMPLATES = "templates"; //$NON-NLS-1$
 
-    public static final String TEMPLATE_CONFIG = "template-config";
+    public static final String TEMPLATE_CONFIG = "template-config"; //$NON-NLS-1$
 
     private Frame2SAXReader reader;
 
@@ -78,18 +78,18 @@ public class TemplateConfigReader {
 
     private TemplateTagHandler templateTagHandler;
 
-    public TemplateConfigReader(Map definitions) {
-        putTagHandler = new PutParamTagHandler();
-        templateTagHandler = new TemplateTagHandler(putTagHandler,
+    public TemplateConfigReader(Map<String, TemplateDef> definitions) {
+        this.putTagHandler = new PutParamTagHandler();
+        this.templateTagHandler = new TemplateTagHandler(this.putTagHandler,
                 definitions);
-        reader = new Frame2SAXReader();
+        this.reader = new Frame2SAXReader();
 
-        reader.setElementHandler(TEMPLATE, templateTagHandler);
-        reader.setElementHandler(PUT, putTagHandler);
+        this.reader.setElementHandler(TEMPLATE, this.templateTagHandler);
+        this.reader.setElementHandler(PUT, this.putTagHandler);
 
         // Now set the Elements which do not have handlers
-        reader.setElement(TEMPLATES);
-        reader.setElement(TEMPLATE_CONFIG);
+        this.reader.setElement(TEMPLATES);
+        this.reader.setElement(TEMPLATE_CONFIG);
     }
 
     /**
@@ -102,12 +102,12 @@ public class TemplateConfigReader {
         try {
             if (is == null) {
                 throw new ParserException(
-                        "Error finding template definition file ");
+                        "Error finding template definition file "); //$NON-NLS-1$
             }
-            reader.parse(is);
+            this.reader.parse(is);
         } catch (ParserException e) {
             e.printStackTrace();
-            throw new TemplateException("Unable to load template definition: "
+            throw new TemplateException("Unable to load template definition: " //$NON-NLS-1$
                     + e.getMessage(), e);
         }
     }

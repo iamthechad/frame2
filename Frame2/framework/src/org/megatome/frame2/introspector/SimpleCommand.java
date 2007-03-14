@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,17 +64,18 @@ class SimpleCommand extends BeanCommand {
     private static Logger LOGGER = LoggerFactory.instance(SimpleCommand.class
             .getName());
 
-    void set(PropertyMapping mapping, Object value) throws BeanException {
+    @Override
+	void set(PropertyMapping mapping, Object value) throws BeanException {
         PropertyDescriptor descriptor = getDescriptor(mapping.getBean(),
                 mapping.getKey());
 
         if (descriptor != null) {
             Method setMethod = descriptor.getWriteMethod();
-            Class type = descriptor.getPropertyType();
+            Class<?> type = descriptor.getPropertyType();
 
             try {
                 Object convertedValue = null;
-                Class arrayRef = type.getComponentType();
+                Class<?> arrayRef = type.getComponentType();
                 if (value instanceof Object[]) {
                     Object[] values = (Object[])value;
                     if (arrayRef == null) {
@@ -100,16 +101,17 @@ class SimpleCommand extends BeanCommand {
                 setMethod.invoke(mapping.getBean(),
                         new Object[] { convertedValue });
             } catch (Exception e) {
-                throw new MappingException("Unable to set property", mapping,
+                throw new MappingException("Unable to set property", mapping, //$NON-NLS-1$
                         value, e);
             }
         } else {
-            LOGGER.info("Unable to locate descriptor for property "
+            LOGGER.info("Unable to locate descriptor for property " //$NON-NLS-1$
                     + mapping.getKey());
         }
     }
 
-    Object get(PropertyMapping mapping) throws BeanException {
+    @Override
+	Object get(PropertyMapping mapping) throws BeanException {
         PropertyDescriptor descriptor = getDescriptor(mapping.getBean(),
                 mapping.getKey());
 
@@ -117,13 +119,13 @@ class SimpleCommand extends BeanCommand {
             try {
                 Method getMethod = descriptor.getReadMethod();
 
-                return getMethod.invoke(mapping.getBean(), null);
+                return getMethod.invoke(mapping.getBean(), (Object[])null);
             } catch (Exception e) {
-                throw new MappingException("Unable to get property", mapping, e);
+                throw new MappingException("Unable to get property", mapping, e); //$NON-NLS-1$
             }
         }
 
-        LOGGER.info("Unable to locate descriptor for property "
+        LOGGER.info("Unable to locate descriptor for property " //$NON-NLS-1$
                 + mapping.getKey());
         return null;
     }

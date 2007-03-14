@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,17 +59,17 @@ public class StdoutLogger implements Logger {
 
    private String name;
 
-   final private String DEBUG = "DEBUG: ";
-   final private String INFO = "INFO: ";
-   final private String WARN = "WARN: ";
-   final private String SEVERE = "SEVERE: ";
+   final private static String DEBUG = "DEBUG: "; //$NON-NLS-1$
+   final private static String INFO = "INFO: "; //$NON-NLS-1$
+   final private static String WARN = "WARN: "; //$NON-NLS-1$
+   final private static String SEVERE = "SEVERE: "; //$NON-NLS-1$
 
    public StdoutLogger(String name) {
       this.name = name;
    }
 
    public String getName() {
-      return name;
+      return this.name;
    }
 
    public void debug(String message) {

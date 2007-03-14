@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,13 +65,17 @@ import org.xml.sax.Attributes;
 class EventTagHandler extends ConfigElementHandler {
     private static Logger LOGGER = LoggerFactory.instance(EventTagHandler.class
             .getName());
-    public static final String NAME = "name";
-    public static final String TYPE = "type";
-    public static final String RESOLVE_AS = "resolveAs";
-    public static final String INVALID_TYPE = "Error: Invalid event resolveAs ";
-    private Map events = new HashMap();
+    public static final String NAME = "name"; //$NON-NLS-1$
+    public static final String TYPE = "type"; //$NON-NLS-1$
+    public static final String RESOLVE_AS = "resolveAs"; //$NON-NLS-1$
+    public static final String INVALID_TYPE = "Error: Invalid event resolveAs "; //$NON-NLS-1$
+    private Map<String, EventDef> events = new HashMap<String, EventDef>();
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) throws ParserException {
         ResolveType rtype = null;
         String name = attributes.getValue(NAME);
@@ -85,14 +89,14 @@ class EventTagHandler extends ConfigElementHandler {
         }
 
         if (rtype == null) {
-            throw new ParserException("resolveAs attribute " + resolveAs
-                    + " is not valid ");
+            throw new ParserException("resolveAs attribute " + resolveAs //$NON-NLS-1$
+                    + " is not valid "); //$NON-NLS-1$
         }
 
         EventDef event = new EventDef(name, type, rtype);
 
-        if (events.put(attributes.getValue(NAME), event) != null) {
-            LOGGER.warn("This Event already exists "
+        if (this.events.put(attributes.getValue(NAME), event) != null) {
+            LOGGER.warn("This Event already exists " //$NON-NLS-1$
                     + attributes.getValue(NAME));
         }
     }
@@ -100,14 +104,15 @@ class EventTagHandler extends ConfigElementHandler {
     /**
      * @return returns a clone of the EventDef Map
      */
-    public Map getEvents() {
-        return events;
+    public Map<String, EventDef> getEvents() {
+        return this.events;
     }
 
     /**
      * clear the EventDef Map
      */
-    public void clear() {
-        events.clear();
+    @Override
+	public void clear() {
+        this.events.clear();
     }
 }

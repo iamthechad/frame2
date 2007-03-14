@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,7 @@ public abstract class BaseFrame2Tag
    extends BodyTagSupport
    implements TryCatchFinally {
    /** Attributes of this tag */
-   protected Map attrs = new TreeMap();
+   protected Map<String, String> attrs = new TreeMap<String, String>();
    /** This tag's name */
    protected String tagName;
    /** Indicate if this tag has a body */
@@ -87,7 +87,7 @@ public abstract class BaseFrame2Tag
     * @return String
     */
    public String getTagName() {
-      return tagName;
+      return this.tagName;
    }
 
    /**
@@ -101,14 +101,14 @@ public abstract class BaseFrame2Tag
    * @param value The value of the attribute
    */
    protected void setAttr(String key, String value) {
-      attrs.put(key, value);
+      this.attrs.put(key, value);
    }
    /**
     * Remove an attribute from this tag
     * @param key Attribute to remove
     */
    protected void removeAttr(String key) {
-      attrs.remove(key);
+      this.attrs.remove(key);
    }
    /**
     * Get the attribute associated with a key.
@@ -117,15 +117,16 @@ public abstract class BaseFrame2Tag
     * nor null if none found.
     */
    protected String getAttr(String key) {
-      return (String) attrs.get(key);
+      return this.attrs.get(key);
    }
 
    /**
     * Resets attribute values for tag reuse.
     */
-   public void release() {
+   @Override
+public void release() {
       super.release();
-      attrs.clear();
+      this.attrs.clear();
    }
    /**
     * Release not called until garbage collect.
@@ -133,7 +134,7 @@ public abstract class BaseFrame2Tag
     */
    public void doFinally() {
       // free resources,
-      attrs.clear();
+      this.attrs.clear();
       initializeAttributes();
    }
    
@@ -156,6 +157,7 @@ public abstract class BaseFrame2Tag
     * Clear any resources held by this tag
     */
    protected void clear() {
+	   // not implemented
    }
 
    /**
@@ -178,7 +180,7 @@ public abstract class BaseFrame2Tag
                attrValue,
                String.class,
                this,
-               pageContext));
+               this.pageContext));
    }
 
    /**
@@ -190,7 +192,7 @@ public abstract class BaseFrame2Tag
     * @throws Exception If either the <code>attrValue</code> is null, or the
     * resulting evaluated value is null.
     */
-   protected HashMap evalHashMapAttr(String attrName, String attrValue)
+   protected HashMap<?, ?> evalHashMapAttr(String attrName, String attrValue)
       throws Exception {
       return (HashMap)
          (EvalHelper
@@ -200,7 +202,7 @@ public abstract class BaseFrame2Tag
                attrValue,
                HashMap.class,
                this,
-               pageContext));
+               this.pageContext));
    }
 
    /**
@@ -212,7 +214,7 @@ public abstract class BaseFrame2Tag
     * @throws Exception If either the <code>attrValue</code> is null, or the
     * resulting evaluated value is null.
     */
-   protected Collection evalCollectionAttr(String attrName, String attrValue)
+   protected Collection<?> evalCollectionAttr(String attrName, String attrValue)
       throws Exception {
       return (Collection)
          (EvalHelper
@@ -222,7 +224,7 @@ public abstract class BaseFrame2Tag
                attrValue,
                Collection.class,
                this,
-               pageContext));
+               this.pageContext));
    }
 
    /**
@@ -244,7 +246,7 @@ public abstract class BaseFrame2Tag
                attrValue,
                Object[].class,
                this,
-               pageContext));
+               this.pageContext));
    }
 
    /**
@@ -260,7 +262,7 @@ public abstract class BaseFrame2Tag
          attrValue = evalStringAttr(attrName, getAttr(attrName));
       } catch (Exception e) {
          throw new JspException(
-            " Evaluation attribute failed " + e.getMessage(),
+            " Evaluation attribute failed " + e.getMessage(), //$NON-NLS-1$
             e);
       }
 

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,13 +59,14 @@ import java.util.Set;
  * the roles which can access that eventMapping.
  */
 public class Security {
-    private Set roles = new HashSet();
+    private Set<String> roles = new HashSet<String>();
     
     public Security() {
+    	// Default
     }
-
+    
     public Security(Security sec) {
-        this.roles = new HashSet(sec.roles);
+        this.roles = new HashSet<String>(sec.roles);
     }
 
     /**
@@ -73,7 +74,7 @@ public class Security {
      * @return boolean
      */
     public boolean isUserInRole(String role) {
-        return roles.contains(role);
+        return this.roles.contains(role);
     }
 
     /**
@@ -81,11 +82,11 @@ public class Security {
      * @param role The role to set
      */
     public void addRole(String role) {
-        roles.add(role);
+        this.roles.add(role);
     }
 
-    public void setRoles(Set roles) {
-        this.roles = new HashSet(roles);
+    public void setRoles(Set<String> roles) {
+        this.roles = new HashSet<String>(roles);
     }
 
     /**
@@ -93,13 +94,13 @@ public class Security {
      * @return boolean
      */
     public boolean isRoleBased() {
-        return !roles.isEmpty();
+        return !this.roles.isEmpty();
     }
 
     /**
      * @return returns a String Array of the roles HashMap
      */
     public String[] getRoles() {
-        return (String[])roles.toArray(new String[0]);
+        return this.roles.toArray(new String[0]);
     }
 }

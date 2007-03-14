@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,7 @@ class PropertyMapping {
     * @return String
     */
    String getKey() {
-      return key;
+      return this.key;
    }
 
    /**
@@ -78,6 +78,6 @@ class PropertyMapping {
     * @return Object
     */
    Object getBean() {
-      return bean;
+      return this.bean;
    }
 }

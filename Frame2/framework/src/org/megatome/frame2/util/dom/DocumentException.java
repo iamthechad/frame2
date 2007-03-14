@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,43 +52,44 @@ package org.megatome.frame2.util.dom;
 
 import org.megatome.frame2.Frame2Exception;
 
-
 /**
- *
+ * 
  */
 public class DocumentException extends Frame2Exception {
-   /**
-    * Constructor for DocumentException.
-    */
-   public DocumentException() {
-      super();
-   }
+	private static final long serialVersionUID = -4409772444219402527L;
 
-   /**
-    * Constructor for DocumentException.
-    *
-    * @param arg0
-    */
-   public DocumentException(String arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for DocumentException.
+	 */
+	public DocumentException() {
+		super();
+	}
 
-   /**
-    * Constructor for DocumentException.
-    *
-    * @param arg0
-    * @param arg1
-    */
-   public DocumentException(String arg0, Throwable arg1) {
-      super(arg0, arg1);
-   }
+	/**
+	 * Constructor for DocumentException.
+	 * 
+	 * @param arg0
+	 */
+	public DocumentException(String arg0) {
+		super(arg0);
+	}
 
-   /**
-    * Constructor for DocumentException.
-    *
-    * @param arg0
-    */
-   public DocumentException(Throwable arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for DocumentException.
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 */
+	public DocumentException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+	}
+
+	/**
+	 * Constructor for DocumentException.
+	 * 
+	 * @param arg0
+	 */
+	public DocumentException(Throwable arg0) {
+		super(arg0);
+	}
 }

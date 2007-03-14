@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,30 +74,31 @@ public final class FileUploadSupport {
         return LoggerFactory.instance(FileUploadSupport.class.getName());
     }
 
-    public static Map processMultipartRequest(final HttpServletRequest request)
+    @SuppressWarnings("unchecked")
+	public static Map<String, Object> processMultipartRequest(final HttpServletRequest request)
             throws Frame2Exception {
-        Map parameters = new HashMap();
+        Map<String, Object> parameters = new HashMap<String, Object>();
 
         DiskFileUpload fileUpload = new DiskFileUpload();
         fileUpload.setSizeMax(FileUploadConfig.getMaxFileSize());
         fileUpload.setSizeThreshold(FileUploadConfig.getBufferSize());
         fileUpload.setRepositoryPath(FileUploadConfig.getFileTempDir());
 
-        List fileItems = null;
+        List<FileItem> fileItems = null;
         try {
             fileItems = fileUpload.parseRequest(request);
         } catch (FileUploadException fue) {
-            getLogger().severe("File Upload Error", fue);
-            throw new Frame2Exception("File Upload Exception", fue);
+            getLogger().severe("File Upload Error", fue); //$NON-NLS-1$
+            throw new Frame2Exception("File Upload Exception", fue); //$NON-NLS-1$
         }
 
-        for (final Iterator i = fileItems.iterator(); i.hasNext();) {
-            FileItem fi = (FileItem)i.next();
+        for (final Iterator<FileItem> i = fileItems.iterator(); i.hasNext();) {
+            FileItem fi = i.next();
             String fieldName = fi.getFieldName();
 
             if (fi.isFormField()) {
                 if (parameters.containsKey(fieldName)) {
-                    List tmpArray = new ArrayList();
+                    List<Object> tmpArray = new ArrayList<Object>();
                     if (parameters.get(fieldName) instanceof String[]) {
                         String[] origValues = (String[])parameters
                                 .get(fieldName);
@@ -110,14 +111,14 @@ public final class FileUploadSupport {
                         tmpArray.add(fi.getString());
                     }
                     String[] newValues = new String[tmpArray.size()];
-                    newValues = (String[])tmpArray.toArray(newValues);
+                    newValues = tmpArray.toArray(newValues);
                     parameters.put(fieldName, newValues);
                 } else {
                     parameters.put(fieldName, fi.getString());
                 }
             } else {
                 if (parameters.containsKey(fieldName)) {
-                    List tmpArray = new ArrayList();
+                    List<Object> tmpArray = new ArrayList<Object>();
                     if (parameters.get(fieldName) instanceof FileItem[]) {
                         FileItem[] origValues = (FileItem[])parameters
                                 .get(fieldName);
@@ -130,7 +131,7 @@ public final class FileUploadSupport {
                         tmpArray.add(fi);
                     }
                     FileItem[] newValues = new FileItem[tmpArray.size()];
-                    newValues = (FileItem[])tmpArray.toArray(newValues);
+                    newValues = tmpArray.toArray(newValues);
                     parameters.put(fieldName, newValues);
                 } else {
                     parameters.put(fieldName, fi);

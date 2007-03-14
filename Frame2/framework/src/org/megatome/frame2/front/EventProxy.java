@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,23 +72,23 @@ public class EventProxy {
    }
 
    public String getType() {
-      return eventDef.getType();
+      return this.eventDef.getType();
    }
 
    public String getName() {
-      return eventDef.getName();
+      return this.eventDef.getName();
    }
 
    public boolean isParent() {
-      return (eventDef.getResolveAs().equals(ResolveType.PARENT));
+      return (this.eventDef.getResolveAs().equals(ResolveType.PARENT));
    }
 
    public boolean isChildren() {
-      return (eventDef.getResolveAs().equals(ResolveType.CHILDREN));
+      return (this.eventDef.getResolveAs().equals(ResolveType.CHILDREN));
    }
 
    public boolean isPassThru() {
-      return (eventDef.getResolveAs().equals(ResolveType.PASSTHRU));
+      return (this.eventDef.getResolveAs().equals(ResolveType.PASSTHRU));
    }
 
    /**
@@ -97,6 +97,6 @@ public class EventProxy {
     * @return Event
     */
    public Event getEvent() {
-      return event;
+      return this.event;
    }
 }

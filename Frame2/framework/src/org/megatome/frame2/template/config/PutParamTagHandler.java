@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,25 +58,30 @@ import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
 
 class PutParamTagHandler extends ConfigElementHandler {
-    public static final String NAME = "name";
-    public static final String PATH = "path";
-    private Map params = new HashMap();
+    public static final String NAME = "name"; //$NON-NLS-1$
+    public static final String PATH = "path"; //$NON-NLS-1$
+    private Map<String, String> params = new HashMap<String, String>();
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) throws ParserException {
         String name = attributes.getValue(NAME);
-        if (params.containsKey(name)) {
-            throw new ParserException("Duplicate name in put parameter " + name);
+        if (this.params.containsKey(name)) {
+            throw new ParserException("Duplicate name in put parameter " + name); //$NON-NLS-1$
         }
 
-        params.put(name, attributes.getValue(PATH));
+        this.params.put(name, attributes.getValue(PATH));
     }
 
-    public Map getPutParams() {
-        return params;
+    public Map<String, String> getPutParams() {
+        return this.params;
     }
 
-    public void clear() {
-        params.clear();
+    @Override
+	public void clear() {
+        this.params.clear();
     }
 }

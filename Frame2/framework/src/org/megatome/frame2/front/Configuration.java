@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,25 +79,25 @@ import org.megatome.frame2.plugin.PluginInterface;
  */
 public class Configuration {
     /** Token type used when processing forwards */
-    public static final String XML_TOKEN = "xml";
+    public static final String XML_TOKEN = "xml"; //$NON-NLS-1$
 
     /** Token type used when processing forwards */
-    public static final String HTML_TOKEN = "html";
+    public static final String HTML_TOKEN = "html"; //$NON-NLS-1$
 
-    private Map globalXMLForwards;
-    private Map globalHTMLForwards;
-    private Map events;
-    private Map eventMappings;
-    private Map eventHandlers;
-    private List exceptions;
-    private List plugins;
-    private Map eventHandlerCache = new HashMap();
+    private Map<String, Forward> globalXMLForwards;
+    private Map<String, Forward> globalHTMLForwards;
+    private Map<String, EventDef> events;
+    private Map<String, EventMapping> eventMappings;
+    private Map<String, EventHandlerDef> eventHandlers;
+    private List<ExceptionDef> exceptions;
+    private List<PluginDef> plugins;
+    private Map<String, List<EventHandlerProxy>> eventHandlerCache = new HashMap<String, List<EventHandlerProxy>>();
     private String path;
     private Date initTime;
     private EventConfigReader reader;
     private RequestProcessorDef soapRequestProcessor;
     private RequestProcessorDef httpRequestProcessor;
-    private List pluginProxies = null;
+    private List<PluginProxy> pluginProxies = null;
 
     /**
      * Constructor for Configuration. The configuration will be loaded from the
@@ -128,25 +128,25 @@ public class Configuration {
      */
     private void processConfig() throws ConfigException {
         try {
-            reader.execute();
+            this.reader.execute();
         } catch (Frame2Exception e) {
             throw new ConfigException(e);
         }
 
-        globalXMLForwards = reader.getGlobalXMLForwards();
-        globalHTMLForwards = reader.getGlobalHTMLForwards();
-        events = reader.getEvents();
-        eventMappings = reader.getEventMappings();
-        eventHandlers = reader.getEventHandlers();
-        exceptions = reader.getExceptions();
+        this.globalXMLForwards = this.reader.getGlobalXMLForwards();
+        this.globalHTMLForwards = this.reader.getGlobalHTMLForwards();
+        this.events = this.reader.getEvents();
+        this.eventMappings = this.reader.getEventMappings();
+        this.eventHandlers = this.reader.getEventHandlers();
+        this.exceptions = this.reader.getExceptions();
 
-        plugins = reader.getPlugins();
+        this.plugins = this.reader.getPlugins();
         loadPluginProxies();
 
-        soapRequestProcessor = reader.getSoapReqProcHandler();
-        httpRequestProcessor = reader.getHttpReqProcHandler();
+        this.soapRequestProcessor = this.reader.getSoapReqProcHandler();
+        this.httpRequestProcessor = this.reader.getHttpReqProcHandler();
 
-        initTime = new Date();
+        this.initTime = new Date();
     }
 
     /**
@@ -154,7 +154,7 @@ public class Configuration {
      * @return Configuration file path
      */
     public String getPath() {
-        return path;
+        return this.path;
     }
 
     /**
@@ -162,19 +162,19 @@ public class Configuration {
      * @return Date
      */
     public Date getInitTime() {
-        return initTime;
+        return this.initTime;
     }
 
     /**
      * Method getGlobalForwards.
      * @return Map
      */
-    public Map getGlobalXMLForwards() {
-        return globalXMLForwards;
+    public Map<String, Forward> getGlobalXMLForwards() {
+        return this.globalXMLForwards;
     }
 
-    public Map getGlobalHTMLForwards() {
-        return globalHTMLForwards;
+    public Map<String, Forward> getGlobalHTMLForwards() {
+        return this.globalHTMLForwards;
     }
 
     /**
@@ -182,57 +182,57 @@ public class Configuration {
      * @return Map
      */
     public Forward getGlobalXMLForward(String token) {
-        return (Forward)globalXMLForwards.get(token);
+        return this.globalXMLForwards.get(token);
     }
 
     public Forward getGlobalHTMLForward(String token) {
-        return (Forward)globalHTMLForwards.get(token);
+        return this.globalHTMLForwards.get(token);
     }
 
     /**
      * Returns the eventHandlers.
      * @return Map
      */
-    public Map getEventHandlers() {
-        return eventHandlers;
+    public Map<String, EventHandlerDef> getEventHandlers() {
+        return this.eventHandlers;
     }
 
     /**
      * Returns the eventMappings.
      * @return Map
      */
-    public Map getEventMappings() {
-        return eventMappings;
+    public Map<String, EventMapping> getEventMappings() {
+        return this.eventMappings;
     }
 
     /**
      * Returns the events.
      * @return Map
      */
-    public Map getEvents() {
-        return events;
+    public Map<String, EventDef> getEvents() {
+        return this.events;
     }
 
     /**
      * Returns the exceptions.
      * @return Map
      */
-    public List getExceptions() {
-        return exceptions;
+    public List<ExceptionDef> getExceptions() {
+        return this.exceptions;
     }
 
-    public List getPlugins() {
-        return plugins;
+    public List<PluginDef> getPlugins() {
+        return this.plugins;
     }
 
-    public List getPluginProxies() {
-        return pluginProxies;
+    public List<PluginProxy> getPluginProxies() {
+        return this.pluginProxies;
     }
 
     private void loadPluginProxies() throws ConfigException {
-        pluginProxies = new ArrayList();
-        for (Iterator iter = plugins.iterator(); iter.hasNext();) {
-            PluginDef pluginDef = (PluginDef)iter.next();
+        this.pluginProxies = new ArrayList<PluginProxy>();
+        for (Iterator<PluginDef> iter = this.plugins.iterator(); iter.hasNext();) {
+            PluginDef pluginDef = iter.next();
             PluginInterface plugin = null;
 
             try {
@@ -244,16 +244,16 @@ public class Configuration {
                 throw new ConfigException(e);
             }
 
-            pluginProxies.add(new PluginProxy(pluginDef, plugin));
+            this.pluginProxies.add(new PluginProxy(pluginDef, plugin));
         }
     }
 
     public PluginProxy getPluginProxy(String name) {
-        List pluginProxys = getPluginProxies();
+        List<PluginProxy> pluginProxys = getPluginProxies();
         PluginProxy proxy = null;
         boolean found = false;
-        for (Iterator iter = pluginProxys.iterator(); iter.hasNext();) {
-            proxy = (PluginProxy)iter.next();
+        for (Iterator<PluginProxy> iter = pluginProxys.iterator(); iter.hasNext();) {
+            proxy = iter.next();
             if (proxy.getName().equals(name)) {
                 found = true;
                 break;
@@ -269,11 +269,11 @@ public class Configuration {
      * @throws ConfigException DOCUMENT ME!
      */
     public EventProxy getEventProxy(String eventName) throws ConfigException {
-        EventDef eventDef = (EventDef)events.get(eventName);
+        EventDef eventDef = this.events.get(eventName);
         Event event = null;
 
         if (eventDef == null) {
-            throw new ConfigException("Invalid Event Name: " + eventName);
+            throw new ConfigException("Invalid Event Name: " + eventName); //$NON-NLS-1$
         }
 
         try {
@@ -284,7 +284,7 @@ public class Configuration {
                 event = (Event)Class.forName(type).newInstance();
             }
         } catch (Exception e) {
-            throw new ConfigException("Invalid Event ", e);
+            throw new ConfigException("Invalid Event ", e); //$NON-NLS-1$
         }
 
         return new EventProxy(eventDef, event);
@@ -295,44 +295,43 @@ public class Configuration {
      * @param eventName The name of the event for which to get the handlers.
      * @return List An ordered list of the event handlers for this event.
      */
-    public List getHandlers(String eventName) throws ConfigException {
+    public List<EventHandlerProxy> getHandlers(String eventName) throws ConfigException {
         if ((eventName == null) || (eventName.length() == 0)
-                || (events.get(eventName) == null)) {
-            throw new ConfigException("Invalid event name " + eventName);
+                || (this.events.get(eventName) == null)) {
+            throw new ConfigException("Invalid event name " + eventName); //$NON-NLS-1$
         }
 
-        List result = (List)eventHandlerCache.get(eventName);
+        List<EventHandlerProxy> result = this.eventHandlerCache.get(eventName);
 
         if (result == null) {
             result = makeHandlers(eventName);
-            eventHandlerCache.put(eventName, result);
+            this.eventHandlerCache.put(eventName, result);
         }
 
         return result;
     }
 
-    private List makeHandlers(String eventName) throws ConfigException {
-        List handlerNames = getHandlerNames(eventName);
-        List handlers = new ArrayList();
+    private List<EventHandlerProxy> makeHandlers(String eventName) throws ConfigException {
+        List<String> handlerNames = getHandlerNames(eventName);
+        List<EventHandlerProxy> handlers = new ArrayList<EventHandlerProxy>();
 
         handlers = makeHandlers(handlerNames);
 
         return handlers;
     }
 
-    private List makeHandlers(List handlerNames) throws ConfigException {
-        List result = new ArrayList();
+    private List<EventHandlerProxy> makeHandlers(List<String> handlerNames) throws ConfigException {
+        List<EventHandlerProxy> result = new ArrayList<EventHandlerProxy>();
 
         try {
             if (handlerNames != null) {
                 for (int i = 0; i < handlerNames.size(); i++) {
-                    String handlerName = (String)handlerNames.get(i);
-                    EventHandlerDef handlerDef = (EventHandlerDef)eventHandlers
-                            .get(handlerName);
+                    String handlerName = handlerNames.get(i);
+                    EventHandlerDef handlerDef = this.eventHandlers.get(handlerName);
 
                     if (handlerDef == null) {
-                        throw new ConfigException("Handler : " + handlerName
-                                + " is not configured");
+                        throw new ConfigException("Handler : " + handlerName //$NON-NLS-1$
+                                + " is not configured"); //$NON-NLS-1$
                     }
 
                     //EventHandler handler = (EventHandler)
@@ -356,14 +355,14 @@ public class Configuration {
         return result;
     }
 
-    private List getHandlerNames(String eventName) throws ConfigException {
-        List handlers = new ArrayList();
-        EventMapping mapping = (EventMapping)eventMappings.get(eventName);
+    private List<String> getHandlerNames(String eventName) throws ConfigException {
+        List<String> handlers = new ArrayList<String>();
+        EventMapping mapping = this.eventMappings.get(eventName);
 
         if (mapping != null) {
             handlers = mapping.getHandlers();
         } else {
-            throw new ConfigException("No mapping defined for event "
+            throw new ConfigException("No mapping defined for event " //$NON-NLS-1$
                     + eventName);
         }
 
@@ -378,14 +377,13 @@ public class Configuration {
     public String getEventMappingView(String eventName, ViewType type)
             throws ViewException {
         String view = null;
-        EventMapping eventMapping = (EventMapping)getEventMappings().get(
-                eventName);
+        EventMapping eventMapping = getEventMappings().get(eventName);
 
         view = eventMapping.getView(type.toString());
 
         if (view == null) {
             throw new ViewException(
-                    "There is no view defined in the config file for EventMapping: "
+                    "There is no view defined in the config file for EventMapping: " //$NON-NLS-1$
                             + eventName);
         }
 
@@ -428,8 +426,8 @@ public class Configuration {
         }
 
         if (fwd == null) {
-            throw new ViewException("Error, The forward name " + token
-                    + " does not exist");
+            throw new ViewException("Error, The forward name " + token //$NON-NLS-1$
+                    + " does not exist"); //$NON-NLS-1$
         }
 
         return fwd;
@@ -444,7 +442,7 @@ public class Configuration {
         String result = mappingFor(eventName).getInputView();
 
         if (result == null) {
-            throw new ConfigException("No input view for event " + eventName);
+            throw new ConfigException("No input view for event " + eventName); //$NON-NLS-1$
         }
 
         return resolveForward(result, tokenType).getPath();
@@ -455,43 +453,38 @@ public class Configuration {
         String result = mappingFor(eventName).getCancelView();
 
         if (result == null) {
-            throw new ConfigException("No cancel view for event " + eventName);
+            throw new ConfigException("No cancel view for event " + eventName); //$NON-NLS-1$
         }
 
         return resolveForward(result, tokenType);
     }
 
     private EventMapping mappingFor(String eventName) throws ConfigException {
-        EventMapping mapping = (EventMapping)eventMappings.get(eventName);
+        EventMapping mapping = this.eventMappings.get(eventName);
 
         if (mapping != null) {
             return mapping;
         }
 
-        throw new ConfigException("No mapping for event " + eventName);
+        throw new ConfigException("No mapping for event " + eventName); //$NON-NLS-1$
     }
 
     public ExceptionProxy resolveException(Throwable ex, String tokenType,
             ViewType vtype) throws ViewException {
 
         ExceptionDef edef = null;
-        boolean found = false;
-        Iterator iter = exceptions.iterator();
+        Iterator<ExceptionDef> iter = this.exceptions.iterator();
         while (iter.hasNext()) {
-            edef = (ExceptionDef)iter.next();
+            edef = iter.next();
             String classtype = edef.getType();
             try {
                 if (Class.forName(classtype).isInstance(ex)) {
-                    found = true;
-                    break;
+                	String view = edef.getView(vtype.toString());
+                    Forward fwd = resolveGlobalForward(view, tokenType);
+                    return new ExceptionProxy(fwd, edef);
                 }
             } catch (ClassNotFoundException e) { // Not concerned with this
             }
-        }
-        if (found) {
-            String view = edef.getView(vtype.toString());
-            Forward fwd = resolveGlobalForward(view, tokenType);
-            return new ExceptionProxy(fwd, edef);
         }
 
         return null;
@@ -514,7 +507,7 @@ public class Configuration {
      * @return RequestProcessorDef
      */
     public RequestProcessorDef getHttpRequestProcessor() {
-        return httpRequestProcessor;
+        return this.httpRequestProcessor;
     }
 
     /**
@@ -522,7 +515,7 @@ public class Configuration {
      * @return RequestProcessorDef
      */
     public RequestProcessorDef getSoapRequestProcessor() {
-        return soapRequestProcessor;
+        return this.soapRequestProcessor;
     }
 
 }

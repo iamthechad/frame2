@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,45 +50,50 @@
  */
 package org.megatome.frame2;
 
-
 /**
- * This is the base exception type for all Frame2 framework code.  Each package
+ * This is the base exception type for all Frame2 framework code. Each package
  * will define its own exception based on this.
  */
 public class Frame2Exception extends Exception {
 
-   /**
-    * Constructor for Frame2Exception.
-    */
-   public Frame2Exception() {
-      super();
-   }
+	private static final long serialVersionUID = 8601226920465867305L;
 
-   /**
-    * Constructor for Frame2Exception.
-    *
-    * @param message The message for this exception
-    */
-   public Frame2Exception(String message) {
-      super(message);
-   }
+	/**
+	 * Constructor for Frame2Exception.
+	 */
+	public Frame2Exception() {
+		super();
+	}
 
-   /**
-    * Constructor for Frame2Exception.
-    *
-    * @param message The message for this exception
-    * @param cause The cause of this exception
-    */
-   public Frame2Exception(String message, Throwable cause) {
-      super(message, cause);
-   }
+	/**
+	 * Constructor for Frame2Exception.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 */
+	public Frame2Exception(String message) {
+		super(message);
+	}
 
-   /**
-    * Constructor for Frame2Exception.
-    *
-    * @param cause The cause of this exception
-    */
-   public Frame2Exception(Throwable cause) {
-      super(cause);
-   }   
+	/**
+	 * Constructor for Frame2Exception.
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 * @param cause
+	 *            The cause of this exception
+	 */
+	public Frame2Exception(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * Constructor for Frame2Exception.
+	 * 
+	 * @param cause
+	 *            The cause of this exception
+	 */
+	public Frame2Exception(Throwable cause) {
+		super(cause);
+	}
 }

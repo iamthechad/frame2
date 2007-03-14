@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,22 +59,23 @@ import java.util.Map;
  * because the framework contains an interface called EventHandler.
  */
 public class EventHandlerDef {
-    private String name = "";
-    private String type = "";
+    private String name = ""; //$NON-NLS-1$
+    private String type = ""; //$NON-NLS-1$
 
-    private Map initParams = new HashMap();
-    private Map htmlForwards = new HashMap();
-    private Map xmlForwards = new HashMap();
+    private Map<String, String> initParams = new HashMap<String, String>();
+    private Map<String, Forward> htmlForwards = new HashMap<String, Forward>();
+    private Map<String, Forward> xmlForwards = new HashMap<String, Forward>();
     
     public EventHandlerDef() {
+    	// Default ctor
     }
-
+    
     public EventHandlerDef(EventHandlerDef eventHandler) {
         this.name = eventHandler.name;
         this.type = eventHandler.type;
-        this.initParams = new HashMap(eventHandler.initParams);
-        this.htmlForwards = new HashMap(eventHandler.htmlForwards);
-        this.xmlForwards = new HashMap(eventHandler.xmlForwards);
+        this.initParams = new HashMap<String, String>(eventHandler.initParams);
+        this.htmlForwards = new HashMap<String, Forward>(eventHandler.htmlForwards);
+        this.xmlForwards = new HashMap<String, Forward>(eventHandler.xmlForwards);
     }
 
     /**
@@ -82,7 +83,7 @@ public class EventHandlerDef {
      * @return String the name of the EventHandlerDef
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -90,7 +91,7 @@ public class EventHandlerDef {
      * @return String the type of the EventHandlerDef
      */
     public String getType() {
-        return type;
+        return this.type;
     }
 
     /**
@@ -115,15 +116,15 @@ public class EventHandlerDef {
      * @return XML Forward
      */
     public Forward getXMLForward(String forwardName) {
-        return (Forward)xmlForwards.get(forwardName);
+        return this.xmlForwards.get(forwardName);
     }
 
     /**
      * Sets the XML Forwards.
      * @param forwards HashMap containing all the EventHandlerDef XML Forwards
      */
-    public void setXMLForwards(Map forwards) {
-        xmlForwards = new HashMap(forwards);
+    public void setXMLForwards(Map<String, Forward> forwards) {
+        this.xmlForwards = new HashMap<String, Forward>(forwards);
     }
 
     /**
@@ -132,31 +133,31 @@ public class EventHandlerDef {
      * @return HTML Forward
      */
     public Forward getHTMLForward(String forwardName) {
-        return (Forward)htmlForwards.get(forwardName);
+        return this.htmlForwards.get(forwardName);
     }
 
     /**
      * Sets the HTML Forwards.
      * @param forwards HashMap containing all the EventHandlerDef HTML Forwards
      */
-    public void setHTMLForwards(Map forwards) {
-        htmlForwards = new HashMap(forwards);
+    public void setHTMLForwards(Map<String, Forward> forwards) {
+        this.htmlForwards = new HashMap<String, Forward>(forwards);
     }
 
     /**
      * Sets the EventHandlerDef Init Params.
      * @param params HashMap containing all the EventHandlerDef Init Params.
      */
-    public void setInitParams(Map params) {
-        initParams = new HashMap(params);
+    public void setInitParams(Map<String, String> params) {
+        this.initParams = new HashMap<String, String>(params);
     }
 
     /**
      * Returns an Map of the Init Params.
      * @return Map
      */
-    public Map getInitParams() {
-        return initParams;
+    public Map<String, String> getInitParams() {
+        return this.initParams;
     }
 
     /**
@@ -164,7 +165,7 @@ public class EventHandlerDef {
      * @return String
      */
     public String getInitParam(String paramName) {
-        return (String)initParams.get(paramName);
+        return this.initParams.get(paramName);
     }
 
     /**
@@ -173,6 +174,6 @@ public class EventHandlerDef {
      * @param name value
      */
     public void addInitParam(String paramName, String value) {
-        initParams.put(paramName, value);
+        this.initParams.put(paramName, value);
     }
 }

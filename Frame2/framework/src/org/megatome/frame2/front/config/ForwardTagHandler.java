@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,63 +61,68 @@ import org.xml.sax.Attributes;
  */
 class ForwardTagHandler extends ConfigElementHandler {
     // attribute consts
-    public static final String NAME = "name";
-    public static final String TYPE = "type";
-    public static final String PATH = "path";
+    public static final String NAME = "name"; //$NON-NLS-1$
+    public static final String TYPE = "type"; //$NON-NLS-1$
+    public static final String PATH = "path"; //$NON-NLS-1$
 
-    public static final String INVALID_TYPE = "Error: Invalid forward type ";
+    public static final String INVALID_TYPE = "Error: Invalid forward type "; //$NON-NLS-1$
 
     // 2 maps needed, one for XML forwards
     // 1 for html forwards, so each forward name
     // can be identical for both. Events are stored
     // in both for ease of access.
-    private Map forwards = new HashMap();
-    private Map xmlForwards = new HashMap();
+    private Map<String, Forward> forwards = new HashMap<String, Forward>();
+    private Map<String, Forward> xmlForwards = new HashMap<String, Forward>();
 
-    public void startElement(String uri, String localName, String qName,
+    @Override
+	public void startElement(@SuppressWarnings("unused")
+	String uri, @SuppressWarnings("unused")
+	String localName, @SuppressWarnings("unused")
+	String qName,
             Attributes attributes) throws ParserException {
         String name = attributes.getValue(NAME);
         String type = attributes.getValue(TYPE);
         ForwardType ftype = ForwardType.getValueByString(type);
 
         if (ftype == null) {
-            throw new ParserException(INVALID_TYPE + name + " type " + type);
+            throw new ParserException(INVALID_TYPE + name + " type " + type); //$NON-NLS-1$
         }
 
         Forward forward = new Forward(name, ftype, attributes.getValue(PATH));
 
         if (ftype.equals(ForwardType.HTMLRESOURCE)) {
-            forwards.put(name, forward);
+            this.forwards.put(name, forward);
         } else if (ftype.equals(ForwardType.XMLRESOURCE)
                 || ftype.equals(ForwardType.XMLRESPONDER)) {
-            xmlForwards.put(name, forward);
+            this.xmlForwards.put(name, forward);
         } else if (ftype.equals(ForwardType.EVENT)) {
             // put event in both maps
             // for easier lookup by type.
-            forwards.put(name, forward);
-            xmlForwards.put(name, forward);
+            this.forwards.put(name, forward);
+            this.xmlForwards.put(name, forward);
         }
     }
 
     /**
      * @return returns a HashMap of the XMLForwards
      */
-    public Map getXMLForwards() {
-        return xmlForwards;
+    public Map<String, Forward> getXMLForwards() {
+        return this.xmlForwards;
     }
 
     /**
      * @return returns a HashMap of the HTMLForwards
      */
-    public Map getHTMLForwards() {
-        return forwards;
+    public Map<String, Forward> getHTMLForwards() {
+        return this.forwards;
     }
 
     /**
      * clear the Forwards List
      */
-    public void clear() {
-        forwards.clear();
-        xmlForwards.clear();
+    @Override
+	public void clear() {
+        this.forwards.clear();
+        this.xmlForwards.clear();
     }
 }
