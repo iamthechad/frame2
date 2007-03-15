@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,56 +58,57 @@ import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 
 public class TestSelectTag extends BaseHtmlTagTest {
 
-   static String SELECT_VALUE = "${bean}";
-   
-   public TestSelectTag(String theName) {
-      super(theName);   
-      _type = TagConstants.QUOTE + Constants.SELECT + TagConstants.QUOTE;
-      _testJspName = "SelectTag.jsp";
-      _expectedLiveJsp = "<select multiple=\"true\" name=\"yabba\">body</select>"; 
-   }
-   
-   public  BaseHtmlTag createTag() {
-      return new SelectTag();      
-   }
+	static String SELECT_VALUE = "${bean}"; //$NON-NLS-1$
 
-   public void beginSelectTag(WebRequest rquest) throws Exception {
-   }
+	public TestSelectTag(String theName) {
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.SELECT + TagConstants.QUOTE;
+		this._testJspName = "SelectTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<select multiple=\"true\" name=\"yabba\">body</select>"; //$NON-NLS-1$
+	}
 
-   public void testSelectTag() throws Exception{
-      SelectTag tag = (SelectTag) createTag();
-      
-      pageContext.setAttribute(Constants.SELECTED, SELECT_VALUE);
-      tag.setPageContext(pageContext);
-      tag.setSelected(HTMLHelpers.buildExprAttr(Constants.SELECTED));
-      tag.doStartTag();
-      tag.doAfterBody();
-      tag.doEndTag();
-   }
+	@Override
+	public BaseHtmlTag createTag() {
+		return new SelectTag();
+	}
 
-   public void endSelectTag(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.SELECT_TAG + TagConstants.RT_ANGLE +
-         Constants.SELECT_CLOSE;     
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+	public void beginSelectTag(@SuppressWarnings("unused")
+	WebRequest rquest) throws Exception {
+		// noop
+	}
 
-   public void testXhtmlTerminator() throws Exception {
-      SelectTag tag = (SelectTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setName("foo");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void testSelectTag() throws Exception {
+		SelectTag tag = (SelectTag) createTag();
 
-   public void endXhtmlTerminator(WebResponse webResponse) throws Exception {
-      String expected = "<select name=\"foo\"></select>";
-      String actual = webResponse.getText();
-      assertEquals(expected, actual);
-   }
-   
-          
+		this.pageContext.setAttribute(Constants.SELECTED, SELECT_VALUE);
+		tag.setPageContext(this.pageContext);
+		tag.setSelected(HTMLHelpers.buildExprAttr(Constants.SELECTED));
+		tag.doStartTag();
+		tag.doAfterBody();
+		tag.doEndTag();
+	}
+
+	public void endSelectTag(WebResponse webResponse) throws Exception {
+		String expected = Constants.SELECT_TAG + TagConstants.RT_ANGLE
+				+ Constants.SELECT_CLOSE;
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	public void testXhtmlTerminator() throws Exception {
+		SelectTag tag = (SelectTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.setName("foo"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
+
+	public void endXhtmlTerminator(WebResponse webResponse) throws Exception {
+		String expected = "<select name=\"foo\"></select>"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+		assertEquals(expected, actual);
+	}
+
 }

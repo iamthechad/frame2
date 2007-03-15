@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,58 +57,57 @@ import org.megatome.frame2.tagsupport.TagConstants;
 
 public class TestHtmlTag extends BaseHtmlTagTest {
 
-   static String SELECT_VALUE = "${bean}";
-   
-   public TestHtmlTag(String theName) {
-      super(theName);   
-      _type = TagConstants.QUOTE + Constants.HTML + TagConstants.QUOTE;
-      _testJspName = "HtmlTag.jsp";
-      _expectedLiveJsp = "<html" + TagConstants.XMLNS + " lang=\"en\">body" + System.getProperty("line.separator") + "</html>"; 
-   }
-   
-   public  BaseHtmlTag createTag() {
-      return new HtmlTag();      
-   }
+	static String SELECT_VALUE = "${bean}"; //$NON-NLS-1$
 
-   public void beginHtmlTag(WebRequest rquest) throws Exception {
-   }
+	public TestHtmlTag(String theName) {
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.HTML + TagConstants.QUOTE;
+		this._testJspName = "HtmlTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<html" + TagConstants.XMLNS + " lang=\"en\">body" + System.getProperty("line.separator") + "</html>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	}
 
-   public void testHtmlTag() throws Exception{
-      HtmlTag tag = (HtmlTag) createTag();
-  //    pageContext.setAttribute(Constants.XHTML_KEY,Constants.TRUE);
-      tag.setPageContext(pageContext);      
-      tag.doStartTag();
-      tag.doAfterBody();
-      tag.doEndTag();
-   }
-   
+	@Override
+	public BaseHtmlTag createTag() {
+		return new HtmlTag();
+	}
 
-   public void endHtmlTag(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.HTML_TAG + TagConstants.RT_ANGLE +
-         Constants.HTML_CLOSE;     
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+	public void beginHtmlTag(@SuppressWarnings("unused")
+	WebRequest rquest) throws Exception {
+		// noop
+	}
 
-   public void testXHtmlTag() throws Exception{
-      HtmlTag tag = (HtmlTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY,Constants.TRUE);
-      tag.setPageContext(pageContext);      
-      tag.doStartTag();
-      tag.doAfterBody();
-      tag.doEndTag();
-   }
-   
+	public void testHtmlTag() throws Exception {
+		HtmlTag tag = (HtmlTag) createTag();
+		// pageContext.setAttribute(Constants.XHTML_KEY,Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doAfterBody();
+		tag.doEndTag();
+	}
 
-   public void endXHtmlTag(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.HTML_TAG + TagConstants.XMLNS + TagConstants.RT_ANGLE +
-         Constants.HTML_CLOSE;     
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }   
-          
+	public void endHtmlTag(WebResponse webResponse) throws Exception {
+		String expected = Constants.HTML_TAG + TagConstants.RT_ANGLE
+				+ Constants.HTML_CLOSE;
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	public void testXHtmlTag() throws Exception {
+		HtmlTag tag = (HtmlTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doAfterBody();
+		tag.doEndTag();
+	}
+
+	public void endXHtmlTag(WebResponse webResponse) throws Exception {
+		String expected = Constants.HTML_TAG + TagConstants.XMLNS
+				+ TagConstants.RT_ANGLE + Constants.HTML_CLOSE;
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
 }

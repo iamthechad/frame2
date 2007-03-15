@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,11 +64,11 @@ import org.megatome.frame2.tagsupport.TagConstants;
 
 public class URLHelper {
 
-    static protected String ENC_UTF_8 = "UTF-8";
+    static protected String ENC_UTF_8 = "UTF-8"; //$NON-NLS-1$
 
-    static protected String QUESTION_MARK = "?";
+    static protected String QUESTION_MARK = "?"; //$NON-NLS-1$
 
-    static protected String SEP = "&";
+    static protected String SEP = "&"; //$NON-NLS-1$
 
     /**
      * Encode the provided URL to UTF-8.
@@ -92,7 +92,7 @@ public class URLHelper {
      *         is empty, the input href is returned.
      * @throws UnsupportedEncodingException
      */
-    public static String appendQueryParams(String href, Map params)
+    public static String appendQueryParams(String href, Map<Object, Object> params)
             throws UnsupportedEncodingException {
 
         if (params == null || params.keySet().size() == 0) {
@@ -103,7 +103,7 @@ public class URLHelper {
 
         // Add the query parameters to the href.
         boolean firstParam = true;
-        Iterator keys = params.keySet().iterator();
+        Iterator<Object> keys = params.keySet().iterator();
         while (keys.hasNext()) {
             String key = (String)keys.next();
             Object value = params.get(key);
@@ -134,9 +134,10 @@ public class URLHelper {
             boolean firstParam, String key, Object value)
             throws UnsupportedEncodingException {
         String paramSep = SEP;
-        if (firstParam) {
+        boolean processFirstParam = firstParam;
+        if (processFirstParam) {
             paramSep = QUESTION_MARK;
-            firstParam = false;
+            processFirstParam = false;
         }
 
         url.append(paramSep);
@@ -152,7 +153,7 @@ public class URLHelper {
             }
         }
 
-        return firstParam;
+        return processFirstParam;
     }
 
 }

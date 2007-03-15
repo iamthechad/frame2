@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,19 +59,24 @@ import org.megatome.frame2.taglib.html.Constants;
  */
 public class SubmitTag extends BaseInputTag {
 
-   protected String defaultLabel( ) {
-      return Constants.SUBMIT_BTN;
-   }
+	private static final long serialVersionUID = -6268430766193602423L;
 
-   protected void specialAttrHandler() throws JspException {
-      super.specialAttrHandler();
-      String value = getAttr(Constants.VALUE);
-      
-      if ( value == null || value.trim().equals("") ) {
-         setAttr(Constants.VALUE,defaultLabel());
-      }
-   }
+	protected String defaultLabel() {
+		return Constants.SUBMIT_BTN;
+	}
 
+	@Override
+	protected void specialAttrHandler() throws JspException {
+		super.specialAttrHandler();
+		String value = getAttr(Constants.VALUE);
+
+		if (value == null || value.trim().equals("")) { //$NON-NLS-1$
+			setAttr(Constants.VALUE, defaultLabel());
+		}
+	}
+
+	@SuppressWarnings("unqualified-field-access")
+	@Override
 	protected void setType() {
 		_type = Constants.SUBMIT;
 	}

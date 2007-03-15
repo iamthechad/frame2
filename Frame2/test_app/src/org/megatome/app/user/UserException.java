@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,15 +52,17 @@ package org.megatome.app.user;
 
 public class UserException extends Exception {
 
-  public UserException(Throwable cause) {
-    super(cause);
-  }
+	private static final long serialVersionUID = 2768004555246507809L;
 
-  public UserException(String message) {
-    super(message);
-  }
+	public UserException(Throwable cause) {
+		super(cause);
+	}
 
-  public UserException(String message, Throwable cause) {
-    super(message, cause);
-  }
+	public UserException(String message) {
+		super(message);
+	}
+
+	public UserException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

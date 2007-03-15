@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,12 +60,16 @@ import org.megatome.frame2.taglib.html.Constants;
  */
 public class CancelTag extends SubmitTag {
 
-   protected String defaultLabel( ) {
-      return Constants.CANCEL_BTN;
-   }
+	private static final long serialVersionUID = 5856074976414728287L;
 
+	@Override
+	protected String defaultLabel() {
+		return Constants.CANCEL_BTN;
+	}
+
+	@Override
 	protected void specialAttrHandler() throws JspException {
-      super.specialAttrHandler();      
-      setAttr(Constants.NAME,Globals.CANCEL);
-   }
+		super.specialAttrHandler();
+		setAttr(Constants.NAME, Globals.CANCEL);
+	}
 }

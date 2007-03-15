@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,25 +55,26 @@ import org.megatome.frame2.event.Event;
 import org.megatome.frame2.event.EventHandler;
 
 /**
-* 
-*/
+ * 
+ */
 public class DisplayUsersHandler implements EventHandler {
 
-   /**
-    * Constructor for Ev1handler1.
-    */
-   public DisplayUsersHandler() {
-      super();
-   }
+	/**
+	 * Constructor for Ev1handler1.
+	 */
+	public DisplayUsersHandler() {
+		super();
+	}
 
-   /**
-    * @see org.megatome.frame2.event.EventHandler#handle(Event)
-    */
-   public String handle(Event event,Context context) {
-      // Display User              
-      UserMgr mgr = UserFactory.instance();
-      DisplayUsers displayUser = (DisplayUsers) event;
-      displayUser.setUsers(mgr.getUsers());
-      return null;
-   }
+	/**
+	 * @see org.megatome.frame2.event.EventHandler#handle(Event)
+	 */
+	public String handle(Event event, @SuppressWarnings("unused")
+	Context context) {
+		// Display User
+		UserMgr mgr = UserFactory.instance();
+		DisplayUsers displayUser = (DisplayUsers) event;
+		displayUser.setUsers(mgr.getUsers());
+		return null;
+	}
 }

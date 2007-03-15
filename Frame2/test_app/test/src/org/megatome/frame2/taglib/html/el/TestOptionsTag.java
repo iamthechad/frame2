@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,7 @@
 package org.megatome.frame2.taglib.html.el;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.cactus.JspTestCase;
 import org.apache.cactus.WebRequest;
@@ -62,36 +63,38 @@ public class TestOptionsTag extends JspTestCase {
 
    String _testJspName;
    String _expectedLiveJsp;
-   static final String JSP_TEST_DIR = "/test/tags/";
+   static final String JSP_TEST_DIR = "/test/tags/"; //$NON-NLS-1$
    String _testMultJspName;
    public TestOptionsTag(String name) {
       super(name);
-      _testJspName = "OptionsTag.jsp";
-      _testMultJspName = "OptionsMultTag.jsp";
-      _expectedLiveJsp = "<option value=\"one\">one</option>" +
-                         "<option value=\"two\">two</option>" +
-                         "<option value=\"radioValue\">radioValue</option>" +
-                         "<option value=\"me\">me</option>";
+      this._testJspName = "OptionsTag.jsp"; //$NON-NLS-1$
+      this._testMultJspName = "OptionsMultTag.jsp"; //$NON-NLS-1$
+      this._expectedLiveJsp = "<option value=\"one\">one</option>" + //$NON-NLS-1$
+                         "<option value=\"two\">two</option>" + //$NON-NLS-1$
+                         "<option value=\"radioValue\">radioValue</option>" + //$NON-NLS-1$
+                         "<option value=\"me\">me</option>"; //$NON-NLS-1$
    }
    
    public  BaseHtmlTag createTag() {
       return new OptionsTag();      
    }
    
-   public void beginOptionsTag(WebRequest rquest) throws Exception {
+   public void beginOptionsTag(@SuppressWarnings("unused")
+WebRequest rquest) throws Exception {
+	   //noop
    }
 
    public void testOptionsTagList() throws Exception{
       OptionsTag tag = (OptionsTag) createTag();
-      ArrayList valueList = new ArrayList();
-      ArrayList displayValueList = new ArrayList();
-      valueList.add("one");
-      valueList.add("two");
-      displayValueList.add("me");
-      displayValueList.add("you");
-      pageContext.setAttribute(Constants.VALUE, valueList);
-      pageContext.setAttribute(Constants.DISPLAY_VALUE, displayValueList);      
-      tag.setPageContext(pageContext);
+      List<String> valueList = new ArrayList<String>();
+      List<String> displayValueList = new ArrayList<String>();
+      valueList.add("one"); //$NON-NLS-1$
+      valueList.add("two"); //$NON-NLS-1$
+      displayValueList.add("me"); //$NON-NLS-1$
+      displayValueList.add("you"); //$NON-NLS-1$
+      this.pageContext.setAttribute(Constants.VALUE, valueList);
+      this.pageContext.setAttribute(Constants.DISPLAY_VALUE, displayValueList);      
+      tag.setPageContext(this.pageContext);
       tag.setValue(HTMLHelpers.buildExprAttr(Constants.VALUE));
       tag.setDisplayvalue(HTMLHelpers.buildExprAttr(Constants.DISPLAY_VALUE));
       tag.doStartTag();
@@ -101,8 +104,8 @@ public class TestOptionsTag extends JspTestCase {
 
    public void endOptionsTagList(WebResponse webResponse) throws Exception{
       String expected =
-         Constants.OPTION_TAG + " value=\"one\">me" + Constants.OPTION_CLOSE 
-         + Constants.OPTION_TAG + " value=\"two\">you" + Constants.OPTION_CLOSE;
+         Constants.OPTION_TAG + " value=\"one\">me" + Constants.OPTION_CLOSE  //$NON-NLS-1$
+         + Constants.OPTION_TAG + " value=\"two\">you" + Constants.OPTION_CLOSE; //$NON-NLS-1$
       String actual = webResponse.getText();
       
       assertEquals(expected, actual);
@@ -110,11 +113,11 @@ public class TestOptionsTag extends JspTestCase {
 
    public void testOptionsTagStringArray() throws Exception{
       OptionsTag tag = (OptionsTag) createTag();
-      String[] valueArr = {"one", "two"};
-      String[] displayValueArr = {"me", "you"};
-      pageContext.setAttribute(Constants.VALUE, valueArr);
-      pageContext.setAttribute(Constants.DISPLAY_VALUE, displayValueArr);      
-      tag.setPageContext(pageContext);
+      String[] valueArr = {"one", "two"}; //$NON-NLS-1$ //$NON-NLS-2$
+      String[] displayValueArr = {"me", "you"}; //$NON-NLS-1$ //$NON-NLS-2$
+      this.pageContext.setAttribute(Constants.VALUE, valueArr);
+      this.pageContext.setAttribute(Constants.DISPLAY_VALUE, displayValueArr);      
+      tag.setPageContext(this.pageContext);
       tag.setValue(HTMLHelpers.buildExprAttr(Constants.VALUE));
       tag.setDisplayvalue(HTMLHelpers.buildExprAttr(Constants.DISPLAY_VALUE));
       tag.doStartTag();
@@ -124,8 +127,8 @@ public class TestOptionsTag extends JspTestCase {
 
    public void endOptionsTagStringArray(WebResponse webResponse) throws Exception{
       String expected =
-         Constants.OPTION_TAG + " value=\"one\">me" + Constants.OPTION_CLOSE 
-         + Constants.OPTION_TAG + " value=\"two\">you" + Constants.OPTION_CLOSE;
+         Constants.OPTION_TAG + " value=\"one\">me" + Constants.OPTION_CLOSE  //$NON-NLS-1$
+         + Constants.OPTION_TAG + " value=\"two\">you" + Constants.OPTION_CLOSE; //$NON-NLS-1$
       String actual = webResponse.getText();
       
       assertEquals(expected, actual);
@@ -133,16 +136,16 @@ public class TestOptionsTag extends JspTestCase {
 
    public void testXhtmlTerminator_withBody() throws Exception {
       OptionsTag tag = (OptionsTag) createTag();
-      ArrayList valueList = new ArrayList();
-      ArrayList displayValueList = new ArrayList();
-      valueList.add("one");
-      valueList.add("two");
-      displayValueList.add("me");
-      displayValueList.add("you");
-      pageContext.setAttribute(Constants.VALUE, valueList);
-      pageContext.setAttribute(Constants.DISPLAY_VALUE, displayValueList);      
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
+      List<String> valueList = new ArrayList<String>();
+      List<String> displayValueList = new ArrayList<String>();
+      valueList.add("one"); //$NON-NLS-1$
+      valueList.add("two"); //$NON-NLS-1$
+      displayValueList.add("me"); //$NON-NLS-1$
+      displayValueList.add("you"); //$NON-NLS-1$
+      this.pageContext.setAttribute(Constants.VALUE, valueList);
+      this.pageContext.setAttribute(Constants.DISPLAY_VALUE, displayValueList);      
+      this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+      tag.setPageContext(this.pageContext);
       tag.setValue(HTMLHelpers.buildExprAttr(Constants.VALUE));
       tag.setDisplayvalue(HTMLHelpers.buildExprAttr(Constants.DISPLAY_VALUE));
       tag.doStartTag();
@@ -152,20 +155,20 @@ public class TestOptionsTag extends JspTestCase {
 
    public void endXhtmlTerminator_withBody(WebResponse webResponse) throws Exception {
       String expected =
-         Constants.OPTION_TAG + " value=\"one\">me" + Constants.OPTION_CLOSE 
-         + Constants.OPTION_TAG + " value=\"two\">you" + Constants.OPTION_CLOSE;
+         Constants.OPTION_TAG + " value=\"one\">me" + Constants.OPTION_CLOSE  //$NON-NLS-1$
+         + Constants.OPTION_TAG + " value=\"two\">you" + Constants.OPTION_CLOSE; //$NON-NLS-1$
       String actual = webResponse.getText();
       
       assertEquals(expected, actual);
    }
    public void testXhtmlTerminator_withoutBody() throws Exception {
       OptionsTag tag = (OptionsTag) createTag();
-      ArrayList valueList = new ArrayList();
-      valueList.add("one");
-      valueList.add("two");
-      pageContext.setAttribute(Constants.VALUE, valueList);
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
+      List<String> valueList = new ArrayList<String>();
+      valueList.add("one"); //$NON-NLS-1$
+      valueList.add("two"); //$NON-NLS-1$
+      this.pageContext.setAttribute(Constants.VALUE, valueList);
+      this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+      tag.setPageContext(this.pageContext);
       tag.setValue(HTMLHelpers.buildExprAttr(Constants.VALUE));
       tag.doStartTag();
       tag.doEndTag();
@@ -174,8 +177,8 @@ public class TestOptionsTag extends JspTestCase {
 
    public void endXhtmlTerminator_withoutBody(WebResponse webResponse) throws Exception {
       String expected =
-         Constants.OPTION_TAG + " value=\"one\"/>"  
-         + Constants.OPTION_TAG + " value=\"two\"/>";
+         Constants.OPTION_TAG + " value=\"one\"/>"   //$NON-NLS-1$
+         + Constants.OPTION_TAG + " value=\"two\"/>"; //$NON-NLS-1$
       String actual = webResponse.getText();
       
       assertEquals(expected, actual);
@@ -184,13 +187,13 @@ public class TestOptionsTag extends JspTestCase {
    // Test out tag in a real live jsp.
    public void testLiveJsp()
       throws Exception {
-      pageContext.forward(JSP_TEST_DIR + _testJspName);
+      this.pageContext.forward(JSP_TEST_DIR + this._testJspName);
    }
 
    public void endLiveJsp(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
 
-      assertEquals(_expectedLiveJsp, actual);
+      assertEquals(this._expectedLiveJsp, actual);
 
    }
    
@@ -203,10 +206,10 @@ public class TestOptionsTag extends JspTestCase {
       throws Exception {
       
       try {
-         pageContext.forward(JSP_TEST_DIR + _testMultJspName);
-         fail("Second options tag should throw exception");
+         this.pageContext.forward(JSP_TEST_DIR + this._testMultJspName);
+         fail("Second options tag should throw exception"); //$NON-NLS-1$
       } catch (Exception e) {
-         assertTrue(e.getMessage().indexOf("Evaluation attribute failed") != -1);
+         assertTrue(e.getMessage().indexOf("Evaluation attribute failed") != -1); //$NON-NLS-1$
       } 
    }
    
@@ -218,19 +221,19 @@ public class TestOptionsTag extends JspTestCase {
       throws Exception {
    
       try {
-         pageContext.forward(JSP_TEST_DIR + "OptionsTagIntValues.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "OptionsTagIntValues.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Options tag failed to parse collection of non-String values");
+         fail("Options tag failed to parse collection of non-String values"); //$NON-NLS-1$
       } 
    }
    
    public void endLiveJspNonStringCollections(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
-      String expected = "<option value=\"1\">one</option>" +
-      "<option value=\"2\">two</option>" +
-      "<option value=\"3\">three</option>";
+      String expected = "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option value=\"3\">three</option>"; //$NON-NLS-1$
       assertEquals(expected, actual);
 
    }
@@ -241,91 +244,91 @@ public class TestOptionsTag extends JspTestCase {
     */
    public void testLiveJspSelectedValue() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedValue.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedValue.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag");
+         fail("Unexpected error parsing tag"); //$NON-NLS-1$
       }
    }
    
    public void endLiveJspSelectedValue(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option value=\"3\">three</option>";
+      String expected = "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option value=\"3\">three</option>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testLiveJspSelectedCollectionValue() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedCollectionValue.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedCollectionValue.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag: " + e.getMessage());
+         fail("Unexpected error parsing tag: " + e.getMessage()); //$NON-NLS-1$
       }
    }
    
    public void endLiveJspSelectedCollectionValue(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option selected value=\"3\">three</option>";
+      String expected = "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option selected value=\"3\">three</option>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testLiveJspSelectedCollectionValue2() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedCollectionValue2.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedCollectionValue2.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag: " + e.getMessage());
+         fail("Unexpected error parsing tag: " + e.getMessage()); //$NON-NLS-1$
       }
    }
    
    public void endLiveJspSelectedCollectionValue2(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option selected value=\"3\">three</option>";
+      String expected = "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option selected value=\"3\">three</option>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testLiveJspSelectedArrayValue() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedArrayValue.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedArrayValue.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag: " + e.getMessage());
+         fail("Unexpected error parsing tag: " + e.getMessage()); //$NON-NLS-1$
       }
    }
    
    public void endLiveJspSelectedArrayValue(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option selected value=\"3\">three</option>";
+      String expected = "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option selected value=\"3\">three</option>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testLiveJspSelectedArrayValue2() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedArrayValue2.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "OptionsTagSelectedArrayValue2.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag: " + e.getMessage());
+         fail("Unexpected error parsing tag: " + e.getMessage()); //$NON-NLS-1$
       }
    }
    
    public void endLiveJspSelectedArrayValue2(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option selected value=\"3\">three</option>";
+      String expected = "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option selected value=\"3\">three</option>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    

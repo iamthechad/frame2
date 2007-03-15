@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,11 +57,12 @@ public class TestPasswordTag extends BaseInputTagTest {
 	
 	public TestPasswordTag(String theName) {
 		super(theName);
-      _type = TagConstants.QUOTE + Constants.PASSWORD + TagConstants.QUOTE;
-		_testJspName = "PasswordTag.jsp";
-		_expectedLiveJsp = "<input type=\"password\" name=\"yabba\" onfocus=\"true\" value=\"7\">";	
+      this._type = TagConstants.QUOTE + Constants.PASSWORD + TagConstants.QUOTE;
+		this._testJspName = "PasswordTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<input type=\"password\" name=\"yabba\" onfocus=\"true\" value=\"7\">";	 //$NON-NLS-1$
 	}
 	
+	@Override
 	public  BaseHtmlTag createTag() {
 		return new PasswordTag();
 	}

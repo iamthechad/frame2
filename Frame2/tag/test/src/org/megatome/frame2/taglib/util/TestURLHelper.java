@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,29 +61,31 @@ import org.megatome.frame2.taglib.util.URLHelper;
 
 public class TestURLHelper extends TestCase {
 
+	final static String PARAM_1_NAME = "param1"; //$NON-NLS-1$
 
-	final static String PARAM_1_NAME="param1";
-	final static String PARAM_1_VALUE="param1Value";
-	final static String PARAM_2_NAME="param2";
-	final static String PARAM_2_VALUE="param2Value";
-	final static String PARAM_3_NAME="param3";
-	final static String PARAM_3_VALUE="param3Value";
-	final static String BASE_URI = "test.f2";
-	
-	protected void setUp() throws Exception {  
+	final static String PARAM_1_VALUE = "param1Value"; //$NON-NLS-1$
+
+	final static String PARAM_2_NAME = "param2"; //$NON-NLS-1$
+
+	final static String PARAM_2_VALUE = "param2Value"; //$NON-NLS-1$
+
+	final static String PARAM_3_NAME = "param3"; //$NON-NLS-1$
+
+	final static String PARAM_3_VALUE = "param3Value"; //$NON-NLS-1$
+
+	final static String BASE_URI = "test.f2"; //$NON-NLS-1$
+
+	public void testURLEncoding() throws Exception {
+
+		String expected = "The+string+%C3%BC%40foo-bar" //$NON-NLS-1$
+				+ URLEncoder.encode(URLHelper.SEP, URLHelper.ENC_UTF_8)
+				+ URLEncoder.encode(URLHelper.QUESTION_MARK,
+						URLHelper.ENC_UTF_8);
+
+		String actual = URLHelper
+				.encodeURL("The string ü@foo-bar" + URLHelper.SEP + URLHelper.QUESTION_MARK); //$NON-NLS-1$
+		assertEquals(expected, actual);
 	}
-
-   public void testURLEncoding() throws Exception {
-
-      String expected = 
-            "The+string+%C3%BC%40foo-bar"
-               + URLEncoder.encode(URLHelper.SEP, URLHelper.ENC_UTF_8)
-               + URLEncoder.encode(URLHelper.QUESTION_MARK, URLHelper.ENC_UTF_8);
-
-      String actual =
-         URLHelper.encodeURL("The string ü@foo-bar" + URLHelper.SEP + URLHelper.QUESTION_MARK);
-      assertEquals(expected, actual);
-   }
 
 	public void testNullHashMap() throws Exception {
 		String uri = BASE_URI;
@@ -95,58 +97,62 @@ public class TestURLHelper extends TestCase {
 	public void testEmptyHashMap() throws Exception {
 		String uri = BASE_URI;
 		String expected = BASE_URI;
-		String actual = URLHelper.appendQueryParams(uri, new HashMap());
+		String actual = URLHelper.appendQueryParams(uri, new HashMap<Object, Object>());
 		assertEquals(expected, actual);
 	}
 
 	public void testOneEmptyEntryHashMap() throws Exception {
 		String uri = BASE_URI;
-		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_1_NAME + "=";
-		HashMap queryParams = new HashMap();
+		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_1_NAME
+				+ "="; //$NON-NLS-1$
+		Map<Object, Object> queryParams = new HashMap<Object, Object>();
 		queryParams.put(PARAM_1_NAME, null);
-		
+
 		String actual = URLHelper.appendQueryParams(uri, queryParams);
 		assertEquals(expected, actual);
 	}
 
 	public void testOneEntryHashMap() throws Exception {
 		String uri = BASE_URI;
-		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_1_NAME + "=" + PARAM_1_VALUE;
-		HashMap queryParams = new HashMap();
-		queryParams.put(PARAM_1_NAME, PARAM_1_VALUE);           		
+		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_1_NAME
+				+ "=" + PARAM_1_VALUE; //$NON-NLS-1$
+		Map<Object, Object> queryParams = new HashMap<Object, Object>();
+		queryParams.put(PARAM_1_NAME, PARAM_1_VALUE);
 		String actual = URLHelper.appendQueryParams(uri, queryParams);
 		assertEquals(expected, actual);
 	}
 
 	public void testMultipleEntryHashMap() throws Exception {
 		String uri = BASE_URI;
-//		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_2_NAME + "=" + PARAM_2_VALUE + 
-//						  URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_1_VALUE + 
-//						  URLHelper.SEP + PARAM_3_NAME + "=" + PARAM_3_VALUE ;
-      String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_1_NAME + "=" + PARAM_1_VALUE + 
-                    URLHelper.SEP + PARAM_2_NAME + "=" + PARAM_2_VALUE + 
-                    URLHelper.SEP + PARAM_3_NAME + "=" + PARAM_3_VALUE ;
-		Map queryParams = new TreeMap();
-		queryParams.put(PARAM_1_NAME, PARAM_1_VALUE);  
-		queryParams.put(PARAM_2_NAME, PARAM_2_VALUE);        
-		queryParams.put(PARAM_3_NAME, PARAM_3_VALUE);                 		
+		// String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_2_NAME +
+		// "=" + PARAM_2_VALUE +
+		// URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_1_VALUE +
+		// URLHelper.SEP + PARAM_3_NAME + "=" + PARAM_3_VALUE ;
+		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_1_NAME
+				+ "=" + PARAM_1_VALUE + //$NON-NLS-1$
+				URLHelper.SEP + PARAM_2_NAME + "=" + PARAM_2_VALUE + //$NON-NLS-1$
+				URLHelper.SEP + PARAM_3_NAME + "=" + PARAM_3_VALUE; //$NON-NLS-1$
+		Map<Object, Object> queryParams = new TreeMap<Object, Object>();
+		queryParams.put(PARAM_1_NAME, PARAM_1_VALUE);
+		queryParams.put(PARAM_2_NAME, PARAM_2_VALUE);
+		queryParams.put(PARAM_3_NAME, PARAM_3_VALUE);
 		String actual = URLHelper.appendQueryParams(uri, queryParams);
 		assertEquals(expected, actual);
 	}
 
-	public void testStringArrayAndBooleanObjectsInHashMap() throws Exception {		
+	public void testStringArrayAndBooleanObjectsInHashMap() throws Exception {
 		String uri = BASE_URI;
-		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_2_NAME + "=true" +
-						  URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_1_VALUE + 
-						  URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_2_VALUE ;
-						  
-		HashMap queryParams = new HashMap();
-		String [] params = {PARAM_1_VALUE, PARAM_2_VALUE};
-		queryParams.put(PARAM_1_NAME, params);  
-		queryParams.put(PARAM_2_NAME, new Boolean ("true"));        	 		
+		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_2_NAME
+				+ "=true" + //$NON-NLS-1$
+				URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_1_VALUE + //$NON-NLS-1$
+				URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_2_VALUE; //$NON-NLS-1$
+
+		Map<Object, Object> queryParams = new HashMap<Object, Object>();
+		String[] params = { PARAM_1_VALUE, PARAM_2_VALUE };
+		queryParams.put(PARAM_1_NAME, params);
+		queryParams.put(PARAM_2_NAME, new Boolean("true")); //$NON-NLS-1$
 		String actual = URLHelper.appendQueryParams(uri, queryParams);
 		assertEquals(expected, actual);
 	}
 
 }
-

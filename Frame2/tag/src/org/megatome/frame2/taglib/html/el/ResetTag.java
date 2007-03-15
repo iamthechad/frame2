@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,25 +56,29 @@ import org.megatome.frame2.taglib.html.Constants;
 
 /**
  * Base custom tag for input fields."
- *<p>
- *
+ * <p>
+ * 
  */
 public class ResetTag extends BaseInputTag {
 
-   // no need to worry about dft label = 'Reset'
-   // html tag will do that for us.
+	// no need to worry about dft label = 'Reset'
+	// html tag will do that for us.
 
-   public void setType() {
-      _type = Constants.RESET;
-   }
+	private static final long serialVersionUID = 5970204613141260587L;
 
-   // override ths if you want to handle an attribute
-   protected void specialAttrHandler() throws JspException {
-      super.specialAttrHandler();
-      String value = getAttr(Constants.VALUE);
-      if ((value == null) || value.trim().equals("")) {
-         value = Constants.RESET_BTN;
-         setAttr(Constants.VALUE, value);
-      }   
-   }
+	@Override
+	public void setType() {
+		this._type = Constants.RESET;
+	}
+
+	// override ths if you want to handle an attribute
+	@Override
+	protected void specialAttrHandler() throws JspException {
+		super.specialAttrHandler();
+		String value = getAttr(Constants.VALUE);
+		if ((value == null) || value.trim().equals("")) { //$NON-NLS-1$
+			value = Constants.RESET_BTN;
+			setAttr(Constants.VALUE, value);
+		}
+	}
 }

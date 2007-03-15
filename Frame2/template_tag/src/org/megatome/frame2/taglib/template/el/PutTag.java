@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,7 @@
 package org.megatome.frame2.taglib.template.el;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -62,129 +63,129 @@ import org.megatome.frame2.template.config.TemplateDef;
 
 public class PutTag extends BaseFrame2Tag {
 
-   private static HashMap scopeValues;
+	private static final long serialVersionUID = 820760806446858411L;
+	private static Map<String, Integer> scopeValues;
 
-   static {
-      scopeValues = new HashMap();
+	static {
+		scopeValues = new HashMap<String, Integer>();
 
-      scopeValues.put(
-         TemplateConstants.REQUEST_SCOPE,
-         new Integer(PageContext.REQUEST_SCOPE));
-      scopeValues.put(
-         TemplateConstants.SESSION_SCOPE,
-         new Integer(PageContext.SESSION_SCOPE));
-      scopeValues.put(
-         TemplateConstants.APPLICATION_SCOPE,
-         new Integer(PageContext.APPLICATION_SCOPE));
-   }
+		scopeValues.put(TemplateConstants.REQUEST_SCOPE, new Integer(
+				PageContext.REQUEST_SCOPE));
+		scopeValues.put(TemplateConstants.SESSION_SCOPE, new Integer(
+				PageContext.SESSION_SCOPE));
+		scopeValues.put(TemplateConstants.APPLICATION_SCOPE, new Integer(
+				PageContext.APPLICATION_SCOPE));
+	}
 
-   /**
-    * 
-    */
-   public PutTag() {
-      super();
-      initializeAttributes();
-   }
+	/**
+	 * 
+	 */
+	public PutTag() {
+		super();
+		initializeAttributes();
+	}
 
-   protected void initializeAttributes() {
-      // override to reset any attrs.
-      setAttr(TemplateConstants.SCOPE, TemplateConstants.REQUEST_SCOPE);
-   }
+	@Override
+	protected void initializeAttributes() {
+		// override to reset any attrs.
+		setAttr(TemplateConstants.SCOPE, TemplateConstants.REQUEST_SCOPE);
+	}
 
-   protected void setTagName() {
-      tagName = TemplateConstants.PUT_TAG;
+	@Override
+	protected void setTagName() {
+		this.tagName = TemplateConstants.PUT_TAG;
 
-   }
+	}
 
-   /**
-       * @return
-       */
-   public String getName() {
-      return getAttr(TemplateConstants.NAME);
-   }
+	/**
+	 * @return
+	 */
+	public String getName() {
+		return getAttr(TemplateConstants.NAME);
+	}
 
-   /**
-    * @return
-    */
-   public String getPath() {
-      return getAttr(TemplateConstants.PATH);
-   }
+	/**
+	 * @return
+	 */
+	public String getPath() {
+		return getAttr(TemplateConstants.PATH);
+	}
 
-   /**
-    * @return
-    */
-   public String getScope() {
-      return getAttr(TemplateConstants.SCOPE);
-   }
+	/**
+	 * @return
+	 */
+	public String getScope() {
+		return getAttr(TemplateConstants.SCOPE);
+	}
 
-   /**
-    * @param string
-    */
-   public void setName(String name) {
-      setAttr(TemplateConstants.NAME, name);
-   }
+	/**
+	 * @param string
+	 */
+	public void setName(String name) {
+		setAttr(TemplateConstants.NAME, name);
+	}
 
-   /**
-    * @param string
-    */
-   public void setPath(String path) {
-      setAttr(TemplateConstants.PATH, path);
-   }
+	/**
+	 * @param string
+	 */
+	public void setPath(String path) {
+		setAttr(TemplateConstants.PATH, path);
+	}
 
-   /**
-    * @param string
-    */
-   public void setScope(String scope) {
-      setAttr(TemplateConstants.SCOPE, scope);
-   }
+	/**
+	 * @param string
+	 */
+	public void setScope(String scope) {
+		setAttr(TemplateConstants.SCOPE, scope);
+	}
 
-   /* (non-Javadoc)
-   	 * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-   	 */
-   public int doStartTag() throws JspException {
-      Tag parentTag = getParent();
-      if ((parentTag == null) || !(parentTag instanceof InsertTag)) {
-         throw new JspException("Put Tag must be contained within an Insert Tag");
-      }
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+	 */
+	@Override
+	public int doStartTag() throws JspException {
+		Tag parentTag = getParent();
+		if ((parentTag == null) || !(parentTag instanceof InsertTag)) {
+			throw new JspException(
+					"Put Tag must be contained within an Insert Tag"); //$NON-NLS-1$
+		}
 
-      TemplateDef def =
-         (TemplateDef) pageContext.findAttribute(
-            TemplateConstants.FRAME2_INSERT_KEY);
+		TemplateDef def = (TemplateDef) this.pageContext
+				.findAttribute(TemplateConstants.FRAME2_INSERT_KEY);
 
-      if (def == null) {
-         throw new JspException("Error PutTag could not access definition for template ");
-      }
+		if (def == null) {
+			throw new JspException(
+					"Error PutTag could not access definition for template "); //$NON-NLS-1$
+		}
 
-      String putName = evaluateStringAttribute(TemplateConstants.NAME);
-      if (def.getPutParam(putName) == null) {
-         throw new JspException(
-            "Cannot override param "
-               + putName
-               + ": does not exist in template definition "
-               + def.getName());
-      }
+		String putName = evaluateStringAttribute(TemplateConstants.NAME);
+		if (def.getPutParam(putName) == null) {
+			throw new JspException("Cannot override param " + putName //$NON-NLS-1$
+					+ ": does not exist in template definition " //$NON-NLS-1$
+					+ def.getName());
+		}
 
-      String putPath = evaluateStringAttribute(TemplateConstants.PATH);
-      if (putPath.equals("")) {
-         throw new JspException(
-            "Cannot override param " + putName + ": cannot have an empty path");
-      }
+		String putPath = evaluateStringAttribute(TemplateConstants.PATH);
+		if (putPath.equals("")) { //$NON-NLS-1$
+			throw new JspException("Cannot override param " + putName //$NON-NLS-1$
+					+ ": cannot have an empty path"); //$NON-NLS-1$
+		}
 
-      def.overridePutParam(putName, putPath, pageContext, getScopeValue());
+		def.overridePutParam(putName, putPath, this.pageContext, getScopeValue());
 
-      return Tag.SKIP_BODY;
-   }
+		return Tag.SKIP_BODY;
+	}
 
-   private int getScopeValue() throws JspException {
-      String putScope = evaluateStringAttribute(TemplateConstants.SCOPE);
-      String trimmedScope = putScope.trim().toLowerCase();
+	private int getScopeValue() throws JspException {
+		String putScope = evaluateStringAttribute(TemplateConstants.SCOPE);
+		String trimmedScope = putScope.trim().toLowerCase();
 
-      Integer scopeValue = (Integer) scopeValues.get(trimmedScope);
-      if (scopeValue == null) {
-         throw new JspException("Scope '" + putScope + "' is invalid");
-      }
+		Integer scopeValue = scopeValues.get(trimmedScope);
+		if (scopeValue == null) {
+			throw new JspException("Scope '" + putScope + "' is invalid"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
-      return scopeValue.intValue();
-   }
+		return scopeValue.intValue();
+	}
 
 }

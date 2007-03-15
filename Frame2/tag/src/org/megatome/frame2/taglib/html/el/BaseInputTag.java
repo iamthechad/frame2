@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,52 +57,53 @@ import org.megatome.frame2.tagsupport.TagConstants;
 
 public abstract class BaseInputTag extends BaseHtmlTag {
 
-   public BaseInputTag() {
-      super();
+	public BaseInputTag() {
+		super();
+	}
 
-   }
+	/**
+	 * Input tag's tag name is equal to their type.
+	 */
+	@Override
+	public void setTagName() {
+		this.tagName = getType();
+	}
 
-   /**
-    * Input tag's tag name is equal to their type.
-    */
-   public void setTagName() {
-      tagName = getType();
+	// NIT
+	// is there realy a need that these 2 setters
+	// are not in basehtmltag?
+	public void setAccept(String accept) {
+		setAttr(Constants.ACCEPT, accept);
+	}
 
-   }
+	public void setRedisplay(String redisplay) {
+		setAttr(Constants.REDISPLAY, redisplay);
+	}
 
-   // NIT 
-   // is there realy a need that these 2 setters
-   // are not in basehtmltag?
-   public void setAccept(String accept) {
-      setAttr(Constants.ACCEPT, accept);
-   }
+	/**
+	 * Start Tag processing. Build the html tag from all attributes which are
+	 * not null.
+	 * 
+	 * @exception JspException
+	 */
 
-   public void setRedisplay(String redisplay) {
-      setAttr(Constants.REDISPLAY, redisplay);
-   }
+	// override this method for specific
+	// output needs in start tag
+	@Override
+	protected StringBuffer buildStartTag() throws JspException {
+		StringBuffer results = new StringBuffer();
+		results.append(Constants.INPUT_TYPE + TagConstants.QUOTE);
+		results.append(getType());
+		results.append(TagConstants.QUOTE);
+		results.append(genTagAttrs());
+		return results;
+	}
 
-   /**
-    * Start Tag processing.  Build the html tag from all attributes which are
-    * not null.
-    *
-    * @exception JspException
-    */
-
-   // override this method for specific  
-   // output needs in start tag
-   protected StringBuffer buildStartTag() throws JspException {
-      StringBuffer results = new StringBuffer();
-      results.append(Constants.INPUT_TYPE + TagConstants.QUOTE);
-      results.append(getType());
-      results.append(TagConstants.QUOTE);
-      results.append(genTagAttrs());
-      return results;
-   }
-
-   /**
-    * Release any acquired resources.
-    */
-   public void release() {
-      super.release();
-   }
+	/**
+	 * Release any acquired resources.
+	 */
+	@Override
+	public void release() {
+		super.release();
+	}
 }

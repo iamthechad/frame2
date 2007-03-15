@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,8 +58,8 @@ import org.megatome.frame2.event.CommonsValidatorEvent;
 /**
  * 
  */
-public class DisplayUsers  extends CommonsValidatorEvent {
-   List _users;
+public class DisplayUsers extends CommonsValidatorEvent {
+	List<User> _users;
 
 	/**
 	 * Constructor for XMLResponseHandler.
@@ -71,24 +71,29 @@ public class DisplayUsers  extends CommonsValidatorEvent {
 	/**
 	 * @see org.megatome.frame2.event.Event#validate(Errors)
 	 */
-	public boolean validate(Errors errors) {      
-      return true;
+	@Override
+	public boolean validate(@SuppressWarnings("unused")
+	Errors errors) {
+		return true;
 	}
 
-   /**
-    * Returns the users.
-    * @return List
-    */
-   public List getUsers() {
-      return _users;
-   }
+	/**
+	 * Returns the users.
+	 * 
+	 * @return List
+	 */
+	public List<User> getUsers() {
+		return this._users;
+	}
 
-   /**
-    * Sets the users.
-    * @param users The users to set
-    */
-   public void setUsers(List users) {
-      _users = users;
-   }
+	/**
+	 * Sets the users.
+	 * 
+	 * @param users
+	 *            The users to set
+	 */
+	public void setUsers(List<User> users) {
+		this._users = users;
+	}
 
 }

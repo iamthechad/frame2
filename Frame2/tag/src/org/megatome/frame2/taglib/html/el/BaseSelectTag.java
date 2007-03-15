@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,12 +57,12 @@ import javax.servlet.jsp.JspException;
  */
 public abstract class BaseSelectTag extends BaseHtmlTag {
 
-   protected StringBuffer buildStartTag() throws JspException {
-      StringBuffer buffer = new StringBuffer();
-      buffer.append(getTagName());
-      buffer.append(genTagAttrs());
-      return buffer;   
-   }
-   
+	@Override
+	protected StringBuffer buildStartTag() throws JspException {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(getTagName());
+		buffer.append(genTagAttrs());
+		return buffer;
+	}
 
 }

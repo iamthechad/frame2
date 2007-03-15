@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,138 +71,142 @@ import org.megatome.frame2.template.config.TemplateDef;
 
 public class InsertTag extends BaseFrame2Tag {
 
-   private Map parameters = new HashMap();
-   private TemplateDef def = null;
-   /**
-    * 
-    */
-   public InsertTag() {
-      super();
-   }
+	private static final long serialVersionUID = -844875210406910502L;
 
-   /**
-    * @return
-    */
-   public String getDefinition() {
-      return getAttr(TemplateConstants.DEFINITION);
-   }
+	private Map<String, String[]> parameters = new HashMap<String, String[]>();
 
-   /**
-    * @param string
-    */
-   public void setDefinition(String def) {
-      setAttr(TemplateConstants.DEFINITION, def);
-   }
+	private TemplateDef def = null;
 
-   public Map getParameterMap() {
-      return parameters;
-   }
+	/**
+	 * 
+	 */
+	public InsertTag() {
+		super();
+	}
 
-   public Iterator getParameterNames() {
-      return parameters.keySet().iterator();
-   }
+	/**
+	 * @return
+	 */
+	public String getDefinition() {
+		return getAttr(TemplateConstants.DEFINITION);
+	}
 
-   public void addParameter(String name, String value) {
-      String[] newValues = null;
-      if (parameters.containsKey(name)) {
-         String[] origValues = (String[]) parameters.get(name);
-         newValues = new String[origValues.length + 1];
-         System.arraycopy(origValues, 0, newValues, 0, origValues.length);
-      } else {
-         newValues = new String[1];
-      }
-      newValues[newValues.length - 1] = value;
-      parameters.put(name, newValues);
-   }
+	/**
+	 * @param string
+	 */
+	public void setDefinition(String def) {
+		setAttr(TemplateConstants.DEFINITION, def);
+	}
 
-   public String getParameter(String name) {
-      String retValue = null;
-      if (parameters.containsKey(name)) {
-         String[] paramValues = (String[]) parameters.get(name);
-         retValue = paramValues[0];
-      }
+	public Map<String, String[]> getParameterMap() {
+		return this.parameters;
+	}
 
-      return retValue;
-   }
+	public Iterator<String> getParameterNames() {
+		return this.parameters.keySet().iterator();
+	}
 
-   public String[] getParameterValues(String name) {
-      return (String[]) parameters.get(name);
-   }
+	public void addParameter(String name, String value) {
+		String[] newValues = null;
+		if (this.parameters.containsKey(name)) {
+			String[] origValues = this.parameters.get(name);
+			newValues = new String[origValues.length + 1];
+			System.arraycopy(origValues, 0, newValues, 0, origValues.length);
+		} else {
+			newValues = new String[1];
+		}
+		newValues[newValues.length - 1] = value;
+		this.parameters.put(name, newValues);
+	}
 
-   public void addParamsToRequest() {
-      Iterator names = getParameterNames();
-      while (names.hasNext()) {
-         String name = (String) names.next();
-         pageContext.setAttribute(
-            name,
-            getParameterValues(name),
-            PageContext.REQUEST_SCOPE);
-      }
-   }
+	public String getParameter(String name) {
+		String retValue = null;
+		if (this.parameters.containsKey(name)) {
+			String[] paramValues = this.parameters.get(name);
+			retValue = paramValues[0];
+		}
 
-   /* (non-Javadoc)
-    * @see javax.servlet.jsp.tagext.TryCatchFinally#doFinally()
-    */
-   public void doFinally() {
-      super.doFinally();
-      pageContext.removeAttribute(TemplateConstants.FRAME2_INSERT_KEY);
-      parameters.clear();
-      def = null;
-   }
+		return retValue;
+	}
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#doEndTag()
-    */
-   public int doEndTag() throws JspException {
-      super.doEndTag();
-      try {
-         addParamsToRequest();
+	public String[] getParameterValues(String name) {
+		return this.parameters.get(name);
+	}
 
-         ServletResponseIncludeWrapper wrapper =
-            new ServletResponseIncludeWrapper(
-               pageContext.getResponse(),
-               pageContext.getOut());
+	public void addParamsToRequest() {
+		Iterator<String> names = getParameterNames();
+		while (names.hasNext()) {
+			String name = names.next();
+			this.pageContext.setAttribute(name, getParameterValues(name),
+					PageContext.REQUEST_SCOPE);
+		}
+	}
 
-			RequestDispatcher rd =
-			    pageContext.getRequest().getRequestDispatcher(
-			       def.getTemplateJspPath());
-			rd.include(pageContext.getRequest(), wrapper);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.jsp.tagext.TryCatchFinally#doFinally()
+	 */
+	@Override
+	public void doFinally() {
+		super.doFinally();
+		this.pageContext.removeAttribute(TemplateConstants.FRAME2_INSERT_KEY);
+		this.parameters.clear();
+		this.def = null;
+	}
 
-      } catch (ServletException e) {
-         throw new JspException(e);
-      } catch (IOException e) {
-         throw new JspException(e);
-      }
+	/**
+	 * @see javax.servlet.jsp.tagext.Tag#doEndTag()
+	 */
+	@Override
+	public int doEndTag() throws JspException {
+		super.doEndTag();
+		try {
+			addParamsToRequest();
 
-      return Tag.EVAL_PAGE;
-   }
+			ServletResponseIncludeWrapper wrapper = new ServletResponseIncludeWrapper(
+					this.pageContext.getResponse(), this.pageContext.getOut());
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException {
-      super.doStartTag();
-      String definition = evaluateStringAttribute(TemplateConstants.DEFINITION);
+			RequestDispatcher rd = this.pageContext.getRequest()
+					.getRequestDispatcher(this.def.getTemplateJspPath());
+			rd.include(this.pageContext.getRequest(), wrapper);
 
-      try {
-         def = TemplateConfigFactory.instance().getDefinition(definition);
-      } catch (TemplateException e) {
-         // We'll throw an error in just a minute, so an empty catch is OK
-      }
+		} catch (ServletException e) {
+			throw new JspException(e);
+		} catch (IOException e) {
+			throw new JspException(e);
+		}
 
-      if (def == null) {
-         throw new JspException(
-            "Could not access definition for template \"" + definition + "\"");
-      }
-      pageContext.setAttribute(
-         TemplateConstants.FRAME2_INSERT_KEY,
-         def,
-         PageContext.REQUEST_SCOPE);
+		return Tag.EVAL_PAGE;
+	}
 
-      return BodyTag.EVAL_BODY_BUFFERED;
-   }
+	/**
+	 * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+	 */
+	@Override
+	public int doStartTag() throws JspException {
+		super.doStartTag();
+		String definition = evaluateStringAttribute(TemplateConstants.DEFINITION);
 
-   protected void setTagName() {
-      tagName = TemplateConstants.INSERT_TAG;
-   }
+		try {
+			this.def = TemplateConfigFactory.instance().getDefinition(
+					definition);
+		} catch (TemplateException e) {
+			// We'll throw an error in just a minute, so an empty catch is OK
+		}
+
+		if (this.def == null) {
+			throw new JspException(
+					"Could not access definition for template \"" + definition + "\""); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		this.pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY,
+				this.def, PageContext.REQUEST_SCOPE);
+
+		return BodyTag.EVAL_BODY_BUFFERED;
+	}
+
+	@Override
+	protected void setTagName() {
+		this.tagName = TemplateConstants.INSERT_TAG;
+	}
 }

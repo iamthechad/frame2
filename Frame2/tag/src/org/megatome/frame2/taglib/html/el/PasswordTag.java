@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,8 +54,11 @@ import org.megatome.frame2.taglib.html.Constants;
 
 public class PasswordTag extends BaseInputTag {
 
-   public void setType() {
-      _type = Constants.PASSWORD;
-   }
+	private static final long serialVersionUID = -3368548547041831917L;
+
+	@Override
+	public void setType() {
+		this._type = Constants.PASSWORD;
+	}
 
 }

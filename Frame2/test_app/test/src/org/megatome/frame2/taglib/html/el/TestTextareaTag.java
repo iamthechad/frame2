@@ -58,49 +58,50 @@ public class TestTextareaTag extends BaseHtmlTagTest {
 	
 	public TestTextareaTag(String theName) {
 		super(theName);       
-		_testJspName = "TextareaTag.jsp";
-		_expectedLiveJsp = "<textarea cols=\"7\" name=\"yabba\" rows=\"3\">The avs are better than the ugly redwings</textarea>";	
+		this._testJspName = "TextareaTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<textarea cols=\"7\" name=\"yabba\" rows=\"3\">The avs are better than the ugly redwings</textarea>";	 //$NON-NLS-1$
 	}
 	
+	@Override
 	public  BaseHtmlTag createTag() { 
 		return new TextareaTag();
 	}
 
    public void testXhtmlTerminator_withBody() throws Exception {
       TextareaTag tag = (TextareaTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setName("foo");
-      tag.setRows("4");
-      tag.setValue("MyTextArea");
+      this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+      tag.setPageContext(this.pageContext);
+      tag.setName("foo"); //$NON-NLS-1$
+      tag.setRows("4"); //$NON-NLS-1$
+      tag.setValue("MyTextArea"); //$NON-NLS-1$
       tag.doStartTag();
       tag.doEndTag();
    }
 
    public void endXhtmlTerminator_withBody(WebResponse webResponse) throws Exception {
-      String expected = "<textarea name=\"foo\" rows=\"4\">MyTextArea</textarea>";
+      String expected = "<textarea name=\"foo\" rows=\"4\">MyTextArea</textarea>"; //$NON-NLS-1$
       String actual = webResponse.getText();
       assertEquals(expected, actual);
    }
    
    public void testXhtmlTerminator_withoutBody() throws Exception {
       TextareaTag tag = (TextareaTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setName("foo");
-      tag.setRows("4");
+      this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+      tag.setPageContext(this.pageContext);
+      tag.setName("foo"); //$NON-NLS-1$
+      tag.setRows("4"); //$NON-NLS-1$
       tag.doStartTag();
       tag.doEndTag();
    }
 
    public void endXhtmlTerminator_withoutBody(WebResponse webResponse) throws Exception {
-      String expected = Constants.TEXTAREA_OPEN + " name=\"foo\" rows=\"4\">" + Constants.TEXTAREA_CLOSE;
+      String expected = Constants.TEXTAREA_OPEN + " name=\"foo\" rows=\"4\">" + Constants.TEXTAREA_CLOSE; //$NON-NLS-1$
       String actual = webResponse.getText();
       assertEquals(expected, actual);
    }	
    // Test for creating a valid yahoo.quote with some params.     
    public void testHasBody() throws Exception {
-      pageContext.forward(JSP_TEST_DIR + "TextareaTagHasBody.jsp");
+      this.pageContext.forward(JSP_TEST_DIR + "TextareaTagHasBody.jsp"); //$NON-NLS-1$
    }
 
    public void endHasBody(WebResponse webResponse)
@@ -108,7 +109,7 @@ public class TestTextareaTag extends BaseHtmlTagTest {
       String actual = webResponse.getText().trim();
 
       String expected =
-           "<textarea cols=\"7\" name=\"yabba\" rows=\"3\">red wings suck</textarea>";       
+           "<textarea cols=\"7\" name=\"yabba\" rows=\"3\">red wings suck</textarea>";        //$NON-NLS-1$
 
       assertEquals(expected, actual);
 

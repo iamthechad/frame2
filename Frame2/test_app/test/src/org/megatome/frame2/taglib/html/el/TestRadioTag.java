@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,64 +54,64 @@ import org.apache.cactus.WebResponse;
 import org.megatome.frame2.taglib.html.Constants;
 import org.megatome.frame2.tagsupport.TagConstants;
 
-
 public class TestRadioTag extends BaseInputTagTest {
-   
-   public TestRadioTag(String theName) {
-      super(theName);
-      _type = TagConstants.QUOTE + Constants.RADIO + TagConstants.QUOTE;
-      _testJspName = "RadioTag.jsp";     
-      _expectedLiveJsp = "<input type=\"radio\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">label</input>"; 
-   }
-   
-   public  BaseHtmlTag createTag() {
-      return new RadioTag();
-   }
-   
-   public void testXhtmlTerminator_withBody() throws Exception {
-      RadioTag tag = (RadioTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setName("foo");
-      tag.setDisplayvalue("MyDisplayvalue");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
 
-   public void endXhtmlTerminator_withBody(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"radio\" name=\"foo\">MyDisplayvalue</input>";
-      String actual = webResponse.getText();
-      assertEquals(expected, actual);
-   }
-   
-   public void testXhtmlTerminator_withoutBody() throws Exception {
-      RadioTag tag = (RadioTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setName("foo");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public TestRadioTag(String theName) {
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.RADIO + TagConstants.QUOTE;
+		this._testJspName = "RadioTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<input type=\"radio\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">label</input>"; //$NON-NLS-1$
+	}
 
-   public void endXhtmlTerminator_withoutBody(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"radio\" name=\"foo\"/>";
-      String actual = webResponse.getText();
-      assertEquals(expected, actual);
-   }
-   
-   // Test for creating a valid yahoo.quote with some params.     
-   public void testHasBody() throws Exception {
-      pageContext.forward(JSP_TEST_DIR + "RadioTagHasBody.jsp");
-   }
+	@Override
+	public BaseHtmlTag createTag() {
+		return new RadioTag();
+	}
 
-   public void endHasBody(WebResponse webResponse)
-      throws Exception {
-      String actual = webResponse.getText().trim();
+	public void testXhtmlTerminator_withBody() throws Exception {
+		RadioTag tag = (RadioTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.setName("foo"); //$NON-NLS-1$
+		tag.setDisplayvalue("MyDisplayvalue"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-      String expected =
-           "<input type=\"radio\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">The Body</input>";       
+	public void endXhtmlTerminator_withBody(WebResponse webResponse)
+			throws Exception {
+		String expected = "<input type=\"radio\" name=\"foo\">MyDisplayvalue</input>"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+		assertEquals(expected, actual);
+	}
 
-      assertEquals(expected, actual);
+	public void testXhtmlTerminator_withoutBody() throws Exception {
+		RadioTag tag = (RadioTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.setName("foo"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-   }     
+	public void endXhtmlTerminator_withoutBody(WebResponse webResponse)
+			throws Exception {
+		String expected = "<input type=\"radio\" name=\"foo\"/>"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+		assertEquals(expected, actual);
+	}
+
+	// Test for creating a valid yahoo.quote with some params.
+	public void testHasBody() throws Exception {
+		this.pageContext.forward(JSP_TEST_DIR + "RadioTagHasBody.jsp"); //$NON-NLS-1$
+	}
+
+	public void endHasBody(WebResponse webResponse) throws Exception {
+		String actual = webResponse.getText().trim();
+
+		String expected = "<input type=\"radio\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">The Body</input>"; //$NON-NLS-1$
+
+		assertEquals(expected, actual);
+
+	}
 }

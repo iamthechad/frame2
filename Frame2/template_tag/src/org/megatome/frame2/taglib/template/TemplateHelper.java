@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,51 +52,49 @@ package org.megatome.frame2.taglib.template;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.jsp.PageContext;
 
 public final class TemplateHelper {
 
-   static int[] scopes =
-      {
-         PageContext.REQUEST_SCOPE,
-         PageContext.SESSION_SCOPE,
-         PageContext.APPLICATION_SCOPE };
+	static int[] scopes = { PageContext.REQUEST_SCOPE,
+			PageContext.SESSION_SCOPE, PageContext.APPLICATION_SCOPE };
 
-   private TemplateHelper() {
-   }
+	private TemplateHelper() {
+		// not public
+	}
 
-   public static void clearPageContextDefinition(
-      PageContext context,
-      String defname) {
-      for (int i = 0; i < scopes.length; i++) {
-         removeAttribute(context,defname, scopes[i]);
-      }
-   }
-   
-   public static void removeAttribute(
-      PageContext context,
-      String defname,
-      int scope) {
-      HashMap value = (HashMap) context.getAttribute(defname, scope);
-      if (value != null) {
-         context.removeAttribute(defname, scope);
-      }
-   }
+	public static void clearPageContextDefinition(PageContext context,
+			String defname) {
+		for (int i = 0; i < scopes.length; i++) {
+			removeAttribute(context, defname, scopes[i]);
+		}
+	}
 
-   public static void clearPageContextAll(PageContext context) {
-      // beware, removing all attributes in mock world
-      // may remove needed attributes such as jsp writer.
-      for (int i = 0; i < scopes.length; i++) {
-         removeAttribute(context, scopes[i]);
-      }
-   }
+	public static void removeAttribute(PageContext context, String defname,
+			int scope) {
+		Map<?, ?> value = (HashMap) context.getAttribute(defname, scope);
+		if (value != null) {
+			context.removeAttribute(defname, scope);
+		}
+	}
 
-   public static void removeAttribute(PageContext context, int scope) {
-      Enumeration en = context.getAttributeNamesInScope(scope);
-      while (en.hasMoreElements()) {
-         String name = (String) en.nextElement();
-         context.removeAttribute(name, scope);
-      }
-   }
+	public static void clearPageContextAll(PageContext context) {
+		// beware, removing all attributes in mock world
+		// may remove needed attributes such as jsp writer.
+		for (int i = 0; i < scopes.length; i++) {
+			removeAttribute(context, scopes[i]);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void removeAttribute(PageContext context, int scope) {
+		Enumeration<Object> en = context.getAttributeNamesInScope(scope);
+		while (en.hasMoreElements()) {
+			String name = (String) en.nextElement();
+			context.removeAttribute(name, scope);
+		}
+	}
 
 }

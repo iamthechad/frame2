@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,128 +62,142 @@ import org.megatome.frame2.template.config.TemplateDef;
 
 public class TestPutTag extends BaseTemplateTagTest {
 
-   private static final String TEMPLATE1 = "template1";
-   private PutTag putTag = null;
-   /**
-    * @param arg0
-    */
-   public TestPutTag(String arg0) {
-      super(arg0);
-      _testJspName = "PutTag.jsp";
-      _testNegativeJspName = "NegativePutTag.jsp";
-      _expectedLiveJsp = "HeaderRequestScope.jsp<br>";
-      _expectedNegativeLiveJsp =
-         "Cannot override param header: cannot have an empty path";
-   }
+	private static final String TEMPLATE1 = "template1"; //$NON-NLS-1$
 
-   /* (non-Javadoc)
-    * @see junit.framework.TestCase#setUp()
-    */
-   public void setUp() throws Exception {
-      super.setUp();
-      TemplateHelper.clearPageContextDefinition(pageContext,TEMPLATE1);
-      putTag = new PutTag();
-   }
+	private PutTag putTag = null;
 
-   /* (non-Javadoc)
-    * @see junit.framework.TestCase#tearDown()
-    */
-  protected void tearDown() throws Exception {
-      super.tearDown();
-      TemplateHelper.clearPageContextDefinition(pageContext,TEMPLATE1);
-   }
-   
-   public void testPutTag() {
-      putTag.setName("putName");
-      putTag.setPath("some.jsp");
-      putTag.setScope("page");
+	/**
+	 * @param arg0
+	 */
+	public TestPutTag(String arg0) {
+		super(arg0);
+		this._testJspName = "PutTag.jsp"; //$NON-NLS-1$
+		this._testNegativeJspName = "NegativePutTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "HeaderRequestScope.jsp<br>"; //$NON-NLS-1$
+		this._expectedNegativeLiveJsp = "Cannot override param header: cannot have an empty path"; //$NON-NLS-1$
+	}
 
-      assertEquals("putName", putTag.getName());
-      assertEquals("some.jsp", putTag.getPath());
-      assertEquals("page", putTag.getScope());
-   }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		TemplateHelper.clearPageContextDefinition(this.pageContext, TEMPLATE1);
+		this.putTag = new PutTag();
+	}
 
-   public void testputTagIsChild() {
-      putTag.setName("header");
-      putTag.setPath("some.jsp");
-      putTag.setScope("request");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		TemplateHelper.clearPageContextDefinition(this.pageContext, TEMPLATE1);
+	}
 
-      assertEquals("header", putTag.getName());
-      assertEquals("some.jsp", putTag.getPath());
-      assertEquals("request", putTag.getScope());
+	public void testPutTag() {
+		this.putTag.setName("putName"); //$NON-NLS-1$
+		this.putTag.setPath("some.jsp"); //$NON-NLS-1$
+		this.putTag.setScope("page"); //$NON-NLS-1$
 
-      InsertTag parent = new InsertTag();
+		assertEquals("putName", this.putTag.getName()); //$NON-NLS-1$
+		assertEquals("some.jsp", this.putTag.getPath()); //$NON-NLS-1$
+		assertEquals("page", this.putTag.getScope()); //$NON-NLS-1$
+	}
 
-      putTag.setParent(parent);
+	public void testputTagIsChild() {
+		this.putTag.setName("header"); //$NON-NLS-1$
+		this.putTag.setPath("some.jsp"); //$NON-NLS-1$
+		this.putTag.setScope("request"); //$NON-NLS-1$
 
-      try {
-         TemplateDef def =
-            TemplateConfigFactory.instance().getDefinition("template1");
-         assertNotNull(def);
-         pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY, def);
+		assertEquals("header", this.putTag.getName()); //$NON-NLS-1$
+		assertEquals("some.jsp", this.putTag.getPath()); //$NON-NLS-1$
+		assertEquals("request", this.putTag.getScope()); //$NON-NLS-1$
 
-         putTag.setPageContext(pageContext);
+		InsertTag parent = new InsertTag();
 
-         putTag.doStartTag();
-      } catch (TemplateException e) {
-         fail();
-      } catch (JspException e) {
-         fail();
-      }
-   }
+		this.putTag.setParent(parent);
 
-   public void testNegativePutTagIsChild() {
-      putTag.setName("putName");
-      putTag.setPath("some.jsp");
-      putTag.setScope("request");
-
-      assertEquals("putName", putTag.getName());
-      assertEquals("some.jsp", putTag.getPath());
-      assertEquals("request", putTag.getScope());
-      try {
-         putTag.doStartTag();
-         fail();
-      } catch (JspException e) {
-      }
-   }
-
-   public void testNegativePutScope() {
-      try {
-         pageContext.forward(JSP_TEST_DIR + "NegativePutTagScope.jsp");
-         fail();
-      } catch (Exception e) {
-			assertTrue(e.getMessage().indexOf("Scope 'dude' is invalid") != -1);
-      } 
-   }
-   
-	public void testNegativePutName() {
 		try {
-			pageContext.forward(JSP_TEST_DIR + "NegativePutTagName.jsp");
+			TemplateDef def = TemplateConfigFactory.instance().getDefinition(
+					"template1"); //$NON-NLS-1$
+			assertNotNull(def);
+			this.pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY,
+					def);
+
+			this.putTag.setPageContext(this.pageContext);
+
+			this.putTag.doStartTag();
+		} catch (TemplateException e) {
+			fail();
+		} catch (JspException e) {
+			fail();
+		}
+	}
+
+	public void testNegativePutTagIsChild() {
+		this.putTag.setName("putName"); //$NON-NLS-1$
+		this.putTag.setPath("some.jsp"); //$NON-NLS-1$
+		this.putTag.setScope("request"); //$NON-NLS-1$
+
+		assertEquals("putName", this.putTag.getName()); //$NON-NLS-1$
+		assertEquals("some.jsp", this.putTag.getPath()); //$NON-NLS-1$
+		assertEquals("request", this.putTag.getScope()); //$NON-NLS-1$
+		try {
+			this.putTag.doStartTag();
+			fail();
+		} catch (JspException expected) {
+			// expected
+		}
+	}
+
+	public void testNegativePutScope() {
+		try {
+			this.pageContext.forward(JSP_TEST_DIR + "NegativePutTagScope.jsp"); //$NON-NLS-1$
 			fail();
 		} catch (Exception e) {
-			assertTrue(e.getMessage().indexOf("Cannot override param notintemplate: does not exist in template definition template_headeronly") != -1);
-		} 
-	}
-	
-	public void testPutInvalidPath() throws Exception {
-		pageContext.forward(JSP_TEST_DIR + "PutTagInvalidPath.jsp");
+			assertTrue(e.getMessage().indexOf("Scope 'dude' is invalid") != -1); //$NON-NLS-1$
+		}
 	}
 
-	public void endPutInvalidPath(WebResponse webResponse)
-		throws Exception {
+	public void testNegativePutName() {
+		try {
+			this.pageContext.forward(JSP_TEST_DIR + "NegativePutTagName.jsp"); //$NON-NLS-1$
+			fail();
+		} catch (Exception e) {
+			assertTrue(e
+					.getMessage()
+					.indexOf(
+							"Cannot override param notintemplate: does not exist in template definition template_headeronly") != -1); //$NON-NLS-1$
+		}
+	}
+
+	public void testPutInvalidPath() throws Exception {
+		this.pageContext.forward(JSP_TEST_DIR + "PutTagInvalidPath.jsp"); //$NON-NLS-1$
+	}
+
+	public void endPutInvalidPath(WebResponse webResponse) throws Exception {
 		String actual = webResponse.getText().trim();
 
-		String expected =	"This should be the only text";
+		String expected = "This should be the only text"; //$NON-NLS-1$
 
 		assertEquals(expected, actual);
 
 	}
 
-   /* (non-Javadoc)
-    * @see org.megatome.frame2.taglib.template.el.BaseTemplateTagTest#createTag()
-    */
-   public BaseFrame2Tag createTag() {
-      return null;
-   }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.megatome.frame2.taglib.template.el.BaseTemplateTagTest#createTag()
+	 */
+	@Override
+	public BaseFrame2Tag createTag() {
+		return null;
+	}
 
 }

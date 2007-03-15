@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,18 +74,19 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
 	/**
 	 * @see org.megatome.frame2.event.Event#validate(Errors)
 	 */
+	@Override
 	public boolean validate(Errors errors) {
       boolean result = true;
-      if ( _firstName == null ) { 
+      if ( this._firstName == null ) { 
          result = false;
          if ( errors != null ) {
-            errors.add("XMLResponseHandler.firstName","First Name is required " + _firstName);
+            errors.add("XMLResponseHandler.firstName","First Name is required"); //$NON-NLS-1$ //$NON-NLS-2$
          }
       }      
-      if ( _lastName == null) {
+      if ( this._lastName == null) {
          result = false;
          if ( errors != null ) {
-            errors.add("XMLResponseHandler.lastName","Last Name is required " + _lastName);
+            errors.add("XMLResponseHandler.lastName","Last Name is required"); //$NON-NLS-1$ //$NON-NLS-2$
          }
       }
 		return result;
@@ -96,7 +97,7 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
     * @return String
     */
    public String getEmail() {
-      return _email;
+      return this._email;
    }
 
    /**
@@ -104,7 +105,7 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
     * @return String
     */
    public String getFirstName() {
-      return _firstName;
+      return this._firstName;
    }
 
    /**
@@ -112,7 +113,7 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
     * @return String
     */
    public String getLastName() {
-      return _lastName;
+      return this._lastName;
    }
 
    /**
@@ -120,7 +121,7 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
     * @param email The email to set
     */
    public void setEmail(String email) {
-      _email = email;
+      this._email = email;
    }
 
    /**
@@ -128,7 +129,7 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
     * @param firstName The firstName to set
     */
    public void setFirstName(String firstName) {
-      _firstName = firstName;
+      this._firstName = firstName;
    }
 
    /**
@@ -136,7 +137,7 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
     * @param lastName The lastName to set
     */
    public void setLastName(String lastName) {
-      _lastName = lastName;
+      this._lastName = lastName;
    }
     
    /**
@@ -144,7 +145,7 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
     * @return String
     */
    public String getComment() {
-      return _comment;
+      return this._comment;
    }
 
    /**
@@ -152,7 +153,7 @@ public class AddUser extends CommonsValidatorEvent implements UserType {
     * @param comment The comment to set
     */
    public void setComment(String comment) {
-      _comment = comment;
+      this._comment = comment;
    }
 
 }

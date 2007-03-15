@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,8 +61,8 @@ public abstract class BaseTemplateTagTest extends JspTestCase {
 	String _expectedLiveJsp;
 	String _expectedNegativeLiveJsp;
 
-	static String ATTR_NAME_PRE = "test";
-	static String JSP_TEST_DIR = "/test/tags/template/";
+	static String ATTR_NAME_PRE = "test"; //$NON-NLS-1$
+	static String JSP_TEST_DIR = "/test/tags/template/"; //$NON-NLS-1$
 
 	public BaseTemplateTagTest(String theName) {
 		super(theName);
@@ -74,23 +74,23 @@ public abstract class BaseTemplateTagTest extends JspTestCase {
 	// Test out tag in a real live jsp.
 	public void testLiveJsp()
 		throws Exception {
-		pageContext.forward(JSP_TEST_DIR + _testJspName);
+		this.pageContext.forward(JSP_TEST_DIR + this._testJspName);
 	}
 
 	public void endLiveJsp(WebResponse webResponse) throws Exception {
 		String actual = webResponse.getText().trim();
 
-		assertEquals(_expectedLiveJsp, actual);
+		assertEquals(this._expectedLiveJsp, actual);
 
 	}
 	
 //	Test out tag in a real live jsp.
 	public void testNegativeLiveJsp() {
 		try {
-			pageContext.forward(JSP_TEST_DIR + _testNegativeJspName);
+			this.pageContext.forward(JSP_TEST_DIR + this._testNegativeJspName);
 			fail();
 		} catch (Exception e) {
-			assertTrue(e.getMessage().indexOf(_expectedNegativeLiveJsp) != -1);
+			assertTrue(e.getMessage().indexOf(this._expectedNegativeLiveJsp) != -1);
 		}
 	}
 

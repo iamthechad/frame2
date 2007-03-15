@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,40 +62,45 @@ import org.megatome.frame2.taglib.html.Constants;
  */
 public class OptionTag extends BaseOptionTag {
 
-    public void setType() {
-        _type = Constants.OPTION;
+	private static final long serialVersionUID = 318231321674991160L;
+
+	@Override
+	public void setType() {
+        this._type = Constants.OPTION;
     }
 
     // NIT same as radiotag, refactor
-    protected void handleDisplayValueAttr() throws JspException {
-        if (_displayExpr == null || _displayExpr == "") {
+    @Override
+	protected void handleDisplayValueAttr() throws JspException {
+        if (this._displayExpr == null || this._displayExpr == "") { //$NON-NLS-1$
             // Evaluate the remainder of this page
             return;
         }
 
         try {
-            _displayValue = evalStringAttr(Constants.DISPLAY_VALUE,
-                    _displayExpr);
+            this._displayValue = evalStringAttr(Constants.DISPLAY_VALUE,
+                    this._displayExpr);
         } catch (Exception e) {
-            throw new JspException(" Evaluation attribute failed "
+            throw new JspException(" Evaluation attribute failed " //$NON-NLS-1$
                     + e.getMessage(), e);
         }
     }
 
     // nit get this into helper.
-    protected void handleSelectedAttr() throws JspException {
+    @Override
+	protected void handleSelectedAttr() throws JspException {
         // get thr select attr
-        String selectExpr = (String)pageContext
+        String selectExpr = (String)this.pageContext
                 .getAttribute(Constants.SELECT_KEY);
 
-        if ((selectExpr == null) || (selectExpr == "")) {
-            selectExpr = _selected;
+        if ((selectExpr == null) || (selectExpr == "")) { //$NON-NLS-1$
+            selectExpr = this._selected;
         }
 
         // now get value
         String valueExpr = getAttr(Constants.VALUE);
-        if (valueExpr == null || valueExpr == "" || selectExpr == null
-                || selectExpr == "") {
+        if (valueExpr == null || valueExpr == "" || selectExpr == null //$NON-NLS-1$
+                || selectExpr == "") { //$NON-NLS-1$
             return;
         }
 
@@ -103,12 +108,12 @@ public class OptionTag extends BaseOptionTag {
         try {
             valueval = evalStringAttr(Constants.VALUE, valueExpr);
         } catch (Exception e) {
-            throw new JspException(" Evaluation attribute failed "
+            throw new JspException(" Evaluation attribute failed " //$NON-NLS-1$
                     + e.getMessage(), e);
         }
 
         // see if this is a collection
-        Collection collection = null;
+        Collection<?> collection = null;
         try {
             collection = evalCollectionAttr(Constants.SELECTED, selectExpr);
         } catch (Exception e) {
@@ -125,18 +130,18 @@ public class OptionTag extends BaseOptionTag {
         }
 
         // init "" for cmp with valueval later
-        String checkval = "";
+        String checkval = ""; //$NON-NLS-1$
         if (collection == null && array == null) {
             try {
                 checkval = evalStringAttr(Constants.SELECTED, selectExpr);
             } catch (Exception e) {
-                throw new JspException(" Evaluation attribute failed "
+                throw new JspException(" Evaluation attribute failed " //$NON-NLS-1$
                         + e.getMessage(), e);
             }
         }
 
         if (collection != null) {
-            Iterator iter = collection.iterator();
+            Iterator<?> iter = collection.iterator();
             while (iter.hasNext()) {
                 // NIT make work for all primatives
                 String val = (String)iter.next();
@@ -166,8 +171,9 @@ public class OptionTag extends BaseOptionTag {
      * Returns if tag has body or not
      * @return boolean
      */
-    public boolean evalTagBody() {
-        if (_displayValue == null || _displayValue.equals("")) {
+    @Override
+	public boolean evalTagBody() {
+        if (this._displayValue == null || this._displayValue.equals("")) { //$NON-NLS-1$
             return false;
         }
         return true;
@@ -177,9 +183,10 @@ public class OptionTag extends BaseOptionTag {
      * Appends _displayValue String
      * @param StringBuffer
      */
-    public void getBody(StringBuffer buffer) {
-        if (_displayValue != null) {
-            buffer.append(_displayValue);
+    @Override
+	public void getBody(StringBuffer buffer) {
+        if (this._displayValue != null) {
+            buffer.append(this._displayValue);
         }
     }
 
@@ -187,7 +194,8 @@ public class OptionTag extends BaseOptionTag {
      * Appends end Element Close
      * @param StringBuffer
      */
-    public void getEndElementClose(StringBuffer buffer) {
+    @Override
+	public void getEndElementClose(StringBuffer buffer) {
         buffer.append(Constants.OPTION_CLOSE);
     }
 

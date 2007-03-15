@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,30 +62,31 @@ public class TestImgTag extends BaseHtmlTagTest {
 	 */
 	public TestImgTag(String theName) {
 		super(theName);
-      _type = TagConstants.QUOTE + Constants.IMG + TagConstants.QUOTE;
-      _testJspName = "ImgTag.jsp";
-      _expectedLiveJsp = "<img alt=\"yabba\" onfocus=\"true\" align=\"alignValue\" border=\"borderValue\" height=\"heightValue\" hspace=\"hspaceValue\" ismap=\"ismapValue\" longdesc=\"longdescValue\" lowsrc=\"lowsrcValue\" src=\"srcValue\" suppress=\"suppressValue\" usemap=\"usemapValue\" vspace=\"vspaceValue\" width=\"widthValue\">";
+      this._type = TagConstants.QUOTE + Constants.IMG + TagConstants.QUOTE;
+      this._testJspName = "ImgTag.jsp"; //$NON-NLS-1$
+      this._expectedLiveJsp = "<img alt=\"yabba\" onfocus=\"true\" align=\"alignValue\" border=\"borderValue\" height=\"heightValue\" hspace=\"hspaceValue\" ismap=\"ismapValue\" longdesc=\"longdescValue\" lowsrc=\"lowsrcValue\" src=\"srcValue\" suppress=\"suppressValue\" usemap=\"usemapValue\" vspace=\"vspaceValue\" width=\"widthValue\">"; //$NON-NLS-1$
 	}
 
 	/**
 	 * @see org.megatome.frame2.taglib.html.el.BaseHtmlTagTest#createTag()
 	 */
+	@Override
 	public BaseHtmlTag createTag() {
 		return new ImgTag();
 	}
 
    public void testXhtmlTerminator() throws Exception {
       ImgTag tag = (ImgTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setSrc("foo.gif");
-      tag.setAlt("MY_ALT");
+      this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+      tag.setPageContext(this.pageContext);
+      tag.setSrc("foo.gif"); //$NON-NLS-1$
+      tag.setAlt("MY_ALT"); //$NON-NLS-1$
       tag.doStartTag();
       tag.doEndTag();
    }
 
    public void endXhtmlTerminator(WebResponse webResponse) throws Exception {
-      String expected = "<img alt=\"MY_ALT\" src=\"foo.gif\"/>";
+      String expected = "<img alt=\"MY_ALT\" src=\"foo.gif\"/>"; //$NON-NLS-1$
       String actual = webResponse.getText();
       
       assertEquals(expected, actual);

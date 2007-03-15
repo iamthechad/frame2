@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,9 @@ package org.megatome.frame2.taglib;
  */
 public final class Globals {
    
-   private Globals() {}
+   private Globals() {
+	   // not public
+   }
 
    /**
     * Defines the formatting and content of the ErrorsTag header.  If defined in the
@@ -63,7 +65,7 @@ public final class Globals {
     * list.
     */
 
-   public static final String ERRORS_HEADER = "org.megatome.frame2.taglib.errors.header";
+   public static final String ERRORS_HEADER = "org.megatome.frame2.taglib.errors.header"; //$NON-NLS-1$
 
    /**
     * Defines the formatting and content of the ErrorsTag footer.  If defined in the
@@ -71,7 +73,7 @@ public final class Globals {
     * list.
     */
 
-   public static final String ERRORS_FOOTER = "org.megatome.frame2.taglib.errors.footer";
+   public static final String ERRORS_FOOTER = "org.megatome.frame2.taglib.errors.footer"; //$NON-NLS-1$
 
    /**
     * Defines the prefix formatting (but not content) of each error for the ErrorsTag.  If
@@ -79,7 +81,7 @@ public final class Globals {
     * data.  For example, this key could specify HTML formatting for bold.
     */
 
-   public static final String ERRORS_PREFIX = "org.megatome.frame2.taglib.errors.prefix";
+   public static final String ERRORS_PREFIX = "org.megatome.frame2.taglib.errors.prefix"; //$NON-NLS-1$
 
    /**
     * Defines the suffix formatting (but not content) of each error for the ErrorsTag.  If
@@ -87,6 +89,6 @@ public final class Globals {
     * data.  For example, this key could specify HTML for closing a bold tag.
     */
 
-   public static final String ERRORS_SUFFIX = "org.megatome.frame2.taglib.errors.suffix";
+   public static final String ERRORS_SUFFIX = "org.megatome.frame2.taglib.errors.suffix"; //$NON-NLS-1$
 
 }

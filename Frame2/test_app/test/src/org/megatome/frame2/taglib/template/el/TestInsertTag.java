@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,9 +65,9 @@ public class TestInsertTag extends JspTestCase {
    public void testInsertTag() {
    	InsertTag tag = new InsertTag();
    	
-   	tag.setDefinition("some.jsp");
+   	tag.setDefinition("some.jsp"); //$NON-NLS-1$
    	
-   	assertEquals("some.jsp", tag.getDefinition());
+   	assertEquals("some.jsp", tag.getDefinition()); //$NON-NLS-1$
    }
 
 }

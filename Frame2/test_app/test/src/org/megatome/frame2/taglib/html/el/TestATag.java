@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,11 +59,12 @@ public class TestATag extends BaseHtmlTagTest {
 
 	public TestATag(String theName) {
 		super(theName);
-		_testJspName = "ATag.jsp";
-		_expectedLiveJsp = "<a href=\"dude.html\" name=\"dude\">Visit Dude</a>";		
+		this._testJspName = "ATag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<a href=\"dude.html\" name=\"dude\">Visit Dude</a>";		 //$NON-NLS-1$
 	}
 	
 
+	@Override
 	public BaseHtmlTag createTag() {
 		return new ATag();
 	}
@@ -73,10 +74,10 @@ public class TestATag extends BaseHtmlTagTest {
 		ATag tag = new ATag();
 
 		// Only the the queryParam is set.
-		pageContext.setAttribute(Constants.QUERY_PARAMS, "${testParams}");
+		this.pageContext.setAttribute(Constants.QUERY_PARAMS, "${testParams}"); //$NON-NLS-1$
 
-		tag.setPageContext(pageContext);
-		tag.setQueryparams("${testParams}");
+		tag.setPageContext(this.pageContext);
+		tag.setQueryparams("${testParams}"); //$NON-NLS-1$
 
 		try {
 			tag.doStartTag();
@@ -91,7 +92,7 @@ public class TestATag extends BaseHtmlTagTest {
 
 	// Test for creating a valid yahoo.quote with some params.		
 	public void testQueryParamsAndHref() throws Exception {
-		pageContext.forward(JSP_TEST_DIR + "ATagQueryParams.jsp");
+		this.pageContext.forward(JSP_TEST_DIR + "ATagQueryParams.jsp"); //$NON-NLS-1$
 	}
 
 	public void endQueryParamsAndHref(WebResponse webResponse)
@@ -99,7 +100,7 @@ public class TestATag extends BaseHtmlTagTest {
 		String actual = webResponse.getText().trim();
 
 		String expected =
-			"<a href=\"http://finance.yahoo.com/q?d=v2&amp;s=msft+sunw+orcl\">quotes</a>";
+			"<a href=\"http://finance.yahoo.com/q?d=v2&amp;s=msft+sunw+orcl\">quotes</a>"; //$NON-NLS-1$
 
 		assertEquals(expected, actual);
 
@@ -107,7 +108,7 @@ public class TestATag extends BaseHtmlTagTest {
    
    // Test for creating a valid yahoo.quote with some params using param tag.     
    public void testQueryParamTagAndHref() throws Exception {
-      pageContext.forward(JSP_TEST_DIR + "ATagQueryParamTag.jsp");
+      this.pageContext.forward(JSP_TEST_DIR + "ATagQueryParamTag.jsp"); //$NON-NLS-1$
    }
 
    public void endQueryParamTagAndHref(WebResponse webResponse)
@@ -115,7 +116,7 @@ public class TestATag extends BaseHtmlTagTest {
       String actual = webResponse.getText().trim();
 
       String expected =
-         "<a href=\"http://finance.yahoo.com/q?d=v2&amp;s=msft+sunw+orcl\">quotes</a>";
+         "<a href=\"http://finance.yahoo.com/q?d=v2&amp;s=msft+sunw+orcl\">quotes</a>"; //$NON-NLS-1$
 
       assertEquals(expected, actual);
 
@@ -123,7 +124,7 @@ public class TestATag extends BaseHtmlTagTest {
    
    public void testNegativeQueryParamTagAndParam() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "ATagQueryParamTagAndQuery.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "ATagQueryParamTagAndQuery.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
          return;
       }
@@ -133,7 +134,7 @@ public class TestATag extends BaseHtmlTagTest {
    
    // Test for creating a valid yahoo.quote with some params.     
    public void testHasBody() throws Exception {
-      pageContext.forward(JSP_TEST_DIR + "ATagHasBody.jsp");
+      this.pageContext.forward(JSP_TEST_DIR + "ATagHasBody.jsp"); //$NON-NLS-1$
    }
 
    public void endHasBody(WebResponse webResponse)
@@ -141,7 +142,7 @@ public class TestATag extends BaseHtmlTagTest {
       String actual = webResponse.getText().trim();
 
       String expected =
-           "<a href=\"dude.html\" name=\"dude\">Visit Dude</a>";      
+           "<a href=\"dude.html\" name=\"dude\">Visit Dude</a>";       //$NON-NLS-1$
 
       assertEquals(expected, actual);
 

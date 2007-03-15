@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,6 +87,7 @@ import org.megatome.frame2.util.ResourceLocator;
  * @see org.megatome.frame2.Globals#ERRORS
  */
 public class ErrorsTag extends TagSupport {
+   private static final long serialVersionUID = -2636227228222979571L;
    private String localeKey;
    private String errorKey;
 
@@ -96,7 +97,7 @@ public class ErrorsTag extends TagSupport {
     * @param locale The locale to set
     */
    public void setLocaleKey(String locale) {
-      localeKey = locale;
+      this.localeKey = locale;
    }
 
    /**
@@ -105,7 +106,7 @@ public class ErrorsTag extends TagSupport {
     * @param key The key to set
     */
    public void setErrorKey(String key) {
-      errorKey = key;
+      this.errorKey = key;
    }
    
    /**
@@ -113,8 +114,9 @@ public class ErrorsTag extends TagSupport {
     *
     * @throws JspException
     */
+   @Override
    public int doStartTag() throws JspException {
-      Errors errors = getErrors(pageContext);
+      Errors errors = getErrors(this.pageContext);
 
       if ((errors == null) || errors.isEmpty()) {
          return EVAL_BODY_INCLUDE;
@@ -122,9 +124,9 @@ public class ErrorsTag extends TagSupport {
 
       StringBuffer buffer = new StringBuffer();
 
-      Error[] errs = errors.get(errorKey);
+      Error[] errs = errors.get(this.errorKey);
 
-      Locale locale = HTMLHelpers.getLocale(pageContext,localeKey);
+      Locale locale = HTMLHelpers.getLocale(this.pageContext,this.localeKey);
       ResourceBundle bundle = ResourceLocator.getBundle(locale);
 
       addElement(bundle, locale, buffer, Globals.ERRORS_HEADER, true);
@@ -133,15 +135,15 @@ public class ErrorsTag extends TagSupport {
          addElement(bundle, locale, buffer, Globals.ERRORS_PREFIX, false);                  
          buffer.append(errs[i].getMessage(locale));
          addElement(bundle, locale, buffer, Globals.ERRORS_SUFFIX, false);
-         buffer.append("\n");
+         buffer.append("\n"); //$NON-NLS-1$
       }
 
       addElement(bundle, locale, buffer, Globals.ERRORS_FOOTER, true);
 
       try {
-         pageContext.getOut().write(buffer.toString());
+         this.pageContext.getOut().write(buffer.toString());
       } catch (IOException e) {
-         throw new JspException("Unable to write errors to page", e);
+         throw new JspException("Unable to write errors to page", e); //$NON-NLS-1$
       }
 
       return EVAL_BODY_INCLUDE;
@@ -155,7 +157,7 @@ public class ErrorsTag extends TagSupport {
          buffer.append(MessageFormatter.format(element, locale, null));
 
          if (linefeed) {
-            buffer.append("\n");
+            buffer.append("\n"); //$NON-NLS-1$
          }
       }
    }
@@ -167,6 +169,7 @@ public class ErrorsTag extends TagSupport {
          try {
             result = bundle.getString(key);
          } catch (MissingResourceException e) {
+        	 //noop
          }
       }
 
@@ -180,10 +183,11 @@ public class ErrorsTag extends TagSupport {
    /**
     * Release the instance.
     */
+   @Override
    public void release() {
       super.release();
-      localeKey = null;
-      errorKey = null;
+      this.localeKey = null;
+      this.errorKey = null;
    }
 
 }

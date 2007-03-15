@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,27 +50,36 @@
  */
 package org.megatome.frame2.taglib.template;
 
-
 public interface TemplateConstants {
-   
-   public static final String NAME              = "name";
-   public static final String DEFINITION        = "definition";
-   public static final String VALUE             = "value";
-   public static final String PATH              = "path";
-   public static final String SCOPE             = "scope";
-   
-	public static final String INSERT_TAG        = "insert_tag";
-	public static final String PUT_TAG           = "put_tag";
-	public static final String GET_TAG           = "get_tag";
-	public static final String PARAM_TAG         = "param_tag";
-   
-   public static final String START_JSP_INCLUDE = "<%@ include file=\"";
-   public static final String END_JSP_INCLUDE   = "\" %>";
-   
-   public static final String FRAME2_INSERT_KEY    = "Frame.Template.Insert.Key";
-   
-   public static final String REQUEST_SCOPE     = "request";
-   public static final String SESSION_SCOPE     = "session";
-   public static final String APPLICATION_SCOPE = "application";
+
+	public static final String NAME = "name"; //$NON-NLS-1$
+
+	public static final String DEFINITION = "definition"; //$NON-NLS-1$
+
+	public static final String VALUE = "value"; //$NON-NLS-1$
+
+	public static final String PATH = "path"; //$NON-NLS-1$
+
+	public static final String SCOPE = "scope"; //$NON-NLS-1$
+
+	public static final String INSERT_TAG = "insert_tag"; //$NON-NLS-1$
+
+	public static final String PUT_TAG = "put_tag"; //$NON-NLS-1$
+
+	public static final String GET_TAG = "get_tag"; //$NON-NLS-1$
+
+	public static final String PARAM_TAG = "param_tag"; //$NON-NLS-1$
+
+	public static final String START_JSP_INCLUDE = "<%@ include file=\""; //$NON-NLS-1$
+
+	public static final String END_JSP_INCLUDE = "\" %>"; //$NON-NLS-1$
+
+	public static final String FRAME2_INSERT_KEY = "Frame.Template.Insert.Key"; //$NON-NLS-1$
+
+	public static final String REQUEST_SCOPE = "request"; //$NON-NLS-1$
+
+	public static final String SESSION_SCOPE = "session"; //$NON-NLS-1$
+
+	public static final String APPLICATION_SCOPE = "application"; //$NON-NLS-1$
 
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,14 +66,15 @@ public class TestEvalResourceKey extends BaseHtmlTagTest {
 	 */
 	public TestEvalResourceKey(String theName) {
 		super(theName);
-      _type = TagConstants.QUOTE + Constants.BUTTON + TagConstants.QUOTE;
-      _testJspName = "EvalResourceKey.jsp";
-      _expectedLiveJsp = "<input type=\"button\" name=\"resourceKeyTestOne\" onfocus=\"true\" value=\"resourceKeyTestTwo\">";                      
+      this._type = TagConstants.QUOTE + Constants.BUTTON + TagConstants.QUOTE;
+      this._testJspName = "EvalResourceKey.jsp"; //$NON-NLS-1$
+      this._expectedLiveJsp = "<input type=\"button\" name=\"resourceKeyTestOne\" onfocus=\"true\" value=\"resourceKeyTestTwo\">";                       //$NON-NLS-1$
 	}
 
 	/**
 	 * @see org.megatome.frame2.taglib.html.el.BaseHtmlTagTest#createTag()
 	 */
+	@Override
 	public BaseHtmlTag createTag() {
 		return new ButtonTag();
 	}
@@ -81,15 +82,16 @@ public class TestEvalResourceKey extends BaseHtmlTagTest {
    public void testInvalidResource() throws Exception {
       ButtonTag tag = (ButtonTag) createTag();
       
-      tag.setAlt("%{resource.does.not.exist}");
+      tag.setAlt("%{resource.does.not.exist}"); //$NON-NLS-1$
       
-      tag.setPageContext(pageContext);
+      tag.setPageContext(this.pageContext);
 
       try {
          tag.doStartTag();
          tag.doEndTag();
          fail();
       } catch ( JspException e ) {
+    	  //ignore?
       }
    }
 	

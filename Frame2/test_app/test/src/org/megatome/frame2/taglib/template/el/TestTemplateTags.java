@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,7 @@
 package org.megatome.frame2.taglib.template.el;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -65,196 +66,204 @@ import org.megatome.frame2.template.config.TemplateDef;
 
 public class TestTemplateTags extends JspTestCase {
 
-   private InsertTag _insertTag;
-   private TemplateDef _def = null;
-   static private String TEMPLATE2 = "template2";
-   /**
-    * @param arg0
-    */
-   public TestTemplateTags(String arg0) {
-      super(arg0);
-   }
+	private InsertTag _insertTag;
 
-   /* (non-Javadoc)
-    * @see junit.framework.TestCase#setUp()
-    */
-   protected void setUp() throws Exception {
-      super.setUp();
-      TemplateHelper.clearPageContextDefinition(pageContext, TEMPLATE2);
-      _insertTag = new InsertTag();
-      _insertTag.setDefinition(TEMPLATE2);
-      _insertTag.setPageContext(pageContext);
-   }
+	private TemplateDef _def = null;
 
-   private void configureTemplateDef() {
-      try {
-         _def = TemplateConfigFactory.instance().getDefinition(TEMPLATE2);
-         assertNotNull(_def);
-      } catch (TemplateException e) {
-         fail();
-      }
-   }
+	static private String TEMPLATE2 = "template2"; //$NON-NLS-1$
 
-   public void testNoOverrides() {
-      try {
-         _insertTag.doStartTag();
-         assertNotNull(
-            pageContext.getAttribute(
-               TemplateConstants.FRAME2_INSERT_KEY,
-               PageContext.REQUEST_SCOPE));
-         _insertTag.doEndTag();
+	/**
+	 * @param arg0
+	 */
+	public TestTemplateTags(String arg0) {
+		super(arg0);
+	}
 
-         configureTemplateDef();
-         String getValue = getParameterValue("header");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		TemplateHelper.clearPageContextDefinition(this.pageContext, TEMPLATE2);
+		this._insertTag = new InsertTag();
+		this._insertTag.setDefinition(TEMPLATE2);
+		this._insertTag.setPageContext(this.pageContext);
+	}
 
-         assertNotNull(getValue);
-         assertEquals(TemplatePlugin.getConfigDir() + "header2.jsp", getValue);
+	private void configureTemplateDef() {
+		try {
+			this._def = TemplateConfigFactory.instance().getDefinition(
+					TEMPLATE2);
+			assertNotNull(this._def);
+		} catch (TemplateException e) {
+			fail();
+		}
+	}
 
-         getValue = getParameterValue("nav");
+	public void testNoOverrides() {
+		try {
+			this._insertTag.doStartTag();
+			assertNotNull(this.pageContext.getAttribute(
+					TemplateConstants.FRAME2_INSERT_KEY,
+					PageContext.REQUEST_SCOPE));
+			this._insertTag.doEndTag();
 
-         assertNotNull(getValue);
-         assertEquals(TemplatePlugin.getConfigDir() + "nav2.jsp", getValue);
+			configureTemplateDef();
+			String getValue = getParameterValue("header"); //$NON-NLS-1$
 
-         getValue = getParameterValue("footer");
+			assertNotNull(getValue);
+			assertEquals(
+					TemplatePlugin.getConfigDir() + "header2.jsp", getValue); //$NON-NLS-1$
 
-         assertNotNull(getValue);
-         assertEquals(TemplatePlugin.getConfigDir() + "footer2.jsp", getValue);
+			getValue = getParameterValue("nav"); //$NON-NLS-1$
 
-         _insertTag.doFinally();
-         assertNull(
-            pageContext.getAttribute(
-               TemplateConstants.FRAME2_INSERT_KEY,
-               PageContext.REQUEST_SCOPE));
-         assertNull(
-            pageContext.findAttribute(TemplateConstants.FRAME2_INSERT_KEY));
-      } catch (JspException e) {
-         fail();
-      }
+			assertNotNull(getValue);
+			assertEquals(TemplatePlugin.getConfigDir() + "nav2.jsp", getValue); //$NON-NLS-1$
 
-   }
+			getValue = getParameterValue("footer"); //$NON-NLS-1$
 
-   public void testDefaultPutScope() {
-      try {
-         _insertTag.doStartTag();
-         assertNotNull(
-            pageContext.getAttribute(
-               TemplateConstants.FRAME2_INSERT_KEY,
-               PageContext.REQUEST_SCOPE));
+			assertNotNull(getValue);
+			assertEquals(
+					TemplatePlugin.getConfigDir() + "footer2.jsp", getValue); //$NON-NLS-1$
 
-         PutTag putTag = new PutTag();
-         putTag.setParent(_insertTag);
-         putTag.setPageContext(pageContext);
+			this._insertTag.doFinally();
+			assertNull(this.pageContext.getAttribute(
+					TemplateConstants.FRAME2_INSERT_KEY,
+					PageContext.REQUEST_SCOPE));
+			assertNull(this.pageContext
+					.findAttribute(TemplateConstants.FRAME2_INSERT_KEY));
+		} catch (JspException e) {
+			fail();
+		}
 
-         putTag.setName("header");
-         putTag.setPath("requestScope.jsp");
+	}
 
-         try {
-            putTag.doStartTag();
-         } catch (JspException e) {
-            fail();
-         }
-         _insertTag.doEndTag();
+	@SuppressWarnings("unchecked")
+	public void testDefaultPutScope() {
+		try {
+			this._insertTag.doStartTag();
+			assertNotNull(this.pageContext.getAttribute(
+					TemplateConstants.FRAME2_INSERT_KEY,
+					PageContext.REQUEST_SCOPE));
 
-         configureTemplateDef();
-         
-         HashMap map = (HashMap)pageContext.getAttribute(TEMPLATE2,PageContext.REQUEST_SCOPE);
-         assertNotNull(map);
-         String value = (String)map.get("header");
-         assertNotNull(value);
-         assertEquals(value,"requestScope.jsp");
-         
-         String getValue = getParameterValue("header");
+			PutTag putTag = new PutTag();
+			putTag.setParent(this._insertTag);
+			putTag.setPageContext(this.pageContext);
 
-         assertNotNull(getValue);
-         assertEquals(
-            TemplatePlugin.getConfigDir() + "requestScope.jsp",
-            getValue);
+			putTag.setName("header"); //$NON-NLS-1$
+			putTag.setPath("requestScope.jsp"); //$NON-NLS-1$
 
-         getValue = getParameterValue("nav");
+			try {
+				putTag.doStartTag();
+			} catch (JspException e) {
+				fail();
+			}
+			this._insertTag.doEndTag();
 
-         assertNotNull(getValue);
-         assertEquals(TemplatePlugin.getConfigDir() + "nav2.jsp", getValue);
+			configureTemplateDef();
 
-         getValue = getParameterValue("footer");
+			Map<Object, Object> map = (HashMap) this.pageContext.getAttribute(TEMPLATE2,
+					PageContext.REQUEST_SCOPE);
+			assertNotNull(map);
+			String value = (String) map.get("header"); //$NON-NLS-1$
+			assertNotNull(value);
+			assertEquals(value, "requestScope.jsp"); //$NON-NLS-1$
 
-         assertNotNull(getValue);
-         assertEquals(TemplatePlugin.getConfigDir() + "footer2.jsp", getValue);
+			String getValue = getParameterValue("header"); //$NON-NLS-1$
 
-         _insertTag.doFinally();
-         assertNull(
-            pageContext.getAttribute(
-               TemplateConstants.FRAME2_INSERT_KEY,
-               PageContext.REQUEST_SCOPE));
-         assertNull(
-            pageContext.findAttribute(TemplateConstants.FRAME2_INSERT_KEY));
-      } catch (JspException e) {
-         fail();
-      }
+			assertNotNull(getValue);
+			assertEquals(TemplatePlugin.getConfigDir() + "requestScope.jsp", //$NON-NLS-1$
+					getValue);
 
-   }
-   
-   public void testParamsInScope() {
-     
-     try {
-         _insertTag.doStartTag();
-         assertNotNull(
-            pageContext.getAttribute(
-               TemplateConstants.FRAME2_INSERT_KEY,
-               PageContext.REQUEST_SCOPE));
+			getValue = getParameterValue("nav"); //$NON-NLS-1$
 
-         ParamTag paramTag = new ParamTag();
-         paramTag.setParent(_insertTag);
-         paramTag.setPageContext(pageContext);
+			assertNotNull(getValue);
+			assertEquals(TemplatePlugin.getConfigDir() + "nav2.jsp", getValue); //$NON-NLS-1$
 
-         paramTag.setName("paramName");
-         paramTag.setValue("paramValue");
-         try {
-            paramTag.doStartTag();
-            paramTag.doEndTag();                        
-         } catch (JspException e) {
-            fail();
-         }
-         _insertTag.doEndTag();
-         
-         String[] value = (String[])pageContext.findAttribute("paramName");
-         
-         assertNotNull(value);
-         assertEquals("paramValue",value[0]);
-         _insertTag.doFinally();
-         assertNull(
-            pageContext.getAttribute(
-               TemplateConstants.FRAME2_INSERT_KEY,
-               PageContext.REQUEST_SCOPE));
-         assertNull(
-            pageContext.findAttribute(TemplateConstants.FRAME2_INSERT_KEY));
-      } catch (JspException e) {
-         fail();
-      }
-   }
+			getValue = getParameterValue("footer"); //$NON-NLS-1$
 
+			assertNotNull(getValue);
+			assertEquals(
+					TemplatePlugin.getConfigDir() + "footer2.jsp", getValue); //$NON-NLS-1$
 
-   private String getParameterValue(String name) {
+			this._insertTag.doFinally();
+			assertNull(this.pageContext.getAttribute(
+					TemplateConstants.FRAME2_INSERT_KEY,
+					PageContext.REQUEST_SCOPE));
+			assertNull(this.pageContext
+					.findAttribute(TemplateConstants.FRAME2_INSERT_KEY));
+		} catch (JspException e) {
+			fail();
+		}
 
-      String insertDef = _insertTag.getDefinition();
-      TemplateDef def = null;
-      try {
-         def = TemplateConfigFactory.instance().getDefinition(insertDef);
-      } catch (TemplateException e) {
-         // We'll throw an error in just a minute, so an empty catch is OK
-      }
+	}
 
-      if (def == null) {
-         fail();
-      }
+	public void testParamsInScope() {
 
-      return def.getPutParam(name, pageContext);
-   }
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   protected void tearDown() throws Exception {
-      super.tearDown();
-      TemplateHelper.clearPageContextDefinition(pageContext, TEMPLATE2);
-   }
+		try {
+			this._insertTag.doStartTag();
+			assertNotNull(this.pageContext.getAttribute(
+					TemplateConstants.FRAME2_INSERT_KEY,
+					PageContext.REQUEST_SCOPE));
+
+			ParamTag paramTag = new ParamTag();
+			paramTag.setParent(this._insertTag);
+			paramTag.setPageContext(this.pageContext);
+
+			paramTag.setName("paramName"); //$NON-NLS-1$
+			paramTag.setValue("paramValue"); //$NON-NLS-1$
+			try {
+				paramTag.doStartTag();
+				paramTag.doEndTag();
+			} catch (JspException e) {
+				fail();
+			}
+			this._insertTag.doEndTag();
+
+			String[] value = (String[]) this.pageContext
+					.findAttribute("paramName"); //$NON-NLS-1$
+
+			assertNotNull(value);
+			assertEquals("paramValue", value[0]); //$NON-NLS-1$
+			this._insertTag.doFinally();
+			assertNull(this.pageContext.getAttribute(
+					TemplateConstants.FRAME2_INSERT_KEY,
+					PageContext.REQUEST_SCOPE));
+			assertNull(this.pageContext
+					.findAttribute(TemplateConstants.FRAME2_INSERT_KEY));
+		} catch (JspException e) {
+			fail();
+		}
+	}
+
+	@SuppressWarnings("null")
+	private String getParameterValue(String name) {
+
+		String insertDef = this._insertTag.getDefinition();
+		TemplateDef def = null;
+		try {
+			def = TemplateConfigFactory.instance().getDefinition(insertDef);
+		} catch (TemplateException e) {
+			// We'll throw an error in just a minute, so an empty catch is OK
+		}
+
+		if (def == null) {
+			fail();
+		}
+
+		return def.getPutParam(name, this.pageContext);
+	}
+
+	/**
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		TemplateHelper.clearPageContextDefinition(this.pageContext, TEMPLATE2);
+	}
 
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,49 +58,57 @@ import org.megatome.frame2.taglib.html.Constants;
  * BaseOptionTag.java
  */
 public abstract class BaseOptionTag extends BaseSelectTag {
-   protected String _displayValue;
-   protected String _displayExpr;
-   protected String _selected;
-   
-   public void setTagName() {
-      tagName= Constants.OPTION_TAG;
-   }   
+	protected String _displayValue;
 
-   public void setDisplayvalue(String displayExpr) {
-      _displayExpr = displayExpr;
-   }
+	protected String _displayExpr;
 
-   public void setLabel(String label) {
-      setAttr(Constants.LABEL, label);
-   }
-   public void setSelected(String selected) {
-      _selected = selected;
-   }
+	protected String _selected;
 
-   // override ths if you want to handle an attribute
-   protected void specialAttrHandler() throws JspException {  
-      handleSelectedAttr();
-      handleDisplayValueAttr();
-   }  
-   
-   protected abstract void handleDisplayValueAttr() throws JspException;
-   protected abstract void handleSelectedAttr() throws JspException;     
+	@Override
+	public void setTagName() {
+		this.tagName = Constants.OPTION_TAG;
+	}
 
-   protected void setType() {
-   }
+	public void setDisplayvalue(String displayExpr) {
+		this._displayExpr = displayExpr;
+	}
 
-   protected void clear() {
-      super.clear();
-      _displayValue = null;
-      _displayExpr = null;
-      _selected = null;
-   }
+	public void setLabel(String label) {
+		setAttr(Constants.LABEL, label);
+	}
 
-   public void release() {
-      super.release();
-      clear();
-   }
+	public void setSelected(String selected) {
+		this._selected = selected;
+	}
+
+	// override ths if you want to handle an attribute
+	@Override
+	protected void specialAttrHandler() throws JspException {
+		handleSelectedAttr();
+		handleDisplayValueAttr();
+	}
+
+	protected abstract void handleDisplayValueAttr() throws JspException;
+
+	protected abstract void handleSelectedAttr() throws JspException;
+
+	@Override
+	protected void setType() {
+		//noop
+	}
+
+	@Override
+	protected void clear() {
+		super.clear();
+		this._displayValue = null;
+		this._displayExpr = null;
+		this._selected = null;
+	}
+
+	@Override
+	public void release() {
+		super.release();
+		clear();
+	}
 
 }
-
-

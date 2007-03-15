@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,256 +62,265 @@ import org.megatome.frame2.template.config.TemplateDef;
 
 public class TestTemplateScope extends JspTestCase {
 
-   private InsertTag _insertTag;
-   private TemplateDef _def = null;
-   private static final String TEMPLATE1 = "template1";
-   /**
-    * @param arg0
-    */
-   public TestTemplateScope(String arg0) {
-      super(arg0);
-   }
+	private InsertTag _insertTag;
 
-   /* (non-Javadoc)
-    * @see junit.framework.TestCase#setUp()
-    */
-   protected void setUp() throws Exception {
-      super.setUp();
-      TemplateHelper.clearPageContextDefinition(pageContext,TEMPLATE1);
-      _insertTag = new InsertTag();
-      _insertTag.setDefinition(TEMPLATE1);
-   }
+	private TemplateDef _def = null;
 
+	private static final String TEMPLATE1 = "template1"; //$NON-NLS-1$
 
-   
-   private void configureTemplateDef() {
-      try {
-         _def = TemplateConfigFactory.instance().getDefinition(TEMPLATE1);
-         assertNotNull(_def);
-         pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY, _def);
-      } catch (TemplateException e) {
-         fail();
-      }
-   }
+	/**
+	 * @param arg0
+	 */
+	public TestTemplateScope(String arg0) {
+		super(arg0);
+	}
 
-   public void testNoOverrides() {
-      configureTemplateDef();
-      String getValue = getParameterValue("header");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		TemplateHelper.clearPageContextDefinition(this.pageContext, TEMPLATE1);
+		this._insertTag = new InsertTag();
+		this._insertTag.setDefinition(TEMPLATE1);
+	}
 
-      assertNotNull(getValue);
-      assertEquals(TemplatePlugin.getConfigDir() + "yyy.jsp", getValue);
+	private void configureTemplateDef() {
+		try {
+			this._def = TemplateConfigFactory.instance().getDefinition(
+					TEMPLATE1);
+			assertNotNull(this._def);
+			this.pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY,
+					this._def);
+		} catch (TemplateException e) {
+			fail();
+		}
+	}
 
-      getValue = getParameterValue("nav");
+	public void testNoOverrides() {
+		configureTemplateDef();
+		String getValue = getParameterValue("header"); //$NON-NLS-1$
 
-      assertNotNull(getValue);
-      assertEquals(TemplatePlugin.getConfigDir() + "yyy.jsp", getValue);
+		assertNotNull(getValue);
+		assertEquals(TemplatePlugin.getConfigDir() + "yyy.jsp", getValue); //$NON-NLS-1$
 
-      getValue = getParameterValue("footer");
+		getValue = getParameterValue("nav"); //$NON-NLS-1$
 
-      assertNotNull(getValue);
-      assertEquals(TemplatePlugin.getConfigDir() + "yyy.jsp", getValue);
-   }
+		assertNotNull(getValue);
+		assertEquals(TemplatePlugin.getConfigDir() + "yyy.jsp", getValue); //$NON-NLS-1$
 
-   public void testDefaultPutScope() {
-      configureTemplateDef();
-      PutTag putTag = new PutTag();
-      putTag.setParent(_insertTag);
-      putTag.setPageContext(pageContext);
+		getValue = getParameterValue("footer"); //$NON-NLS-1$
 
-      putTag.setName("header");
-      putTag.setPath("pageScope");
+		assertNotNull(getValue);
+		assertEquals(TemplatePlugin.getConfigDir() + "yyy.jsp", getValue); //$NON-NLS-1$
+	}
 
-      try {
-         putTag.doStartTag();
-      } catch (JspException e) {
-         fail();
-      }
+	public void testDefaultPutScope() {
+		configureTemplateDef();
+		PutTag putTag = new PutTag();
+		putTag.setParent(this._insertTag);
+		putTag.setPageContext(this.pageContext);
 
-      String getValue = getParameterValue("header");
+		putTag.setName("header"); //$NON-NLS-1$
+		putTag.setPath("pageScope"); //$NON-NLS-1$
 
-      assertNotNull(getValue);
-      assertEquals(TemplatePlugin.getConfigDir() + "pageScope", getValue);
-   }
+		try {
+			putTag.doStartTag();
+		} catch (JspException e) {
+			fail();
+		}
 
-   public void testBadScope() {
-      configureTemplateDef();
-      PutTag putTag = new PutTag();
-      putTag.setParent(_insertTag);
-      putTag.setPageContext(pageContext);
+		String getValue = getParameterValue("header"); //$NON-NLS-1$
 
-      putTag.setName("header");
-      putTag.setPath("pageScope");
-      putTag.setScope("badScope");
+		assertNotNull(getValue);
+		assertEquals(TemplatePlugin.getConfigDir() + "pageScope", getValue); //$NON-NLS-1$
+	}
 
-      try {
-         putTag.doStartTag();
-         fail();
-      } catch (JspException e) {
-      }
-   }
+	public void testBadScope() {
+		configureTemplateDef();
+		PutTag putTag = new PutTag();
+		putTag.setParent(this._insertTag);
+		putTag.setPageContext(this.pageContext);
 
-   public void testNegativeOverrideAtPageScope() {
-      configureTemplateDef();
-      PutTag putTag = new PutTag();
-      putTag.setParent(_insertTag);
-      putTag.setPageContext(pageContext);
+		putTag.setName("header"); //$NON-NLS-1$
+		putTag.setPath("pageScope"); //$NON-NLS-1$
+		putTag.setScope("badScope"); //$NON-NLS-1$
 
-      putTag.setName("header");
-      putTag.setPath("pageScope");
-      putTag.setScope("page");
+		try {
+			putTag.doStartTag();
+			fail();
+		} catch (JspException expected) {
+			// expected
+		}
+	}
 
-      try {
-         putTag.doStartTag();
-         fail();
-      } catch (JspException e) {
-      } 
-   }
+	public void testNegativeOverrideAtPageScope() {
+		configureTemplateDef();
+		PutTag putTag = new PutTag();
+		putTag.setParent(this._insertTag);
+		putTag.setPageContext(this.pageContext);
 
-   public void testOverrideAtRequestScope() {
-      configureTemplateDef();
-      PutTag putTag = new PutTag();
-      putTag.setParent(_insertTag);
-      putTag.setPageContext(pageContext);
+		putTag.setName("header"); //$NON-NLS-1$
+		putTag.setPath("pageScope"); //$NON-NLS-1$
+		putTag.setScope("page"); //$NON-NLS-1$
 
-      putTag.setName("header");
-      putTag.setPath("requestScope");
-      putTag.setScope("request");
+		try {
+			putTag.doStartTag();
+			fail();
+		} catch (JspException expected) {
+			// expected
+		}
+	}
 
-      try {
-         putTag.doStartTag();
-      } catch (JspException e) {
-         fail();
-      }
+	public void testOverrideAtRequestScope() {
+		configureTemplateDef();
+		PutTag putTag = new PutTag();
+		putTag.setParent(this._insertTag);
+		putTag.setPageContext(this.pageContext);
 
-      String getValue = getParameterValue("header");
+		putTag.setName("header"); //$NON-NLS-1$
+		putTag.setPath("requestScope"); //$NON-NLS-1$
+		putTag.setScope("request"); //$NON-NLS-1$
 
-      assertNotNull(getValue);
-      assertEquals(TemplatePlugin.getConfigDir() + "requestScope", getValue);
-   }
+		try {
+			putTag.doStartTag();
+		} catch (JspException e) {
+			fail();
+		}
 
-   public void testOverrideAtSessionScope() {
-      configureTemplateDef();
-      PutTag putTag = new PutTag();
-      putTag.setParent(_insertTag);
-      putTag.setPageContext(pageContext);
+		String getValue = getParameterValue("header"); //$NON-NLS-1$
 
-      putTag.setName("header");
-      putTag.setPath("sessionScope");
-      putTag.setScope("session");
+		assertNotNull(getValue);
+		assertEquals(TemplatePlugin.getConfigDir() + "requestScope", getValue); //$NON-NLS-1$
+	}
 
-      try {
-         putTag.doStartTag();
-      } catch (JspException e) {
-         fail();
-      }
+	public void testOverrideAtSessionScope() {
+		configureTemplateDef();
+		PutTag putTag = new PutTag();
+		putTag.setParent(this._insertTag);
+		putTag.setPageContext(this.pageContext);
 
-      String getValue = getParameterValue("header");
+		putTag.setName("header"); //$NON-NLS-1$
+		putTag.setPath("sessionScope"); //$NON-NLS-1$
+		putTag.setScope("session"); //$NON-NLS-1$
 
-      assertNotNull(getValue);
-      assertEquals(TemplatePlugin.getConfigDir() + "sessionScope", getValue);
-   }
+		try {
+			putTag.doStartTag();
+		} catch (JspException e) {
+			fail();
+		}
 
+		String getValue = getParameterValue("header"); //$NON-NLS-1$
 
-   public void testOverrideRequestSessionScope() {
-      configureTemplateDef();
-      PutTag putTag1 = new PutTag();
-      putTag1.setParent(_insertTag);
-      putTag1.setPageContext(pageContext);
+		assertNotNull(getValue);
+		assertEquals(TemplatePlugin.getConfigDir() + "sessionScope", getValue); //$NON-NLS-1$
+	}
 
-      putTag1.setName("header");
-      putTag1.setPath("pageScope");
-      putTag1.setScope("request");
+	public void testOverrideRequestSessionScope() {
+		configureTemplateDef();
+		PutTag putTag1 = new PutTag();
+		putTag1.setParent(this._insertTag);
+		putTag1.setPageContext(this.pageContext);
 
-      PutTag putTag2 = new PutTag();
-      putTag2.setParent(_insertTag);
-      putTag2.setPageContext(pageContext);
+		putTag1.setName("header"); //$NON-NLS-1$
+		putTag1.setPath("pageScope"); //$NON-NLS-1$
+		putTag1.setScope("request"); //$NON-NLS-1$
 
-      putTag2.setName("footer");
-      putTag2.setPath("sessionScope");
-      putTag2.setScope("session");
+		PutTag putTag2 = new PutTag();
+		putTag2.setParent(this._insertTag);
+		putTag2.setPageContext(this.pageContext);
 
-      try {
-         putTag1.doStartTag();
-         putTag2.doStartTag();
-      } catch (JspException e) {
-         fail();
-      }
+		putTag2.setName("footer"); //$NON-NLS-1$
+		putTag2.setPath("sessionScope"); //$NON-NLS-1$
+		putTag2.setScope("session"); //$NON-NLS-1$
 
-      String getHeaderValue = getParameterValue("header");
-      String getFooterValue = getParameterValue("footer");
+		try {
+			putTag1.doStartTag();
+			putTag2.doStartTag();
+		} catch (JspException e) {
+			fail();
+		}
 
-      assertNotNull(getHeaderValue);
-      assertEquals(TemplatePlugin.getConfigDir() + "pageScope", getHeaderValue);
+		String getHeaderValue = getParameterValue("header"); //$NON-NLS-1$
+		String getFooterValue = getParameterValue("footer"); //$NON-NLS-1$
 
-      assertNotNull(getFooterValue);
-      assertEquals(
-         TemplatePlugin.getConfigDir() + "sessionScope",
-         getFooterValue);
-   }
+		assertNotNull(getHeaderValue);
+		assertEquals(
+				TemplatePlugin.getConfigDir() + "pageScope", getHeaderValue); //$NON-NLS-1$
 
-   public void testApplicationScope() {
-      configureTemplateDef();
-      PutTag putTag = new PutTag();
-      putTag.setParent(_insertTag);
-      putTag.setPageContext(pageContext);
+		assertNotNull(getFooterValue);
+		assertEquals(TemplatePlugin.getConfigDir() + "sessionScope", //$NON-NLS-1$
+				getFooterValue);
+	}
 
-      putTag.setName("header");
-      putTag.setPath("applicationScope");
-      putTag.setScope("application");
+	public void testApplicationScope() {
+		configureTemplateDef();
+		PutTag putTag = new PutTag();
+		putTag.setParent(this._insertTag);
+		putTag.setPageContext(this.pageContext);
 
-      try {
-         putTag.doStartTag();
-      } catch (JspException e) {
-         fail();
-      }
+		putTag.setName("header"); //$NON-NLS-1$
+		putTag.setPath("applicationScope"); //$NON-NLS-1$
+		putTag.setScope("application"); //$NON-NLS-1$
 
-      String getValue = getParameterValue("header");
+		try {
+			putTag.doStartTag();
+		} catch (JspException e) {
+			fail();
+		}
 
-      assertNotNull(getValue);
-      assertEquals(
-         TemplatePlugin.getConfigDir() + "applicationScope",
-         getValue);
-   }
+		String getValue = getParameterValue("header"); //$NON-NLS-1$
 
-   public void testNegativeOverridePut() {
-      configureTemplateDef();
-      PutTag putTag = new PutTag();
-      putTag.setParent(_insertTag);
-      putTag.setPageContext(pageContext);
+		assertNotNull(getValue);
+		assertEquals(TemplatePlugin.getConfigDir() + "applicationScope", //$NON-NLS-1$
+				getValue);
+	}
 
-      putTag.setName("badName");
-      putTag.setPath("sessionScope");
-      putTag.setScope("session");
+	public void testNegativeOverridePut() {
+		configureTemplateDef();
+		PutTag putTag = new PutTag();
+		putTag.setParent(this._insertTag);
+		putTag.setPageContext(this.pageContext);
 
-      try {
-         putTag.doStartTag();
-         fail();
-      } catch (JspException e) {
-      }
-   }
+		putTag.setName("badName"); //$NON-NLS-1$
+		putTag.setPath("sessionScope"); //$NON-NLS-1$
+		putTag.setScope("session"); //$NON-NLS-1$
 
-   private String getParameterValue(String name) {
-      String insertDef = _insertTag.getDefinition();
-      TemplateDef def = null;
-      try {
-         def = TemplateConfigFactory.instance().getDefinition(insertDef);
-      } catch (TemplateException e) {
-         // We'll throw an error in just a minute, so an empty catch is OK
-      }
+		try {
+			putTag.doStartTag();
+			fail();
+		} catch (JspException expected) {
+			// expected
+		}
+	}
 
-      if (def == null) {
-         fail();
-      }
+	@SuppressWarnings("null")
+	private String getParameterValue(String name) {
+		String insertDef = this._insertTag.getDefinition();
+		TemplateDef def = null;
+		try {
+			def = TemplateConfigFactory.instance().getDefinition(insertDef);
+		} catch (TemplateException e) {
+			// We'll throw an error in just a minute, so an empty catch is OK
+		}
 
-      return def.getPutParam(name, pageContext);
-   }
+		if (def == null) {
+			fail();
+		}
 
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   protected void tearDown() throws Exception {
-      super.tearDown();
-      TemplateHelper.clearPageContextDefinition(pageContext,TEMPLATE1);
-   }
+		return def.getPutParam(name, this.pageContext);
+	}
+
+	/**
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		TemplateHelper.clearPageContextDefinition(this.pageContext, TEMPLATE1);
+	}
 
 }

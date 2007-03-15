@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,88 +56,92 @@ import org.megatome.frame2.taglib.html.Constants;
 import org.megatome.frame2.tagsupport.TagConstants;
 
 public class TestOptionTag extends BaseHtmlTagTest {
-   
-   public TestOptionTag(String theName) {
-      super(theName);   
-      _type = TagConstants.QUOTE + Constants.OPTION + TagConstants.QUOTE;
-      _testJspName = "OptionTag.jsp";
-      _expectedLiveJsp = "<select name=\"select\">" +
-      	"<option value=\"value\">" +
-      	"displayValue</option>" +
-      	"</select>"; 
-   }
 
-   public  BaseHtmlTag createTag() {
-      return new OptionTag();      
-   }
+	public TestOptionTag(String theName) {
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.OPTION + TagConstants.QUOTE;
+		this._testJspName = "OptionTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<select name=\"select\">" + //$NON-NLS-1$
+				"<option value=\"value\">" + //$NON-NLS-1$
+				"displayValue</option>" + //$NON-NLS-1$
+				"</select>"; //$NON-NLS-1$
+	}
 
-   public void beginOptionTag(WebRequest rquest) throws Exception {
-   }
+	@Override
+	public BaseHtmlTag createTag() {
+		return new OptionTag();
+	}
 
-   public void testOptionTag() throws Exception{
-      OptionTag tag = (OptionTag) createTag();
-      
-      tag.setPageContext(pageContext);
-      tag.doStartTag();
-      tag.doAfterBody();
-      tag.doEndTag();
-   }
+	public void beginOptionTag(@SuppressWarnings("unused")
+	WebRequest rquest) throws Exception {
+		// noop
+	}
 
-   public void endOptionTag(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.OPTION_TAG + TagConstants.RT_ANGLE;
-      String actual = webResponse.getText();
-      assertEquals(expected, actual);
-   }
-   
-   public void testSelectedOptionTag() throws Exception {
-      try {
-         pageContext.forward(JSP_TEST_DIR + "OptionSelectedTag.jsp");
-      } catch (Exception e) {
-         fail("Unexpected failure");
-      } 
-   }
-   
-   public void endSelectedOptionTag(WebResponse webResponse) throws Exception {
-      String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+	public void testOptionTag() throws Exception {
+		OptionTag tag = (OptionTag) createTag();
 
-      String expected = "<select name=\"select\">" +
-      	"<option selected value=\"value\">" +
-      	"displayValue</option>" +
-      	"</select>";
-      assertEquals(expected, actual);
-   }
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doAfterBody();
+		tag.doEndTag();
+	}
 
-   public void testXhtmlTerminator_withBody() throws Exception {
-      OptionTag tag = (OptionTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setValue("MyValue");
-      tag.setDisplayvalue("MyDisplayvalue");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void endOptionTag(WebResponse webResponse) throws Exception {
+		String expected = Constants.OPTION_TAG + TagConstants.RT_ANGLE;
+		String actual = webResponse.getText();
+		assertEquals(expected, actual);
+	}
 
-   public void endXhtmlTerminator_withBody(WebResponse webResponse) throws Exception {
-      String expected = "<option value=\"MyValue\">MyDisplayvalue</option>";
-      String actual = webResponse.getText();
-      assertEquals(expected, actual);
-   }
-   
-   public void testXhtmlTerminator_withoutBody() throws Exception {
-      OptionTag tag = (OptionTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setValue("MyValue");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void testSelectedOptionTag() throws Exception {
+		try {
+			this.pageContext.forward(JSP_TEST_DIR + "OptionSelectedTag.jsp"); //$NON-NLS-1$
+		} catch (Exception e) {
+			fail("Unexpected failure"); //$NON-NLS-1$
+		}
+	}
 
-   public void endXhtmlTerminator_withoutBody(WebResponse webResponse) throws Exception {
-      String expected = "<option value=\"MyValue\"/>";
-      String actual = webResponse.getText();
-      assertEquals(expected, actual);
-   }
-           
+	public void endSelectedOptionTag(WebResponse webResponse) throws Exception {
+		String actual = webResponse.getText().trim();
+		actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+
+		String expected = "<select name=\"select\">" + //$NON-NLS-1$
+				"<option selected value=\"value\">" + //$NON-NLS-1$
+				"displayValue</option>" + //$NON-NLS-1$
+				"</select>"; //$NON-NLS-1$
+		assertEquals(expected, actual);
+	}
+
+	public void testXhtmlTerminator_withBody() throws Exception {
+		OptionTag tag = (OptionTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.setValue("MyValue"); //$NON-NLS-1$
+		tag.setDisplayvalue("MyDisplayvalue"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
+
+	public void endXhtmlTerminator_withBody(WebResponse webResponse)
+			throws Exception {
+		String expected = "<option value=\"MyValue\">MyDisplayvalue</option>"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+		assertEquals(expected, actual);
+	}
+
+	public void testXhtmlTerminator_withoutBody() throws Exception {
+		OptionTag tag = (OptionTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.setValue("MyValue"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
+
+	public void endXhtmlTerminator_withoutBody(WebResponse webResponse)
+			throws Exception {
+		String expected = "<option value=\"MyValue\"/>"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+		assertEquals(expected, actual);
+	}
+
 }

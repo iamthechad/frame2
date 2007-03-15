@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,9 +56,11 @@ import org.megatome.frame2.taglib.html.Constants;
  * CheckboxTag.java
  */
 public class CheckboxTag extends RadioTag {
-   
-   public void setType() {
-      _type = Constants.CHECKBOX;
-   }  
-}
 
+	private static final long serialVersionUID = -1921384070605533417L;
+
+	@Override
+	public void setType() {
+		this._type = Constants.CHECKBOX;
+	}
+}

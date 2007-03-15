@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,166 +61,178 @@ import org.megatome.frame2.taglib.html.Constants;
  * RadioTag.java
  */
 public class RadioTag extends BaseInputTag {
-   protected String _checked;
-   protected String _displayValue;
-   
-   public void setType() {
-      _type = Constants.RADIO;
-   }  
-   // check needs special hndler for attribute
-   public void setChecked(String checked) {
-      _checked = checked;
-   }
-   
-   public void setDisplayvalue(String value) {
-      setAttr(Constants.DISPLAY_VALUE, value);
-   }
+	private static final long serialVersionUID = -7469663109203069319L;
 
-   // override ths if you want to handle an attribute
-   protected void specialAttrHandler() throws JspException {
-      handleCheckedAttr();
-      handleDisplayValueAtrr();
-   }  
-   
-   private void handleDisplayValueAtrr() throws JspException{
-      String dispExpr = getAttr(Constants.DISPLAY_VALUE);
-       if (dispExpr == null || dispExpr == "") {
-          // Evaluate the remainder of this page
-          return;
-       }
-                 
-       try {
-          _displayValue = evalStringAttr(Constants.DISPLAY_VALUE, dispExpr);
-       } catch (Exception e) {
-          throw new JspException(
-             " Evaluation attribute failed " + e.getMessage(), e);
-       }     
-       // now remove this attr from map
-       // so not output in genHTML()
-       removeAttr(Constants.DISPLAY_VALUE);      
-   }
-   
-   // nit get this into helper.
-   protected void handleCheckedAttr() throws JspException{
-      // now get value   
-      String valueExpr = getAttr(Constants.VALUE);
-      if (valueExpr == null || valueExpr == "" ||
-          _checked == null  || _checked == "") {
-        return;
-      }
+	protected String _checked;
 
-      String valueval = null; // init diff of checkval
-      try {
-         valueval = evalStringAttr(Constants.VALUE, valueExpr);
-      } catch (Exception e) {
-         throw new JspException(
-            " Evaluation attribute failed " + e.getMessage(), e);
-      }    
-              
-      // see if this is a collection
-      Collection collection = null;
-      try {
-         collection = evalCollectionAttr(Constants.CHECKED, _checked);
-      } catch (Exception e) {
-        // ignore, try array next;
-      } 
-        
-      Object[] array = null;
-      if (collection == null) {
-         try {
-            array = evalArrayAttr(Constants.CHECKED, _checked);
-         }  catch (Exception e) {
-            // ignore, try string next;
-         }   
-      }
-      
-      // init "" for cmp with valueval later
-      String checkval = "";     
-      if (collection == null && array == null) {
-         try {
-            checkval = evalStringAttr(Constants.CHECKED, _checked);
-         } catch (Exception e) {
-            throw new JspException(
-               " Evaluation attribute failed " + e.getMessage(), e);
-         }   
-      }
-      
-      if (collection != null) {
-         Iterator iter = collection.iterator();
-         while (iter.hasNext()) {
-            // NIT make work for all primatives
-            String val = (String)iter.next();
-            if (val.equals(valueval)) {
-               setAttr(Constants.CHECKED,Constants.TRUE);
-               break;
-            }
-         }            
-      } 
-      else if (array != null) {
-         int len = array.length;
-         for (int i = 0; i< len; i++) {
-            // NIT make work for all primatives
-            String val = (String)array[i];
-            if (val.equals(valueval)) {
-               setAttr(Constants.CHECKED,Constants.TRUE);
-               break;
-            }
-         }            
-      } else {           
-         if (checkval.equals(valueval)) {
-            setAttr(Constants.CHECKED,Constants.TRUE);
-         } 
-      }
-   }
+	protected String _displayValue;
+
+	@Override
+	public void setType() {
+		this._type = Constants.RADIO;
+	}
+
+	// check needs special hndler for attribute
+	public void setChecked(String checked) {
+		this._checked = checked;
+	}
+
+	public void setDisplayvalue(String value) {
+		setAttr(Constants.DISPLAY_VALUE, value);
+	}
+
+	// override ths if you want to handle an attribute
+	@Override
+	protected void specialAttrHandler() throws JspException {
+		handleCheckedAttr();
+		handleDisplayValueAtrr();
+	}
+
+	private void handleDisplayValueAtrr() throws JspException {
+		String dispExpr = getAttr(Constants.DISPLAY_VALUE);
+		if (dispExpr == null || dispExpr == "") { //$NON-NLS-1$
+			// Evaluate the remainder of this page
+			return;
+		}
+
+		try {
+			this._displayValue = evalStringAttr(Constants.DISPLAY_VALUE,
+					dispExpr);
+		} catch (Exception e) {
+			throw new JspException(
+					" Evaluation attribute failed " + e.getMessage(), e); //$NON-NLS-1$
+		}
+		// now remove this attr from map
+		// so not output in genHTML()
+		removeAttr(Constants.DISPLAY_VALUE);
+	}
+
+	// nit get this into helper.
+	protected void handleCheckedAttr() throws JspException {
+		// now get value
+		String valueExpr = getAttr(Constants.VALUE);
+		if (valueExpr == null || valueExpr == "" || //$NON-NLS-1$
+				this._checked == null || this._checked == "") { //$NON-NLS-1$
+			return;
+		}
+
+		String valueval = null; // init diff of checkval
+		try {
+			valueval = evalStringAttr(Constants.VALUE, valueExpr);
+		} catch (Exception e) {
+			throw new JspException(
+					" Evaluation attribute failed " + e.getMessage(), e); //$NON-NLS-1$
+		}
+
+		// see if this is a collection
+		Collection<?> collection = null;
+		try {
+			collection = evalCollectionAttr(Constants.CHECKED, this._checked);
+		} catch (Exception e) {
+			// ignore, try array next;
+		}
+
+		Object[] array = null;
+		if (collection == null) {
+			try {
+				array = evalArrayAttr(Constants.CHECKED, this._checked);
+			} catch (Exception e) {
+				// ignore, try string next;
+			}
+		}
+
+		// init "" for cmp with valueval later
+		String checkval = ""; //$NON-NLS-1$
+		if (collection == null && array == null) {
+			try {
+				checkval = evalStringAttr(Constants.CHECKED, this._checked);
+			} catch (Exception e) {
+				throw new JspException(
+						" Evaluation attribute failed " + e.getMessage(), e); //$NON-NLS-1$
+			}
+		}
+
+		if (collection != null) {
+			Iterator<?> iter = collection.iterator();
+			while (iter.hasNext()) {
+				// NIT make work for all primatives
+				String val = (String) iter.next();
+				if (val.equals(valueval)) {
+					setAttr(Constants.CHECKED, Constants.TRUE);
+					break;
+				}
+			}
+		} else if (array != null) {
+			int len = array.length;
+			for (int i = 0; i < len; i++) {
+				// NIT make work for all primatives
+				String val = (String) array[i];
+				if (val.equals(valueval)) {
+					setAttr(Constants.CHECKED, Constants.TRUE);
+					break;
+				}
+			}
+		} else {
+			if (checkval.equals(valueval)) {
+				setAttr(Constants.CHECKED, Constants.TRUE);
+			}
+		}
+	}
 
 	/**
 	 * Returns if tag has body or not
+	 * 
 	 * @return boolean
 	 */
+	@Override
 	public boolean evalTagBody() {
-		if (_displayValue != null ||
-			(bodyContent != null && 
-			 !bodyContent.getString().equals(""))) {
+		if (this._displayValue != null
+				|| (this.bodyContent != null && !this.bodyContent.getString()
+						.equals(""))) { //$NON-NLS-1$
 			return true;
-		} 
+		}
 
 		return false;
 	}
 
 	/**
 	 * Appends _displayValue String
+	 * 
 	 * @param StringBuffer
 	 */
+	@Override
 	public void getBody(StringBuffer buffer) {
 		// actual body content overrides
 		// any display value.
-		if (bodyContent != null && 
-		    !bodyContent.getString().equals("")) {
-			buffer.append(bodyContent.getString());
-		} else if (_displayValue != null) {
-			buffer.append(_displayValue);
+		if (this.bodyContent != null
+				&& !this.bodyContent.getString().equals("")) { //$NON-NLS-1$
+			buffer.append(this.bodyContent.getString());
+		} else if (this._displayValue != null) {
+			buffer.append(this._displayValue);
 		}
 	}
-      
-   /**
-    * Appends end Element Close
-    * @param StringBuffer
-    */
-   public void getEndElementClose(StringBuffer buffer) {      
-      buffer.append(Constants.INPUT_CLOSE);     
-   }   
-   
-   public void release() {
-      super.release();
-      clear();
-   }
 
-   protected void clear() {
-      super.clear();
-      _checked = null;
-      _displayValue = null;
-   }
+	/**
+	 * Appends end Element Close
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getEndElementClose(StringBuffer buffer) {
+		buffer.append(Constants.INPUT_CLOSE);
+	}
+
+	@Override
+	public void release() {
+		super.release();
+		clear();
+	}
+
+	@Override
+	protected void clear() {
+		super.clear();
+		this._checked = null;
+		this._displayValue = null;
+	}
 
 }
-
-

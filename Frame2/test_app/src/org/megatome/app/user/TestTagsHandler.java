@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,16 +73,16 @@ public class TestTagsHandler implements EventHandler {
     */
    public String handle(Event event,Context context) {
       TestTagEvent testTag = (TestTagEvent) event;                   
-      testTag.setTextTag("text tag value");
-      testTag.setPasswordTag("password");
-      testTag.setCheckedValue("me");
-      testTag.setTextareaTag("this is multilinetext.\nsecond line.\nthirdline");
+      testTag.setTextTag("text tag value"); //$NON-NLS-1$
+      testTag.setPasswordTag("password"); //$NON-NLS-1$
+      testTag.setCheckedValue("me"); //$NON-NLS-1$
+      testTag.setTextareaTag("this is multilinetext.\nsecond line.\nthirdline"); //$NON-NLS-1$
       
       Errors errors = context.getRequestErrors();
-      errors.add("test.tag.one",new Double("777.777"));
-      errors.add("test.tag.two","888.888");
+      errors.add("test.tag.one",new Double("777.777")); //$NON-NLS-1$ //$NON-NLS-2$
+      errors.add("test.tag.two","888.888"); //$NON-NLS-1$ //$NON-NLS-2$
       
-      return "testTagsJSP";
+      return "testTagsJSP"; //$NON-NLS-1$
    }
    
 }

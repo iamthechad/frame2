@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,32 +57,34 @@ import javax.servlet.jsp.JspException;
  */
 public abstract class BaseBodyTag extends BaseHtmlTag {
 
-   protected StringBuffer buildStartTag() throws JspException {
-      StringBuffer buffer = new StringBuffer();
-      buffer.append(getTagName());
-      buffer.append(genTagAttrs());
-      return buffer;   
-   }
- 
-   /**
-    * Returns if tag has body or not
-    * @return boolean
-    */
-   public boolean evalTagBody() {
-      return true;
-   }
-   
-   /**
-    * Appends bodyContent String
-    * @param StringBuffer
-    */
-   public void getBody(StringBuffer buffer) {      
-      if (bodyContent != null && 
-          !bodyContent.getString().equals("")) {
-         buffer.append(bodyContent.getString());
-      }
-   }
-      
-      
-}
+	@Override
+	protected StringBuffer buildStartTag() throws JspException {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(getTagName());
+		buffer.append(genTagAttrs());
+		return buffer;
+	}
 
+	/**
+	 * Returns if tag has body or not
+	 * 
+	 * @return boolean
+	 */
+	@Override
+	public boolean evalTagBody() {
+		return true;
+	}
+
+	/**
+	 * Appends bodyContent String
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getBody(StringBuffer buffer) {
+		if (this.bodyContent != null && !this.bodyContent.getString().equals("")) { //$NON-NLS-1$
+			buffer.append(this.bodyContent.getString());
+		}
+	}
+
+}

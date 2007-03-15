@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,20 +60,21 @@ import javax.servlet.jsp.JspWriter;
 
 public class ServletResponseIncludeWrapper extends HttpServletResponseWrapper {
 
-   PrintWriter printWriter;
+	PrintWriter printWriter;
 
-   public ServletResponseIncludeWrapper(
-      ServletResponse response,
-      JspWriter jspWriter) {
-      super((HttpServletResponse) response);
-      this.printWriter = new PrintWriter(jspWriter);
-   }
+	public ServletResponseIncludeWrapper(ServletResponse response,
+			JspWriter jspWriter) {
+		super((HttpServletResponse) response);
+		this.printWriter = new PrintWriter(jspWriter);
+	}
 
-   public ServletOutputStream getOutputStream() {
-      throw new IllegalStateException();
-   }
-   
+	@Override
+	public ServletOutputStream getOutputStream() {
+		throw new IllegalStateException();
+	}
+
+	@Override
 	public PrintWriter getWriter() {
-			return printWriter;
-		}
+		return this.printWriter;
+	}
 }

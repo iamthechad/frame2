@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,38 +56,41 @@ import org.megatome.frame2.taglib.html.Constants;
 
 /**
  * @author cnazi
- *
+ * 
  * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
+ * Window>Preferences>Java>Templates. To enable and disable the creation of type
+ * comments go to Window>Preferences>Java>Code Generation.
  */
 /**
  * 
  */
 public class BaseTag extends BaseHtmlTag {
 
-   protected void setType() {
-      _type = Constants.BASE;
-   }   
-   
-   public void setTagName() {
-      tagName = Constants.BASE_TAG;
-   }
-           
-   public void setHref(String href) {
-       setAttr(Constants.HREF, href);
-   }
+	private static final long serialVersionUID = 4610523303014824294L;
 
-   public void setTarget(String target) {
-       setAttr(Constants.TARGET, target);
-   }
-   
-   protected StringBuffer buildStartTag() throws JspException {
-      StringBuffer buffer = new StringBuffer();
-      buffer.append(getTagName());
-      buffer.append(genTagAttrs());
-      return buffer;   
-   }
+	@Override
+	protected void setType() {
+		this._type = Constants.BASE;
+	}
+
+	@Override
+	public void setTagName() {
+		this.tagName = Constants.BASE_TAG;
+	}
+
+	public void setHref(String href) {
+		setAttr(Constants.HREF, href);
+	}
+
+	public void setTarget(String target) {
+		setAttr(Constants.TARGET, target);
+	}
+
+	@Override
+	protected StringBuffer buildStartTag() throws JspException {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(getTagName());
+		buffer.append(genTagAttrs());
+		return buffer;
+	}
 }
-

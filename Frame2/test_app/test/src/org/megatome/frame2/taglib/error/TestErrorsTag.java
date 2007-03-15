@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,126 +73,128 @@ public class TestErrorsTag extends JspTestCase {
 		super(name);
 	}
 
+	@Override
 	protected void setUp() {
-		_tag = new ErrorsTag();
-		_tag.setPageContext(pageContext);
+		this._tag = new ErrorsTag();
+		this._tag.setPageContext(this.pageContext);
       
-      _realBundleName = ResourceLocator.getBasename();
+      this._realBundleName = ResourceLocator.getBasename();
 	}
    
-   protected void tearDown() {
-      ResourceLocator.setBasename(_realBundleName);
+   @Override
+protected void tearDown() {
+      ResourceLocator.setBasename(this._realBundleName);
    }
 
 	public void testNoErrors() throws Exception {
-		assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
+		assertEquals(Tag.EVAL_BODY_INCLUDE, this._tag.doStartTag());
 	}
 
 	public void endNoErrors(WebResponse rsp) {
 		String output = rsp.getText();
-		assertEquals("", output);
+		assertEquals("", output); //$NON-NLS-1$
 	}
 
    public void testEmptyErrors() throws Exception {
-      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,ErrorsFactory.newInstance());
-      assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
+      this.pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,ErrorsFactory.newInstance());
+      assertEquals(Tag.EVAL_BODY_INCLUDE, this._tag.doStartTag());
    }
 
    public void endEmptyErrors(WebResponse rsp) {
       String output = rsp.getText();
-      assertEquals("", output);
+      assertEquals("", output); //$NON-NLS-1$
    }
 
    public void testOneError() throws Exception {
-      ResourceLocator.setBasename("test-errors-simple");
+      ResourceLocator.setBasename("test-errors-simple"); //$NON-NLS-1$
 
       Errors errors = ErrorsFactory.newInstance();
 
-      errors.add("example.error.key.1","foo");
+      errors.add("example.error.key.1","foo"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
-      assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
+      this.pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
+      assertEquals(Tag.EVAL_BODY_INCLUDE, this._tag.doStartTag());
    }
 
    public void endOneError(WebResponse rsp) {
       String output = rsp.getText();
-      assertEquals("Example error message one foo\n", output);
+      assertEquals("Example error message one foo\n", output); //$NON-NLS-1$
    }
 
    public void testTwoErrors() throws Exception {
-      ResourceLocator.setBasename("test-errors-simple");
+      ResourceLocator.setBasename("test-errors-simple"); //$NON-NLS-1$
 
       Errors errors = ErrorsFactory.newInstance();
 
-      errors.add("example.error.key.1","foo");
-      errors.add("example.error.key.2","bar");
+      errors.add("example.error.key.1","foo"); //$NON-NLS-1$ //$NON-NLS-2$
+      errors.add("example.error.key.2","bar"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
-      assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
+      this.pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
+      assertEquals(Tag.EVAL_BODY_INCLUDE, this._tag.doStartTag());
    }
 
    public void endTwoErrors(WebResponse rsp) {
       String output = rsp.getText();
-      assertEquals("Example error message one foo\nExample error message two bar\n", output);
+      assertEquals("Example error message one foo\nExample error message two bar\n", output); //$NON-NLS-1$
    }
 
    public void testErrorKeyAttribute() throws Exception {
-      ResourceLocator.setBasename("test-errors-simple");
+      ResourceLocator.setBasename("test-errors-simple"); //$NON-NLS-1$
 
-      _tag.setErrorKey("example.error.key.2");
+      this._tag.setErrorKey("example.error.key.2"); //$NON-NLS-1$
 
       Errors errors = ErrorsFactory.newInstance();
 
-      errors.add("example.error.key.1","foo");
-      errors.add("example.error.key.2","bar");
+      errors.add("example.error.key.1","foo"); //$NON-NLS-1$ //$NON-NLS-2$
+      errors.add("example.error.key.2","bar"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
-      assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
+      this.pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
+      assertEquals(Tag.EVAL_BODY_INCLUDE, this._tag.doStartTag());
    }
 
    public void endErrorKeyAttribute(WebResponse rsp) {
       String output = rsp.getText();
-      assertEquals("Example error message two bar\n", output);
+      assertEquals("Example error message two bar\n", output); //$NON-NLS-1$
    }
 
    public void testLocaleAttribute() throws Exception {
-      String localeKey = "local.key";
+      String localeKey = "local.key"; //$NON-NLS-1$
 
-      ResourceLocator.setBasename("test-errors-simple");
+      ResourceLocator.setBasename("test-errors-simple"); //$NON-NLS-1$
 
-      _tag.setLocaleKey(localeKey);
-      pageContext.setAttribute(localeKey,Locale.FRENCH,PageContext.SESSION_SCOPE);
+      this._tag.setLocaleKey(localeKey);
+      this.pageContext.setAttribute(localeKey,Locale.FRENCH,PageContext.SESSION_SCOPE);
 
       Errors errors = ErrorsFactory.newInstance();
 
-      errors.add("example.error.key.1","foo");
+      errors.add("example.error.key.1","foo"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
-      assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
+      this.pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
+      assertEquals(Tag.EVAL_BODY_INCLUDE, this._tag.doStartTag());
    }
 
    public void endLocaleAttribute(WebResponse rsp) {
       String output = rsp.getText();
-      assertEquals("Message d'erreur d'exemple un foo\n", output);
+      assertEquals("Message d'erreur d'exemple un foo\n", output); //$NON-NLS-1$
    }
 
    public void testDecoratedErrors() throws Exception {
-      ResourceLocator.setBasename("test-errors-decorated");
+      ResourceLocator.setBasename("test-errors-decorated"); //$NON-NLS-1$
 
       Errors errors = ErrorsFactory.newInstance();
 
-      errors.add("example.error.key.1","foo");
-      errors.add("example.error.key.2","bar");
+      errors.add("example.error.key.1","foo"); //$NON-NLS-1$ //$NON-NLS-2$
+      errors.add("example.error.key.2","bar"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
-      assertEquals(Tag.EVAL_BODY_INCLUDE, _tag.doStartTag());
+      this.pageContext.getRequest().setAttribute(org.megatome.frame2.Globals.ERRORS,errors);
+      assertEquals(Tag.EVAL_BODY_INCLUDE, this._tag.doStartTag());
    }
 
    public void endDecoratedErrors(WebResponse rsp) {
-      final String RESULT = "Header Decorator\n" +
-         "<DEC>Example error message one foo</DEC>\n" +
-         "<DEC>Example error message two bar</DEC>\n" +
-         "Footer Decorator\n";
+      final String RESULT = "Header Decorator\n" + //$NON-NLS-1$
+         "<DEC>Example error message one foo</DEC>\n" + //$NON-NLS-1$
+         "<DEC>Example error message two bar</DEC>\n" + //$NON-NLS-1$
+         "Footer Decorator\n"; //$NON-NLS-1$
 
       String output = rsp.getText();
       assertEquals(RESULT,output);

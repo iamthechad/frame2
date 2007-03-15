@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,128 +60,142 @@ import org.megatome.frame2.template.TemplateException;
 import org.megatome.frame2.template.config.TemplateDef;
 
 public class TestGetTag extends BaseTemplateTagTest {
-   private static final String TEMPLATE1 = "template1";
-   GetTag getTag = null;
-   /**
-    * @param arg0
-    */
-   public TestGetTag(String arg0) {
-      super(arg0);
-		_testJspName = "GetTag.jsp";
-		_testNegativeJspName = "NegativeGetTag.jsp";
-		_expectedLiveJsp = "Header2.jsp<br>";		
-		_expectedNegativeLiveJsp = "Could not access entry 'dude' for template \"template_negativeget_name\"";
-   }
+	private static final String TEMPLATE1 = "template1"; //$NON-NLS-1$
 
-   /* (non-Javadoc)
-   	* @see org.megatome.frame2.taglib.template.el.BaseTemplateTagTest#createTag()
-   	*/
-   public BaseFrame2Tag createTag() {
-      return new GetTag();
-   }
+	GetTag getTag = null;
 
+	/**
+	 * @param arg0
+	 */
+	public TestGetTag(String arg0) {
+		super(arg0);
+		this._testJspName = "GetTag.jsp"; //$NON-NLS-1$
+		this._testNegativeJspName = "NegativeGetTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "Header2.jsp<br>"; //$NON-NLS-1$
+		this._expectedNegativeLiveJsp = "Could not access entry 'dude' for template \"template_negativeget_name\""; //$NON-NLS-1$
+	}
 
-   public void testGetTag() {
-      getTag.setName("some.jsp");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.megatome.frame2.taglib.template.el.BaseTemplateTagTest#createTag()
+	 */
+	@Override
+	public BaseFrame2Tag createTag() {
+		return new GetTag();
+	}
 
-      assertEquals("some.jsp", getTag.getName());
-   }
+	public void testGetTag() {
+		this.getTag.setName("some.jsp"); //$NON-NLS-1$
 
-   public void testGetTagWithDef() {
-      getTag.setName("header");
-      try {
-         TemplateDef def =
-            TemplateConfigFactory.instance().getDefinition("template1");
-         assertNotNull(def);
-         pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY, def);
+		assertEquals("some.jsp", this.getTag.getName()); //$NON-NLS-1$
+	}
 
-         getTag.setPageContext(pageContext);
+	public void testGetTagWithDef() {
+		this.getTag.setName("header"); //$NON-NLS-1$
+		try {
+			TemplateDef def = TemplateConfigFactory.instance().getDefinition(
+					"template1"); //$NON-NLS-1$
+			assertNotNull(def);
+			this.pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY,
+					def);
 
-         getTag.doStartTag();
-      } catch (TemplateException e) {
-         fail();
-      } catch (JspException e) {
-         fail();
-      }
-   }
+			this.getTag.setPageContext(this.pageContext);
 
-   public void testNegativeGetTagIsChild() {
-      getTag.setName("some.jsp");
+			this.getTag.doStartTag();
+		} catch (TemplateException e) {
+			fail();
+		} catch (JspException e) {
+			fail();
+		}
+	}
 
-      assertEquals("some.jsp", getTag.getName());
+	public void testNegativeGetTagIsChild() {
+		this.getTag.setName("some.jsp"); //$NON-NLS-1$
 
-      try {
-         getTag.setPageContext(pageContext);
-         getTag.doStartTag();
-         fail();
-      } catch (JspException e) {
-      }
-   }
+		assertEquals("some.jsp", this.getTag.getName()); //$NON-NLS-1$
 
-   public void testNegativeGetTagNoTemplate() {
-      getTag.setName("some.jsp");
+		try {
+			this.getTag.setPageContext(this.pageContext);
+			this.getTag.doStartTag();
+			fail();
+		} catch (JspException expected) {
+			// expected
+		}
+	}
 
-      assertEquals("some.jsp", getTag.getName());
+	public void testNegativeGetTagNoTemplate() {
+		this.getTag.setName("some.jsp"); //$NON-NLS-1$
 
-      InsertTag parent = new InsertTag();
-      parent.setDefinition("definition");
+		assertEquals("some.jsp", this.getTag.getName()); //$NON-NLS-1$
 
-      getTag.setParent(parent);
-      getTag.setPageContext(pageContext);
+		InsertTag parent = new InsertTag();
+		parent.setDefinition("definition"); //$NON-NLS-1$
 
-      try {
-         getTag.doStartTag();
-         fail();
-      } catch (JspException e) {
-      }
-   }
+		this.getTag.setParent(parent);
+		this.getTag.setPageContext(this.pageContext);
 
-   public void testNegativeGetTag() {
+		try {
+			this.getTag.doStartTag();
+			fail();
+		} catch (JspException expected) {
+			// expected
+		}
+	}
 
-      InsertTag insertTag = new InsertTag();
-      insertTag.setDefinition("template1");
+	public void testNegativeGetTag() {
 
-      getTag.setName("bar-none");
+		InsertTag insertTag = new InsertTag();
+		insertTag.setDefinition("template1"); //$NON-NLS-1$
 
-      getTag.setParent(insertTag);
-      getTag.setPageContext(pageContext);
-      try {
-         getTag.doStartTag();
-         fail();
-      } catch (JspException e) {
-      }
-   }
+		this.getTag.setName("bar-none"); //$NON-NLS-1$
 
-   public void testNegativeGetTagNoDefinition() {
+		this.getTag.setParent(insertTag);
+		this.getTag.setPageContext(this.pageContext);
+		try {
+			this.getTag.doStartTag();
+			fail();
+		} catch (JspException expected) {
+			// expected
+		}
+	}
 
-      InsertTag insertTag = new InsertTag();
-      insertTag.setDefinition("nothing");
+	public void testNegativeGetTagNoDefinition() {
 
-      getTag.setName("bar-put");
+		InsertTag insertTag = new InsertTag();
+		insertTag.setDefinition("nothing"); //$NON-NLS-1$
 
-      getTag.setParent(insertTag);
-      getTag.setPageContext(pageContext);
-      try {
-         getTag.doStartTag();
-         fail();
-      } catch (JspException e) {
-      }
-   }
-   /* (non-Javadoc)
-    * @see junit.framework.TestCase#setUp()
-    */
-   public void setUp() throws Exception {
-      super.setUp();
-      TemplateHelper.clearPageContextDefinition(pageContext,TEMPLATE1);
-      getTag = new GetTag();
-   }
+		this.getTag.setName("bar-put"); //$NON-NLS-1$
 
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   protected void tearDown() throws Exception {
-      super.tearDown();
-      TemplateHelper.clearPageContextDefinition(pageContext,TEMPLATE1);
-   }
+		this.getTag.setParent(insertTag);
+		this.getTag.setPageContext(this.pageContext);
+		try {
+			this.getTag.doStartTag();
+			fail();
+		} catch (JspException expected) {
+			// expected
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		TemplateHelper.clearPageContextDefinition(this.pageContext, TEMPLATE1);
+		this.getTag = new GetTag();
+	}
+
+	/**
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		TemplateHelper.clearPageContextDefinition(this.pageContext, TEMPLATE1);
+	}
 
 }

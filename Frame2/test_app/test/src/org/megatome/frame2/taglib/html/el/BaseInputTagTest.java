@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,26 +57,15 @@ import org.megatome.frame2.tagsupport.TagConstants;
 import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 
 public abstract class BaseInputTagTest extends BaseHtmlTagTest {
-	
 
-	
-
-	static String ATTR_1 = "test1";
-	static String ATTR_VALUE_1 = "AccessKeyValue1";
+	static String ATTR_1 = "test1"; //$NON-NLS-1$
+	static String ATTR_VALUE_1 = "AccessKeyValue1"; //$NON-NLS-1$
    
-	public void setUp () {		
-		
-	}
-	
-	public void tearDown () {		
-		
-	}
-				
-						
 	public BaseInputTagTest(String theName) {
 		super(theName);		
 	}
 	
+	@Override
 	public abstract BaseHtmlTag createTag();
 	
 	/**
@@ -84,7 +73,7 @@ public abstract class BaseInputTagTest extends BaseHtmlTagTest {
 	 * @return String
 	 */
 	public String getTestJspName() {
-		return _testJspName;
+		return this._testJspName;
 	}
 
 	/**
@@ -95,14 +84,16 @@ public abstract class BaseInputTagTest extends BaseHtmlTagTest {
 		this._testJspName = testJspName;
 	}
 
-	public void beginAnAttribute(WebRequest rquest) throws Exception {
+	public void beginAnAttribute(@SuppressWarnings("unused")
+	WebRequest rquest) throws Exception {
+		//noop
 	}
 
 	public void testAnAttribute() throws Exception{
 		BaseInputTag tag = (BaseInputTag) createTag();
-		pageContext.setAttribute(ATTR_1, ATTR_VALUE_1);
+		this.pageContext.setAttribute(ATTR_1, ATTR_VALUE_1);
 
-		tag.setPageContext(pageContext);
+		tag.setPageContext(this.pageContext);
 
 		tag.setAccesskey(HTMLHelpers.buildExprAttr(ATTR_1));
 
@@ -114,7 +105,7 @@ public abstract class BaseInputTagTest extends BaseHtmlTagTest {
 	public void endAnAttribute(WebResponse webResponse) throws Exception {
 
 		String expected =
-			Constants.INPUT_TYPE + _type 
+			Constants.INPUT_TYPE + this._type 
 				+ HTMLHelpers.buildHtmlAttr(Constants.ACCESS_KEY, ATTR_VALUE_1)
 				+ TagConstants.RT_ANGLE;		
 

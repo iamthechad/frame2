@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,70 +59,82 @@ import org.megatome.frame2.tagsupport.TagConstants;
  * 
  */
 public class HtmlTag extends BaseHtmlTag {
-   
-   protected void setType() {
-      _type = Constants.HTML;
-   }   
-   
-   public void setTagName() {
-      tagName = Constants.HTML_TAG;
-   }
-   
-   protected String genXHtmlTagAttr() {
-      return ((pageContext.getAttribute(Constants.XHTML_KEY) != null) ? TagConstants.XMLNS : "");
-   }
-   
-   protected StringBuffer buildStartTag() throws JspException {
-      StringBuffer buffer = new StringBuffer();
-      buffer.append(getTagName());
-      buffer.append(genXHtmlTagAttr());
-      buffer.append(genTagAttrs());
-      return buffer;   
-   }
- 
-   /**
-    * Returns if tag has body or not
-    * @return boolean
-    */
-   public boolean evalTagBody() {
-      return true;
-   }
-   
-   /**
-    * Appends bodyContent String
-    * @param StringBuffer
-    */
-   public void getBody(StringBuffer buffer) {      
-      if (bodyContent != null) {
-         buffer.append(bodyContent.getString());
-      }
-   }
-      
-   /**
-    * Appends end Element Close
-    * @param StringBuffer
-    */
-   public void getEndElementClose(StringBuffer buffer) {      
-      pageContext.removeAttribute(Constants.XHTML_KEY);
-      buffer.append(Constants.HTML_CLOSE);
-   }   
 
-   /**
-    * Sets the selected.
-    * @param selected The selected to set
-    */
-   public void setXhtml(String xhtml) throws JspException{
+	private static final long serialVersionUID = 8780004577119777604L;
 
-      try {
-         if (Constants.TRUE.equals(evalStringAttr(Constants.XHTML, xhtml))) {
-            pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-         }
-      } catch (Exception e) {
-         throw new JspException(
-            " Evaluation of xhtml attribute failed " + e.getMessage(),
-            e);
-      }
-   }
+	@Override
+	protected void setType() {
+		this._type = Constants.HTML;
+	}
+
+	@Override
+	public void setTagName() {
+		this.tagName = Constants.HTML_TAG;
+	}
+
+	protected String genXHtmlTagAttr() {
+		return ((this.pageContext.getAttribute(Constants.XHTML_KEY) != null) ? TagConstants.XMLNS
+				: ""); //$NON-NLS-1$
+	}
+
+	@Override
+	protected StringBuffer buildStartTag() throws JspException {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(getTagName());
+		buffer.append(genXHtmlTagAttr());
+		buffer.append(genTagAttrs());
+		return buffer;
+	}
+
+	/**
+	 * Returns if tag has body or not
+	 * 
+	 * @return boolean
+	 */
+	@Override
+	public boolean evalTagBody() {
+		return true;
+	}
+
+	/**
+	 * Appends bodyContent String
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getBody(StringBuffer buffer) {
+		if (this.bodyContent != null) {
+			buffer.append(this.bodyContent.getString());
+		}
+	}
+
+	/**
+	 * Appends end Element Close
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getEndElementClose(StringBuffer buffer) {
+		this.pageContext.removeAttribute(Constants.XHTML_KEY);
+		buffer.append(Constants.HTML_CLOSE);
+	}
+
+	/**
+	 * Sets the selected.
+	 * 
+	 * @param selected
+	 *            The selected to set
+	 */
+	public void setXhtml(String xhtml) throws JspException {
+
+		try {
+			if (Constants.TRUE.equals(evalStringAttr(Constants.XHTML, xhtml))) {
+				this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+			}
+		} catch (Exception e) {
+			throw new JspException(" Evaluation of xhtml attribute failed " //$NON-NLS-1$
+					+ e.getMessage(), e);
+		}
+	}
 
 }
-

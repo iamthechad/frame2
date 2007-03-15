@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,11 +58,12 @@ public class TestHiddenTag extends BaseInputTagTest {
 	
 	public TestHiddenTag(String theName) {
 		super(theName);
-      _type = TagConstants.QUOTE + Constants.HIDDEN + TagConstants.QUOTE;
-		_testJspName = "HiddenTag.jsp";
-		_expectedLiveJsp = "<input type=\"hidden\" name=\"yabba\" value=\"7\">";	
+      this._type = TagConstants.QUOTE + Constants.HIDDEN + TagConstants.QUOTE;
+		this._testJspName = "HiddenTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<input type=\"hidden\" name=\"yabba\" value=\"7\">";	 //$NON-NLS-1$
 	}
 	
+	@Override
 	public  BaseHtmlTag createTag() {
 		return new HiddenTag();
 	}

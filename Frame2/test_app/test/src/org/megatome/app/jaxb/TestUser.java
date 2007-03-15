@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.util.Helper;
 
 public class TestUser extends TestCase {
-   private final String TARGET_PACKAGE = "org.megatome.app.jaxbgen";
+   private static final String TARGET_PACKAGE = "org.megatome.app.jaxbgen"; //$NON-NLS-1$
 
    public void testUser() {
 		UserImpl user = makeFred();
@@ -75,30 +75,30 @@ public class TestUser extends TestCase {
       assertTrue(user.validate(errors));
       assertTrue(errors.isEmpty());
       
-      user.setEmail("a-boogie-boogie-boogie");
+      user.setEmail("a-boogie-boogie-boogie"); //$NON-NLS-1$
 
       assertFalse(user.validate(errors));
       assertFalse(errors.isEmpty());
       assertEquals(1,errors.size());
    }
 
-   public void testAckNack() {
-
-   }
+   /*public void testAckNack() {
+	   
+   }*/
 
 	private UserImpl makeFred() {
 		UserImpl user = new UserImpl();
 		
-		user.setFirstName("Fred");
-		user.setLastName("Flintstone");
-		user.setEmail("fred@bedrockcommunity.org");
+		user.setFirstName("Fred"); //$NON-NLS-1$
+		user.setLastName("Flintstone"); //$NON-NLS-1$
+		user.setEmail("fred@bedrockcommunity.org"); //$NON-NLS-1$
 		return user;
 	}
 
    private ACKImpl makeACK() {
       ACKImpl ack = new ACKImpl();
       
-      ack.setValue("It was a good thing.");
+      ack.setValue("It was a good thing."); //$NON-NLS-1$
       
       return ack;
    }
@@ -106,7 +106,7 @@ public class TestUser extends TestCase {
    private NACKImpl makeNACK() {
       NACKImpl nack = new NACKImpl();
       
-      nack.setValue("It was a bad thing.");
+      nack.setValue("It was a bad thing."); //$NON-NLS-1$
       
       return nack;
    }
@@ -115,27 +115,27 @@ public class TestUser extends TestCase {
       User user = makeFred();
       OutputStream os = Helper.marshall(user,TARGET_PACKAGE,getClass().getClassLoader());
       assertNotNull(os);
-      assertTrue(os.toString().indexOf("Flintstone") > 0);
+      assertTrue(os.toString().indexOf("Flintstone") > 0); //$NON-NLS-1$
 
       ACK ack = makeACK();
       os = Helper.marshall(ack,TARGET_PACKAGE,getClass().getClassLoader());
       assertNotNull(os);      
-      assertTrue(os.toString().indexOf("It was a good thing.") > 0);
+      assertTrue(os.toString().indexOf("It was a good thing.") > 0); //$NON-NLS-1$
  
       NACK nack = makeNACK();
       os = Helper.marshall(nack,TARGET_PACKAGE,getClass().getClassLoader());
       assertNotNull(os);        
-      assertTrue(os.toString().indexOf("It was a bad thing.") > 0);
+      assertTrue(os.toString().indexOf("It was a bad thing.") > 0); //$NON-NLS-1$
    }
 
    public void testUnmarshall() throws Exception  {
-      User user = (User) unmarshall("org/megatome/app/jaxb/user.xml");
+      User user = (User) unmarshall("org/megatome/app/jaxb/user.xml"); //$NON-NLS-1$
       assertNotNull(user);
 
-      ACK ack = (ACK) unmarshall("org/megatome/app/jaxb/ack.xml");
+      ACK ack = (ACK) unmarshall("org/megatome/app/jaxb/ack.xml"); //$NON-NLS-1$
       assertNotNull(ack);
 
-      NACK nack = (NACK) unmarshall("org/megatome/app/jaxb/nack.xml");
+      NACK nack = (NACK) unmarshall("org/megatome/app/jaxb/nack.xml"); //$NON-NLS-1$
       assertNotNull(nack);
    }
 

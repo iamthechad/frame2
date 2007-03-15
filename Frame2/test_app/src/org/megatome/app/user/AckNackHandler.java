@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,28 +74,28 @@ public class AckNackHandler implements EventHandler {
 		Errors errors = context.getRequestErrors();
 
 		if (errors.isEmpty()) {
-			System.out.println("Adding " + user.getFirstName());
+			System.out.println("Adding " + user.getFirstName()); //$NON-NLS-1$
 
 			ACK ack = new ACKImpl();
-			ack.setValue(user.getFirstName() + " was added");
-			context.setRequestAttribute("ack", ack);
+			ack.setValue(user.getFirstName() + " was added"); //$NON-NLS-1$
+			context.setRequestAttribute("ack", ack); //$NON-NLS-1$
 
-			return "success";
+			return "success"; //$NON-NLS-1$
 
 		}
-			System.out.println("Not adding " + user.getFirstName());
+			System.out.println("Not adding " + user.getFirstName()); //$NON-NLS-1$
 
 			NACK nack = new NACKImpl();
 
          Error[] error = errors.get();
 
          for ( int i = 0 ; i < error.length ; i++ ) {
-				String report = nack.getValue() + " : " + error[i].getValue();
+				String report = nack.getValue() + " : " + error[i].getValue(); //$NON-NLS-1$
 				nack.setValue(report);
-				context.setRequestAttribute("nack", nack);
+				context.setRequestAttribute("nack", nack); //$NON-NLS-1$
 			}
          
-         return "fail";
+         return "fail"; //$NON-NLS-1$
 	}
 }
 

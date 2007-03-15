@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,14 +61,15 @@ public class TestImageTag extends BaseInputTagTest {
 	 */
 	public TestImageTag(String theName) {
 		super(theName);
-      _type = TagConstants.QUOTE + Constants.IMAGE + TagConstants.QUOTE;
-      _testJspName = "ImageTag.jsp";
-      _expectedLiveJsp = "<input type=\"image\" alt=\"yabba\" onfocus=\"true\" align=\"alignValue\" border=\"borderValue\" height=\"heightValue\" hspace=\"hspaceValue\" ismap=\"ismapValue\" lowsrc=\"lowsrcValue\" src=\"srcValue\" usemap=\"usemapValue\" vspace=\"vspaceValue\" width=\"widthValue\">";
+      this._type = TagConstants.QUOTE + Constants.IMAGE + TagConstants.QUOTE;
+      this._testJspName = "ImageTag.jsp"; //$NON-NLS-1$
+      this._expectedLiveJsp = "<input type=\"image\" alt=\"yabba\" onfocus=\"true\" align=\"alignValue\" border=\"borderValue\" height=\"heightValue\" hspace=\"hspaceValue\" ismap=\"ismapValue\" lowsrc=\"lowsrcValue\" src=\"srcValue\" usemap=\"usemapValue\" vspace=\"vspaceValue\" width=\"widthValue\">"; //$NON-NLS-1$
 	}
 
 	/**
 	 * @see org.megatome.frame2.taglib.html.el.BaseHtmlTagTest#createTag()
 	 */
+	@Override
 	public BaseHtmlTag createTag() {
 		return new ImageTag();
 	}

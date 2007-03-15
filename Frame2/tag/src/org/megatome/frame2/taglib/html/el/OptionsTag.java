@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,226 +63,247 @@ import org.megatome.frame2.tagsupport.util.HTMLHelpers;
  * OptionsTag.java
  */
 public class OptionsTag extends BaseOptionTag {
-   private Collection _selectedCollection;
-   private Object[] _selectedArray;
-   private String  _selectedString;
-   private Collection _displayValueCollection;
-   private Object[] _displayValueArray;
-   private Collection _valueCollection;
-   private Object[] _valueArray;
+	private Collection<?> _selectedCollection;
 
-   protected void setType() {
-      _type = Constants.OPTIONS;
-   }
-   
-   protected StringBuffer buildStartTag() {     
-      StringBuffer buffer = new StringBuffer();
+	private Object[] _selectedArray;
 
-      Object[] value = null;
-      if (_valueCollection != null) {
-         value = _valueCollection.toArray();
-      }
-      else if (_valueArray != null) {
-         value = _valueArray;
-      }
- 
-      Object[] displayValue = null;
-      int displayLen = -1;
-      if (_displayValueCollection != null) {
-         displayValue = _displayValueCollection.toArray();
-         displayLen = displayValue.length;
-      }
-      else if (_displayValueArray != null) {
-         displayValue = _displayValueArray;
-         displayLen = displayValue.length;
-      }
-           
-      int len = value.length;     
-      for (int i = 0; i<len; i++) {
-         String dispValue = null;
-         if (displayLen != -1 && i < displayLen) {
-            //dispValue = (String)displayValue[i];
-            dispValue = String.valueOf(displayValue[i]);
-         }
-         //addOptionTag(buffer,(String)value[i], dispValue);
-         addOptionTag(buffer,String.valueOf(value[i]), dispValue);
-      }     
+	private String _selectedString;
 
-      return buffer;   
-   }
-   
-   // should be coolection or object[]
-   protected void handleValueAttr() throws JspException {
-      String valueExpr = getAttr(Constants.VALUE);
-      // see if this is a collection
-      try {
-         _valueCollection = evalCollectionAttr(Constants.VALUE, valueExpr);
-      } catch (Exception e) {
-        // ignore, try array next;
-      } 
-        
-      if (_valueCollection == null) {
-         try {
-            _valueArray = evalArrayAttr(Constants.VALUE, valueExpr);
-         }  catch (Exception e) {
-             throw new JspException(
-               " Evaluation attribute failed, Collection or Object[] expected " + e.getMessage(), e);
-         }   
-      }
-   }
-   // override ths if you want to handle an attribute
-   protected void specialAttrHandler() throws JspException {  
-      super.specialAttrHandler();
-      handleValueAttr();
-   }  
-   
-   // for OPTIONS tag, expect displayvalue to be collection or [].
-   // as iterate over selected(From SELECT_KEY), get
-   // display value.
-   protected void handleDisplayValueAttr() throws JspException{
-       if (_displayExpr == null || _displayExpr == "") {
-          // Evaluate the remainder of this page
-          return;
-       }
-                 
-      try {
-         _displayValueCollection = evalCollectionAttr(Constants.DISPLAY_VALUE, _displayExpr);
-      } catch (Exception e) {
-        // ignore, try array next;
-      } 
-        
-      if (_displayValueCollection == null) {
-         try {
-            _displayValueArray = evalArrayAttr(Constants.DISPLAY_VALUE, _displayExpr);
-         }  catch (Exception e) {
-             throw new JspException(
-               " Evaluation attribute failed, Collection or Object[] expected " + e.getMessage(), e);
-         }   
-      }      
-   } 
-     
-   protected void handleSelectedAttr() throws JspException{
-     // get thr select attr 
-      String selectExpr = 
-             (String)pageContext.getAttribute(Constants.SELECT_KEY);
-      //String selectExpr = _selected;
-      
-      if ((selectExpr == null) || (selectExpr == "")) {
-         selectExpr = _selected;
-      }
-             
-      // now get value   
-      String valueExpr = getAttr(Constants.VALUE);
-      if (valueExpr == null || valueExpr == "" ||
-          selectExpr == null  || selectExpr == "") {
-        return;
-      }
+	private Collection<?> _displayValueCollection;
 
-      // see if this is a collection
-      try {
-         _selectedCollection = evalCollectionAttr(Constants.SELECTED, selectExpr);
-      } catch (Exception e) {
-        // ignore, try array next;
-      } 
-        
-      if (_selectedCollection == null) {
-         try {
-            _selectedArray = evalArrayAttr(Constants.SELECTED, selectExpr);
-         }  catch (Exception e) {
-            // ignore, try string next;
-         }   
-      }
-      
-      // init "" for cmp with valueval later
-      //String checkval = "";     
-      if (_selectedCollection == null && _selectedArray == null) {
-         try {
-            //checkval = evalStringAttr(Constants.SELECTED, selectExpr);
-            _selectedString = evalStringAttr(Constants.SELECTED, selectExpr);
-         } catch (Exception e) {
-            throw new JspException(
-               " Evaluation attribute failed " + e.getMessage(), e);
-         }   
-      }
-   }
-   
-   protected boolean isSelected(String valueval) {
-      boolean selected = false;
-      if (_selectedCollection != null) {
-         Iterator iter = _selectedCollection.iterator();
-         while (iter.hasNext()) {
-            // NIT make work for all primatives
-            //String val = (String)iter.next();
-            String val = String.valueOf(iter.next());
-            if (val.equals(valueval)) {
-               selected = true;
-               break;
-            }
-         }            
-      } 
-      else if (_selectedArray != null) {
-         int len = _selectedArray.length;
-         for (int i = 0; i< len; i++) {
-            // NIT make work for all primatives
-            //String val = (String)_selectedArray[i];
-            String val = String.valueOf(_selectedArray[i]);
-            if (val.equals(valueval)) {
-               selected = true;
-               break;
-            }
-         }            
-      } else {           
-         if (_selectedString != null) {
-            selected = _selectedString.equals(valueval);
-         } 
-      }
-      return selected;
-   }
-   
-   protected void addOptionTag(StringBuffer buf, String value, String displayValue){
-      buf.append(getTagName());        
-      if (isSelected(value) ) {
-//         buf.append(HTMLEncoder.encode(HTMLHelpers.buildHtmlAttr(Constants.SELECTED,Constants.TRUE)));
-         //buf.append(HTMLHelpers.buildHtmlAttr(Constants.SELECTED,Constants.TRUE));
-         buf.append(HTMLHelpers.buildHtmlAttr(Constants.SELECTED));
-      } 
-  //    buf.append(HTMLEncoder.encode(HTMLHelpers.buildHtmlAttr(Constants.VALUE,value))); 
-      buf.append(HTMLHelpers.buildHtmlAttr(Constants.VALUE,value));      
-      if (displayValue != null) {
-         buf.append(TagConstants.RT_ANGLE);
-         buf.append(displayValue + Constants.OPTION_CLOSE);
-      }
-      else {
-         buf.append(getElementClose());
-      }
-      // is NL needed? NIT
-   }
-   public void getStartElementClose(StringBuffer buffer) {
-   }
-   
-   public void release() {
-      super.release();
-      clear();
-   }
-   
-   protected void clear() {
-      super.clear();
-      if (_selectedCollection != null) {
-            _selectedCollection.clear();
-         }
-         if (_displayValueCollection != null) {
-            _displayValueCollection.clear();
-         }
-         if (_valueCollection != null) {
-            _valueCollection.clear();
-         }
-      
-         _selectedArray = null;
-         _selectedString = null;
-         _displayValueCollection = null;
-         _displayValueArray = null;
-         _valueCollection = null;
-         _valueArray = null;
-   }
+	private Object[] _displayValueArray;
+
+	private Collection<?> _valueCollection;
+
+	private Object[] _valueArray;
+
+	@Override
+	protected void setType() {
+		this._type = Constants.OPTIONS;
+	}
+
+	@Override
+	protected StringBuffer buildStartTag() {
+		StringBuffer buffer = new StringBuffer();
+
+		Object[] value = null;
+		if (this._valueCollection != null) {
+			value = this._valueCollection.toArray();
+		} else if (this._valueArray != null) {
+			value = this._valueArray;
+		}
+
+		Object[] displayValue = null;
+		int displayLen = -1;
+		if (this._displayValueCollection != null) {
+			displayValue = this._displayValueCollection.toArray();
+			displayLen = displayValue.length;
+		} else if (this._displayValueArray != null) {
+			displayValue = this._displayValueArray;
+			displayLen = displayValue.length;
+		}
+
+		int len = value.length;
+		for (int i = 0; i < len; i++) {
+			String dispValue = null;
+			if (displayLen != -1 && i < displayLen) {
+				// dispValue = (String)displayValue[i];
+				dispValue = String.valueOf(displayValue[i]);
+			}
+			// addOptionTag(buffer,(String)value[i], dispValue);
+			addOptionTag(buffer, String.valueOf(value[i]), dispValue);
+		}
+
+		return buffer;
+	}
+
+	// should be coolection or object[]
+	protected void handleValueAttr() throws JspException {
+		String valueExpr = getAttr(Constants.VALUE);
+		// see if this is a collection
+		try {
+			this._valueCollection = evalCollectionAttr(Constants.VALUE,
+					valueExpr);
+		} catch (Exception e) {
+			// ignore, try array next;
+		}
+
+		if (this._valueCollection == null) {
+			try {
+				this._valueArray = evalArrayAttr(Constants.VALUE, valueExpr);
+			} catch (Exception e) {
+				throw new JspException(
+						" Evaluation attribute failed, Collection or Object[] expected " + e.getMessage(), e); //$NON-NLS-1$
+			}
+		}
+	}
+
+	// override ths if you want to handle an attribute
+	@Override
+	protected void specialAttrHandler() throws JspException {
+		super.specialAttrHandler();
+		handleValueAttr();
+	}
+
+	// for OPTIONS tag, expect displayvalue to be collection or [].
+	// as iterate over selected(From SELECT_KEY), get
+	// display value.
+	@Override
+	protected void handleDisplayValueAttr() throws JspException {
+		if (this._displayExpr == null || this._displayExpr == "") { //$NON-NLS-1$
+			// Evaluate the remainder of this page
+			return;
+		}
+
+		try {
+			this._displayValueCollection = evalCollectionAttr(
+					Constants.DISPLAY_VALUE, this._displayExpr);
+		} catch (Exception e) {
+			// ignore, try array next;
+		}
+
+		if (this._displayValueCollection == null) {
+			try {
+				this._displayValueArray = evalArrayAttr(
+						Constants.DISPLAY_VALUE, this._displayExpr);
+			} catch (Exception e) {
+				throw new JspException(
+						" Evaluation attribute failed, Collection or Object[] expected " + e.getMessage(), e); //$NON-NLS-1$
+			}
+		}
+	}
+
+	@Override
+	protected void handleSelectedAttr() throws JspException {
+		// get thr select attr
+		String selectExpr = (String) this.pageContext
+				.getAttribute(Constants.SELECT_KEY);
+		// String selectExpr = _selected;
+
+		if ((selectExpr == null) || (selectExpr == "")) { //$NON-NLS-1$
+			selectExpr = this._selected;
+		}
+
+		// now get value
+		String valueExpr = getAttr(Constants.VALUE);
+		if (valueExpr == null || valueExpr == "" || //$NON-NLS-1$
+				selectExpr == null || selectExpr == "") { //$NON-NLS-1$
+			return;
+		}
+
+		// see if this is a collection
+		try {
+			this._selectedCollection = evalCollectionAttr(Constants.SELECTED,
+					selectExpr);
+		} catch (Exception e) {
+			// ignore, try array next;
+		}
+
+		if (this._selectedCollection == null) {
+			try {
+				this._selectedArray = evalArrayAttr(Constants.SELECTED,
+						selectExpr);
+			} catch (Exception e) {
+				// ignore, try string next;
+			}
+		}
+
+		// init "" for cmp with valueval later
+		// String checkval = "";
+		if (this._selectedCollection == null && this._selectedArray == null) {
+			try {
+				// checkval = evalStringAttr(Constants.SELECTED, selectExpr);
+				this._selectedString = evalStringAttr(Constants.SELECTED,
+						selectExpr);
+			} catch (Exception e) {
+				throw new JspException(
+						" Evaluation attribute failed " + e.getMessage(), e); //$NON-NLS-1$
+			}
+		}
+	}
+
+	protected boolean isSelected(String valueval) {
+		boolean selected = false;
+		if (this._selectedCollection != null) {
+			Iterator<?> iter = this._selectedCollection.iterator();
+			while (iter.hasNext()) {
+				// NIT make work for all primatives
+				// String val = (String)iter.next();
+				String val = String.valueOf(iter.next());
+				if (val.equals(valueval)) {
+					selected = true;
+					break;
+				}
+			}
+		} else if (this._selectedArray != null) {
+			int len = this._selectedArray.length;
+			for (int i = 0; i < len; i++) {
+				// NIT make work for all primatives
+				// String val = (String)_selectedArray[i];
+				String val = String.valueOf(this._selectedArray[i]);
+				if (val.equals(valueval)) {
+					selected = true;
+					break;
+				}
+			}
+		} else {
+			if (this._selectedString != null) {
+				selected = this._selectedString.equals(valueval);
+			}
+		}
+		return selected;
+	}
+
+	protected void addOptionTag(StringBuffer buf, String value,
+			String displayValue) {
+		buf.append(getTagName());
+		if (isSelected(value)) {
+			// buf.append(HTMLEncoder.encode(HTMLHelpers.buildHtmlAttr(Constants.SELECTED,Constants.TRUE)));
+			// buf.append(HTMLHelpers.buildHtmlAttr(Constants.SELECTED,Constants.TRUE));
+			buf.append(HTMLHelpers.buildHtmlAttr(Constants.SELECTED));
+		}
+		// buf.append(HTMLEncoder.encode(HTMLHelpers.buildHtmlAttr(Constants.VALUE,value)));
+		buf.append(HTMLHelpers.buildHtmlAttr(Constants.VALUE, value));
+		if (displayValue != null) {
+			buf.append(TagConstants.RT_ANGLE);
+			buf.append(displayValue + Constants.OPTION_CLOSE);
+		} else {
+			buf.append(getElementClose());
+		}
+		// is NL needed? NIT
+	}
+
+	@Override
+	public void getStartElementClose(@SuppressWarnings("unused")
+	StringBuffer buffer) {
+		//noop
+	}
+
+	@Override
+	public void release() {
+		super.release();
+		clear();
+	}
+
+	@Override
+	protected void clear() {
+		super.clear();
+		if (this._selectedCollection != null) {
+			this._selectedCollection.clear();
+		}
+		if (this._displayValueCollection != null) {
+			this._displayValueCollection.clear();
+		}
+		if (this._valueCollection != null) {
+			this._valueCollection.clear();
+		}
+
+		this._selectedArray = null;
+		this._selectedString = null;
+		this._displayValueCollection = null;
+		this._displayValueArray = null;
+		this._valueCollection = null;
+		this._valueArray = null;
+	}
 
 }

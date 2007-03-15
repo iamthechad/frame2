@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,89 +55,91 @@ import org.megatome.frame2.taglib.html.Constants;
 import org.megatome.frame2.tagsupport.TagConstants;
 import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 
-public class TestButtonTag extends BaseInputTagTest { 
+public class TestButtonTag extends BaseInputTagTest {
 
 	public TestButtonTag(String theName) {
-		super(theName);   
-		_type = TagConstants.QUOTE + Constants.BUTTON + TagConstants.QUOTE;
-		_testJspName = "ButtonTag.jsp";
-		_expectedLiveJsp = "<input type=\"button\" name=\"foo\" onfocus=\"true\" value=\"Stop clicking me\">";                      
-	}
-	
-	public  BaseHtmlTag createTag() {
-		return new ButtonTag();      
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.BUTTON + TagConstants.QUOTE;
+		this._testJspName = "ButtonTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<input type=\"button\" name=\"foo\" onfocus=\"true\" value=\"Stop clicking me\">"; //$NON-NLS-1$
 	}
 
-   public void testButtonTag_Default() throws Exception{
-      ButtonTag tag = (ButtonTag) createTag();
+	@Override
+	public BaseHtmlTag createTag() {
+		return new ButtonTag();
+	}
 
-      tag.setPageContext(pageContext);
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void testButtonTag_Default() throws Exception {
+		ButtonTag tag = (ButtonTag) createTag();
 
-   public void endButtonTag_Default(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"button\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-   public void testButtonTag() throws Exception{
-      ButtonTag tag = (ButtonTag) createTag();
+	public void endButtonTag_Default(WebResponse webResponse) throws Exception {
+		String expected = "<input type=\"button\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
 
-      tag.setPageContext(pageContext);
-      tag.setValue("MY_BUTTON");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+		assertEquals(expected, actual);
+	}
 
-   public void endButtonTag(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"button\" value=\"MY_BUTTON\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+	public void testButtonTag() throws Exception {
+		ButtonTag tag = (ButtonTag) createTag();
 
-   public void testButtonTag_WhiteSpace() throws Exception{
-      ButtonTag tag = (ButtonTag) createTag();
+		tag.setPageContext(this.pageContext);
+		tag.setValue("MY_BUTTON"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-      tag.setPageContext(pageContext);
-      tag.setValue("   ");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void endButtonTag(WebResponse webResponse) throws Exception {
+		String expected = "<input type=\"button\" value=\"MY_BUTTON\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
 
-   public void endButtonTag_WhiteSpace(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"button\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
-   
-   public void testXhtmlTerminator() throws Exception {
-      ButtonTag tag = (ButtonTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
-      tag.setPageContext(pageContext);
-      tag.setValue("MY_BUTTON");
-      tag.doStartTag();
-      tag.doEndTag();
+		assertEquals(expected, actual);
+	}
 
-   }
+	public void testButtonTag_WhiteSpace() throws Exception {
+		ButtonTag tag = (ButtonTag) createTag();
 
-   public void endXhtmlTerminator(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"button\" value=\"MY_BUTTON\"/>";
-      String actual = webResponse.getText();
-      assertEquals(expected, actual);
-   }
+		tag.setPageContext(this.pageContext);
+		tag.setValue("   "); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-   public void endAnAttribute(WebResponse webResponse) throws Exception {
+	public void endButtonTag_WhiteSpace(WebResponse webResponse)
+			throws Exception {
+		String expected = "<input type=\"button\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
 
-		String expected =
-			Constants.INPUT_TYPE + _type 
+		assertEquals(expected, actual);
+	}
+
+	public void testXhtmlTerminator() throws Exception {
+		ButtonTag tag = (ButtonTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.setValue("MY_BUTTON"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+
+	}
+
+	public void endXhtmlTerminator(WebResponse webResponse) throws Exception {
+		String expected = "<input type=\"button\" value=\"MY_BUTTON\"/>"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+		assertEquals(expected, actual);
+	}
+
+	@Override
+	public void endAnAttribute(WebResponse webResponse) throws Exception {
+
+		String expected = Constants.INPUT_TYPE + this._type
 				+ HTMLHelpers.buildHtmlAttr(Constants.ACCESS_KEY, ATTR_VALUE_1)
-     			+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "")
-				+ TagConstants.RT_ANGLE;		
+				+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "") //$NON-NLS-1$
+				+ TagConstants.RT_ANGLE;
 
 		String actual = webResponse.getText();
 

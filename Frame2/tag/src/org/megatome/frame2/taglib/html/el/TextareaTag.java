@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,6 +56,7 @@ import org.megatome.frame2.taglib.html.Constants;
 
 public class TextareaTag extends BaseHtmlTag {
 
+	private static final long serialVersionUID = 3002944313855104695L;
 	String _value;
 
 	public void setCols(String cols) {
@@ -66,29 +67,31 @@ public class TextareaTag extends BaseHtmlTag {
 		setAttr(Constants.ROWS, rows);
 	}
 
-	// override this method for specific  
+	// override this method for specific
 	// output needs in start tag
-   protected StringBuffer buildStartTag() throws JspException {
-      StringBuffer results = new StringBuffer();
-      results.append(Constants.TEXTAREA_OPEN);
-      results.append(genTagAttrs());
-      return results;
-   }
+	@Override
+	protected StringBuffer buildStartTag() throws JspException {
+		StringBuffer results = new StringBuffer();
+		results.append(Constants.TEXTAREA_OPEN);
+		results.append(genTagAttrs());
+		return results;
+	}
 
 	// override ths if you want to handle an attribute
+	@Override
 	protected void specialAttrHandler() throws JspException {
 		handleValueAttr();
 	}
 
 	private void handleValueAttr() throws JspException {
-		_value = getAttr(Constants.VALUE);
-		if (_value != null) {
+		this._value = getAttr(Constants.VALUE);
+		if (this._value != null) {
 			try {
-				_value = evalStringAttr(Constants.VALUE, _value);
+				this._value = evalStringAttr(Constants.VALUE, this._value);
 			} catch (Exception e) {
 				throw new JspException(
-					" Evaluation attribute failed " + e.getMessage(),
-					e);
+						" Evaluation attribute failed " + e.getMessage(), //$NON-NLS-1$
+						e);
 			}
 			// now remove this attr from map
 			// so not output in genHTML()
@@ -97,54 +100,63 @@ public class TextareaTag extends BaseHtmlTag {
 
 	}
 
+	@Override
 	protected void setTagName() {
-		tagName = Constants.TEXTAREA;
+		this.tagName = Constants.TEXTAREA;
 	}
-   
-   protected void setType() {
-      _type = Constants.TEXTAREA;
-   }
 
-   /**
-    * Returns if tag has body or not
-    * @return boolean
-    */
-   public boolean evalTagBody() {
-      return true;
-   }
+	@Override
+	protected void setType() {
+		this._type = Constants.TEXTAREA;
+	}
 
-   /**
-    * Appends _value String
-    * @param StringBuffer
-    */
-   public void getBody(StringBuffer buffer) {
-      // actual body content overrides
-      // any display value.
-	  if (bodyContent != null && 
-		  !bodyContent.getString().equals("")) {
-         buffer.append(bodyContent.getString());
-      } 
-      else if (_value != null) {
-         buffer.append(_value); 
-      }    
-   }
-      
-   /**
-    * Appends end Element Close
-    * @param StringBuffer
-    */
-   public void getEndElementClose(StringBuffer buffer) {      
-      buffer.append(Constants.TEXTAREA_CLOSE);
-   }   
+	/**
+	 * Returns if tag has body or not
+	 * 
+	 * @return boolean
+	 */
+	@Override
+	public boolean evalTagBody() {
+		return true;
+	}
 
-   protected void clear() {
-      super.clear();
-      _value = null;
-   }
+	/**
+	 * Appends _value String
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getBody(StringBuffer buffer) {
+		// actual body content overrides
+		// any display value.
+		if (this.bodyContent != null
+				&& !this.bodyContent.getString().equals("")) { //$NON-NLS-1$
+			buffer.append(this.bodyContent.getString());
+		} else if (this._value != null) {
+			buffer.append(this._value);
+		}
+	}
 
-   public void release() {
-      super.release();
-      clear();
-   }
+	/**
+	 * Appends end Element Close
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getEndElementClose(StringBuffer buffer) {
+		buffer.append(Constants.TEXTAREA_CLOSE);
+	}
+
+	@Override
+	protected void clear() {
+		super.clear();
+		this._value = null;
+	}
+
+	@Override
+	public void release() {
+		super.release();
+		clear();
+	}
 
 }

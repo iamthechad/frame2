@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,7 +53,13 @@ package org.megatome.frame2.taglib.html.el;
 import org.megatome.frame2.taglib.html.Constants;
 
 public class TextTag extends BaseInputTag {
-   public void setType() {
-      _type = Constants.TEXT;
-   }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6683596986511881410L;
+
+	@Override
+	public void setType() {
+		this._type = Constants.TEXT;
+	}
 }

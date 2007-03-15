@@ -48,7 +48,7 @@
  * SUCH DAMAGE.
  * ====================================================================
  */
- package org.megatome.frame2.front;
+package org.megatome.frame2.front;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -63,162 +63,164 @@ import org.megatome.frame2.front.config.RequestProcessorDef;
 import org.w3c.dom.Element;
 
 /**
- * The RequestProcessorFactory provides singleton instances of RequestProcessors. The
- * implementation is determined by the request type (HTML client, SOAP, etc.).
+ * The RequestProcessorFactory provides singleton instances of
+ * RequestProcessors. The implementation is determined by the request type (HTML
+ * client, SOAP, etc.).
  */
 final public class RequestProcessorFactory {
-   public static final String RP_TYPE =
-      "org.megatome.frame2.front.RequestProcessor"; //$NON-NLS-1$
-   private RequestProcessorFactory() { // Non-public ctor
-   }
+	public static final String RP_TYPE = "org.megatome.frame2.front.RequestProcessor"; //$NON-NLS-1$
 
-   private static Class<RequestProcessor> createClass(String className) {
-      Class c = null;
-      try {
-         c = Class.forName(className);
-      } catch (ClassNotFoundException e) {
-         // Eat exception, return null.
-         c = null;
-      } /*finally {
-         return c;
-      }*/
-      
-      return c;
-   }
-   
-   private static Class[] generateParamTypes( String[] classNames) {
-      List<Class> paramTypes = new ArrayList<Class>();
-      
-      try {
-         for (int i = 0; i < classNames.length; i++) {
-            paramTypes.add(Class.forName(classNames[i]));
-      
-         }
-      } catch (ClassNotFoundException e) {
-         return null;
-      }
-      
-      Class[] classParamTypes =
-         paramTypes.toArray(new Class[paramTypes.size()]);
-      return classParamTypes;
-   }
+	private RequestProcessorFactory() { // Non-public ctor
+	}
 
-   private static RequestProcessor buildRequestProcessor(
-      Class<RequestProcessor> c,
-      Object[] objects,
-      Class[] paramTypes) {
-      RequestProcessor reqProc = null;
-      Constructor<RequestProcessor> constructor;
-      try {
-         constructor = c.getDeclaredConstructor(paramTypes);
-      } catch (NoSuchMethodException e) {
-         return null;
+	@SuppressWarnings("unchecked")
+	private static Class<RequestProcessor> createClass(String className) {
+		Class<?> c = null;
+		try {
+			c = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			// Eat exception, return null.
+			// c = null;
+		} /*
+			 * finally { return c; }
+			 */
 
-      }
+		return (Class<RequestProcessor>) c;
+	}
 
-      try {
-         reqProc = constructor.newInstance(objects);
+	@SuppressWarnings("unchecked")
+	private static Class[] generateParamTypes(String[] classNames) {
+		List<Class> paramTypes = new ArrayList<Class>();
 
-         if (!Class.forName(RP_TYPE).isInstance(reqProc)) {
-            return null;
-         }
-      } catch (InstantiationException e) {
-         return null;
+		try {
+			for (int i = 0; i < classNames.length; i++) {
+				paramTypes.add(Class.forName(classNames[i]));
 
-      } catch (IllegalAccessException e) {
-         return null;
+			}
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
 
-      } catch (InvocationTargetException e) {
-         return null;
+		Class[] classParamTypes = paramTypes.toArray(new Class[paramTypes
+				.size()]);
+		return classParamTypes;
+	}
 
-      } catch (ClassNotFoundException e) {
-         return null;
-      }
+	@SuppressWarnings("unchecked")
+	private static RequestProcessor buildRequestProcessor(
+			Class<RequestProcessor> c, Object[] objects, Class[] paramTypes) {
+		RequestProcessor reqProc = null;
+		Constructor<RequestProcessor> constructor;
+		try {
+			constructor = c.getDeclaredConstructor(paramTypes);
+		} catch (NoSuchMethodException e) {
+			return null;
 
-      return reqProc;
-   }
+		}
 
-   /**
-    * Return an instance of RequestProcessor.  The instance is not  assumed to be thread safe and
-    * should not be shared between threads.  The client is responsible for calling the instance's
-    * <code>release()</code> method when done with it.
-    *
-    * @param config
-    * @param context
-    * @param request
-    * @param response
-    *
-    * @return RequestProcessor
-    */
-   static public RequestProcessor instance(
-      Configuration config,
-      ServletContext context,
-      HttpServletRequest request,
-      HttpServletResponse response) {
+		try {
+			reqProc = constructor.newInstance(objects);
 
-      RequestProcessorDef requestProcessorDef =
-         config.getHttpRequestProcessor();
-      if (requestProcessorDef != null) {
+			if (!Class.forName(RP_TYPE).isInstance(reqProc)) {
+				return null;
+			}
+		} catch (InstantiationException e) {
+			return null;
 
-         Class<RequestProcessor> c = createClass(requestProcessorDef.getType());
-         if (c == null) {
-            return null;
-         }
+		} catch (IllegalAccessException e) {
+			return null;
 
-         Object[] objects = { config, context, request, response };
-        
-         String[] classNames =
-            {
-               "org.megatome.frame2.front.Configuration", //$NON-NLS-1$
-               "javax.servlet.ServletContext", //$NON-NLS-1$
-               "javax.servlet.http.HttpServletRequest", //$NON-NLS-1$
-               "javax.servlet.http.HttpServletResponse" }; //$NON-NLS-1$
-               
-         Class[] classParamTypes = generateParamTypes(classNames);
-         
-         if (classParamTypes == null) {
-            return null;
-         }
-                  
-         return buildRequestProcessor(c, objects, classParamTypes);
+		} catch (InvocationTargetException e) {
+			return null;
 
-      }
-      
-      return new HttpRequestProcessor(config, context, request, response);
-   }
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
 
-   static public RequestProcessor instance(
-      Configuration config,
-      Element[] elements,
-      String eventPkg) {
+		return reqProc;
+	}
 
-      RequestProcessorDef requestProcessorDef = config.getSoapRequestProcessor();
-      if (requestProcessorDef != null) {
+	/**
+	 * Return an instance of RequestProcessor. The instance is not assumed to be
+	 * thread safe and should not be shared between threads. The client is
+	 * responsible for calling the instance's <code>release()</code> method
+	 * when done with it.
+	 * 
+	 * @param config
+	 * @param context
+	 * @param request
+	 * @param response
+	 * 
+	 * @return RequestProcessor
+	 */
+	@SuppressWarnings("unchecked")
+	static public RequestProcessor instance(Configuration config,
+			ServletContext context, HttpServletRequest request,
+			HttpServletResponse response) {
 
-         Class c = createClass(requestProcessorDef.getType());
-         if (c == null) {
-            return null;
-         }
+		RequestProcessorDef requestProcessorDef = config
+				.getHttpRequestProcessor();
+		if (requestProcessorDef != null) {
 
-         Object[] objects = { config, elements, eventPkg};
-         String[] classNames =
-         {
-            "org.megatome.frame2.front.Configuration",             //$NON-NLS-1$
-            "[Lorg.w3c.dom.Element;",  // This of course is intuitive, but... This is the way to specify an array of org.w3c.dom.Element.   Look at javadoc  //$NON-NLS-1$
-            "java.lang.String"}; //$NON-NLS-1$
-                          
-         Class[] classParamTypes = generateParamTypes(classNames);
-         
-         if (classParamTypes == null) {
-            return null;
-         }
-         
-         return buildRequestProcessor(c, objects, classParamTypes);
+			Class<RequestProcessor> c = createClass(requestProcessorDef
+					.getType());
+			if (c == null) {
+				return null;
+			}
 
-      }
-      
-      return new SoapRequestProcessor(config, elements, eventPkg);
-   }
+			Object[] objects = { config, context, request, response };
 
-   
+			String[] classNames = { "org.megatome.frame2.front.Configuration", //$NON-NLS-1$
+					"javax.servlet.ServletContext", //$NON-NLS-1$
+					"javax.servlet.http.HttpServletRequest", //$NON-NLS-1$
+					"javax.servlet.http.HttpServletResponse" }; //$NON-NLS-1$
+
+			Class[] classParamTypes = generateParamTypes(classNames);
+
+			if (classParamTypes == null) {
+				return null;
+			}
+
+			return buildRequestProcessor(c, objects, classParamTypes);
+
+		}
+
+		return new HttpRequestProcessor(config, context, request, response);
+	}
+
+	@SuppressWarnings("unchecked")
+	static public RequestProcessor instance(Configuration config,
+			Element[] elements, String eventPkg) {
+
+		RequestProcessorDef requestProcessorDef = config
+				.getSoapRequestProcessor();
+		if (requestProcessorDef != null) {
+
+			Class c = createClass(requestProcessorDef.getType());
+			if (c == null) {
+				return null;
+			}
+
+			Object[] objects = { config, elements, eventPkg };
+			String[] classNames = { "org.megatome.frame2.front.Configuration", //$NON-NLS-1$
+					"[Lorg.w3c.dom.Element;", // This of course is intuitive, //$NON-NLS-1$
+												// but... This is the way to
+												// specify an array of
+												// org.w3c.dom.Element. Look at
+												// javadoc
+					"java.lang.String" }; //$NON-NLS-1$
+
+			Class[] classParamTypes = generateParamTypes(classNames);
+
+			if (classParamTypes == null) {
+				return null;
+			}
+
+			return buildRequestProcessor(c, objects, classParamTypes);
+
+		}
+
+		return new SoapRequestProcessor(config, elements, eventPkg);
+	}
+
 }

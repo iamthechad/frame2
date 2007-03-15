@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,148 +57,148 @@ public class TestSelectOptionsTags extends JspTestCase {
 
    String _testJspName;
    String _expectedLiveJsp;
-   static final String JSP_TEST_DIR = "/test/tags/";
+   static final String JSP_TEST_DIR = "/test/tags/"; //$NON-NLS-1$
    String _testMultJspName;
    public TestSelectOptionsTags(String name) {
       super(name);
-      _testJspName = "SelectOptionsTag.jsp";
-      _expectedLiveJsp = "<select name=\"select\">" +
-      						 "<option value=\"one\">one</option>" +
-                         "<option value=\"two\">two</option>" +
-                         "</select>";
+      this._testJspName = "SelectOptionsTag.jsp"; //$NON-NLS-1$
+      this._expectedLiveJsp = "<select name=\"select\">" + //$NON-NLS-1$
+      						 "<option value=\"one\">one</option>" + //$NON-NLS-1$
+                         "<option value=\"two\">two</option>" + //$NON-NLS-1$
+                         "</select>"; //$NON-NLS-1$
    }
    
    // Test out tag in a real live jsp.
    public void testLiveJsp()
       throws Exception {
-      pageContext.forward(JSP_TEST_DIR + _testJspName);
+      this.pageContext.forward(JSP_TEST_DIR + this._testJspName);
    }
 
    public void endLiveJsp(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual.replaceAll("\r\n", "");
+      actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
-      assertEquals(_expectedLiveJsp, actual);
+      assertEquals(this._expectedLiveJsp, actual);
 
    }
    
    public void testSelectedValueInSelect() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "SelectOptionsSelected.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "SelectOptionsSelected.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag");
+         fail("Unexpected error parsing tag"); //$NON-NLS-1$
       }
    }
    
    public void endSelectedValueInSelect(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<select name=\"select\">" +
-      "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option value=\"3\">three</option>" +
-      "</select>";
+      String expected = "<select name=\"select\">" + //$NON-NLS-1$
+      "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option value=\"3\">three</option>" + //$NON-NLS-1$
+      "</select>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testSelectedValueInOptions() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "SelectOptionsSelected2.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "SelectOptionsSelected2.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag");
+         fail("Unexpected error parsing tag"); //$NON-NLS-1$
       }
    }
    
    public void endSelectedValueInOptions(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<select name=\"select\">" +
-      "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option value=\"3\">three</option>" +
-      "</select>";
+      String expected = "<select name=\"select\">" + //$NON-NLS-1$
+      "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option value=\"3\">three</option>" + //$NON-NLS-1$
+      "</select>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testSelectedCollectionValueInSelect() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "SelectOptionsCollection.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "SelectOptionsCollection.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag: " + e.getMessage());
+         fail("Unexpected error parsing tag: " + e.getMessage()); //$NON-NLS-1$
       }
    }
    
    public void endSelectedCollectionValueInSelect(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<select name=\"select\">" +
-      "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option selected value=\"3\">three</option>" +
-      "</select>";
+      String expected = "<select name=\"select\">" + //$NON-NLS-1$
+      "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option selected value=\"3\">three</option>" + //$NON-NLS-1$
+      "</select>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testSelectedCollectionValueInOptions() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "SelectOptionsCollection2.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "SelectOptionsCollection2.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag: " + e.getMessage());
+         fail("Unexpected error parsing tag: " + e.getMessage()); //$NON-NLS-1$
       }
    }
    
    public void endSelectedCollectionValueInOptions(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<select name=\"select\">" +
-      "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option selected value=\"3\">three</option>" +
-      "</select>";
+      String expected = "<select name=\"select\">" + //$NON-NLS-1$
+      "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option selected value=\"3\">three</option>" + //$NON-NLS-1$
+      "</select>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testSelectedCollectionArrayInSelect() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "SelectOptionsArray.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "SelectOptionsArray.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag: " + e.getMessage());
+         fail("Unexpected error parsing tag: " + e.getMessage()); //$NON-NLS-1$
       }
    }
    
    public void endSelectedCollectionArrayInSelect(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<select name=\"select\">" +
-      "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option selected value=\"3\">three</option>" +
-      "</select>";
+      String expected = "<select name=\"select\">" + //$NON-NLS-1$
+      "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option selected value=\"3\">three</option>" + //$NON-NLS-1$
+      "</select>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
    
    public void testSelectedCollectionArrayInOptions() throws Exception {
       try {
-         pageContext.forward(JSP_TEST_DIR + "SelectOptionsArray2.jsp");
+         this.pageContext.forward(JSP_TEST_DIR + "SelectOptionsArray2.jsp"); //$NON-NLS-1$
       } catch (Exception e) {
-         fail("Unexpected error parsing tag: " + e.getMessage());
+         fail("Unexpected error parsing tag: " + e.getMessage()); //$NON-NLS-1$
       }
    }
    
    public void endSelectedCollectionArrayInOptions(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual = actual.replaceAll("\r\n", "");
+      actual = actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
       
-      String expected = "<select name=\"select\">" +
-      "<option value=\"1\">one</option>" +
-      "<option selected value=\"2\">two</option>" +
-      "<option selected value=\"3\">three</option>" +
-      "</select>";
+      String expected = "<select name=\"select\">" + //$NON-NLS-1$
+      "<option value=\"1\">one</option>" + //$NON-NLS-1$
+      "<option selected value=\"2\">two</option>" + //$NON-NLS-1$
+      "<option selected value=\"3\">three</option>" + //$NON-NLS-1$
+      "</select>"; //$NON-NLS-1$
       assertEquals(expected, actual);
    }
 }

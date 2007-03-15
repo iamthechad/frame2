@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,82 +58,83 @@ import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 public class TestCancelTag extends BaseInputTagTest {
 
 	public TestCancelTag(String theName) {
-		super(theName);  
-		_type = TagConstants.QUOTE + Constants.SUBMIT + TagConstants.QUOTE;
-		_testJspName = "CancelTag.jsp";
-		_expectedLiveJsp = "<input type=\"submit\" name=\"org.megatome.frame2.CANCEL\" value=\"" +
-                        Constants.CANCEL_BTN + "\">"; 
-	}
-	
-	public  BaseHtmlTag createTag() {
-		return new CancelTag();      
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.SUBMIT + TagConstants.QUOTE;
+		this._testJspName = "CancelTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<input type=\"submit\" name=\"org.megatome.frame2.CANCEL\" value=\"" + //$NON-NLS-1$
+				Constants.CANCEL_BTN + "\">"; //$NON-NLS-1$
 	}
 
-   public void testCancelTag_Default() throws Exception{
-      CancelTag tag = (CancelTag) createTag();
+	@Override
+	public BaseHtmlTag createTag() {
+		return new CancelTag();
+	}
 
-      tag.setPageContext(pageContext);
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void testCancelTag_Default() throws Exception {
+		CancelTag tag = (CancelTag) createTag();
 
-   public void endCancelTag_Default(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"submit\" name=\"org.megatome.frame2.CANCEL\" value=\"" +
-                        Constants.CANCEL_BTN + "\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-   public void testCancelTag() throws Exception{
-      CancelTag tag = (CancelTag) createTag();
+	public void endCancelTag_Default(WebResponse webResponse) throws Exception {
+		String expected = "<input type=\"submit\" name=\"org.megatome.frame2.CANCEL\" value=\"" + //$NON-NLS-1$
+				Constants.CANCEL_BTN + "\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
 
-      tag.setPageContext(pageContext);
-      tag.setValue("MY_CANCEL");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+		assertEquals(expected, actual);
+	}
 
-   public void endCancelTag(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"submit\" name=\"org.megatome.frame2.CANCEL\" value=\"MY_CANCEL\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+	public void testCancelTag() throws Exception {
+		CancelTag tag = (CancelTag) createTag();
 
-   public void testCancelTag_WhiteSpace() throws Exception{
-      CancelTag tag = (CancelTag) createTag();
+		tag.setPageContext(this.pageContext);
+		tag.setValue("MY_CANCEL"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-      tag.setPageContext(pageContext);
-      tag.setValue("   ");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void endCancelTag(WebResponse webResponse) throws Exception {
+		String expected = "<input type=\"submit\" name=\"org.megatome.frame2.CANCEL\" value=\"MY_CANCEL\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
 
-   public void endCancelTag_WhiteSpace(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"submit\" name=\"org.megatome.frame2.CANCEL\" value=\"" +
-                        Constants.CANCEL_BTN + "\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
-   
-  
-   
-   public void endAnAttribute(WebResponse webResponse) throws Exception {
+		assertEquals(expected, actual);
+	}
 
-		String expected =
-			Constants.INPUT_TYPE + _type 
+	public void testCancelTag_WhiteSpace() throws Exception {
+		CancelTag tag = (CancelTag) createTag();
+
+		tag.setPageContext(this.pageContext);
+		tag.setValue("   "); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
+
+	public void endCancelTag_WhiteSpace(WebResponse webResponse)
+			throws Exception {
+		String expected = "<input type=\"submit\" name=\"org.megatome.frame2.CANCEL\" value=\"" + //$NON-NLS-1$
+				Constants.CANCEL_BTN + "\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	@Override
+	public void endAnAttribute(WebResponse webResponse) throws Exception {
+
+		String expected = Constants.INPUT_TYPE
+				+ this._type
 				+ HTMLHelpers.buildHtmlAttr(Constants.ACCESS_KEY, ATTR_VALUE_1)
-				+ HTMLHelpers.buildHtmlAttr(Constants.NAME, "org.megatome.frame2.CANCEL")
-     			+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "Cancel")
-				+ TagConstants.RT_ANGLE;		
+				+ HTMLHelpers.buildHtmlAttr(Constants.NAME,
+						"org.megatome.frame2.CANCEL") //$NON-NLS-1$
+				+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "Cancel") //$NON-NLS-1$
+				+ TagConstants.RT_ANGLE;
 
 		String actual = webResponse.getText();
 
 		assertEquals(expected, actual);
 
 	}
-	
-			
+
 }

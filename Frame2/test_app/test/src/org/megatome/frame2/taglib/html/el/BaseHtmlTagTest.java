@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,8 +58,8 @@ public abstract class BaseHtmlTagTest extends JspTestCase {
 	String _testJspName;
 	String _expectedLiveJsp;
 
-	static String ATTR_NAME_PRE = "test";
-	static String JSP_TEST_DIR = "/test/tags/";
+	static String ATTR_NAME_PRE = "test"; //$NON-NLS-1$
+	static String JSP_TEST_DIR = "/test/tags/"; //$NON-NLS-1$
 
 	public BaseHtmlTagTest(String theName) {
 		super(theName);
@@ -71,13 +71,13 @@ public abstract class BaseHtmlTagTest extends JspTestCase {
 	// Test out tag in a real live jsp.
 	public void testLiveJsp()
 		throws Exception {
-		pageContext.forward(JSP_TEST_DIR + _testJspName);
+		this.pageContext.forward(JSP_TEST_DIR + this._testJspName);
 	}
 
 	public void endLiveJsp(WebResponse webResponse) throws Exception {
 		String actual = webResponse.getText().trim();
 
-		assertEquals(_expectedLiveJsp, actual);
+		assertEquals(this._expectedLiveJsp, actual);
 
 	}
 

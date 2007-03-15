@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,56 +56,55 @@ import org.megatome.frame2.taglib.html.Constants;
 import org.megatome.frame2.tagsupport.TagConstants;
 
 public class TestFormTag extends BaseHtmlTagTest {
-   
-   public TestFormTag(String theName) {
-      super(theName);   
-      _type = TagConstants.QUOTE + Constants.FORM + TagConstants.QUOTE;
-      _testJspName = "FormTag.jsp";
-      _expectedLiveJsp = "<form action=\"event.f2\" method=\"POST\" onsubmit=\"submit();\">body" + System.getProperty("line.separator") + "</form>"; 
-   }
-   
-   public  BaseHtmlTag createTag() {
-      return new FormTag();      
-   }
 
-   public void beginHtmlTag(WebRequest rquest) throws Exception {
-   }
+	public TestFormTag(String theName) {
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.FORM + TagConstants.QUOTE;
+		this._testJspName = "FormTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<form action=\"event.f2\" method=\"POST\" onsubmit=\"submit();\">body" + System.getProperty("line.separator") + "</form>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-   public void testFormTag() throws Exception{
-      FormTag tag = (FormTag) createTag();
-      tag.setPageContext(pageContext);      
-      tag.doStartTag();
-      tag.doAfterBody();
-      tag.doEndTag();
-   }
-   
+	@Override
+	public BaseHtmlTag createTag() {
+		return new FormTag();
+	}
 
-   public void endFormTag(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.FORM_TAG + TagConstants.RT_ANGLE +
-         Constants.FORM_CLOSE;     
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+	public void beginHtmlTag(@SuppressWarnings("unused")
+	WebRequest rquest) throws Exception {
+		// noop
+	}
 
-   public void testXHtmlTag() throws Exception{
-      FormTag tag = (FormTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY,Constants.TRUE);
-      tag.setPageContext(pageContext);      
-      tag.doStartTag();
-      tag.doAfterBody();
-      tag.doEndTag();
-   }
-   
+	public void testFormTag() throws Exception {
+		FormTag tag = (FormTag) createTag();
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doAfterBody();
+		tag.doEndTag();
+	}
 
-   public void endXHtmlTag(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.FORM_TAG + TagConstants.RT_ANGLE +
-         Constants.FORM_CLOSE;     
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }   
-          
+	public void endFormTag(WebResponse webResponse) throws Exception {
+		String expected = Constants.FORM_TAG + TagConstants.RT_ANGLE
+				+ Constants.FORM_CLOSE;
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	public void testXHtmlTag() throws Exception {
+		FormTag tag = (FormTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doAfterBody();
+		tag.doEndTag();
+	}
+
+	public void endXHtmlTag(WebResponse webResponse) throws Exception {
+		String expected = Constants.FORM_TAG + TagConstants.RT_ANGLE
+				+ Constants.FORM_CLOSE;
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,51 +57,57 @@ import org.megatome.frame2.taglib.html.Constants;
  */
 public class FormTag extends BaseBodyTag {
 
-   protected void setType() {
-      _type = Constants.FORM;
-   }   
-   
-   public void setTagName() {
-      tagName = Constants.FORM_TAG;
-   }
- 
-   public void setAction(String action) {
-      setAttr(Constants.ACTION, action);
-   }  
+	private static final long serialVersionUID = 2441376012166113889L;
 
-   public void setAccept(String accept) {
-      setAttr(Constants.ACCEPT, accept);
-   }  
-   
-   public void setAcceptcharset(String acceptcharset) {
-      setAttr(Constants.ACCEPT_CHARSET, acceptcharset);
-   }  
-   
-   public void setEnctype(String enctype) {
-      setAttr(Constants.ENCTYPE, enctype);
-   } 
+	@Override
+	protected void setType() {
+		this._type = Constants.FORM;
+	}
 
-   public void setMethod(String method) {
-      setAttr(Constants.METHOD, method);
-   } 
-   
-   public void setOnreset(String onreset) {
-      setAttr(Constants.ON_RESET, onreset);
-   }  
+	@Override
+	public void setTagName() {
+		this.tagName = Constants.FORM_TAG;
+	}
 
-   public void setOnsubmit(String onsubmit) {
-      setAttr(Constants.ON_SUBMIT, onsubmit);
-   }    
-   
-   public void setTarget(String target) {
-      setAttr(Constants.TARGET, target);
-   }                  
-   /**
-    * Appends end Element Close
-    * @param StringBuffer
-    */
-   public void getEndElementClose(StringBuffer buffer) {
-      buffer.append(Constants.FORM_CLOSE);     
-   }
+	public void setAction(String action) {
+		setAttr(Constants.ACTION, action);
+	}
+
+	public void setAccept(String accept) {
+		setAttr(Constants.ACCEPT, accept);
+	}
+
+	public void setAcceptcharset(String acceptcharset) {
+		setAttr(Constants.ACCEPT_CHARSET, acceptcharset);
+	}
+
+	public void setEnctype(String enctype) {
+		setAttr(Constants.ENCTYPE, enctype);
+	}
+
+	public void setMethod(String method) {
+		setAttr(Constants.METHOD, method);
+	}
+
+	public void setOnreset(String onreset) {
+		setAttr(Constants.ON_RESET, onreset);
+	}
+
+	public void setOnsubmit(String onsubmit) {
+		setAttr(Constants.ON_SUBMIT, onsubmit);
+	}
+
+	public void setTarget(String target) {
+		setAttr(Constants.TARGET, target);
+	}
+
+	/**
+	 * Appends end Element Close
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getEndElementClose(StringBuffer buffer) {
+		buffer.append(Constants.FORM_CLOSE);
+	}
 }
-

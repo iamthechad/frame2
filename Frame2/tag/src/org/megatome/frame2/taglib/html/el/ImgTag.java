@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,8 @@ import org.megatome.frame2.tagsupport.util.HTMLHelpers;
  */
 public class ImgTag extends BaseHtmlTag {
 
-    private String _align;
+	private static final long serialVersionUID = 6141962834372744724L;
+	private String _align;
     private String _border;
     private String _datafld;
     private String _datasrc;
@@ -81,12 +82,14 @@ public class ImgTag extends BaseHtmlTag {
     private String _vspace;
     private String _width;
 
-    protected void setType() {
-        _type = Constants.IMG;
+    @Override
+	protected void setType() {
+        this._type = Constants.IMG;
     }
 
-    protected void setTagName() {
-        tagName = Constants.IMG;
+    @Override
+	protected void setTagName() {
+        this.tagName = Constants.IMG;
     }
 
 
@@ -95,7 +98,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param align The align to set
      */
     public void setAlign(String align) {
-        _align = align;
+        this._align = align;
     }
 
     /**
@@ -103,7 +106,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param border The border to set
      */
     public void setBorder(String border) {
-        _border = border;
+        this._border = border;
     }
 
     /**
@@ -111,7 +114,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param datafld The datafld to set
      */
     public void setDatafld(String datafld) {
-        _datafld = datafld;
+        this._datafld = datafld;
     }
 
     /**
@@ -119,7 +122,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param datasrc The datasrc to set
      */
     public void setDatasrc(String datasrc) {
-        _datasrc = datasrc;
+        this._datasrc = datasrc;
     }
 
     /**
@@ -127,14 +130,14 @@ public class ImgTag extends BaseHtmlTag {
      * @param dynsrc The datasrc to set
      */
     public void setDynsrc(String dynsrc) {
-        _dynsrc = dynsrc;
+        this._dynsrc = dynsrc;
     }
     /**
      * Sets the galleryimage.
      * @param galleryimage The galleryimage to set
      */
     public void setGalleryimg(String galleryimage) {
-        _galleryimg = galleryimage;
+        this._galleryimg = galleryimage;
     }
 
     /**
@@ -142,7 +145,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param height The height to set
      */
     public void setHeight(String height) {
-        _height = height;
+        this._height = height;
     }
 
     /**
@@ -150,7 +153,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param hspace The hspace to set
      */
     public void setHspace(String hspace) {
-        _hspace = hspace;
+        this._hspace = hspace;
     }
 
     /**
@@ -158,7 +161,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param ismap The ismap to set
      */
     public void setIsmap(String ismap) {
-        _ismap = ismap;
+        this._ismap = ismap;
     }
 
     /**
@@ -166,7 +169,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param longdesc The longdesc to set
      */
     public void setLongdesc(String longdesc) {
-        _longdesc = longdesc;
+        this._longdesc = longdesc;
     }
 
     /**
@@ -174,7 +177,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param loop The loop to set
      */
     public void setLoop(String loop) {
-        _loop = loop;
+        this._loop = loop;
     }
 
     /**
@@ -182,7 +185,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param lowsrc The lowsrc to set
      */
     public void setLowsrc(String lowsrc) {
-        _lowsrc = lowsrc;
+        this._lowsrc = lowsrc;
     }
 
     /**
@@ -190,7 +193,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param src The src to set
      */
     public void setSrc(String src) {
-        _src = src;
+        this._src = src;
     }
 
     /**
@@ -198,7 +201,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param start The start to set
      */
     public void setStart(String start) {
-        _start = start;
+        this._start = start;
     }
 
     /**
@@ -206,7 +209,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param suppress The suppress to set
      */
     public void setSuppress(String suppress) {
-        _suppress = suppress;
+        this._suppress = suppress;
     }
 
     /**
@@ -214,7 +217,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param usemap The usemap to set
      */
     public void setUsemap(String usemap) {
-        _usemap = usemap;
+        this._usemap = usemap;
     }
 
     /**
@@ -222,7 +225,7 @@ public class ImgTag extends BaseHtmlTag {
      * @param vspace The vspace to set
      */
     public void setVspace(String vspace) {
-        _vspace = vspace;
+        this._vspace = vspace;
     }
 
     /**
@@ -230,79 +233,83 @@ public class ImgTag extends BaseHtmlTag {
      * @param width The width to set
      */
     public void setWidth(String width) {
-        _width = width;
+        this._width = width;
     }
 
-    protected void specialAttrHandler() throws JspException {
+    @Override
+	protected void specialAttrHandler() throws JspException {
         super.specialAttrHandler();
-        _align = handleAttr(Constants.ALIGN, _align);
-        _border = handleAttr(Constants.BORDER, _border);
-        _datafld = handleAttr(Constants.DATAFLD, _datafld);
-        _datasrc = handleAttr(Constants.DATASRC, _datasrc);
-        _dynsrc = handleAttr(Constants.DYNSRC, _dynsrc);
-        _galleryimg = handleAttr(Constants.GALLERYIMG, _galleryimg);
-        _height = handleAttr(Constants.HEIGHT, _height);
-        _hspace = handleAttr(Constants.HSPACE, _hspace);
-        _ismap = handleAttr(Constants.ISMAP, _ismap);
-        _longdesc = handleAttr(Constants.LONGDESC, _longdesc);
-        _loop = handleAttr(Constants.LOOP, _loop);
-        _lowsrc = handleAttr(Constants.LOWSRC, _lowsrc);
-        _src = handleAttr(Constants.SRC, _src);
-        _start = handleAttr(Constants.START, _start);
-        _suppress = handleAttr(Constants.SUPPRESS, _suppress);
-        _usemap = handleAttr(Constants.USEMAP, _usemap);
-        _vspace = handleAttr(Constants.VSPACE, _vspace);
-        _width = handleAttr(Constants.WIDTH, _width);
+        this._align = handleAttr(Constants.ALIGN, this._align);
+        this._border = handleAttr(Constants.BORDER, this._border);
+        this._datafld = handleAttr(Constants.DATAFLD, this._datafld);
+        this._datasrc = handleAttr(Constants.DATASRC, this._datasrc);
+        this._dynsrc = handleAttr(Constants.DYNSRC, this._dynsrc);
+        this._galleryimg = handleAttr(Constants.GALLERYIMG, this._galleryimg);
+        this._height = handleAttr(Constants.HEIGHT, this._height);
+        this._hspace = handleAttr(Constants.HSPACE, this._hspace);
+        this._ismap = handleAttr(Constants.ISMAP, this._ismap);
+        this._longdesc = handleAttr(Constants.LONGDESC, this._longdesc);
+        this._loop = handleAttr(Constants.LOOP, this._loop);
+        this._lowsrc = handleAttr(Constants.LOWSRC, this._lowsrc);
+        this._src = handleAttr(Constants.SRC, this._src);
+        this._start = handleAttr(Constants.START, this._start);
+        this._suppress = handleAttr(Constants.SUPPRESS, this._suppress);
+        this._usemap = handleAttr(Constants.USEMAP, this._usemap);
+        this._vspace = handleAttr(Constants.VSPACE, this._vspace);
+        this._width = handleAttr(Constants.WIDTH, this._width);
     }
 
-    protected StringBuffer buildStartTag() throws JspException {
+    @Override
+	protected StringBuffer buildStartTag() throws JspException {
         StringBuffer result = new StringBuffer();
         result.append(Constants.IMG_TAG);
         result.append(genTagAttrs());
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.ALIGN,_align));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.BORDER, _border));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.DATAFLD, _datafld));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.DATASRC, _datasrc));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.DYNSRC, _dynsrc));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.GALLERYIMG, _galleryimg));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.HEIGHT, _height));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.HSPACE, _hspace));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.ISMAP, _ismap));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.LONGDESC, _longdesc));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.LOOP, _loop));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.LOWSRC, _lowsrc));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.SRC, _src));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.START, _start));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.SUPPRESS, _suppress));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.USEMAP, _usemap));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.VSPACE, _vspace));
-        result.append(HTMLHelpers.buildHtmlAttr(Constants.WIDTH, _width));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.ALIGN,this._align));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.BORDER, this._border));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.DATAFLD, this._datafld));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.DATASRC, this._datasrc));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.DYNSRC, this._dynsrc));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.GALLERYIMG, this._galleryimg));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.HEIGHT, this._height));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.HSPACE, this._hspace));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.ISMAP, this._ismap));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.LONGDESC, this._longdesc));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.LOOP, this._loop));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.LOWSRC, this._lowsrc));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.SRC, this._src));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.START, this._start));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.SUPPRESS, this._suppress));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.USEMAP, this._usemap));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.VSPACE, this._vspace));
+        result.append(HTMLHelpers.buildHtmlAttr(Constants.WIDTH, this._width));
 
         return result;
     }
 
+   @Override
    protected void clear() {
       super.clear();
-      _align = null;
-      _border = null;
-      _datafld = null;
-      _datasrc = null;
-      _dynsrc = null;
-      _galleryimg = null;
-      _height = null;
-      _hspace = null;
-      _ismap = null;
-      _longdesc = null;
-      _loop = null;
-      _lowsrc = null;
-      _src = null;
-      _start = null;
-      _suppress = null;
-      _usemap = null;
-      _vspace = null;
-      _width = null;
+      this._align = null;
+      this._border = null;
+      this._datafld = null;
+      this._datasrc = null;
+      this._dynsrc = null;
+      this._galleryimg = null;
+      this._height = null;
+      this._hspace = null;
+      this._ismap = null;
+      this._longdesc = null;
+      this._loop = null;
+      this._lowsrc = null;
+      this._src = null;
+      this._start = null;
+      this._suppress = null;
+      this._usemap = null;
+      this._vspace = null;
+      this._width = null;
    }
 
+   @Override
    public void release() {
       super.release();
       clear();

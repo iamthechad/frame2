@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,62 +58,69 @@ import org.megatome.frame2.tagsupport.BaseFrame2Tag;
 
 public class ParamTag extends BaseFrame2Tag {
 
-   /**
-    * 
-    */
-   public ParamTag() {
-      super();
-   }
+	private static final long serialVersionUID = -1585688023653903751L;
 
-   protected void setTagName() {
-      tagName = TemplateConstants.PARAM_TAG;
-   }
+	/**
+	 * 
+	 */
+	public ParamTag() {
+		super();
+	}
 
-   /**
-   	 * @return
-   	 */
-   public String getName() {
-      return getAttr(TemplateConstants.NAME);
-   }
+	@Override
+	protected void setTagName() {
+		this.tagName = TemplateConstants.PARAM_TAG;
+	}
 
-   /**
-    * @return
-    */
-   public String getValue() {
-      return getAttr(TemplateConstants.VALUE);
-   }
+	/**
+	 * @return
+	 */
+	public String getName() {
+		return getAttr(TemplateConstants.NAME);
+	}
 
-   /**
-    * @param string
-    */
-   public void setName(String name) {
-      setAttr(TemplateConstants.NAME, name);
-   }
+	/**
+	 * @return
+	 */
+	public String getValue() {
+		return getAttr(TemplateConstants.VALUE);
+	}
 
-   /**
-    * @param string
-    */
-   public void setValue(String value) {
-      setAttr(TemplateConstants.VALUE, value);
-   }
+	/**
+	 * @param string
+	 */
+	public void setName(String name) {
+		setAttr(TemplateConstants.NAME, name);
+	}
 
-   /* (non-Javadoc)
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException {
-      Tag parentTag = getParent();
-      if ((parentTag == null) || !(parentTag instanceof InsertTag)) {
-         throw new JspException("Param Tag must be contained within an Insert Tag");
-      }
+	/**
+	 * @param string
+	 */
+	public void setValue(String value) {
+		setAttr(TemplateConstants.VALUE, value);
+	}
 
-      String paramName = evaluateStringAttribute(TemplateConstants.NAME);
-      
-      if (paramName.equals("")) {
-      	throw new JspException("Parameter name in param cannot be empty");
-      }
-      
-      String paramValue = evaluateStringAttribute(TemplateConstants.VALUE);
-      ((InsertTag) parentTag).addParameter(paramName, paramValue);
-      return Tag.SKIP_BODY;
-   }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+	 */
+	@Override
+	public int doStartTag() throws JspException {
+		Tag parentTag = getParent();
+		if ((parentTag == null) || !(parentTag instanceof InsertTag)) {
+			throw new JspException(
+					"Param Tag must be contained within an Insert Tag"); //$NON-NLS-1$
+		}
+
+		String paramName = evaluateStringAttribute(TemplateConstants.NAME);
+
+		if (paramName.equals("")) { //$NON-NLS-1$
+			throw new JspException("Parameter name in param cannot be empty"); //$NON-NLS-1$
+		}
+
+		String paramValue = evaluateStringAttribute(TemplateConstants.VALUE);
+		((InsertTag) parentTag).addParameter(paramName, paramValue);
+		return Tag.SKIP_BODY;
+	}
 }

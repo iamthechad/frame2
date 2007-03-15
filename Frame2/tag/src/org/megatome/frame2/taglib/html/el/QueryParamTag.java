@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,15 +57,18 @@ import org.megatome.frame2.tagsupport.BaseFrame2Tag;
 
 public class QueryParamTag extends BaseFrame2Tag {
 
-    /**
+	private static final long serialVersionUID = 5543030286998242403L;
+
+	/**
      * Constructor
      */
     public QueryParamTag() {
         super();
     }
 
-    protected void setTagName() {
-        tagName = Constants.QUERY_PARAM_TAG;
+    @Override
+	protected void setTagName() {
+        this.tagName = Constants.QUERY_PARAM_TAG;
     }
     
     /**
@@ -104,10 +107,11 @@ public class QueryParamTag extends BaseFrame2Tag {
      * Evaluate the name and value, and pass them to the parent tag.
      * @see javax.servlet.jsp.tagext.Tag#doStartTag()
      */
-    public int doStartTag() throws JspException {
+    @Override
+	public int doStartTag() throws JspException {
         ATag parent = (ATag)findAncestorWithClass(this, ATag.class);
         if (parent == null) {
-            throw new JspException("The queryparam tag must be a child of the a tag");
+            throw new JspException("The queryparam tag must be a child of the a tag"); //$NON-NLS-1$
         }
         
         String nameEval = evaluateStringAttribute(Constants.NAME);

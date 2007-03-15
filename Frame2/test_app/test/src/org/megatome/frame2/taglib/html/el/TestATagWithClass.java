@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,11 +55,12 @@ public class TestATagWithClass extends BaseHtmlTagTest {
 
 	public TestATagWithClass(String theName) {
 		super(theName);
-		_testJspName = "ATagWithClass.jsp";
-		_expectedLiveJsp = "<a class=\"aClass\" href=\"dude.html\">Visit Dude</a>";		
+		this._testJspName = "ATagWithClass.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<a class=\"aClass\" href=\"dude.html\">Visit Dude</a>";		 //$NON-NLS-1$
 	}
 	
 
+	@Override
 	public BaseHtmlTag createTag() {
 		return new ATag();
 	}		

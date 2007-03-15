@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,70 +64,71 @@ import org.megatome.frame2.template.config.TemplateDef;
 
 public class GetTag extends BaseFrame2Tag {
 
-   /**
-    * 
-    */
-   public GetTag() {
-      super();
-   }
+	private static final long serialVersionUID = 4634100289586083056L;
 
-   protected void setTagName() {
-      tagName = TemplateConstants.GET_TAG;
-   }
+	/**
+	 * 
+	 */
+	public GetTag() {
+		super();
+	}
 
-   /**
-    * @return
-    */
-   public String getName() {
-      return getAttr(TemplateConstants.NAME);
-   }
+	@Override
+	protected void setTagName() {
+		this.tagName = TemplateConstants.GET_TAG;
+	}
 
-   /**
-    * @param string
-    */
-   public void setName(String name) {
-      setAttr(TemplateConstants.NAME, name);
-   }
+	/**
+	 * @return
+	 */
+	public String getName() {
+		return getAttr(TemplateConstants.NAME);
+	}
 
-   /* (non-Javadoc)
-   	 * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-   	 */
-   public int doStartTag() throws JspException {
+	/**
+	 * @param string
+	 */
+	public void setName(String name) {
+		setAttr(TemplateConstants.NAME, name);
+	}
 
-      TemplateDef def =
-         (TemplateDef) pageContext.findAttribute(
-            TemplateConstants.FRAME2_INSERT_KEY);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+	 */
+	@Override
+	public int doStartTag() throws JspException {
 
-      if (def == null) {
-         throw new JspException("Error GetTag could not access definition for template ");
-      }
+		TemplateDef def = (TemplateDef) this.pageContext
+				.findAttribute(TemplateConstants.FRAME2_INSERT_KEY);
 
-      String getName = evaluateStringAttribute(TemplateConstants.NAME);
-      String getPath = def.getPutParam(getName, pageContext);
-      if (getPath == null) {
-         throw new JspException(
-            "Could not access entry '"
-               + getName
-               + "' for template \""
-               + def.getName()
-               + "\"");
-      }
+		if (def == null) {
+			throw new JspException(
+					"Error GetTag could not access definition for template "); //$NON-NLS-1$
+		}
 
-      try {
-         ServletResponseIncludeWrapper wrapper =
-            new ServletResponseIncludeWrapper(
-               pageContext.getResponse(),
-               pageContext.getOut());
+		String getName = evaluateStringAttribute(TemplateConstants.NAME);
+		String getPath = def.getPutParam(getName, this.pageContext);
+		if (getPath == null) {
+			throw new JspException("Could not access entry '" //$NON-NLS-1$
+					+ getName + "' for template \"" //$NON-NLS-1$
+					+ def.getName() + "\""); //$NON-NLS-1$
+		}
 
-         RequestDispatcher rd =
-            pageContext.getRequest().getRequestDispatcher(getPath);
-         rd.include(pageContext.getRequest(), wrapper);
-      } catch (ServletException e) {
-         throw new JspException(e);
-      } catch (IOException e) {
-         throw new JspException(e);
-      }
+		try {
+			ServletResponseIncludeWrapper wrapper = new ServletResponseIncludeWrapper(
+					this.pageContext.getResponse(), this.pageContext.getOut());
 
-      return Tag.SKIP_BODY;
-   }
+			RequestDispatcher rd = this.pageContext.getRequest()
+					.getRequestDispatcher(getPath);
+			rd.include(this.pageContext.getRequest(), wrapper);
+		} catch (ServletException e) {
+			throw new JspException(e);
+		} catch (IOException e) {
+			throw new JspException(e);
+		}
+
+		return Tag.SKIP_BODY;
+	}
 }

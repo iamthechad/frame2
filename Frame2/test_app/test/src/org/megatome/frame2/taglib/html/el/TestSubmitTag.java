@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,76 +55,77 @@ import org.megatome.frame2.taglib.html.Constants;
 import org.megatome.frame2.tagsupport.TagConstants;
 import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 
-public class TestSubmitTag extends BaseInputTagTest { 
+public class TestSubmitTag extends BaseInputTagTest {
 
 	public TestSubmitTag(String theName) {
-		super(theName);   
-		_type = TagConstants.QUOTE + Constants.SUBMIT + TagConstants.QUOTE;
-		_testJspName = "SubmitTag.jsp";
-		_expectedLiveJsp = "<input type=\"submit\" onfocus=\"true\" value=\"7\">";                      
-	}
-	
-	public  BaseHtmlTag createTag() {
-		return new SubmitTag();      
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.SUBMIT + TagConstants.QUOTE;
+		this._testJspName = "SubmitTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<input type=\"submit\" onfocus=\"true\" value=\"7\">"; //$NON-NLS-1$
 	}
 
-   public void testSubmitTag_Default() throws Exception{
-      SubmitTag tag = (SubmitTag) createTag();
+	@Override
+	public BaseHtmlTag createTag() {
+		return new SubmitTag();
+	}
 
-      tag.setPageContext(pageContext);
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void testSubmitTag_Default() throws Exception {
+		SubmitTag tag = (SubmitTag) createTag();
 
-   public void endSubmitTag_Default(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"submit\" value=\"" +
-                        Constants.SUBMIT_BTN + "\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-   public void testSubmitTag() throws Exception{
-      SubmitTag tag = (SubmitTag) createTag();
+	public void endSubmitTag_Default(WebResponse webResponse) throws Exception {
+		String expected = "<input type=\"submit\" value=\"" + //$NON-NLS-1$
+				Constants.SUBMIT_BTN + "\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
 
-      tag.setPageContext(pageContext);
-      tag.setValue("MY_SUBMIT");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+		assertEquals(expected, actual);
+	}
 
-   public void endSubmitTag(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"submit\" value=\"MY_SUBMIT\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+	public void testSubmitTag() throws Exception {
+		SubmitTag tag = (SubmitTag) createTag();
 
-   public void testSubmitTag_WhiteSpace() throws Exception{
-      SubmitTag tag = (SubmitTag) createTag();
+		tag.setPageContext(this.pageContext);
+		tag.setValue("MY_SUBMIT"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
 
-      tag.setPageContext(pageContext);
-      tag.setValue("   ");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+	public void endSubmitTag(WebResponse webResponse) throws Exception {
+		String expected = "<input type=\"submit\" value=\"MY_SUBMIT\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
 
-   public void endSubmitTag_WhiteSpace(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"submit\" value=\"" +
-                        Constants.SUBMIT_BTN + "\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
-   
-   
-   public void endAnAttribute(WebResponse webResponse) throws Exception {
+		assertEquals(expected, actual);
+	}
 
-		String expected =
-			Constants.INPUT_TYPE + _type 
+	public void testSubmitTag_WhiteSpace() throws Exception {
+		SubmitTag tag = (SubmitTag) createTag();
+
+		tag.setPageContext(this.pageContext);
+		tag.setValue("   "); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
+
+	public void endSubmitTag_WhiteSpace(WebResponse webResponse)
+			throws Exception {
+		String expected = "<input type=\"submit\" value=\"" + //$NON-NLS-1$
+				Constants.SUBMIT_BTN + "\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	@Override
+	public void endAnAttribute(WebResponse webResponse) throws Exception {
+
+		String expected = Constants.INPUT_TYPE + this._type
 				+ HTMLHelpers.buildHtmlAttr(Constants.ACCESS_KEY, ATTR_VALUE_1)
-     			+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "Submit")
-				+ TagConstants.RT_ANGLE;		
+				+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "Submit") //$NON-NLS-1$
+				+ TagConstants.RT_ANGLE;
 
 		String actual = webResponse.getText();
 

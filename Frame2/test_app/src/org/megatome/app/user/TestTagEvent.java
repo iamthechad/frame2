@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,152 +52,175 @@ package org.megatome.app.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.event.CommonsValidatorEvent;
 
-
-
 public class TestTagEvent extends CommonsValidatorEvent {
-   private String  _textTag;
-   private String  _passwordTag;
-   private String  _checkedValue;
-   private String  _textareaTag;
-   private String  _htmlXhtmlValue = "htmlRadio";
-   private String  _xhtml;
-   private ArrayList _list = new ArrayList();
-   private ArrayList _selectedList = new ArrayList();
-        
-   public TestTagEvent() {
-      super();
-      _list.add("one");
-      _list.add("two");
-      _list.add("four");
-      _list.add("me");
-      
-      _selectedList.add("xxx");
-      _selectedList.add("two");
-      _selectedList.add("vvv");
-      _selectedList.add("yyy");
-   }
+	private String _textTag;
 
-   public Collection getList() {
-      return _list;
-   }
+	private String _passwordTag;
 
-   public Collection getSelectedList() {
-      return _selectedList;
-   }
-   /*
-   public Object[] getList() {
-      return (Object[])_list.toArray();
-   }  
-   */
-   /**
-    * Returns the textTag.
-    * @return String
-    */
-   public String getTextTag() {
-      return _textTag;
-   }
+	private String _checkedValue;
 
-   /**
-    * Sets the textTag.
-    * @param textTag The textTag to set
-    */
-   public void setTextTag(String textTag) {
-      _textTag = textTag;
-   }
-   
-   public boolean validate(Errors errors) {
-      return true;
-   }
-   /**
-    * Returns the passwordTag.
-    * @return String
-    */
-   public String getPasswordTag() {
-      return _passwordTag;
-   }
+	private String _textareaTag;
 
-   /**
-    * Sets the passwordTag.
-    * @param passwordTag The passwordTag to set
-    */
-   public void setPasswordTag(String passwordTag) {
-      _passwordTag = passwordTag;
-   }
+	private String _htmlXhtmlValue = "htmlRadio"; //$NON-NLS-1$
 
-   /**
-    * Returns the checkedValue.
-    * @return String
-    */
-   public String getCheckedValue() {
-      return _checkedValue;
-   }
+	private String _xhtml;
 
-   /**
-    * Sets the checkedValue.
-    * @param checkedValue The checkedValue to set
-    */
-   public void setCheckedValue(String checkedValue) {
-      _checkedValue = checkedValue;
-   }
+	private List<String> _list = new ArrayList<String>();
 
-   /**
-    * Returns the passwordTag.
-    * @return String
-    */
-   public String getHtmlXhtmlRadioTag() {
-      return _htmlXhtmlValue;
-   }
+	private List<String> _selectedList = new ArrayList<String>();
 
-   /**
-    * Sets the passwordTag.
-    * @param passwordTag The passwordTag to set
-    */
-   public void setHtmlXhtmlRadioTag(String htmlXhtmlValue) {
-      _htmlXhtmlValue = htmlXhtmlValue;
-      if(_htmlXhtmlValue.equals("xhtmlRadio")) {
-         setXhtml("true");
-      }
-      else {
-         setXhtml("false");
-      }
-         
-   }
+	public TestTagEvent() {
+		super();
+		this._list.add("one"); //$NON-NLS-1$
+		this._list.add("two"); //$NON-NLS-1$
+		this._list.add("four"); //$NON-NLS-1$
+		this._list.add("me"); //$NON-NLS-1$
 
-   /**
-    * Returns the _xhtml.
-    * @return String
-    */
-   public String getXhtml() {
-      return _xhtml;
-   }
+		this._selectedList.add("xxx"); //$NON-NLS-1$
+		this._selectedList.add("two"); //$NON-NLS-1$
+		this._selectedList.add("vvv"); //$NON-NLS-1$
+		this._selectedList.add("yyy"); //$NON-NLS-1$
+	}
 
-   /**
-    * Sets the _xhtml.
-    * @param xhtml 
-    */
-   private void setXhtml(String xhtml) {
-      _xhtml = xhtml;
-   }
+	public Collection<String> getList() {
+		return this._list;
+	}
 
+	public Collection<String> getSelectedList() {
+		return this._selectedList;
+	}
 
-   /**
-    * Returns the textareaTag.
-    * @return String
-    */
-   public String getTextareaTag() {
-      return _textareaTag;
-   }
+	/*
+	 * public Object[] getList() { return (Object[])_list.toArray(); }
+	 */
+	/**
+	 * Returns the textTag.
+	 * 
+	 * @return String
+	 */
+	public String getTextTag() {
+		return this._textTag;
+	}
 
-   /**
-    * Sets the textareaTag.
-    * @param textareaTag The textareaTag to set
-    */
-   public void setTextareaTag(String textareaTag) {
-      _textareaTag = textareaTag;
-   }
+	/**
+	 * Sets the textTag.
+	 * 
+	 * @param textTag
+	 *            The textTag to set
+	 */
+	public void setTextTag(String textTag) {
+		this._textTag = textTag;
+	}
+
+	@Override
+	public boolean validate(@SuppressWarnings("unused")
+	Errors errors) {
+		return true;
+	}
+
+	/**
+	 * Returns the passwordTag.
+	 * 
+	 * @return String
+	 */
+	public String getPasswordTag() {
+		return this._passwordTag;
+	}
+
+	/**
+	 * Sets the passwordTag.
+	 * 
+	 * @param passwordTag
+	 *            The passwordTag to set
+	 */
+	public void setPasswordTag(String passwordTag) {
+		this._passwordTag = passwordTag;
+	}
+
+	/**
+	 * Returns the checkedValue.
+	 * 
+	 * @return String
+	 */
+	public String getCheckedValue() {
+		return this._checkedValue;
+	}
+
+	/**
+	 * Sets the checkedValue.
+	 * 
+	 * @param checkedValue
+	 *            The checkedValue to set
+	 */
+	public void setCheckedValue(String checkedValue) {
+		this._checkedValue = checkedValue;
+	}
+
+	/**
+	 * Returns the passwordTag.
+	 * 
+	 * @return String
+	 */
+	public String getHtmlXhtmlRadioTag() {
+		return this._htmlXhtmlValue;
+	}
+
+	/**
+	 * Sets the passwordTag.
+	 * 
+	 * @param passwordTag
+	 *            The passwordTag to set
+	 */
+	public void setHtmlXhtmlRadioTag(String htmlXhtmlValue) {
+		this._htmlXhtmlValue = htmlXhtmlValue;
+		if (this._htmlXhtmlValue.equals("xhtmlRadio")) { //$NON-NLS-1$
+			setXhtml("true"); //$NON-NLS-1$
+		} else {
+			setXhtml("false"); //$NON-NLS-1$
+		}
+
+	}
+
+	/**
+	 * Returns the _xhtml.
+	 * 
+	 * @return String
+	 */
+	public String getXhtml() {
+		return this._xhtml;
+	}
+
+	/**
+	 * Sets the _xhtml.
+	 * 
+	 * @param xhtml
+	 */
+	private void setXhtml(String xhtml) {
+		this._xhtml = xhtml;
+	}
+
+	/**
+	 * Returns the textareaTag.
+	 * 
+	 * @return String
+	 */
+	public String getTextareaTag() {
+		return this._textareaTag;
+	}
+
+	/**
+	 * Sets the textareaTag.
+	 * 
+	 * @param textareaTag
+	 *            The textareaTag to set
+	 */
+	public void setTextareaTag(String textareaTag) {
+		this._textareaTag = textareaTag;
+	}
 
 }

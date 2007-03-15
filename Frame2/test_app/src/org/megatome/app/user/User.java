@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,15 +67,15 @@ public class User{
       DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
       DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.LONG);
 
-      return dateFormat.format(date) + " " + timeFormat.format(date);
+      return dateFormat.format(date) + " " + timeFormat.format(date); //$NON-NLS-1$
    }
    
    public void setCreationDate(String cd) {
-      _creationDate = cd;
+      this._creationDate = cd;
    }
 
    public String getCreationDate() {
-      return _creationDate;
+      return this._creationDate;
    }
 
    /**
@@ -83,7 +83,7 @@ public class User{
     * @return String
     */
    public String getEmail() {
-      return _email;
+      return this._email;
    }
 
    /**
@@ -91,7 +91,7 @@ public class User{
     * @return String
     */
    public String getFirstName() {
-      return _firstName;
+      return this._firstName;
    }
 
    /**
@@ -99,7 +99,7 @@ public class User{
     * @return String
     */
    public String getLastName() {
-      return _lastName;
+      return this._lastName;
    }
 
    /**
@@ -107,7 +107,7 @@ public class User{
     * @param email The email to set
     */
    public void setEmail(String email) {
-      _email = email;
+      this._email = email;
    }
 
    /**
@@ -115,7 +115,7 @@ public class User{
     * @param firstName The firstName to set
     */
    public void setFirstName(String firstName) {
-      _firstName = firstName;
+      this._firstName = firstName;
    }
 
    /**
@@ -123,7 +123,7 @@ public class User{
     * @param lastName The lastName to set
     */
    public void setLastName(String lastName) {
-      _lastName = lastName;
+      this._lastName = lastName;
    }
 
 }

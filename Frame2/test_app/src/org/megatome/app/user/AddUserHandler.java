@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,8 @@ public class AddUserHandler implements EventHandler {
 	/**
 	 * @see org.megatome.frame2.event.EventHandler#handle(Event)
 	 */
-	public String handle(Event event,Context context) throws Frame2Exception {
+	public String handle(Event event,@SuppressWarnings("unused")
+	Context context) throws Frame2Exception {
       // Add User to the UserMgr
       try {
          UserType addeduser = (UserType) event;                   

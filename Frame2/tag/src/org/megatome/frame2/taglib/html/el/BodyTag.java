@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,29 +57,34 @@ import org.megatome.frame2.taglib.html.Constants;
  */
 public class BodyTag extends BaseBodyTag {
 
-   protected void setType() {
-      _type = Constants.BODY;
-   }   
-   
-   public void setTagName() {
-      tagName = Constants.BODY_TAG;
-   }
- 
-   public void setOnload(String onload) {
-      setAttr(Constants.ON_LOAD, onload);
-   }  
+	private static final long serialVersionUID = -957137493223673944L;
 
-   public void setOnunload(String onunload) {
-      setAttr(Constants.ON_UNLOAD, onunload);
-   }     
-     
-   /**
-    * Appends end Element Close
-    * @param StringBuffer
-    */
-   public void getEndElementClose(StringBuffer buffer) {
-      buffer.append(Constants.BODY_CLOSE);     
-   }
+	@Override
+	protected void setType() {
+		this._type = Constants.BODY;
+	}
+
+	@Override
+	public void setTagName() {
+		this.tagName = Constants.BODY_TAG;
+	}
+
+	public void setOnload(String onload) {
+		setAttr(Constants.ON_LOAD, onload);
+	}
+
+	public void setOnunload(String onunload) {
+		setAttr(Constants.ON_UNLOAD, onunload);
+	}
+
+	/**
+	 * Appends end Element Close
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getEndElementClose(StringBuffer buffer) {
+		buffer.append(Constants.BODY_CLOSE);
+	}
 
 }
-

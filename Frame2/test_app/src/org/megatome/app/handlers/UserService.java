@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,30 +56,33 @@ import org.megatome.frame2.log.LoggerFactory;
 import org.megatome.frame2.util.dom.DOMStreamConverter;
 import org.w3c.dom.Element;
 
-
 /**
  * Example of a SOAP message service to add users.
  */
 public class UserService extends SoapFrontController {
-   private static Logger LOGGER = LoggerFactory.instance(UserService.class.getName());
+	private static Logger LOGGER = LoggerFactory.instance(UserService.class
+			.getName());
 
-   public Element[] addUsers(Element[] elems) {
-      Element[] result = null;
+	public Element[] addUsers(Element[] elems) {
+		Element[] result = null;
 
-      try {
-         LOGGER.debug(DOMStreamConverter.toOutputStream(elems[0]).toString());
-         result = processEvent(elems);
-      } catch (Exception e) {
-         LOGGER.severe("Unable to process element");
-      }
+		try {
+			LOGGER
+					.debug(DOMStreamConverter.toOutputStream(elems[0])
+							.toString());
+			result = processEvent(elems);
+		} catch (Exception e) {
+			LOGGER.severe("Unable to process element"); //$NON-NLS-1$
+		}
 
-      return result;
-   }
+		return result;
+	}
 
-   /**
-    * @see org.megatome.frame2.front.SoapFrontController#getEventPackageSpecifier()
-    */
-   public String getEventPackageSpecifier() {
-      return "org.megatome.app.jaxbgen";
-   }
+	/**
+	 * @see org.megatome.frame2.front.SoapFrontController#getEventPackageSpecifier()
+	 */
+	@Override
+	public String getEventPackageSpecifier() {
+		return "org.megatome.app.jaxbgen"; //$NON-NLS-1$
+	}
 }

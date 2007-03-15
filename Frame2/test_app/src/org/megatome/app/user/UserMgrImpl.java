@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,15 +55,15 @@ import java.util.List;
 
 public class UserMgrImpl implements UserMgr {
 
-  private static ArrayList _users = new  ArrayList();
+  private static List<User> _users = new  ArrayList<User>();
 
-  private static String _userAFirstName = "Mike";
-  private static String _userALastName = "Day";
-  private static String _userAemail = "mday@abc.com";
+  private static String _userAFirstName = "Mike"; //$NON-NLS-1$
+  private static String _userALastName = "Day"; //$NON-NLS-1$
+  private static String _userAemail = "mday@abc.com"; //$NON-NLS-1$
 
-  private static String _userBFirstName = "Chad";
-  private static String _userBLastName = "Johnston";
-  private static String _userBemail = "iamthechad@sourceforge.net";
+  private static String _userBFirstName = "Chad"; //$NON-NLS-1$
+  private static String _userBLastName = "Johnston"; //$NON-NLS-1$
+  private static String _userBemail = "iamthechad@sourceforge.net"; //$NON-NLS-1$
 
 
   static {
@@ -85,13 +85,13 @@ public class UserMgrImpl implements UserMgr {
     _users.add(user2);
   }
 
-  public List getUsers() {
+  public List<User> getUsers() {
     return _users;
   }
 
   public void addUser(User user) throws UserException {
     if (user == null) {
-      throw new UserException("User is Null");
+      throw new UserException("User is Null"); //$NON-NLS-1$
     }
     _users.add(user);
   }

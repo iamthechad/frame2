@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,84 +59,84 @@ import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 public class TestResetTag extends BaseInputTagTest {
 
 	public TestResetTag(String theName) {
-		super(theName);   
-      _type = TagConstants.QUOTE + Constants.RESET + TagConstants.QUOTE;
-      _testJspName = "ResetTag.jsp";
-	  _expectedLiveJsp = "<input type=\"reset\" onfocus=\"true\" value=\"7\">";	
-      
-	}
-		
-	
-	public  BaseHtmlTag createTag() {
-		return new ResetTag();      
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.RESET + TagConstants.QUOTE;
+		this._testJspName = "ResetTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<input type=\"reset\" onfocus=\"true\" value=\"7\">"; //$NON-NLS-1$
+
 	}
 
-   public void beginResetTag(WebRequest rquest) throws Exception {
-   }
-   
-   public void testResetTag_Default() throws Exception{
-      ResetTag tag = (ResetTag) createTag();
-      
-      pageContext.setAttribute(ATTR_1, ATTR_VALUE_1);
-      tag.setPageContext(pageContext);
-      tag.setAccesskey(HTMLHelpers.buildExprAttr(ATTR_1));
-      tag.setValue(null);
-      tag.doStartTag();
-   }
+	@Override
+	public BaseHtmlTag createTag() {
+		return new ResetTag();
+	}
 
-   public void endResetTag_Default(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.INPUT_TYPE + _type 
-            + HTMLHelpers.buildHtmlAttr(Constants.ACCESS_KEY, ATTR_VALUE_1)
-            + HTMLHelpers.buildHtmlAttr(Constants.VALUE, "Reset");
+	public void beginResetTag(@SuppressWarnings("unused")
+	WebRequest rquest) throws Exception {
+		// noop
+	}
 
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
-   
- 
-    public void testResetTag() throws Exception{
-      ResetTag tag = (ResetTag) createTag();
+	public void testResetTag_Default() throws Exception {
+		ResetTag tag = (ResetTag) createTag();
 
-      tag.setPageContext(pageContext);
-      tag.setValue("MY_RESET");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
+		this.pageContext.setAttribute(ATTR_1, ATTR_VALUE_1);
+		tag.setPageContext(this.pageContext);
+		tag.setAccesskey(HTMLHelpers.buildExprAttr(ATTR_1));
+		tag.setValue(null);
+		tag.doStartTag();
+	}
 
-   public void endResetTag(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"reset\" value=\"MY_RESET\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
-
-   public void testResetTag_WhiteSpace() throws Exception{
-      ResetTag tag = (ResetTag) createTag();
-
-      tag.setPageContext(pageContext);
-      tag.setValue("   ");
-      tag.doStartTag();
-      tag.doEndTag();
-   }
-
-   public void endResetTag_WhiteSpace(WebResponse webResponse) throws Exception {
-      String expected = "<input type=\"reset\" value=\"" +
-                        Constants.RESET_BTN + "\">";
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
-   
-  
-   public void endAnAttribute(WebResponse webResponse) throws Exception {
-
-		String expected =
-			Constants.INPUT_TYPE + _type 
+	public void endResetTag_Default(WebResponse webResponse) throws Exception {
+		String expected = Constants.INPUT_TYPE + this._type
 				+ HTMLHelpers.buildHtmlAttr(Constants.ACCESS_KEY, ATTR_VALUE_1)
-				+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "Reset")
-				+ TagConstants.RT_ANGLE;		
+				+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "Reset"); //$NON-NLS-1$
+
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	public void testResetTag() throws Exception {
+		ResetTag tag = (ResetTag) createTag();
+
+		tag.setPageContext(this.pageContext);
+		tag.setValue("MY_RESET"); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
+
+	public void endResetTag(WebResponse webResponse) throws Exception {
+		String expected = "<input type=\"reset\" value=\"MY_RESET\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	public void testResetTag_WhiteSpace() throws Exception {
+		ResetTag tag = (ResetTag) createTag();
+
+		tag.setPageContext(this.pageContext);
+		tag.setValue("   "); //$NON-NLS-1$
+		tag.doStartTag();
+		tag.doEndTag();
+	}
+
+	public void endResetTag_WhiteSpace(WebResponse webResponse)
+			throws Exception {
+		String expected = "<input type=\"reset\" value=\"" + //$NON-NLS-1$
+				Constants.RESET_BTN + "\">"; //$NON-NLS-1$
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	@Override
+	public void endAnAttribute(WebResponse webResponse) throws Exception {
+
+		String expected = Constants.INPUT_TYPE + this._type
+				+ HTMLHelpers.buildHtmlAttr(Constants.ACCESS_KEY, ATTR_VALUE_1)
+				+ HTMLHelpers.buildHtmlAttr(Constants.VALUE, "Reset") //$NON-NLS-1$
+				+ TagConstants.RT_ANGLE;
 
 		String actual = webResponse.getText();
 

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,8 +59,8 @@ import org.megatome.frame2.tagsupport.TagConstants;
 public class TestMultiboxTag extends TestCheckboxTag {
    public TestMultiboxTag(String theName) {
       super(theName);
-      _type = TagConstants.QUOTE + Constants.CHECKBOX + TagConstants.QUOTE;
-      _testJspName = "MultiboxTag.jsp";     
-      _expectedLiveJsp = "<input type=\"checkbox\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">label</input>"; 
+      this._type = TagConstants.QUOTE + Constants.CHECKBOX + TagConstants.QUOTE;
+      this._testJspName = "MultiboxTag.jsp";      //$NON-NLS-1$
+      this._expectedLiveJsp = "<input type=\"checkbox\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">label</input>";  //$NON-NLS-1$
    }
 }

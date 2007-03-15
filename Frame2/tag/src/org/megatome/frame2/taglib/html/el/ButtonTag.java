@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,16 +54,19 @@ import org.megatome.frame2.taglib.html.Constants;
 
 /**
  * Base custom tag for input fields."
- *<p>
- *
+ * <p>
+ * 
  */
 public class ButtonTag extends BaseInputTag {
 
-   // no need to worry about dft label = 'Reset'
-   // html tag will do that for us.
+	// no need to worry about dft label = 'Reset'
+	// html tag will do that for us.
 
-   public void setType() {
-      _type = Constants.BUTTON;
-   }
+	private static final long serialVersionUID = 835302398187573356L;
+
+	@Override
+	public void setType() {
+		this._type = Constants.BUTTON;
+	}
 
 }

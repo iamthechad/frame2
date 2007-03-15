@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,31 +55,31 @@ import org.megatome.frame2.taglib.html.Constants;
 import org.megatome.frame2.tagsupport.TagConstants;
 
 public class TestCheckboxTag extends BaseInputTagTest {
-   
-   public TestCheckboxTag(String theName) {
-      super(theName);
-      _type = TagConstants.QUOTE + Constants.CHECKBOX + TagConstants.QUOTE;
-      _testJspName = "CheckboxTag.jsp";     
-      _expectedLiveJsp = "<input type=\"checkbox\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">label</input>"; 
-   }
-   
-   public  BaseHtmlTag createTag() {
-      return new CheckboxTag();
-   }
-   
-   // Test for creating a valid yahoo.quote with some params.     
-   public void testHasBody() throws Exception {
-      pageContext.forward(JSP_TEST_DIR + "CheckboxTagHasBody.jsp");
-   }
 
-   public void endHasBody(WebResponse webResponse)
-      throws Exception {
-      String actual = webResponse.getText().trim();
+	public TestCheckboxTag(String theName) {
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.CHECKBOX
+				+ TagConstants.QUOTE;
+		this._testJspName = "CheckboxTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<input type=\"checkbox\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">label</input>"; //$NON-NLS-1$
+	}
 
-      String expected =
-            "<input type=\"checkbox\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">label</input>";        
+	@Override
+	public BaseHtmlTag createTag() {
+		return new CheckboxTag();
+	}
 
-      assertEquals(expected, actual);
+	// Test for creating a valid yahoo.quote with some params.
+	public void testHasBody() throws Exception {
+		this.pageContext.forward(JSP_TEST_DIR + "CheckboxTagHasBody.jsp"); //$NON-NLS-1$
+	}
 
-   }     
+	public void endHasBody(WebResponse webResponse) throws Exception {
+		String actual = webResponse.getText().trim();
+
+		String expected = "<input type=\"checkbox\" checked=\"true\" name=\"yabba\" onfocus=\"true\" value=\"radioValue\">label</input>"; //$NON-NLS-1$
+
+		assertEquals(expected, actual);
+
+	}
 }

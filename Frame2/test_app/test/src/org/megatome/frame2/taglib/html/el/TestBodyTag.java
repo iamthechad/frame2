@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,56 +56,55 @@ import org.megatome.frame2.taglib.html.Constants;
 import org.megatome.frame2.tagsupport.TagConstants;
 
 public class TestBodyTag extends BaseHtmlTagTest {
-   
-   public TestBodyTag(String theName) {
-      super(theName);   
-      _type = TagConstants.QUOTE + Constants.BODY + TagConstants.QUOTE;
-      _testJspName = "BodyTag.jsp";
-      _expectedLiveJsp = "<body onload=\"onload();\">body" + System.getProperty("line.separator") + "</body>"; 
-   }
-   
-   public  BaseHtmlTag createTag() {
-      return new BodyTag();      
-   }
 
-   public void beginHtmlTag(WebRequest rquest) throws Exception {
-   }
+	public TestBodyTag(String theName) {
+		super(theName);
+		this._type = TagConstants.QUOTE + Constants.BODY + TagConstants.QUOTE;
+		this._testJspName = "BodyTag.jsp"; //$NON-NLS-1$
+		this._expectedLiveJsp = "<body onload=\"onload();\">body" + System.getProperty("line.separator") + "</body>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-   public void testBodyTag() throws Exception{
-      BodyTag tag = (BodyTag) createTag();
-      tag.setPageContext(pageContext);      
-      tag.doStartTag();
-      tag.doAfterBody();
-      tag.doEndTag();
-   }
-   
+	@Override
+	public BaseHtmlTag createTag() {
+		return new BodyTag();
+	}
 
-   public void endBodyTag(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.BODY_TAG + TagConstants.RT_ANGLE +
-         Constants.BODY_CLOSE;     
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }
+	public void beginHtmlTag(@SuppressWarnings("unused")
+	WebRequest rquest) throws Exception {
+		//noop
+	}
 
-   public void testXHtmlTag() throws Exception{
-      BodyTag tag = (BodyTag) createTag();
-      pageContext.setAttribute(Constants.XHTML_KEY,Constants.TRUE);
-      tag.setPageContext(pageContext);      
-      tag.doStartTag();
-      tag.doAfterBody();
-      tag.doEndTag();
-   }
-   
+	public void testBodyTag() throws Exception {
+		BodyTag tag = (BodyTag) createTag();
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doAfterBody();
+		tag.doEndTag();
+	}
 
-   public void endXHtmlTag(WebResponse webResponse) throws Exception {
-      String expected =
-         Constants.BODY_TAG + TagConstants.RT_ANGLE +
-         Constants.BODY_CLOSE;     
-      String actual = webResponse.getText();
-      
-      assertEquals(expected, actual);
-   }   
-       
+	public void endBodyTag(WebResponse webResponse) throws Exception {
+		String expected = Constants.BODY_TAG + TagConstants.RT_ANGLE
+				+ Constants.BODY_CLOSE;
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
+	public void testXHtmlTag() throws Exception {
+		BodyTag tag = (BodyTag) createTag();
+		this.pageContext.setAttribute(Constants.XHTML_KEY, Constants.TRUE);
+		tag.setPageContext(this.pageContext);
+		tag.doStartTag();
+		tag.doAfterBody();
+		tag.doEndTag();
+	}
+
+	public void endXHtmlTag(WebResponse webResponse) throws Exception {
+		String expected = Constants.BODY_TAG + TagConstants.RT_ANGLE
+				+ Constants.BODY_CLOSE;
+		String actual = webResponse.getText();
+
+		assertEquals(expected, actual);
+	}
+
 }

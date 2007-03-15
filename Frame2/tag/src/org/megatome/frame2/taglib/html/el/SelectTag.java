@@ -56,98 +56,118 @@ import org.megatome.frame2.taglib.html.Constants;
  * 
  */
 public class SelectTag extends BaseSelectTag {
-   
-   private String _bodyContent = null;
-   protected String _selected  = "";   
-   protected String _multiple;
-   
-   protected void setType() {
-      _type = Constants.SELECT;
-   }   
-   
-   public void setTagName() {
-      tagName = Constants.SELECT_TAG;
-   }
-   
-   protected void specialAttrHandler() {
-      // "selected" contains expr to compare options
-      // save expression for options to use for compare.
-      pageContext.setAttribute(Constants.SELECT_KEY,_selected);
-   }
-        
-   // save body content, otherthan option tags
-   public int doAfterBody() {
-      if (bodyContent != null) {
-          String content = bodyContent.getString();
-          if (content != null) {
-             _bodyContent = content.trim();
-          }
-      }
-      return (SKIP_BODY);
-   }
 
-    
-   /**
-    * Returns the selected.
-    * @return String
-    */
-   public String getSelected() {
-      return _selected;
-   }
+	private static final long serialVersionUID = -4083936378807222110L;
 
-   /**
-    * Sets the selected.
-    * @param selected The selected to set
-    */
-   public void setSelected(String selected) {
-      _selected = selected;
-   }
-   /**
-    * Sets the multiple.
-    * @param multiple The multiple to set
-    */
-   public void setMultiple(String multiple) {
-       setAttr(Constants.MULTIPLE, multiple);
-   }
+	private String _bodyContent = null;
 
-   /**
-    * Returns true
-    * @return boolean
-    */
-   public boolean evalTagBody() {
-      return true;
-   }
-   
-   /**
-    * Appends bodyContent String
-    * @param StringBuffer
-    */
-   public void getBody(StringBuffer buffer) {
-      if (_bodyContent != null) {
-         buffer.append(_bodyContent);
-      }
-   }
-      
-   /**
-    * Appends end Element Close
-    * @param StringBuffer
-    */
-   public void getEndElementClose(StringBuffer buffer) {      
-      pageContext.removeAttribute(Constants.SELECT_KEY);
-      buffer.append(Constants.SELECT_CLOSE);
-   }   
-   
-   protected void clear() {
-      super.clear();
-      _bodyContent = null;
-      _selected  = "";   
-      _multiple = null;
-   }
+	protected String _selected = ""; //$NON-NLS-1$
 
-   public void release() {
-      super.release();
-      clear();
-   }
+	protected String _multiple;
+
+	@Override
+	protected void setType() {
+		this._type = Constants.SELECT;
+	}
+
+	@Override
+	public void setTagName() {
+		this.tagName = Constants.SELECT_TAG;
+	}
+
+	@Override
+	protected void specialAttrHandler() {
+		// "selected" contains expr to compare options
+		// save expression for options to use for compare.
+		this.pageContext.setAttribute(Constants.SELECT_KEY, this._selected);
+	}
+
+	// save body content, otherthan option tags
+	@Override
+	public int doAfterBody() {
+		if (this.bodyContent != null) {
+			String content = this.bodyContent.getString();
+			if (content != null) {
+				this._bodyContent = content.trim();
+			}
+		}
+		return (SKIP_BODY);
+	}
+
+	/**
+	 * Returns the selected.
+	 * 
+	 * @return String
+	 */
+	public String getSelected() {
+		return this._selected;
+	}
+
+	/**
+	 * Sets the selected.
+	 * 
+	 * @param selected
+	 *            The selected to set
+	 */
+	public void setSelected(String selected) {
+		this._selected = selected;
+	}
+
+	/**
+	 * Sets the multiple.
+	 * 
+	 * @param multiple
+	 *            The multiple to set
+	 */
+	public void setMultiple(String multiple) {
+		setAttr(Constants.MULTIPLE, multiple);
+	}
+
+	/**
+	 * Returns true
+	 * 
+	 * @return boolean
+	 */
+	@Override
+	public boolean evalTagBody() {
+		return true;
+	}
+
+	/**
+	 * Appends bodyContent String
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getBody(StringBuffer buffer) {
+		if (this._bodyContent != null) {
+			buffer.append(this._bodyContent);
+		}
+	}
+
+	/**
+	 * Appends end Element Close
+	 * 
+	 * @param StringBuffer
+	 */
+	@Override
+	public void getEndElementClose(StringBuffer buffer) {
+		this.pageContext.removeAttribute(Constants.SELECT_KEY);
+		buffer.append(Constants.SELECT_CLOSE);
+	}
+
+	@Override
+	protected void clear() {
+		super.clear();
+		this._bodyContent = null;
+		this._selected = ""; //$NON-NLS-1$
+		this._multiple = null;
+	}
+
+	@Override
+	public void release() {
+		super.release();
+		clear();
+	}
 
 }
-

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,16 +61,19 @@ import org.megatome.frame2.taglib.util.URLHelper;
 
 public class ATag extends BaseHtmlTag {
 
-    String _displayValue;
+	private static final long serialVersionUID = -1477790313281946730L;
 
-    Map _paramMap;
+	String _displayValue;
+
+    Map<Object, Object> _paramMap;
 
     public void setCharset(String charset) {
 
         setAttr(Constants.CHARSET, charset);
     }
 
-    public void setStyleClass(String aclass) {
+    @Override
+	public void setStyleClass(String aclass) {
 
         setAttr(Constants.CLASS, aclass);
     }
@@ -90,7 +93,8 @@ public class ATag extends BaseHtmlTag {
         setAttr(Constants.HREF_LANG, hreflang);
     }
 
-    public void setId(String id) {
+    @Override
+	public void setId(String id) {
 
         setAttr(Constants.ID, id);
     }
@@ -129,28 +133,33 @@ public class ATag extends BaseHtmlTag {
         setAttr(Constants.URN, urn);
     }
 
-    protected void setTagName() {
-        tagName = Constants.A;
+    @Override
+	protected void setTagName() {
+        this.tagName = Constants.A;
     }
 
-    protected void setType() {
-        _type = Constants.A;
+    @Override
+	protected void setType() {
+        this._type = Constants.A;
     }
 
     String _bodyContent = null;
 
-    protected StringBuffer buildStartTag() {
+    @Override
+	protected StringBuffer buildStartTag() {
         StringBuffer results = new StringBuffer();
         results.append(Constants.LINK_OPEN);
         return results;
     }
 
     // override ths if you want to handle an attribute
-    protected void specialAttrHandler() throws JspException {
+    @Override
+	protected void specialAttrHandler() throws JspException {
         handleValueAttr();
     }
 
-    protected void specialEndAttrHandler() throws JspException {
+    @Override
+	protected void specialEndAttrHandler() throws JspException {
         handleHrefAndQueryParamsAttr();
     }
 
@@ -161,13 +170,13 @@ public class ATag extends BaseHtmlTag {
      *         evaluation.
      */
     private void handleValueAttr() throws JspException {
-        _displayValue = getAttr(Constants.DISPLAY_VALUE);
-        if (_displayValue != null) {
+        this._displayValue = getAttr(Constants.DISPLAY_VALUE);
+        if (this._displayValue != null) {
             try {
-                _displayValue = evalStringAttr(Constants.DISPLAY_VALUE,
-                        _displayValue);
+                this._displayValue = evalStringAttr(Constants.DISPLAY_VALUE,
+                        this._displayValue);
             } catch (Exception e) {
-                throw new JspException(" Evaluation attribute failed "
+                throw new JspException(" Evaluation attribute failed " //$NON-NLS-1$
                         + e.getMessage(), e);
             }
             // now remove this attr from map
@@ -185,11 +194,11 @@ public class ATag extends BaseHtmlTag {
     private void handleHrefAndQueryParamsAttr() throws JspException {
 
         String queryParams = getAttr(Constants.QUERY_PARAMS);
-        Map params = _paramMap;
+        Map<Object, Object> params = this._paramMap;
         // If queryparams are not null and map is not null, error
         if ((queryParams != null) && (params != null)) {
             throw new JspException(
-                    "Only one of queryparams or <queryparam> may be used");
+                    "Only one of queryparams or <queryparam> may be used"); //$NON-NLS-1$
         }
 
         // If queryParams is not null, then href must not be null.
@@ -203,7 +212,7 @@ public class ATag extends BaseHtmlTag {
                                 queryParams);
                     }
                 } catch (Exception e) {
-                    throw new JspException(" Evaluation attribute failed "
+                    throw new JspException(" Evaluation attribute failed " //$NON-NLS-1$
                             + e.getMessage(), e);
                 }
 
@@ -217,7 +226,7 @@ public class ATag extends BaseHtmlTag {
                     newHref = URLHelper.appendQueryParams(href, params);
                 } catch (UnsupportedEncodingException e) {
                     throw new JspException(
-                            " Adding Query params to href has failed "
+                            " Adding Query params to href has failed " //$NON-NLS-1$
                                     + e.getMessage(), e);
                 }
 
@@ -225,9 +234,9 @@ public class ATag extends BaseHtmlTag {
                 setAttr(Constants.HREF, newHref);
 
             } else {
-                throw new JspException("The " + Constants.QUERY_PARAMS
-                        + " attribute was set, there must also be "
-                        + "an href attribute set. ");
+                throw new JspException("The " + Constants.QUERY_PARAMS //$NON-NLS-1$
+                        + " attribute was set, there must also be " //$NON-NLS-1$
+                        + "an href attribute set. "); //$NON-NLS-1$
             }
 
         } // else process href as any other attribute when query params is null.
@@ -241,14 +250,14 @@ public class ATag extends BaseHtmlTag {
      * @param paramValue
      */
     public void addParam(String paramName, String paramValue) {
-        if (_paramMap == null) {
-            _paramMap = new HashMap();
+        if (this._paramMap == null) {
+            this._paramMap = new HashMap<Object, Object>();
         }
 
         Object valueObject = paramValue;
         // Need to map into an array somehow
-        if (_paramMap.containsKey(paramName)) {
-            Object pValue = _paramMap.get(paramName);
+        if (this._paramMap.containsKey(paramName)) {
+            Object pValue = this._paramMap.get(paramName);
             String[] newValues;
             if (pValue instanceof String[]) {
                 String[] values = (String[])pValue;
@@ -263,16 +272,17 @@ public class ATag extends BaseHtmlTag {
             valueObject = newValues;
         }
 
-        _paramMap.put(paramName, valueObject);
+        this._paramMap.put(paramName, valueObject);
     }
 
     /**
      * Returns if tag has body or not
      * @return boolean
      */
-    public boolean evalTagBody() {
-        if (_displayValue != null
-                || (bodyContent != null && !bodyContent.getString().equals(""))) {
+    @Override
+	public boolean evalTagBody() {
+        if (this._displayValue != null
+                || (this.bodyContent != null && !this.bodyContent.getString().equals(""))) { //$NON-NLS-1$
             return true;
         }
 
@@ -283,13 +293,14 @@ public class ATag extends BaseHtmlTag {
      * Appends _displayValue String
      * @param StringBuffer
      */
-    public void getBody(StringBuffer buffer) {
+    @Override
+	public void getBody(StringBuffer buffer) {
         // actual body content overrides
         // any display value.
-        if (bodyContent != null && !bodyContent.getString().equals("")) {
-            buffer.append(bodyContent.getString());
-        } else if (_displayValue != null) {
-            buffer.append(_displayValue);
+        if (this.bodyContent != null && !this.bodyContent.getString().equals("")) { //$NON-NLS-1$
+            buffer.append(this.bodyContent.getString());
+        } else if (this._displayValue != null) {
+            buffer.append(this._displayValue);
         }
     }
 
@@ -297,23 +308,27 @@ public class ATag extends BaseHtmlTag {
      * Appends end Element Close
      * @param StringBuffer
      */
-    public void getEndElementClose(StringBuffer buffer) {
+    @Override
+	public void getEndElementClose(StringBuffer buffer) {
         buffer.append(Constants.LINK_CLOSE);
     }
 
-    protected void clear() {
+    @Override
+	protected void clear() {
         super.clear();
-        _displayValue = null;
-        _bodyContent = null;
-        _paramMap = null;
+        this._displayValue = null;
+        this._bodyContent = null;
+        this._paramMap = null;
     }
 
-    public void release() {
+    @Override
+	public void release() {
         super.release();
         clear();
     }
 
-    public StringBuffer buildEndTag() throws JspException {
+    @Override
+	public StringBuffer buildEndTag() throws JspException {
         StringBuffer results = new StringBuffer();
         results.append(genTagAttrs());
         return results.append(super.buildEndTag());

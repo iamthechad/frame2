@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,22 +54,7 @@ import java.util.List;
 
 public interface UserMgr {
 
-  /**
-   * Returns a vector of messages that match the passed in criteria.
-   *
-   * @param   loginID             Only return messages that match this id
-   * @param   maxMessageNumber    This is the highest message to retrieve
-   *
-   * @return  A vector of VSMessages that fit the passed in criteria
-   */
-
-  public List getUsers();
-
-  /**
-   * Store the message
-   *
-   * @param   msg     The message to store on the board.
-   */
+  public List<User> getUsers();
 
   public void addUser(User user) throws UserException;
 }
