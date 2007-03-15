@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,30 +76,32 @@ public class TestCommonsValidatorPluginLifecycle extends MockFrame2TestCase {
     /**
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         super.setUp();
-        context = (MockFrame2ServletContextSimulator)getContext();
-        plugin = new CommonsValidatorPlugin();
+        this.context = (MockFrame2ServletContextSimulator)getContext();
+        this.plugin = new CommonsValidatorPlugin();
         CommonsValidatorWrapper.release();
     }
 
     /**
      * @see junit.framework.TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
+    @Override
+	protected void tearDown() throws Exception {
         super.tearDown();
     }
 
     public void pluginInit() {
         try {
-            plugin.init(context, new HashMap());
+            this.plugin.init(this.context, new HashMap<String, String>());
         } catch (PluginException e) {
             fail();
         }
     }
 
     public void pluginDestroy() {
-        plugin.destroy(context, new HashMap());
+        this.plugin.destroy(this.context, new HashMap<String, String>());
     }
 
     public void testPluginDefault() {
@@ -117,11 +119,11 @@ public class TestCommonsValidatorPluginLifecycle extends MockFrame2TestCase {
     public void testNegativePluginDefault() {
 
         CommonsValidatorWrapper
-                .setFilePath("/org/megatome/frame2/validator/config");
-        CommonsValidatorWrapper.setMappingsFile("dude.xml");
+                .setFilePath("/org/megatome/frame2/validator/config"); //$NON-NLS-1$
+        CommonsValidatorWrapper.setMappingsFile("dude.xml"); //$NON-NLS-1$
 
         try {
-            plugin.init(context, new HashMap());
+            this.plugin.init(this.context, new HashMap<String, String>());
         } catch (PluginException e) {
 
             ValidatorResources res = CommonsValidatorWrapper

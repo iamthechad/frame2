@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,83 +56,86 @@ import org.megatome.frame2.plugin.PluginInterface;
 
 import servletunit.frame2.MockFrame2TestCase;
 
-
 public class TestPluginLifecycle extends MockFrame2TestCase {
 
-   /**
-    * Constructor for TestHttpFrontController.
-    *
-    * @param name
-    */
-   public TestPluginLifecycle(String name) {
-      super(name);
-   }
+	/**
+	 * Constructor for TestHttpFrontController.
+	 * 
+	 * @param name
+	 */
+	public TestPluginLifecycle(String name) {
+		super(name);
+	}
 
-   /**
-    * @see junit.framework.TestCase#setUp()
-    */
-   protected void setUp() throws Exception {
-      super.setUp();
-   }
+	/**
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
 
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   protected void tearDown() throws Exception {
-      super.tearDown();
-   }
+	/**
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
 
-   private PluginProxy initAndGetProxy(final String pluginName) throws Exception {
-      sendContextInitializedEvent(Globals.CONFIG_FILE,"/org/megatome/frame2/front/test-config.xml");
+	private PluginProxy initAndGetProxy(final String pluginName)
+			throws Exception {
+		sendContextInitializedEvent(Globals.CONFIG_FILE,
+				"/org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
 
-      getServlet().init();
-      Configuration config = getServlet().getConfiguration();
-      assertNotNull(config);
+		getServlet().init();
+		Configuration config = getServlet().getConfiguration();
+		assertNotNull(config);
 
-      PluginProxy proxy = config.getPluginProxy(pluginName);      
-      assertNotNull(proxy);
-      
-      return proxy;
-   }
+		PluginProxy proxy = config.getPluginProxy(pluginName);
+		assertNotNull(proxy);
 
-   public void testPluginInit() throws Exception {
-       PluginProxy proxy = initAndGetProxy("mockPlugin");
-            
-      PluginInterface plugin = proxy.getPlugin();
-      assertTrue(((MockPluginInterface)plugin).getState() == MockPluginInterface.STATE_INIT);
-   }
-   
-   public void testNegativePluginInitThrows() throws Exception {
-       PluginProxy proxy = initAndGetProxy("mockPluginThrows");
-      
-      assertTrue(proxy.initThrewException());                      
-   }
-   
-   public void testPluginDestroy() throws Exception {
-       PluginProxy proxy = initAndGetProxy("mockPlugin");
-            
-      PluginInterface plugin = proxy.getPlugin();
-      assertTrue(((MockPluginInterface)plugin).getState() == MockPluginInterface.STATE_INIT);
-      
-      sendContextDestroyedEvent();
-      assertTrue(((MockPluginInterface)plugin).getState() == MockPluginInterface.STATE_DESTROY);
-   }
-   
-   public void testNegativePluginDestroyNotCalled() throws Exception {
-       PluginProxy proxy = initAndGetProxy("mockPluginThrows");
-      
-      assertTrue(proxy.initThrewException());
-      sendContextDestroyedEvent();
-      PluginInterface plugin = proxy.getPlugin();
-      assertTrue(((MockPluginInterface)plugin).getState() == MockPluginInterface.STATE_NONE);                      
-   }
-   
-   public void testNegativePluginDestroyThrows() throws Exception {
-       PluginProxy proxy = initAndGetProxy("mockPluginDestroyThrows");
+		return proxy;
+	}
 
-       sendContextDestroyedEvent();
-      PluginInterface plugin = proxy.getPlugin();
-      assertTrue(((MockPluginInterface)plugin).getState() == MockPluginInterface.STATE_THROW);  
-      // should visually inspect that log message emitted.    
-   }
+	public void testPluginInit() throws Exception {
+		PluginProxy proxy = initAndGetProxy("mockPlugin"); //$NON-NLS-1$
+
+		PluginInterface plugin = proxy.getPlugin();
+		assertTrue(((MockPluginInterface) plugin).getState() == MockPluginInterface.STATE_INIT);
+	}
+
+	public void testNegativePluginInitThrows() throws Exception {
+		PluginProxy proxy = initAndGetProxy("mockPluginThrows"); //$NON-NLS-1$
+
+		assertTrue(proxy.initThrewException());
+	}
+
+	public void testPluginDestroy() throws Exception {
+		PluginProxy proxy = initAndGetProxy("mockPlugin"); //$NON-NLS-1$
+
+		PluginInterface plugin = proxy.getPlugin();
+		assertTrue(((MockPluginInterface) plugin).getState() == MockPluginInterface.STATE_INIT);
+
+		sendContextDestroyedEvent();
+		assertTrue(((MockPluginInterface) plugin).getState() == MockPluginInterface.STATE_DESTROY);
+	}
+
+	public void testNegativePluginDestroyNotCalled() throws Exception {
+		PluginProxy proxy = initAndGetProxy("mockPluginThrows"); //$NON-NLS-1$
+
+		assertTrue(proxy.initThrewException());
+		sendContextDestroyedEvent();
+		PluginInterface plugin = proxy.getPlugin();
+		assertTrue(((MockPluginInterface) plugin).getState() == MockPluginInterface.STATE_NONE);
+	}
+
+	public void testNegativePluginDestroyThrows() throws Exception {
+		PluginProxy proxy = initAndGetProxy("mockPluginDestroyThrows"); //$NON-NLS-1$
+
+		sendContextDestroyedEvent();
+		PluginInterface plugin = proxy.getPlugin();
+		assertTrue(((MockPluginInterface) plugin).getState() == MockPluginInterface.STATE_THROW);
+		// should visually inspect that log message emitted.
+	}
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,9 +76,9 @@ public class Frame2TestCase extends TestCase {
    
    protected void setupLogger(){
       try {
-         LoggerFactory.setType("org.megatome.frame2.log.impl.Log4jLogger", getClass().getClassLoader());
+         LoggerFactory.setType("org.megatome.frame2.log.impl.Log4jLogger", getClass().getClassLoader()); //$NON-NLS-1$
       } catch (LoggerException e) {
-         System.out.println("Unable to initialize looger for TestCase");
+         System.out.println("Unable to initialize looger for TestCase"); //$NON-NLS-1$
       }
    }
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,6 +80,7 @@ public class TestCommonsValidatorWrapper extends MockFrame2TestCase {
  /**
    * @see junit.framework.TestCase#setUp()
    */
+   @Override
    protected void setUp() throws Exception {
       super.setUp();      
    }
@@ -87,16 +88,18 @@ public class TestCommonsValidatorWrapper extends MockFrame2TestCase {
    /**
     * @see junit.framework.TestCase#tearDown()
     */
+   @Override
    protected void tearDown() throws Exception {
       super.tearDown();
    }
    
    
-   public void testValidatorInitialization() {
+   @SuppressWarnings("null")
+public void testValidatorInitialization() {
                  
       ValidatorResources resources = null;
       try {       
-         CommonsValidatorWrapper.setFilePath("/org/megatome/frame2/validator/config");
+         CommonsValidatorWrapper.setFilePath("/org/megatome/frame2/validator/config"); //$NON-NLS-1$
          CommonsValidatorWrapper.load(getContext());
          resources = CommonsValidatorWrapper.getValidatorResources();
          assertNotNull(resources);     
@@ -104,7 +107,7 @@ public class TestCommonsValidatorWrapper extends MockFrame2TestCase {
          fail();
       }   
       
-      Form f = resources.get(new Locale("EN"), "ValidateBean");
+      Form f = resources.get(new Locale("EN"), "ValidateBean"); //$NON-NLS-1$ //$NON-NLS-2$
       assertNotNull(f);                                                                                                              
             
    }
@@ -113,12 +116,13 @@ public class TestCommonsValidatorWrapper extends MockFrame2TestCase {
   public void testNegativeValidatorInitializationFileNotFound() {
                  
       try {       
-         CommonsValidatorWrapper.setFilePath("/org/megatome/frame2/validator/config");
-         CommonsValidatorWrapper.setMappingsFile("dude.xml");
+         CommonsValidatorWrapper.setFilePath("/org/megatome/frame2/validator/config"); //$NON-NLS-1$
+         CommonsValidatorWrapper.setMappingsFile("dude.xml"); //$NON-NLS-1$
          CommonsValidatorWrapper.load(getContext());
          CommonsValidatorWrapper.getValidatorResources();
          fail();
       } catch (CommonsValidatorException expected) {
+    	  //expected
       }   
    }
 }

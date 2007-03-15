@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,107 +87,109 @@ public class TestTemplate_DTD extends TestCase {
    /**
     * @see junit.framework.TestCase#setUp()
     */
+   @Override
    protected void setUp() throws Exception {
       super.setUp();
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
       dbf.setValidating(true);
       
-      documentBuilder = dbf.newDocumentBuilder();
-      documentBuilder.setErrorHandler(new Frame2ParseErrorHandler());
-      documentBuilder.setEntityResolver(new Frame2EntityResolver());
+      this.documentBuilder = dbf.newDocumentBuilder();
+      this.documentBuilder.setErrorHandler(new Frame2ParseErrorHandler());
+      this.documentBuilder.setEntityResolver(new Frame2EntityResolver());
    }
 
    /**
     * @see junit.framework.TestCase#tearDown()
     */
+   @Override
    protected void tearDown() throws Exception {
       super.tearDown();
    }
 
    public void testDTD()
    {
-      parseConfig("org/megatome/frame2/template/config/emptyTags-Template.xml"); 
+      parseConfig("org/megatome/frame2/template/config/emptyTags-Template.xml");  //$NON-NLS-1$
    }    
    
    public void testNegativeDTD()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/emptyConfigTag-Negative-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/emptyConfigTag-Negative-Template.xml"); //$NON-NLS-1$
    }
    
    public void testNegativeConfigParentTag()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/emptyTags-NegativeConfig-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/emptyTags-NegativeConfig-Template.xml"); //$NON-NLS-1$
    } 
    
    public void testNegativeConfigTemplatesTag()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/emptyTags-Negative-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/emptyTags-Negative-Template.xml"); //$NON-NLS-1$
    }   
    
    public void testSingleTemplate()
    {
-      parseConfig("org/megatome/frame2/template/config/singleTag-Template.xml");
+      parseConfig("org/megatome/frame2/template/config/singleTag-Template.xml"); //$NON-NLS-1$
    }
    
    public void testNegativeNameSingleTemplate()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativeName-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativeName-Template.xml"); //$NON-NLS-1$
    }
    
    public void testNegativePathSingleTemplate()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePath-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePath-Template.xml"); //$NON-NLS-1$
    }
    
    public void testSingleTemplatePut()
    {
-      parseConfig("org/megatome/frame2/template/config/singleTag-Put-Template.xml");
+      parseConfig("org/megatome/frame2/template/config/singleTag-Put-Template.xml"); //$NON-NLS-1$
    }
    
    public void testNegativeSingleTemplatePutName()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePutName-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePutName-Template.xml"); //$NON-NLS-1$
    }
    
    public void testNegativeSingleTemplatePutPath()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePutPath-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePutPath-Template.xml"); //$NON-NLS-1$
    }
    
    public void testMultipleTemplate()
    {
-      parseConfig("org/megatome/frame2/template/config/multTag-Template.xml");
+      parseConfig("org/megatome/frame2/template/config/multTag-Template.xml"); //$NON-NLS-1$
    }
    
    public void testMultipleTemplatePut()
    {
-      parseConfig("org/megatome/frame2/template/config/multTag-Put-Template.xml");
+      parseConfig("org/megatome/frame2/template/config/multTag-Put-Template.xml"); //$NON-NLS-1$
    }   
    
    public void testNegativeNameMultipleTemplate()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/multTag-NegativeName-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/multTag-NegativeName-Template.xml"); //$NON-NLS-1$
    }   
       
    public void testNegativePathMultipleTemplate()
    {
-      parseNegativeConfig("org/megatome/frame2/template/config/multTag-NegativePath-Template.xml");
+      parseNegativeConfig("org/megatome/frame2/template/config/multTag-NegativePath-Template.xml"); //$NON-NLS-1$
    }      
    
    private void parseConfig(String configFile)
    {
       try {
         InputStream is = getClass().getClassLoader().getResourceAsStream(configFile);
-        documentBuilder.parse(is);
+        this.documentBuilder.parse(is);
       } catch (IOException ioe) {
           ioe.printStackTrace();
-          fail("Unexpected IOException");
+          fail("Unexpected IOException"); //$NON-NLS-1$
       } catch (SAXParseException spe) {
          spe.printStackTrace();
-         fail("Unexpected SAXParseException");
+         fail("Unexpected SAXParseException"); //$NON-NLS-1$
       } catch (SAXException se) {
           se.printStackTrace();
-          fail("Unexpected SAXException");
+          fail("Unexpected SAXException"); //$NON-NLS-1$
       } 
    }  
    
@@ -195,15 +197,15 @@ public class TestTemplate_DTD extends TestCase {
    {
       try {
         InputStream is = getClass().getClassLoader().getResourceAsStream(configFile);
-        documentBuilder.parse(is);
+        this.documentBuilder.parse(is);
       } catch (IOException ioe) {
-         fail("Unexpected IO Exception");
+         fail("Unexpected IO Exception"); //$NON-NLS-1$
       } catch (SAXParseException spe) {
          return;
       } catch (SAXException se) {
          return;
       } 
       
-      fail("Expected SAXException did not occur");
+      fail("Expected SAXException did not occur"); //$NON-NLS-1$
    }
 }

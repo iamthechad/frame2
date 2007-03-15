@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,15 +84,17 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		request = (HttpServletRequestSimulator)getRequest();
-		response = (HttpServletResponseSimulator)getResponse();
+		this.request = (HttpServletRequestSimulator)getRequest();
+		this.response = (HttpServletResponseSimulator)getResponse();
 	}
 
 	/**
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
@@ -101,11 +103,11 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 		HttpFrontController servlet = initializeServlet();
 
 		try {
-			servlet.doPost(request, response);
+			servlet.doPost(this.request, this.response);
 		} catch (Exception e) {
-		    String msg = "Unexpected Exception: " + e.getMessage();
+		    String msg = "Unexpected Exception: " + e.getMessage(); //$NON-NLS-1$
 		    if (e.getCause() != null) {
-		        msg += ": " + e.getCause().getMessage();
+		        msg += ": " + e.getCause().getMessage(); //$NON-NLS-1$
 		    }
 			fail(msg);
 		}
@@ -115,11 +117,11 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 		HttpFrontController servlet = initializeServlet();
 
 		try {
-			servlet.doPost(request, response);
+			servlet.doPost(this.request, this.response);
 		} catch (Exception e) {
 		   return;
 		}
-		fail("Failed to catch expected exception");
+		fail("Failed to catch expected exception"); //$NON-NLS-1$
 	}
 
 	private HttpFrontController initializeServlet() {
@@ -127,25 +129,25 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 		try {
 			servlet.init();
 		} catch (ServletException e) {
-			fail("Unexpected ServletException: " + e.getMessage());
+			fail("Unexpected ServletException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		Configuration config = getServlet().getConfiguration();
 
 		assertNotNull(config);
 
-		request.setServletPath("http://localhost/validateEvent.f2");
+		this.request.setServletPath("http://localhost/validateEvent.f2"); //$NON-NLS-1$
 
 		return servlet;
 	}
 	
 	public void testPrerequisites() {
 	   try {
-          Class.forName("org.apache.commons.validator.ValidatorResources");
-          fail("Did not catch expected ClassDef exception");
+          Class.forName("org.apache.commons.validator.ValidatorResources"); //$NON-NLS-1$
+          fail("Did not catch expected ClassDef exception"); //$NON-NLS-1$
 	   } catch (ClassNotFoundException expected) {
 	      // This is the expected result
 	   } catch (Exception e) {
-	      fail("Unexpected Exception");
+	      fail("Unexpected Exception"); //$NON-NLS-1$
 	   }
 	}
 
@@ -153,7 +155,7 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 
 		sendContextInitializedEvent(
 			Globals.CONFIG_FILE,
-			"/org/megatome/frame2/front/test-validator-config.xml");
+			"/org/megatome/frame2/front/test-validator-config.xml"); //$NON-NLS-1$
 
 		postNegativeHttpReqProc();
 	}
@@ -162,7 +164,7 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 
 		sendContextInitializedEvent(
 			Globals.CONFIG_FILE,
-			"/org/megatome/frame2/front/test-missing-validator-config.xml");
+			"/org/megatome/frame2/front/test-missing-validator-config.xml"); //$NON-NLS-1$
 
 		postHttpReqProc();
 	}

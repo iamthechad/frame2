@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,128 +66,138 @@ import org.megatome.frame2.log.impl.Log4jLogger;
  */
 public class TestLog4jLogging extends TestCase {
 
-   final static String LOGGER_NAME = "org.megatome.frame2.log.TestLogging";
+	final static String LOGGER_NAME = "org.megatome.frame2.log.TestLogging"; //$NON-NLS-1$
 
-   private org.apache.log4j.Logger l4jLogger;
-   private ByteArrayOutputStream stdStream;
+	private org.apache.log4j.Logger l4jLogger;
 
-   private Logger logger;
+	private ByteArrayOutputStream stdStream;
 
-   protected void setUp() {
-      stdStream = new ByteArrayOutputStream(1000);
-      l4jLogger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
+	private Logger logger;
 
-      WriterAppender appender = new WriterAppender(new SimpleLayout(), stdStream);
-      l4jLogger.addAppender(appender);
-      appender.setImmediateFlush(true);
+	@Override
+	protected void setUp() {
+		this.stdStream = new ByteArrayOutputStream(1000);
+		this.l4jLogger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
 
-      l4jLogger.setLevel(org.apache.log4j.Level.ALL);
+		WriterAppender appender = new WriterAppender(new SimpleLayout(),
+				this.stdStream);
+		this.l4jLogger.addAppender(appender);
+		appender.setImmediateFlush(true);
 
-      try {
-         LoggerFactory.setType(Log4jLogger.class.getName(), this.getClass().getClassLoader());
-      } catch (LoggerException e) {
-         fail();
-      }
-      logger = LoggerFactory.instance(LOGGER_NAME);
-   }
+		this.l4jLogger.setLevel(org.apache.log4j.Level.ALL);
 
-   protected void tearDown() {
-      stdStream.reset();
-   }
+		try {
+			LoggerFactory.setType(Log4jLogger.class.getName(), this.getClass()
+					.getClassLoader());
+		} catch (LoggerException e) {
+			fail();
+		}
+		this.logger = LoggerFactory.instance(LOGGER_NAME);
+	}
 
-   public void testLoggerFindsLevel() {
-      Logger otherLogger = LoggerFactory.instance("some.other.logger");
-      
-      try {
-         // If the wrong log4j API is used these will bomb (need to use getEffectiveLevel).
-         
-         otherLogger.isDebugEnabled();
-         otherLogger.isInfoEnabled();
-         otherLogger.isWarnEnabled();
-         otherLogger.isSevereEnabled();
-      } catch ( Throwable t ) {
-         fail();
-      }
-   }
+	@Override
+	protected void tearDown() {
+		this.stdStream.reset();
+	}
 
-   public void testName() {
-      assertNotNull(logger);
-      assertTrue(logger instanceof Log4jLogger);
-      assertEquals(LOGGER_NAME, logger.getName());
-   }
+	public void testLoggerFindsLevel() {
+		Logger otherLogger = LoggerFactory.instance("some.other.logger"); //$NON-NLS-1$
 
-   public void testLogDebug() {
-      logger.debug("debug message");
+		try {
+			// If the wrong log4j API is used these will bomb (need to use
+			// getEffectiveLevel).
 
-      assertTrue(stdStream.toString().indexOf("debug message") > 0);
+			otherLogger.isDebugEnabled();
+			otherLogger.isInfoEnabled();
+			otherLogger.isWarnEnabled();
+			otherLogger.isSevereEnabled();
+		} catch (Throwable t) {
+			fail();
+		}
+	}
 
-      logger.debug("exception debug", new TestException("test exception"));
-      assertTrue(stdStream.toString().indexOf("exception debug") > 0);
-      assertTrue(stdStream.toString().indexOf("test exception") > 0);
-   }
+	public void testName() {
+		assertNotNull(this.logger);
+		assertTrue(this.logger instanceof Log4jLogger);
+		assertEquals(LOGGER_NAME, this.logger.getName());
+	}
 
-   public void testStatusDebug() {
-      l4jLogger.setLevel(org.apache.log4j.Level.INFO);
-      assertFalse(logger.isDebugEnabled());
-      l4jLogger.setLevel(org.apache.log4j.Level.DEBUG);
-      assertTrue(logger.isDebugEnabled());
-   }
+	public void testLogDebug() {
+		this.logger.debug("debug message"); //$NON-NLS-1$
 
-   public void testStatusInfo() {
-      l4jLogger.setLevel(org.apache.log4j.Level.WARN);
-      assertFalse(logger.isInfoEnabled());
-      l4jLogger.setLevel(org.apache.log4j.Level.INFO);
-      assertTrue(logger.isInfoEnabled());
-   }
+		assertTrue(this.stdStream.toString().indexOf("debug message") > 0); //$NON-NLS-1$
 
-   public void testStatusWarn() {
-      l4jLogger.setLevel(org.apache.log4j.Level.ERROR);
-      assertFalse(logger.isWarnEnabled());
-      l4jLogger.setLevel(org.apache.log4j.Level.WARN);
-      assertTrue(logger.isWarnEnabled());
-   }
+		this.logger.debug(
+				"exception debug", new TestException("test exception")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue(this.stdStream.toString().indexOf("exception debug") > 0); //$NON-NLS-1$
+		assertTrue(this.stdStream.toString().indexOf("test exception") > 0); //$NON-NLS-1$
+	}
 
-   public void testStatusSevere() {
-      l4jLogger.setLevel(org.apache.log4j.Level.OFF);
-      assertFalse(logger.isSevereEnabled());
-      l4jLogger.setLevel(org.apache.log4j.Level.ERROR);
-      assertTrue(logger.isSevereEnabled());
-   }
+	public void testStatusDebug() {
+		this.l4jLogger.setLevel(org.apache.log4j.Level.INFO);
+		assertFalse(this.logger.isDebugEnabled());
+		this.l4jLogger.setLevel(org.apache.log4j.Level.DEBUG);
+		assertTrue(this.logger.isDebugEnabled());
+	}
 
-   public void testLogInfo() {
-      logger.info("info message");
+	public void testStatusInfo() {
+		this.l4jLogger.setLevel(org.apache.log4j.Level.WARN);
+		assertFalse(this.logger.isInfoEnabled());
+		this.l4jLogger.setLevel(org.apache.log4j.Level.INFO);
+		assertTrue(this.logger.isInfoEnabled());
+	}
 
-      assertTrue(stdStream.toString().indexOf("info message") > 0);
+	public void testStatusWarn() {
+		this.l4jLogger.setLevel(org.apache.log4j.Level.ERROR);
+		assertFalse(this.logger.isWarnEnabled());
+		this.l4jLogger.setLevel(org.apache.log4j.Level.WARN);
+		assertTrue(this.logger.isWarnEnabled());
+	}
 
-      logger.info("exception info", new TestException("test exception"));
-      assertTrue(stdStream.toString().indexOf("exception info") > 0);
-      assertTrue(stdStream.toString().indexOf("test exception") > 0);
-   }
+	public void testStatusSevere() {
+		this.l4jLogger.setLevel(org.apache.log4j.Level.OFF);
+		assertFalse(this.logger.isSevereEnabled());
+		this.l4jLogger.setLevel(org.apache.log4j.Level.ERROR);
+		assertTrue(this.logger.isSevereEnabled());
+	}
 
-   public void testLogSevere() {
-      logger.severe("severe message");
+	public void testLogInfo() {
+		this.logger.info("info message"); //$NON-NLS-1$
 
-      assertTrue(stdStream.toString().indexOf("severe message") > 0);
+		assertTrue(this.stdStream.toString().indexOf("info message") > 0); //$NON-NLS-1$
 
-      logger.severe("exception severe", new TestException("test exception"));
-      assertTrue(stdStream.toString().indexOf("exception severe") > 0);
-      assertTrue(stdStream.toString().indexOf("test exception") > 0);
-   }
+		this.logger.info("exception info", new TestException("test exception")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue(this.stdStream.toString().indexOf("exception info") > 0); //$NON-NLS-1$
+		assertTrue(this.stdStream.toString().indexOf("test exception") > 0); //$NON-NLS-1$
+	}
 
-   public void testLogWarn() {
-      logger.warn("warn message");
+	public void testLogSevere() {
+		this.logger.severe("severe message"); //$NON-NLS-1$
 
-      assertTrue(stdStream.toString().indexOf("warn message") > 0);
+		assertTrue(this.stdStream.toString().indexOf("severe message") > 0); //$NON-NLS-1$
 
-      logger.warn("exception warn", new TestException("test exception"));
-      assertTrue(stdStream.toString().indexOf("exception warn") > 0);
-      assertTrue(stdStream.toString().indexOf("test exception") > 0);
-   }
+		this.logger.severe(
+				"exception severe", new TestException("test exception")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue(this.stdStream.toString().indexOf("exception severe") > 0); //$NON-NLS-1$
+		assertTrue(this.stdStream.toString().indexOf("test exception") > 0); //$NON-NLS-1$
+	}
 
-   private class TestException extends Throwable {
-      TestException(String msg) {
-         super(msg);
-      }
-   }
+	public void testLogWarn() {
+		this.logger.warn("warn message"); //$NON-NLS-1$
+
+		assertTrue(this.stdStream.toString().indexOf("warn message") > 0); //$NON-NLS-1$
+
+		this.logger.warn("exception warn", new TestException("test exception")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue(this.stdStream.toString().indexOf("exception warn") > 0); //$NON-NLS-1$
+		assertTrue(this.stdStream.toString().indexOf("test exception") > 0); //$NON-NLS-1$
+	}
+
+	private class TestException extends Throwable {
+		private static final long serialVersionUID = -2237703023771112459L;
+
+		TestException(String msg) {
+			super(msg);
+		}
+	}
 
 }

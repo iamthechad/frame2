@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,6 +57,7 @@ import java.net.URL;
 import servletunit.ServletContextSimulator;
 
 public class MockFrame2ServletContextSimulator extends ServletContextSimulator {
+	@Override
 	public String getRealPath(String path)
 	{
 		String realPath = null;

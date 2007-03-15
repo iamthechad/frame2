@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,27 +75,28 @@ import org.w3c.dom.NodeList;
 
 
 public class TestSoapRequestProcessor extends TestCase {
-   final private String TARGET_PKG = "org.megatome.frame2.jaxbgen";
+   final private static String TARGET_PKG = "org.megatome.frame2.jaxbgen"; //$NON-NLS-1$
    private Element[] elements;
    private Configuration config;
 
-   protected void setUp() throws Exception {
-      config = new Configuration("org/megatome/frame2/front/test-wsconfig.xml");
-      elements = Helper.loadEvents("org/megatome/frame2/jaxb/po.xml",getClass());
-      ResourceLocator.setBasename("frame2-resource");
+   @Override
+protected void setUp() throws Exception {
+      this.config = new Configuration("org/megatome/frame2/front/test-wsconfig.xml"); //$NON-NLS-1$
+      this.elements = Helper.loadEvents("org/megatome/frame2/jaxb/po.xml",getClass()); //$NON-NLS-1$
+      ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
    }
 
 	public void testUnmarshallElements() throws Exception {
 		SoapRequestProcessor processor =
-			(SoapRequestProcessor) RequestProcessorFactory.instance(config, elements,TARGET_PKG);
+			(SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
       assertNotNull(processor);
 
-      List events = processor.getEvents();
+      List<SoapEventMap> events = processor.getEvents();
 
       assertNotNull(events);
       assertEquals(1, events.size());
-      SoapEventMap event = (SoapEventMap)events.get(0);
+      SoapEventMap event = events.get(0);
       Object obj = event.getEventsIterator().next();
       
 
@@ -104,34 +105,34 @@ public class TestSoapRequestProcessor extends TestCase {
 
       PurchaseOrder po = (PurchaseOrder) obj;
 
-      assertEquals("1999-10-20", Helper.calendarToString(po.getOrderDate()));
+      assertEquals("1999-10-20", Helper.calendarToString(po.getOrderDate())); //$NON-NLS-1$
    }
 
    public void testUnmarshallElements_Empty() throws Exception {
       SoapRequestProcessor processor =
-         (SoapRequestProcessor) RequestProcessorFactory.instance(config,new Element[3],TARGET_PKG);
+         (SoapRequestProcessor) RequestProcessorFactory.instance(this.config,new Element[3],TARGET_PKG);
 
       assertNotNull(processor);
 
-      List events = processor.getEvents();
+      List<SoapEventMap> events = processor.getEvents();
 
       assertNotNull(events);
       assertEquals(0, events.size());
    }
    
    public void testValidateEvent() throws Exception {
-      SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory.instance(config,
-            elements,TARGET_PKG);
+      SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory.instance(this.config,
+            this.elements,TARGET_PKG);
 
-      List events = processor.getEvents();
-      SoapEventMap event = (SoapEventMap)events.get(0);
+      List<SoapEventMap> events = processor.getEvents();
+      SoapEventMap event = events.get(0);
       Object obj = event.getEventsIterator().next();
       
       PurchaseOrder po = (PurchaseOrder) obj;
       
       Items.ItemType item = (Items.ItemType) po.getItems().getItem().get(0);
 
-      item.setPartNum("AAAAA");
+      item.setPartNum("AAAAA"); //$NON-NLS-1$
 
       
       assertFalse(processor.validateEvent((Event)obj));
@@ -141,13 +142,13 @@ public class TestSoapRequestProcessor extends TestCase {
 
    public void testCallHandler() throws Exception {
       SoapRequestProcessor processor = 
-             (SoapRequestProcessor) RequestProcessorFactory.instance(config, elements,TARGET_PKG);
+             (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
       PurchaseOrderImpl poi = new PurchaseOrderImpl();
 
-      ForwardProxy response = processor.callHandlers(elements[0].getNodeName(), poi,ViewType.XML);
+      ForwardProxy response = processor.callHandlers(this.elements[0].getNodeName(), poi,ViewType.XML);
 
-      assertEquals("key1", response.getPath());
+      assertEquals("key1", response.getPath()); //$NON-NLS-1$
 
       Context context = processor.getContextWrapper();
 
@@ -157,86 +158,87 @@ public class TestSoapRequestProcessor extends TestCase {
    
    public void testCallHandlerReponder() throws Exception {
       SoapRequestProcessor processor = 
-             (SoapRequestProcessor) RequestProcessorFactory.instance(config, elements,TARGET_PKG);
+             (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
       PurchaseOrderImpl poi = new PurchaseOrderImpl();
 
-      ForwardProxy response = processor.callHandlers("POResponderOrder", poi,ViewType.XML);
+      ForwardProxy response = processor.callHandlers("POResponderOrder", poi,ViewType.XML); //$NON-NLS-1$
       assertTrue(response.isResponderType());
 
-      assertEquals("org.megatome.frame2.front.AckResponder", response.getPath());
+      assertEquals("org.megatome.frame2.front.AckResponder", response.getPath()); //$NON-NLS-1$
    }
    
    public void testCallHandlerReponderChildren() throws Exception {
-      elements = Helper.loadEvents("org/megatome/frame2/jaxb/pochildren.xml",getClass());
+      this.elements = Helper.loadEvents("org/megatome/frame2/jaxb/pochildren.xml",getClass()); //$NON-NLS-1$
       SoapRequestProcessor processor = 
-             (SoapRequestProcessor) RequestProcessorFactory.instance(config, elements,TARGET_PKG);
+             (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
       PurchaseOrderImpl poi = new PurchaseOrderImpl();
 
-      ForwardProxy response = processor.callHandlers("POTestChildren", poi,ViewType.XML);
+      ForwardProxy response = processor.callHandlers("POTestChildren", poi,ViewType.XML); //$NON-NLS-1$
       assertTrue(response.isResponderType());
 
-      assertEquals("org.megatome.frame2.front.AckResponder", response.getPath());
+      assertEquals("org.megatome.frame2.front.AckResponder", response.getPath()); //$NON-NLS-1$
    }
    
    public void testProcessRequestChildren() throws Exception {
-      elements = Helper.loadEvents("org/megatome/frame2/jaxb/pochildren.xml",getClass());
+      this.elements = Helper.loadEvents("org/megatome/frame2/jaxb/pochildren.xml",getClass()); //$NON-NLS-1$
       SoapRequestProcessor processor = 
-             (SoapRequestProcessor) RequestProcessorFactory.instance(config, elements,TARGET_PKG);
+             (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
       Element[] response = (Element[]) processor.processRequest();
       
-      assertEquals(response[0].getNodeName(),"POTestChildren");
+      assertEquals(response[0].getNodeName(),"POTestChildren"); //$NON-NLS-1$
    }
    
    //  POTestChildrenMixedData.xml, 3 po orders, 3rd has bad date
    public void testProcessRequestChildrenMixedData() throws Exception {
-      ResourceLocator.setBasename("frame2-resource");
+      ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 
-      elements = Helper.loadEvents("org/megatome/frame2/jaxb/POTestChildrenMixedData.xml",getClass());
+      this.elements = Helper.loadEvents("org/megatome/frame2/jaxb/POTestChildrenMixedData.xml",getClass()); //$NON-NLS-1$
       SoapRequestProcessor processor = 
-             (SoapRequestProcessor) RequestProcessorFactory.instance(config, elements,TARGET_PKG);
+             (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
       Element[] response = (Element[]) processor.processRequest();
       
       // expect 1 parent element with 
       // 2 acks and one soap fault as children
       assertEquals(response.length,1); 
-      assertEquals(response[0].getNodeName(),"POTestChildrenMixedData");
+      assertEquals(response[0].getNodeName(),"POTestChildrenMixedData"); //$NON-NLS-1$
       
       Element parent = response[0];
       NodeList children = parent.getChildNodes();
       assertEquals(children.getLength(),3);
       for (int i=0; i<children.getLength(); i++){
          if (i == 0 || i ==1){
-            assertEquals(((Element)children.item(i)).getNodeName(),"ack");
+            assertEquals(((Element)children.item(i)).getNodeName(),"ack"); //$NON-NLS-1$
          }
          else {
-            assertEquals(((Element)children.item(i)).getNodeName(),"SOAP-ENV:Fault");
+            assertEquals(((Element)children.item(i)).getNodeName(),"SOAP-ENV:Fault"); //$NON-NLS-1$
             OutputStream os = DOMStreamConverter.toOutputStream(children.item(i));
-            assertTrue(os.toString().indexOf("This part number bites, dude") > 1);
+            assertTrue(os.toString().indexOf("This part number bites, dude") > 1); //$NON-NLS-1$
          }
       }        
    }
    
    public void testCallHandlerInvalidEvent() throws Exception {
       SoapRequestProcessor processor = 
-             (SoapRequestProcessor) RequestProcessorFactory.instance(config, elements,TARGET_PKG);
+             (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
       PurchaseOrderImpl poi = new PurchaseOrderImpl();
 
       try {
-         processor.callHandlers("InvalidEvent", poi, ViewType.XML);
+         processor.callHandlers("InvalidEvent", poi, ViewType.XML); //$NON-NLS-1$
          fail();
       }
       catch (Frame2Exception expected) {
+    	  // expected
       }
 
    }    
    public void testMarshalResponse() throws Exception {
-      SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory.instance(config,
-            elements,TARGET_PKG);
+      SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory.instance(this.config,
+            this.elements,TARGET_PKG);
 
-      PurchaseOrder poi = getResponseObject("org/megatome/frame2/jaxb/po.xml");
+      PurchaseOrder poi = getResponseObject("org/megatome/frame2/jaxb/po.xml"); //$NON-NLS-1$
 
       Element element = processor.marshallResponse(poi);
 
@@ -244,8 +246,8 @@ public class TestSoapRequestProcessor extends TestCase {
    }
    
    public void testMarshalResponse_Null() throws Exception {
-      SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory.instance(config,
-            elements,TARGET_PKG);
+      SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory.instance(this.config,
+            this.elements,TARGET_PKG);
 
       Element element = processor.marshallResponse(null);
 
@@ -274,21 +276,21 @@ public class TestSoapRequestProcessor extends TestCase {
 
    public void testProcessRequest() throws Exception {
       SoapRequestProcessor processor =
-         (SoapRequestProcessor) RequestProcessorFactory.instance(config, elements,TARGET_PKG);
+         (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
       Element[] result = (Element[]) processor.processRequest();
       
       assertNotNull(result);
-      assertEquals("purchaseOrder",result[0].getLocalName());
+      assertEquals("purchaseOrder",result[0].getLocalName()); //$NON-NLS-1$
    }
    
    public void testProcessRequest_Batch() throws Exception {
-      Element[] batchElements = new Element[] { elements[0], elements[0], elements[0] };
+      Element[] batchElements = new Element[] { this.elements[0], this.elements[0], this.elements[0] };
       
       assertEquals(3,batchElements.length);
       
       SoapRequestProcessor processor =
-         (SoapRequestProcessor) RequestProcessorFactory.instance(config, batchElements,TARGET_PKG);
+         (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, batchElements,TARGET_PKG);
 
       Element[] result =  (Element[]) processor.processRequest();
       
@@ -298,20 +300,20 @@ public class TestSoapRequestProcessor extends TestCase {
    
    public void testProcessRequest_Passthru() throws Exception {
       Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-      Element element = doc.createElement("passthruEvent");
-      element.appendChild(doc.importNode(elements[0],true));
+      Element element = doc.createElement("passthruEvent"); //$NON-NLS-1$
+      element.appendChild(doc.importNode(this.elements[0],true));
       
       DOMStreamConverter.toOutputStream(element);
       
       SoapRequestProcessor processor =
-         (SoapRequestProcessor) RequestProcessorFactory.instance(config, new Element[] { element },TARGET_PKG);
+         (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, new Element[] { element },TARGET_PKG);
 
       Element[] result = (Element[]) processor.processRequest();
 
       DOMStreamConverter.toOutputStream(result[0]);
       
       assertNotNull(result);
-      assertEquals("purchaseOrder",result[0].getNodeName());      
+      assertEquals("purchaseOrder",result[0].getNodeName());       //$NON-NLS-1$
    }
    
    /*
@@ -338,8 +340,8 @@ public class TestSoapRequestProcessor extends TestCase {
    
     public void testNegativeSoapRequestProcessorClass () throws Exception {  
       Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-      Element element = doc.createElement("passthruEvent"); 
-      Configuration cfg = new Configuration("org/megatome/frame2/front/soapRequestNegativeClass.xml");  
+      Element element = doc.createElement("passthruEvent");  //$NON-NLS-1$
+      Configuration cfg = new Configuration("org/megatome/frame2/front/soapRequestNegativeClass.xml");   //$NON-NLS-1$
       RequestProcessor requestProcessor=  RequestProcessorFactory.instance(cfg,new Element[] { element },TARGET_PKG);       
       assertNull(requestProcessor);                     
    }
@@ -347,32 +349,32 @@ public class TestSoapRequestProcessor extends TestCase {
    
    public void testNegativeSoapRequestProcessorClassImplementRequestProcessor () throws Exception {  
      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-     Element element = doc.createElement("passthruEvent"); 
-     Configuration cfg = new Configuration("org/megatome/frame2/front/soapRequestNegativeClassReqProc.xml");   
+     Element element = doc.createElement("passthruEvent");  //$NON-NLS-1$
+     Configuration cfg = new Configuration("org/megatome/frame2/front/soapRequestNegativeClassReqProc.xml");    //$NON-NLS-1$
      RequestProcessor requestProcessor=  RequestProcessorFactory.instance(cfg,new Element[] { element },TARGET_PKG);       
      assertNull(requestProcessor);                     
    }
    
    public void testSoapRequestProcessorDefaultRequestProcessors () throws Exception {  
-     Configuration cfg = new Configuration("org/megatome/frame2/front/ReqProcDefaults.xml");  
+     Configuration cfg = new Configuration("org/megatome/frame2/front/ReqProcDefaults.xml");   //$NON-NLS-1$
      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-     Element element = doc.createElement("passthruEvent"); 
+     Element element = doc.createElement("passthruEvent");  //$NON-NLS-1$
      RequestProcessor requestProcessor=  RequestProcessorFactory.instance(cfg,new Element[] { element },TARGET_PKG);       
      
      assertNotNull(requestProcessor);         
-     String className = "org.megatome.frame2.front.SoapRequestProcessor";   
+     String className = "org.megatome.frame2.front.SoapRequestProcessor";    //$NON-NLS-1$
      assertEquals(className,requestProcessor.getClass().getName());           
      
    }
     
    public void testCustomSoapRequestProcessor () throws Exception {       
      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-     Element element = doc.createElement("passthruEvent"); 
-     Configuration cfg = new Configuration("org/megatome/frame2/front/soapRequestCustom.xml"); 
+     Element element = doc.createElement("passthruEvent");  //$NON-NLS-1$
+     Configuration cfg = new Configuration("org/megatome/frame2/front/soapRequestCustom.xml");  //$NON-NLS-1$
      RequestProcessor requestProcessor=  RequestProcessorFactory.instance(cfg,new Element[] { element },TARGET_PKG);                 
                  
      assertNotNull(requestProcessor);         
-     String className = "org.megatome.frame2.front.SoapRequestProcessorCustom";   
+     String className = "org.megatome.frame2.front.SoapRequestProcessorCustom";    //$NON-NLS-1$
      assertEquals(className,requestProcessor.getClass().getName());                 
    }
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,7 @@
  */
 package org.megatome.frame2.front;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -83,147 +84,151 @@ public class TestConfiguration extends TestCase {
 	/**
 	* @see junit.framework.TestCase#setUp()
 	*/
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		config =
-			new Configuration("org/megatome/frame2/front/test-config.xml");
+		this.config =
+			new Configuration("org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
 	}
 
 	public void testEventBinding() {
 		Event event = null;
 		try {
-			event = config.getEventProxy("event1").getEvent();
+			event = this.config.getEventProxy("event1").getEvent(); //$NON-NLS-1$
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		assertNotNull(event);
 	}
 
 	public void testEventBinding_Empty() {
-		assertGetEventFails(config, "");
+		assertGetEventFails(this.config, ""); //$NON-NLS-1$
 	}
 
 	public void testEventBinding_WrongEventType() {
-		assertGetEventFails(config, "wrongEventType");
+		assertGetEventFails(this.config, "wrongEventType"); //$NON-NLS-1$
 	}
 
 	public void testEventBinding_TypeMissing() {
-		assertGetEventFails(config, "bogus1");
+		assertGetEventFails(this.config, "bogus1"); //$NON-NLS-1$
 	}
 
 	public void testEventBinding_TypeNotEvent() {
-		assertGetEventFails(config, "bogus2");
+		assertGetEventFails(this.config, "bogus2"); //$NON-NLS-1$
 	}
 
 	public void testEventBinding_NullName() {
-		assertGetEventFails(config, null);
+		assertGetEventFails(this.config, null);
 	}
 
 	public void testHandlerBinding() {
-		List eventHandlers = null;
+		List<EventHandlerProxy> eventHandlers = new ArrayList<EventHandlerProxy>();
 		try {
-			eventHandlers = config.getHandlers("event1");
+			eventHandlers = this.config.getHandlers("event1"); //$NON-NLS-1$
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		assertNotNull(eventHandlers);
 		assertEquals(2, eventHandlers.size());
 
-		EventHandlerProxy handler1 = (EventHandlerProxy)eventHandlers.get(0);
+		EventHandlerProxy handler1 = eventHandlers.get(0);
 		assertNotNull(handler1);
-		assertEquals("ev1handler1", handler1.getName());
+		assertEquals("ev1handler1", handler1.getName()); //$NON-NLS-1$
 		assertTrue(handler1.getHandler() instanceof Ev1handler1);
 
-		EventHandlerProxy handler2 = (EventHandlerProxy)eventHandlers.get(1);
+		EventHandlerProxy handler2 = eventHandlers.get(1);
 		assertNotNull(handler2);
-		assertEquals("ev1handler2", handler2.getName());
+		assertEquals("ev1handler2", handler2.getName()); //$NON-NLS-1$
 		assertTrue(handler2.getHandler() instanceof Ev1handler2);
 
 		try {
-			eventHandlers = config.getHandlers("event2");
+			eventHandlers = this.config.getHandlers("event2"); //$NON-NLS-1$
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
+		assertNotNull(eventHandlers);
 		assertEquals(2, eventHandlers.size());
 
-		handler1 = (EventHandlerProxy)eventHandlers.get(0);
+		handler1 = eventHandlers.get(0);
 		assertNotNull(handler1);
-		assertEquals("ev1handler1", handler1.getName());
+		assertEquals("ev1handler1", handler1.getName()); //$NON-NLS-1$
 		assertTrue(handler1.getHandler() instanceof Ev1handler1);
 
-		handler2 = (EventHandlerProxy)eventHandlers.get(1);
+		handler2 = eventHandlers.get(1);
 		assertNotNull(handler2);
-		assertEquals("ev2handler1", handler2.getName());
+		assertEquals("ev2handler1", handler2.getName()); //$NON-NLS-1$
 		assertTrue(handler2.getHandler() instanceof Ev2handler1);
 	}
 
 	public void testXMLHandlerBinding() {
-		List eventHandlers = null;
+		List<EventHandlerProxy> eventHandlers = new ArrayList<EventHandlerProxy>();
 		try {
-			eventHandlers = config.getHandlers("event111");
+			eventHandlers = this.config.getHandlers("event111"); //$NON-NLS-1$
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		assertNotNull(eventHandlers);
 
-		EventHandlerProxy handler1 = (EventHandlerProxy)eventHandlers.get(0);
+		EventHandlerProxy handler1 = eventHandlers.get(0);
 		assertNotNull(handler1);
 		// test local fwd
-		Forward html = handler1.getDefinition().getHTMLForward("local14");
-		Forward xml = handler1.getDefinition().getXMLForward("local14");
-		assertEquals("test.jsp", html.getPath());
-		assertEquals("testclass1", xml.getPath());
+		Forward html = handler1.getDefinition().getHTMLForward("local14"); //$NON-NLS-1$
+		Forward xml = handler1.getDefinition().getXMLForward("local14"); //$NON-NLS-1$
+		assertEquals("test.jsp", html.getPath()); //$NON-NLS-1$
+		assertEquals("testclass1", xml.getPath()); //$NON-NLS-1$
 
 		// test a global
-		xml = handler1.getDefinition().getXMLForward("view15");
+		xml = handler1.getDefinition().getXMLForward("view15"); //$NON-NLS-1$
 		assertNull(xml);
 
-		ForwardProxy fwd = null;
+		ForwardProxy fwd = new ForwardProxy();
 		try {
 			fwd =
-				config.resolveForward(
+				this.config.resolveForward(
 					handler1,
-					"view15",
+					"view15", //$NON-NLS-1$
 					Configuration.XML_TOKEN);
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
+		assertNotNull(fwd);
 		assertTrue(fwd.isResourceType());
 		assertFalse(fwd.isEventType());
 	}
 
+	@SuppressWarnings("null")
 	public void testXMLResponder() {
-		List eventHandlers = null;
+		List<EventHandlerProxy> eventHandlers = new ArrayList<EventHandlerProxy>();
 		try {
-			eventHandlers = config.getHandlers("event112");
+			eventHandlers = this.config.getHandlers("event112"); //$NON-NLS-1$
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		assertNotNull(eventHandlers);
 
-		EventHandlerProxy handler1 = (EventHandlerProxy)eventHandlers.get(0);
+		EventHandlerProxy handler1 = eventHandlers.get(0);
 		assertNotNull(handler1);
 
-		Forward xml = handler1.getDefinition().getXMLForward("local14");
+		Forward xml = handler1.getDefinition().getXMLForward("local14"); //$NON-NLS-1$
         assertNotNull(xml);
 		Forward xmlResponder =
-			handler1.getDefinition().getXMLForward("listResponder");
+			handler1.getDefinition().getXMLForward("listResponder"); //$NON-NLS-1$
 		assertNotNull(xmlResponder);
-		assertEquals("testLocalListResponder", xmlResponder.getPath());
+		assertEquals("testLocalListResponder", xmlResponder.getPath()); //$NON-NLS-1$
 
 		ForwardProxy fwd = null;
 		try {
 			fwd =
-				config.resolveForward(
+				this.config.resolveForward(
 					handler1,
-					"listResponder",
+					"listResponder", //$NON-NLS-1$
 					Configuration.XML_TOKEN);
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		assertFalse(fwd.isEventType());
 		assertFalse(fwd.isResourceType());
@@ -231,97 +236,98 @@ public class TestConfiguration extends TestCase {
 	}
 
 	public void testXMLResponderNotInHTMLForwardsMap() {
-		List eventHandlers = null;
+		List<EventHandlerProxy> eventHandlers = new ArrayList<EventHandlerProxy>();
 		try {
-			eventHandlers = config.getHandlers("event112");
+			eventHandlers = this.config.getHandlers("event112"); //$NON-NLS-1$
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		assertNotNull(eventHandlers);
 
-		EventHandlerProxy handler1 = (EventHandlerProxy)eventHandlers.get(0);
+		EventHandlerProxy handler1 = eventHandlers.get(0);
 		assertNotNull(handler1);
 		// test xml responder does not exist in HTML Fowards map 
-		Forward html = handler1.getDefinition().getHTMLForward("local14");
+		Forward html = handler1.getDefinition().getHTMLForward("local14"); //$NON-NLS-1$
         assertNotNull(html);
 		Forward xmlResponderNotExist =
-			handler1.getDefinition().getHTMLForward("listResponder");
+			handler1.getDefinition().getHTMLForward("listResponder"); //$NON-NLS-1$
 		assertNull(xmlResponderNotExist);
 	}
 
 	public void testHandlerBinding_Cache() {
 		try {
-			List eventHandlers1 = config.getHandlers("event1");
-			List eventHandlers2 = config.getHandlers("event1");
+			List<EventHandlerProxy> eventHandlers1 = this.config.getHandlers("event1"); //$NON-NLS-1$
+			List<EventHandlerProxy> eventHandlers2 = this.config.getHandlers("event1"); //$NON-NLS-1$
 
 			assertSame(eventHandlers1, eventHandlers2);
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
 	public void testHandlerBinding_UnimplementedHandler() {
-		assertGetHandlerFails(config, "event10");
+		assertGetHandlerFails(this.config, "event10"); //$NON-NLS-1$
 	}
 
 	public void testHandlerBinding_InvalidNames() {
-		assertGetHandlerFails(config, null);
-		assertGetHandlerFails(config, "");
-		assertGetHandlerFails(config, "bogusEventName");
+		assertGetHandlerFails(this.config, null);
+		assertGetHandlerFails(this.config, ""); //$NON-NLS-1$
+		assertGetHandlerFails(this.config, "bogusEventName"); //$NON-NLS-1$
 	}
 
 	public void testHandlerBinding_NoHandlerConfigured() {
-		assertGetHandlerFails(config, "event9");
+		assertGetHandlerFails(this.config, "event9"); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("null")
 	public void testBothViewType() {
 		String htmlForwardName = null;
 		try {
 			htmlForwardName =
-				config.getEventMappingView("event2", ViewType.HTML);
+				this.config.getEventMappingView("event2", ViewType.HTML); //$NON-NLS-1$
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
-		assertEquals("view4", htmlForwardName);
+		assertEquals("view4", htmlForwardName); //$NON-NLS-1$
 		String xmlForwardName = null;
 		try {
 			xmlForwardName =
-				config.getEventMappingView("event2", ViewType.XML);
+				this.config.getEventMappingView("event2", ViewType.XML); //$NON-NLS-1$
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
-		assertEquals("view4", xmlForwardName);
+		assertEquals("view4", xmlForwardName); //$NON-NLS-1$
 
 		// test XML View
 		ForwardProxy fwd = null;
 		try {
-			fwd = config.resolveForward("view4", Configuration.XML_TOKEN);
+			fwd = this.config.resolveForward("view4", Configuration.XML_TOKEN); //$NON-NLS-1$
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		assertFalse(fwd.isEventType());
 		assertTrue(fwd.isResourceType());
 		assertFalse(fwd.isResponderType());
-		assertEquals("testXmlResource", fwd.getPath());
+		assertEquals("testXmlResource", fwd.getPath()); //$NON-NLS-1$
 
 		// test HTML View
 		try {
-			fwd = config.resolveForward("view4", Configuration.HTML_TOKEN);
+			fwd = this.config.resolveForward("view4", Configuration.HTML_TOKEN); //$NON-NLS-1$
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		assertFalse(fwd.isEventType());
 		assertTrue(fwd.isResourceType());
 		assertFalse(fwd.isResponderType());
-		assertEquals("/view4.jsp", fwd.getPath());
+		assertEquals("/view4.jsp", fwd.getPath()); //$NON-NLS-1$
 	}
 
 	public void testNonExistingXMLViewType() {
 		String xmlForwardName = null;
 		try {
 			xmlForwardName =
-				config.getEventMappingView("event14", ViewType.XML);
-			fail("We should have gotten an exception");
+				this.config.getEventMappingView("event14", ViewType.XML); //$NON-NLS-1$
+			fail("We should have gotten an exception"); //$NON-NLS-1$
 		} catch (ViewException e) {
 			assertNull(xmlForwardName);
 		}
@@ -331,8 +337,8 @@ public class TestConfiguration extends TestCase {
 		// test XML View
 		ForwardProxy fwd = null;
 		try {
-			fwd = config.resolveForward("event1", Configuration.XML_TOKEN);
-			fail("We should have gotten an exception");
+			fwd = this.config.resolveForward("event1", Configuration.XML_TOKEN); //$NON-NLS-1$
+			fail("We should have gotten an exception"); //$NON-NLS-1$
 		} catch (ViewException e) {
 			assertNull(fwd);
 		}
@@ -340,34 +346,34 @@ public class TestConfiguration extends TestCase {
 
 	public void testEventDefaultResolveAs() {
 		try {
-			EventProxy eProxy = config.getEventProxy("event1");
+			EventProxy eProxy = this.config.getEventProxy("event1"); //$NON-NLS-1$
 			assertTrue(eProxy.isParent());
 			assertFalse(eProxy.isChildren());
 			assertFalse(eProxy.isPassThru());
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
 	public void testEventResolveAsChildren() {
 		try {
-			EventProxy eProxy = config.getEventProxy("event12");
+			EventProxy eProxy = this.config.getEventProxy("event12"); //$NON-NLS-1$
 			assertFalse(eProxy.isParent());
 			assertTrue(eProxy.isChildren());
 			assertFalse(eProxy.isPassThru());
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
 	public void testEventResolveAsPassThru() {
 		try {
-			EventProxy eProxy = config.getEventProxy("event2");
+			EventProxy eProxy = this.config.getEventProxy("event2"); //$NON-NLS-1$
 			assertFalse(eProxy.isParent());
 			assertFalse(eProxy.isChildren());
 			assertTrue(eProxy.isPassThru());
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
@@ -376,63 +382,66 @@ public class TestConfiguration extends TestCase {
 		ExceptionProxy exception = null;
 		try {
 			exception =
-				config.resolveException(
+				this.config.resolveException(
 					ex,
 					Configuration.HTML_TOKEN,
 					ViewType.HTML);
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 			e.printStackTrace();
 		}
 		assertNotNull(exception);
 	}
 
+	@SuppressWarnings("null")
 	public void testExceptionProxyHTMLFowardPath() {
 		ConfigTestException ex = new ConfigTestException();
 		ExceptionProxy exception = null;
 		try {
 			exception =
-				config.resolveException(
+				this.config.resolveException(
 					ex,
 					Configuration.HTML_TOKEN,
 					ViewType.HTML);
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		assertNotNull(exception);
 		String htmlForwardPath = exception.getPath();
-		assertEquals("/view4.jsp", htmlForwardPath);
+		assertEquals("/view4.jsp", htmlForwardPath); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("null")
 	public void testExceptionProxyXMLFowardPath() {
 		ConfigTestException ex = new ConfigTestException();
 		ExceptionProxy exception = null;
 		try {
 			exception =
-				config.resolveException(
+				this.config.resolveException(
 					ex,
 					Configuration.XML_TOKEN,
 					ViewType.XML);
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		assertNotNull(exception);
 		String xmlForwardPath = exception.getPath();
-		assertEquals("testViewClass", xmlForwardPath);
+		assertEquals("testViewClass", xmlForwardPath); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("null")
 	public void testRedirect() {
 		ForwardProxy fwd = null;
 		try {
-			fwd = config.resolveForward("view1", Configuration.HTML_TOKEN);
+			fwd = this.config.resolveForward("view1", Configuration.HTML_TOKEN); //$NON-NLS-1$
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		assertFalse(fwd.isRedirect());
 		try {
-			fwd = config.resolveForward("redirect", Configuration.HTML_TOKEN);
+			fwd = this.config.resolveForward("redirect", Configuration.HTML_TOKEN); //$NON-NLS-1$
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		assertTrue(fwd.isRedirect());
 	}
@@ -440,58 +449,63 @@ public class TestConfiguration extends TestCase {
 	public void testInputViewFor() {
 		try {
 			assertEquals(
-				"/view3.jsp",
-				config.inputViewFor("event3", Configuration.HTML_TOKEN));
+				"/view3.jsp", //$NON-NLS-1$
+				this.config.inputViewFor("event3", Configuration.HTML_TOKEN)); //$NON-NLS-1$
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		try {
-			config.inputViewFor("event111", Configuration.XML_TOKEN);
+			this.config.inputViewFor("event111", Configuration.XML_TOKEN); //$NON-NLS-1$
 			fail();
-		} catch (Exception e) {}
+		} catch (Exception expected) {
+			//expected
+		}
 	}
 
+	@SuppressWarnings("null")
 	public void testCancelViewFor() {
 		ForwardProxy fwd = null;
 		try {
-			fwd = config.cancelViewFor("event3", Configuration.HTML_TOKEN);
+			fwd = this.config.cancelViewFor("event3", Configuration.HTML_TOKEN); //$NON-NLS-1$
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		} catch (ViewException e) {
-			fail("Unexpected ViewException: " + e.getMessage());
+			fail("Unexpected ViewException: " + e.getMessage()); //$NON-NLS-1$
 		}
 
-		assertEquals("/view2.jsp", fwd.getPath());
+		assertEquals("/view2.jsp", fwd.getPath()); //$NON-NLS-1$
 
 		try {
-			config.cancelViewFor("event111", Configuration.XML_TOKEN);
+			this.config.cancelViewFor("event111", Configuration.XML_TOKEN); //$NON-NLS-1$
 			fail();
-		} catch (Exception e) {}
+		} catch (Exception expected) {
+			//expected
+		}
 	}
 
 	public void testPluginProxy() {
-		List proxies = config.getPluginProxies();
+		List<PluginProxy> proxies = this.config.getPluginProxies();
 		assertTrue(proxies.size() == 5);
 
-		PluginProxy proxy = (PluginProxy)proxies.get(0);
-		assertTrue(proxy.getName().equals("PluginName1"));
+		PluginProxy proxy = proxies.get(0);
+		assertTrue(proxy.getName().equals("PluginName1")); //$NON-NLS-1$
 		assertNotNull(proxy.getPlugin());
 
-		proxy = (PluginProxy)proxies.get(1);
-		assertTrue(proxy.getName().equals("PluginName2"));
+		proxy = proxies.get(1);
+		assertTrue(proxy.getName().equals("PluginName2")); //$NON-NLS-1$
 		assertNotNull(proxy.getPlugin());
-		Map params = proxy.getInitParams();
+		Map<String, String> params = proxy.getInitParams();
 		assertTrue(params.size() == 1);
-		assertTrue(((String)params.get("param1")).equals("value1"));
+		assertTrue(params.get("param1").equals("value1")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testNegativePluginProxy() {
 		try {
-			config =
-				new Configuration("org/megatome/frame2/front/test-negative-plugin-config.xml");
+			this.config =
+				new Configuration("org/megatome/frame2/front/test-negative-plugin-config.xml"); //$NON-NLS-1$
 		} catch (ConfigException e) {
 			return;
 		}
@@ -504,13 +518,17 @@ public class TestConfiguration extends TestCase {
 		try {
 			cfg.getHandlers(eventName);
 			fail();
-		} catch (ConfigException e) {}
+		} catch (ConfigException expected) {
+			//expected
+		}
 	}
 
 	private void assertGetEventFails(Configuration cfg, String eventName) {
 		try {
 			cfg.getEventProxy(eventName).getEvent();
 			fail();
-		} catch (ConfigException expected) {}
+		} catch (ConfigException expected) {
+			//expected
+		}
 	}
 }

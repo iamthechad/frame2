@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,18 +65,21 @@ import org.w3c.dom.Node;
  */
 public class AckResponder implements Responder {
 
-   public Object respond(Context context) {
-      Document doc = null;
-      try {
-         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-         doc = builder.newDocument();
-         Node elem = doc.createElement("ack");
-         doc.appendChild(elem);
-      }
-      catch (ParserConfigurationException e) {
-      }
-      catch (FactoryConfigurationError e) {
-      }
-      return doc.getDocumentElement();
-   }
+	@SuppressWarnings("null")
+	public Object respond(@SuppressWarnings("unused")
+	Context context) {
+		Document doc = null;
+		try {
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			doc = builder.newDocument();
+			Node elem = doc.createElement("ack"); //$NON-NLS-1$
+			doc.appendChild(elem);
+		} catch (ParserConfigurationException e) {
+			// ignore?
+		} catch (FactoryConfigurationError e) {
+			// ignore?
+		}
+		return doc.getDocumentElement();
+	}
 }

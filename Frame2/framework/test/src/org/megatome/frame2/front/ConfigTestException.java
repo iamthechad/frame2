@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,5 +56,10 @@ import org.megatome.frame2.Frame2Exception;
  * TestException.java
  */
 public class ConfigTestException extends Frame2Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7294695366292769793L;
 
 }

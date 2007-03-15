@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,29 +68,28 @@ import HTTPClient.Codecs;
 import HTTPClient.NVPair;
 
 public class TestMissingFileUpload extends MockFrame2TestCase {
-	
-   public TestMissingFileUpload(String name) {
-      super(name);
-   }
-   
+
+	public TestMissingFileUpload(String name) {
+		super(name);
+	}
+
 	private void postNegativeHttpReqProc() {
 		HttpFrontController servlet = initializeServlet();
 
 		try {
 			servlet.doPost(getRequest(), getResponse());
-		} catch (Exception e) {
-		   return;
+			fail("Failed to catch expected exception"); //$NON-NLS-1$
+		} catch (Exception expected) {
+			// expected
 		}
-		fail("Failed to catch expected exception");
 	}
-
 
 	private HttpFrontController initializeServlet() {
 		HttpFrontController servlet = getServlet();
 		try {
 			servlet.init();
 		} catch (ServletException e) {
-			fail("Unexpected ServletException: " + e.getMessage());
+			fail("Unexpected ServletException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		Configuration config = getServlet().getConfiguration();
 
@@ -98,99 +97,103 @@ public class TestMissingFileUpload extends MockFrame2TestCase {
 
 		return servlet;
 	}
-	
+
 	public void testPrerequisites() {
-	   try {
-	      Class.forName("org.apache.commons.fileupload.DiskFileUpload");
-          fail("Did not catch expected ClassDef exception");
-	   } catch (ClassNotFoundException expected) {
-	      // This is the expected result
-	   } catch (Exception e) {
-	      fail("Unexpected Exception");
-	   }
+		try {
+			Class.forName("org.apache.commons.fileupload.DiskFileUpload"); //$NON-NLS-1$
+			fail("Did not catch expected ClassDef exception"); //$NON-NLS-1$
+		} catch (ClassNotFoundException expected) {
+			// This is the expected result
+		} catch (Exception e) {
+			fail("Unexpected Exception"); //$NON-NLS-1$
+		}
 	}
-	
+
 	public void testUploadWithoutLibrary() throws Exception {
 
-		sendContextInitializedEvent(
-			Globals.CONFIG_FILE,
-			"org/megatome/frame2/front/test-config.xml");
-		
-		Map parms = new HashMap();
-	   	Map files = new HashMap();
-	   	
-	   	String fileName = "/WEB-INF/frame2-config.xml";
-	   	parms.put("parm1", "value1");
-		files.put("fileparm", fileName);
+		sendContextInitializedEvent(Globals.CONFIG_FILE,
+				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
 
-		prepareMultipartUpload(new Object[] { parms }, new Object[] { files }, "/eventFileUpload");
-		
+		Map<String, String> parms = new HashMap<String, String>();
+		Map<String, String> files = new HashMap<String, String>();
+
+		String fileName = "/WEB-INF/frame2-config.xml"; //$NON-NLS-1$
+		parms.put("parm1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put("fileparm", fileName); //$NON-NLS-1$
+
+		prepareMultipartUpload(new Object[] { parms }, new Object[] { files },
+				"/eventFileUpload"); //$NON-NLS-1$
+
 		postNegativeHttpReqProc();
 	}
-   
-   public void testMapRequestToEvent() throws Exception {
-      Configuration config = new Configuration("org/megatome/frame2/front/test-config.xml");
 
-      addRequestParameter("parm1", "value1");
-      addRequestParameter("parm2", "value2");
+	public void testMapRequestToEvent() throws Exception {
+		Configuration config = new Configuration(
+				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
 
-      setServletPath("/event1");
+		addRequestParameter("parm1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
+		addRequestParameter("parm2", "value2"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      HttpRequestProcessor request = createHelper(config);
+		setServletPath("/event1"); //$NON-NLS-1$
 
-      Event1 event = (Event1) request.getEvent();
+		HttpRequestProcessor request = createHelper(config);
 
-      assertTrue(request.mapRequestToEvent(event,true));
+		Event1 event = (Event1) request.getEvent();
 
-      assertEquals("value1",event.getParm1());
-      assertEquals("value2",event.getParm2());
-   }
-   
-   private void prepareMultipartUpload(Object[] formParms, Object[] fileParms, String eventName) 
-   throws Exception {
+		assertTrue(request.mapRequestToEvent(event, true));
+
+		assertEquals("value1", event.getParm1()); //$NON-NLS-1$
+		assertEquals("value2", event.getParm2()); //$NON-NLS-1$
+	}
+
+	@SuppressWarnings("unchecked")
+	private void prepareMultipartUpload(Object[] formParms, Object[] fileParms,
+			String eventName) throws Exception {
 		NVPair[] hdrs = new NVPair[1];
-		Frame2HttpServletRequestSimulator request = (Frame2HttpServletRequestSimulator)getRequest();
-		
+		Frame2HttpServletRequestSimulator request = (Frame2HttpServletRequestSimulator) getRequest();
+
 		NVPair[] opts;
 		opts = new NVPair[formParms.length];
 		for (int i = 0; i < formParms.length; i++) {
-			HashMap parm = (HashMap)formParms[i];
-			for (Iterator it = parm.keySet().iterator(); it.hasNext(); ) {
-				String key = (String)it.next();
-				String value = (String)parm.get(key);
+			Map<String, String> parm = (HashMap<String, String>) formParms[i];
+			for (Iterator<String> it = parm.keySet().iterator(); it.hasNext();) {
+				String key = it.next();
+				String value = parm.get(key);
 				opts[i] = new NVPair(key, value);
 			}
 		}
-		
+
 		NVPair[] file;
 		file = new NVPair[fileParms.length];
 		for (int i = 0; i < fileParms.length; i++) {
-			HashMap parm = (HashMap)fileParms[i];
-			for (Iterator it = parm.keySet().iterator(); it.hasNext();)  {
-				String key = (String)it.next();
-				String value = (String)parm.get(key);
+			Map<String, String> parm = (HashMap<String, String>) fileParms[i];
+			for (Iterator<String> it = parm.keySet().iterator(); it.hasNext();) {
+				String key = it.next();
+				String value = parm.get(key);
 				URL configFile = getContext().getResource(value);
 				file[i] = new NVPair(key, configFile.getFile());
 			}
 		}
-		
+
 		try {
-			 byte[] data = Codecs.mpFormDataEncode(opts, file, hdrs);
-			 String rawData = new String(data);
-			 System.out.println(rawData);
-			 InputStream is = new ByteArrayInputStream(data);
-			 request.setDataInputStream(data.length, is);
-			 request.setContentType(hdrs[0].getValue());
-			 request.setHeader(HttpRequestProcessor.CONTENT_TYPE, hdrs[0].getValue());
-			 is.close();
+			byte[] data = Codecs.mpFormDataEncode(opts, file, hdrs);
+			String rawData = new String(data);
+			System.out.println(rawData);
+			InputStream is = new ByteArrayInputStream(data);
+			request.setDataInputStream(data.length, is);
+			request.setContentType(hdrs[0].getValue());
+			request.setHeader(HttpRequestProcessor.CONTENT_TYPE, hdrs[0]
+					.getValue());
+			is.close();
 		} catch (IOException e) {
-			 fail();
+			fail();
 		}
 
 		setServletPath(eventName);
-   }
+	}
 
-   HttpRequestProcessor createHelper(Configuration config) {
-      return (HttpRequestProcessor) RequestProcessorFactory.instance(config,getContext(),getRequest(),getResponse());
-   }
+	HttpRequestProcessor createHelper(Configuration config) {
+		return (HttpRequestProcessor) RequestProcessorFactory.instance(config,
+				getContext(), getRequest(), getResponse());
+	}
 }

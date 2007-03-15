@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ public class Bean2 {
 
    {
       for ( int i = 0 ; i < DEFAULT_ARRAY_SIZE ; i++ ) {
-         bean3PArray[i] = new Bean3( );
+         this.bean3PArray[i] = new Bean3( );
       }
    }
 
@@ -77,7 +77,7 @@ public class Bean2 {
 	 * @return String
 	 */
 	public String getStringP() {
-		return stringP;
+		return this.stringP;
 	}
 
 	/**
@@ -85,22 +85,22 @@ public class Bean2 {
 	 * @param nestedStringP The nestedStringP to set
 	 */
 	public void setStringP(String nestedStringP) {
-		stringP = nestedStringP;
+		this.stringP = nestedStringP;
 	}
 
 	public Bean3 getBean3P() {
-		if (bean3P == null) {
-			bean3P = new Bean3();
+		if (this.bean3P == null) {
+			this.bean3P = new Bean3();
 		}
-		return bean3P;
+		return this.bean3P;
 	}
 
 	public void setBean3P(Bean3 nestedBean3P) {
-		bean3P = nestedBean3P;
+		this.bean3P = nestedBean3P;
 	}
 
 	public Bean3[] getBean3PArray() {
-		return bean3PArray;
+		return this.bean3PArray;
 	}
 
 	public void setBean3PArray(Bean3[] bean3PArray) {
@@ -108,11 +108,11 @@ public class Bean2 {
 	}
 
 	public Bean3 getBean3PArray(int index) {
-		return bean3PArray[index];
+		return this.bean3PArray[index];
 	}
 
 	public void setBean3PArray(int index, Bean3 indexedBean) {
-		bean3PArray[index] = indexedBean;
+		this.bean3PArray[index] = indexedBean;
 	}
 
 }

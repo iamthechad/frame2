@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,9 +63,10 @@ public class TestRoleBasedSecurity extends MockFrame2TestCase {
 		super(name);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-      config = new Configuration("org/megatome/frame2/front/test-security-config.xml");
+      this.config = new Configuration("org/megatome/frame2/front/test-security-config.xml"); //$NON-NLS-1$
 	}
 
    public void testSecurity_FailsNone() throws Throwable {
@@ -73,30 +74,30 @@ public class TestRoleBasedSecurity extends MockFrame2TestCase {
    }
 
    public void testSecurity_FailsOther() throws Throwable {
-      assertFails("bogus");
+      assertFails("bogus"); //$NON-NLS-1$
    }
 
    public void testSecurity_PassesAdmin() throws Throwable {
-      assertPasses("/event1.sec","admin","/view1.jsp");
+      assertPasses("/event1.sec","admin","/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
 
    public void testSecurity_PassesGuest() throws Throwable {
-		assertPasses("/event1.sec","guest","/view1.jsp");
+		assertPasses("/event1.sec","guest","/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
    
    public void testNoAuthorizationRequired() throws Throwable {
-      assertPasses("/event2.sec","guest","/view1.jsp");
-      assertPasses("/event2.sec",null,"/view1.jsp");
-      assertPasses("/event2.sec","bogus","/view1.jsp");
+      assertPasses("/event2.sec","guest","/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      assertPasses("/event2.sec",null,"/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$
+      assertPasses("/event2.sec","bogus","/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
 
 	private void assertPasses(String path,String role,String view) throws Throwable {
 		setServletPath(path);
 		
 		setUserRole(role);
-      setRemoteUser("fred");
+      setRemoteUser("fred"); //$NON-NLS-1$
 		
-		HttpRequestProcessor request = (HttpRequestProcessor) RequestProcessorFactory.instance(config,getContext(),getRequest(),getResponse());
+		HttpRequestProcessor request = (HttpRequestProcessor) RequestProcessorFactory.instance(this.config,getContext(),getRequest(),getResponse());
 		
 		request.processRequest();
 		
@@ -105,20 +106,21 @@ public class TestRoleBasedSecurity extends MockFrame2TestCase {
 
 
    private void assertFails(String role) throws Throwable {
-      setServletPath("/event1.sec");
+      setServletPath("/event1.sec"); //$NON-NLS-1$
 
       if ( role != null ) {
          setUserRole(role);
       }
 
-      setRemoteUser("fred");
+      setRemoteUser("fred"); //$NON-NLS-1$
 
-      HttpRequestProcessor request = (HttpRequestProcessor) RequestProcessorFactory.instance(config,getContext(),getRequest(),getResponse());
+      HttpRequestProcessor request = (HttpRequestProcessor) RequestProcessorFactory.instance(this.config,getContext(),getRequest(),getResponse());
       
       try {
          request.processRequest();
          fail();
-      } catch ( AuthorizationException e ) {
+      } catch ( AuthorizationException expected ) {
+    	  // expected
       }
    }
 }

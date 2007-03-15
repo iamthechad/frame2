@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,6 +56,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import org.megatome.frame2.Globals;
+import org.megatome.frame2.front.config.EventDef;
+import org.megatome.frame2.front.config.EventHandlerDef;
+import org.megatome.frame2.front.config.EventMapping;
+import org.megatome.frame2.front.config.Forward;
 
 import servletunit.HttpServletRequestSimulator;
 import servletunit.HttpServletResponseSimulator;
@@ -79,15 +83,17 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		request = (HttpServletRequestSimulator)getRequest();
-		response = (HttpServletResponseSimulator)getResponse();
+		this.request = (HttpServletRequestSimulator)getRequest();
+		this.response = (HttpServletResponseSimulator)getResponse();
 	}
 
 	/**
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 
@@ -97,7 +103,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		HttpFrontController servlet = initializeServlet();
 
 		try {
-			servlet.doPost(request, response);
+			servlet.doPost(this.request, this.response);
 		} catch (Exception e) {
 			return;
 		}
@@ -108,7 +114,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		HttpFrontController servlet = initializeServlet();
 
 		try {
-			servlet.doPost(request, response);
+			servlet.doPost(this.request, this.response);
 		} catch (Exception e) {
 			fail();
 		}
@@ -119,58 +125,58 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		try {
 			servlet.init();
 		} catch (ServletException e) {
-			fail("Unexpected ServletException: " + e.getMessage());
+			fail("Unexpected ServletException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		Configuration config = getServlet().getConfiguration();
 
 		assertNotNull(config);
 
-		request.setServletPath("http://localhost/event1.f2");
+		this.request.setServletPath("http://localhost/event1.f2"); //$NON-NLS-1$
 
 		return servlet;
 	}
 
 	public void testBlankRequest() {
-		boolean testShouldFail = false;
 		try {
 			doEvent();
-			testShouldFail = true;
-		} catch (Error e) {}
-		assertFalse(testShouldFail);
+			fail();
+		} catch (Error expected) {
+			// expected
+		}
 	}
 
 	public void testInit() {
 		sendContextInitializedEvent(
 			Globals.CONFIG_FILE,
-			"/org/megatome/frame2/front/test-config.xml");
+			"/org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
 
 		try {
 			getServlet().init();
 		} catch (ServletException e) {
-			fail("Unexpected ServletException: " + e.getMessage());
+			fail("Unexpected ServletException: " + e.getMessage()); //$NON-NLS-1$
 		}
 		Configuration config = getServlet().getConfiguration();
 
 		assertNotNull(config);
 
-		Map globalForwards = config.getGlobalHTMLForwards();
+		Map<String, Forward> globalForwards = config.getGlobalHTMLForwards();
 
 		assertNotNull(globalForwards);
 		assertEquals(10, globalForwards.size());
 
-		assertNotNull(globalForwards.get("view1"));
+		assertNotNull(globalForwards.get("view1")); //$NON-NLS-1$
 
-		Map events = config.getEvents();
+		Map<String, EventDef> events = config.getEvents();
 
 		assertNotNull(events);
 		assertEquals(26, events.size());
 
-		Map eventHandlers = config.getEventHandlers();
+		Map<String, EventHandlerDef> eventHandlers = config.getEventHandlers();
 
 		assertNotNull(eventHandlers);
 		assertEquals(14, eventHandlers.size());
 
-		Map eventMappings = config.getEventMappings();
+		Map<String, EventMapping> eventMappings = config.getEventMappings();
 
 		assertNotNull(eventMappings);
 		assertEquals(21, eventMappings.size());
@@ -195,7 +201,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 
 		sendContextInitializedEvent(
 			Globals.CONFIG_FILE,
-			"/org/megatome/frame2/front/test-config.xml");
+			"/org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
 
 		postHttpReqProc();
 
@@ -205,7 +211,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 
 		sendContextInitializedEvent(
 			Globals.CONFIG_FILE,
-			"/org/megatome/frame2/front/httpRequestNegativeClass.xml");
+			"/org/megatome/frame2/front/httpRequestNegativeClass.xml"); //$NON-NLS-1$
 
 		postNegativeHttpReqProc();
 

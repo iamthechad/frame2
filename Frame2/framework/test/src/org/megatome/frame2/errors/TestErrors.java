@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,234 +63,239 @@ import org.megatome.frame2.errors.impl.ErrorsFactory;
  */
 public class TestErrors extends TestCase {
 
-   private static final String ZERO = "0";
-private static final String THREE = "3";
-private static final String TWO = "2";
-private static final String ONE = "1";
-private static final String KEY3 = "KEY3";
-private static final String KEY2 = "KEY2";
-private static final String KEY1 = "KEY1";
-private static final String FOO = "FOO";
-private Errors errors;
+	private static final String ZERO = "0"; //$NON-NLS-1$
+	private static final String THREE = "3"; //$NON-NLS-1$
+	private static final String TWO = "2"; //$NON-NLS-1$
+	private static final String ONE = "1"; //$NON-NLS-1$
+	private static final String KEY3 = "KEY3"; //$NON-NLS-1$
+	private static final String KEY2 = "KEY2"; //$NON-NLS-1$
+	private static final String KEY1 = "KEY1"; //$NON-NLS-1$
+	private static final String FOO = "FOO"; //$NON-NLS-1$
+
+	private Errors errors;
 
 	/**
 	 * Constructor for TestErrors.
+	 * 
 	 * @param name
 	 */
 	public TestErrors(String name) {
 		super(name);
 	}
-   
-   protected void setUp( ) {
-      errors = ErrorsFactory.newInstance();
-   }
-   
-   protected void tearDown()  {
-      errors.release();
-   }
 
-   public void testGetIfEmpty( ) {
-      assertTrue(errors.isEmpty());
-      assertNull(errors.iterator(FOO));
-      assertEquals(0,errors.get().length);
-      assertEquals(0,errors.get(FOO).length);
-   }
-
-	public void testAdd() {
-		assertTrue(errors.isEmpty());
-		assertEquals(0, errors.size());
-      
-		errors.add(KEY1, ONE);
-
-		assertFalse(errors.isEmpty());
-		assertEquals(1, errors.size());
-      
-		errors.add(KEY2, ONE, TWO);
-
-		assertFalse(errors.isEmpty());
-		assertEquals(2, errors.size());
-
-		errors.add(KEY3, ONE, TWO, THREE);
-
-		assertFalse(errors.isEmpty());
-		assertEquals(3, errors.size());
-
-		Iterator allKeys = errors.iterator();
-
-		assertError((Error) allKeys.next(), KEY1, ONE, null, null);
-		assertError((Error) allKeys.next(), KEY2, ONE, TWO, null);
-		assertError((Error) allKeys.next(), KEY3, ONE, TWO, THREE);
-
-      assertFalse(allKeys.hasNext());
-
-      Error[] errorArray = errors.get();
-      
-      assertNotNull(errorArray);
-      assertEquals(3,errorArray.length);
-
-      assertError(errorArray[0], KEY1, ONE, null, null);
-      assertError(errorArray[1], KEY2, ONE, TWO, null);
-      assertError(errorArray[2], KEY3, ONE, TWO, THREE);
-      
-      errorArray = errors.get(KEY2);
-      
-      assertNotNull(errorArray);
-      assertEquals(1,errorArray.length);
-      assertError(errorArray[0], KEY2, ONE, TWO, null);
+	@Override
+	protected void setUp() {
+		this.errors = ErrorsFactory.newInstance();
 	}
 
-	public void testAddDuplicateKeys() {
-		errors.add(KEY1, ONE);
-		errors.add(KEY1, ONE, TWO);
-		errors.add(KEY1, ONE, TWO, THREE);
-		errors.add(KEY2, ZERO);
+	@Override
+	protected void tearDown() {
+		this.errors.release();
+	}
 
-		assertFalse(errors.isEmpty());
-		assertEquals(4, errors.size());
+	public void testGetIfEmpty() {
+		assertTrue(this.errors.isEmpty());
+		assertNull(this.errors.iterator(FOO));
+		assertEquals(0, this.errors.get().length);
+		assertEquals(0, this.errors.get(FOO).length);
+	}
 
-		Iterator allKeys = errors.iterator();
+	public void testAdd() {
+		assertTrue(this.errors.isEmpty());
+		assertEquals(0, this.errors.size());
 
-		assertError((Error) allKeys.next(), KEY1, ONE, null, null);
-		assertError((Error) allKeys.next(), KEY1, ONE, TWO, null);
-		assertError((Error) allKeys.next(), KEY1, ONE, TWO, THREE);
-		assertError((Error) allKeys.next(), KEY2, ZERO, null, null);
+		this.errors.add(KEY1, ONE);
+
+		assertFalse(this.errors.isEmpty());
+		assertEquals(1, this.errors.size());
+
+		this.errors.add(KEY2, ONE, TWO);
+
+		assertFalse(this.errors.isEmpty());
+		assertEquals(2, this.errors.size());
+
+		this.errors.add(KEY3, ONE, TWO, THREE);
+
+		assertFalse(this.errors.isEmpty());
+		assertEquals(3, this.errors.size());
+
+		Iterator<Error> allKeys = this.errors.iterator();
+
+		assertError(allKeys.next(), KEY1, ONE, null, null);
+		assertError(allKeys.next(), KEY2, ONE, TWO, null);
+		assertError(allKeys.next(), KEY3, ONE, TWO, THREE);
 
 		assertFalse(allKeys.hasNext());
 
-		Iterator key1keys = errors.iterator(KEY1);
+		Error[] errorArray = this.errors.get();
 
-		assertError((Error) key1keys.next(), KEY1, ONE, null, null);
-		assertError((Error) key1keys.next(), KEY1, ONE, TWO, null);
-		assertError((Error) key1keys.next(), KEY1, ONE, TWO, THREE);
+		assertNotNull(errorArray);
+		assertEquals(3, errorArray.length);
+
+		assertError(errorArray[0], KEY1, ONE, null, null);
+		assertError(errorArray[1], KEY2, ONE, TWO, null);
+		assertError(errorArray[2], KEY3, ONE, TWO, THREE);
+
+		errorArray = this.errors.get(KEY2);
+
+		assertNotNull(errorArray);
+		assertEquals(1, errorArray.length);
+		assertError(errorArray[0], KEY2, ONE, TWO, null);
+	}
+
+	public void testAddDuplicateKeys() {
+		this.errors.add(KEY1, ONE);
+		this.errors.add(KEY1, ONE, TWO);
+		this.errors.add(KEY1, ONE, TWO, THREE);
+		this.errors.add(KEY2, ZERO);
+
+		assertFalse(this.errors.isEmpty());
+		assertEquals(4, this.errors.size());
+
+		Iterator<Error> allKeys = this.errors.iterator();
+
+		assertError(allKeys.next(), KEY1, ONE, null, null);
+		assertError(allKeys.next(), KEY1, ONE, TWO, null);
+		assertError(allKeys.next(), KEY1, ONE, TWO, THREE);
+		assertError(allKeys.next(), KEY2, ZERO, null, null);
+
+		assertFalse(allKeys.hasNext());
+
+		Iterator<Error> key1keys = this.errors.iterator(KEY1);
+
+		assertError(key1keys.next(), KEY1, ONE, null, null);
+		assertError(key1keys.next(), KEY1, ONE, TWO, null);
+		assertError(key1keys.next(), KEY1, ONE, TWO, THREE);
 
 		assertFalse(key1keys.hasNext());
 	}
-   
-   public void testValueList_3( ) {
-      errors.add(KEY1,ONE,TWO,THREE);
 
-      Error error = (Error) errors.iterator().next();
+	public void testValueList_3() {
+		this.errors.add(KEY1, ONE, TWO, THREE);
 
-      Object[] valueArray = error.getValues();
-      assertNotNull(valueArray);
-      assertEquals(3,valueArray.length);
-      assertEquals(ONE,valueArray[0]);
-      assertEquals(TWO,valueArray[1]);
-      assertEquals(THREE,valueArray[2]);
+		Error error = this.errors.iterator().next();
 
-      List list = error.getValueList();
-      
-      assertNotNull(list);
-      assertEquals(3,list.size());
-      
-      Iterator values = list.iterator();
-      
-      assertEquals(ONE,values.next());
-      assertEquals(TWO,values.next());
-      assertEquals(THREE,values.next());
-   }
+		Object[] valueArray = error.getValues();
+		assertNotNull(valueArray);
+		assertEquals(3, valueArray.length);
+		assertEquals(ONE, valueArray[0]);
+		assertEquals(TWO, valueArray[1]);
+		assertEquals(THREE, valueArray[2]);
 
-   public void testValueList_1() {
-      errors.add(KEY1,ONE);
+		List<Object> list = error.getValueList();
 
-      Error error = (Error) errors.iterator().next();
+		assertNotNull(list);
+		assertEquals(3, list.size());
 
-      Object[] valueArray = error.getValues();
-      assertNotNull(valueArray);
-      assertEquals(1,valueArray.length);
-      assertEquals(ONE,valueArray[0]);
+		Iterator<Object> values = list.iterator();
 
-      List list = error.getValueList();
-      
-      assertNotNull(list);
-      assertEquals(1,list.size());
-      
-      Iterator values = list.iterator();
-      
-      assertEquals(ONE,values.next());
-   }
+		assertEquals(ONE, values.next());
+		assertEquals(TWO, values.next());
+		assertEquals(THREE, values.next());
+	}
 
-   public void testEmptyValueList( ) {
-      errors.add(KEY1,null);
+	public void testValueList_1() {
+		this.errors.add(KEY1, ONE);
 
-      Error error = (Error) errors.iterator().next();
+		Error error = this.errors.iterator().next();
 
-      Object[] valueArray = error.getValues();
-      assertNotNull(valueArray);
-      assertEquals(0,valueArray.length);
+		Object[] valueArray = error.getValues();
+		assertNotNull(valueArray);
+		assertEquals(1, valueArray.length);
+		assertEquals(ONE, valueArray[0]);
 
-      List list = error.getValueList();
-      
-      assertNotNull(list);
-      assertEquals(0,list.size());
-      
-      Iterator values = list.iterator();
-      
-      assertFalse(values.hasNext());
-   }
+		List<Object> list = error.getValueList();
+
+		assertNotNull(list);
+		assertEquals(1, list.size());
+
+		Iterator<Object> values = list.iterator();
+
+		assertEquals(ONE, values.next());
+	}
+
+	public void testEmptyValueList() {
+		this.errors.add(KEY1, null);
+
+		Error error = this.errors.iterator().next();
+
+		Object[] valueArray = error.getValues();
+		assertNotNull(valueArray);
+		assertEquals(0, valueArray.length);
+
+		List<Object> list = error.getValueList();
+
+		assertNotNull(list);
+		assertEquals(0, list.size());
+
+		Iterator<Object> values = list.iterator();
+
+		assertFalse(values.hasNext());
+	}
 
 	public void testRelease() {
-		errors.add(KEY1, ONE);
+		this.errors.add(KEY1, ONE);
 
-		assertEquals(1, errors.size());
+		assertEquals(1, this.errors.size());
 
-		errors.release();
+		this.errors.release();
 
-		assertEquals(0, errors.size());
-      assertTrue(errors.isEmpty());
+		assertEquals(0, this.errors.size());
+		assertTrue(this.errors.isEmpty());
 	}
-   
-   public void testAddUnique( ) {
-      errors.add(KEY1, ONE);
-      errors.add(KEY1, ONE);
-      errors.add(KEY1, ONE, TWO);
 
-      assertEquals(3,errors.size());
+	public void testAddUnique() {
+		this.errors.add(KEY1, ONE);
+		this.errors.add(KEY1, ONE);
+		this.errors.add(KEY1, ONE, TWO);
 
-      errors.addIfUnique(KEY1, ONE);
-      errors.addIfUnique(KEY1, ONE);
-      errors.addIfUnique(KEY1, ONE, TWO);
+		assertEquals(3, this.errors.size());
 
-      assertEquals(3,errors.size());
-   }
-   
-   public void testEmpty( ) {
-      errors.add(KEY1,null);
+		this.errors.addIfUnique(KEY1, ONE);
+		this.errors.addIfUnique(KEY1, ONE);
+		this.errors.addIfUnique(KEY1, ONE, TWO);
 
-      assertEquals(1, errors.size());
+		assertEquals(3, this.errors.size());
+	}
 
-      errors.add(null,null);
-      
-      assertEquals(2, errors.size());
+	public void testEmpty() {
+		this.errors.add(KEY1, null);
 
-      Iterator emptyKeys = errors.iterator(Error.MISSING_KEY);
-      
-      assertTrue(emptyKeys.hasNext());
-   }
-   
-   public void testAddKeyOnly() {
-      assertTrue(errors.isEmpty());
-      assertEquals(0, errors.size());
-      
-      errors.add(KEY1);
+		assertEquals(1, this.errors.size());
 
-      assertFalse(errors.isEmpty());
-      assertEquals(1, errors.size());
-   }
-   
-   public void testAddError() {
-     assertTrue(errors.isEmpty());
-      assertEquals(0, errors.size());
-      
-     Error mainError = ErrorFactory.createError(FOO, ONE);
-     errors.add(mainError); 
-      
-     assertFalse(errors.isEmpty());
-     assertEquals(1, errors.size());
-           
-   }
-   
-	private void assertError(Error error, String key, Object obj1, Object obj2, Object obj3) {
+		this.errors.add(null, null);
+
+		assertEquals(2, this.errors.size());
+
+		Iterator<Error> emptyKeys = this.errors.iterator(Error.MISSING_KEY);
+
+		assertTrue(emptyKeys.hasNext());
+	}
+
+	public void testAddKeyOnly() {
+		assertTrue(this.errors.isEmpty());
+		assertEquals(0, this.errors.size());
+
+		this.errors.add(KEY1);
+
+		assertFalse(this.errors.isEmpty());
+		assertEquals(1, this.errors.size());
+	}
+
+	public void testAddError() {
+		assertTrue(this.errors.isEmpty());
+		assertEquals(0, this.errors.size());
+
+		Error mainError = ErrorFactory.createError(FOO, ONE);
+		this.errors.add(mainError);
+
+		assertFalse(this.errors.isEmpty());
+		assertEquals(1, this.errors.size());
+
+	}
+
+	private void assertError(Error error, String key, Object obj1, Object obj2,
+			Object obj3) {
 		assertEquals(error.getKey(), key);
 		assertEquals(error.getValue(), obj1);
 		assertEquals(error.getValue1(), obj1);

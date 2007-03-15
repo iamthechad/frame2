@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,7 @@ public class ValidateEvent extends CommonsValidatorEvent {
 	 * @return Object
 	 */
 	public String getParm1() {
-		return parm1;
+		return this.parm1;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class ValidateEvent extends CommonsValidatorEvent {
 	 * @return String
 	 */
 	public String getParm2() {
-		return parm2;
+		return this.parm2;
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class ValidateEvent extends CommonsValidatorEvent {
 	 * @return int
 	 */
 	public int getParm3() {
-		return parm3;
+		return this.parm3;
 	}
 
 	/**

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,46 +73,48 @@ public class TestTemplateDef extends TestCase {
    /**
     * @see junit.framework.TestCase#setUp()
     */
-   protected void setUp() throws Exception {
+   @Override
+protected void setUp() throws Exception {
       super.setUp();
-      templateDef = new TemplateDef();
+      this.templateDef = new TemplateDef();
    }
 
    /**
     * @see junit.framework.TestCase#tearDown()
     */
-   protected void tearDown() throws Exception {
+   @Override
+protected void tearDown() throws Exception {
       super.tearDown();
    }
    
    public void testTemplateDef()
    {
-      templateDef.setName("name");
-      templateDef.setPath("/WEB-INF/jsp/my.jsp");
+      this.templateDef.setName("name"); //$NON-NLS-1$
+      this.templateDef.setPath("/WEB-INF/jsp/my.jsp"); //$NON-NLS-1$
       
-      assertEquals("name", templateDef.getName());
-      assertEquals("/WEB-INF/jsp/my.jsp", templateDef.getPath());
+      assertEquals("name", this.templateDef.getName()); //$NON-NLS-1$
+      assertEquals("/WEB-INF/jsp/my.jsp", this.templateDef.getPath()); //$NON-NLS-1$
    }
    
    public void testTemplateDefPuts()
    {
-      HashMap fakePuts = new HashMap();
-      fakePuts.put("param1", "/WEB-INF/jsp/your.jsp");
+      Map<String, String> fakePuts = new HashMap<String, String>();
+      fakePuts.put("param1", "/WEB-INF/jsp/your.jsp"); //$NON-NLS-1$ //$NON-NLS-2$
       
-      templateDef.setPutParams(fakePuts);
+      this.templateDef.setPutParams(fakePuts);
       
       testTemplateDef();
-      Map returnedParams = templateDef.getPutParams();
-      assertTrue(returnedParams.containsKey("param1"));
+      Map<String, String> returnedParams = this.templateDef.getPutParams();
+      assertTrue(returnedParams.containsKey("param1")); //$NON-NLS-1$
    }
    
    public void testTemplateDefGetParamByName()
    {
    	testTemplateDefPuts();
    	
-   	String paramValue = templateDef.getPutParam("param1");
+   	String paramValue = this.templateDef.getPutParam("param1"); //$NON-NLS-1$
    	assertNotNull(paramValue);
-   	assertEquals(paramValue, "/WEB-INF/jsp/your.jsp");
+   	assertEquals(paramValue, "/WEB-INF/jsp/your.jsp"); //$NON-NLS-1$
    }
 
 }

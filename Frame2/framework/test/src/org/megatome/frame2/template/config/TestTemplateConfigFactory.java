@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,14 +70,15 @@ public class TestTemplateConfigFactory extends MockFrame2TestCase {
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		context = (ServletContextSimulator) getContext();
+		this.context = (ServletContextSimulator) getContext();
 	}
    
    public void testGetConfiguration() {
       try {
-         TemplateConfigFactory.loadTemplateFile(context, "/org/megatome/frame2/template/config/multTag-Put-Template.xml");
+         TemplateConfigFactory.loadTemplateFile(this.context, "/org/megatome/frame2/template/config/multTag-Put-Template.xml"); //$NON-NLS-1$
          
          assertNotNull( TemplateConfigFactory.instance());     
       } catch (TemplateException e) {

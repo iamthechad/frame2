@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,19 +69,19 @@ import org.megatome.frame2.util.Helper;
  *
  */
 public class TestPurchaseOrder extends TestCase {
-   private final String TARGET_PACKAGE = "org.megatome.frame2.jaxbgen";
+   private static final String TARGET_PACKAGE = "org.megatome.frame2.jaxbgen"; //$NON-NLS-1$
 
    public void testUnmarshall_InputStream() throws Exception {
       PurchaseOrder po = unmarshall();
 
       assertNotNull(po);
 
-      assertEquals("1999-10-20", Helper.calendarToString(po.getOrderDate()));
+      assertEquals("1999-10-20", Helper.calendarToString(po.getOrderDate())); //$NON-NLS-1$
 
       USAddress address = po.getShipTo();
 
       assertNotNull(address);
-      assertEquals("Alice Smith", address.getName());
+      assertEquals("Alice Smith", address.getName()); //$NON-NLS-1$
 
       Items items = po.getItems();
 
@@ -94,11 +94,11 @@ public class TestPurchaseOrder extends TestCase {
 
       ItemsImpl.ItemTypeImpl item = (ItemsImpl.ItemTypeImpl) po.getItems().getItem().get(0);
 
-      item.setComment("This comment has been changed");
+      item.setComment("This comment has been changed"); //$NON-NLS-1$
 
       OutputStream ostream = Helper.marshall(po,TARGET_PACKAGE,getClass().getClassLoader());
 
-      assertTrue(ostream.toString().indexOf("This comment has been changed") > 0);
+      assertTrue(ostream.toString().indexOf("This comment has been changed") > 0); //$NON-NLS-1$
    }
 
    public void testValidate() throws Exception {
@@ -111,12 +111,12 @@ public class TestPurchaseOrder extends TestCase {
       assertTrue(item1.validate(errors));
       assertEquals(0, errors.size());
 
-      item1.setPartNum("AAAAAA");
+      item1.setPartNum("AAAAAA"); //$NON-NLS-1$
 
       assertFalse(item1.validate(errors));
       assertEquals(1, errors.size());
 
-      item1.setQuantity(new BigInteger("101"));
+      item1.setQuantity(new BigInteger("101")); //$NON-NLS-1$
 
       errors.release();
       errors = ErrorsFactory.newInstance();
@@ -132,7 +132,7 @@ public class TestPurchaseOrder extends TestCase {
    }
 
    private PurchaseOrder unmarshall( ) throws Exception {
-      return (PurchaseOrder) Helper.unmarshall("org/megatome/frame2/jaxb/po.xml",TARGET_PACKAGE,getClass().getClassLoader());
+      return (PurchaseOrder) Helper.unmarshall("org/megatome/frame2/jaxb/po.xml",TARGET_PACKAGE,getClass().getClassLoader()); //$NON-NLS-1$
    }
 
 }

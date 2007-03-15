@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ public class PassthruTestEventHandler implements EventHandler {
 
 	public String handle(Event event, Context context) throws Exception {
       PassthruEvent ptevent = (PassthruEvent) event;
-      context.setRequestAttribute("passthruResponse",ptevent.getPassthruData().getFirstChild());
+      context.setRequestAttribute("passthruResponse",ptevent.getPassthruData().getFirstChild()); //$NON-NLS-1$
       return null;
 	}
 

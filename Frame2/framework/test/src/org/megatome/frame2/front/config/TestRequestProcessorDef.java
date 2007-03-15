@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,26 +56,28 @@ import org.megatome.frame2.front.config.RequestProcessorDef;
 
 public class TestRequestProcessorDef extends TestCase {
 
-   /**
-    * 
-    */
-   public TestRequestProcessorDef() {
-      super();
-   }
+	private static final String DEF_TYPE = "org.megatome.something"; //$NON-NLS-1$
 
-   /**
-    * @param name
-    */
-   public TestRequestProcessorDef(String name) {
-      super(name);
-   }
-   
-   public void testRequestProcessorDef() {
-      RequestProcessorDef def = new RequestProcessorDef();
-      
-      def.setType("org.megatome.something");
-      
-      assertEquals("org.megatome.something", def.getType());
-   }
+	/**
+	 * 
+	 */
+	public TestRequestProcessorDef() {
+		super();
+	}
+
+	/**
+	 * @param name
+	 */
+	public TestRequestProcessorDef(String name) {
+		super(name);
+	}
+
+	public void testRequestProcessorDef() {
+		RequestProcessorDef def = new RequestProcessorDef();
+
+		def.setType(DEF_TYPE);
+
+		assertEquals(DEF_TYPE, def.getType());
+	}
 
 }

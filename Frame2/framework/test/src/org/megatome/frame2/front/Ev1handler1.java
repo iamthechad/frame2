@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,8 +66,9 @@ public class Ev1handler1 implements EventHandler {
 		super();
 	}
 
-	public String handle(Event event,Context context) {
-      context.setRequestAttribute("ev1parm1",context.getInitParameter("parm1"));
+	public String handle(@SuppressWarnings("unused")
+	Event event,Context context) {
+      context.setRequestAttribute("ev1parm1",context.getInitParameter("parm1")); //$NON-NLS-1$ //$NON-NLS-2$
       return null;
 	}
 }

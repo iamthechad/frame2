@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,7 +96,7 @@ public class Bean1 {
 	 * @return BigDecimal
 	 */
 	public BigDecimal getBigDecimalP() {
-		return bigDecimalP;
+		return this.bigDecimalP;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class Bean1 {
 	 * @return BigInteger
 	 */
 	public BigInteger getBigIntegerP() {
-		return bigIntegerP;
+		return this.bigIntegerP;
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class Bean1 {
 	 * @return boolean
 	 */
 	public boolean isBooleanP() {
-		return booleanP;
+		return this.booleanP;
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class Bean1 {
 	 * @return Boolean
 	 */
 	public Boolean getBooleanPObj() {
-		return booleanPObj;
+		return this.booleanPObj;
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class Bean1 {
 	 * @return byte
 	 */
 	public byte getByteP() {
-		return byteP;
+		return this.byteP;
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class Bean1 {
 	 * @return Byte
 	 */
 	public Byte getBytePObj() {
-		return bytePObj;
+		return this.bytePObj;
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class Bean1 {
 	 * @return Character
 	 */
 	public Character getCharacterPObj() {
-		return characterPObj;
+		return this.characterPObj;
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class Bean1 {
 	 * @return char
 	 */
 	public char getCharP() {
-		return charP;
+		return this.charP;
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class Bean1 {
 	 * @return double
 	 */
 	public double getDoubleP() {
-		return doubleP;
+		return this.doubleP;
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class Bean1 {
 	 * @return Double
 	 */
 	public Double getDoublePObj() {
-		return doublePObj;
+		return this.doublePObj;
 	}
 
 	/**
@@ -176,10 +176,10 @@ public class Bean1 {
 	 * @return Bean2
 	 */
 	public Bean2 getBean2P() {
-      if ( bean2P == null ) {
-         bean2P = new Bean2( );
+      if ( this.bean2P == null ) {
+         this.bean2P = new Bean2( );
       }
-		return bean2P;
+		return this.bean2P;
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class Bean1 {
 	 * @return float
 	 */
 	public float getFloatP() {
-		return floatP;
+		return this.floatP;
 	}
 
 	/**
@@ -195,7 +195,7 @@ public class Bean1 {
 	 * @return Float
 	 */
 	public Float getFloatPObj() {
-		return floatPObj;
+		return this.floatPObj;
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class Bean1 {
 	 * @return int
 	 */
 	public int getIntP() {
-		return intP;
+		return this.intP;
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class Bean1 {
 	 * @return Integer
 	 */
 	public Integer getIntPObj() {
-		return intPObj;
+		return this.intPObj;
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class Bean1 {
 	 * @return long
 	 */
 	public long getLongP() {
-		return longP;
+		return this.longP;
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class Bean1 {
 	 * @return Long
 	 */
 	public Long getLongPObj() {
-		return longPObj;
+		return this.longPObj;
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class Bean1 {
 	 * @return short
 	 */
 	public short getShortP() {
-		return shortP;
+		return this.shortP;
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class Bean1 {
 	 * @return Short
 	 */
 	public Short getShortPObj() {
-		return shortPObj;
+		return this.shortPObj;
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class Bean1 {
 	 * @return StringBuffer
 	 */
 	public StringBuffer getStringBufferP() {
-		return stringBufferP;
+		return this.stringBufferP;
 	}
 
 	/**
@@ -259,7 +259,7 @@ public class Bean1 {
 	 * @return String
 	 */
 	public String getStringP() {
-		return stringP;
+		return this.stringP;
 	}
 
 	/**
@@ -435,7 +435,7 @@ public class Bean1 {
 	 * @return int[]
 	 */
 	public int[] getIntPArray() {
-		return intPArray;
+		return this.intPArray;
 	}
 
 	/**
@@ -447,21 +447,21 @@ public class Bean1 {
 	}
    
    public int getIntPArray(int index) {
-      if ( intPArray == null ) {
-         intPArray = new int[index+1];
+      if ( this.intPArray == null ) {
+         this.intPArray = new int[index+1];
       }
-      return intPArray[index];
+      return this.intPArray[index];
    }
    
    public void setIntPArray(int index,int indexedInt) {
-      intPArray[index] = indexedInt;
+      this.intPArray[index] = indexedInt;
    }
 	/**
 	 * Returns the stringArrayP1.
 	 * @return String
 	 */
 	public String[] getStringArrayP1() {
-		return stringArrayP1;
+		return this.stringArrayP1;
 	}
 
 	/**
@@ -469,7 +469,7 @@ public class Bean1 {
 	 * @return String
 	 */
 	public String[] getStringArrayP2() {
-		return stringArrayP2;
+		return this.stringArrayP2;
 	}
 
 	/**

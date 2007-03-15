@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,121 +67,136 @@ import servletunit.frame2.MockFrame2TestCase;
 public class TestFrame2ContextListener extends MockFrame2TestCase {
 
 	/**
-	* Constructor for TestConfiguration.
-	* @param name
-	*/
+	 * Constructor for TestConfiguration.
+	 * 
+	 * @param name
+	 */
 	public TestFrame2ContextListener(String name) {
 		super(name);
 	}
 
 	/**
-	* @see junit.framework.TestCase#setUp()
-	*/
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
-   protected void tearDown() {
-      ResourceLocator.setBasename(null);
-   }
+	@Override
+	protected void tearDown() {
+		ResourceLocator.setBasename(null);
+	}
 
 	public void testSetConfigFile() {
-		String path = "/org/megatome/frame2/front/test-config.xml";
+		String path = "/org/megatome/frame2/front/test-config.xml"; //$NON-NLS-1$
 
-		assertEquals(Globals.DEFAULT_CONFIG_FILE, ConfigFactory.getConfigFilePath());
+		assertEquals(Globals.DEFAULT_CONFIG_FILE, ConfigFactory
+				.getConfigFilePath());
 
-      sendContextInitializedEvent(Globals.CONFIG_FILE, path);
+		sendContextInitializedEvent(Globals.CONFIG_FILE, path);
 
 		assertEquals(path, ConfigFactory.getConfigFilePath());
 
 		try {
 			assertNotNull(ConfigFactory.instance());
 		} catch (ConfigException e) {
-			fail("Unexpected ConfigException: " + e.getMessage());
+			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
 	public void testSetConfigFile_Invalid() {
-      sendContextInitializedEvent(Globals.CONFIG_FILE, "foo");
+		sendContextInitializedEvent(Globals.CONFIG_FILE, "foo"); //$NON-NLS-1$
 
-		assertEquals("foo", ConfigFactory.getConfigFilePath());
+		assertEquals("foo", ConfigFactory.getConfigFilePath()); //$NON-NLS-1$
 
 		try {
 			ConfigFactory.instance();
-         fail();
-		} catch (ConfigException e) {
+			fail();
+		} catch (ConfigException expected) {
+			// expected
 		}
 	}
-   
-   public void testSetConfigFile_Negative_Plugin() {
-      sendContextInitializedEvent(Globals.CONFIG_FILE, 
-                   "/org/megatome/frame2/front/config/pluginTag-Single-Param-1_1.xml");
 
-      try {
-         ConfigFactory.instance();
-         fail();
-      } catch (ConfigException e) {
-      }
-   }
-   
-   public void testSetLoggerType() {
-     // assertTrue(LoggerFactory.instance("foo") instanceof StandardLogger);
-
-      sendContextInitializedEvent(Globals.LOGGER_TYPE,"org.megatome.frame2.log.impl.Log4jLogger");
-
-      assertTrue(LoggerFactory.instance("bar") instanceof Log4jLogger);
-   }
-
-   public void testSetLoggerType_Invalid() {
+	public void testSetConfigFile_Negative_Plugin() {
+		sendContextInitializedEvent(Globals.CONFIG_FILE,
+				"/org/megatome/frame2/front/config/pluginTag-Single-Param-1_1.xml"); //$NON-NLS-1$
 
 		try {
-         sendContextInitializedEvent(Globals.LOGGER_TYPE,"org.megatome.frame2.log.impl.BogusLogger");
-         fail();
-		} catch (RuntimeException e) {
+			ConfigFactory.instance();
+			fail();
+		} catch (ConfigException expected) {
+			// expected
 		}
-   }
+	}
 
-   public void testSetResourceBundle_NoFlag() {
-      assertEmptyBundle(ResourceLocator.getBundle());
+	public void testSetLoggerType() {
+		// assertTrue(LoggerFactory.instance("foo") instanceof StandardLogger);
 
-      sendContextInitializedEvent(null,null);
+		sendContextInitializedEvent(Globals.LOGGER_TYPE,
+				"org.megatome.frame2.log.impl.Log4jLogger"); //$NON-NLS-1$
 
-      assertEmptyBundle(ResourceLocator.getBundle());
-   }
+		assertTrue(LoggerFactory.instance("bar") instanceof Log4jLogger); //$NON-NLS-1$
+	}
 
-   public void testSetResourceBundle_Frame2Flag() {
-      assertEmptyBundle(ResourceLocator.getBundle());
+	public void testSetLoggerType_Invalid() {
 
-      sendContextInitializedEvent(Globals.RESOURCE_BUNDLE,"frame2-resource");
+		try {
+			sendContextInitializedEvent(Globals.LOGGER_TYPE,
+					"org.megatome.frame2.log.impl.BogusLogger"); //$NON-NLS-1$
+			fail();
+		} catch (RuntimeException expected) {
+			// expected
+		}
+	}
 
-      ResourceBundle bundle = ResourceLocator.getBundle();
+	public void testSetResourceBundle_NoFlag() {
+		assertEmptyBundle(ResourceLocator.getBundle());
 
-      TestResourceLocator.assertHasHasNot(bundle,"tag.question","alt.tag.question");
-   }
+		sendContextInitializedEvent(null, null);
 
-   public void testSetResourceBundle_JstlFmtFlag() {
-      assertEmptyBundle(ResourceLocator.getBundle());
+		assertEmptyBundle(ResourceLocator.getBundle());
+	}
 
-      sendContextInitializedEvent(Frame2ContextListener.JSTL_CONTEXT_BUNDLE_PARAM,"alt-resource");
+	public void testSetResourceBundle_Frame2Flag() {
+		assertEmptyBundle(ResourceLocator.getBundle());
 
-      ResourceBundle bundle = ResourceLocator.getBundle();
+		sendContextInitializedEvent(Globals.RESOURCE_BUNDLE, "frame2-resource"); //$NON-NLS-1$
 
-      TestResourceLocator.assertHasHasNot(bundle,"alt.tag.question","tag.question");
-   }
+		ResourceBundle bundle = ResourceLocator.getBundle();
 
-   public void testSetResourceBundle_Frame2TakesPrecedence() {
-      assertEmptyBundle(ResourceLocator.getBundle());
+		TestResourceLocator.assertHasHasNot(bundle,
+				"tag.question", "alt.tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-      sendContextInitializedEvent(Globals.RESOURCE_BUNDLE,"frame2-resource",Frame2ContextListener.JSTL_CONTEXT_BUNDLE_PARAM,"alt-resource");
+	public void testSetResourceBundle_JstlFmtFlag() {
+		assertEmptyBundle(ResourceLocator.getBundle());
 
-      ResourceBundle bundle = ResourceLocator.getBundle();
+		sendContextInitializedEvent(
+				Frame2ContextListener.JSTL_CONTEXT_BUNDLE_PARAM, "alt-resource"); //$NON-NLS-1$
 
-      TestResourceLocator.assertHasHasNot(bundle,"tag.question","alt.tag.question");
-   }
+		ResourceBundle bundle = ResourceLocator.getBundle();
 
-   private void assertEmptyBundle(ResourceBundle bundle) {
-      assertNotNull(bundle);
-      Enumeration keys = bundle.getKeys();
-      assertFalse(keys.hasMoreElements());
-   }
+		TestResourceLocator.assertHasHasNot(bundle,
+				"alt.tag.question", "tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	public void testSetResourceBundle_Frame2TakesPrecedence() {
+		assertEmptyBundle(ResourceLocator.getBundle());
+
+		sendContextInitializedEvent(
+				Globals.RESOURCE_BUNDLE,
+				"frame2-resource", Frame2ContextListener.JSTL_CONTEXT_BUNDLE_PARAM, "alt-resource"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		ResourceBundle bundle = ResourceLocator.getBundle();
+
+		TestResourceLocator.assertHasHasNot(bundle,
+				"tag.question", "alt.tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	private void assertEmptyBundle(ResourceBundle bundle) {
+		assertNotNull(bundle);
+		Enumeration<String> keys = bundle.getKeys();
+		assertFalse(keys.hasMoreElements());
+	}
 }

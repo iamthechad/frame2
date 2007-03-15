@@ -89,9 +89,9 @@ public class MockFrame2TestCase extends TestCase {
      */
 
     private void confirmSetup() {
-        if (!isInitialized) {
+        if (!this.isInitialized) {
             throw new AssertionFailedError(
-                    "You are overriding the setUp() method without calling super.setUp().  You must call the superclass setUp() method in your TestCase subclass to ensure proper initialization.");
+                    "You are overriding the setUp() method without calling super.setUp().  You must call the superclass setUp() method in your TestCase subclass to ensure proper initialization."); //$NON-NLS-1$
         }
     }
 
@@ -101,54 +101,55 @@ public class MockFrame2TestCase extends TestCase {
      * debugging, and creates a mock HttpServletRequest and HttpServletResponse
      * object to use in this test.
      */
-    protected void setUp() throws Exception {
-        if (servlet == null) {
-            servlet = new HttpFrontController();
+    @Override
+	protected void setUp() throws Exception {
+        if (this.servlet == null) {
+            this.servlet = new HttpFrontController();
         }
-        LoggerFactory.setType("org.megatome.frame2.log.impl.StandardLogger",
+        LoggerFactory.setType("org.megatome.frame2.log.impl.StandardLogger", //$NON-NLS-1$
                 getClass().getClassLoader());
-        config = new MockFrame2ServletConfigSimulator();
+        this.config = new MockFrame2ServletConfigSimulator();
         //request = new
         // HttpServletRequestSimulator(config.getServletContext());
-        request = new Frame2HttpServletRequestSimulator(config
+        this.request = new Frame2HttpServletRequestSimulator(this.config
                 .getServletContext());
-        response = new HttpServletResponseSimulator();
-        context = (MockFrame2ServletContextSimulator)config
+        this.response = new HttpServletResponseSimulator();
+        this.context = (MockFrame2ServletContextSimulator)this.config
                 .getServletContext();
-        listener = new Frame2ContextListener();
-        isInitialized = true;
+        this.listener = new Frame2ContextListener();
+        this.isInitialized = true;
 
         sendContextInitializedEvent(null, null);
 
-        servlet.init(config);
+        this.servlet.init(this.config);
     }
 
     public ServletContextListener getContextListener() {
-        return listener;
+        return this.listener;
     }
 
     public void sendContextInitializedEvent(String key, String value) {
         if (key != null && value != null) {
-            context.setInitParameter(key, value);
+            this.context.setInitParameter(key, value);
         }
-        listener.contextInitialized(new ServletContextEvent(context));
+        this.listener.contextInitialized(new ServletContextEvent(this.context));
     }
 
     public void sendContextDestroyedEvent() {
-        listener.contextDestroyed(new ServletContextEvent(context));
+        this.listener.contextDestroyed(new ServletContextEvent(this.context));
     }
 
     public void sendContextInitializedEvent(String key1, String value1,
             String key2, String value2) {
         if (key1 != null && value1 != null) {
-            context.setInitParameter(key1, value1);
+            this.context.setInitParameter(key1, value1);
         }
 
         if (key2 != null && value2 != null) {
-            context.setInitParameter(key2, value2);
+            this.context.setInitParameter(key2, value2);
         }
 
-        listener.contextInitialized(new ServletContextEvent(context));
+        this.listener.contextInitialized(new ServletContextEvent(this.context));
     }
 
     /**
@@ -156,7 +157,7 @@ public class MockFrame2TestCase extends TestCase {
      */
     public HttpServletRequest getRequest() {
         confirmSetup();
-        return request;
+        return this.request;
     }
 
     // 	/**
@@ -214,7 +215,7 @@ public class MockFrame2TestCase extends TestCase {
      */
     public HttpServletResponse getResponse() {
         confirmSetup();
-        return response;
+        return this.response;
     }
 
     // 	/**
@@ -272,17 +273,17 @@ public class MockFrame2TestCase extends TestCase {
      */
     public HttpSession getSession() {
         confirmSetup();
-        return request.getSession(true);
+        return this.request.getSession(true);
     }
 
     public ServletContext getContext() {
         confirmSetup();
-        return context;
+        return this.context;
     }
 
     public HttpFrontController getServlet() {
         confirmSetup();
-        return servlet;
+        return this.servlet;
     }
 
     // 	/**
@@ -341,12 +342,12 @@ public class MockFrame2TestCase extends TestCase {
         confirmSetup();
 
         try {
-            servlet.doPost(request, response);
+            this.servlet.doPost(this.request, this.response);
         } catch (ServletException se) {
-            fail("Error running doEvent(): " + se.getRootCause().getClass()
-                    + " - " + se.getRootCause().getMessage());
+            fail("Error running doEvent(): " + se.getRootCause().getClass() //$NON-NLS-1$
+                    + " - " + se.getRootCause().getMessage()); //$NON-NLS-1$
         } catch (Exception ex) {
-            fail("Error running action.perform(): " + ex.getClass() + " - "
+            fail("Error running action.perform(): " + ex.getClass() + " - " //$NON-NLS-1$ //$NON-NLS-2$
                     + ex.getMessage());
         }
     }
@@ -359,7 +360,7 @@ public class MockFrame2TestCase extends TestCase {
      */
     public void addRequestParameter(String parameterName, String parameterValue) {
         confirmSetup();
-        request.addParameter(parameterName, parameterValue);
+        this.request.addParameter(parameterName, parameterValue);
     }
 
     /**
@@ -371,7 +372,7 @@ public class MockFrame2TestCase extends TestCase {
     public void addRequestParameter(String parameterName,
             String[] parameterValues) {
         confirmSetup();
-        request.addParameter(parameterName, parameterValues);
+        this.request.addParameter(parameterName, parameterValues);
     }
 
     /**
@@ -384,24 +385,25 @@ public class MockFrame2TestCase extends TestCase {
 
     public void setRequestPathInfo(String pathInfo) {
         confirmSetup();
-        eventPath = stripActionPath(pathInfo);
+        this.eventPath = stripActionPath(pathInfo);
 
-        request.setPathInfo(eventPath);
+        this.request.setPathInfo(this.eventPath);
     }
 
     public void setServletPath(String pathInfo) {
         confirmSetup();
-        eventPath = stripActionPath(pathInfo);
+        this.eventPath = stripActionPath(pathInfo);
 
-        request.setServletPath(eventPath);
+        this.request.setServletPath(this.eventPath);
     }
 
-    protected static String stripActionPath(String path) {
-        if (path == null)
+    protected static String stripActionPath(String inPath) {
+        if (inPath == null)
             return null;
+        String path = inPath;
 
-        int slash = path.lastIndexOf("/");
-        int period = path.lastIndexOf(".");
+        int slash = path.lastIndexOf("/"); //$NON-NLS-1$
+        int period = path.lastIndexOf("."); //$NON-NLS-1$
         if ((period >= 0) && (period > slash))
             path = path.substring(0, period);
         return path;
@@ -416,9 +418,9 @@ public class MockFrame2TestCase extends TestCase {
      */
     public void setInitParameter(String key, String value) {
         confirmSetup();
-        config.setInitParameter(key, value);
-        context.setInitParameter(key, value);
-        servletIsInitialized = false;
+        this.config.setInitParameter(key, value);
+        this.context.setInitParameter(key, value);
+        this.servletIsInitialized = false;
     }
 
     /**
@@ -429,8 +431,8 @@ public class MockFrame2TestCase extends TestCase {
      */
     public void setContextDirectory(File contextDirectory) {
         confirmSetup();
-        context.setContextDirectory(contextDirectory);
-        servletIsInitialized = false;
+        this.context.setContextDirectory(contextDirectory);
+        this.servletIsInitialized = false;
     }
 
     /**
@@ -443,8 +445,8 @@ public class MockFrame2TestCase extends TestCase {
      */
     public void setConfigFile(String pathname) {
         confirmSetup();
-        config.setInitParameter("config", pathname);
-        servletIsInitialized = false;
+        this.config.setInitParameter("config", pathname); //$NON-NLS-1$
+        this.servletIsInitialized = false;
     }
 
     /**
@@ -462,55 +464,55 @@ public class MockFrame2TestCase extends TestCase {
         // pull in the appropriate parts of the
         // web.xml file -- first the init-parameters
         Digester digester = new Digester();
-        digester.push(config);
+        digester.push(this.config);
         digester.setValidating(false);
-        digester.addCallMethod("web-app/servlet/init-param",
-                "setInitParameter", 2);
-        digester.addCallParam("web-app/servlet/init-param/param-name", 0);
-        digester.addCallParam("web-app/servlet/init-param/param-value", 1);
+        digester.addCallMethod("web-app/servlet/init-param", //$NON-NLS-1$
+                "setInitParameter", 2); //$NON-NLS-1$
+        digester.addCallParam("web-app/servlet/init-param/param-name", 0); //$NON-NLS-1$
+        digester.addCallParam("web-app/servlet/init-param/param-value", 1); //$NON-NLS-1$
         try {
-            InputStream input = context.getResourceAsStream(pathname);
+            InputStream input = this.context.getResourceAsStream(pathname);
             if (input == null)
-                throw new AssertionFailedError("Invalid pathname: " + pathname);
+                throw new AssertionFailedError("Invalid pathname: " + pathname); //$NON-NLS-1$
             digester.parse(input);
             input.close();
         } catch (Exception e) {
             throw new AssertionFailedError(
-                    "Received an exception while loading web.xml - "
-                            + e.getClass() + " : " + e.getMessage());
+                    "Received an exception while loading web.xml - " //$NON-NLS-1$
+                            + e.getClass() + " : " + e.getMessage()); //$NON-NLS-1$
         }
 
         // now the context parameters..
         digester = new Digester();
         digester.setValidating(false);
-        digester.push(context);
-        digester.addCallMethod("web-app/context-param", "setInitParameter", 2);
-        digester.addCallParam("web-app/context-param/param-name", 0);
-        digester.addCallParam("web-app/context-param/param-value", 1);
+        digester.push(this.context);
+        digester.addCallMethod("web-app/context-param", "setInitParameter", 2); //$NON-NLS-1$ //$NON-NLS-2$
+        digester.addCallParam("web-app/context-param/param-name", 0); //$NON-NLS-1$
+        digester.addCallParam("web-app/context-param/param-value", 1); //$NON-NLS-1$
         try {
-            InputStream input = context.getResourceAsStream(pathname);
+            InputStream input = this.context.getResourceAsStream(pathname);
             if (input == null)
-                throw new AssertionFailedError("Invalid pathname: " + pathname);
+                throw new AssertionFailedError("Invalid pathname: " + pathname); //$NON-NLS-1$
             digester.parse(input);
             input.close();
         } catch (Exception e) {
             throw new AssertionFailedError(
-                    "Received an exception while loading web.xml - "
-                            + e.getClass() + " : " + e.getMessage());
+                    "Received an exception while loading web.xml - " //$NON-NLS-1$
+                            + e.getClass() + " : " + e.getMessage()); //$NON-NLS-1$
         }
-        servletIsInitialized = false;
+        this.servletIsInitialized = false;
     }
 
     /**
      * Returns the forward sent to RequestDispatcher.
      */
     private String getActualForward() {
-        if (response.containsHeader("Location")) {
-            return stripJSessionID(response.getHeader("Location"));
+        if (this.response.containsHeader("Location")) { //$NON-NLS-1$
+            return stripJSessionID(this.response.getHeader("Location")); //$NON-NLS-1$
         }
         try {
-            String strippedForward = request.getContextPath()
-                    + stripJSessionID(((ServletContextSimulator)config
+            String strippedForward = this.request.getContextPath()
+                    + stripJSessionID(((ServletContextSimulator)this.config
                             .getServletContext())
                             .getRequestDispatcherSimulator().getForward());
             return strippedForward;
@@ -523,12 +525,13 @@ public class MockFrame2TestCase extends TestCase {
      * Strip ;jsessionid= <sessionid>from path.
      * @return stripped path
      */
-    protected static String stripJSessionID(String path) {
-        if (path == null)
+    protected static String stripJSessionID(String inPath) {
+        if (inPath == null)
             return null;
+        String path = inPath;
 
         String pathCopy = path.toLowerCase();
-        int jsess_idx = pathCopy.indexOf(";jsessionid=");
+        int jsess_idx = pathCopy.indexOf(";jsessionid="); //$NON-NLS-1$
         if (jsess_idx > 0) {
             // Strip jsessionid from obtained path
             StringBuffer buf = new StringBuffer(path);
@@ -546,7 +549,8 @@ public class MockFrame2TestCase extends TestCase {
      *            different forward than <code>forwardName</code> after
      *            executing an Action object.
      */
-    public void verifyForward(String forwardName) throws AssertionFailedError {
+    public void verifyForward(@SuppressWarnings("unused")
+	String forwardName) throws AssertionFailedError {
         confirmSetup();
         //		verifyForwardPath(
         //			servlet,
@@ -568,21 +572,21 @@ public class MockFrame2TestCase extends TestCase {
      *            different forward path than <code>forwardPath</code> after
      *            executing an Action object.
      */
-    public void verifyForwardPath(String forwardPath)
+    public void verifyForwardPath(final String forwardPath)
             throws AssertionFailedError {
         confirmSetup();
-        forwardPath = request.getContextPath() + forwardPath;
+        String fullForwardPath = this.request.getContextPath() + forwardPath;
 
         String actualForward = getActualForward();
         if (actualForward == null) {
             throw new AssertionFailedError(
-                    "Was expecting '"
-                            + forwardPath
-                            + "' but it appears the Action has tried to return an ActionForward that is not mapped correctly.");
+                    "Was expecting '" //$NON-NLS-1$
+                            + fullForwardPath
+                            + "' but it appears the Action has tried to return an ActionForward that is not mapped correctly."); //$NON-NLS-1$
         }
-        if (!(actualForward.equals(forwardPath)))
-            throw new AssertionFailedError("was expecting '" + forwardPath
-                    + "' but received '" + actualForward + "'");
+        if (!(actualForward.equals(fullForwardPath)))
+            throw new AssertionFailedError("was expecting '" + fullForwardPath //$NON-NLS-1$
+                    + "' but received '" + actualForward + "'"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     // 	/**
@@ -785,10 +789,10 @@ public class MockFrame2TestCase extends TestCase {
     //	}
 
     protected void setUserRole(String role) {
-        request.setUserRole(role);
+        this.request.setUserRole(role);
     }
 
     protected void setRemoteUser(String login) {
-        request.setRemoteUser(login);
+        this.request.setRemoteUser(login);
     }
 }

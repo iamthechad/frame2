@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,8 +75,9 @@ public class Frame2HttpServletRequestSimulator
    /* (non-Javadoc)
     * @see javax.servlet.ServletRequest#getInputStream()
     */
+   @Override
    public ServletInputStream getInputStream() {
-      return is;
+      return this.is;
    }
    
    public void setDataInputStream(int contentLength, InputStream is) {
@@ -89,8 +90,9 @@ public class Frame2HttpServletRequestSimulator
    /* (non-Javadoc)
     * @see javax.servlet.ServletRequest#getContentLength()
     */
+   @Override
    public int getContentLength() {
-      return contentLength;
+      return this.contentLength;
    }
 
 }

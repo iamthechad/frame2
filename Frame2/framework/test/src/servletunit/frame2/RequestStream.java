@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,10 +61,10 @@ public class RequestStream
     public RequestStream(int contentLength, InputStream is) {
 
         super();
-        closed = false;
-        count = 0;
-        length = contentLength;
-        stream = is;
+        this.closed = false;
+        this.count = 0;
+        this.length = contentLength;
+        this.stream = is;
 
     }
 
@@ -79,57 +79,61 @@ public class RequestStream
     protected InputStream stream = null;
 
 
-    public void close() throws IOException {
+    @Override
+	public void close() throws IOException {
 
-        if (closed)
-            throw new IOException("Stream already closed");
+        if (this.closed)
+            throw new IOException("Stream already closed"); //$NON-NLS-1$
 
-        if (length > 0) {
-            while (count < length) {
+        if (this.length > 0) {
+            while (this.count < this.length) {
                 int b = read();
                 if (b < 0)
                     break;
             }
         }
 
-        closed = true;
+        this.closed = true;
 
     }
 
-    public int read() throws IOException {
+    @Override
+	public int read() throws IOException {
 
         // Has this stream been closed?
-        if (closed)
-            throw new IOException("The stream has been closed");
+        if (this.closed)
+            throw new IOException("The stream has been closed"); //$NON-NLS-1$
 
         // Have we read the specified content length already?
-        if ((length >= 0) && (count >= length))
+        if ((this.length >= 0) && (this.count >= this.length))
             return (-1);        // End of file indicator
 
         // Read and count the next byte, then return it
-        int b = stream.read();
+        int b = this.stream.read();
         if (b >= 0)
-            count++;
+            this.count++;
         return (b);
 
     }
 
 
-    public int read(byte b[]) throws IOException {
+    @Override
+	public int read(byte b[]) throws IOException {
 
         return (read(b, 0, b.length));
 
     }
 
 
-    public int read(byte b[], int off, int len) throws IOException {
+    @Override
+	public int read(byte b[], int off, int len) throws IOException {
 
         int toRead = len;
-        if (length > 0) {
-            if (count >= length)
+        if (this.length > 0) {
+            if (this.count >= this.length)
                 return (-1);
-            if ((count + len) > length)
-                toRead = length - count;
+            if ((this.count + len) > this.length)
+                toRead = this.length - this.count;
         }
         int actuallyRead = super.read(b, off, toRead);
         return (actuallyRead);

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,38 +64,39 @@ import org.megatome.frame2.log.impl.StandardLogger;
 public class TestLoggerFactory extends TestCase {
 
     public void testStandardLogger () throws LoggerException {
-        String className = "org.megatome.frame2.log.impl.StandardLogger";
+        String className = "org.megatome.frame2.log.impl.StandardLogger"; //$NON-NLS-1$
         LoggerFactory.setType(className, this.getClass().getClassLoader()); 
-        Logger logger = LoggerFactory.instance("real");
+        Logger logger = LoggerFactory.instance("real"); //$NON-NLS-1$
         assertNotNull(logger);
         assertTrue (logger instanceof StandardLogger);
-        assertEquals("real", logger.getName());
+        assertEquals("real", logger.getName()); //$NON-NLS-1$
       
     }
    
     public void testLog4jLogger () throws LoggerException {
-        String className = "org.megatome.frame2.log.impl.Log4jLogger";
+        String className = "org.megatome.frame2.log.impl.Log4jLogger"; //$NON-NLS-1$
         LoggerFactory.setType(className, this.getClass().getClassLoader()); 
-        Logger logger = LoggerFactory.instance("real");
+        Logger logger = LoggerFactory.instance("real"); //$NON-NLS-1$
         assertNotNull(logger);
         assertTrue (logger instanceof Log4jLogger);
-        assertEquals("real", logger.getName());
+        assertEquals("real", logger.getName()); //$NON-NLS-1$
       
     }
    
    
     public void testBogusLogger () {
-        String className = "org.megatome.frame2.log.impl.BogusLogger";
+        String className = "org.megatome.frame2.log.impl.BogusLogger"; //$NON-NLS-1$
         try {
             LoggerFactory.setType(className, this.getClass().getClassLoader()); 
             fail();
-        } catch (LoggerException e) {
+        } catch (LoggerException expected) {
+        	//expected
         }
       
-        Logger logger = LoggerFactory.instance("bogus");
+        Logger logger = LoggerFactory.instance("bogus"); //$NON-NLS-1$
         assertNotNull(logger);
         assertTrue (logger instanceof StandardLogger);
-        assertEquals("bogus", logger.getName());     
+        assertEquals("bogus", logger.getName());      //$NON-NLS-1$
       
     }
 

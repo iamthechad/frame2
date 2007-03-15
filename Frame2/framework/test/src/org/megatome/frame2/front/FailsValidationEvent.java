@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,9 @@ public class FailsValidationEvent extends CommonsValidatorEvent {
    
    
    
-   public boolean validate(Errors errors) {
+   @Override
+   public boolean validate(@SuppressWarnings("unused")
+		   Errors errors) {
       return false;
    }
 
@@ -75,7 +77,7 @@ public class FailsValidationEvent extends CommonsValidatorEvent {
     * @return String
     */
    public String getStillThere() {
-      return stillThere;
+      return this.stillThere;
    }
 
    /**

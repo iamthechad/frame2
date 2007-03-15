@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,28 +54,34 @@ import org.megatome.frame2.Frame2Exception;
 
 public class HandlerExceptionTest extends Frame2Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -741543255878608492L;
 
-   /**
-    * Constructor for HandlerExceptionTest.
-    */
-   public HandlerExceptionTest() {
-      super();
-   }
+	/**
+	 * Constructor for HandlerExceptionTest.
+	 */
+	public HandlerExceptionTest() {
+		super();
+	}
 
-   /**
-    * Constructor for HandlerExceptionTest.
-    * @param arg0
-    */
-   public HandlerExceptionTest(String arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for HandlerExceptionTest.
+	 * 
+	 * @param arg0
+	 */
+	public HandlerExceptionTest(String arg0) {
+		super(arg0);
+	}
 
-   /**
-    * Constructor for HandlerExceptionTest.
-    * @param arg0
-    */
-   public HandlerExceptionTest(Throwable arg0) {
-      super(arg0);
-   }
+	/**
+	 * Constructor for HandlerExceptionTest.
+	 * 
+	 * @param arg0
+	 */
+	public HandlerExceptionTest(Throwable arg0) {
+		super(arg0);
+	}
 
 }

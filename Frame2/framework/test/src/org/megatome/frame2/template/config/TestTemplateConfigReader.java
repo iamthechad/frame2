@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,103 +78,103 @@ public class TestTemplateConfigReader extends TestCase {
    }
    
    public void testConfigurationSingleDefinition(){
-      String filename = "org/megatome/frame2/template/config/singleTag-Template.xml"; 
-      Map definitions = readConfig(filename);
+      String filename = "org/megatome/frame2/template/config/singleTag-Template.xml";  //$NON-NLS-1$
+      Map<String, TemplateDef> definitions = readConfig(filename);
 
       assertTrue(definitions.size() == 1);
-      assertNotNull(definitions.get("xxx"));
-      TemplateDef def = (TemplateDef)definitions.get("xxx");
-      assertTrue(def.getPath().equals("xxx"));
+      assertNotNull(definitions.get("xxx")); //$NON-NLS-1$
+      TemplateDef def = definitions.get("xxx"); //$NON-NLS-1$
+      assertTrue(def.getPath().equals("xxx")); //$NON-NLS-1$
    }
    
    public void testConfigurationSingleDefinitionPut(){
-      String filename = "org/megatome/frame2/template/config/singleTag-Put-Template.xml"; 
-      Map definitions = readConfig(filename);
+      String filename = "org/megatome/frame2/template/config/singleTag-Put-Template.xml";  //$NON-NLS-1$
+      Map<String, TemplateDef> definitions = readConfig(filename);
 
       assertTrue(definitions.size() == 1);
-      assertNotNull(definitions.get("xxx"));
-      TemplateDef def = (TemplateDef)definitions.get("xxx");
-      assertTrue(def.getPath().equals("xxx"));
-      Map map = def.getPutParams();
+      assertNotNull(definitions.get("xxx")); //$NON-NLS-1$
+      TemplateDef def = definitions.get("xxx"); //$NON-NLS-1$
+      assertTrue(def.getPath().equals("xxx")); //$NON-NLS-1$
+      Map<String, String> map = def.getPutParams();
       assertTrue(map.size() ==1);
-      assertNotNull(map.get("yyy"));
-      String path = (String)map.get("yyy");
-      assertTrue(path.equals("yyy"));
+      assertNotNull(map.get("yyy")); //$NON-NLS-1$
+      String path = map.get("yyy"); //$NON-NLS-1$
+      assertTrue(path.equals("yyy")); //$NON-NLS-1$
    }
    
    public void testConfigurationMultiDefinitionPut(){
-      String filename = "org/megatome/frame2/template/config/multTag-Put-Template.xml"; 
-      Map definitions = readConfig(filename);
+      String filename = "org/megatome/frame2/template/config/multTag-Put-Template.xml";  //$NON-NLS-1$
+      Map<String, TemplateDef> definitions = readConfig(filename);
 
       assertTrue(definitions.size() == 3);
-      assertNotNull(definitions.get("xxx1"));
-      TemplateDef def = (TemplateDef)definitions.get("xxx1");
-      assertTrue(def.getPath().equals("xxx.jsp"));
-      Map map = def.getPutParams();
+      assertNotNull(definitions.get("xxx1")); //$NON-NLS-1$
+      TemplateDef def = definitions.get("xxx1"); //$NON-NLS-1$
+      assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
+      Map<String, String> map = def.getPutParams();
       assertTrue(map.size() ==2);
-      assertNotNull(map.get("yyy1"));
-      String path = (String)map.get("yyy1");
-      assertTrue(path.equals("yyy.jsp"));
+      assertNotNull(map.get("yyy1")); //$NON-NLS-1$
+      String path = map.get("yyy1"); //$NON-NLS-1$
+      assertTrue(path.equals("yyy.jsp")); //$NON-NLS-1$
       
-      assertNotNull(map.get("yyy2"));
-      path = (String)map.get("yyy2");
-      assertTrue(path.equals("yyy.jsp"));
+      assertNotNull(map.get("yyy2")); //$NON-NLS-1$
+      path = map.get("yyy2"); //$NON-NLS-1$
+      assertTrue(path.equals("yyy.jsp")); //$NON-NLS-1$
       
-      assertNotNull(definitions.get("xxx2"));
-      def = (TemplateDef)definitions.get("xxx2");
-      assertTrue(def.getPath().equals("xxx.jsp"));
+      assertNotNull(definitions.get("xxx2")); //$NON-NLS-1$
+      def = definitions.get("xxx2"); //$NON-NLS-1$
+      assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
       map = def.getPutParams();
       assertTrue(map.isEmpty());     
 
-      assertNotNull(definitions.get("xxx3"));
-      def = (TemplateDef)definitions.get("xxx3");
-      assertTrue(def.getPath().equals("xxx.jsp"));
+      assertNotNull(definitions.get("xxx3")); //$NON-NLS-1$
+      def = definitions.get("xxx3"); //$NON-NLS-1$
+      assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
       map = def.getPutParams();
       assertTrue(map.size() == 1);
       map = def.getPutParams();
-      assertNotNull(map.get("yyy1"));
-      path = (String)map.get("yyy1");
-      assertTrue(path.equals("yyy.jsp"));     
+      assertNotNull(map.get("yyy1")); //$NON-NLS-1$
+      path = map.get("yyy1"); //$NON-NLS-1$
+      assertTrue(path.equals("yyy.jsp"));      //$NON-NLS-1$
    }
    
    public void testNegativeConfigurationFile(){
-      String filename = "org/megatome/frame2/template/config/badfile.xml"; 
+      String filename = "org/megatome/frame2/template/config/badfile.xml";  //$NON-NLS-1$
       readNegativeConfig(filename);
    }  
    
    public void testNegativeDuplicateConfigurationFile(){
-      String filename = "org/megatome/frame2/template/config/duplicateTag-Put-Template.xml"; 
+      String filename = "org/megatome/frame2/template/config/duplicateTag-Put-Template.xml";  //$NON-NLS-1$
       readNegativeConfig(filename);
    }  
    
    public void testNegativeDuplicatePutConfigurationFile(){
-      String filename = "org/megatome/frame2/template/config/singleTag-Negative-DupPut-Template.xml"; 
+      String filename = "org/megatome/frame2/template/config/singleTag-Negative-DupPut-Template.xml";  //$NON-NLS-1$
       readNegativeConfig(filename);
    }    
    
    public void testMultNegativeNameConfigurationFile(){
-      String filename = "org/megatome/frame2/template/config/multTag-NegativeName-Template.xml"; 
+      String filename = "org/megatome/frame2/template/config/multTag-NegativeName-Template.xml";  //$NON-NLS-1$
       readNegativeConfig(filename);
    }  
    
    public void testMultNegativePathConfigurationFile(){
-      String filename = "org/megatome/frame2/template/config/multTag-NegativePath-Template.xml"; 
+      String filename = "org/megatome/frame2/template/config/multTag-NegativePath-Template.xml";  //$NON-NLS-1$
       readNegativeConfig(filename);
    }  
    
    public void testConfigurationEmptyTagDefinition(){
-      String filename = "org/megatome/frame2/template/config/emptyTags-Template.xml"; 
-      Map definitions = readConfig(filename);
+      String filename = "org/megatome/frame2/template/config/emptyTags-Template.xml";  //$NON-NLS-1$
+      Map<String, TemplateDef> definitions = readConfig(filename);
       assertTrue(definitions.isEmpty());
    }
    
    public void testEmptyTagsNegativeConfigurationFile(){
-      String filename = "org/megatome/frame2/template/config/emptyTags-Negative-Template.xml"; 
+      String filename = "org/megatome/frame2/template/config/emptyTags-Negative-Template.xml";  //$NON-NLS-1$
       readNegativeConfig(filename);
    }  
    
-   public Map readConfig(String filename){
-      HashMap definitions = new HashMap();
+   public Map<String, TemplateDef> readConfig(String filename){
+      Map<String, TemplateDef> definitions = new HashMap<String, TemplateDef>();
       TemplateConfigReader reader = new TemplateConfigReader(definitions);
       try {
          InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
@@ -186,7 +186,7 @@ public class TestTemplateConfigReader extends TestCase {
    }   
    
    public void readNegativeConfig(String filename){
-      TemplateConfigReader reader = new TemplateConfigReader(new HashMap());
+      TemplateConfigReader reader = new TemplateConfigReader(new HashMap<String, TemplateDef>());
       try {
          InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
          reader.execute(is);

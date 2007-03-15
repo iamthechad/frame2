@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,8 @@ import servletunit.ServletContextSimulator;
 
 public class TestResourceLocator extends TestCase {
 
-   protected void tearDown() {
+   @Override
+protected void tearDown() {
       ResourceLocator.setBasename(null);
    }
 
@@ -72,7 +73,7 @@ public class TestResourceLocator extends TestCase {
       ResourceBundle bundle = ResourceLocator.getBundle();
 
       assertNotNull(bundle);
-      Enumeration keys = bundle.getKeys();
+      Enumeration<String> keys = bundle.getKeys();
       assertFalse(keys.hasMoreElements());
    }
 
@@ -80,25 +81,25 @@ public class TestResourceLocator extends TestCase {
       ResourceBundle bundle = ResourceLocator.getBundle(Locale.FRENCH);
 
       assertNotNull(bundle);
-      Enumeration keys = bundle.getKeys();
+      Enumeration<String> keys = bundle.getKeys();
       assertFalse(keys.hasMoreElements());
    }
 
    public void testResetBundleName() throws Exception {
-      ResourceLocator.setBasename("frame2-resource");
+      ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
       
       ResourceBundle bundle = ResourceLocator.getBundle();
-      assertHasHasNot(bundle,"tag.question","alt.tag.question");
+      assertHasHasNot(bundle,"tag.question","alt.tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
       bundle = ResourceLocator.getBundle(Locale.FRENCH);
-      assertHasHasNot(bundle,"tag.question","alt.tag.question");
+      assertHasHasNot(bundle,"tag.question","alt.tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
       
-      ResourceLocator.setBasename("alt-resource");
+      ResourceLocator.setBasename("alt-resource"); //$NON-NLS-1$
       
       bundle = ResourceLocator.getBundle();
       
-      assertHasHasNot(bundle,"alt.tag.question","tag.question");      
+      assertHasHasNot(bundle,"alt.tag.question","tag.question");       //$NON-NLS-1$ //$NON-NLS-2$
       bundle = ResourceLocator.getBundle(Locale.FRENCH);
-      assertHasHasNot(bundle,"alt.tag.question","tag.question");
+      assertHasHasNot(bundle,"alt.tag.question","tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    static public void assertHasHasNot(ResourceBundle bundle,String hasKey,String hasNotKey) {
@@ -107,38 +108,39 @@ public class TestResourceLocator extends TestCase {
       try {
          bundle.getString(hasNotKey);
          fail();
-      } catch ( MissingResourceException e ) {
+      } catch ( MissingResourceException expected ) {
+    	  //expected
       }
    }
 
    public void testSetResourceBundle() throws Exception {
       ServletContextSimulator context = new ServletContextSimulator();
-      context.setInitParameter(Globals.RESOURCE_BUNDLE,"frame2-resource");
+      context.setInitParameter(Globals.RESOURCE_BUNDLE,"frame2-resource"); //$NON-NLS-1$
 
-      ResourceLocator.setBasename("frame2-resource");
+      ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 
       ResourceBundle bundle = ResourceLocator.getBundle();
       
       assertNotNull(bundle);
 
       try {
-			assertEquals("{0}Is this Frame2?",bundle.getString("tag.question"));
-         assertEquals("{0}Is this {1} Frame2?",bundle.getString("tag.question.with.parm"));
+			assertEquals("{0}Is this Frame2?",bundle.getString("tag.question")); //$NON-NLS-1$ //$NON-NLS-2$
+         assertEquals("{0}Is this {1} Frame2?",bundle.getString("tag.question.with.parm")); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (MissingResourceException e) {
          fail();
 		}
    }
 
    public void testSetResourceBundle_FR() throws Exception {
-      ResourceLocator.setBasename("frame2-resource");
+      ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 
       ResourceBundle bundle = ResourceLocator.getBundle(Locale.FRENCH);
 
       assertNotNull(bundle);
 
       try {
-         assertEquals("{0}Êtes-vous Bob?",bundle.getString("tag.question"));
-         assertEquals("{0}Êtes-vous {1} Bob?",bundle.getString("tag.question.with.parm"));
+         assertEquals("{0}Êtes-vous Bob?",bundle.getString("tag.question")); //$NON-NLS-1$ //$NON-NLS-2$
+         assertEquals("{0}Êtes-vous {1} Bob?",bundle.getString("tag.question.with.parm")); //$NON-NLS-1$ //$NON-NLS-2$
       } catch (MissingResourceException e) {
          fail();
       }
@@ -148,15 +150,15 @@ public class TestResourceLocator extends TestCase {
 
 
    public void testSetResourceBundle_DE() throws Exception {
-      ResourceLocator.setBasename("frame2-resource");
+      ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 
       ResourceBundle bundle = ResourceLocator.getBundle(Locale.GERMANY);
 
       assertNotNull(bundle);
 
       try {
-         assertEquals("{0}Sind Sie Bob?",bundle.getString("tag.question"));
-         assertEquals("{0}Sind Sie {1} Bob?",bundle.getString("tag.question.with.parm"));
+         assertEquals("{0}Sind Sie Bob?",bundle.getString("tag.question")); //$NON-NLS-1$ //$NON-NLS-2$
+         assertEquals("{0}Sind Sie {1} Bob?",bundle.getString("tag.question.with.parm")); //$NON-NLS-1$ //$NON-NLS-2$
       } catch (MissingResourceException e) {
          fail();
       }

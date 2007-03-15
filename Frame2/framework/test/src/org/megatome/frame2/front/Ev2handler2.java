@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,8 +66,10 @@ public class Ev2handler2 implements EventHandler {
 		super();
 	}
 
-	public String handle(Event event,Context context) {
-		return "ev2forward2";
+	public String handle(@SuppressWarnings("unused")
+	Event event,@SuppressWarnings("unused")
+	Context context) {
+		return "ev2forward2"; //$NON-NLS-1$
 	}
 
 }

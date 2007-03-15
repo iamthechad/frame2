@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,24 +67,25 @@ import servletunit.frame2.Frame2TestCase;
  */
 public class TestJaxbEventValidation extends Frame2TestCase {
 
-	final private String TARGET_PKG = "org.megatome.frame2.jaxbgen";
+	final private static String TARGET_PKG = "org.megatome.frame2.jaxbgen"; //$NON-NLS-1$
 	private PurchaseOrder po;
 	private SoapRequestProcessor processor;
 
+	@Override
 	protected void setUp() throws Exception {
-		Configuration config = new Configuration("org/megatome/frame2/front/test-wsconfig.xml");
-		Element[] elements = Helper.loadEvents("org/megatome/frame2/jaxb/po.xml", getClass());
+		Configuration config = new Configuration("org/megatome/frame2/front/test-wsconfig.xml"); //$NON-NLS-1$
+		Element[] elements = Helper.loadEvents("org/megatome/frame2/jaxb/po.xml", getClass()); //$NON-NLS-1$
 
-		processor =
+		this.processor =
 			(SoapRequestProcessor) RequestProcessorFactory.instance(config, elements, TARGET_PKG);
 
-		SoapEventMap event = (SoapEventMap) processor.getEvents().get(0);
-		po = (PurchaseOrder) event.getEventsIterator().next();
+		SoapEventMap event = this.processor.getEvents().get(0);
+		this.po = (PurchaseOrder) event.getEventsIterator().next();
 	}
    
    public void testEventInstanceOfCommonsValidatorEvent(){
       try {
-			assertTrue(Class.forName("org.megatome.frame2.event.CommonsValidatorEvent").isInstance(po));
+			assertTrue(Class.forName("org.megatome.frame2.event.CommonsValidatorEvent").isInstance(this.po)); //$NON-NLS-1$
       } catch (ClassNotFoundException e) {
          fail();
       } 
@@ -92,40 +93,40 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
 	public void testValidateError_InvalidPartNum() throws Exception {
 
-		Items.ItemType item = (Items.ItemType) po.getItems().getItem().get(0);
+		Items.ItemType item = (Items.ItemType) this.po.getItems().getItem().get(0);
 
-		item.setPartNum("AAAAA");
+		item.setPartNum("AAAAA"); //$NON-NLS-1$
 
-		assertFalse(processor.validateEvent((Event) po));
+		assertFalse(this.processor.validateEvent((Event) this.po));
 
-		Errors errors = processor.getContextWrapper().getRequestErrors();
+		Errors errors = this.processor.getContextWrapper().getRequestErrors();
 
 		assertEquals(1, errors.size());
 
-		Error error = (Error) errors.iterator().next();
-		assertEquals("org.megatome.frame2.jaxbgen.impl.ItemsImpl.partNum", error.getKey());
+		Error error = errors.iterator().next();
+		assertEquals("org.megatome.frame2.jaxbgen.impl.ItemsImpl.partNum", error.getKey()); //$NON-NLS-1$
 		assertEquals(
-			"the value does not match the regular expression \"\\d{3}-[A-Z]{2}\".",
+			"the value does not match the regular expression \"\\d{3}-[A-Z]{2}\".", //$NON-NLS-1$
 			error.getValue1());
 		assertNull(error.getValue2());
 	}
 
 	public void testValidateError_InvalidDate() throws Exception {
 
-		Items.ItemType item = (Items.ItemType) po.getItems().getItem().get(0);
+		Items.ItemType item = (Items.ItemType) this.po.getItems().getItem().get(0);
 
-		item.setQuantity(new BigInteger("101"));
+		item.setQuantity(new BigInteger("101")); //$NON-NLS-1$
 
-		assertFalse(processor.validateEvent((Event) po));
+		assertFalse(this.processor.validateEvent((Event) this.po));
 
-		Errors errors = processor.getContextWrapper().getRequestErrors();
+		Errors errors = this.processor.getContextWrapper().getRequestErrors();
 
 		assertEquals(1, errors.size());
 
-		Error error = (Error) errors.iterator().next();
-		assertEquals("org.megatome.frame2.jaxbgen.impl.ItemsImpl", error.getKey());
+		Error error = errors.iterator().next();
+		assertEquals("org.megatome.frame2.jaxbgen.impl.ItemsImpl", error.getKey()); //$NON-NLS-1$
 		assertEquals(
-			"the value is out of the range (maxExclusive specifies 100).",
+			"the value is out of the range (maxExclusive specifies 100).", //$NON-NLS-1$
 			error.getValue1());
 		assertNull(error.getValue2());
 	}
@@ -133,18 +134,18 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
    public void testValidateError_NullAddress() throws Exception {
 
-      po.setBillTo(null);
+      this.po.setBillTo(null);
 
-      assertFalse(processor.validateEvent((Event) po));
+      assertFalse(this.processor.validateEvent((Event) this.po));
 
-      Errors errors = processor.getContextWrapper().getRequestErrors();
+      Errors errors = this.processor.getContextWrapper().getRequestErrors();
 
       assertEquals(2, errors.size());
 
-      Error error = (Error) errors.iterator().next();
-      assertEquals("org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl", error.getKey());
+      Error error = errors.iterator().next();
+      assertEquals("org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl", error.getKey()); //$NON-NLS-1$
       assertEquals(
-         "a required field \"BillTo\" is missing an object",
+         "a required field \"BillTo\" is missing an object", //$NON-NLS-1$
          error.getValue1());
       assertNull(error.getValue2());
    }

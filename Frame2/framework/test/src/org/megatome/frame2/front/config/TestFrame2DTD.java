@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,125 +87,127 @@ public class TestFrame2DTD extends TestCase {
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setValidating(true);
 
-		documentBuilder = dbf.newDocumentBuilder();
-		documentBuilder.setErrorHandler(new Frame2ParseErrorHandler());
-		documentBuilder.setEntityResolver(new Frame2EntityResolver());
+		this.documentBuilder = dbf.newDocumentBuilder();
+		this.documentBuilder.setErrorHandler(new Frame2ParseErrorHandler());
+		this.documentBuilder.setEntityResolver(new Frame2EntityResolver());
 	}
 
 	/**
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
 
 	public void testDTD() {
-		parseConfig("org/megatome/frame2/front/config/emptyTags-config1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/emptyTags-config1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeDTD() {
-		parseNegativeConfig("org/megatome/frame2/front/config/invalidDTD-config1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/invalidDTD-config1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeDTDMultiPlugins() {
-		parseNegativeConfig("org/megatome/frame2/front/config/invalidDTDMultiPlugins-config1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/invalidDTDMultiPlugins-config1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testSinglePlugin() {
-		parseConfig("org/megatome/frame2/front/config/pluginTag-Single-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/pluginTag-Single-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeSinglePlugin() {
-		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeNameSinglePlugin() {
-		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Name-1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Name-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeEmptySinglePlugin() {
-		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Empty-1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Empty-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeSingleTypePlugin() {
-		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-PluginType1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-PluginType1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testSinglePluginParams() {
-		parseConfig("org/megatome/frame2/front/config/pluginTag-Single-Param-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/pluginTag-Single-Param-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeSinglePluginParams() {
-		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Param1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Param1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeSinglePluginParamsName() {
-		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Param-Name1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Param-Name1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeSinglePluginParamsValue() {
-		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Param-Value1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Param-Value1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeSinglePluginParamsEmpty() {
-		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Param-Empty1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/pluginTag-Single-Negative-Param-Empty1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testMultiplePlugin() {
-		parseConfig("org/megatome/frame2/front/config/pluginTag-Multiple-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/pluginTag-Multiple-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testMultiplePluginParams() {
-		parseConfig("org/megatome/frame2/front/config/pluginTag-Mult-Param-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/pluginTag-Mult-Param-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testMultiplePluginDupParams() {
-		parseConfig("org/megatome/frame2/front/config/pluginTag-Dup-Negative-Param-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/pluginTag-Dup-Negative-Param-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testEmptyRP() {
-		parseConfig("org/megatome/frame2/front/config/RPTag-empty-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/RPTag-empty-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testHttpSingleRP() {
-		parseConfig("org/megatome/frame2/front/config/RPTag-http-single-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/RPTag-http-single-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testSoapSingleRP() {
-		parseConfig("org/megatome/frame2/front/config/RPTag-soap-single-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/RPTag-soap-single-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testHttpSoapSingleRP() {
-		parseConfig("org/megatome/frame2/front/config/RPTag-http-soap-single-1_1.xml");
+		parseConfig("org/megatome/frame2/front/config/RPTag-http-soap-single-1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegativeSoapHttpSingleRP() {
-		parseNegativeConfig("org/megatome/frame2/front/config/RPTag-soap-http-single-Negative1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/RPTag-soap-http-single-Negative1_1.xml"); //$NON-NLS-1$
 	}
 
 	public void testNegative2soap1httpRP() {
-		parseNegativeConfig("org/megatome/frame2/front/config/RPTag-2soap-http-single-Negative1_1.xml");
+		parseNegativeConfig("org/megatome/frame2/front/config/RPTag-2soap-http-single-Negative1_1.xml"); //$NON-NLS-1$
 	}
 
 	private void parseConfig(String configFile) {
 		try {
 			InputStream is =
 				getClass().getClassLoader().getResourceAsStream(configFile);
-			documentBuilder.parse(is);
+			this.documentBuilder.parse(is);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-			fail("Unexpected IOException");
+			fail("Unexpected IOException"); //$NON-NLS-1$
 		} catch (SAXParseException spe) {
 			spe.printStackTrace();
-			fail("Unexpected SAXParseException");
+			fail("Unexpected SAXParseException"); //$NON-NLS-1$
 		} catch (SAXException se) {
 			se.printStackTrace();
-			fail("Unexpected SAXException");
+			fail("Unexpected SAXException"); //$NON-NLS-1$
 		}
 	}
 
@@ -213,15 +215,15 @@ public class TestFrame2DTD extends TestCase {
 		try {
 			InputStream is =
 				getClass().getClassLoader().getResourceAsStream(configFile);
-			documentBuilder.parse(is);
+			this.documentBuilder.parse(is);
 		} catch (IOException ioe) {
-			fail("Unexpected IO Exception");
+			fail("Unexpected IO Exception"); //$NON-NLS-1$
 		} catch (SAXParseException spe) {
 			return;
 		} catch (SAXException se) {
 			return;
 		}
 
-		fail("Expected SAXException did not occur");
+		fail("Expected SAXException did not occur"); //$NON-NLS-1$
 	}
 }

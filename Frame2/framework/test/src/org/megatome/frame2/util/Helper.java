@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -94,11 +94,11 @@ public class Helper {
        }
 
        Date d = new Date(cal.getTimeInMillis() - offset);
-       return new SimpleDateFormat("yyyy-MM-dd").format(d);
+       return new SimpleDateFormat("yyyy-MM-dd").format(d); //$NON-NLS-1$
     }
 
     static public Object unmarshall(String path,String pkg,ClassLoader loader) throws Exception {
-        LOGGER.debug("Unmarshalling " + path + " in package " + pkg);
+        LOGGER.debug("Unmarshalling " + path + " in package " + pkg); //$NON-NLS-1$ //$NON-NLS-2$
         JAXBContext jc = JAXBContext.newInstance(pkg, loader);
         Unmarshaller u = jc.createUnmarshaller();
 		  InputStream istream = ClassLoader.getSystemResourceAsStream(path);
@@ -107,7 +107,7 @@ public class Helper {
     }
 
     static public OutputStream marshall(Object obj,String pkg,ClassLoader loader) throws Exception {
-        LOGGER.debug("Marshalling " + obj + " in package " + pkg);
+        LOGGER.debug("Marshalling " + obj + " in package " + pkg); //$NON-NLS-1$ //$NON-NLS-2$
         JAXBContext jc = JAXBContext.newInstance(pkg, loader);
         Marshaller m = jc.createMarshaller();
         OutputStream ostream = new ByteArrayOutputStream();   
@@ -117,11 +117,11 @@ public class Helper {
         return ostream;
     }
 
-	static public InputStream getInputStreamFor(String path,Class clazz) {
+	static public InputStream getInputStreamFor(String path,Class<?> clazz) {
       return clazz.getClassLoader().getResourceAsStream(path);
    }
 
-	static public Element[] loadEvents(String path,Class clazz) throws Exception {
+	static public Element[] loadEvents(String path,Class<?> clazz) throws Exception {
       Element[] result = new Element[1];
       DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 

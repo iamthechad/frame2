@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,11 +60,15 @@ import org.megatome.frame2.front.RequestProcessor;
 public class HttpRequestProcessorCustom implements RequestProcessor {
 
    HttpRequestProcessorCustom(
-      Configuration config,
-      ServletContext context,
-      HttpServletRequest request,
-      HttpServletResponse response) {
-      
+      @SuppressWarnings("unused")
+	Configuration config,
+      @SuppressWarnings("unused")
+	ServletContext context,
+      @SuppressWarnings("unused")
+	HttpServletRequest request,
+      @SuppressWarnings("unused")
+	HttpServletResponse response) {
+      // empty
    }
 
 
@@ -73,12 +77,15 @@ public class HttpRequestProcessorCustom implements RequestProcessor {
    }
 
    public void release() {
+	   // noop
    }
    
    public void preProcess() {
+	   //noop
    }
    
    public void postProcess() {
+	   //noop
    }
    
    

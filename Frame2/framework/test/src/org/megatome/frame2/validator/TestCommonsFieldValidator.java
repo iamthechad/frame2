@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,33 +68,33 @@ import servletunit.frame2.MockFrame2TestCase;
 public class TestCommonsFieldValidator extends MockFrame2TestCase {
 
    ValidatorResources validatorResources;
-   static String DEF_FILE_PATH = "/org/megatome/frame2/validator/config";
-   static String DEF_MAPPINGS_FILE = "test-all-mappings.xml";
-   static String DEF_RULES_FILE = "test-all-rules.xml";
+   static String DEF_FILE_PATH = "/org/megatome/frame2/validator/config"; //$NON-NLS-1$
+   static String DEF_MAPPINGS_FILE = "test-all-mappings.xml"; //$NON-NLS-1$
+   static String DEF_RULES_FILE = "test-all-rules.xml"; //$NON-NLS-1$
    static int DEF_ERRORS_SIZE = 1;
    // There is always one default error to verify error object passed in is not
    // corrupted by the validation methods.
-   static String EMAIL_BEAN_NAME = "testEmailFieldBean";
-   static String REQUIRED_BEAN_NAME = "testRequiredFieldBean";
-   static String MASK_BEAN_NAME = "testMaskFieldBean";
-   static String BYTE_BEAN_NAME = "testByteFieldBean";
-   static String SHORT_BEAN_NAME = "testShortFieldBean";
-   static String INT_BEAN_NAME = "testIntegerFieldBean";
-   static String LONG_BEAN_NAME = "testLongFieldBean";
-   static String FLOAT_BEAN_NAME = "testFloatFieldBean";
-   static String DOUBLE_BEAN_NAME = "testDoubleFieldBean";
-   static String DATE_BEAN_NAME = "testDateFieldBean";
-   static String STRICT_DATE_BEAN_NAME = "testStrictDateFieldBean";
-   static String INT_RANGE_BEAN_NAME = "testIntRangeFieldBean";
-   static String FLOAT_RANGE_BEAN_NAME = "testFloatRangeFieldBean";
-   static String DOUBLE_RANGE_BEAN_NAME = "testDoubleRangeFieldBean";
-   static String CREDIT_CARD_BEAN_NAME = "testCreditCardFieldBean";
-   static String MIN_LEN_BEAN_NAME = "testMinLengthFieldBean";
-   static String MAX_LEN_BEAN_NAME = "testMaxLengthFieldBean";
-   static final String TWO_FIELD_BEAN_NAME = "testTwoFieldBean";
-   static final String REQUIRED_IF_NULL_BEAN_NAME = "testRequiredIfNullBean";
-   static final String REQUIRED_IF_NOT_NULL_BEAN_NAME = "testRequiredIfNotNullBean";
-   static final String REQUIRED_IF_EQUAL_BEAN_NAME = "testRequiredIfEqualBean";
+   static String EMAIL_BEAN_NAME = "testEmailFieldBean"; //$NON-NLS-1$
+   static String REQUIRED_BEAN_NAME = "testRequiredFieldBean"; //$NON-NLS-1$
+   static String MASK_BEAN_NAME = "testMaskFieldBean"; //$NON-NLS-1$
+   static String BYTE_BEAN_NAME = "testByteFieldBean"; //$NON-NLS-1$
+   static String SHORT_BEAN_NAME = "testShortFieldBean"; //$NON-NLS-1$
+   static String INT_BEAN_NAME = "testIntegerFieldBean"; //$NON-NLS-1$
+   static String LONG_BEAN_NAME = "testLongFieldBean"; //$NON-NLS-1$
+   static String FLOAT_BEAN_NAME = "testFloatFieldBean"; //$NON-NLS-1$
+   static String DOUBLE_BEAN_NAME = "testDoubleFieldBean"; //$NON-NLS-1$
+   static String DATE_BEAN_NAME = "testDateFieldBean"; //$NON-NLS-1$
+   static String STRICT_DATE_BEAN_NAME = "testStrictDateFieldBean"; //$NON-NLS-1$
+   static String INT_RANGE_BEAN_NAME = "testIntRangeFieldBean"; //$NON-NLS-1$
+   static String FLOAT_RANGE_BEAN_NAME = "testFloatRangeFieldBean"; //$NON-NLS-1$
+   static String DOUBLE_RANGE_BEAN_NAME = "testDoubleRangeFieldBean"; //$NON-NLS-1$
+   static String CREDIT_CARD_BEAN_NAME = "testCreditCardFieldBean"; //$NON-NLS-1$
+   static String MIN_LEN_BEAN_NAME = "testMinLengthFieldBean"; //$NON-NLS-1$
+   static String MAX_LEN_BEAN_NAME = "testMaxLengthFieldBean"; //$NON-NLS-1$
+   static final String TWO_FIELD_BEAN_NAME = "testTwoFieldBean"; //$NON-NLS-1$
+   static final String REQUIRED_IF_NULL_BEAN_NAME = "testRequiredIfNullBean"; //$NON-NLS-1$
+   static final String REQUIRED_IF_NOT_NULL_BEAN_NAME = "testRequiredIfNotNullBean"; //$NON-NLS-1$
+   static final String REQUIRED_IF_EQUAL_BEAN_NAME = "testRequiredIfEqualBean"; //$NON-NLS-1$
 
    /**
     * Constructor for TestCommonsFieldValidator.
@@ -107,18 +107,20 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    /**
     * @see junit.framework.TestCase#setUp()
     */
+   @Override
    protected void setUp() throws Exception {
       super.setUp();
-      validatorResources = buildValidatorResources();
-      ResourceLocator.setBasename("frame2-resource");
+      this.validatorResources = buildValidatorResources();
+      ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
    }
 
    /**
     * @see junit.framework.TestCase#tearDown()
     */
+   @Override
    protected void tearDown() throws Exception {
       super.tearDown();
-      validatorResources = null;
+      this.validatorResources = null;
    }
 
    private ValidatorResources buildValidatorResources() {
@@ -150,7 +152,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
       testBean.setEmail(emailAddr);
 
-      testBean.setEmpty("dude");
+      testBean.setEmpty("dude"); //$NON-NLS-1$
 
       Errors errors = setupAndRunValidate(testBean, EMAIL_BEAN_NAME);
 
@@ -164,8 +166,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
          errors,
          TestError.PREPEND_MSG,
          TestError.FRAME2_MSG,
-         null,       
-         "tag.question");
+         "tag.question"); //$NON-NLS-1$
    }
    
    private boolean validateErrors(Errors errors, String msg, String errorKey ) {
@@ -173,7 +174,6 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
          errors,
          TestError.PREPEND_MSG,
          msg,
-         null,       
          errorKey);
    }
 
@@ -181,29 +181,28 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       Errors errors,
       String prependMsg,
       String msg,
-      String appendMsg,
       String errorKey) {
-      Iterator iter = errors.iterator();
+      Iterator<Error> iter = errors.iterator();
 
       boolean foundValidationlError = false;
       boolean foundSeedError = false;
       while (iter.hasNext()) {
-         Error error = (Error) iter.next();
-         if (error.getKey().equals("seed")) {
+         Error error = iter.next();
+         if (error.getKey().equals("seed")) { //$NON-NLS-1$
             foundSeedError = true;
          }
          if (error.getKey().equals(errorKey)) {
             String errorMsg = error.getMessage(Locale.US);
-            String expectedMsg = "";
+            String expectedMsg = ""; //$NON-NLS-1$
             if (prependMsg != null) {
                expectedMsg += prependMsg;
             }
             if (msg != null) {
                expectedMsg += msg;
             }
-            if (appendMsg != null) {
+            /*if (appendMsg != null) {
                appendMsg += appendMsg;
-            }
+            }*/
 
             assertEquals(errorMsg, expectedMsg);
             foundValidationlError = true;
@@ -220,9 +219,9 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       String fieldBeanName) {
       // Add an error to verify the error is passed in..
       Errors errors = ErrorsFactory.newInstance();
-      errors.add("seed", "dude");
+      errors.add("seed", "dude"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      Validator validator = new Validator(validatorResources, fieldBeanName);
+      Validator validator = new Validator(this.validatorResources, fieldBeanName);
       // add the name bean to the validator as a resource
       // for the validations to be performed on.
       validator.addResource(Validator.BEAN_KEY, testBean);
@@ -238,18 +237,18 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    }
 
    public void testEmail() {
-      assertFalse(setupEmailTest("Yabba@hotmail.com"));
+      assertFalse(setupEmailTest("Yabba@hotmail.com")); //$NON-NLS-1$
    }
 
    public void testNegativeEmail() {
-      assertTrue(setupEmailTest("Yahotmail.com"));
+      assertTrue(setupEmailTest("Yahotmail.com")); //$NON-NLS-1$
    }
 
    public void testNullEmailNotRequired() {
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setEmpty("dude");
+      testBean.setEmpty("dude"); //$NON-NLS-1$
 
       Errors errors = setupAndRunValidate(testBean, EMAIL_BEAN_NAME);
       assertEquals(DEF_ERRORS_SIZE, errors.size());
@@ -258,10 +257,10 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
 
    public void testRequired() {
 
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setRequired("required");
+      testBean.setRequired("required"); //$NON-NLS-1$
 
       Errors errors = setupAndRunValidate(testBean, REQUIRED_BEAN_NAME);
       assertEquals(DEF_ERRORS_SIZE, errors.size());
@@ -269,7 +268,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
 
    public void testNegativeRequired() {
 
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
 
@@ -280,10 +279,10 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
 
    public void testMask() {
 
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setPhone("303-123-1234");
+      testBean.setPhone("303-123-1234"); //$NON-NLS-1$
 
       Errors errors = setupAndRunValidate(testBean, MASK_BEAN_NAME);
       assertEquals(DEF_ERRORS_SIZE, errors.size());
@@ -291,10 +290,10 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
 
    public void testNegativeMask() {
 
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setPhone("303-123");
+      testBean.setPhone("303-123"); //$NON-NLS-1$
 
       Errors errors = setupAndRunValidate(testBean, MASK_BEAN_NAME);
 
@@ -303,7 +302,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
 
    public void testNullPhone() {
 
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
 
@@ -313,7 +312,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    }
 
    private void runTest(CommonsValidatorBean testBean, String beanName) {
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
 
       Errors errors = setupAndRunValidate(testBean, beanName);
       assertEquals(DEF_ERRORS_SIZE, errors.size());
@@ -322,7 +321,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    private void runTestNegative(
       CommonsValidatorBean testBean,
       String beanName) {
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
       Errors errors = setupAndRunValidate(testBean, beanName);
       assertTrue(validateErrors(errors));
    }
@@ -330,7 +329,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    private void runTestNegative(
       CommonsValidatorBean testBean,
       String beanName, String overRideDefErrorMessage, String errorKey) {
-      validatorResources = buildValidatorResources();
+      this.validatorResources = buildValidatorResources();
       Errors errors = setupAndRunValidate(testBean, beanName);
       assertTrue(validateErrors(errors, overRideDefErrorMessage, errorKey));
    }
@@ -338,7 +337,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testByte() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setByte("12");
+      testBean.setByte("12"); //$NON-NLS-1$
 
       runTest(testBean, BYTE_BEAN_NAME);
    }
@@ -346,7 +345,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testNegativeByte() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setByte("30323");
+      testBean.setByte("30323"); //$NON-NLS-1$
       runTestNegative(testBean, BYTE_BEAN_NAME);
    }
 
@@ -359,7 +358,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testShort() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setShort("12");
+      testBean.setShort("12"); //$NON-NLS-1$
       runTest(testBean, SHORT_BEAN_NAME);
 
    }
@@ -367,7 +366,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testNegativeShort() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setShort("30323123454");
+      testBean.setShort("30323123454"); //$NON-NLS-1$
 
       runTestNegative(testBean, SHORT_BEAN_NAME);
 
@@ -383,7 +382,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testInteger() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setInteger("12");
+      testBean.setInteger("12"); //$NON-NLS-1$
       runTest(testBean, INT_BEAN_NAME);
 
    }
@@ -391,7 +390,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testNegativeInteger() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setInteger("A");
+      testBean.setInteger("A"); //$NON-NLS-1$
 
       runTestNegative(testBean, INT_BEAN_NAME);
 
@@ -407,7 +406,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testLong() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setLong("12");
+      testBean.setLong("12"); //$NON-NLS-1$
       runTest(testBean, LONG_BEAN_NAME);
 
    }
@@ -415,7 +414,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testNegativeLong() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setLong("A");
+      testBean.setLong("A"); //$NON-NLS-1$
 
       runTestNegative(testBean, LONG_BEAN_NAME);
 
@@ -431,7 +430,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testFloat() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setFloat("12");
+      testBean.setFloat("12"); //$NON-NLS-1$
       runTest(testBean, FLOAT_BEAN_NAME);
 
    }
@@ -439,7 +438,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testNegativeFloat() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setFloat("A");
+      testBean.setFloat("A"); //$NON-NLS-1$
 
       runTestNegative(testBean, FLOAT_BEAN_NAME);
 
@@ -455,7 +454,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testDouble() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setDouble("12");
+      testBean.setDouble("12"); //$NON-NLS-1$
       runTest(testBean, DOUBLE_BEAN_NAME);
 
    }
@@ -463,7 +462,7 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testNegativeDouble() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setDouble("A");
+      testBean.setDouble("A"); //$NON-NLS-1$
 
       runTestNegative(testBean, DOUBLE_BEAN_NAME);
 
@@ -479,14 +478,14 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testDate() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setDate("2/22/1999");
+      testBean.setDate("2/22/1999"); //$NON-NLS-1$
       runTest(testBean, DATE_BEAN_NAME);
    }
 
    public void testNegativeDate() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setDate("A");
+      testBean.setDate("A"); //$NON-NLS-1$
 
       runTestNegative(testBean, DATE_BEAN_NAME);
 
@@ -502,14 +501,14 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testStrictDate() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setDate("02/22/1999");
+      testBean.setDate("02/22/1999"); //$NON-NLS-1$
       runTest(testBean, STRICT_DATE_BEAN_NAME);
    }
 
    public void testNegativeStrictDate() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setDate("A");
+      testBean.setDate("A"); //$NON-NLS-1$
 
       runTestNegative(testBean, STRICT_DATE_BEAN_NAME);
 
@@ -525,16 +524,16 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testIntRange() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setInteger("15");
+      testBean.setInteger("15"); //$NON-NLS-1$
       runTest(testBean, INT_RANGE_BEAN_NAME);
    }
 
    public void testNegativeIntRange() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setInteger("30");
+      testBean.setInteger("30"); //$NON-NLS-1$
 
-      runTestNegative(testBean, INT_RANGE_BEAN_NAME,"Is this 5 Frame2?20", "tag.question.with.two.parms");
+      runTestNegative(testBean, INT_RANGE_BEAN_NAME,"Is this 5 Frame2?20", "tag.question.with.two.parms"); //$NON-NLS-1$ //$NON-NLS-2$
 
    }
 
@@ -548,16 +547,16 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testFloatRange() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setFloat("2.37");
+      testBean.setFloat("2.37"); //$NON-NLS-1$
       runTest(testBean, FLOAT_RANGE_BEAN_NAME);
    }
 
    public void testNegativeFloatRange() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setFloat("155.00");
+      testBean.setFloat("155.00"); //$NON-NLS-1$
 
-      runTestNegative(testBean, FLOAT_RANGE_BEAN_NAME,"Is this -1.00 Frame2?37.88", "tag.question.with.two.parms");
+      runTestNegative(testBean, FLOAT_RANGE_BEAN_NAME,"Is this -1.00 Frame2?37.88", "tag.question.with.two.parms"); //$NON-NLS-1$ //$NON-NLS-2$
 
    }
 
@@ -571,16 +570,16 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testDoubleRange() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setDouble("2.37");
+      testBean.setDouble("2.37"); //$NON-NLS-1$
       runTest(testBean, DOUBLE_RANGE_BEAN_NAME);
    }
 
    public void testNegativeDoubleRange() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setDouble("155.00");
+      testBean.setDouble("155.00"); //$NON-NLS-1$
 
-      runTestNegative(testBean, DOUBLE_RANGE_BEAN_NAME,"Is this -1.00 Frame2?37.88", "tag.question.with.two.parms");
+      runTestNegative(testBean, DOUBLE_RANGE_BEAN_NAME,"Is this -1.00 Frame2?37.88", "tag.question.with.two.parms"); //$NON-NLS-1$ //$NON-NLS-2$
 
    }
 
@@ -594,14 +593,14 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testCreditCard() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();    
-      testBean.setCreditCard("4111111111111111");
+      testBean.setCreditCard("4111111111111111"); //$NON-NLS-1$
       runTest(testBean, CREDIT_CARD_BEAN_NAME);
    }
 
    public void testNegativeCreditCard() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setCreditCard("1234-1234-1234-12");
+      testBean.setCreditCard("1234-1234-1234-12"); //$NON-NLS-1$
 
       runTestNegative(testBean, CREDIT_CARD_BEAN_NAME);
 
@@ -618,16 +617,16 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testMinLength() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setMinLength("1234");
+      testBean.setMinLength("1234"); //$NON-NLS-1$
       runTest(testBean, MIN_LEN_BEAN_NAME);
    }
 
    public void testNegativeMinLength() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setMinLength("12");
+      testBean.setMinLength("12"); //$NON-NLS-1$
       
-      runTestNegative(testBean, MIN_LEN_BEAN_NAME, "Is this 3 Frame2?", "tag.question.with.parm");    
+      runTestNegative(testBean, MIN_LEN_BEAN_NAME, "Is this 3 Frame2?", "tag.question.with.parm");     //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public void testNullMinLength() {
@@ -640,16 +639,16 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    public void testMaxLength() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setMaxLength("123");
+      testBean.setMaxLength("123"); //$NON-NLS-1$
       runTest(testBean, MAX_LEN_BEAN_NAME);
    }
 
    public void testNegativeMaxLength() {
 
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setMaxLength("dudasdfdsfsadfdsfsdafsdf");
+      testBean.setMaxLength("dudasdfdsfsadfdsfsdafsdf"); //$NON-NLS-1$
 
-      runTestNegative(testBean, MAX_LEN_BEAN_NAME, "Is this 5 Frame2?", "tag.question.with.parm");
+      runTestNegative(testBean, MAX_LEN_BEAN_NAME, "Is this 5 Frame2?", "tag.question.with.parm"); //$NON-NLS-1$ //$NON-NLS-2$
 
    }
 
@@ -662,16 +661,16 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    
    public void testTwoFields() {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setTwoField1("value");
-      testBean.setTwoField2("value");
+      testBean.setTwoField1("value"); //$NON-NLS-1$
+      testBean.setTwoField2("value"); //$NON-NLS-1$
       runTest(testBean, TWO_FIELD_BEAN_NAME);
    }
    
    public void testNegativeTwoFields() {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setTwoField1("value");
-      testBean.setTwoField2("not_value");
-      runTestNegative(testBean, TWO_FIELD_BEAN_NAME, "Is this append Frame2?", "tag.question.with.parm");
+      testBean.setTwoField1("value"); //$NON-NLS-1$
+      testBean.setTwoField2("not_value"); //$NON-NLS-1$
+      runTestNegative(testBean, TWO_FIELD_BEAN_NAME, "Is this append Frame2?", "tag.question.with.parm"); //$NON-NLS-1$ //$NON-NLS-2$
    }
    
    public void testNullTwoFields() {
@@ -681,23 +680,23 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    
    public void testRequiredIfNull() {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setRequired("value");
+      testBean.setRequired("value"); //$NON-NLS-1$
       runTest(testBean, REQUIRED_IF_NULL_BEAN_NAME);
       
-      testBean.setTwoField1("something");
+      testBean.setTwoField1("something"); //$NON-NLS-1$
       testBean.setRequired(null);
       runTest(testBean, REQUIRED_IF_NULL_BEAN_NAME);
    }
    
    public void testNegativeRequiredIfNull() {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      runTestNegative(testBean, REQUIRED_IF_NULL_BEAN_NAME, "Is this Frame2?", "tag.question");
+      runTestNegative(testBean, REQUIRED_IF_NULL_BEAN_NAME, "Is this Frame2?", "tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
    }
    
    public void testRequiredIfNotNull() {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setTwoField1("Something");
-      testBean.setRequired("value");
+      testBean.setTwoField1("Something"); //$NON-NLS-1$
+      testBean.setRequired("value"); //$NON-NLS-1$
       runTest(testBean, REQUIRED_IF_NOT_NULL_BEAN_NAME);
       
       testBean.setTwoField1(null);
@@ -707,25 +706,25 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    
    public void testNegativeRequiredIfNotNull() {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setTwoField1("Something");
-      runTestNegative(testBean, REQUIRED_IF_NOT_NULL_BEAN_NAME, "Is this Frame2?", "tag.question");
+      testBean.setTwoField1("Something"); //$NON-NLS-1$
+      runTestNegative(testBean, REQUIRED_IF_NOT_NULL_BEAN_NAME, "Is this Frame2?", "tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
    }
    
    public void testRequiredIfEqual() {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setTwoField1("value");
-      testBean.setRequired("value");
+      testBean.setTwoField1("value"); //$NON-NLS-1$
+      testBean.setRequired("value"); //$NON-NLS-1$
       runTest(testBean, REQUIRED_IF_EQUAL_BEAN_NAME);
       
-      testBean.setTwoField1("not_equal_value");
+      testBean.setTwoField1("not_equal_value"); //$NON-NLS-1$
       testBean.setRequired(null);
       runTest(testBean, REQUIRED_IF_EQUAL_BEAN_NAME);
    }
    
    public void testNegativeRequiredIfEqual() {
       CommonsValidatorBean testBean = new CommonsValidatorBean();
-      testBean.setTwoField1("value");
-      runTestNegative(testBean, REQUIRED_IF_EQUAL_BEAN_NAME, "Is this Frame2?", "tag.question");
+      testBean.setTwoField1("value"); //$NON-NLS-1$
+      runTestNegative(testBean, REQUIRED_IF_EQUAL_BEAN_NAME, "Is this Frame2?", "tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,21 +59,21 @@ import org.megatome.frame2.util.ResourceLocator;
 
 public class TestError extends TestCase {
 
-    private static final String TAG_QUESTION_WITH_TWO_PARMS = "tag.question.with.two.parms";
-    private static final String TAG_QUESTION_WITH_PARM = "tag.question.with.parm";
-    private static final String TAG_APPEND = "tag.append";
-    private static final String TAG_QUESTION = "tag.question";
-    private static final String DIFFVALUE = "diffValue";
-    private static final String DIFFERENT_TAG = "different.tag";
-    private static final String VALUE3 = "value3";
-    private static final String VALUE2 = "value2";
-    private static final String VALUE1 = "value1";
-    private static final String TAG_PREPEND = "tag.prepend";
-    public static final String FRAME2_MSG = "Is this Frame2?";
-    public static final String PREPEND_MSG = "prepend";
-    public static final String APPEND_MSG = "append";
+    private static final String TAG_QUESTION_WITH_TWO_PARMS = "tag.question.with.two.parms"; //$NON-NLS-1$
+    private static final String TAG_QUESTION_WITH_PARM = "tag.question.with.parm"; //$NON-NLS-1$
+    private static final String TAG_APPEND = "tag.append"; //$NON-NLS-1$
+    private static final String TAG_QUESTION = "tag.question"; //$NON-NLS-1$
+    private static final String DIFFVALUE = "diffValue"; //$NON-NLS-1$
+    private static final String DIFFERENT_TAG = "different.tag"; //$NON-NLS-1$
+    private static final String VALUE3 = "value3"; //$NON-NLS-1$
+    private static final String VALUE2 = "value2"; //$NON-NLS-1$
+    private static final String VALUE1 = "value1"; //$NON-NLS-1$
+    private static final String TAG_PREPEND = "tag.prepend"; //$NON-NLS-1$
+    public static final String FRAME2_MSG = "Is this Frame2?"; //$NON-NLS-1$
+    public static final String PREPEND_MSG = "prepend"; //$NON-NLS-1$
+    public static final String APPEND_MSG = "append"; //$NON-NLS-1$
 
-    static final String MSG_WITH_PARAMS = "Is this append Frame2?";
+    static final String MSG_WITH_PARAMS = "Is this append Frame2?"; //$NON-NLS-1$
 
     /**
      * Constructor for TestError.
@@ -93,15 +93,17 @@ public class TestError extends TestCase {
     /**
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception {
-        ResourceLocator.setBasename("frame2-resource");
+    @Override
+	protected void setUp() throws Exception {
+        ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
         super.setUp();
     }
 
     /**
      * @see junit.framework.TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
+    @Override
+	protected void tearDown() throws Exception {
         super.tearDown();
     }
 

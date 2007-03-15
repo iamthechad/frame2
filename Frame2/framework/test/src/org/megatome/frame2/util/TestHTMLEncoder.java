@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,20 +59,20 @@ import org.megatome.frame2.util.HTMLEncoder;
  */
 public class TestHTMLEncoder extends TestCase {
    public static final String CONTAINS_HTML_CHARS =
-    "May the force <replaces angles > be 'tick ' and \" quote \" and & this!.";
+    "May the force <replaces angles > be 'tick ' and \" quote \" and & this!."; //$NON-NLS-1$
 
    public static final String CONTAINS_HTML_CHARS_OUTPUT =
-      "May the force " + HTMLEncoder.LTSTR + 
-      "replaces angles "+ HTMLEncoder.GTSTR + 
-      " be " + HTMLEncoder.TICKSTR +
-      "tick " + HTMLEncoder.TICKSTR + 
-      " and " + HTMLEncoder.QUOTESTR +
-      " quote " + HTMLEncoder.QUOTESTR + 
-      " and " + HTMLEncoder.AMPSTR +
-      " this!.";
+      "May the force " + HTMLEncoder.LTSTR +  //$NON-NLS-1$
+      "replaces angles "+ HTMLEncoder.GTSTR +  //$NON-NLS-1$
+      " be " + HTMLEncoder.TICKSTR + //$NON-NLS-1$
+      "tick " + HTMLEncoder.TICKSTR +  //$NON-NLS-1$
+      " and " + HTMLEncoder.QUOTESTR + //$NON-NLS-1$
+      " quote " + HTMLEncoder.QUOTESTR +  //$NON-NLS-1$
+      " and " + HTMLEncoder.AMPSTR + //$NON-NLS-1$
+      " this!."; //$NON-NLS-1$
 
    public static final String NO_HTML_CHARS = 
-      "There should be no substitutions here!.";
+      "There should be no substitutions here!."; //$NON-NLS-1$
       
    public void testHTMLEncoding(){
       String result = HTMLEncoder.encode(CONTAINS_HTML_CHARS);

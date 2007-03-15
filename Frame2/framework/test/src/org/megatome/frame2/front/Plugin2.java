@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,12 +58,16 @@ import org.megatome.frame2.plugin.PluginInterface;
 
 public class Plugin2 implements PluginInterface {
 
-   public void init(ServletContext context, Map initParams) {
+	public void init(@SuppressWarnings("unused")
+	ServletContext context, @SuppressWarnings("unused")
+	Map<String, String> initParams) {
+		// noop
+	}
 
-   }
-
-   public void destroy(ServletContext context, Map initParams) {
-
-   }
+	public void destroy(@SuppressWarnings("unused")
+	ServletContext context, @SuppressWarnings("unused")
+	Map<String, String> initParams) {
+		// noop
+	}
 
 }

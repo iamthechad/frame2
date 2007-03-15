@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getEmail() {
-      return email;
+      return this.email;
    }
 
    /**
@@ -90,7 +90,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getEmpty() {
-      return empty;
+      return this.empty;
    }
 
    /**
@@ -116,7 +116,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getRequired() {
-      return required;
+      return this.required;
    }
 
    /**
@@ -132,7 +132,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getPhone() {
-      return phone;
+      return this.phone;
    }
 
    /**
@@ -148,7 +148,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getByte() {
-      return byteCV;
+      return this.byteCV;
    }
 
    /**
@@ -156,7 +156,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getShort() {
-      return shortCV;
+      return this.shortCV;
    }
 
    /**
@@ -180,7 +180,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getDouble() {
-      return doubleCV;
+      return this.doubleCV;
    }
 
    /**
@@ -188,7 +188,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getFloat() {
-      return floatCV;
+      return this.floatCV;
    }
 
    /**
@@ -196,7 +196,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getInteger() {
-      return integer;
+      return this.integer;
    }
 
    /**
@@ -204,7 +204,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getLong() {
-      return longCV;
+      return this.longCV;
    }
 
    /**
@@ -244,7 +244,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getDate() {
-      return date;
+      return this.date;
    }
 
    /**
@@ -260,7 +260,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getCreditCard() {
-      return creditCard;
+      return this.creditCard;
    }
 
    /**
@@ -268,7 +268,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getMaxLength() {
-      return maxLength;
+      return this.maxLength;
    }
 
    /**
@@ -276,7 +276,7 @@ public class CommonsValidatorBean {
     * @return String
     */
    public String getMinLength() {
-      return minLength;
+      return this.minLength;
    }
 
    /**
@@ -307,14 +307,14 @@ public class CommonsValidatorBean {
     * @return
     */
    public String getTwoField1() {
-      return twoField1;
+      return this.twoField1;
    }
 
    /**
     * @return
     */
    public String getTwoField2() {
-      return twoField2;
+      return this.twoField2;
    }
 
    /**

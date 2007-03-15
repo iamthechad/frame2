@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ public class ChainHandler implements EventHandler {
 	}
 
 	public String handle(Event event,Context context) {
-      context.setRequestAttribute("eventChainName",event.getName());
+      context.setRequestAttribute("eventChainName",event.getName()); //$NON-NLS-1$
       return null;
 	}
 }

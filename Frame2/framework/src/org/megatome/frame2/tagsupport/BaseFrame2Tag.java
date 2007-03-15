@@ -62,210 +62,217 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 import org.megatome.frame2.tagsupport.util.EvalHelper;
 
 /**
- * This is the base class used for all tags in the Frame2 framework. It provides support
- * for EL attributes, as well as storing tag attributes.
+ * This is the base class used for all tags in the Frame2 framework. It provides
+ * support for EL attributes, as well as storing tag attributes.
  */
-public abstract class BaseFrame2Tag
-   extends BodyTagSupport
-   implements TryCatchFinally {
-   /** Attributes of this tag */
-   protected Map<String, String> attrs = new TreeMap<String, String>();
-   /** This tag's name */
-   protected String tagName;
-   /** Indicate if this tag has a body */
-   protected boolean tagHasBody;
+public abstract class BaseFrame2Tag extends BodyTagSupport implements
+		TryCatchFinally {
+	/** Attributes of this tag */
+	protected Map<String, String> attrs = new TreeMap<String, String>();
 
-   /**
-    * Constructor
-    */
-   public BaseFrame2Tag() {
-      setTagName();
-   }
+	/** This tag's name */
+	protected String tagName;
 
-   /**
-    * Returns the tagName.
-    * @return String
-    */
-   public String getTagName() {
-      return this.tagName;
-   }
+	/** Indicate if this tag has a body */
+	protected boolean tagHasBody;
 
-   /**
-    * Set the tagName.
-    */
-   protected abstract void setTagName();
+	/**
+	 * Constructor
+	 */
+	public BaseFrame2Tag() {
+		setTagName();
+	}
 
-   /**
-   * Set an attribute for this tag
-   * @param key The key of the attribute
-   * @param value The value of the attribute
-   */
-   protected void setAttr(String key, String value) {
-      this.attrs.put(key, value);
-   }
-   /**
-    * Remove an attribute from this tag
-    * @param key Attribute to remove
-    */
-   protected void removeAttr(String key) {
-      this.attrs.remove(key);
-   }
-   /**
-    * Get the attribute associated with a key.
-    * @param key The key
-    * @return Attribute value associated with the key,
-    * nor null if none found.
-    */
-   protected String getAttr(String key) {
-      return this.attrs.get(key);
-   }
+	/**
+	 * Returns the tagName.
+	 * 
+	 * @return String
+	 */
+	public String getTagName() {
+		return this.tagName;
+	}
 
-   /**
-    * Resets attribute values for tag reuse.
-    */
-   @Override
-public void release() {
-      super.release();
-      this.attrs.clear();
-   }
-   /**
-    * Release not called until garbage collect.
-    * @see javax.servlet.jsp.tagext.TryCatchFinally#doFinally()
-    */
-   public void doFinally() {
-      // free resources,
-      this.attrs.clear();
-      initializeAttributes();
-   }
-   
-   /**
-    * Override to reset any attributes
-    */
-   protected void initializeAttributes() {
-      // override to reset any attrs.   
-   }
-   /**
-    * Catch any exceptions thrown.
-    * @param t The exception to catch
-    * @see javax.servlet.jsp.tagext.TryCatchFinally#doCatch(Throwable)
-    */
-   public void doCatch(Throwable t) throws Throwable {
-      throw t;
-   }
-   
-   /**
-    * Clear any resources held by this tag
-    */
-   protected void clear() {
-	   // not implemented
-   }
+	/**
+	 * Set the tagName.
+	 */
+	protected abstract void setTagName();
 
-   /**
-    * Evaluates and returns a String given the input attribute name and attribute
-    * value. 
-    *
-    * @param attrName attribute name being evaluated
-    * @param attrValue String value of attribute to be evaluated using EL     * 
-    * @exception Exception if either the <code>attrValue</code>
-    * was null, or the resulting evaluated value was null.
-    * @return Resulting attribute value
-    */
-   protected String evalStringAttr(String attrName, String attrValue)
-      throws Exception {
-      return (String)
-         (EvalHelper
-            .eval(
-               getTagName(),
-               attrName,
-               attrValue,
-               String.class,
-               this,
-               this.pageContext));
-   }
+	/**
+	 * Set an attribute for this tag
+	 * 
+	 * @param key
+	 *            The key of the attribute
+	 * @param value
+	 *            The value of the attribute
+	 */
+	protected void setAttr(String key, String value) {
+		this.attrs.put(key, value);
+	}
 
-   /**
-    * Evaluates and returns a HashMap given the input attribute name and
-    * attribute value.
-    * @param attrName Attribute name being evaluated
-    * @param attrValue String value of attribute to be evaluated using EL
-    * @return Resulting HashMap
-    * @throws Exception If either the <code>attrValue</code> is null, or the
-    * resulting evaluated value is null.
-    */
-   protected HashMap<?, ?> evalHashMapAttr(String attrName, String attrValue)
-      throws Exception {
-      return (HashMap)
-         (EvalHelper
-            .eval(
-               getTagName(),
-               attrName,
-               attrValue,
-               HashMap.class,
-               this,
-               this.pageContext));
-   }
+	/**
+	 * Remove an attribute from this tag
+	 * 
+	 * @param key
+	 *            Attribute to remove
+	 */
+	protected void removeAttr(String key) {
+		this.attrs.remove(key);
+	}
 
-   /**
-    * Evaluates and returns a Collection given the input attribute name and
-    * attribute value.
-    * @param attrName Attribute name being evaluated
-    * @param attrValue String value of attribute to be evaluated using EL
-    * @return Resulting Collection
-    * @throws Exception If either the <code>attrValue</code> is null, or the
-    * resulting evaluated value is null.
-    */
-   protected Collection<?> evalCollectionAttr(String attrName, String attrValue)
-      throws Exception {
-      return (Collection)
-         (EvalHelper
-            .eval(
-               getTagName(),
-               attrName,
-               attrValue,
-               Collection.class,
-               this,
-               this.pageContext));
-   }
+	/**
+	 * Get the attribute associated with a key.
+	 * 
+	 * @param key
+	 *            The key
+	 * @return Attribute value associated with the key, nor null if none found.
+	 */
+	protected String getAttr(String key) {
+		return this.attrs.get(key);
+	}
 
-   /**
-    * Evaluates and returns an array given the input attribute name and
-    * attribute value.
-    * @param attrName Attribute name being evaluated
-    * @param attrValue String value of attribute to be evaluated using EL
-    * @return Resulting array
-    * @throws Exception If either the <code>attrValue</code> is null, or the
-    * resulting evaluated value is null.
-    */
-   protected Object[] evalArrayAttr(String attrName, String attrValue)
-      throws Exception {
-      return (Object[])
-         (EvalHelper
-            .eval(
-               getTagName(),
-               attrName,
-               attrValue,
-               Object[].class,
-               this,
-               this.pageContext));
-   }
+	/**
+	 * Resets attribute values for tag reuse.
+	 */
+	@Override
+	public void release() {
+		super.release();
+		this.attrs.clear();
+	}
 
-   /**
-    * Evaluates and returns a String given the input attribute name.
-    * @param attrName Attribute name being evaluated
-    * @return Resulting value
-    * @throws JspException If either the value associated with the 
-    * <code>attrName</code> is null, or the resulting evaluated value is null.
-    */
-   protected String evaluateStringAttribute(String attrName) throws JspException {
-      String attrValue = null;
-      try {
-         attrValue = evalStringAttr(attrName, getAttr(attrName));
-      } catch (Exception e) {
-         throw new JspException(
-            " Evaluation attribute failed " + e.getMessage(), //$NON-NLS-1$
-            e);
-      }
+	/**
+	 * Release not called until garbage collect.
+	 * 
+	 * @see javax.servlet.jsp.tagext.TryCatchFinally#doFinally()
+	 */
+	public void doFinally() {
+		// free resources,
+		this.attrs.clear();
+		initializeAttributes();
+	}
 
-      return attrValue;
-   }
+	/**
+	 * Override to reset any attributes
+	 */
+	protected void initializeAttributes() {
+		// override to reset any attrs.
+	}
+
+	/**
+	 * Catch any exceptions thrown.
+	 * 
+	 * @param t
+	 *            The exception to catch
+	 * @see javax.servlet.jsp.tagext.TryCatchFinally#doCatch(Throwable)
+	 */
+	public void doCatch(Throwable t) throws Throwable {
+		throw t;
+	}
+
+	/**
+	 * Clear any resources held by this tag
+	 */
+	protected void clear() {
+		// not implemented
+	}
+
+	/**
+	 * Evaluates and returns a String given the input attribute name and
+	 * attribute value.
+	 * 
+	 * @param attrName
+	 *            attribute name being evaluated
+	 * @param attrValue
+	 *            String value of attribute to be evaluated using EL *
+	 * @exception Exception
+	 *                if either the <code>attrValue</code> was null, or the
+	 *                resulting evaluated value was null.
+	 * @return Resulting attribute value
+	 */
+	protected String evalStringAttr(String attrName, String attrValue)
+			throws Exception {
+		return (String) (EvalHelper.eval(getTagName(), attrName, attrValue,
+				String.class, this, this.pageContext));
+	}
+
+	/**
+	 * Evaluates and returns a HashMap given the input attribute name and
+	 * attribute value.
+	 * 
+	 * @param attrName
+	 *            Attribute name being evaluated
+	 * @param attrValue
+	 *            String value of attribute to be evaluated using EL
+	 * @return Resulting HashMap
+	 * @throws Exception
+	 *             If either the <code>attrValue</code> is null, or the
+	 *             resulting evaluated value is null.
+	 */
+	@SuppressWarnings("unchecked")
+	protected HashMap<Object, Object> evalHashMapAttr(String attrName,
+			String attrValue) throws Exception {
+		return (HashMap<Object, Object>) (EvalHelper.eval(getTagName(),
+				attrName, attrValue, HashMap.class, this, this.pageContext));
+	}
+
+	/**
+	 * Evaluates and returns a Collection given the input attribute name and
+	 * attribute value.
+	 * 
+	 * @param attrName
+	 *            Attribute name being evaluated
+	 * @param attrValue
+	 *            String value of attribute to be evaluated using EL
+	 * @return Resulting Collection
+	 * @throws Exception
+	 *             If either the <code>attrValue</code> is null, or the
+	 *             resulting evaluated value is null.
+	 */
+	protected Collection<?> evalCollectionAttr(String attrName, String attrValue)
+			throws Exception {
+		return (Collection) (EvalHelper.eval(getTagName(), attrName, attrValue,
+				Collection.class, this, this.pageContext));
+	}
+
+	/**
+	 * Evaluates and returns an array given the input attribute name and
+	 * attribute value.
+	 * 
+	 * @param attrName
+	 *            Attribute name being evaluated
+	 * @param attrValue
+	 *            String value of attribute to be evaluated using EL
+	 * @return Resulting array
+	 * @throws Exception
+	 *             If either the <code>attrValue</code> is null, or the
+	 *             resulting evaluated value is null.
+	 */
+	protected Object[] evalArrayAttr(String attrName, String attrValue)
+			throws Exception {
+		return (Object[]) (EvalHelper.eval(getTagName(), attrName, attrValue,
+				Object[].class, this, this.pageContext));
+	}
+
+	/**
+	 * Evaluates and returns a String given the input attribute name.
+	 * 
+	 * @param attrName
+	 *            Attribute name being evaluated
+	 * @return Resulting value
+	 * @throws JspException
+	 *             If either the value associated with the <code>attrName</code>
+	 *             is null, or the resulting evaluated value is null.
+	 */
+	protected String evaluateStringAttribute(String attrName)
+			throws JspException {
+		String attrValue = null;
+		try {
+			attrValue = evalStringAttr(attrName, getAttr(attrName));
+		} catch (Exception e) {
+			throw new JspException(
+					" Evaluation attribute failed " + e.getMessage(), //$NON-NLS-1$
+					e);
+		}
+
+		return attrValue;
+	}
 }

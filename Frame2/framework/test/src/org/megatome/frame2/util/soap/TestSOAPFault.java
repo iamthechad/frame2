@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,133 +62,141 @@ import org.w3c.dom.NodeList;
  */
 public class TestSOAPFault extends TestCase {
 
-//       <SOAP-ENV:Fault>
-//           <faultcode>SOAP-ENV:Server</faultcode>
-//           <faultstring>Server Error</faultstring>
-//           <detail>
-//               <e:myfaultdetails xmlns:e="Some-URI">
-//                 <message>
-//                   My application didn't work
-//                 </message>
-//                 <errorcode>
-//                   1001
-//                 </errorcode>
-//               </e:myfaultdetails>
-//           </detail>
-//       </SOAP-ENV:Fault>
+	// <SOAP-ENV:Fault>
+	// <faultcode>SOAP-ENV:Server</faultcode>
+	// <faultstring>Server Error</faultstring>
+	// <detail>
+	// <e:myfaultdetails xmlns:e="Some-URI">
+	// <message>
+	// My application didn't work
+	// </message>
+	// <errorcode>
+	// 1001
+	// </errorcode>
+	// </e:myfaultdetails>
+	// </detail>
+	// </SOAP-ENV:Fault>
 
-   //private DocumentBuilderFactory factory;
-   //private DocumentBuilder builder;
+	// private DocumentBuilderFactory factory;
+	// private DocumentBuilder builder;
 
-   protected void setUp() throws Exception {
-      //factory = DocumentBuilderFactory.newInstance();
-      //builder = factory.newDocumentBuilder();
-   }
+	private static final String ERROR_DETAIL_MESSAGE = "Some extra error info, yo"; //$NON-NLS-1$
 
-   public void testCreateFault() throws Exception {
-      SOAPFault fault = new SOAPFault();
-      
-      Element faultElement = fault.getElement();
-      
+	private final static String DETAIL_START = "<detail>"; //$NON-NLS-1$
+
+	private final static String DETAIL_END = "</detail>"; //$NON-NLS-1$
+
+	private final static String ENC_START = "&lt;br&gt;"; //$NON-NLS-1$
+
+	private final static String ENC_END = "&lt;/br&gt;"; //$NON-NLS-1$
+
+	private final static String ENCODED_ERROR_MESSAGE = DETAIL_START
+			+ ENC_START + ERROR_DETAIL_MESSAGE + ENC_END + DETAIL_END;
+
+	@Override
+	protected void setUp() throws Exception {
+		// factory = DocumentBuilderFactory.newInstance();
+		// builder = factory.newDocumentBuilder();
+	}
+
+	public void testCreateFault() throws Exception {
+		SOAPFault fault = new SOAPFault();
+
+		Element faultElement = fault.getElement();
+
 		assertFaultBody(faultElement);
 
-      Node detail = faultElement.getChildNodes().item(2);
-      assertNotNull(detail);
-      assertEquals("detail",detail.getNodeName());
-      assertEquals("detail",detail.getLocalName());
-      assertNull(detail.getFirstChild());      
-   }
+		Node detail = faultElement.getChildNodes().item(2);
+		assertNotNull(detail);
+		assertEquals("detail", detail.getNodeName()); //$NON-NLS-1$
+		assertEquals("detail", detail.getLocalName()); //$NON-NLS-1$
+		assertNull(detail.getFirstChild());
+	}
 
+	public void testCreateFault_StringDetail() throws Exception {
+		SOAPFault fault = new SOAPFault();
 
-   public void testCreateFault_StringDetail() throws Exception {
-      final String MESSAGE = "I'm going to eat my cheese, Ladies.";
+		fault.setDetailMessage(ERROR_DETAIL_MESSAGE);
 
-      SOAPFault fault = new SOAPFault();
+		Element faultElement = fault.getElement();
 
-      fault.setDetailMessage(MESSAGE);
+		assertFaultBody(faultElement);
 
-      Element faultElement = fault.getElement();
+		Node detail = faultElement.getChildNodes().item(2);
+		assertNotNull(detail.getFirstChild());
+		assertEquals(ERROR_DETAIL_MESSAGE, detail.getFirstChild()
+				.getNodeValue());
+	}
 
-      assertFaultBody(faultElement);
-      
-      Node detail = faultElement.getChildNodes().item(2);
-      assertNotNull(detail.getFirstChild());
-      assertEquals(MESSAGE,detail.getFirstChild().getNodeValue());
-   }
+	public void testCreateFault_StringAsXmlDetail() throws Exception {
+		SOAPFault fault = new SOAPFault();
 
-   public void testCreateFault_StringAsXmlDetail() throws Exception {
-      final String MESSAGE = "I'm going to eat my cheese, Ladies.";
+		fault.setDetailMessage("<br>" + ERROR_DETAIL_MESSAGE + "</br>"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      SOAPFault fault = new SOAPFault();
+		Element faultElement = fault.getElement();
 
-      fault.setDetailMessage("<br>" + MESSAGE + "</br>");
+		DOMStreamConverter.toOutputStream(faultElement).toString();
 
-      Element faultElement = fault.getElement();
+		assertFaultBody(faultElement);
 
-      DOMStreamConverter.toOutputStream(faultElement).toString();
-
-      assertFaultBody(faultElement);
-      
-      Node detail = faultElement.getChildNodes().item(2);
-      Node br = detail.getFirstChild();
+		Node detail = faultElement.getChildNodes().item(2);
+		Node br = detail.getFirstChild();
 
 		assertNotNull(br);
 
-      assertEquals("br",br.getNodeName());
-      assertNull(br.getNodeValue());
+		assertEquals("br", br.getNodeName()); //$NON-NLS-1$
+		assertNull(br.getNodeValue());
 
-      assertEquals(MESSAGE,br.getFirstChild().getNodeValue());
-   }
+		assertEquals(ERROR_DETAIL_MESSAGE, br.getFirstChild().getNodeValue());
+	}
 
-   // NIT: Is this really correct?  May need to actually encapsulate as unparsed
-   // character data.
+	// NIT: Is this really correct? May need to actually encapsulate as unparsed
+	// character data.
 
-   public void testCreateFault_StringAsEncodedDetail() throws Exception {
-      final String MESSAGE = "I'm going to eat my cheese, Ladies.";
+	public void testCreateFault_StringAsEncodedDetail() throws Exception {
+		SOAPFault fault = new SOAPFault();
 
-      SOAPFault fault = new SOAPFault();
+		fault.setDetailMessage("<br>" + ERROR_DETAIL_MESSAGE + "</br>", true); //$NON-NLS-1$ //$NON-NLS-2$
 
-      fault.setDetailMessage("<br>" + MESSAGE + "</br>",true);
+		Element faultElement = fault.getElement();
 
-      Element faultElement = fault.getElement();
+		String val = DOMStreamConverter.toOutputStream(faultElement).toString();
 
-      String val = DOMStreamConverter.toOutputStream(faultElement).toString();
+		assertFaultBody(faultElement);
 
-      assertFaultBody(faultElement);
+		int idx = val.indexOf(ENCODED_ERROR_MESSAGE);
+		assertTrue(idx != -1);
+	}
 
-      // This is sort of sleezy, but between os platforms the index will change slightly
+	private void assertFaultBody(Element faultElement) {
+		assertNotNull(faultElement);
 
-      assertTrue(198 < val.indexOf("&lt;br&gt;I'm going to eat my cheese, Ladies.&lt;/br&gt;"));
-      assertTrue(201 > val.indexOf("&lt;br&gt;I'm going to eat my cheese, Ladies.&lt;/br&gt;"));
-   }
+		assertEquals("Fault", faultElement.getLocalName()); //$NON-NLS-1$
+		assertEquals("SOAP-ENV:Fault", faultElement.getNodeName()); //$NON-NLS-1$
+		assertEquals("http://schemas.xmlsoap.org/soap/envelope/", faultElement //$NON-NLS-1$
+				.getNamespaceURI());
+		assertEquals("SOAP-ENV", faultElement.getPrefix()); //$NON-NLS-1$
 
-   private void assertFaultBody(Element faultElement) {
-      assertNotNull(faultElement);
-      
-      assertEquals("Fault",faultElement.getLocalName());
-      assertEquals("SOAP-ENV:Fault",faultElement.getNodeName());
-      assertEquals("http://schemas.xmlsoap.org/soap/envelope/",faultElement.getNamespaceURI());
-      assertEquals("SOAP-ENV",faultElement.getPrefix());
-      
-      NodeList faultChildren = faultElement.getChildNodes();
-      
-      assertEquals(3,faultChildren.getLength());
-      
-      Node faultCode = faultChildren.item(0);
-      assertNotNull(faultCode);
-      assertEquals("faultcode",faultCode.getNodeName());
-      assertEquals("faultcode",faultCode.getLocalName());
-      assertEquals("SOAP-ENV:Server",faultCode.getFirstChild().getNodeValue());
-      
-      Node faultString = faultChildren.item(1);
-      assertNotNull(faultString);
-      assertEquals("faultstring",faultString.getNodeName());
-      assertEquals("faultstring",faultString.getLocalName());
-      assertEquals("Server Error",faultString.getFirstChild().getNodeValue());      
+		NodeList faultChildren = faultElement.getChildNodes();
 
-      Node detail = faultChildren.item(2);
-      assertNotNull(detail);
-      assertEquals("detail",detail.getNodeName());
-      assertEquals("detail",detail.getLocalName());
-   }
+		assertEquals(3, faultChildren.getLength());
+
+		Node faultCode = faultChildren.item(0);
+		assertNotNull(faultCode);
+		assertEquals("faultcode", faultCode.getNodeName()); //$NON-NLS-1$
+		assertEquals("faultcode", faultCode.getLocalName()); //$NON-NLS-1$
+		assertEquals("SOAP-ENV:Server", faultCode.getFirstChild() //$NON-NLS-1$
+				.getNodeValue());
+
+		Node faultString = faultChildren.item(1);
+		assertNotNull(faultString);
+		assertEquals("faultstring", faultString.getNodeName()); //$NON-NLS-1$
+		assertEquals("faultstring", faultString.getLocalName()); //$NON-NLS-1$
+		assertEquals("Server Error", faultString.getFirstChild().getNodeValue()); //$NON-NLS-1$
+
+		Node detail = faultChildren.item(2);
+		assertNotNull(detail);
+		assertEquals("detail", detail.getNodeName()); //$NON-NLS-1$
+		assertEquals("detail", detail.getLocalName()); //$NON-NLS-1$
+	}
 }

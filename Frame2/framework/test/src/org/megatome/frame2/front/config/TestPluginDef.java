@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,51 +58,56 @@ import junit.framework.TestCase;
 import org.megatome.frame2.front.config.PluginDef;
 
 public class TestPluginDef extends TestCase {
-   
-   private PluginDef pluginDef;
-   
-   public TestPluginDef() {
-      super();
-   }
 
-   public TestPluginDef(String name) {
-      super(name);
-   }
+	private static final String VALUE = "value1"; //$NON-NLS-1$
+	private static final String PARAM = "param1"; //$NON-NLS-1$
+	private static final String PLUGIN_TYPE = "org.megatome.something"; //$NON-NLS-1$
+	private static final String PLUGIN_NAME = "pluginName"; //$NON-NLS-1$
 
-   /**
-    * @see junit.framework.TestCase#setUp()
-    */
-   protected void setUp() throws Exception {
-      super.setUp();
-      pluginDef = new PluginDef();
-   }
+	private PluginDef pluginDef;
 
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   protected void tearDown() throws Exception {
-      super.tearDown();
-   }
-   
-   public void testPluginDef()
-   {
-      pluginDef.setName("pluginName");
-      pluginDef.setType("org.megatome.something");
-      
-      assertEquals("pluginName", pluginDef.getName());
-      assertEquals("org.megatome.something", pluginDef.getType());
-   }
-   
-   public void testPluginDefParams()
-   {
-      HashMap fakeParams = new HashMap();
-      fakeParams.put("param1", "value1");
-      
-      pluginDef.setInitParams(fakeParams);
-      
-      testPluginDef();
-      Map returnedParams = pluginDef.getInitParams();
-      assertTrue(returnedParams.containsKey("param1"));
-   }
+	public TestPluginDef() {
+		super();
+	}
+
+	public TestPluginDef(String name) {
+		super(name);
+	}
+
+	/**
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		this.pluginDef = new PluginDef();
+	}
+
+	/**
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
+
+	public void testPluginDef() {
+		this.pluginDef.setName(PLUGIN_NAME);
+		this.pluginDef.setType(PLUGIN_TYPE);
+
+		assertEquals(PLUGIN_NAME, this.pluginDef.getName());
+		assertEquals(PLUGIN_TYPE, this.pluginDef.getType());
+	}
+
+	public void testPluginDefParams() {
+		Map<String, String> fakeParams = new HashMap<String, String>();
+		fakeParams.put(PARAM, VALUE);
+
+		this.pluginDef.setInitParams(fakeParams);
+
+		testPluginDef();
+		Map<String, String> returnedParams = this.pluginDef.getInitParams();
+		assertTrue(returnedParams.containsKey(PARAM));
+	}
 
 }

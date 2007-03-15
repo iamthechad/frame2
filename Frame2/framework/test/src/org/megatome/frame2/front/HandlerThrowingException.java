@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,11 +66,12 @@ public class HandlerThrowingException implements EventHandler {
 		super();
 	}
 
-	public String handle(Event event,Context context) throws Exception {
-      if(context.getRequestAttribute("exception").equals("throwAnException")) {
-         throw new HandlerExceptionTest("This is a Test");
+	public String handle(@SuppressWarnings("unused")
+	Event event,Context context) throws Exception {
+      if(context.getRequestAttribute("exception").equals("throwAnException")) { //$NON-NLS-1$ //$NON-NLS-2$
+         throw new HandlerExceptionTest("This is a Test"); //$NON-NLS-1$
       }
-		return "ev12forward";
+		return "ev12forward"; //$NON-NLS-1$
 	}
 
 }

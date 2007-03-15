@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,42 +70,42 @@ public class EventFileUpload extends CommonsValidatorEvent {
     * @return
     */
    public FileItem getFileparm() {
-      return fileparm;
+      return this.fileparm;
    }
 
    /**
     * @return
     */
    public String getParm1() {
-      return parm1;
+      return this.parm1;
    }
 
    /**
     * @param item
     */
    public void setFileparm(FileItem item) {
-      fileparm = item;
+      this.fileparm = item;
    }
 
    /**
     * @param string
     */
    public void setParm1(String string) {
-      parm1 = string;
+      this.parm1 = string;
    }
 
    /**
     * @return
     */
    public FileItem getFileparm2() {
-      return fileparm2;
+      return this.fileparm2;
    }
 
    /**
     * @param item
     */
    public void setFileparm2(FileItem item) {
-      fileparm2 = item;
+      this.fileparm2 = item;
    }
 
 }

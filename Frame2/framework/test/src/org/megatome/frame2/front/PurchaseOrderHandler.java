@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import org.megatome.frame2.jaxbgen.PurchaseOrder;
  */
 public class PurchaseOrderHandler implements EventHandler {
 
-   public static final String NEW_COMMENT = "I've been handled!";
+   public static final String NEW_COMMENT = "I've been handled!"; //$NON-NLS-1$
 
 	/**
 	 * Constructor for PurchaseOrderHandler.
@@ -74,8 +74,8 @@ public class PurchaseOrderHandler implements EventHandler {
 
       po.setComment(NEW_COMMENT);
 
-      context.setRequestAttribute("key1",po);
-		return "orderResult";
+      context.setRequestAttribute("key1",po); //$NON-NLS-1$
+		return "orderResult"; //$NON-NLS-1$
 	}
 
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,7 @@
 package org.megatome.frame2.template.config;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -75,80 +76,82 @@ public class TestTemplateConfiguration extends TestCase {
    /**
     * @see junit.framework.TestCase#setUp()
     */
+   @Override
    protected void setUp() throws Exception {
       super.setUp();
-      config = new TemplateConfiguration();
+      this.config = new TemplateConfiguration();
    }
 
    /**
     * @see junit.framework.TestCase#tearDown()
     */
+   @Override
    protected void tearDown() throws Exception {
       super.tearDown();
    }
    
    public void testSingleDefNoPut(){
       TemplateDef def1 = new TemplateDef();
-      def1.setName("def1");
-      def1.setPath("path1");
-      HashMap map = new HashMap();
-      map.put("def1",def1);
-      config.setDefinitions(map);
+      def1.setName("def1"); //$NON-NLS-1$
+      def1.setPath("path1"); //$NON-NLS-1$
+      Map<String, TemplateDef> map = new HashMap<String, TemplateDef>();
+      map.put("def1",def1); //$NON-NLS-1$
+      this.config.setDefinitions(map);
       
-      assertNotNull(config.getDefinition("def1"));
-      TemplateDef retDef = config.getDefinition("def1");
-      assertTrue(retDef.getName().equals("def1"));
-      assertTrue(retDef.getPath().equals("path1"));
+      assertNotNull(this.config.getDefinition("def1")); //$NON-NLS-1$
+      TemplateDef retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
+      assertTrue(retDef.getName().equals("def1")); //$NON-NLS-1$
+      assertTrue(retDef.getPath().equals("path1")); //$NON-NLS-1$
       assertTrue(retDef.getPutParams().isEmpty());
    }
    
    public void testSingleDefWithPut(){
       TemplateDef def1 = new TemplateDef();
-      def1.setName("def1");
-      def1.setPath("path1");
-      HashMap puts = new HashMap();
-      puts.put("put1","val1");
+      def1.setName("def1"); //$NON-NLS-1$
+      def1.setPath("path1"); //$NON-NLS-1$
+      Map<String, String> puts = new HashMap<String, String>();
+      puts.put("put1","val1"); //$NON-NLS-1$ //$NON-NLS-2$
       def1.setPutParams(puts);
-      HashMap map = new HashMap();
-      map.put("def1",def1);
-      config.setDefinitions(map);
+      Map<String, TemplateDef> map = new HashMap<String, TemplateDef>();
+      map.put("def1",def1); //$NON-NLS-1$
+      this.config.setDefinitions(map);
       
-      assertNotNull(config.getDefinition("def1"));
-      TemplateDef retDef = config.getDefinition("def1");
-      assertTrue(retDef.getName().equals("def1"));
-      assertTrue(retDef.getPath().equals("path1"));
+      assertNotNull(this.config.getDefinition("def1")); //$NON-NLS-1$
+      TemplateDef retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
+      assertTrue(retDef.getName().equals("def1")); //$NON-NLS-1$
+      assertTrue(retDef.getPath().equals("path1")); //$NON-NLS-1$
       assertTrue(retDef.getPutParams().size() == 1);
    }
    
    public void testMultDef(){
-      HashMap map = new HashMap();
+      Map<String, TemplateDef> map = new HashMap<String, TemplateDef>();
       TemplateDef def1 = new TemplateDef();
-      def1.setName("def1");
-      def1.setPath("path1");
+      def1.setName("def1"); //$NON-NLS-1$
+      def1.setPath("path1"); //$NON-NLS-1$
         
       TemplateDef def2 = new TemplateDef();
-      def2.setName("def2");
-      def2.setPath("path2");
+      def2.setName("def2"); //$NON-NLS-1$
+      def2.setPath("path2"); //$NON-NLS-1$
          
-      map.put("def1",def1);
-      map.put("def2",def2);
-      config.setDefinitions(map);      
+      map.put("def1",def1); //$NON-NLS-1$
+      map.put("def2",def2); //$NON-NLS-1$
+      this.config.setDefinitions(map);      
       
-      assertNotNull(config.getDefinition("def1"));
-      TemplateDef retDef = config.getDefinition("def1");
-      assertTrue(retDef.getName().equals("def1"));
-      assertTrue(retDef.getPath().equals("path1"));
+      assertNotNull(this.config.getDefinition("def1")); //$NON-NLS-1$
+      TemplateDef retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
+      assertTrue(retDef.getName().equals("def1")); //$NON-NLS-1$
+      assertTrue(retDef.getPath().equals("path1")); //$NON-NLS-1$
       assertTrue(retDef.getPutParams().isEmpty());
       
-      assertNotNull(config.getDefinition("def2"));
-      TemplateDef retDef2 = config.getDefinition("def2");
-      assertTrue(retDef2.getName().equals("def2"));
-      assertTrue(retDef2.getPath().equals("path2"));
+      assertNotNull(this.config.getDefinition("def2")); //$NON-NLS-1$
+      TemplateDef retDef2 = this.config.getDefinition("def2"); //$NON-NLS-1$
+      assertTrue(retDef2.getName().equals("def2")); //$NON-NLS-1$
+      assertTrue(retDef2.getPath().equals("path2")); //$NON-NLS-1$
       assertTrue(retDef2.getPutParams().isEmpty());
    }
    
    public void testNullOnUndefinedDef(){
-      assertNull(config.getDefinition("def1"));
+      assertNull(this.config.getDefinition("def1")); //$NON-NLS-1$
    }
 
 }

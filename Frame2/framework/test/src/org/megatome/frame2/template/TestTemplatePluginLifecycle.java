@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,57 +79,59 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
     /**
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         super.setUp();
-        context = (MockFrame2ServletContextSimulator)getContext();
-        plugin = new TemplatePlugin();
+        this.context = (MockFrame2ServletContextSimulator)getContext();
+        this.plugin = new TemplatePlugin();
     }
 
     /**
      * @see junit.framework.TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
+    @Override
+	protected void tearDown() throws Exception {
         super.tearDown();
     }
 
     public void testTemplatePluginSingleLoadDefaultDir() {
         TemplateConfiguration config = testTemplatePlugin(null);
 
-        TemplateDef def = config.getDefinition("foo");
+        TemplateDef def = config.getDefinition("foo"); //$NON-NLS-1$
         assertNotNull(def);
-        assertTrue(def.getPath().equals("xxx.jsp"));
+        assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
         assertTrue(def.getPutParams().isEmpty());
 
-        def = config.getDefinition("bar");
+        def = config.getDefinition("bar"); //$NON-NLS-1$
         assertNotNull(def);
-        assertTrue(def.getPath().equals("xxx.jsp"));
-        Map params = def.getPutParams();
+        assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
+        Map<String, String> params = def.getPutParams();
         assertTrue(params.size() == 1);
-        assertNotNull(params.get("bar-put"));
-        assertTrue(((String)params.get("bar-put")).equals("yyy.jsp"));
+        assertNotNull(params.get("bar-put")); //$NON-NLS-1$
+        assertTrue(params.get("bar-put").equals("yyy.jsp")); //$NON-NLS-1$ //$NON-NLS-2$
 
-        def = config.getDefinition("baz");
+        def = config.getDefinition("baz"); //$NON-NLS-1$
         assertNotNull(def);
-        assertTrue(def.getPath().equals("xxx.jsp"));
+        assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
         assertTrue(def.getPutParams().isEmpty());
     }
 
     public void testTemplatePluginSingleLoad() {
-        TemplateConfiguration config = testTemplatePlugin("/templates/good/single/");
+        TemplateConfiguration config = testTemplatePlugin("/templates/good/single/"); //$NON-NLS-1$
 
-        TemplateDef def = config.getDefinition("foo");
+        TemplateDef def = config.getDefinition("foo"); //$NON-NLS-1$
         assertNotNull(def);
-        assertTrue(def.getPath().equals("xxx.jsp"));
+        assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
 
-        Map params = def.getPutParams();
+        Map<String, String> params = def.getPutParams();
         assertTrue(params.size() == 1);
-        assertNotNull(params.get("yyy"));
-        assertTrue(((String)params.get("yyy")).equals("yyy.jsp"));
+        assertNotNull(params.get("yyy")); //$NON-NLS-1$
+        assertTrue(params.get("yyy").equals("yyy.jsp")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public void testTemplatePluginDestroy() {
         testTemplatePluginSingleLoad();
-        plugin.destroy(context, new HashMap());
+        this.plugin.destroy(this.context, new HashMap<String, String>());
 
         try {
             TemplateConfigFactory.instance();
@@ -140,29 +142,29 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
     }
 
     public void testNegativeTemplatePluginSingleLoad() {
-        testNegativeTemplatePlugin("/templates/bad/single/");
+        testNegativeTemplatePlugin("/templates/bad/single/"); //$NON-NLS-1$
     }
 
     public void testNegativeTemplatePluginTemplatePath() {
-        String dir = "/templates/bad/validateTemplatePaths/";
+        String dir = "/templates/bad/validateTemplatePaths/"; //$NON-NLS-1$
         String exceptionMsg = testNegativeTemplatePlugin(dir);
         assertEquals(TemplatePlugin.PLUGIN_INIT_ERROR
                 + TemplateConfiguration.TEMPLATE_PATH_EXCEPTION_MSG + dir
-                + "badpath", exceptionMsg);
+                + "badpath", exceptionMsg); //$NON-NLS-1$
     }
 
     public void testNegativeTemplatePluginPutPath() {
-        String dir = "/templates/bad/validateTemplatePutPaths/";
+        String dir = "/templates/bad/validateTemplatePutPaths/"; //$NON-NLS-1$
         String exceptionMsg = testNegativeTemplatePlugin(dir);
         assertEquals(TemplatePlugin.PLUGIN_INIT_ERROR
                 + TemplateConfiguration.TEMPLATE_PUT_PATH_EXCEPTION_MSG + dir
-                + "badpath", exceptionMsg);
+                + "badpath", exceptionMsg); //$NON-NLS-1$
     }
 
     public String testNegativeTemplatePlugin(String dir) {
-        plugin.setConfigDir(dir);
+        this.plugin.setConfigDir(dir);
         try {
-            plugin.init(context, new HashMap());
+            this.plugin.init(this.context, new HashMap<String, String>());
         } catch (PluginException e) {
             return e.getMessage();
         }
@@ -173,11 +175,11 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
     private TemplateConfiguration testTemplatePlugin(String dir) {
 
         if (dir != null) {
-            plugin.setConfigDir(dir);
+            this.plugin.setConfigDir(dir);
         }
 
         try {
-            plugin.init(context, new HashMap());
+            this.plugin.init(this.context, new HashMap<String, String>());
         } catch (PluginException e) {
             e.printStackTrace();
             fail();

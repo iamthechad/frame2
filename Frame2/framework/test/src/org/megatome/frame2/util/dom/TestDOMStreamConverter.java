@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,107 +58,110 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import junit.framework.TestCase;
 
-import org.megatome.frame2.util.dom.DOMStreamConverter;
-import org.megatome.frame2.util.dom.DocumentException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-
 public class TestDOMStreamConverter extends TestCase {
-   private Node node;
-   private DocumentBuilder builder;
+	private Node node;
 
-   protected void setUp() throws Exception {
-      builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		node = toNode(ClassLoader.getSystemResourceAsStream("org/megatome/frame2/util/dom/dom1.xml"));
-   }
+	private DocumentBuilder builder;
 
-   public void testToInputStream() throws Exception {
-      InputStream is = DOMStreamConverter.toInputStream(node);
+	@Override
+	protected void setUp() throws Exception {
+		this.builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		this.node = toNode(ClassLoader
+				.getSystemResourceAsStream("org/megatome/frame2/util/dom/dom1.xml")); //$NON-NLS-1$
+	}
 
-      assertNotNull(is);
+	public void testToInputStream() throws Exception {
+		InputStream is = DOMStreamConverter.toInputStream(this.node);
 
-      Node n = toNode(is);
+		assertNotNull(is);
 
-      assertNotNull(n);
+		Node n = toNode(is);
 
-      assertEquals("purchaseOrder", n.getFirstChild().getNodeName());
-   }
+		assertNotNull(n);
 
-   public void testToInputStream_Null() throws Exception {
-      try {
-         DOMStreamConverter.toInputStream(null);
-         fail();
-      } catch (DocumentException e) {
-      }
-   }
+		assertEquals("purchaseOrder", n.getFirstChild().getNodeName()); //$NON-NLS-1$
+	}
 
-   public void testToInputStream_Empty() throws Exception {
-      assertNotNull(DOMStreamConverter.toInputStream(builder.newDocument()));
-   }
+	public void testToInputStream_Null() throws Exception {
+		InputStream is = DOMStreamConverter.toInputStream(null);
 
-   public void testToOutputStream() throws Exception {
-      OutputStream os = DOMStreamConverter.toOutputStream(node);
+		assertNotNull(is);
 
-      assertNotNull(os);
+		try {
+			toNode(is);
+			fail();
+		} catch (Exception expected) {
+			// expected
+		}
+	}
 
-      assertTrue(os.toString().indexOf("purchaseOrder") > 0);
-   }
+	public void testToInputStream_Empty() throws Exception {
+		assertNotNull(DOMStreamConverter.toInputStream(this.builder.newDocument()));
+	}
 
-   public void testToOutputStream_Empty() throws Exception {
-      assertNotNull(DOMStreamConverter.toOutputStream(builder.newDocument()));
-   }
+	public void testToOutputStream() throws Exception {
+		OutputStream os = DOMStreamConverter.toOutputStream(this.node);
 
-   public void testToOutputStream_Null() throws Exception {
-      try {
-         DOMStreamConverter.toOutputStream(null);
-         fail();
-      } catch (DocumentException e) {
-      }
-   }
+		assertNotNull(os);
 
-   public void testStringToNode() throws Exception {
-      final String xml = "<tt:test xmlns:tt=\"http://test-uri/\">Test Value</tt:test>";
+		assertTrue(os.toString().indexOf("purchaseOrder") > 0); //$NON-NLS-1$
+	}
 
-      Element element = (Element) DOMStreamConverter.fromString(xml,true);
-      
-      assertNotNull(element);
+	public void testToOutputStream_Empty() throws Exception {
+		assertNotNull(DOMStreamConverter.toOutputStream(this.builder.newDocument()));
+	}
 
-      DOMStreamConverter.toOutputStream(element).toString();
-      
-      assertEquals("tt:test",element.getNodeName());
-      assertEquals("test",element.getLocalName());
-      assertEquals("http://test-uri/",element.getNamespaceURI());
-      assertEquals("tt",element.getPrefix());
-      assertEquals("Test Value",element.getFirstChild().getNodeValue());
-   }
+	public void testToOutputStream_Null() throws Exception {
+		OutputStream os = DOMStreamConverter.toOutputStream(null);
+		assertNotNull(os);
+	}
 
-   public void testStringToNode_NoNamespace() throws Exception {
-      final String xml = "<tt:test xmlns:tt=\"http://test-uri/\">Test Value</tt:test>";
+	public void testStringToNode() throws Exception {
+		final String xml = "<tt:test xmlns:tt=\"http://test-uri/\">Test Value</tt:test>"; //$NON-NLS-1$
 
-      Element element = (Element) DOMStreamConverter.fromString(xml,false);
-      
-      assertNotNull(element);
+		Element element = (Element) DOMStreamConverter.fromString(xml, true);
 
-      DOMStreamConverter.toOutputStream(element).toString();
-      
-      assertEquals("tt:test",element.getNodeName());
-      assertNull(element.getLocalName());
-      assertNull(element.getNamespaceURI());
-      assertNull(element.getPrefix());
-      assertEquals("Test Value",element.getFirstChild().getNodeValue());
-   }
+		assertNotNull(element);
 
-   private Node toNode(InputStream istream) throws Exception {
-      return builder.parse(istream);
-   }
-   
-   public void testEncodeString() throws Exception {
-      final String data1 = "a&b<c>d'e\"f";
-      final String data2 = "";
-      
-      assertEquals("a&amp;b&lt;c&gt;d&apos;e&quot;f",DOMStreamConverter.encode(data1));
-      assertEquals("",DOMStreamConverter.encode(data2));
-      assertNull(DOMStreamConverter.encode(null));
-   }
+		DOMStreamConverter.toOutputStream(element).toString();
+
+		assertEquals("tt:test", element.getNodeName()); //$NON-NLS-1$
+		assertEquals("test", element.getLocalName()); //$NON-NLS-1$
+		assertEquals("http://test-uri/", element.getNamespaceURI()); //$NON-NLS-1$
+		assertEquals("tt", element.getPrefix()); //$NON-NLS-1$
+		assertEquals("Test Value", element.getFirstChild().getNodeValue()); //$NON-NLS-1$
+	}
+
+	public void testStringToNode_NoNamespace() throws Exception {
+		final String xml = "<tt:test xmlns:tt=\"http://test-uri/\">Test Value</tt:test>"; //$NON-NLS-1$
+
+		Element element = (Element) DOMStreamConverter.fromString(xml, false);
+
+		assertNotNull(element);
+
+		DOMStreamConverter.toOutputStream(element).toString();
+
+		assertEquals("tt:test", element.getNodeName()); //$NON-NLS-1$
+		assertNull(element.getLocalName());
+		assertNull(element.getNamespaceURI());
+		assertNull(element.getPrefix());
+		assertEquals("Test Value", element.getFirstChild().getNodeValue()); //$NON-NLS-1$
+	}
+
+	private Node toNode(InputStream istream) throws Exception {
+		return this.builder.parse(istream);
+	}
+
+	public void testEncodeString() throws Exception {
+		final String data1 = "a&b<c>d'e\"f"; //$NON-NLS-1$
+		final String data2 = ""; //$NON-NLS-1$
+
+		assertEquals("a&amp;b&lt;c&gt;d&apos;e&quot;f", DOMStreamConverter //$NON-NLS-1$
+				.encode(data1));
+		assertEquals("", DOMStreamConverter.encode(data2)); //$NON-NLS-1$
+		assertNull(DOMStreamConverter.encode(null));
+	}
 }

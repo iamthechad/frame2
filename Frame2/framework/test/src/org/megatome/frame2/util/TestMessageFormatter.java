@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,53 +61,53 @@ import junit.framework.TestCase;
 public class TestMessageFormatter extends TestCase {
 
 	public void testFormatting() {
-		assertEquals("Is this Frame2?", MessageFormatter.format("Is this Frame2?", null));
+		assertEquals("Is this Frame2?", MessageFormatter.format("Is this Frame2?", null)); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(
-			"Is this really Frame2?",
-			MessageFormatter.format("Is this {0} Frame2?", new String[] { "really" }));
+			"Is this really Frame2?", //$NON-NLS-1$
+			MessageFormatter.format("Is this {0} Frame2?", new String[] { "really" })); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(
-			"Is this 'really' Frame2?",
-			MessageFormatter.format("Is this ''{0}'' Frame2?", new String[] { "really" }));
+			"Is this 'really' Frame2?", //$NON-NLS-1$
+			MessageFormatter.format("Is this ''{0}'' Frame2?", new String[] { "really" })); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(
-			"Is this \"really\" Frame2?",
-			MessageFormatter.format("Is this \"{0}\" Frame2?", new String[] { "really" }));
+			"Is this \"really\" Frame2?", //$NON-NLS-1$
+			MessageFormatter.format("Is this \"{0}\" Frame2?", new String[] { "really" })); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(
-			"Is this 100,000 Frame2?",
-			MessageFormatter.format("Is this {0} Frame2?", new Object[] { new Integer(100000)}));
+			"Is this 100,000 Frame2?", //$NON-NLS-1$
+			MessageFormatter.format("Is this {0} Frame2?", new Object[] { new Integer(100000)})); //$NON-NLS-1$
 	}
 
 	public void testFormatting_Locale() {
 		assertEquals(
-			"Is this Frame2?",
-			MessageFormatter.format("Is this Frame2?", Locale.FRENCH, null));
+			"Is this Frame2?", //$NON-NLS-1$
+			MessageFormatter.format("Is this Frame2?", Locale.FRENCH, null)); //$NON-NLS-1$
 		assertEquals(
-			"Is this really Frame2?",
-			MessageFormatter.format("Is this {0} Frame2?", Locale.FRENCH, new String[] { "really" }));
+			"Is this really Frame2?", //$NON-NLS-1$
+			MessageFormatter.format("Is this {0} Frame2?", Locale.FRENCH, new String[] { "really" })); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(
-			"Is this 'really' Frame2?",
+			"Is this 'really' Frame2?", //$NON-NLS-1$
 			MessageFormatter.format(
-				"Is this ''{0}'' Frame2?",
+				"Is this ''{0}'' Frame2?", //$NON-NLS-1$
 				Locale.FRENCH,
-				new String[] { "really" }));
+				new String[] { "really" })); //$NON-NLS-1$
 		assertEquals(
-			"Is this \"really\" Frame2?",
+			"Is this \"really\" Frame2?", //$NON-NLS-1$
 			MessageFormatter.format(
-				"Is this \"{0}\" Frame2?",
+				"Is this \"{0}\" Frame2?", //$NON-NLS-1$
 				Locale.FRENCH,
-				new String[] { "really" }));
+				new String[] { "really" })); //$NON-NLS-1$
 		assertEquals(
-			"Is this 10,01 Frame2?",
+			"Is this 10,01 Frame2?", //$NON-NLS-1$
 			MessageFormatter.format(
-				"Is this {0} Frame2?",
+				"Is this {0} Frame2?", //$NON-NLS-1$
 				Locale.FRENCH,
 				new Object[] { new Double(10.01)}));
 	}
 
 	public void testGetFormatter() {
-		MessageFormat format = MessageFormatter.getFormat("Is this Frame2?", Locale.UK);
+		MessageFormat format = MessageFormatter.getFormat("Is this Frame2?", Locale.UK); //$NON-NLS-1$
 		assertNotNull(format);
 		assertEquals(Locale.UK, format.getLocale());
-		assertEquals("Is this Frame2?", format.format(null));
-		assertSame(format, MessageFormatter.getFormat("Is this Frame2?", Locale.UK));
+		assertEquals("Is this Frame2?", format.format(null)); //$NON-NLS-1$
+		assertSame(format, MessageFormatter.getFormat("Is this Frame2?", Locale.UK)); //$NON-NLS-1$
 	}
 }

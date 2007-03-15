@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,8 +66,10 @@ public class Defhandler implements EventHandler {
 		super();
 	}
 
-	public String handle(Event event,Context context) {
-		return "view1";
+	public String handle(@SuppressWarnings("unused")
+	Event event,@SuppressWarnings("unused")
+	Context context) {
+		return "view1"; //$NON-NLS-1$
 	}
 
 }

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,20 +69,21 @@ public class Event1 extends CommonsValidatorEvent {
 		super();
 	}
 
+	@Override
 	public boolean validate(Errors errors) {
       boolean result = true;
 
-      if ( parm1 == null || parm1.indexOf('1') == -1 ) {
+      if ( this.parm1 == null || this.parm1.indexOf('1') == -1 ) {
          result = false;
          if ( errors != null ) {
-            errors.add("Event1.parm1",parm1);
+            errors.add("Event1.parm1",this.parm1); //$NON-NLS-1$
          }
       }
 
-      if ( parm2 == null || parm2.indexOf('2') == -1 ) {
+      if ( this.parm2 == null || this.parm2.indexOf('2') == -1 ) {
          result = false;
          if ( errors != null ) {
-            errors.add("Event1.parm2",parm2);
+            errors.add("Event1.parm2",this.parm2); //$NON-NLS-1$
          }
       }
 
@@ -94,7 +95,7 @@ public class Event1 extends CommonsValidatorEvent {
 	 * @return Object
 	 */
 	public String getParm1() {
-		return parm1;
+		return this.parm1;
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class Event1 extends CommonsValidatorEvent {
 	 * @return String
 	 */
 	public String getParm2() {
-		return parm2;
+		return this.parm2;
 	}
 
 	/**
@@ -126,7 +127,7 @@ public class Event1 extends CommonsValidatorEvent {
 	 * @return int
 	 */
 	public int getParm3() {
-		return parm3;
+		return this.parm3;
 	}
 
 	/**

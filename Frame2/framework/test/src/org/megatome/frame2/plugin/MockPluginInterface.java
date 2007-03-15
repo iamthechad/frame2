@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,37 +67,36 @@ public class MockPluginInterface implements PluginInterface {
    private int state;
    
    public MockPluginInterface(){
-      state = STATE_NONE;
+      this.state = STATE_NONE;
    }
    
-   public MockPluginInterface(int startIndex)
-   {
-       state = startIndex;
+   public MockPluginInterface(int startIndex) {
+       this.state = startIndex;
    }
 
-	public void destroy(ServletContext context, Map initParams) throws PluginException {
-     if (context == null) throw new PluginException("Plugin Init Exception");
-     if (initParams.get("throwsDestroyParam") != null){
-         state = STATE_THROW; // value if throw
-         throw new PluginException("got throwsDestoryParam, throw for test");
+	public void destroy(ServletContext context, Map<String, String> initParams) throws PluginException {
+     if (context == null) throw new PluginException("Plugin Init Exception"); //$NON-NLS-1$
+     if (initParams.get("throwsDestroyParam") != null){ //$NON-NLS-1$
+         this.state = STATE_THROW; // value if throw
+         throw new PluginException("got throwsDestoryParam, throw for test"); //$NON-NLS-1$
      }
-     state = STATE_DESTROY;
+     this.state = STATE_DESTROY;
 	}
 
-	public void init(ServletContext context, Map initParams) throws PluginException {
-      if (context == null) throw new PluginException("Plugin Init Exception");
-      if (initParams.get("throwsParam") != null){
-         throw new PluginException("got throwsParam, throw for test");
+	public void init(ServletContext context, Map<String, String> initParams) throws PluginException {
+      if (context == null) throw new PluginException("Plugin Init Exception"); //$NON-NLS-1$
+      if (initParams.get("throwsParam") != null){ //$NON-NLS-1$
+         throw new PluginException("got throwsParam, throw for test"); //$NON-NLS-1$
       }
       
-      state = STATE_INIT;
+      this.state = STATE_INIT;
 	}
 
     /**
      * @return
      */
     public int getState() {
-    	return state;
+    	return this.state;
     }
 
 }

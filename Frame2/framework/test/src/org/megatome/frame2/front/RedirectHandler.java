@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,12 +66,13 @@ public class RedirectHandler implements EventHandler {
 		super();
 	}
 
-	public String handle(Event event,Context context) throws Exception {
-      context.setRequestAttribute("firstName","Barney",true);
-      context.setRequestAttribute("middle","Jeff",true);
-      context.setRequestAttribute("nonRedirectAttr1","attr1",false);
-      context.setRequestAttribute("lastName","Jones",true);
-      context.setRequestAttribute("nonRedirectAttr2","attr2");
-      return "redirect";
+	public String handle(@SuppressWarnings("unused")
+	Event event,Context context) throws Exception {
+      context.setRequestAttribute("firstName","Barney",true); //$NON-NLS-1$ //$NON-NLS-2$
+      context.setRequestAttribute("middle","Jeff",true); //$NON-NLS-1$ //$NON-NLS-2$
+      context.setRequestAttribute("nonRedirectAttr1","attr1",false); //$NON-NLS-1$ //$NON-NLS-2$
+      context.setRequestAttribute("lastName","Jones",true); //$NON-NLS-1$ //$NON-NLS-2$
+      context.setRequestAttribute("nonRedirectAttr2","attr2"); //$NON-NLS-1$ //$NON-NLS-2$
+      return "redirect"; //$NON-NLS-1$
 	}
 }
