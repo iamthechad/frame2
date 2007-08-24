@@ -50,13 +50,10 @@
  */
 package org.megatome.frame2.front;
 
-import java.math.BigInteger;
-
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.event.Event;
 import org.megatome.frame2.jaxbgen.Items;
-import org.megatome.frame2.jaxbgen.PurchaseOrder;
+import org.megatome.frame2.jaxbgen.PurchaseOrderType;
 import org.megatome.frame2.util.Helper;
 import org.w3c.dom.Element;
 
@@ -67,8 +64,13 @@ import servletunit.frame2.Frame2TestCase;
  */
 public class TestJaxbEventValidation extends Frame2TestCase {
 
+	public TestJaxbEventValidation(String name) {
+		super(name);
+	}
+
+
 	final private static String TARGET_PKG = "org.megatome.frame2.jaxbgen"; //$NON-NLS-1$
-	private PurchaseOrder po;
+	private PurchaseOrderType po;
 	private SoapRequestProcessor processor;
 
 	@Override
@@ -80,7 +82,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 			(SoapRequestProcessor) RequestProcessorFactory.instance(config, elements, TARGET_PKG);
 
 		SoapEventMap event = this.processor.getEvents().get(0);
-		this.po = (PurchaseOrder) event.getEventsIterator().next();
+		this.po = (PurchaseOrderType) event.getEventsIterator().next();
 	}
    
    public void testEventInstanceOfCommonsValidatorEvent(){
@@ -93,11 +95,11 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
 	public void testValidateError_InvalidPartNum() throws Exception {
 
-		Items.ItemType item = (Items.ItemType) this.po.getItems().getItem().get(0);
+		Items.Item item = this.po.getItems().getItem().get(0);
 
 		item.setPartNum("AAAAA"); //$NON-NLS-1$
 
-		assertFalse(this.processor.validateEvent((Event) this.po));
+		assertFalse(this.processor.validateEvent(this.po));
 
 		Errors errors = this.processor.getContextWrapper().getRequestErrors();
 
@@ -113,11 +115,11 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
 	public void testValidateError_InvalidDate() throws Exception {
 
-		Items.ItemType item = (Items.ItemType) this.po.getItems().getItem().get(0);
+		Items.Item item = this.po.getItems().getItem().get(0);
 
-		item.setQuantity(new BigInteger("101")); //$NON-NLS-1$
+		item.setQuantity(101);
 
-		assertFalse(this.processor.validateEvent((Event) this.po));
+		assertFalse(this.processor.validateEvent(this.po));
 
 		Errors errors = this.processor.getContextWrapper().getRequestErrors();
 
@@ -136,7 +138,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
       this.po.setBillTo(null);
 
-      assertFalse(this.processor.validateEvent((Event) this.po));
+      assertFalse(this.processor.validateEvent(this.po));
 
       Errors errors = this.processor.getContextWrapper().getRequestErrors();
 

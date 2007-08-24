@@ -50,18 +50,26 @@
  */
 package org.megatome.frame2.jaxb;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
-import javax.xml.bind.Validator;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.megatome.frame2.errors.Errors;
+import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.event.CommonsValidatorEvent;
+import org.megatome.frame2.front.TranslationException;
+import org.w3c.dom.Document;
 
 /**
  * The JaxbEventBase is a base class that helps bind JavaBeans generated through
@@ -70,7 +78,25 @@ import org.megatome.frame2.event.CommonsValidatorEvent;
  * validation behaviors. See the JAXB User Guide for instructions on how to
  * customize the bindings for an external superclass.
  */
-public class JaxbEventBase extends CommonsValidatorEvent {
+public abstract class JaxbEventBase extends CommonsValidatorEvent {
+	
+	private Errors jaxbErrors = ErrorsFactory.newInstance();
+
+	public Object getMarshallableType() throws Exception {
+		String objectFactoryClass = this.getClass().getPackage().getName() + ".ObjectFactory"; //$NON-NLS-1$
+		Class<?> ofClass = Class.forName(objectFactoryClass);
+		Object of = ofClass.newInstance();
+		for (Method m : ofClass.getMethods()) {
+			for (Class<?> param : m.getParameterTypes()) {
+				if (this.getClass().equals(param)) {
+					// This is our method?
+					return m.invoke(of, new Object[] { this });
+				}
+			}
+		}
+		
+		return this;
+	}
 
     /**
      * Validate the state of the object using the internal JAXB validator.
@@ -79,133 +105,145 @@ public class JaxbEventBase extends CommonsValidatorEvent {
      * @return The result of validation
      * @see org.megatome.frame2.event.Event#validate(Errors)
      */
-    public boolean validate(Errors errors) {
-        boolean result = false;
-
-        ValidationMonitor monitor = new ValidationMonitor();
-
-        try {
-            JAXBContext context = JAXBContext.newInstance(getPackageName(),
-                    this.getClass().getClassLoader());
-            Validator validator = context.createValidator();
-
-            validator.setEventHandler(monitor);
-
-            result = validator.validate(this);
-        } catch (Exception e) {
-            if (errors != null) {
-                errors.add(getPackageName(), e.getMessage());
-            }
-        } finally {
-            monitor.populate(errors);
-        }
-
+    @Override
+	public boolean validate(Errors errors) {
+        boolean result = roundTripValidate(errors);
+        
+        /*if (!this.jaxbErrors.isEmpty()) {
+        	result = false;
+        	for (org.megatome.frame2.errors.Error err : this.jaxbErrors.get()) {
+        		errors.add(err);
+        	}
+        	this.jaxbErrors.release();
+        }*/
+        
+        
         // calling super's validate after jaxb validate
         // per customer requirement
         result &= super.validate(errors);
 
         return result;
     }
-
-    private String getPackageName() {
-        final int backoff = ".impl".length();
-
-        String implPackageName = getClass().getPackage().getName();
-
-        return implPackageName.substring(0, implPackageName.length() - backoff);
+    
+    private boolean roundTripValidate(Errors errors) {
+    	try {
+			ValidationMonitor monitor = new ValidationMonitor();
+			JAXBContext context = JAXBContext.newInstance(this.getClass().getPackage().getName());
+			Marshaller marshaller = context.createMarshaller();
+			Document doc = getTargetDocument();
+			
+			marshaller.marshal(getMarshallableType(), doc);
+			
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			unmarshaller.setEventHandler(monitor);
+			unmarshaller.unmarshal(doc.getDocumentElement());
+			
+			monitor.populate(errors);
+		} catch (TranslationException e) {
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return errors.isEmpty();
     }
+    
+    private Document getTargetDocument() throws TranslationException {
+		Document result = null;
 
-    private class ValidationMonitor implements ValidationEventHandler {
-        private List events = new ArrayList();
+		try {
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
-        /**
-         * @see javax.xml.bind.ValidationEventHandler#handleEvent(ValidationEvent)
-         */
-        public boolean handleEvent(ValidationEvent arg0) {
-            events.add(arg0);
+			dbf.setNamespaceAware(true);
 
-            return true;
-        }
+			DocumentBuilder db = dbf.newDocumentBuilder();
 
-        void populate(Errors errors) {
-            if ((errors != null) && !events.isEmpty()) {
+			result = db.newDocument();
+		} catch (Exception e) {
+			throw new TranslationException("Unable to create target document", //$NON-NLS-1$
+					e);
+		}
 
-                for (int i = 0; i < events.size(); i++) {
-                    ValidationEvent event = (ValidationEvent)events.get(i);
-
-                    String key = getKey(event);
-                    String msg = getMessage(event);
-
-                    errors.add(key, msg);
-                }
-            }
-        }
-
-        // DOC: In the present JAXB implementation we can't resolve from the
-        // ValidationEvent
-        String getKey(ValidationEvent event) {
-            String className = event.getLocator().getObject().getClass()
-                    .getName();
-
-            int delimiterIndex = className.indexOf("$");
-
-            StringBuffer buffer = null;
-
-            if (delimiterIndex == -1) {
-                buffer = new StringBuffer(className);
-            } else {
-                buffer = new StringBuffer(className.substring(0, className
-                        .indexOf("$")));
-            }
-
-            String attr = getAttributeName(event);
-
-            if (attr != null) {
-                buffer.append(".");
-                buffer.append(attr);
-            }
-
-            return buffer.toString();
-        }
-
-        String getMessage(ValidationEvent event) {
-            String message = event.getMessage();
-
-            if (isAttribute(event)) {
-                return message.substring(message.indexOf(":") + 2);
-            }
-
-            return message;
-        }
-
-        String getAttributeName(ValidationEvent event) {
-            // Bug 953538
-            // Remove hardcoded "partNum" and instead parse
-            // the attribute name from the message
-            String attributeName = null;
-            if (isAttribute(event)) {
-                String message = event.getMessage();
-                String quotedAttributeRE = "[^\"]*\"([^\"]+)\"";
-                Pattern pat = Pattern.compile(quotedAttributeRE,
-                        Pattern.CASE_INSENSITIVE);
-                Matcher m = pat.matcher(message);
-
-                if (m.find()) {
-                    attributeName = m.group(1);
-                }
-            }
-
-            return attributeName;
-        }
-
-        boolean isAttribute(ValidationEvent event) {
-            boolean retval = false;
-            String msg = event.getMessage();
-            if (msg != null) {
-                retval = msg.indexOf("attribute") == 0;
-            }
-
-            return retval;
-        }
+		return result;
+	}
+    
+    public void addError(final String value) {
+    	String className = this.getClass().getCanonicalName();
+    	this.jaxbErrors.add(className, value);
     }
+    
+    class ValidationMonitor implements ValidationEventHandler {
+		private List<ValidationEvent> events = new ArrayList<ValidationEvent>();
+
+		/**
+		 * @see javax.xml.bind.ValidationEventHandler#handleEvent(ValidationEvent)
+		 */
+		public boolean handleEvent(ValidationEvent evt) {
+			this.events.add(evt);
+
+			return true;
+		}
+
+		void populate(final Errors errors) {
+			if ((errors != null) && (!this.events.isEmpty())) {
+					for (ValidationEvent ve : this.events) {
+						errors.add(JaxbEventBase.this.getClass().getCanonicalName(), getMessage(ve));
+					}
+				this.events.clear();
+			}
+			/*if ((errors != null) && !this.events.isEmpty()) {
+				String className = proxy.getEvent().getClass()
+						.getCanonicalName();
+				for (int i = 0; i < this.events.size(); i++) {
+					ValidationEvent event = this.events.get(i);
+
+					String key = className;
+					String msg = getMessage(event);
+
+					errors.add(key, msg);
+				}
+			}*/
+		}
+
+		String getMessage(ValidationEvent event) {
+			String message = event.getMessage();
+
+			if (isAttribute(event)) {
+				return message.substring(message.indexOf(":") + 2); //$NON-NLS-1$
+			}
+
+			return message;
+		}
+
+		String getAttributeName(ValidationEvent event) {
+			// Bug 953538
+			// Remove hardcoded "partNum" and instead parse
+			// the attribute name from the message
+			String attributeName = null;
+			if (isAttribute(event)) {
+				String message = event.getMessage();
+				String quotedAttributeRE = "[^\"]*\"([^\"]+)\""; //$NON-NLS-1$
+				Pattern pat = Pattern.compile(quotedAttributeRE,
+						Pattern.CASE_INSENSITIVE);
+				Matcher m = pat.matcher(message);
+
+				if (m.find()) {
+					attributeName = m.group(1);
+				}
+			}
+
+			return attributeName;
+		}
+
+		boolean isAttribute(ValidationEvent event) {
+			boolean retval = false;
+			String msg = event.getMessage();
+			if (msg != null) {
+				retval = msg.indexOf("attribute") == 0; //$NON-NLS-1$
+			}
+
+			return retval;
+		}
+	}
 }

@@ -61,6 +61,7 @@ import java.util.TimeZone;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -96,6 +97,10 @@ public class Helper {
        Date d = new Date(cal.getTimeInMillis() - offset);
        return new SimpleDateFormat("yyyy-MM-dd").format(d); //$NON-NLS-1$
     }
+    
+    public static String calendarToString(XMLGregorianCalendar cal) {
+    	return calendarToString(cal.toGregorianCalendar());
+     }
 
     static public Object unmarshall(String path,String pkg,ClassLoader loader) throws Exception {
         LOGGER.debug("Unmarshalling " + path + " in package " + pkg); //$NON-NLS-1$ //$NON-NLS-2$

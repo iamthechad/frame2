@@ -51,17 +51,17 @@
 package org.megatome.frame2.jaxb;
 
 import java.io.OutputStream;
-import java.math.BigInteger;
+
+import javax.xml.bind.JAXBElement;
 
 import junit.framework.TestCase;
 
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.jaxbgen.Items;
-import org.megatome.frame2.jaxbgen.PurchaseOrder;
+import org.megatome.frame2.jaxbgen.ObjectFactory;
+import org.megatome.frame2.jaxbgen.PurchaseOrderType;
 import org.megatome.frame2.jaxbgen.USAddress;
-import org.megatome.frame2.jaxbgen.impl.ItemsImpl;
-import org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl;
 import org.megatome.frame2.util.Helper;
 
 
@@ -72,7 +72,7 @@ public class TestPurchaseOrder extends TestCase {
    private static final String TARGET_PACKAGE = "org.megatome.frame2.jaxbgen"; //$NON-NLS-1$
 
    public void testUnmarshall_InputStream() throws Exception {
-      PurchaseOrder po = unmarshall();
+      PurchaseOrderType po = unmarshall();
 
       assertNotNull(po);
 
@@ -90,23 +90,24 @@ public class TestPurchaseOrder extends TestCase {
    }
 
    public void testMarshall() throws Exception {
-      PurchaseOrder po = unmarshall( );
+      PurchaseOrderType po = unmarshall( );
 
-      ItemsImpl.ItemTypeImpl item = (ItemsImpl.ItemTypeImpl) po.getItems().getItem().get(0);
+      Items.Item item = po.getItems().getItem().get(0);
 
       item.setComment("This comment has been changed"); //$NON-NLS-1$
 
-      OutputStream ostream = Helper.marshall(po,TARGET_PACKAGE,getClass().getClassLoader());
+      ObjectFactory of = new ObjectFactory();
+      OutputStream ostream = Helper.marshall(of.createPurchaseOrder(po),TARGET_PACKAGE,getClass().getClassLoader());
 
       assertTrue(ostream.toString().indexOf("This comment has been changed") > 0); //$NON-NLS-1$
    }
 
    public void testValidate() throws Exception {
-      PurchaseOrderImpl po = (PurchaseOrderImpl) unmarshall( );
+      PurchaseOrderType po = unmarshall( );
 
       Errors errors = ErrorsFactory.newInstance();
 
-      ItemsImpl.ItemTypeImpl item1 = (ItemsImpl.ItemTypeImpl) po.getItems().getItem().get(0);
+      Items.Item item1 = po.getItems().getItem().get(0);
 
       assertTrue(item1.validate(errors));
       assertEquals(0, errors.size());
@@ -116,7 +117,7 @@ public class TestPurchaseOrder extends TestCase {
       assertFalse(item1.validate(errors));
       assertEquals(1, errors.size());
 
-      item1.setQuantity(new BigInteger("101")); //$NON-NLS-1$
+      item1.setQuantity(101);
 
       errors.release();
       errors = ErrorsFactory.newInstance();
@@ -131,8 +132,9 @@ public class TestPurchaseOrder extends TestCase {
       assertEquals(2, errors.size());
    }
 
-   private PurchaseOrder unmarshall( ) throws Exception {
-      return (PurchaseOrder) Helper.unmarshall("org/megatome/frame2/jaxb/po.xml",TARGET_PACKAGE,getClass().getClassLoader()); //$NON-NLS-1$
+   private PurchaseOrderType unmarshall( ) throws Exception {
+	  JAXBElement<PurchaseOrderType> element = (JAXBElement<PurchaseOrderType>)Helper.unmarshall("org/megatome/frame2/jaxb/po.xml",TARGET_PACKAGE,getClass().getClassLoader()); //$NON-NLS-1$
+      return element.getValue(); 
    }
 
 }

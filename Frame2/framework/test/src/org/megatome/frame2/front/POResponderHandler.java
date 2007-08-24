@@ -53,7 +53,7 @@ package org.megatome.frame2.front;
 import org.megatome.frame2.event.Context;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.event.EventHandler;
-import org.megatome.frame2.jaxbgen.PurchaseOrder;
+import org.megatome.frame2.jaxbgen.PurchaseOrderType;
 
 /**
  * 
@@ -70,7 +70,7 @@ public class POResponderHandler implements EventHandler {
    }
 
    public String handle(Event event, Context context) {
-      PurchaseOrder po = (PurchaseOrder) event;
+      PurchaseOrderType po = (PurchaseOrderType) event;
 
       po.setComment(NEW_COMMENT);
 

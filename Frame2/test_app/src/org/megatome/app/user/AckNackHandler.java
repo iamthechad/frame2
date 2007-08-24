@@ -50,10 +50,7 @@
  */
 package org.megatome.app.user;
 
-import org.megatome.app.jaxbgen.ACK;
-import org.megatome.app.jaxbgen.NACK;
-import org.megatome.app.jaxbgen.impl.ACKImpl;
-import org.megatome.app.jaxbgen.impl.NACKImpl;
+import org.megatome.app.jaxbgen.ObjectFactory;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.event.Context;
@@ -73,29 +70,28 @@ public class AckNackHandler implements EventHandler {
 
 		Errors errors = context.getRequestErrors();
 
+		ObjectFactory of = new ObjectFactory();
 		if (errors.isEmpty()) {
 			System.out.println("Adding " + user.getFirstName()); //$NON-NLS-1$
 
-			ACK ack = new ACKImpl();
-			ack.setValue(user.getFirstName() + " was added"); //$NON-NLS-1$
-			context.setRequestAttribute("ack", ack); //$NON-NLS-1$
+			context.setRequestAttribute(
+					"ack", of.createACK(user.getFirstName() + " was added")); //$NON-NLS-1$
 
 			return "success"; //$NON-NLS-1$
 
 		}
-			System.out.println("Not adding " + user.getFirstName()); //$NON-NLS-1$
+		System.out.println("Not adding " + user.getFirstName()); //$NON-NLS-1$
 
-			NACK nack = new NACKImpl();
+		Error[] error = errors.get();
 
-         Error[] error = errors.get();
+		StringBuffer errorMsg = new StringBuffer();
+		for (int i = 0; i < error.length; i++) {
+			errorMsg.append(":");
+			errorMsg.append(error[i].getValue());
+		}
+		
+		context.setRequestAttribute("nack", of.createNACK(errorMsg.toString())); //$NON-NLS-1$
 
-         for ( int i = 0 ; i < error.length ; i++ ) {
-				String report = nack.getValue() + " : " + error[i].getValue(); //$NON-NLS-1$
-				nack.setValue(report);
-				context.setRequestAttribute("nack", nack); //$NON-NLS-1$
-			}
-         
-         return "fail"; //$NON-NLS-1$
+		return "fail"; //$NON-NLS-1$
 	}
 }
-

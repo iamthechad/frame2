@@ -15,17 +15,17 @@
   </global-forwards>
   <events>
     <event name="purchaseOrder" resolveAs="parent"
-           type="org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl"/>
+           type="org.megatome.frame2.jaxbgen.PurchaseOrderType"/>
     <event name="POResponderOrder" resolveAs="parent"
-           type="org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl"/>
+           type="org.megatome.frame2.jaxbgen.PurchaseOrderType"/>
     <event name="POTestChildren" resolveAs="children"
-           type="org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl"/>
+           type="org.megatome.frame2.jaxbgen.PurchaseOrderType"/>
     <event name="comment" resolveAs="parent"
-           type="org.megatome.frame2.jaxbgen.impl.CommentImpl"/>
+           type="org.megatome.frame2.jaxbgen.Comment"/>
     <event name="event2"
            type="org.megatome.frame2.front.Event2"/>
     <event name="POTestChildrenMixedData" resolveAs="children"
-           type="org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl"/>
+           type="org.megatome.frame2.jaxbgen.PurchaseOrderType"/>
     <event name="passthruEvent" resolveAs="passthru"
            type="org.megatome.frame2.event.xml.SimplePassthruEvent"/>
   </events>

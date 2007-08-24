@@ -54,6 +54,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -61,11 +62,9 @@ import junit.framework.TestCase;
 
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.event.Context;
-import org.megatome.frame2.event.Event;
 import org.megatome.frame2.front.config.ViewType;
-import org.megatome.frame2.jaxbgen.Items;
-import org.megatome.frame2.jaxbgen.PurchaseOrder;
-import org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl;
+import org.megatome.frame2.jaxbgen.ObjectFactory;
+import org.megatome.frame2.jaxbgen.PurchaseOrderType;
 import org.megatome.frame2.util.Helper;
 import org.megatome.frame2.util.ResourceLocator;
 import org.megatome.frame2.util.dom.DOMStreamConverter;
@@ -100,10 +99,9 @@ protected void setUp() throws Exception {
       Object obj = event.getEventsIterator().next();
       
 
-      assertTrue(obj instanceof PurchaseOrder);
-      assertTrue(obj instanceof PurchaseOrderImpl);
+      assertTrue(obj instanceof PurchaseOrderType);
 
-      PurchaseOrder po = (PurchaseOrder) obj;
+      PurchaseOrderType po = (PurchaseOrderType) obj;
 
       assertEquals("1999-10-20", Helper.calendarToString(po.getOrderDate())); //$NON-NLS-1$
    }
@@ -120,31 +118,11 @@ protected void setUp() throws Exception {
       assertEquals(0, events.size());
    }
    
-   public void testValidateEvent() throws Exception {
-      SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory.instance(this.config,
-            this.elements,TARGET_PKG);
-
-      List<SoapEventMap> events = processor.getEvents();
-      SoapEventMap event = events.get(0);
-      Object obj = event.getEventsIterator().next();
-      
-      PurchaseOrder po = (PurchaseOrder) obj;
-      
-      Items.ItemType item = (Items.ItemType) po.getItems().getItem().get(0);
-
-      item.setPartNum("AAAAA"); //$NON-NLS-1$
-
-      
-      assertFalse(processor.validateEvent((Event)obj));
-      
-      assertEquals(1,processor.getContextWrapper().getRequestErrors().size());
-   }
-
    public void testCallHandler() throws Exception {
       SoapRequestProcessor processor = 
              (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
-      PurchaseOrderImpl poi = new PurchaseOrderImpl();
+      PurchaseOrderType poi = new PurchaseOrderType();
 
       ForwardProxy response = processor.callHandlers(this.elements[0].getNodeName(), poi,ViewType.XML);
 
@@ -160,7 +138,7 @@ protected void setUp() throws Exception {
       SoapRequestProcessor processor = 
              (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
-      PurchaseOrderImpl poi = new PurchaseOrderImpl();
+      PurchaseOrderType poi = new PurchaseOrderType();
 
       ForwardProxy response = processor.callHandlers("POResponderOrder", poi,ViewType.XML); //$NON-NLS-1$
       assertTrue(response.isResponderType());
@@ -173,7 +151,7 @@ protected void setUp() throws Exception {
       SoapRequestProcessor processor = 
              (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
-      PurchaseOrderImpl poi = new PurchaseOrderImpl();
+      PurchaseOrderType poi = new PurchaseOrderType();
 
       ForwardProxy response = processor.callHandlers("POTestChildren", poi,ViewType.XML); //$NON-NLS-1$
       assertTrue(response.isResponderType());
@@ -223,7 +201,7 @@ protected void setUp() throws Exception {
       SoapRequestProcessor processor = 
              (SoapRequestProcessor) RequestProcessorFactory.instance(this.config, this.elements,TARGET_PKG);
 
-      PurchaseOrderImpl poi = new PurchaseOrderImpl();
+      PurchaseOrderType poi = new PurchaseOrderType();
 
       try {
          processor.callHandlers("InvalidEvent", poi, ViewType.XML); //$NON-NLS-1$
@@ -238,9 +216,10 @@ protected void setUp() throws Exception {
       SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory.instance(this.config,
             this.elements,TARGET_PKG);
 
-      PurchaseOrder poi = getResponseObject("org/megatome/frame2/jaxb/po.xml"); //$NON-NLS-1$
+      PurchaseOrderType poi = getResponseObject("org/megatome/frame2/jaxb/po.xml"); //$NON-NLS-1$
+      ObjectFactory of = new ObjectFactory();
 
-      Element element = processor.marshallResponse(poi);
+      Element element = processor.marshallResponse(of.createPurchaseOrder(poi));
 
       assertNotNull(element);
    }
@@ -329,12 +308,12 @@ protected void setUp() throws Exception {
    }
 
 */
-   private PurchaseOrder getResponseObject(String path)
+   private PurchaseOrderType getResponseObject(String path)
       throws Exception {
       JAXBContext jc = JAXBContext.newInstance(TARGET_PKG);
       Unmarshaller u = jc.createUnmarshaller();
-
-      return (PurchaseOrder) u.unmarshal(Helper.getInputStreamFor(path,getClass()));
+      JAXBElement<PurchaseOrderType> pot = (JAXBElement<PurchaseOrderType>)u.unmarshal(Helper.getInputStreamFor(path,getClass()));
+      return pot.getValue();
    }
    
    
