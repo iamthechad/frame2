@@ -63,9 +63,6 @@ public class EventProxy {
    private EventDef eventDef;
    private Event event;
 
-   private EventProxy() { // Non-public ctor
-   }
-
    public EventProxy(EventDef eventDef, Event event) {
       this.eventDef = eventDef;
       this.event = event;
