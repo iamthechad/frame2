@@ -229,7 +229,7 @@ public abstract class BaseFrame2Tag extends BodyTagSupport implements
 	 */
 	protected Collection<?> evalCollectionAttr(String attrName, String attrValue)
 			throws Exception {
-		return (Collection) (EvalHelper.eval(getTagName(), attrName, attrValue,
+		return (Collection<?>) (EvalHelper.eval(getTagName(), attrName, attrValue,
 				Collection.class, this, this.pageContext));
 	}
 
