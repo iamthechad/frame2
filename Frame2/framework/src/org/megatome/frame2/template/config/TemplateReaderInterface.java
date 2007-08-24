@@ -53,5 +53,5 @@ package org.megatome.frame2.template.config;
 import java.util.Map;
 
 public interface TemplateReaderInterface {
-      public Map getDefinitions();
+      public Map<?,?> getDefinitions();
 }

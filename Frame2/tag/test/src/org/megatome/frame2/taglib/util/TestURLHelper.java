@@ -142,12 +142,12 @@ public class TestURLHelper extends TestCase {
 
 	public void testStringArrayAndBooleanObjectsInHashMap() throws Exception {
 		String uri = BASE_URI;
-		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_2_NAME
-				+ "=true" + //$NON-NLS-1$
-				URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_1_VALUE + //$NON-NLS-1$
-				URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_2_VALUE; //$NON-NLS-1$
+		String expected = BASE_URI + URLHelper.QUESTION_MARK + 
+				PARAM_1_NAME + "=" + PARAM_1_VALUE + //$NON-NLS-1$
+				URLHelper.SEP + PARAM_1_NAME + "=" + PARAM_2_VALUE + //$NON-NLS-1$
+				URLHelper.SEP + PARAM_2_NAME + "=true"; //$NON-NLS-1$
 
-		Map<Object, Object> queryParams = new HashMap<Object, Object>();
+		Map<Object, Object> queryParams = new TreeMap<Object, Object>();
 		String[] params = { PARAM_1_VALUE, PARAM_2_VALUE };
 		queryParams.put(PARAM_1_NAME, params);
 		queryParams.put(PARAM_2_NAME, new Boolean("true")); //$NON-NLS-1$

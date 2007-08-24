@@ -74,7 +74,7 @@ public final class TemplateHelper {
 
 	public static void removeAttribute(PageContext context, String defname,
 			int scope) {
-		Map<?, ?> value = (HashMap) context.getAttribute(defname, scope);
+		Map<?, ?> value = (HashMap<?,?>) context.getAttribute(defname, scope);
 		if (value != null) {
 			context.removeAttribute(defname, scope);
 		}

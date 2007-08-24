@@ -63,6 +63,8 @@ import org.megatome.frame2.tagsupport.util.HTMLHelpers;
  * OptionsTag.java
  */
 public class OptionsTag extends BaseOptionTag {
+	private static final long serialVersionUID = -1288010744940723077L;
+
 	private Collection<?> _selectedCollection;
 
 	private Object[] _selectedArray;
@@ -117,7 +119,7 @@ public class OptionsTag extends BaseOptionTag {
 		return buffer;
 	}
 
-	// should be coolection or object[]
+	// should be collection or object[]
 	protected void handleValueAttr() throws JspException {
 		String valueExpr = getAttr(Constants.VALUE);
 		// see if this is a collection
@@ -138,14 +140,14 @@ public class OptionsTag extends BaseOptionTag {
 		}
 	}
 
-	// override ths if you want to handle an attribute
+	// override this if you want to handle an attribute
 	@Override
 	protected void specialAttrHandler() throws JspException {
 		super.specialAttrHandler();
 		handleValueAttr();
 	}
 
-	// for OPTIONS tag, expect displayvalue to be collection or [].
+	// for OPTIONS tag, expect display value to be collection or [].
 	// as iterate over selected(From SELECT_KEY), get
 	// display value.
 	@Override
