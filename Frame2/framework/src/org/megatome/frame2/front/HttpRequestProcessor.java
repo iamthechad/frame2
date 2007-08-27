@@ -127,7 +127,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         String eventName = getEventName(this.request.getServletPath());
         Event event = getConfig().getEventProxy(eventName).getEvent();
         if (event != null) {
-            event.setName(eventName);
+            event.setEventName(eventName);
         }
         return event;
 

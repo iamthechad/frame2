@@ -103,7 +103,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
 		Errors errors = this.processor.getContextWrapper().getRequestErrors();
 
-		assertEquals(1, errors.size());
+		assertEquals(2, errors.size());
 
 		Error error = errors.iterator().next();
 		assertEquals("org.megatome.frame2.jaxbgen.impl.ItemsImpl.partNum", error.getKey()); //$NON-NLS-1$
@@ -123,7 +123,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
 		Errors errors = this.processor.getContextWrapper().getRequestErrors();
 
-		assertEquals(1, errors.size());
+		assertEquals(2, errors.size());
 
 		Error error = errors.iterator().next();
 		assertEquals("org.megatome.frame2.jaxbgen.impl.ItemsImpl", error.getKey()); //$NON-NLS-1$
@@ -142,7 +142,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
       Errors errors = this.processor.getContextWrapper().getRequestErrors();
 
-      assertEquals(2, errors.size());
+      assertEquals(4, errors.size());
 
       Error error = errors.iterator().next();
       assertEquals("org.megatome.frame2.jaxbgen.impl.PurchaseOrderImpl", error.getKey()); //$NON-NLS-1$

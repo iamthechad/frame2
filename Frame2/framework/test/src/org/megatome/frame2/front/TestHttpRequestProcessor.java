@@ -973,7 +973,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 			HttpServletRequest request = getRequest();
 			Event event = (Event) request.getAttribute(EVENT_NAME);
 
-			assertEquals(EVENT_NAME, event.getName());
+			assertEquals(EVENT_NAME, event.getEventName());
 		} catch (Throwable e) {
 			fail();
 		}

@@ -61,32 +61,39 @@ public class Frame2EntityResolver implements EntityResolver {
 	/**
 	 * @param publicId
 	 * @param systemId
-	 * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
+	 * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String,
+	 *      java.lang.String)
 	 */
 	public InputSource resolveEntity(String publicId, String systemId) {
-        
-        if ((publicId == null) || (systemId == null)) {
-        	return null;
-        }
-        
-        String dtdFile = null;
-        if ((publicId.indexOf(Globals.FRAME2_DTD_PUBLIC_ID) != -1) &&
-            (systemId.indexOf(Globals.FRAME2_DTD_SYSTEM_ID) != -1)) {
-            dtdFile = Globals.FRAME2_DTD_FILE;
-        }
-        
-        if ((publicId.indexOf(Globals.FRAME2_TEMPLATE_DTD_PUBLIC_ID) != -1) &&
-            (systemId.indexOf(Globals.FRAME2_TEMPLATE_DTD_SYSTEM_ID) != -1)) {
-            dtdFile = Globals.FRAME2_TEMPLATE_DTD_FILE;
-        }
 
-        if (dtdFile == null) {
-        	return null;
-        }
-        
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(dtdFile);
-        
-        return (stream == null) ? null : new InputSource(stream);
+		if ((publicId == null) || (systemId == null)) {
+			return null;
+		}
+
+		String dtdFile = null;
+		if ((publicId.indexOf(Globals.FRAME2_DTD_PUBLIC_ID) != -1)
+				&& (systemId.indexOf(Globals.FRAME2_DTD_SYSTEM_ID) != -1)) {
+			dtdFile = Globals.FRAME2_DTD_FILE;
+		}
+
+		if ((publicId.indexOf(Globals.FRAME2_DTD_PUBLIC_ID_1_0) != -1)
+				&& (systemId.indexOf(Globals.FRAME2_DTD_SYSTEM_ID_1_0) != -1)) {
+			dtdFile = Globals.FRAME2_DTD_FILE_1_0;
+		}
+
+		if ((publicId.indexOf(Globals.FRAME2_TEMPLATE_DTD_PUBLIC_ID) != -1)
+				&& (systemId.indexOf(Globals.FRAME2_TEMPLATE_DTD_SYSTEM_ID) != -1)) {
+			dtdFile = Globals.FRAME2_TEMPLATE_DTD_FILE;
+		}
+
+		if (dtdFile == null) {
+			return null;
+		}
+
+		InputStream stream = getClass().getClassLoader().getResourceAsStream(
+				dtdFile);
+
+		return (stream == null) ? null : new InputSource(stream);
 	}
 
 }

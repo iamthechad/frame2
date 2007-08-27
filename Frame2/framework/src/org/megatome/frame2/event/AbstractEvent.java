@@ -61,7 +61,7 @@ import org.megatome.frame2.errors.Errors;
  */
 public abstract class AbstractEvent implements Event {
    
-   protected String name;
+   protected String eventName;
    /**
     * Validate the state of the event.  This method is implemented to allow the Frame2 framework
     * to check the state of an event so that the client may be directed to the correct view.  If
@@ -81,15 +81,15 @@ public abstract class AbstractEvent implements Event {
     * but there are occasions where changing an event's name is useful.
     * @param name The name of the event
     */
-   public void setName(String name) {
-      this.name = name;
+   public void setEventName(String name) {
+      this.eventName = name;
    }
    
    /**
     * Get the name of the event.
     * @return Event name
     */
-   public String getName() {
-      return this.name;
+   public String getEventName() {
+      return this.eventName;
    }
 }

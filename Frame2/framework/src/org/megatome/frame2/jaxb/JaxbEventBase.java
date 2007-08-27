@@ -57,16 +57,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.validation.Schema;
 
 import org.megatome.frame2.errors.Errors;
-import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.event.CommonsValidatorEvent;
 import org.megatome.frame2.front.TranslationException;
 import org.w3c.dom.Document;
@@ -79,9 +77,12 @@ import org.w3c.dom.Document;
  * customize the bindings for an external superclass.
  */
 public abstract class JaxbEventBase extends CommonsValidatorEvent {
+	private Schema validatingSchema = null;
 	
-	private Errors jaxbErrors = ErrorsFactory.newInstance();
-
+	public void setValidatingSchema(final Schema validatingSchema) {
+		this.validatingSchema = validatingSchema;
+	}
+	
 	public Object getMarshallableType() throws Exception {
 		String objectFactoryClass = this.getClass().getPackage().getName() + ".ObjectFactory"; //$NON-NLS-1$
 		Class<?> ofClass = Class.forName(objectFactoryClass);
@@ -107,46 +108,27 @@ public abstract class JaxbEventBase extends CommonsValidatorEvent {
      */
     @Override
 	public boolean validate(Errors errors) {
-        boolean result = roundTripValidate(errors);
-        
-        /*if (!this.jaxbErrors.isEmpty()) {
-        	result = false;
-        	for (org.megatome.frame2.errors.Error err : this.jaxbErrors.get()) {
-        		errors.add(err);
-        	}
-        	this.jaxbErrors.release();
-        }*/
-        
+        boolean result = true;
+        try {
+			ValidationMonitor monitor = new ValidationMonitor();
+			JAXBContext context = JAXBContext.newInstance(this.getClass().getPackage().getName());
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.setSchema(this.validatingSchema);
+			marshaller.setEventHandler(monitor);
+			marshaller.marshal(getMarshallableType(), getTargetDocument());
+			
+			monitor.populate(errors);
+			result = errors.isEmpty();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = false;
+		}
         
         // calling super's validate after jaxb validate
         // per customer requirement
         result &= super.validate(errors);
 
         return result;
-    }
-    
-    private boolean roundTripValidate(Errors errors) {
-    	try {
-			ValidationMonitor monitor = new ValidationMonitor();
-			JAXBContext context = JAXBContext.newInstance(this.getClass().getPackage().getName());
-			Marshaller marshaller = context.createMarshaller();
-			Document doc = getTargetDocument();
-			
-			marshaller.marshal(getMarshallableType(), doc);
-			
-			Unmarshaller unmarshaller = context.createUnmarshaller();
-			unmarshaller.setEventHandler(monitor);
-			unmarshaller.unmarshal(doc.getDocumentElement());
-			
-			monitor.populate(errors);
-		} catch (TranslationException e) {
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return errors.isEmpty();
     }
     
     private Document getTargetDocument() throws TranslationException {
@@ -168,11 +150,6 @@ public abstract class JaxbEventBase extends CommonsValidatorEvent {
 		return result;
 	}
     
-    public void addError(final String value) {
-    	String className = this.getClass().getCanonicalName();
-    	this.jaxbErrors.add(className, value);
-    }
-    
     class ValidationMonitor implements ValidationEventHandler {
 		private List<ValidationEvent> events = new ArrayList<ValidationEvent>();
 
@@ -186,25 +163,44 @@ public abstract class JaxbEventBase extends CommonsValidatorEvent {
 		}
 
 		void populate(final Errors errors) {
-			if ((errors != null) && (!this.events.isEmpty())) {
-					for (ValidationEvent ve : this.events) {
-						errors.add(JaxbEventBase.this.getClass().getCanonicalName(), getMessage(ve));
-					}
-				this.events.clear();
-			}
-			/*if ((errors != null) && !this.events.isEmpty()) {
-				String className = proxy.getEvent().getClass()
-						.getCanonicalName();
-				for (int i = 0; i < this.events.size(); i++) {
-					ValidationEvent event = this.events.get(i);
+			if ((errors != null) && !this.events.isEmpty()) {
 
-					String key = className;
-					String msg = getMessage(event);
+				for (ValidationEvent event : this.events) {
+					String key = getKey(event);
+                    String msg = getMessage(event);
 
-					errors.add(key, msg);
+                    errors.add(key, msg);
 				}
-			}*/
+				this.events.clear();
+            }
 		}
+		
+		// DOC: In the present JAXB implementation we can't resolve from the
+        // ValidationEvent
+        String getKey(ValidationEvent event) {
+            String className = event.getLocator().getObject().getClass()
+                    .getName();
+
+            int delimiterIndex = className.indexOf("$"); //$NON-NLS-1$
+
+            StringBuffer buffer = null;
+
+            if (delimiterIndex == -1) {
+                buffer = new StringBuffer(className);
+            } else {
+                buffer = new StringBuffer(className.substring(0, className
+                        .indexOf("$"))); //$NON-NLS-1$
+            }
+
+            String attr = getAttributeName(event);
+
+            if (attr != null) {
+                buffer.append("."); //$NON-NLS-1$
+                buffer.append(attr);
+            }
+
+            return buffer.toString();
+        }
 
 		String getMessage(ValidationEvent event) {
 			String message = event.getMessage();

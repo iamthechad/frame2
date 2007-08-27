@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.1//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_1.dtd">
+
+<frame2-config>
+   <global-forwards>
+   </global-forwards>
+   <events>
+   </events>
+   <schema-mappings schemaLocation="/foo">
+   <fnord/>
+   </schema-mappings>
+   <event-mappings>
+   </event-mappings>
+   <event-handlers>
+   </event-handlers>
+   <plugins>
+   </plugins>
+</frame2-config>

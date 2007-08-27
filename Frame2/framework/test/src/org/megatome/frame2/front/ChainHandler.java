@@ -67,7 +67,7 @@ public class ChainHandler implements EventHandler {
 	}
 
 	public String handle(Event event,Context context) {
-      context.setRequestAttribute("eventChainName",event.getName()); //$NON-NLS-1$
+      context.setRequestAttribute("eventChainName",event.getEventName()); //$NON-NLS-1$
       return null;
 	}
 }

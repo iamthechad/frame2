@@ -59,8 +59,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
@@ -68,10 +66,9 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.ValidationEvent;
-import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.validation.Schema;
 
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.errors.Error;
@@ -154,7 +151,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 					listIndex++;
 
 					Event childEvent = eventList.next();
-					childEvent.setName(eventName);
+					childEvent.setEventName(eventName);
 
 					boolean valid = true;
 
@@ -320,9 +317,6 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			JAXBContext jcontext = JAXBContext.newInstance(this.eventPkg);
 
 			Unmarshaller unmarshaller = jcontext.createUnmarshaller();
-			ValidationMonitor monitor = new ValidationMonitor();
-			unmarshaller.setEventHandler(monitor);
-			// unmarshaller.setValidating(true);
 
 			if (this.elements != null) {
 				for (int i = 0; i < this.elements.length; i++) {
@@ -336,7 +330,8 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
 						EventProxy eventProxy = getConfig().getEventProxy(
 								eventName);
-
+						Schema s = getConfig().getValidatingSchema(eventName);
+						
 						if (eventProxy == null) {
 							throw new TranslationException(
 									"Unable to map event: " + eventName //$NON-NLS-1$
@@ -346,11 +341,10 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 						if (eventProxy.isParent()) {
 							// put eventNames in arraylist for iteration
 							// put events in list mapped by eventName
-							Event evt = unmarshall(unmarshaller, eventProxy
-									.getEvent().getClass(), DOMStreamConverter
+							JaxbEventBase evt = unmarshall(unmarshaller, DOMStreamConverter
 									.toInputStream(this.elements[i]));
+							evt.setValidatingSchema(s);
 							eventList.add(evt);
-							monitor.populate(evt);
 							/*
 							 * eventList.add((Event)unmarshaller
 							 * .unmarshal(DOMStreamConverter
@@ -365,13 +359,12 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
 							for (int j = 0; j < nodeList.getLength(); j++) {
 								if (nodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
-									Event evt = unmarshall(unmarshaller,
-											eventProxy.getEvent().getClass(),
+									JaxbEventBase evt = unmarshall(unmarshaller,
 											DOMStreamConverter
 													.toInputStream(nodeList
 															.item(j)));
+									evt.setValidatingSchema(s);
 									eventList.add(evt);
-									monitor.populate(evt);
 									/*
 									 * eventList.add((Event)unmarshaller
 									 * .unmarshal(DOMStreamConverter
@@ -403,7 +396,8 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 		return events;
 	}
 
-	private <T> T unmarshall(Unmarshaller unm, Class<T> returnType,
+	@SuppressWarnings("unchecked")
+	private <T extends JaxbEventBase> T unmarshall(Unmarshaller unm, 
 			InputStream is) throws JAXBException {
 		JAXBElement<T> element = (JAXBElement<T>) unm.unmarshal(is);
 		return element.getValue();
@@ -445,7 +439,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			} catch (JAXBException e) {
 				throw new TranslationException("Unable to marshall response", e); //$NON-NLS-1$
 			} catch (Exception e) {
-				throw new TranslationException("Unable to find marshallable object", e);
+				throw new TranslationException("Unable to find marshallable object", e); //$NON-NLS-1$
 			}
 		}
 
@@ -576,83 +570,6 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			if (map != null) {
 				map.remove(key);
 			}
-		}
-	}
-
-	class ValidationMonitor implements ValidationEventHandler {
-		private List<ValidationEvent> events = new ArrayList<ValidationEvent>();
-
-		/**
-		 * @see javax.xml.bind.ValidationEventHandler#handleEvent(ValidationEvent)
-		 */
-		public boolean handleEvent(ValidationEvent evt) {
-			this.events.add(evt);
-
-			return true;
-		}
-
-		void populate(final Event event) {
-			if (!this.events.isEmpty()) {
-				if (event instanceof JaxbEventBase) {
-					JaxbEventBase jeb = (JaxbEventBase) event;
-					for (ValidationEvent ve : this.events) {
-						jeb.addError(getMessage(ve));
-					}
-				}
-				this.events.clear();
-			}
-			/*if ((errors != null) && !this.events.isEmpty()) {
-				String className = proxy.getEvent().getClass()
-						.getCanonicalName();
-				for (int i = 0; i < this.events.size(); i++) {
-					ValidationEvent event = this.events.get(i);
-
-					String key = className;
-					String msg = getMessage(event);
-
-					errors.add(key, msg);
-				}
-			}*/
-		}
-
-		String getMessage(ValidationEvent event) {
-			String message = event.getMessage();
-
-			if (isAttribute(event)) {
-				return message.substring(message.indexOf(":") + 2); //$NON-NLS-1$
-			}
-
-			return message;
-		}
-
-		String getAttributeName(ValidationEvent event) {
-			// Bug 953538
-			// Remove hardcoded "partNum" and instead parse
-			// the attribute name from the message
-			String attributeName = null;
-			if (isAttribute(event)) {
-				String message = event.getMessage();
-				String quotedAttributeRE = "[^\"]*\"([^\"]+)\""; //$NON-NLS-1$
-				Pattern pat = Pattern.compile(quotedAttributeRE,
-						Pattern.CASE_INSENSITIVE);
-				Matcher m = pat.matcher(message);
-
-				if (m.find()) {
-					attributeName = m.group(1);
-				}
-			}
-
-			return attributeName;
-		}
-
-		boolean isAttribute(ValidationEvent event) {
-			boolean retval = false;
-			String msg = event.getMessage();
-			if (msg != null) {
-				retval = msg.indexOf("attribute") == 0; //$NON-NLS-1$
-			}
-
-			return retval;
 		}
 	}
 }

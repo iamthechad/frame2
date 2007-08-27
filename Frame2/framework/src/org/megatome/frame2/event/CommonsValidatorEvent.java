@@ -90,7 +90,7 @@ public abstract class CommonsValidatorEvent extends AbstractEvent {
       LOGGER.debug("CommonsValidatorEvent:validate()"); //$NON-NLS-1$
 
       boolean valid = true;
-      CommonsValidatorWrapper.validate(getName(), this, errors);
+      CommonsValidatorWrapper.validate(getEventName(), this, errors);
       if (!errors.isEmpty()) {
          valid = false;
       }

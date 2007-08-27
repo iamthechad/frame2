@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.1//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_1.dtd">
+
+<frame2-config>
+	<global-forwards>
+		<forward name="xx1" type="HTMLResource" path="xxxpath1" />
+		<forward name="xx2" type="HTMLResource" path="xxxpath2" />
+		<forward name="xx3" type="HTMLResource" path="xxxpath3" />
+	</global-forwards>
+	<events>
+		<event name="event1" type="com.frame2.event1" />
+		<event name="event2" type="com.frame2.event2" />
+		<event name="event3" type="com.frame2.event3" />
+	</events>
+	<schema-mappings>
+		<schema-mapping schemaLocation="/WEB-INF/schemas/bogus.xsd">
+			<event-name>event1</event-name>
+			<event-name>event2</event-name>
+		</schema-mapping>
+	</schema-mappings>
+</frame2-config>

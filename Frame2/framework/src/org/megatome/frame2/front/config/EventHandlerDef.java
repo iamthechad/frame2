@@ -112,7 +112,7 @@ public class EventHandlerDef {
 
     /**
      * Returns an XML forward.
-     * @param name The name of the XML Forward to get
+     * @param eventName The name of the XML Forward to get
      * @return XML Forward
      */
     public Forward getXMLForward(String forwardName) {
@@ -129,7 +129,7 @@ public class EventHandlerDef {
 
     /**
      * Returns an HTML forward.
-     * @param name The name of the HTML Forward to get
+     * @param eventName The name of the HTML Forward to get
      * @return HTML Forward
      */
     public Forward getHTMLForward(String forwardName) {
@@ -170,8 +170,8 @@ public class EventHandlerDef {
 
     /**
      * Adds an Init Param to the Map of Init Params.
-     * @param name String
-     * @param name value
+     * @param eventName String
+     * @param eventName value
      */
     public void addInitParam(String paramName, String value) {
         this.initParams.put(paramName, value);

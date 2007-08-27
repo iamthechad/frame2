@@ -54,6 +54,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.validation.Schema;
+
 import junit.framework.TestCase;
 
 import org.megatome.frame2.Frame2Exception;
@@ -72,6 +74,7 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Constructor for TestEventConfigReader.
+	 * 
 	 * @param name
 	 */
 	public TestEventConfigReader(String name) {
@@ -117,6 +120,7 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Method testMultipleGlobalForward.
+	 * 
 	 * @throws Exception
 	 */
 	public void testMultipleGlobalForward() {
@@ -150,6 +154,7 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Method testEvents.
+	 * 
 	 * @throws Exception
 	 */
 	public void testEvents() {
@@ -159,19 +164,17 @@ public class TestEventConfigReader extends TestCase {
 		assertTrue(forwards.size() == 3);
 		Map<String, EventDef> events = reader.getEvents();
 		assertTrue(events.size() == 3);
-		assertEquals(
-			events.get("event1").getType(), //$NON-NLS-1$
-			"com.frame2.event1"); //$NON-NLS-1$
-		assertEquals(
-			events.get("event2").getType(), //$NON-NLS-1$
-			"com.frame2.event2"); //$NON-NLS-1$
-		assertEquals(
-			events.get("event3").getType(), //$NON-NLS-1$
-			"com.frame2.event3"); //$NON-NLS-1$
+		assertEquals(events.get("event1").getType(), //$NON-NLS-1$
+				"com.frame2.event1"); //$NON-NLS-1$
+		assertEquals(events.get("event2").getType(), //$NON-NLS-1$
+				"com.frame2.event2"); //$NON-NLS-1$
+		assertEquals(events.get("event3").getType(), //$NON-NLS-1$
+				"com.frame2.event3"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Method testEventMappings.
+	 * 
 	 * @throws Exception
 	 */
 	public void testEventMappings() {
@@ -186,8 +189,7 @@ public class TestEventConfigReader extends TestCase {
 		Map<String, EventMapping> eventMappings = reader.getEventMappings();
 		assertTrue(eventMappings.size() == 4);
 		// Test first EventMapping
-		EventMapping eventMapping =
-			eventMappings.get("eventMapping1"); //$NON-NLS-1$
+		EventMapping eventMapping = eventMappings.get("eventMapping1"); //$NON-NLS-1$
 		assertNotNull(eventMapping);
 		List<String> handlers = eventMapping.getHandlers();
 		assertTrue(handlers.size() == 3);
@@ -197,23 +199,22 @@ public class TestEventConfigReader extends TestCase {
 			count++;
 			String handler = iter.next();
 			switch (count) {
-				case 1 :
-					assertEquals(handler, "handler1-eventMapping1"); //$NON-NLS-1$
-					break;
-				case 2 :
-					assertEquals(handler, "handler2-eventMapping1"); //$NON-NLS-1$
-					break;
-				case 3 :
-					assertEquals(handler, "handler3-eventMapping1"); //$NON-NLS-1$
-					break;
+			case 1:
+				assertEquals(handler, "handler1-eventMapping1"); //$NON-NLS-1$
+				break;
+			case 2:
+				assertEquals(handler, "handler2-eventMapping1"); //$NON-NLS-1$
+				break;
+			case 3:
+				assertEquals(handler, "handler3-eventMapping1"); //$NON-NLS-1$
+				break;
 			}
 		}
 		assertEquals(eventMapping.getInputView(), "inputView1"); //$NON-NLS-1$
 		assertEquals(eventMapping.getCancelView(), "cancelView1"); //$NON-NLS-1$
 		assertTrue(eventMapping.isValidate());
-		assertEquals(
-			eventMapping.getView(ViewType.HTML.toString()),
-			"view1-eventMapping1"); //$NON-NLS-1$
+		assertEquals(eventMapping.getView(ViewType.HTML.toString()),
+				"view1-eventMapping1"); //$NON-NLS-1$
 		assertTrue(eventMapping.isUserInRole("admin")); //$NON-NLS-1$
 		assertTrue(eventMapping.isUserInRole("guest")); //$NON-NLS-1$
 		assertTrue(!eventMapping.isUserInRole("foo")); //$NON-NLS-1$
@@ -233,9 +234,8 @@ public class TestEventConfigReader extends TestCase {
 		assertEquals(eventMapping.getInputView(), "inputView2"); //$NON-NLS-1$
 		assertEquals(eventMapping.getCancelView(), null);
 		assertFalse(eventMapping.isValidate());
-		assertEquals(
-			eventMapping.getView(ViewType.HTML.toString()),
-			"view1-eventMapping2"); //$NON-NLS-1$
+		assertEquals(eventMapping.getView(ViewType.HTML.toString()),
+				"view1-eventMapping2"); //$NON-NLS-1$
 		assertTrue(!eventMapping.isUserInRole("admin")); //$NON-NLS-1$
 
 		roles = eventMapping.getRoles();
@@ -265,6 +265,7 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Method testEmptyTags.
+	 * 
 	 * @throws Exception
 	 */
 	public void testEmptyTags() {
@@ -283,6 +284,7 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Method testEmptyTags.
+	 * 
 	 * @throws Exception
 	 */
 	public void testEventHandlers() {
@@ -298,8 +300,7 @@ public class TestEventConfigReader extends TestCase {
 		assertTrue(eventHandlers.size() == 3);
 
 		// handler1
-		EventHandlerDef handler =
-			eventHandlers.get("event-handler1"); //$NON-NLS-1$
+		EventHandlerDef handler = eventHandlers.get("event-handler1"); //$NON-NLS-1$
 		assertEquals(handler.getType(), "com.frame2.eventHandler1"); //$NON-NLS-1$
 		assertNull(handler.getInitParam("test")); //$NON-NLS-1$
 		Map<String, String> params = handler.getInitParams();
@@ -327,8 +328,10 @@ public class TestEventConfigReader extends TestCase {
 		assertEquals(handler.getInitParam("param2"), "val2"); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNull(handler.getHTMLForward("forward1")); //$NON-NLS-1$
 	}
+
 	/**
 	 * Method testEmptyTags.
+	 * 
 	 * @throws Exception
 	 */
 	public void testPluginSingle() {
@@ -343,6 +346,7 @@ public class TestEventConfigReader extends TestCase {
 			assertTrue(plugin.getType().equals("org.megatome.something")); //$NON-NLS-1$
 		}
 	}
+
 	public void testPluginMultiple() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/pluginTag-Mult-Param-1_1.xml"); //$NON-NLS-1$
 
@@ -392,8 +396,7 @@ public class TestEventConfigReader extends TestCase {
 	}
 
 	public void testNegativeDuplicateInitParam() {
-		String filename =
-			"org/megatome/frame2/front/config/pluginTag-Single-Negative-DupParam-1_1.xml"; //$NON-NLS-1$
+		String filename = "org/megatome/frame2/front/config/pluginTag-Single-Negative-DupParam-1_1.xml"; //$NON-NLS-1$
 
 		EventConfigReader reader = new EventConfigReader(filename);
 		try {
@@ -407,11 +410,11 @@ public class TestEventConfigReader extends TestCase {
 	public void testReqProcEmpty() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/requestProc-Empty-1_1.xml"); //$NON-NLS-1$
 
-		RequestProcessorDef httpRequestProcessor =
-			reader.getHttpReqProcHandler();
+		RequestProcessorDef httpRequestProcessor = reader
+				.getHttpReqProcHandler();
 		assertNull(httpRequestProcessor);
-		RequestProcessorDef soapRequestProcessor =
-			reader.getSoapReqProcHandler();
+		RequestProcessorDef soapRequestProcessor = reader
+				.getSoapReqProcHandler();
 		assertNull(soapRequestProcessor);
 
 	}
@@ -419,15 +422,67 @@ public class TestEventConfigReader extends TestCase {
 	public void testTwoProcEmpty() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/requestProc-SoapAndHttp-1_1.xml"); //$NON-NLS-1$
 
-		RequestProcessorDef httpRequestProcessor =
-			reader.getHttpReqProcHandler();
+		RequestProcessorDef httpRequestProcessor = reader
+				.getHttpReqProcHandler();
 		assertEquals(httpRequestProcessor.getType(), "httpBaby"); //$NON-NLS-1$
-		RequestProcessorDef soapRequestProcessor =
-			reader.getSoapReqProcHandler();
+		RequestProcessorDef soapRequestProcessor = reader
+				.getSoapReqProcHandler();
 		assertEquals(soapRequestProcessor.getType(), "soap"); //$NON-NLS-1$
 
 	}
+
+	public void testSchemaMappings() {
+		EventConfigReader reader = getReader("org/megatome/frame2/front/config/events-config.xml"); //$NON-NLS-1$
+
+		Map<String, Schema> schemaMappings = reader.getSchemaMappings();
+		assertNotNull(schemaMappings);
+		assertTrue(schemaMappings.containsKey("event1")); //$NON-NLS-1$
+		assertTrue(schemaMappings.containsKey("event2")); //$NON-NLS-1$
+		assertFalse(schemaMappings.containsKey("event3")); //$NON-NLS-1$
+
+		Schema s = schemaMappings.get("event1"); //$NON-NLS-1$
+		assertNotNull(s);
+		Schema s2 = schemaMappings.get("event2"); //$NON-NLS-1$
+		assertNotNull(s2);
+		assertTrue(s == s2);
+	}
+
+	public void testSchemaMappingsDuplicateLocation() {
+		EventConfigReader reader = getReader("org/megatome/frame2/front/config/schema-config-dupe.xml"); //$NON-NLS-1$
+
+		Map<String, Schema> schemaMappings = reader.getSchemaMappings();
+		assertNotNull(schemaMappings);
+		assertTrue(schemaMappings.containsKey("event1")); //$NON-NLS-1$
+		assertTrue(schemaMappings.containsKey("event2")); //$NON-NLS-1$
+		assertTrue(schemaMappings.containsKey("event3")); //$NON-NLS-1$
+
+		Schema s = schemaMappings.get("event1"); //$NON-NLS-1$
+		assertNotNull(s);
+		Schema s2 = schemaMappings.get("event2"); //$NON-NLS-1$
+		assertNotNull(s2);
+		assertTrue(s == s2);
+		Schema s3 = schemaMappings.get("event3"); //$NON-NLS-1$
+		assertNotNull(s3);
+		assertTrue(s == s3);
+	}
 	
+	public void testSchemaMappingsBadLocation() {
+		EventConfigReader reader = getReader("org/megatome/frame2/front/config/schema-bad-loc.xml"); //$NON-NLS-1$
+		
+		Map<String, Schema> schemaMappings = reader.getSchemaMappings();
+		assertNotNull(schemaMappings);
+		assertTrue(schemaMappings.isEmpty());
+	}
+	
+	public void testSchemaMultipleEvent() {
+		EventConfigReader reader = getReader("org/megatome/frame2/front/config/schema-dupe-event.xml"); //$NON-NLS-1$
+		
+		Map<String, Schema> schemaMappings = reader.getSchemaMappings();
+		assertNotNull(schemaMappings);
+		Schema s = schemaMappings.get("event1"); //$NON-NLS-1$
+		assertNotNull(s);
+	}
+
 	private EventConfigReader getReader(final String fileName) {
 		EventConfigReader reader = new EventConfigReader(fileName);
 		try {
@@ -435,7 +490,7 @@ public class TestEventConfigReader extends TestCase {
 		} catch (Frame2Exception e) {
 			fail("Unexpected Exception: " + e.getMessage()); //$NON-NLS-1$
 		}
-		
+
 		return reader;
 	}
 

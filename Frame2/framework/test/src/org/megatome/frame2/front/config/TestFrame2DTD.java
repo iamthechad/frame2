@@ -113,6 +113,18 @@ public class TestFrame2DTD extends TestCase {
 	public void testNegativeDTD() {
 		parseNegativeConfig("org/megatome/frame2/front/config/invalidDTD-config1_1.xml"); //$NON-NLS-1$
 	}
+	
+	public void testNegativeSchemaMapping() {
+		parseNegativeConfig("org/megatome/frame2/front/config/invalidSchemaLocation.xml"); //$NON-NLS-1$
+	}
+	
+	public void testNegativeSchemaMappingContents() {
+		parseNegativeConfig("org/megatome/frame2/front/config/invalidSchemaContents.xml"); //$NON-NLS-1$
+	}
+	
+	public void testSchemaMapping() {
+		parseConfig("org/megatome/frame2/front/config/schemaMappings.xml"); //$NON-NLS-1$
+	}
 
 	public void testNegativeDTDMultiPlugins() {
 		parseNegativeConfig("org/megatome/frame2/front/config/invalidDTDMultiPlugins-config1_1.xml"); //$NON-NLS-1$

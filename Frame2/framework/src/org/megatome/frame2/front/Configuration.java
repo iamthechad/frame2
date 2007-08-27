@@ -58,6 +58,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.validation.Schema;
+
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.event.EventHandler;
@@ -87,6 +89,7 @@ public class Configuration {
     private Map<String, Forward> globalXMLForwards;
     private Map<String, Forward> globalHTMLForwards;
     private Map<String, EventDef> events;
+    private Map<String, Schema> schemaMappings;
     private Map<String, EventMapping> eventMappings;
     private Map<String, EventHandlerDef> eventHandlers;
     private List<ExceptionDef> exceptions;
@@ -136,6 +139,7 @@ public class Configuration {
         this.globalXMLForwards = this.reader.getGlobalXMLForwards();
         this.globalHTMLForwards = this.reader.getGlobalHTMLForwards();
         this.events = this.reader.getEvents();
+        this.schemaMappings = this.reader.getSchemaMappings();
         this.eventMappings = this.reader.getEventMappings();
         this.eventHandlers = this.reader.getEventHandlers();
         this.exceptions = this.reader.getExceptions();
@@ -516,6 +520,10 @@ public class Configuration {
      */
     public RequestProcessorDef getSoapRequestProcessor() {
         return this.soapRequestProcessor;
+    }
+    
+    public Schema getValidatingSchema(final String eventName) {
+    	return this.schemaMappings.get(eventName);
     }
 
 }

@@ -90,7 +90,7 @@ abstract class RequestProcessorBase implements RequestProcessor {
       ContextWrapper ctx = getContextWrapper();
 
       if (event != null) {
-         event.setName(eventName);
+         event.setEventName(eventName);
       } 
       ctx.setRequestAttribute(eventName, event);
 

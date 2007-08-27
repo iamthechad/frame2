@@ -83,11 +83,11 @@ public interface Event {
     * but there are occasions where changing an event's name is useful.
     * @param name The name of the event
     */
-   public void setName(String name);
+   public void setEventName(String name);
    
    /**
     * Get the name of the event.
     * @return Event name
     */
-   public String getName();
+   public String getEventName();
 }

@@ -55,6 +55,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.validation.Schema;
+
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.util.sax.Frame2SAXReader;
 import org.megatome.frame2.util.sax.ParserException;
@@ -67,6 +69,9 @@ import org.megatome.frame2.util.sax.ParserException;
 public class EventConfigReader {
     public static final String FORWARD = "forward"; //$NON-NLS-1$
     public static final String EVENT = "event"; //$NON-NLS-1$
+    public static final String SCHEMA_MAPPINGS = "schema-mappings"; //$NON-NLS-1$
+    public static final String SCHEMA_MAPPING = "schema-mapping"; //$NON-NLS-1$
+    public static final String EVENT_NAME = "event-name"; //$NON-NLS-1$
     public static final String EVENT_MAPPING = "event-mapping"; //$NON-NLS-1$
     public static final String HANDLER = "handler"; //$NON-NLS-1$
     public static final String VIEW = "view"; //$NON-NLS-1$
@@ -93,6 +98,9 @@ public class EventConfigReader {
     private ForwardTagHandler forwardTagHandler = new ForwardTagHandler();
     private EventTagHandler eventTagHandler = new EventTagHandler();
     private RoleTagHandler roleTagHandler = new RoleTagHandler();
+    
+    private EventNameTagHandler eventNameTagHandler = new EventNameTagHandler();
+    private SchemaMappingTagHandler schemaMappingTagHandler = new SchemaMappingTagHandler(this.eventNameTagHandler);
 
     // EventMapping Handlers
     private HandlerTagHandler handlerTagHandler = new HandlerTagHandler();
@@ -146,6 +154,8 @@ public class EventConfigReader {
 
             reader.setElementHandler(FORWARD, this.forwardTagHandler);
             reader.setElementHandler(EVENT, this.eventTagHandler);
+            reader.setElementHandler(SCHEMA_MAPPING, this.schemaMappingTagHandler);
+            reader.setElementHandler(EVENT_NAME, this.eventNameTagHandler);
             reader.setElementHandler(EVENT_MAPPING, this.eventMappingTagHandler);
             reader.setElementHandler(HANDLER, this.handlerTagHandler);
             reader.setElementHandler(VIEW, this.viewTagHandler);
@@ -162,6 +172,7 @@ public class EventConfigReader {
             // Now set the Elements which do not have handlers
             reader.setElement(FRAME2_CONFIG);
             reader.setElement(EVENTS);
+            reader.setElement(SCHEMA_MAPPINGS);
             reader.setElement(EVENT_MAPPINGS);
             reader.setElement(EVENT_HANDLERS);
             reader.setElement(EXCEPTIONS);
@@ -248,4 +259,8 @@ public class EventConfigReader {
     public RequestProcessorDef getHttpReqProcHandler() {
         return this.httpReqProcHandler.getRequestProcessorDef();
     }
+
+	public Map<String, Schema> getSchemaMappings() {
+		return this.schemaMappingTagHandler.getSchemaMappings();
+	}
 }
