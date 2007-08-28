@@ -1,18 +1,15 @@
 package org.megatome.frame2.front.config;
 
-import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
 import org.megatome.frame2.util.sax.ParserException;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 
 public class SchemaMappingTagHandler extends ConfigElementHandler {
 	private static Logger LOGGER = LoggerFactory.instance(SchemaMappingTagHandler.class
@@ -24,11 +21,8 @@ public class SchemaMappingTagHandler extends ConfigElementHandler {
 	private Map<String, Schema> schemaMappings = new HashMap<String, Schema>();
 	private Map<String, Schema> loadedSchema = new HashMap<String, Schema>();
 
-	private final SchemaFactory sf;
-
 	public SchemaMappingTagHandler(EventNameTagHandler eventNameTagHandler) {
 		this.eventNameTagHandler = eventNameTagHandler;
-		this.sf = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema"); //$NON-NLS-1$
 	}
 
 	@SuppressWarnings("unused")
@@ -58,16 +52,11 @@ public class SchemaMappingTagHandler extends ConfigElementHandler {
 	private Schema loadSchema(final String location) {
 		Schema s = this.loadedSchema.get(location);
 		if (s == null) {
-			try {
-				URL schemaURL = getClass().getResource(location);
-				if (schemaURL != null) {
-					s = this.sf.newSchema(schemaURL);
-					this.loadedSchema.put(location, s);
-				} else {
-					LOGGER.severe("Failed to load schema at location: " + location); //$NON-NLS-1$
-				}
-			} catch (SAXException e) {
-				LOGGER.severe("Failed to load schema at location: " + location, e); //$NON-NLS-1$
+			s = JAXBSchemaFactory.loadSchema(location, this.getClass());
+			if (s != null) {
+				this.loadedSchema.put(location, s);
+			} else {
+				LOGGER.severe("Failed to load schema at location: " + location); //$NON-NLS-1$
 			}
 		}
 

@@ -59,6 +59,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.megatome.frame2.Globals;
+import org.megatome.frame2.front.config.JAXBSchemaFactory;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerException;
 import org.megatome.frame2.log.LoggerFactory;
@@ -117,6 +118,7 @@ public class Frame2ContextListener implements ServletContextListener {
       ServletContext context = event.getServletContext();
 
       setLoggerFirst(context);
+      JAXBSchemaFactory.setServletContext(context);
       setConfigFile(context);
       setResourceBundle(context);
       setFileUploadOptions(context);
@@ -253,6 +255,7 @@ public class Frame2ContextListener implements ServletContextListener {
    public void contextDestroyed(ServletContextEvent event) {
       ServletContext context = event.getServletContext();
       destroyPlugins(context);
+      JAXBSchemaFactory.clearContext();
       ConfigFactory.release();
    }
 }
