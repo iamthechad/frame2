@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE frame2-config PUBLIC
-  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
-  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.1//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_1.dtd">
 
 <frame2-config>
    <global-forwards>
@@ -15,8 +15,14 @@
    <events>
    	<event name="displayUsers" type="org.megatome.example.DisplayUsers"/>
    	<event name="addUser" type="org.megatome.example.User"/>
-   	<event name="addUserXML" resolveAs="children" type="org.megatome.example.jaxbgen.impl.UserImpl"/>
+   	<event name="addUserXML" resolveAs="children" type="org.megatome.example.jaxbgen.User"/>
    </events>
+   
+   <schema-mappings>
+    <schema-mapping schemaLocation="/WEB-INF/xml/user.xsd">
+     <event-name>addUserXML</event-name>
+    </schema-mapping>
+   </schema-mappings>
 
    <event-mappings>
 	<event-mapping eventName="displayUsers">
