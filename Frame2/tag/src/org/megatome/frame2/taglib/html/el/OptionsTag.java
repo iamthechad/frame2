@@ -91,7 +91,7 @@ public class OptionsTag extends BaseOptionTag {
 		Object[] value = null;
 		if (this._valueCollection != null) {
 			value = this._valueCollection.toArray();
-		} else if (this._valueArray != null) {
+		} else {
 			value = this._valueArray;
 		}
 
@@ -102,6 +102,11 @@ public class OptionsTag extends BaseOptionTag {
 			displayLen = displayValue.length;
 		} else if (this._displayValueArray != null) {
 			displayValue = this._displayValueArray;
+			displayLen = displayValue.length;
+		}
+		
+		if (displayValue == null) {
+			displayValue = value;
 			displayLen = displayValue.length;
 		}
 
@@ -177,7 +182,7 @@ public class OptionsTag extends BaseOptionTag {
 
 	@Override
 	protected void handleSelectedAttr() throws JspException {
-		// get thr select attr
+		// get the select attr
 		String selectExpr = (String) this.pageContext
 				.getAttribute(Constants.SELECT_KEY);
 		// String selectExpr = _selected;

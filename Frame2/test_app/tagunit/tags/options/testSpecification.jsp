@@ -22,7 +22,7 @@
 	<tagunit:assertAttribute name="style" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="tabindex" required="false" rtexprvalue="false" />
 	<tagunit:assertAttribute name="title" required="false" rtexprvalue="false" />
-	<tagunit:assertAttribute name="value" required="false" rtexprvalue="false" />
+	<tagunit:assertAttribute name="value" required="true" rtexprvalue="false" />
 	
 	
 	
