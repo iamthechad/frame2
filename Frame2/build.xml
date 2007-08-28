@@ -51,18 +51,8 @@
 			<pathelement location="${junit-addons-home}/junit-addons.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
 			<pathelement location="${httpclient-home}/HTTPClient.zip"/>
-			<!--
-			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
-			-->
 			<pathelement location="${log4j-home}/log4j.jar"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
-			<!--
-			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
-			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
-			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
-			-->
 		</path>
 		
 		<path id="taglib-test-compile-class-path">
@@ -83,15 +73,6 @@
 			<pathelement location="${template_build}"/>
 			<pathelement location="${tomcat-common}/jsp-api.jar"/>
 			<pathelement location="${tomcat-common}/servlet-api.jar"/>
-			<!--
-			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
-			<pathelement location="${jwsdp-shared-home}/xsdlib.jar"/>
-			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
-			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
-			-->
 			<pathelement location="${cactus-home}/cactus-1.7.2.jar"/>
 		</path>
 		
@@ -101,19 +82,8 @@
 			<pathelement location="${taglib_build}"/>
 			<pathelement location="${taglib_test_build}"/>
 			<!-- <pathelement location="${template_build}"/> -->
-			<!--
-			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
-			<pathelement location="${jwsdp-shared-home}/xsdlib.jar"/>
-			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
-			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
-			-->
 			<pathelement location="${tomcat-common}/servlet-api.jar"/>
 			<!-- <pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/> -->
-			<!--
-			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
-			-->
 			<pathelement location="${log4j-home}/log4j.jar"/>
 			<pathelement location="${commons-logging-home}/commons-logging.jar"/>
 			<pathelement location="${commons-collections-home}/commons-collections.jar"/>
@@ -123,20 +93,12 @@
 			<pathelement location="${httpclient-home}/HTTPClient.zip"/>
 			<pathelement location="${junit-addons-home}/junit-addons.jar"/>
 			<pathelement location="${jakarta-oro-home}/jakarta-oro.jar"/>
-			<!--
-			<pathelement location="${jwsdp-shared-home}/xercesImpl.jar"/>
-			-->
-			<!--
-			<pathelement location="${jwsdp-shared-home}/dom.jar"/>
-			-->
 		</path>
 		
 		<path id="run-class-path">
 			<path refid="no-commons-run-class-path"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
-			<!-- <pathelement location="${jwsdp-endorsed-home}/dom.jar"/>
-			<pathelement location="${jwsdp-endorsed-home}/xercesImpl.jar"/> -->
 		</path>
 		
 		<path id="cactus-run-class-path">
@@ -145,19 +107,8 @@
 			<pathelement location="${taglib_build}"/>
 			<pathelement location="${taglib_test_build}"/>
 			<!-- <pathelement location="${template_build}"/> -->
-			<!--
-			<pathelement location="${jwsdp-shared-home}/relaxngDatatype.jar"/>
-			<pathelement location="${jwsdp-shared-home}/xsdlib.jar"/>
-			<pathelement location="${jwsdp-shared-home}/jax-qname.jar"/>
-			<pathelement location="${jwsdp-shared-home}/namespace.jar"/>
-			-->
 			<pathelement location="${tomcat-common}/servlet-api.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
-			<!--
-			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
-			-->
 			<pathelement location="${log4j-home}/log4j.jar"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
 			<pathelement location="${commons-logging-home}/commons-logging.jar"/>
@@ -168,15 +119,9 @@
 			<pathelement location="${httpclient-home}/HTTPClient.zip"/>
 			<pathelement location="${junit-addons-home}/junit-addons.jar"/>
 			<pathelement location="${jakarta-oro-home}/jakarta-oro.jar"/>
-			<!-- <pathelement location="${jwsdp-endorsed-home}/dom.jar"/>
-			<pathelement location="${jwsdp-endorsed-home}/xercesImpl.jar"/> -->
 			<pathelement location="${cactus-home}/cactus-1.7.2.jar"/>
             <pathelement location="${cactus-home}/aspectjrt-1.2.1.jar"/>
             <pathelement location="${cactus-home}/commons-httpclient-2.0.2.jar"/>
-			<!--
-            <pathelement location="${jwsdp-shared-home}/xercesImpl.jar"/>
-			<pathelement location="${jwsdp-shared-home}/dom.jar"/>
-			-->
 		</path>
 		
 		<mkdir dir="${local-out}"/>
@@ -185,6 +130,7 @@
 	<target name="clean" depends="init">
 		<delete dir="${local-out}"/>
 		<delete dir="${dist}"/>
+		<delete dir="test_app/WEB-INF/classes"/>
 	</target>
 	
 	<!-- 
@@ -515,9 +461,6 @@
          </lib>
          <lib dir="${junit-home}">
             <include name="junit.jar"/>
-         </lib>
-         <lib dir="${jaxb-home}">
-            <include name="**/*.jar"/>
          </lib>
          <lib dir="${cactus-home}">
             <include name="cactus-1.7.2.jar"/>
