@@ -157,7 +157,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 		Error error = errors.iterator().next();
 		assertEquals(
 				"org.megatome.frame2.jaxbgen.PurchaseOrderType", error.getKey()); //$NON-NLS-1$
-		assertTrue(error.getValue1().toString().contains("'{billTo}'"));
+		assertTrue(error.getValue1().toString().contains("'{billTo}'")); //$NON-NLS-1$
 		assertNull(error.getValue2());
 	}
 }

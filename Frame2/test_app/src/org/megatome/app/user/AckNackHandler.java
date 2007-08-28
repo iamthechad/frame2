@@ -75,7 +75,7 @@ public class AckNackHandler implements EventHandler {
 			System.out.println("Adding " + user.getFirstName()); //$NON-NLS-1$
 
 			context.setRequestAttribute(
-					"ack", of.createACK(user.getFirstName() + " was added")); //$NON-NLS-1$
+					"ack", of.createACK(user.getFirstName() + " was added")); //$NON-NLS-1$ //$NON-NLS-2$
 
 			return "success"; //$NON-NLS-1$
 
@@ -86,7 +86,7 @@ public class AckNackHandler implements EventHandler {
 
 		StringBuffer errorMsg = new StringBuffer();
 		for (int i = 0; i < error.length; i++) {
-			errorMsg.append(":");
+			errorMsg.append(":"); //$NON-NLS-1$
 			errorMsg.append(error[i].getValue());
 		}
 		

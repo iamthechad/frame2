@@ -81,7 +81,7 @@ public class USAddress
      *     
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -105,7 +105,7 @@ public class USAddress
      *     
      */
     public String getStreet() {
-        return street;
+        return this.street;
     }
 
     /**
@@ -129,7 +129,7 @@ public class USAddress
      *     
      */
     public String getCity() {
-        return city;
+        return this.city;
     }
 
     /**
@@ -153,7 +153,7 @@ public class USAddress
      *     
      */
     public String getState() {
-        return state;
+        return this.state;
     }
 
     /**
@@ -177,7 +177,7 @@ public class USAddress
      *     
      */
     public BigDecimal getZip() {
-        return zip;
+        return this.zip;
     }
 
     /**
@@ -201,11 +201,10 @@ public class USAddress
      *     
      */
     public String getCountry() {
-        if (country == null) {
-            return "US";
-        } else {
-            return country;
-        }
+        if (this.country == null) {
+            return "US"; //$NON-NLS-1$
+        } 
+        return this.country;
     }
 
     /**

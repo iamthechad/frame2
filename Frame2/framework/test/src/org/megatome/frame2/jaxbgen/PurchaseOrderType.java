@@ -73,7 +73,7 @@ public class PurchaseOrderType
      *     
      */
     public USAddress getShipTo() {
-        return shipTo;
+        return this.shipTo;
     }
 
     /**
@@ -97,7 +97,7 @@ public class PurchaseOrderType
      *     
      */
     public USAddress getBillTo() {
-        return billTo;
+        return this.billTo;
     }
 
     /**
@@ -121,7 +121,7 @@ public class PurchaseOrderType
      *     
      */
     public String getComment() {
-        return comment;
+        return this.comment;
     }
 
     /**
@@ -145,7 +145,7 @@ public class PurchaseOrderType
      *     
      */
     public Items getItems() {
-        return items;
+        return this.items;
     }
 
     /**
@@ -169,7 +169,7 @@ public class PurchaseOrderType
      *     
      */
     public XMLGregorianCalendar getOrderDate() {
-        return orderDate;
+        return this.orderDate;
     }
 
     /**

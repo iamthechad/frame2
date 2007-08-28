@@ -70,7 +70,7 @@ public class User
      *     
      */
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     /**
@@ -94,7 +94,7 @@ public class User
      *     
      */
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     /**
@@ -118,7 +118,7 @@ public class User
      *     
      */
     public String getComment() {
-        return comment;
+        return this.comment;
     }
 
     /**
@@ -142,7 +142,7 @@ public class User
      *     
      */
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     /**

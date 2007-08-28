@@ -71,10 +71,10 @@ public class TestUser extends TestCase {
 	
 	private Schema loadSchema() {
 		SchemaFactory sf = SchemaFactory
-				.newInstance("http://www.w3.org/2001/XMLSchema");
+				.newInstance("http://www.w3.org/2001/XMLSchema"); //$NON-NLS-1$
 		Schema s = null;
 		try {
-			s = sf.newSchema(getClass().getResource("/WEB-INF/schemas/user.xsd"));
+			s = sf.newSchema(getClass().getResource("/WEB-INF/schemas/user.xsd")); //$NON-NLS-1$
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
@@ -137,6 +137,7 @@ public class TestUser extends TestCase {
 		assertTrue(os.toString().indexOf("It was a bad thing.") > 0); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("unchecked")
 	public void testUnmarshall() throws Exception {
 		User user = (User) unmarshall("org/megatome/app/jaxb/user.xml"); //$NON-NLS-1$
 		assertNotNull(user);

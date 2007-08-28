@@ -29,9 +29,10 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlRegistry
+@SuppressWarnings("nls")
 public class ObjectFactory {
 
-    private final static QName _PurchaseOrder_QNAME = new QName("", "purchaseOrder");
+	private final static QName _PurchaseOrder_QNAME = new QName("", "purchaseOrder");
     private final static QName _Comment_QNAME = new QName("", "comment");
 
     /**
@@ -39,6 +40,7 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    	//Empty
     }
 
     /**

@@ -83,9 +83,7 @@ public class TestSoapFrontController extends MockFrame2TestCase {
 	private Element[] createPOEventXML() {
 		Element[] el = null;
 		try {
-			//el = Helper.loadEvents("org/megatome/frame2/jaxb/po.xml", //$NON-NLS-1$
-			//		getClass());
-			el = Helper.loadEvents("org/megatome/frame2/jaxb/po.xml", "org.megatome.frame2.jaxbgen", getClass().getClassLoader());
+			el = Helper.loadEvents("org/megatome/frame2/jaxb/po.xml", "org.megatome.frame2.jaxbgen", getClass().getClassLoader()); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

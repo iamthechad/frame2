@@ -29,6 +29,7 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlRegistry
+@SuppressWarnings("nls")
 public class ObjectFactory {
 
     private final static QName _ACK_QNAME = new QName("", "ACK");
@@ -40,6 +41,7 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    	//Empty
     }
 
     /**

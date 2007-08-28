@@ -96,8 +96,8 @@ public class Items
      * 
      */
     public List<Items.Item> getItem() {
-        if (item == null) {
-            item = new ArrayList<Items.Item>();
+        if (this.item == null) {
+            this.item = new ArrayList<Items.Item>();
         }
         return this.item;
     }
@@ -166,7 +166,7 @@ public class Items
          *     
          */
         public String getProductName() {
-            return productName;
+            return this.productName;
         }
 
         /**
@@ -186,7 +186,7 @@ public class Items
          * 
          */
         public int getQuantity() {
-            return quantity;
+            return this.quantity;
         }
 
         /**
@@ -206,7 +206,7 @@ public class Items
          *     
          */
         public BigDecimal getUSPrice() {
-            return usPrice;
+            return this.usPrice;
         }
 
         /**
@@ -230,7 +230,7 @@ public class Items
          *     
          */
         public String getComment() {
-            return comment;
+            return this.comment;
         }
 
         /**
@@ -254,7 +254,7 @@ public class Items
          *     
          */
         public XMLGregorianCalendar getShipDate() {
-            return shipDate;
+            return this.shipDate;
         }
 
         /**
@@ -278,7 +278,7 @@ public class Items
          *     
          */
         public String getPartNum() {
-            return partNum;
+            return this.partNum;
         }
 
         /**

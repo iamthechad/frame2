@@ -50,7 +50,6 @@
  */
 package org.megatome.frame2.jaxb;
 
-import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,19 +60,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
@@ -82,7 +72,6 @@ import junit.framework.TestCase;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.front.TranslationException;
-import org.megatome.frame2.jaxb.JaxbEventBase.ValidationMonitor;
 import org.megatome.frame2.jaxbgen.Items;
 import org.megatome.frame2.jaxbgen.ObjectFactory;
 import org.megatome.frame2.jaxbgen.PurchaseOrderType;
@@ -185,25 +174,6 @@ public class TestPurchaseOrder extends TestCase {
 		return errors.isEmpty();
     }
 	
-	private void dumpDocument(Document doc, String filename) {
-        try {
-            // Prepare the DOM document for writing
-            Source source = new DOMSource(doc);
-    
-            // Prepare the output file
-            File file = new File(filename);
-            Result result = new StreamResult(file);
-    
-            // Write the DOM document to the file
-            Transformer xformer = TransformerFactory.newInstance().newTransformer();
-            xformer.transform(source, result);
-        } catch (TransformerConfigurationException e) {
-        	e.printStackTrace();
-        } catch (TransformerException e) {
-        	e.printStackTrace();
-        }
-    }
-	
 	private Document getTargetDocument() throws TranslationException {
 		Document result = null;
 
@@ -225,16 +195,17 @@ public class TestPurchaseOrder extends TestCase {
 
 	private Schema loadSchema() {
 		SchemaFactory sf = SchemaFactory
-				.newInstance("http://www.w3.org/2001/XMLSchema");
+				.newInstance("http://www.w3.org/2001/XMLSchema"); //$NON-NLS-1$
 		Schema s = null;
 		try {
-			s = sf.newSchema(getClass().getResource("/WEB-INF/schemas/po.xsd"));
+			s = sf.newSchema(getClass().getResource("/WEB-INF/schemas/po.xsd")); //$NON-NLS-1$
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
 		return s;
 	}
 
+	@SuppressWarnings("unchecked")
 	private PurchaseOrderType unmarshall() throws Exception {
 		JAXBElement<PurchaseOrderType> element = (JAXBElement<PurchaseOrderType>) Helper
 				.unmarshall(
