@@ -5,7 +5,7 @@
 The web service must be deployed into Axis first. Issue the following command:<br>
 (This command is written to be issued from the /WEB-INF/lib directory of this web application.
 You will have to adjust the classpath if you are issuing it from a different location.)<br>
-<pre>java -cp axis.jar;jaxrpc.jar;commons-logging.jar;commons-discovery.jar;saaj.jar \
+<pre>java -cp axis.jar;jaxrpc.jar;commons-logging.jar;commons-discovery.jar \
 org.apache.axis.client.AdminClient \
 -lhttp://localhost:8080/soap-example/services \
 ../xml/user-service.wsdd
