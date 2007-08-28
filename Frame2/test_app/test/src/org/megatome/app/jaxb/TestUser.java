@@ -53,6 +53,8 @@ package org.megatome.app.jaxb;
 import java.io.OutputStream;
 
 import javax.xml.bind.JAXBElement;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
@@ -61,13 +63,27 @@ import org.megatome.app.jaxbgen.User;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.util.Helper;
+import org.xml.sax.SAXException;
 
 public class TestUser extends TestCase {
 	private static final String TARGET_PACKAGE = "org.megatome.app.jaxbgen"; //$NON-NLS-1$
 	private static final ObjectFactory of = new ObjectFactory();
+	
+	private Schema loadSchema() {
+		SchemaFactory sf = SchemaFactory
+				.newInstance("http://www.w3.org/2001/XMLSchema");
+		Schema s = null;
+		try {
+			s = sf.newSchema(getClass().getResource("/WEB-INF/schemas/user.xsd"));
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
+		return s;
+	}
 
 	public void testUser() {
 		User user = makeFred();
+		user.setValidatingSchema(loadSchema());
 
 		Errors errors = ErrorsFactory.newInstance();
 
@@ -78,7 +94,7 @@ public class TestUser extends TestCase {
 
 		assertFalse(user.validate(errors));
 		assertFalse(errors.isEmpty());
-		assertEquals(1, errors.size());
+		assertEquals(2, errors.size());
 	}
 
 	/*
@@ -133,7 +149,6 @@ public class TestUser extends TestCase {
 	}
 
 	private Object unmarshall(String path) throws Exception {
-		return Helper.unmarshall(path, TARGET_PACKAGE, getClass()
-				.getClassLoader());
+		return Helper.unmarshall(path, TARGET_PACKAGE, getClass().getClassLoader());
 	}
 }
