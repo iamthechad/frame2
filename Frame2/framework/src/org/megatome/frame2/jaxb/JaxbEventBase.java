@@ -109,6 +109,8 @@ public abstract class JaxbEventBase extends CommonsValidatorEvent {
     @Override
 	public boolean validate(Errors errors) {
         boolean result = true;
+        String evtName = this.getEventName();
+        this.setEventName(null);
         try {
 			ValidationMonitor monitor = new ValidationMonitor();
 			JAXBContext context = JAXBContext.newInstance(this.getClass().getPackage().getName());
@@ -124,6 +126,7 @@ public abstract class JaxbEventBase extends CommonsValidatorEvent {
 			result = false;
 		}
         
+		this.setEventName(evtName);
         // calling super's validate after jaxb validate
         // per customer requirement
         result &= super.validate(errors);
