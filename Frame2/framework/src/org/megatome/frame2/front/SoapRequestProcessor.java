@@ -399,8 +399,13 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 	@SuppressWarnings("unchecked")
 	private <T extends JaxbEventBase> T unmarshall(Unmarshaller unm, 
 			InputStream is) throws JAXBException {
-		JAXBElement<T> element = (JAXBElement<T>) unm.unmarshal(is);
-		return element.getValue();
+		Object obj = unm.unmarshal(is);
+		if (obj instanceof JAXBElement) {
+			JAXBElement<T> element = (JAXBElement<T>) obj;
+			return element.getValue();
+		}
+		
+		return (T)obj;
 	}
 
 	/**
