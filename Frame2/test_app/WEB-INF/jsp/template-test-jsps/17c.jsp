@@ -11,5 +11,5 @@
 	<template:put name="nav" path="invalidPath.jsp" scope="request" />
 	<template:put name="footer" path="invalidPath.jsp" scope="request" />	
 </template:insert>
-</body
+</body>
 </html>

@@ -9,5 +9,5 @@
 <template:insert definition="template2">
 	<template:put name="header" scope="page" />
 </template:insert>
-</body
+</body>
 </html>

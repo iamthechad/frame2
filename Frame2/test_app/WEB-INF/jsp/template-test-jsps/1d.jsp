@@ -9,5 +9,5 @@
 <template:insert definition="badtemplate">
 	<template:put path="headerSessionScope.jsp" scope="session" />
 </template:insert>
-</body
+</body>
 </html>

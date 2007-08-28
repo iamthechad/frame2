@@ -11,5 +11,5 @@
 	<template:put name="nav" path="navRequestScope.jsp" scope="request" />
 	<template:put name="footer" path="footerRequestScope.jsp" scope="request" />	
 </template:insert>
-</body
+</body>
 </html>

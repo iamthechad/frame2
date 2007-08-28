@@ -11,5 +11,5 @@
 	<template:put name="nav" path="subDir/navApplicationScope.jsp" scope="application" />
 	<template:put name="footer" path="subDir/footerApplicationScope.jsp" scope="application" />	
 </template:insert>
-</body
+</body>
 </html>

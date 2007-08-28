@@ -11,5 +11,5 @@
 	<template:put name="" path="navNoScope.jsp" />
 	<template:put name="" path="footerNoScope.jsp" />	
 </template:insert>
-</body
+</body>
 </html>

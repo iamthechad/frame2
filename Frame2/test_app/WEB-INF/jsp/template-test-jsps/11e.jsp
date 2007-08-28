@@ -9,5 +9,5 @@
 <template:insert definition="template2">
 	<template:put path="headerApplicationScope.jsp" scope="application"/>
 </template:insert>
-</body
+</body>
 </html>

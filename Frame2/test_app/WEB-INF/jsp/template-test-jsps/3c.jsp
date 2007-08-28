@@ -9,5 +9,5 @@
 <template:insert definition="badtemplate">
 	<template:put name="header" path="invalidPath.jsp" scope="request" />
 </template:insert>
-</body
+</body>
 </html>

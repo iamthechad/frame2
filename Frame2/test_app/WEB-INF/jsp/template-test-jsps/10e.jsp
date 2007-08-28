@@ -14,5 +14,5 @@
 	<template:put name="footer" path="footerApplicationScope.jsp" scope="application" />
 	<template:put name="footer2" path="footerApplicationScope.jsp" scope="application" />	
 </template:insert>
-</body
+</body>
 </html>

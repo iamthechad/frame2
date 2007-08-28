@@ -13,5 +13,5 @@
 	<template:param name="paramname2" value="paramvalue4" />
 	<template:put name="header" path="headerRequestScope.jsp" scope="request" />
 </template:insert>
-</body
+</body>
 </html>
