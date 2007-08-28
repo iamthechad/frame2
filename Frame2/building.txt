@@ -63,16 +63,3 @@ commons-discovery.jar		ext/ws
 jaxrpc.jar					ext/ws
 saaj.jar					ext/ws
 wsdl4j.jar					ext/ws
-
-Libraries From Sun's Java Web Services Developer Kit
-Library						Location in Build
------------------------------------------------------------------
-dom.jar						ext/ws/jwsdp
-jaxb-api.jar				ext/ws/jwsdp
-jaxb-impl.jar				ext/ws/jwsdp
-jaxb-libs.jar				ext/ws/jwsdp
-jax-qname.jar				ext/ws/jwsdp
-namespace.jar				ext/ws/jwsdp
-relaxngDatatype.jar			ext/ws/jwsdp
-xercesImpl.jar				ext/ws/jwsdp
-xsdlib.jar					ext/ws/jwsdp
