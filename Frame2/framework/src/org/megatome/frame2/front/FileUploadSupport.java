@@ -50,6 +50,7 @@
  */
 package org.megatome.frame2.front;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,9 +59,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
@@ -79,14 +81,22 @@ public final class FileUploadSupport {
             throws Frame2Exception {
         Map<String, Object> parameters = new HashMap<String, Object>();
 
-        DiskFileUpload fileUpload = new DiskFileUpload();
-        fileUpload.setSizeMax(FileUploadConfig.getMaxFileSize());
-        fileUpload.setSizeThreshold(FileUploadConfig.getBufferSize());
-        fileUpload.setRepositoryPath(FileUploadConfig.getFileTempDir());
+        // Create a factory for disk-based file items
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+
+        // Set factory constraints
+        factory.setSizeThreshold(FileUploadConfig.getBufferSize());
+        factory.setRepository(new File(FileUploadConfig.getFileTempDir()));
+        
+        // Create a new file upload handler
+        ServletFileUpload upload = new ServletFileUpload(factory);
+
+        // Set overall request size constraint
+        upload.setSizeMax(FileUploadConfig.getMaxFileSize());
 
         List<FileItem> fileItems = null;
         try {
-            fileItems = fileUpload.parseRequest(request);
+            fileItems = upload.parseRequest(request);
         } catch (FileUploadException fue) {
             getLogger().severe("File Upload Error", fue); //$NON-NLS-1$
             throw new Frame2Exception("File Upload Exception", fue); //$NON-NLS-1$

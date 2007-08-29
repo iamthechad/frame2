@@ -90,9 +90,9 @@ public final class TemplateHelper {
 
 	@SuppressWarnings("unchecked")
 	public static void removeAttribute(PageContext context, int scope) {
-		Enumeration<Object> en = context.getAttributeNamesInScope(scope);
+		Enumeration<String> en = context.getAttributeNamesInScope(scope);
 		while (en.hasMoreElements()) {
-			String name = (String) en.nextElement();
+			String name = en.nextElement();
 			context.removeAttribute(name, scope);
 		}
 	}

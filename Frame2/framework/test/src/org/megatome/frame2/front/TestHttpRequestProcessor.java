@@ -224,7 +224,8 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files = new HashMap<String, String>();
 
-		String fileName = "/WEB-INF/commonsvalidator/commons-validator-rules.xml"; //$NON-NLS-1$
+		
+		String fileName = "/WEB-INF/commonsvalidator/commons-validation.xml"; //$NON-NLS-1$
 		parms.put("parm1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
 		files.put("fileparm", fileName); //$NON-NLS-1$
 
@@ -241,7 +242,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertNotNull(fi);
 		assertEquals("fileparm", fi.getFieldName()); //$NON-NLS-1$
 		String fullFileName = fi.getName();
-		assertTrue(fullFileName.indexOf("commons-validator-rules.xml") != -1); //$NON-NLS-1$
+		assertTrue(fullFileName.indexOf("commons-validation.xml") != -1); //$NON-NLS-1$
 
 		verifyFiles(fi, "testSingleBigFileUpload.xml", fileName); //$NON-NLS-1$
 	}
@@ -252,7 +253,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		Map<String, String> files2 = new HashMap<String, String>();
 
 		String fileName1 = "/WEB-INF/frame2-config.xml"; //$NON-NLS-1$
-		String fileName2 = "/WEB-INF/commonsvalidator/commons-validator-rules.xml"; //$NON-NLS-1$
+		String fileName2 = "/WEB-INF/commonsvalidator/commons-validation.xml"; //$NON-NLS-1$
 		parms.put("parm1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
 		files1.put("fileparm", fileName1); //$NON-NLS-1$
 		files2.put("fileparm2", fileName2); //$NON-NLS-1$
@@ -277,7 +278,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertNotNull(fi);
 		assertEquals("fileparm2", fi.getFieldName()); //$NON-NLS-1$
 		fullFileName = fi.getName();
-		assertTrue(fullFileName.indexOf("commons-validator-rules.xml") != -1); //$NON-NLS-1$
+		assertTrue(fullFileName.indexOf("commons-validation.xml") != -1); //$NON-NLS-1$
 
 		verifyFiles(fi, "testMultFileUpload2.xml", fileName2); //$NON-NLS-1$
 	}
@@ -288,7 +289,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		Map<String, String> files2 = new HashMap<String, String>();
 
 		String fileName1 = "/WEB-INF/frame2-config.xml"; //$NON-NLS-1$
-		String fileName2 = "/WEB-INF/commonsvalidator/commons-validator-rules.xml"; //$NON-NLS-1$
+		String fileName2 = "/WEB-INF/commonsvalidator/commons-validation.xml"; //$NON-NLS-1$
 		parms.put("parm1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
 		files1.put("fileparm", fileName1); //$NON-NLS-1$
 		files2.put("fileparm", fileName2); //$NON-NLS-1$
@@ -313,7 +314,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 
 		assertEquals("fileparm", fi[1].getFieldName()); //$NON-NLS-1$
 		fullFileName = fi[1].getName();
-		assertTrue(fullFileName.indexOf("commons-validator-rules.xml") != -1); //$NON-NLS-1$
+		assertTrue(fullFileName.indexOf("commons-validation.xml") != -1); //$NON-NLS-1$
 
 		verifyFiles(fi[1], "testMultFileSameParamUpload2.xml", fileName2); //$NON-NLS-1$
 	}
@@ -423,7 +424,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files = new HashMap<String, String>();
 
-		String fileName = "/WEB-INF/commonsvalidator/commons-validator-rules.xml"; //$NON-NLS-1$
+		String fileName = "/WEB-INF/commonsvalidator/commons-validation.xml"; //$NON-NLS-1$
 		parms.put("parm1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
 		files.put("fileparm", fileName); //$NON-NLS-1$
 
@@ -447,7 +448,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files = new HashMap<String, String>();
 
-		String fileName = "/WEB-INF/commonsvalidator/commons-validator-rules.xml"; //$NON-NLS-1$
+		String fileName = "/WEB-INF/commonsvalidator/commons-validation.xml"; //$NON-NLS-1$
 		parms.put("parm1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
 		files.put("fileparm", fileName); //$NON-NLS-1$
 
