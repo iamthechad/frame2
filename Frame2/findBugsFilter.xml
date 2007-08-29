@@ -1,0 +1,55 @@
+<FindBugsFilter>
+	<Match>
+		<Package name="~org\.megatome\.frame2\.jaxbgen.*" />
+	</Match>
+	
+	<Match>
+		<Class name="org.megatome.frame2.taglib.html.el.TestATag"/>
+		<Method name="testNegativeQueryParamTagAndParam"/>
+		<Bug pattern="DE_MIGHT_IGNORE"/>
+	</Match>
+	
+	<Match>
+		<Class name="org.megatome.frame2.front.HandlerThrowingException"/>
+		<Bug pattern="NM_CLASS_NOT_EXCEPTION"/>
+	</Match>
+	
+	<!-- 
+	<Match>
+		<Class name="org.megatome.frame2.introspector.MappingException"/>
+		<Bug pattern="SE_BAD_FIELD"/>
+	</Match>
+	
+	<Match>
+		<Class name="org.megatome.frame2.taglib.template.el.InsertTag"/>
+		<Bug pattern="SE_BAD_FIELD"/>
+	</Match>
+	-->
+	
+	<Match>
+		<Class name="org.megatome.frame2.jaxb.TestPurchaseOrder"/>
+		<Method name="loadSchema"/>
+		<Bug pattern="UI_INHERITANCE_UNSAFE_GETRESOURCE"/>
+	</Match>
+	
+	<Match>
+		<Class name="~.*\.AckResponder" />
+		<Bug pattern="NP_NULL_ON_SOME_PATH_EXCEPTION"/>
+	</Match>
+	
+	<Match>
+		<Class name="org.megatome.frame2.front.SoapRequestProcessor"/>
+		<Method name="getEvents"/>
+		<Bug pattern="REC_CATCH_EXCEPTION"/>
+	</Match>
+	
+	<Match>
+		<Class name="~.*introspector\.Bean\d+" />
+		<Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+	</Match>
+	
+	<Match>
+		<Class name="org.megatome.frame2.front.EventMultFileUpload" />
+		<Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+	</Match>
+</FindBugsFilter>
