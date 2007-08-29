@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+<!--
+	
+	This file contains the default pluggable validator
+	definitions.  It should be placed under /WEB-INF/commonsvalidator and
+	referenced in the frame2-config.xml under the plugins element.
+	
+	<plugin name='CommonsValidator' type='org.megatome.frame2.validator.CommonsValidatorPlugin'/>
+	
+	These are the default error messages associated with
+	each validator defined in this file.  They should be
+	added to your projects frame2-app-bundle.properties
+	file or you can associate new ones by modifying the
+	pluggable validators msg attributes in this file.
+	
+	# Commons Validator Error Messages
+	errors.required={0} is required.
+	errors.minLength={0} can not be less than {1} characters.
+	errors.maxLength={0} can not be greater than {1} characters.
+	
+	errors.byte={0} must be a byte.
+	errors.short={0} must be a short.
+	errors.integer={0} must be an integer.
+	errors.long={0} must be a long.
+	errors.float={0} must be a float.
+	errors.double={0} must be a double.
+	
+	errors.date={0} is not a date.
+	errors.intRange={0} is not in the range {1} through {2}.
+	errors.floatRange={0} is not in the range {1} through {2}.
+	errors.doubleRange={0} is not in the range {1} through {2}.
+	errors.creditCard={0} is an invalid credit card number.
+	errors.email={0} is an invalid e-mail address.
+	errors.mask={0} is invalid.
+	errors.twofields={0} must have the same value as {1}.
+	
+-->
+<form-validation>
+	<global>
+
+		<validator name="email"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateEmail"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.email">
+		</validator>
+
+		<validator name="required"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateRequired"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.required">
+		</validator>
+
+		<validator name="mask"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="mask"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.mask" />
+
+		<validator name="byte"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateByte"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.byte">
+		</validator>
+
+		<validator name="short"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateShort"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.short">
+		</validator>
+
+		<validator name="integer"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateInteger"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.integer">
+		</validator>
+
+		<validator name="long"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateLong"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.long">
+		</validator>
+
+		<validator name="float"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateFloat"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.float">
+		</validator>
+
+		<validator name="double"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateDouble"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.double">
+		</validator>
+
+		<validator name="date"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateDate"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.date">
+		</validator>
+
+		<validator name="intRange"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateIntRange"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.intRange">
+		</validator>
+
+		<validator name="floatRange"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateFloatRange"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.floatRange">
+		</validator>
+
+		<validator name="doubleRange"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateDoubleRange"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.doubleRange">
+		</validator>
+
+		<validator name="creditCard"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateCreditCard"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.creditCard">
+		</validator>
+
+		<validator name="minLength"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateMinLength"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.minLength">
+		</validator>
+
+		<validator name="maxLength"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateMaxLength"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.maxLength">
+		</validator>
+
+		<validator name="twofields"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateTwoFields"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.twofields">
+		</validator>
+
+		<validator name="requiredif"
+			classname="org.megatome.frame2.validator.CommonsFieldValidator"
+			method="validateRequiredIf"
+			methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.megatome.frame2.errors.Errors,
+                       org.apache.commons.validator.Field"
+			msg="errors.required">
+		</validator>
+		<!-- mask rules -->
+		<constant>
+			<constant-name>phone</constant-name>
+			<constant-value>
+				^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$
+			</constant-value>
+		</constant>
+		<constant>
+			<constant-name>zip</constant-name>
+			<constant-value>^\d{5}\d*$</constant-value>
+		</constant>
+		<constant>
+			<constant-name>zip-5</constant-name>
+			<constant-value>^\d{5}(-\d{4})?$</constant-value>
+		</constant>
+	</global>
+</form-validation>

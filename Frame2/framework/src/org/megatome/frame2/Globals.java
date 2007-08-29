@@ -132,10 +132,10 @@ public final class Globals {
     public static final String FORWARD_SLASH = "/"; //$NON-NLS-1$
 
     /** File name for Commons validator rules */
-    public static final String RULES_FILE = "commons-validator-rules.xml"; //$NON-NLS-1$
+    //public static final String RULES_FILE = "commons-validator-rules.xml"; //$NON-NLS-1$
 
     /** File name for Commons Validator mappings */
-    public static final String MAPPINGS_FILE = "commons-validation-mappings.xml"; //$NON-NLS-1$
+    public static final String MAPPINGS_FILE = "commons-validation.xml"; //$NON-NLS-1$
 
     /** Error key for Commons Validator */
     public static final String ERRORS_KEY = "org.megatome.frame2.errors.Errors"; //$NON-NLS-1$

@@ -52,144 +52,165 @@ package org.megatome.frame2.validator;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 
 import org.apache.commons.validator.Validator;
 import org.apache.commons.validator.ValidatorException;
 import org.apache.commons.validator.ValidatorResources;
-import org.apache.commons.validator.ValidatorResourcesInitializer;
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
+import org.xml.sax.SAXException;
 
 public class CommonsValidatorWrapper {
 
-   //public static final String RULES_FILE = "commons-validator-rules.xml";
-   //public static final String MAPPINGS_FILE = "commons-validation-mappings.xml";
-   //public static final String ERRORS_KEY = "org.megatome.frame2.errors.Errors";   
-          
-   static String cvFilePath = "/WEB-INF/commonsvalidator"; //$NON-NLS-1$
-   static String cvRulesFile = Globals.RULES_FILE;
-   static String cvMappingsFile = Globals.MAPPINGS_FILE;
-   
-   static ValidatorResources validatorResources;
-   
-   private static Logger LOGGER = LoggerFactory.instance(CommonsValidatorWrapper.class.getName());
+	// public static final String RULES_FILE = "commons-validator-rules.xml";
+	// public static final String MAPPINGS_FILE =
+	// "commons-validation-mappings.xml";
+	// public static final String ERRORS_KEY =
+	// "org.megatome.frame2.errors.Errors";
 
-   private CommonsValidatorWrapper() {
-	   // not public
-   }
+	static String cvFilePath = "/WEB-INF/commonsvalidator"; //$NON-NLS-1$
+	// static String cvRulesFile = Globals.RULES_FILE;
+	static String cvMappingsFile = Globals.MAPPINGS_FILE;
 
-   public static void load(ServletContext context)
-      throws CommonsValidatorException {
+	static ValidatorResources validatorResources;
 
-      validatorResources = new ValidatorResources();  
-      
-      List<String> fileNames = new ArrayList<String>();
-      fileNames.add(cvRulesFile);
-      fileNames.add(cvMappingsFile);
+	private static Logger LOGGER = LoggerFactory
+			.instance(CommonsValidatorWrapper.class.getName());
 
-      for (int i = 0; i < fileNames.size(); i++) {
-         String filePath =  cvFilePath + Globals.FORWARD_SLASH + fileNames.get(i);
-         InputStream in =
-            context.getResourceAsStream(filePath);
-         if (in == null) {
-             validatorResources = null;
-            throw new CommonsValidatorException("invalid filePath: " + filePath);              //$NON-NLS-1$
-         }
-         try {
-            ValidatorResourcesInitializer.initialize(validatorResources, in);
-         } catch (IOException e) {
-            validatorResources = null;
-            throw new CommonsValidatorException(e);              
-         }
-      }
+	private CommonsValidatorWrapper() {
+		// not public
+	}
 
-   }
+	public static void load(ServletContext context)
+			throws CommonsValidatorException {
 
-   public static ValidatorResources getValidatorResources() {
-      return validatorResources;
-   }
+		// validatorResources = new ValidatorResources();
 
-   /**
-    * Returns the filePath.
-    * @return String
-    */
-   public static String getFilePath() {
-      return cvFilePath;
-   }
+		String filePath = cvFilePath + Globals.FORWARD_SLASH + cvMappingsFile;
+		InputStream in = context.getResourceAsStream(filePath);
+		if (in == null) {
+			// validatorResources = null;
+			throw new CommonsValidatorException("invalid filePath: " + filePath); //$NON-NLS-1$
+		}
+		try {
+			validatorResources = new ValidatorResources(in);
+		} catch (IOException e) {
+			validatorResources = null;
+			throw new CommonsValidatorException(e);
+		} catch (SAXException e) {
+			validatorResources = null;
+			throw new CommonsValidatorException(e);
+		}
 
-   /**
-    * Sets the filePath.
-    * @param filePath The filePath to set
-    */
-   public static void setFilePath(String filePath) {
-      cvFilePath = filePath;
-   }
-   
-      
-   
-   /**
-    *   Method to be called by the CommonsValidatorEvent class.   signature
-    *   will be modified.
-    */
-   public static void validate(String beanName,  Object o, Errors errors) {
-      
-      Validator validator = new Validator(validatorResources, beanName);
-      // add the name bean to the validator as a resource
-      // for the validations to be performed on.
-      validator.addResource(Validator.BEAN_KEY, o);
-      validator.addResource(Globals.ERRORS_KEY, errors);
-      
-      try {
-        validator.validate();
-      } catch (ValidatorException e) {
-        LOGGER.info("Error validating HttpEvent beanName : " + e)  ; //$NON-NLS-1$
-      }
-      
-   }
+		/*
+		 * List<String> fileNames = new ArrayList<String>();
+		 * fileNames.add(cvRulesFile); fileNames.add(cvMappingsFile);
+		 * 
+		 * for (int i = 0; i < fileNames.size(); i++) { String filePath =
+		 * cvFilePath + Globals.FORWARD_SLASH + fileNames.get(i); InputStream in =
+		 * context.getResourceAsStream(filePath); if (in == null) {
+		 * validatorResources = null; throw new
+		 * CommonsValidatorException("invalid filePath: " + filePath);
+		 * //$NON-NLS-1$ } try {
+		 * ValidatorResourcesInitializer.initialize(validatorResources, in); }
+		 * catch (IOException e) { validatorResources = null; throw new
+		 * CommonsValidatorException(e); } }
+		 */
 
-   /**
-    * Returns the mappingsFile.
-    * @return String
-    */
-   public static String getMappingsFile() {
-      return cvMappingsFile;
-   }
+	}
 
-   /**
-    * Returns the rulesFile.
-    * @return String
-    */
-   public static String getRulesFile() {
-      return cvRulesFile;
-   }
+	public static ValidatorResources getValidatorResources() {
+		return validatorResources;
+	}
 
-   /**
-    * Sets the mappingsFile.
-    * @param mappingsFile The mappingsFile to set
-    */
-   public static void setMappingsFile(String mappingsFile) {
-      cvMappingsFile = mappingsFile;
-   }
+	/**
+	 * Returns the filePath.
+	 * 
+	 * @return String
+	 */
+	public static String getFilePath() {
+		return cvFilePath;
+	}
 
-   /**
-    * Sets the rulesFile.
-    * @param rulesFile The rulesFile to set
-    */
-   public static void setRulesFile(String rulesFile) {
-      cvRulesFile = rulesFile;
-   }
-   
-   /**
-    *  Release the validatorResources object.
-    */
-   public static void release() {
-      validatorResources = null;
-   }
+	/**
+	 * Sets the filePath.
+	 * 
+	 * @param filePath
+	 *            The filePath to set
+	 */
+	public static void setFilePath(String filePath) {
+		cvFilePath = filePath;
+	}
+
+	/**
+	 * Method to be called by the CommonsValidatorEvent class. signature will be
+	 * modified.
+	 */
+	public static void validate(String beanName, Object o, Errors errors) {
+		try {
+			Validator validator = new Validator(validatorResources, beanName);
+			// add the name bean to the validator as a resource
+			// for the validations to be performed on.
+			validator.setParameter(Validator.BEAN_PARAM, o);
+			validator.setParameter(Globals.ERRORS_KEY, errors);
+
+			validator.validate();
+		} catch (ValidatorException e) {
+			LOGGER.info("Error validating HttpEvent " + beanName + " : " + e); //$NON-NLS-1$ //$NON-NLS-2$
+		} catch (IllegalArgumentException e) {
+			LOGGER.warn("Error validating: " + e.getMessage()); //$NON-NLS-1$
+		}
+
+	}
+
+	/**
+	 * Returns the mappingsFile.
+	 * 
+	 * @return String
+	 */
+	public static String getMappingsFile() {
+		return cvMappingsFile;
+	}
+
+	/**
+	 * Returns the rulesFile.
+	 * 
+	 * @return String
+	 */
+	/*
+	 * public static String getRulesFile() { return cvRulesFile; }
+	 */
+
+	/**
+	 * Sets the mappingsFile.
+	 * 
+	 * @param mappingsFile
+	 *            The mappingsFile to set
+	 */
+	public static void setMappingsFile(String mappingsFile) {
+		cvMappingsFile = mappingsFile;
+	}
+
+	/**
+	 * Sets the rulesFile.
+	 * 
+	 * @param rulesFile
+	 *            The rulesFile to set
+	 */
+	/*
+	 * public static void setRulesFile(String rulesFile) { cvRulesFile =
+	 * rulesFile; }
+	 */
+
+	/**
+	 * Release the validatorResources object.
+	 */
+	public static void release() {
+		validatorResources = null;
+	}
 
 }

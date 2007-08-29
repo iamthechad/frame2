@@ -70,7 +70,6 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    ValidatorResources validatorResources;
    static String DEF_FILE_PATH = "/org/megatome/frame2/validator/config"; //$NON-NLS-1$
    static String DEF_MAPPINGS_FILE = "test-all-mappings.xml"; //$NON-NLS-1$
-   static String DEF_RULES_FILE = "test-all-rules.xml"; //$NON-NLS-1$
    static int DEF_ERRORS_SIZE = 1;
    // There is always one default error to verify error object passed in is not
    // corrupted by the validation methods.
@@ -126,19 +125,17 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
    private ValidatorResources buildValidatorResources() {
       return buildValidatorResources(
          DEF_FILE_PATH,
-         DEF_MAPPINGS_FILE,
-         DEF_RULES_FILE);
+         DEF_MAPPINGS_FILE);
    }
 
    private ValidatorResources buildValidatorResources(
       String filePath,
-      String mappingsFile,
-      String rulesFile) {
+      String mappingsFile) {
       ValidatorResources resources = null;
       try {
          CommonsValidatorWrapper.setFilePath(filePath);
          CommonsValidatorWrapper.setMappingsFile(mappingsFile);
-         CommonsValidatorWrapper.setRulesFile(rulesFile);
+         //CommonsValidatorWrapper.setRulesFile(rulesFile);
          CommonsValidatorWrapper.load(getContext());
          resources = CommonsValidatorWrapper.getValidatorResources();
          assertNotNull(resources);
@@ -224,8 +221,8 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       Validator validator = new Validator(this.validatorResources, fieldBeanName);
       // add the name bean to the validator as a resource
       // for the validations to be performed on.
-      validator.addResource(Validator.BEAN_KEY, testBean);
-      validator.addResource(Globals.ERRORS_KEY, errors);
+      validator.setParameter(Validator.BEAN_PARAM, testBean);
+      validator.setParameter(Globals.ERRORS_KEY, errors);
 
       // Get results of the validation.
       try {

@@ -57,7 +57,7 @@ import org.apache.commons.validator.Field;
 import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.ValidatorAction;
-import org.apache.commons.validator.ValidatorUtil;
+import org.apache.commons.validator.util.ValidatorUtils;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.errors.impl.ErrorFactory;
@@ -137,7 +137,7 @@ public class CommonsFieldValidator {
 	protected static void addError(ValidatorAction va, Errors errors,
 			Field field, Object validatorErrorValue1,
 			Object validatorErrorValue2) {
-		Arg arg = field.getArg0();
+		Arg arg = field.getArg(0);
 		String validatorKey = va.getMsg();
 		if (arg != null) {
 			String fieldMsgKey = arg.getKey();
@@ -165,7 +165,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateEmail(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateEmail(value, va, errors, field);
 	}
@@ -214,7 +214,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateRequired(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateRequired(value, va, errors, field);
 	}
@@ -256,7 +256,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean mask(Object bean, ValidatorAction va, Errors errors,
 			Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return mask(value, va, errors, field);
 	}
@@ -312,7 +312,7 @@ public class CommonsFieldValidator {
 	 */
 	public static Byte validateByte(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateByte(value, va, errors, field);
 	}
@@ -360,7 +360,7 @@ public class CommonsFieldValidator {
 	 */
 	public static Short validateShort(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateShort(value, va, errors, field);
 	}
@@ -408,7 +408,7 @@ public class CommonsFieldValidator {
 	 */
 	public static Integer validateInteger(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateInteger(value, va, errors, field);
 	}
@@ -456,7 +456,7 @@ public class CommonsFieldValidator {
 	 */
 	public static Long validateLong(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateLong(value, va, errors, field);
 	}
@@ -504,7 +504,7 @@ public class CommonsFieldValidator {
 	 */
 	public static Float validateFloat(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateFloat(value, va, errors, field);
 	}
@@ -552,7 +552,7 @@ public class CommonsFieldValidator {
 	 */
 	public static Double validateDouble(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateDouble(value, va, errors, field);
 	}
@@ -600,7 +600,7 @@ public class CommonsFieldValidator {
 	 */
 	public static Date validateDate(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateDate(value, va, errors, field);
 	}
@@ -664,7 +664,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateIntRange(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateIntRange(value, va, errors, field);
 	}
@@ -727,7 +727,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateFloatRange(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateFloatRange(value, va, errors, field);
 	}
@@ -790,7 +790,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateDoubleRange(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateDoubleRange(value, va, errors, field);
 	}
@@ -852,7 +852,7 @@ public class CommonsFieldValidator {
 	 */
 	public static Long validateCreditCard(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateCreditCard(value, va, errors, field);
 	}
@@ -898,7 +898,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateMinLength(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateMinLength(value, va, errors, field);
 	}
@@ -954,7 +954,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateMaxLength(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		return validateMaxLength(value, va, errors, field);
 	}
@@ -1012,14 +1012,14 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateTwoFields(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		String sProperty2 = field.getVarValue("secondProperty"); //$NON-NLS-1$
-		String value2 = ValidatorUtil.getValueAsString(bean, sProperty2);
+		String value2 = ValidatorUtils.getValueAsString(bean, sProperty2);
 		if (!GenericValidator.isBlankOrNull(value)) {
 			try {
 				if (!value.equals(value2)) {
-					Arg arg = field.getArg1();
+					Arg arg = field.getArg(1);
 					Error fieldMsg = null;
 					if (arg != null) {
 						String fieldMsgKey = arg.getKey();
@@ -1059,7 +1059,7 @@ public class CommonsFieldValidator {
 	 */
 	public static boolean validateRequiredIf(Object bean, ValidatorAction va,
 			Errors errors, Field field) {
-		String value = ValidatorUtil
+		String value = ValidatorUtils
 				.getValueAsString(bean, field.getProperty());
 		boolean required = false;
 		int i = 0;
@@ -1088,7 +1088,7 @@ public class CommonsFieldValidator {
 					dependProp = ind + dependProp;
 				}
 			}
-			dependVal = ValidatorUtil.getValueAsString(bean, dependProp);
+			dependVal = ValidatorUtils.getValueAsString(bean, dependProp);
 			if (dependTest.equals(FIELD_TEST_NULL)) {
 				if ((dependVal != null) && (dependVal.length() > 0)) {
 					thisRequired = false;

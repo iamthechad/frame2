@@ -61,68 +61,68 @@ import servletunit.frame2.MockFrame2TestCase;
 
 /**
  * @author hmilligan
- *
+ * 
  * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
+ * Window>Preferences>Java>Templates. To enable and disable the creation of type
+ * comments go to Window>Preferences>Java>Code Generation.
  */
 public class TestCommonsValidatorWrapper extends MockFrame2TestCase {
-  
-   /**
-    * Constructor for TestCommonsValidatorResources.
-    * @param name
-    */
-   public TestCommonsValidatorWrapper(String name) {
-      super(name);
-   }
-   
- /**
-   * @see junit.framework.TestCase#setUp()
-   */
-   @Override
-   protected void setUp() throws Exception {
-      super.setUp();      
-   }
 
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   @Override
-   protected void tearDown() throws Exception {
-      super.tearDown();
-   }
-   
-   
-   @SuppressWarnings("null")
-public void testValidatorInitialization() {
-                 
-      ValidatorResources resources = null;
-      try {       
-         CommonsValidatorWrapper.setFilePath("/org/megatome/frame2/validator/config"); //$NON-NLS-1$
-         CommonsValidatorWrapper.load(getContext());
-         resources = CommonsValidatorWrapper.getValidatorResources();
-         assertNotNull(resources);     
-      } catch (CommonsValidatorException e) {
-         fail();
-      }   
-      
-      Form f = resources.get(new Locale("EN"), "ValidateBean"); //$NON-NLS-1$ //$NON-NLS-2$
-      assertNotNull(f);                                                                                                              
-            
-   }
+	/**
+	 * Constructor for TestCommonsValidatorResources.
+	 * 
+	 * @param name
+	 */
+	public TestCommonsValidatorWrapper(String name) {
+		super(name);
+	}
 
+	/**
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
 
-  public void testNegativeValidatorInitializationFileNotFound() {
-                 
-      try {       
-         CommonsValidatorWrapper.setFilePath("/org/megatome/frame2/validator/config"); //$NON-NLS-1$
-         CommonsValidatorWrapper.setMappingsFile("dude.xml"); //$NON-NLS-1$
-         CommonsValidatorWrapper.load(getContext());
-         CommonsValidatorWrapper.getValidatorResources();
-         fail();
-      } catch (CommonsValidatorException expected) {
-    	  //expected
-      }   
-   }
+	/**
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
+
+	@SuppressWarnings("null")
+	public void testValidatorInitialization() {
+
+		ValidatorResources resources = null;
+		try {
+			CommonsValidatorWrapper
+					.setFilePath("/org/megatome/frame2/validator/config"); //$NON-NLS-1$
+			CommonsValidatorWrapper.load(getContext());
+			resources = CommonsValidatorWrapper.getValidatorResources();
+			assertNotNull(resources);
+		} catch (CommonsValidatorException e) {
+			fail();
+		}
+
+		Form f = resources.getForm(new Locale("EN"), "ValidateBean"); //$NON-NLS-1$ //$NON-NLS-2$
+		assertNotNull(f);
+
+	}
+
+	public void testNegativeValidatorInitializationFileNotFound() {
+
+		try {
+			CommonsValidatorWrapper
+					.setFilePath("/org/megatome/frame2/validator/config"); //$NON-NLS-1$
+			CommonsValidatorWrapper.setMappingsFile("dude.xml"); //$NON-NLS-1$
+			CommonsValidatorWrapper.load(getContext());
+			CommonsValidatorWrapper.getValidatorResources();
+			fail();
+		} catch (CommonsValidatorException expected) {
+			// expected
+		}
+	}
 }
