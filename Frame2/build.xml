@@ -99,6 +99,7 @@
 			<path refid="no-commons-run-class-path"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-io.jar"/>
 		</path>
 		
 		<path id="cactus-run-class-path">
@@ -109,6 +110,7 @@
 			<!-- <pathelement location="${template_build}"/> -->
 			<pathelement location="${tomcat-common}/servlet-api.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
+			<pathelement location="${commons-fileupload-home}/commons-io.jar"/>
 			<pathelement location="${log4j-home}/log4j.jar"/>
 			<pathelement location="${commons-validator-home}/commons-validator.jar"/>
 			<pathelement location="${commons-logging-home}/commons-logging.jar"/>
@@ -148,6 +150,7 @@
           destdir="${framework_build}"
           srcdir="./framework/src"
           classpathref="framework-compile-class-path"
+		  debug="${compile.debug}"
         />
 		<copy todir="${framework_build}">
 			<fileset dir="./framework/src">
@@ -162,6 +165,7 @@
           destdir="${taglib_build}"
           srcdir="./tag/src"
           classpathref="taglib-compile-class-path"
+		  debug="${compile.debug}"
         />
 	</target>
 	
@@ -171,6 +175,7 @@
           destdir="${template_build}"
           srcdir="./template_tag/src"
           classpathref="template-compile-class-path"
+		  debug="${compile.debug}"
         />
 	</target>
 	
@@ -183,6 +188,7 @@
           destdir="${framework_test_build}"
           srcdir="./framework/test/src"
           classpathref="framework-test-compile-class-path"
+			debug="${compile.debug}"
         />
 		<copy todir="${framework_test_build}">
 			<fileset dir="./framework/test/src">
@@ -197,6 +203,7 @@
           destdir="${taglib_test_build}"
           srcdir="./tag/test/src"
           classpathref="taglib-test-compile-class-path"
+			debug="${compile.debug}"
         />
 	</target>
 	
@@ -404,7 +411,8 @@
 		<javac deprecation="off"
           destdir="test_app/WEB-INF/classes"
           srcdir="./test_app/src"
-          classpathref="test-app-compile-class-path"
+          classpathref="test-app-compile-class-path" 
+		  debug="${compile.debug}"
         />
         <copy todir="test_app/WEB-INF/classes">
 			<fileset dir="./test_app/src">

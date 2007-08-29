@@ -13,18 +13,19 @@
 	<classpathentry kind="lib" path="ext/framework/commons-fileupload.jar"/>
 	<classpathentry kind="lib" path="ext/test/strutstest-2.1.0.jar"/>
 	<classpathentry kind="lib" path="ext/framework/commons-digester.jar"/>
-	<classpathentry kind="lib" path="ext/test/HTTPClient.zip"/>
 	<classpathentry kind="lib" path="ext/test/junit-addons.jar"/>
 	<classpathentry kind="lib" path="ext/framework/jstl.jar"/>
 	<classpathentry kind="lib" path="ext/framework/standard.jar"/>
 	<classpathentry kind="lib" path="ext/framework/commons-logging.jar"/>
-	<classpathentry kind="lib" path="ext/framework/jsp-api.jar"/>
-	<classpathentry kind="lib" path="ext/framework/servlet-api.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="ext/test/cactus-1.7.2.jar"/>
 	<classpathentry kind="lib" path="ext/test/aspectjrt-1.2.1.jar"/>
 	<classpathentry kind="lib" path="ext/test/commons-httpclient-2.0.2.jar"/>
 	<classpathentry kind="lib" path="ext/framework/commons-collections.jar"/>
 	<classpathentry kind="lib" path="ext/framework/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="ext/test/HTTPClient.zip"/>
+	<classpathentry kind="lib" path="ext/framework/jakarta-oro.jar"/>
+	<classpathentry kind="lib" path="ext/framework/commons-io.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Servlet Classes"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
