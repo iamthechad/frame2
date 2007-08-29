@@ -228,14 +228,15 @@ public class TestFrame2DTD extends TestCase {
 			InputStream is =
 				getClass().getClassLoader().getResourceAsStream(configFile);
 			this.documentBuilder.parse(is);
+			fail("Expected SAXException did not occur"); //$NON-NLS-1$
 		} catch (IOException ioe) {
 			fail("Unexpected IO Exception"); //$NON-NLS-1$
-		} catch (SAXParseException spe) {
-			return;
-		} catch (SAXException se) {
-			return;
+		} catch (SAXParseException expected) {
+			//Expected
+		} catch (SAXException expected) {
+			//Expected
 		}
 
-		fail("Expected SAXException did not occur"); //$NON-NLS-1$
+		
 	}
 }

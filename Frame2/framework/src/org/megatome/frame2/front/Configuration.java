@@ -317,7 +317,7 @@ public class Configuration {
 
     private List<EventHandlerProxy> makeHandlers(String eventName) throws ConfigException {
         List<String> handlerNames = getHandlerNames(eventName);
-        List<EventHandlerProxy> handlers = new ArrayList<EventHandlerProxy>();
+        List<EventHandlerProxy> handlers = null;
 
         handlers = makeHandlers(handlerNames);
 
@@ -360,7 +360,7 @@ public class Configuration {
     }
 
     private List<String> getHandlerNames(String eventName) throws ConfigException {
-        List<String> handlers = new ArrayList<String>();
+        List<String> handlers = null;
         EventMapping mapping = this.eventMappings.get(eventName);
 
         if (mapping != null) {

@@ -190,10 +190,10 @@ public class TestTemplateConfigReader extends TestCase {
       try {
          InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
          reader.execute(is);
-      } catch (TemplateException ex) {
-         return;
+         fail();
+      } catch (TemplateException expected) {
+         //Expected
       }
-      fail();
    }   
 }
    

@@ -52,8 +52,8 @@ package org.megatome.frame2.taglib.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.megatome.frame2.tagsupport.TagConstants;
 
@@ -64,11 +64,11 @@ import org.megatome.frame2.tagsupport.TagConstants;
 
 public class URLHelper {
 
-    static protected String ENC_UTF_8 = "UTF-8"; //$NON-NLS-1$
+    static final protected String ENC_UTF_8 = "UTF-8"; //$NON-NLS-1$
 
-    static protected String QUESTION_MARK = "?"; //$NON-NLS-1$
+    static final protected String QUESTION_MARK = "?"; //$NON-NLS-1$
 
-    static protected String SEP = "&"; //$NON-NLS-1$
+    static final protected String SEP = "&"; //$NON-NLS-1$
 
     /**
      * Encode the provided URL to UTF-8.
@@ -103,7 +103,20 @@ public class URLHelper {
 
         // Add the query parameters to the href.
         boolean firstParam = true;
-        Iterator<Object> keys = params.keySet().iterator();
+        for (Entry<Object, Object> entry : params.entrySet()) {
+        	String key = (String)entry.getKey();
+        	Object value = params.get(key);
+            if (value instanceof String[]) {
+                String values[] = (String[])value;
+                for (int i = 0; i < values.length; i++) {
+                    firstParam = appendOneQueryParam(url, firstParam, key,
+                            encodeURL(values[i]));
+                }
+            } else {
+                firstParam = appendOneQueryParam(url, firstParam, key, value);
+            }
+        }
+        /*Iterator<Object> keys = params.keySet().iterator();
         while (keys.hasNext()) {
             String key = (String)keys.next();
             Object value = params.get(key);
@@ -115,7 +128,7 @@ public class URLHelper {
                 }
             } else
                 firstParam = appendOneQueryParam(url, firstParam, key, value);
-        }
+        }*/
 
         return (url.toString());
     }

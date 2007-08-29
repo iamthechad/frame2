@@ -57,8 +57,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -138,23 +138,34 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		opts = new NVPair[formParms.length];
 		for (int i = 0; i < formParms.length; i++) {
 			Map<String, String> parm = (HashMap<String, String>) formParms[i];
-			for (Iterator<String> it = parm.keySet().iterator(); it.hasNext();) {
+			for (Entry<String, String> entry : parm.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				opts[i] = new NVPair(key, value);
+			}
+			/*for (Iterator<String> it = parm.keySet().iterator(); it.hasNext();) {
 				String key = it.next();
 				String value = parm.get(key);
 				opts[i] = new NVPair(key, value);
-			}
+			}*/
 		}
 
 		NVPair[] file;
 		file = new NVPair[fileParms.length];
 		for (int i = 0; i < fileParms.length; i++) {
 			Map<String, String> parm = (HashMap<String, String>) fileParms[i];
-			for (Iterator<String> it = parm.keySet().iterator(); it.hasNext();) {
+			for (Entry<String, String> entry : parm.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				URL configFile = getContext().getResource(value);
+				file[i] = new NVPair(key, configFile.getFile());
+			}
+			/*for (Iterator<String> it = parm.keySet().iterator(); it.hasNext();) {
 				String key = it.next();
 				String value = parm.get(key);
 				URL configFile = getContext().getResource(value);
 				file[i] = new NVPair(key, configFile.getFile());
-			}
+			}*/
 		}
 
 		try {

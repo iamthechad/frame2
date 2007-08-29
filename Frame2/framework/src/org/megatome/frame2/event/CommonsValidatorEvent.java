@@ -65,7 +65,7 @@ public abstract class CommonsValidatorEvent extends AbstractEvent {
 	/**
  	 * Logger instance that may be used by this event.
  	 */
-   protected static Logger LOGGER =
+   protected static final Logger LOGGER =
       LoggerFactory.instance(CommonsValidatorEvent.class.getName());
 
    /**

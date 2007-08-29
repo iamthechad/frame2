@@ -515,7 +515,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 		}
 
 		public String[] getRedirectAttributes() {
-			return (String[]) this.redirectAttrs.toArray();
+			return this.redirectAttrs.toArray(new String[]{});
 		}
 
 		public Errors getRequestErrors() {

@@ -73,7 +73,7 @@ public class TestMessageFormatter extends TestCase {
 			MessageFormatter.format("Is this \"{0}\" Frame2?", new String[] { "really" })); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(
 			"Is this 100,000 Frame2?", //$NON-NLS-1$
-			MessageFormatter.format("Is this {0} Frame2?", new Object[] { new Integer(100000)})); //$NON-NLS-1$
+			MessageFormatter.format("Is this {0} Frame2?", new Object[] { Integer.valueOf(100000)})); //$NON-NLS-1$
 	}
 
 	public void testFormatting_Locale() {

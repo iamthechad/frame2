@@ -50,7 +50,6 @@
  */
 package org.megatome.frame2.front;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -122,8 +121,9 @@ public class TestConfiguration extends TestCase {
 		assertGetEventFails(this.config, null);
 	}
 
+	@SuppressWarnings("null")
 	public void testHandlerBinding() {
-		List<EventHandlerProxy> eventHandlers = new ArrayList<EventHandlerProxy>();
+		List<EventHandlerProxy> eventHandlers = null;
 		try {
 			eventHandlers = this.config.getHandlers("event1"); //$NON-NLS-1$
 		} catch (ConfigException e) {
@@ -162,8 +162,9 @@ public class TestConfiguration extends TestCase {
 		assertTrue(handler2.getHandler() instanceof Ev2handler1);
 	}
 
+	@SuppressWarnings("null")
 	public void testXMLHandlerBinding() {
-		List<EventHandlerProxy> eventHandlers = new ArrayList<EventHandlerProxy>();
+		List<EventHandlerProxy> eventHandlers = null;
 		try {
 			eventHandlers = this.config.getHandlers("event111"); //$NON-NLS-1$
 		} catch (ConfigException e) {
@@ -184,7 +185,7 @@ public class TestConfiguration extends TestCase {
 		xml = handler1.getDefinition().getXMLForward("view15"); //$NON-NLS-1$
 		assertNull(xml);
 
-		ForwardProxy fwd = new ForwardProxy();
+		ForwardProxy fwd = null;
 		try {
 			fwd =
 				this.config.resolveForward(
@@ -201,7 +202,7 @@ public class TestConfiguration extends TestCase {
 
 	@SuppressWarnings("null")
 	public void testXMLResponder() {
-		List<EventHandlerProxy> eventHandlers = new ArrayList<EventHandlerProxy>();
+		List<EventHandlerProxy> eventHandlers = null;
 		try {
 			eventHandlers = this.config.getHandlers("event112"); //$NON-NLS-1$
 		} catch (ConfigException e) {
@@ -235,8 +236,9 @@ public class TestConfiguration extends TestCase {
 		assertTrue(fwd.isResponderType());
 	}
 
+	@SuppressWarnings("null")
 	public void testXMLResponderNotInHTMLForwardsMap() {
-		List<EventHandlerProxy> eventHandlers = new ArrayList<EventHandlerProxy>();
+		List<EventHandlerProxy> eventHandlers = null;
 		try {
 			eventHandlers = this.config.getHandlers("event112"); //$NON-NLS-1$
 		} catch (ConfigException e) {
@@ -323,24 +325,21 @@ public class TestConfiguration extends TestCase {
 	}
 
 	public void testNonExistingXMLViewType() {
-		String xmlForwardName = null;
 		try {
-			xmlForwardName =
-				this.config.getEventMappingView("event14", ViewType.XML); //$NON-NLS-1$
+			this.config.getEventMappingView("event14", ViewType.XML); //$NON-NLS-1$
 			fail("We should have gotten an exception"); //$NON-NLS-1$
-		} catch (ViewException e) {
-			assertNull(xmlForwardName);
+		} catch (ViewException expected) {
+			//Expected
 		}
 	}
 
 	public void testNonExistingXMLGlobalForwardType() {
 		// test XML View
-		ForwardProxy fwd = null;
 		try {
-			fwd = this.config.resolveForward("event1", Configuration.XML_TOKEN); //$NON-NLS-1$
+			this.config.resolveForward("event1", Configuration.XML_TOKEN); //$NON-NLS-1$
 			fail("We should have gotten an exception"); //$NON-NLS-1$
-		} catch (ViewException e) {
-			assertNull(fwd);
+		} catch (ViewException expected) {
+			//Expected
 		}
 	}
 
@@ -506,10 +505,10 @@ public class TestConfiguration extends TestCase {
 		try {
 			this.config =
 				new Configuration("org/megatome/frame2/front/test-negative-plugin-config.xml"); //$NON-NLS-1$
-		} catch (ConfigException e) {
-			return;
+			fail();
+		} catch (ConfigException expected) {
+			//Expected
 		}
-		fail();
 	}
 
 	private void assertGetHandlerFails(

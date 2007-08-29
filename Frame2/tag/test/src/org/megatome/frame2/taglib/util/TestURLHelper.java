@@ -150,7 +150,7 @@ public class TestURLHelper extends TestCase {
 		Map<Object, Object> queryParams = new TreeMap<Object, Object>();
 		String[] params = { PARAM_1_VALUE, PARAM_2_VALUE };
 		queryParams.put(PARAM_1_NAME, params);
-		queryParams.put(PARAM_2_NAME, new Boolean("true")); //$NON-NLS-1$
+		queryParams.put(PARAM_2_NAME, Boolean.valueOf("true")); //$NON-NLS-1$
 		String actual = URLHelper.appendQueryParams(uri, queryParams);
 		assertEquals(expected, actual);
 	}

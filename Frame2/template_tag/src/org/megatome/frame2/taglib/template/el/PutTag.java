@@ -69,11 +69,11 @@ public class PutTag extends BaseFrame2Tag {
 	static {
 		scopeValues = new HashMap<String, Integer>();
 
-		scopeValues.put(TemplateConstants.REQUEST_SCOPE, new Integer(
+		scopeValues.put(TemplateConstants.REQUEST_SCOPE, Integer.valueOf(
 				PageContext.REQUEST_SCOPE));
-		scopeValues.put(TemplateConstants.SESSION_SCOPE, new Integer(
+		scopeValues.put(TemplateConstants.SESSION_SCOPE, Integer.valueOf(
 				PageContext.SESSION_SCOPE));
-		scopeValues.put(TemplateConstants.APPLICATION_SCOPE, new Integer(
+		scopeValues.put(TemplateConstants.APPLICATION_SCOPE, Integer.valueOf(
 				PageContext.APPLICATION_SCOPE));
 	}
 

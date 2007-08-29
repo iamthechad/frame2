@@ -55,7 +55,6 @@ import org.apache.cactus.WebResponse;
 import org.megatome.frame2.tagsupport.BaseFrame2Tag;
 
 public abstract class BaseTemplateTagTest extends JspTestCase {
-   String _type;
 	String _testJspName;
 	String _testNegativeJspName;
 	String _expectedLiveJsp;

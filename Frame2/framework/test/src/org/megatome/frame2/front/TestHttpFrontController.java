@@ -104,10 +104,10 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 
 		try {
 			servlet.doPost(this.request, this.response);
-		} catch (Exception e) {
-			return;
+			fail();
+		} catch (Exception expected) {
+			//Expected
 		}
-		fail();
 	}
 
 	private void postHttpReqProc() {

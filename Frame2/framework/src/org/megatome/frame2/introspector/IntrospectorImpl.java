@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
@@ -80,10 +81,25 @@ class IntrospectorImpl implements Introspector {
       if ((fromMap == null) || (toBean == null)) {
          return;
       }
-
-      Iterator<String> propertyKeys = fromMap.keySet().iterator();
-
+      
       Collection<MappingException> mapexcs = null;
+      
+      for (Entry<String, Object> entry : fromMap.entrySet()) {
+    	  String key = entry.getKey();
+    	  if (key != null) {
+              try {
+                 setProperty(toBean, key, entry.getValue());
+              } catch (MappingException e) {
+                 if (mapexcs == null) {
+                    mapexcs = new ArrayList<MappingException>();
+                 }
+
+                 mapexcs.add(e);
+              }
+           }
+      }
+
+      /*Iterator<String> propertyKeys = fromMap.keySet().iterator();
 
       while (propertyKeys.hasNext()) {
          String key = propertyKeys.next();
@@ -99,7 +115,7 @@ class IntrospectorImpl implements Introspector {
                mapexcs.add(e);
             }
          }
-      }
+      }*/
 
       if (mapexcs != null) {
          LOGGER.severe("Unable to perform mapping due to bean errors:"); //$NON-NLS-1$

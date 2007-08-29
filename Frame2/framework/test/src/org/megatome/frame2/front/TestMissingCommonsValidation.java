@@ -118,10 +118,10 @@ public class TestMissingCommonsValidation extends MockFrame2TestCase {
 
 		try {
 			servlet.doPost(this.request, this.response);
-		} catch (Exception e) {
-		   return;
+			fail("Failed to catch expected exception"); //$NON-NLS-1$
+		} catch (Exception expected) {
+		   //Expected
 		}
-		fail("Failed to catch expected exception"); //$NON-NLS-1$
 	}
 
 	private HttpFrontController initializeServlet() {

@@ -82,12 +82,10 @@ public class TestATag extends BaseHtmlTagTest {
 		try {
 			tag.doStartTag();
          tag.doEndTag();
-		} catch (JspException e) {
-			return;
+         fail();
+		} catch (JspException expected) {
+			//Expected
 		}
-
-		fail();
-
 	}
 
 	// Test for creating a valid yahoo.quote with some params.		
@@ -122,14 +120,13 @@ public class TestATag extends BaseHtmlTagTest {
 
    }
    
-   public void testNegativeQueryParamTagAndParam() throws Exception {
+   public void testNegativeQueryParamTagAndParam() {
       try {
          this.pageContext.forward(JSP_TEST_DIR + "ATagQueryParamTagAndQuery.jsp"); //$NON-NLS-1$
-      } catch (Exception e) {
-         return;
+         fail();
+      } catch (Exception expected) {
+         //Expected - really
       }
-      
-      fail();
    }
    
    // Test for creating a valid yahoo.quote with some params.     

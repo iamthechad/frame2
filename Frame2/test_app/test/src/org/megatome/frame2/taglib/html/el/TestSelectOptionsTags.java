@@ -58,7 +58,6 @@ public class TestSelectOptionsTags extends JspTestCase {
    String _testJspName;
    String _expectedLiveJsp;
    static final String JSP_TEST_DIR = "/test/tags/"; //$NON-NLS-1$
-   String _testMultJspName;
    public TestSelectOptionsTags(String name) {
       super(name);
       this._testJspName = "SelectOptionsTag.jsp"; //$NON-NLS-1$
@@ -76,7 +75,7 @@ public class TestSelectOptionsTags extends JspTestCase {
 
    public void endLiveJsp(WebResponse webResponse) throws Exception {
       String actual = webResponse.getText().trim();
-      actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+      //actual.replaceAll("\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
       assertEquals(this._expectedLiveJsp, actual);
 

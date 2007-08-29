@@ -78,7 +78,7 @@ class IndexedCommand extends BeanCommand {
                         type);
 
                 setMethod.invoke(mapping.getBean(), new Object[] {
-                        new Integer(index), convertedValue });
+                        Integer.valueOf(index), convertedValue });
             } catch (Exception e) {
                 throw new MappingException("Unable to set property", mapping, //$NON-NLS-1$
                         value, e);
@@ -100,7 +100,7 @@ class IndexedCommand extends BeanCommand {
                 int index = KeyHelper.getIndex(mapping.getKey());
 
                 return getMethod.invoke(mapping.getBean(),
-                        new Object[] { new Integer(index) });
+                        new Object[] { Integer.valueOf(index) });
             } catch (Exception e) {
                 throw new MappingException("Unable to get property", mapping, e); //$NON-NLS-1$
             }

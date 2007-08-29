@@ -162,7 +162,7 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
     }
 
     public String testNegativeTemplatePlugin(String dir) {
-        this.plugin.setConfigDir(dir);
+        TemplatePlugin.setConfigDir(dir);
         try {
             this.plugin.init(this.context, new HashMap<String, String>());
         } catch (PluginException e) {
@@ -175,7 +175,7 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
     private TemplateConfiguration testTemplatePlugin(String dir) {
 
         if (dir != null) {
-            this.plugin.setConfigDir(dir);
+            TemplatePlugin.setConfigDir(dir);
         }
 
         try {

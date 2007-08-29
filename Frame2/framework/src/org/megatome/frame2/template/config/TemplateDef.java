@@ -155,7 +155,8 @@ public class TemplateDef implements Comparable<Object> {
     }
 
     public int compareTo(Object other) {
-        return compareTo((TemplateDef)other);
+        TemplateDef td = (TemplateDef)other;
+        return this.name.compareTo(td.name);
     }
 
     public int compareTo(TemplateDef other) {
@@ -164,11 +165,20 @@ public class TemplateDef implements Comparable<Object> {
 
     @Override
 	public boolean equals(Object other) {
-        return (other instanceof TemplateDef) && equals((TemplateDef)other);
+    	if (!(other instanceof TemplateDef)) {
+    		return false;
+    	}
+    	
+    	if (other == this) {
+    		return true;
+    	}
+    	
+    	TemplateDef td = (TemplateDef)other;
+    	return this.name.equals(td.name);
     }
-
-    public boolean equals(TemplateDef other) {
-        return this.name.equals(other.getName());
+    
+    @Override
+	public int hashCode() {
+    	return this.name.hashCode();
     }
-
 }

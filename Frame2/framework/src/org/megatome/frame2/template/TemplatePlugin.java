@@ -67,7 +67,7 @@ public class TemplatePlugin implements PluginInterface {
 
 	private static String DEFAULT_TEMPLATE_FILE = "templates.xml"; //$NON-NLS-1$
 
-	public static String PLUGIN_INIT_ERROR = "Template Plugin Initialization Error: "; //$NON-NLS-1$
+	public final static String PLUGIN_INIT_ERROR = "Template Plugin Initialization Error: "; //$NON-NLS-1$
 
 	private String templateFile = DEFAULT_TEMPLATE_FILE;
 
@@ -82,7 +82,7 @@ public class TemplatePlugin implements PluginInterface {
 		super();
 	}
 
-	public void setConfigDir(String templateDir) {
+	public static void setConfigDir(String templateDir) {
 		configDir = templateDir;
 	}
 

@@ -225,11 +225,11 @@ final class Converter {
 
    static class CharacterConverter implements TypeConverter {
       public Object convert(String fromString) {
-         return new Character(fromString.charAt(0));
+         return Character.valueOf(fromString.charAt(0));
       }
       
       public Object[] convertToArray(String fromString) {
-      	return new Character[] { new Character(fromString.charAt(0)) };
+      	return new Character[] { Character.valueOf(fromString.charAt(0)) };
       }
    }
 
@@ -245,11 +245,11 @@ final class Converter {
 
    static class BooleanConverter implements TypeConverter {
       public Object convert(String fromString) {
-         return new Boolean(fromString.trim());
+         return Boolean.valueOf(fromString.trim());
       }
       
 		public Object[] convertToArray(String fromString) {
-			return new Boolean[] { new Boolean(fromString.trim()) };
+			return new Boolean[] { Boolean.valueOf(fromString.trim()) };
 		}
    }
 

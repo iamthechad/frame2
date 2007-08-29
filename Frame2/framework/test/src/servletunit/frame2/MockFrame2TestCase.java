@@ -79,8 +79,6 @@ public class MockFrame2TestCase extends TestCase {
 
     boolean isInitialized;
 
-    boolean servletIsInitialized;
-
     HttpFrontController servlet;
 
     /**
@@ -420,7 +418,6 @@ public class MockFrame2TestCase extends TestCase {
         confirmSetup();
         this.config.setInitParameter(key, value);
         this.context.setInitParameter(key, value);
-        this.servletIsInitialized = false;
     }
 
     /**
@@ -432,7 +429,6 @@ public class MockFrame2TestCase extends TestCase {
     public void setContextDirectory(File contextDirectory) {
         confirmSetup();
         this.context.setContextDirectory(contextDirectory);
-        this.servletIsInitialized = false;
     }
 
     /**
@@ -446,7 +442,6 @@ public class MockFrame2TestCase extends TestCase {
     public void setConfigFile(String pathname) {
         confirmSetup();
         this.config.setInitParameter("config", pathname); //$NON-NLS-1$
-        this.servletIsInitialized = false;
     }
 
     /**
@@ -500,7 +495,6 @@ public class MockFrame2TestCase extends TestCase {
                     "Received an exception while loading web.xml - " //$NON-NLS-1$
                             + e.getClass() + " : " + e.getMessage()); //$NON-NLS-1$
         }
-        this.servletIsInitialized = false;
     }
 
     /**

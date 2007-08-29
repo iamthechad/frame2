@@ -66,7 +66,7 @@ public class AckNackHandler implements EventHandler {
 	 * @see org.megatome.frame2.event.EventHandler#handle(Event, Context)
 	 */
 	public String handle(Event event, Context context) {
-		User user = (User) event;
+		org.megatome.app.jaxbgen.User user = (org.megatome.app.jaxbgen.User) event;
 
 		Errors errors = context.getRequestErrors();
 

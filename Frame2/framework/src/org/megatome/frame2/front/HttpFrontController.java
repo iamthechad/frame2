@@ -71,7 +71,7 @@ public class HttpFrontController extends HttpServlet {
     // NIT keeping a reference to config here
     // will cause reload issues later. let
     // ConfigFactory keep reference.
-    private Configuration config;
+    //private Configuration config;
 
     /**
      * Load the Frame2 configuration file. The servlet's init parameters are
@@ -90,9 +90,9 @@ public class HttpFrontController extends HttpServlet {
         super.init();
 
         try {
-            this.config = ConfigFactory.instance();
+            ConfigFactory.instance();
         } catch (ConfigException e) {
-            this.config = null;
+            //this.config = null;
             throw new ServletException("Failed to initialize with config " //$NON-NLS-1$
                     + ConfigFactory.getConfigFilePath(), e);
         }
@@ -118,12 +118,12 @@ public class HttpFrontController extends HttpServlet {
         RequestProcessor processor = null;
 
         try {
-            if (this.config == null) {
+            /*if (this.config == null) {
                 throw new ServletException(
                         "POST called on uninitialized servlet"); //$NON-NLS-1$
-            }
+            }*/
 
-            processor = RequestProcessorFactory.instance(this.config,
+            processor = RequestProcessorFactory.instance(ConfigFactory.instance(),
                     getServletContext(), request, response);
             if (processor == null) {
                 String error = "Unable to instantiate Request Processor"; //$NON-NLS-1$
@@ -179,6 +179,10 @@ public class HttpFrontController extends HttpServlet {
     }
 
     Configuration getConfiguration() {
-        return this.config;
+        try {
+			return ConfigFactory.instance();
+		} catch (ConfigException e) {
+			return null;
+		}
     }
 }

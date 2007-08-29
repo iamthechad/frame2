@@ -68,7 +68,7 @@ public class Ev1handler2 implements EventHandler {
 
 	public String handle(@SuppressWarnings("unused")
 	Event event,Context context) {
-      context.setRequestAttribute("Ev1handler2",new Boolean(true)); //$NON-NLS-1$
+      context.setRequestAttribute("Ev1handler2",Boolean.valueOf(true)); //$NON-NLS-1$
 		return "view1"; //$NON-NLS-1$
 	}
 
