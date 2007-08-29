@@ -40,6 +40,7 @@
 		<patternset id="ext-libs">
 			<include name="commons-collections.jar"/>
 			<include name="commons-fileupload.jar"/>
+			<include name="commons-io.jar"/>
 			<include name="commons-logging.jar"/>
 			<include name="log4j.jar"/>
 		</patternset>
@@ -48,35 +49,13 @@
 			<include name="axis.jar"/>
 			<include name="commons-discovery.jar"/>
 			<include name="jaxrpc.jar"/>
-			<include name="saaj.jar"/>
 			<include name="wsdl4j.jar"/>
 		</patternset>
 			
-		<!--
-		<patternset id="jwsdp-libs">
-			<include name="jaxb-api.jar"/>
-			<include name="jaxb-impl.jar"/>
-			<include name="jaxb-libs.jar"/>
-			<include name="jax-qname.jar"/>
-			<include name="namespace.jar"/>
-			<include name="relaxngDatatype.jar"/>
-			<include name="xsdlib.jar"/>
-		</patternset>
-		-->
-		
 		<path id="soap-compile-class-path">
 			<pathelement location="${commons-digester-home}/commons-digester.jar"/>
 			<pathelement location="${axis-lib-prefix}/axis.jar"/>
 			<pathelement location="${axis-lib-prefix}/jaxrpc.jar"/>
-			<!--
-			<pathelement location="${ws-lib-prefix}/saaj.jar"/>
-			<pathelement location="${jwsdp-lib-prefix}/jaxb-api.jar"/>
-			<pathelement location="${jwsdp-lib-prefix}/jaxb-impl.jar"/>
-			<pathelement location="${jwsdp-lib-prefix}/jaxb-libs.jar"/>
-			<pathelement location="${jwsdp-lib-prefix}/namespace.jar"/>
-			<pathelement location="${jwsdp-lib-prefix}/relaxngDatatype.jar"/>
-			<pathelement location="${jwsdp-lib-prefix}/jax-qname.jar"/>
-			-->
 		</path>
 		
 		<mkdir dir="${webapp-dir}"/>
@@ -323,11 +302,6 @@
          	<patternset refid="commons-val-libs"/>
          	<patternset refid="ext-libs"/>
       	 </lib>
-      	<!--
-		 <lib dir="${jwsdp-lib-prefix}">
-         	<patternset refid="jwsdp-libs"/>
-         </lib>
-         -->
 		 <lib dir="${axis-lib-prefix}">
       	  	<patternset refid="soap-libs"/>
       	 </lib>
