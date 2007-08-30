@@ -20,8 +20,7 @@
 		<property file="build.properties"/>
 		
 		<path id="framework-compile-class-path">
-			<pathelement location="${tomcat-common}/jsp-api.jar"/>
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
 			<pathelement location="${log4j-home}/log4j.jar"/>
 			<pathelement location="${taglibs-standard-home}/standard.jar"/>
@@ -31,20 +30,17 @@
 		
 		<path id="taglib-compile-class-path">
 			<pathelement location="${framework_build}"/>
-			<pathelement location="${tomcat-common}/jsp-api.jar"/>
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 		</path>
 		
 		<path id="template-compile-class-path">
 			<pathelement location="${framework_build}"/>
-			<pathelement location="${tomcat-common}/jsp-api.jar"/>
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 		</path>
 		
 		<path id="framework-test-compile-class-path">
 			<pathelement location="${framework_build}"/>
-			<pathelement location="${tomcat-common}/jsp-api.jar"/>
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 			<pathelement location="${commons-digester-home}/commons-digester.jar"/>
 			<pathelement location="${strutstest-home}/strutstest-2.1.0.jar"/>
 			<pathelement location="${junit-home}/junit.jar"/>
@@ -71,8 +67,7 @@
 			<pathelement location="${taglib_build}"/>
 			<pathelement location="${framework_test_build}"/>
 			<pathelement location="${template_build}"/>
-			<pathelement location="${tomcat-common}/jsp-api.jar"/>
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 			<pathelement location="${cactus-home}/cactus-1.7.2.jar"/>
 		</path>
 		
@@ -82,7 +77,7 @@
 			<pathelement location="${taglib_build}"/>
 			<pathelement location="${taglib_test_build}"/>
 			<!-- <pathelement location="${template_build}"/> -->
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 			<!-- <pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/> -->
 			<pathelement location="${log4j-home}/log4j.jar"/>
 			<pathelement location="${commons-logging-home}/commons-logging.jar"/>
@@ -108,7 +103,7 @@
 			<pathelement location="${taglib_build}"/>
 			<pathelement location="${taglib_test_build}"/>
 			<!-- <pathelement location="${template_build}"/> -->
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+			<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-io.jar"/>
 			<pathelement location="${log4j-home}/log4j.jar"/>
@@ -322,11 +317,7 @@
 			<pathelement path="./template_tag/src"/>
 		</path>
 		<path id="doc-classpath">
-			<pathelement location="${tomcat-common}/jsp-api.jar"/>
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-api.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-impl.jar"/>
-			<pathelement location="${jaxb-home}/jaxb-libs.jar"/>
+			<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 			<pathelement location="${commons-fileupload-home}/commons-fileupload.jar"/>
 			<pathelement location="${log4j-home}/log4j.jar"/>
 			<pathelement location="${taglibs-standard-home}/standard.jar"/>
@@ -380,11 +371,11 @@
 			</packageset>
             -->
 			<bottom>
-				<![CDATA[<em>Copyright (C) 2004-2005, Megatome Technologies</em>
+				<![CDATA[<em>Copyright (C) 2004-2007, Megatome Technologies</em>
 				<br>All Rights Reserved]]>
 			</bottom>
-			<link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
-			<link href="http://java.sun.com/j2ee/1.4/docs/api/"/>
+			<link href="http://java.sun.com/j2se/1.6.0/docs/api/"/>
+			<link href="http://java.sun.com/j2ee/1.5/docs/api/"/>
 			<link href="http://jakarta.apache.org/commons/validator/apidocs/"/>
 		</javadoc>
 	</target>
@@ -533,8 +524,7 @@
 	      <classpath>
 			 <path refid="cactus-run-class-path"/>
 			 <pathelement location="./test_app/WEB-INF/classes"/>
-			 <pathelement location="${tomcat-common}/jsp-api.jar"/>
-			<pathelement location="${tomcat-common}/servlet-api.jar"/>
+	      	<pathelement location="${servletapi-home}/servletapi-2.3.jar"/>
 			<pathelement location="${template_build}"/>
 	      </classpath>
 	
@@ -692,6 +682,8 @@
 		<fileset dir="${proj-base}">
 			<include name="LICENSE.txt"/>
 			<include name="README"/>
+			<include name="THIRD_PARTY_LICENSE.txt"/>
+			<include name="NOTICE.txt"/>
 			<include name="build.xml"/>
 			<include name="building.txt"/>
 			<include name="env.properties"/>
@@ -740,6 +732,8 @@
 		<fileset dir="${proj-base}">
 			<include name="LICENSE.txt"/>
 			<include name="README"/>
+			<include name="THIRD_PARTY_LICENSE.txt"/>
+			<include name="NOTICE.txt"/>
 			<include name="build.xml"/>
 			<include name="building.txt"/>
 			<include name="env.properties"/>
