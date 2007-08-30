@@ -82,12 +82,10 @@ public class AckNackHandler implements EventHandler {
 		}
 		System.out.println("Not adding " + user.getFirstName()); //$NON-NLS-1$
 
-		Error[] error = errors.get();
-
 		StringBuffer errorMsg = new StringBuffer();
-		for (int i = 0; i < error.length; i++) {
+		for (Error error : errors.get()) {
 			errorMsg.append(":"); //$NON-NLS-1$
-			errorMsg.append(error[i].getValue());
+			errorMsg.append(error.getValue());
 		}
 		
 		context.setRequestAttribute("nack", of.createNACK(errorMsg.toString())); //$NON-NLS-1$

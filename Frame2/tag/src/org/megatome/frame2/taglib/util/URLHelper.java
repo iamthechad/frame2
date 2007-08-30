@@ -116,19 +116,6 @@ public class URLHelper {
                 firstParam = appendOneQueryParam(url, firstParam, key, value);
             }
         }
-        /*Iterator<Object> keys = params.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = (String)keys.next();
-            Object value = params.get(key);
-            if (value instanceof String[]) {
-                String values[] = (String[])value;
-                for (int i = 0; i < values.length; i++) {
-                    firstParam = appendOneQueryParam(url, firstParam, key,
-                            encodeURL(values[i]));
-                }
-            } else
-                firstParam = appendOneQueryParam(url, firstParam, key, value);
-        }*/
 
         return (url.toString());
     }

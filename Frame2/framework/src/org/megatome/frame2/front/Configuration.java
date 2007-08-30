@@ -54,7 +54,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -235,14 +234,11 @@ public class Configuration {
 
     private void loadPluginProxies() throws ConfigException {
         this.pluginProxies = new ArrayList<PluginProxy>();
-        for (Iterator<PluginDef> iter = this.plugins.iterator(); iter.hasNext();) {
-            PluginDef pluginDef = iter.next();
-            PluginInterface plugin = null;
+        for (PluginDef pluginDef : this.plugins) {
+        	PluginInterface plugin = null;
 
             try {
                 String type = pluginDef.getType();
-                //plugin = (PluginInterface)
-                // getClass().forName(type).newInstance();
                 plugin = (PluginInterface)Class.forName(type).newInstance();
             } catch (Exception e) {
                 throw new ConfigException(e);
@@ -254,16 +250,12 @@ public class Configuration {
 
     public PluginProxy getPluginProxy(String name) {
         List<PluginProxy> pluginProxys = getPluginProxies();
-        PluginProxy proxy = null;
-        boolean found = false;
-        for (Iterator<PluginProxy> iter = pluginProxys.iterator(); iter.hasNext();) {
-            proxy = iter.next();
-            if (proxy.getName().equals(name)) {
-                found = true;
-                break;
+        for (PluginProxy proxy : pluginProxys) {
+        	if (proxy.getName().equals(name)) {
+                return proxy;
             }
         }
-        return (found) ? proxy : null;
+        return null;
     }
 
     /**
@@ -476,11 +468,8 @@ public class Configuration {
     public ExceptionProxy resolveException(Throwable ex, String tokenType,
             ViewType vtype) throws ViewException {
 
-        ExceptionDef edef = null;
-        Iterator<ExceptionDef> iter = this.exceptions.iterator();
-        while (iter.hasNext()) {
-            edef = iter.next();
-            String classtype = edef.getType();
+        for (ExceptionDef edef : this.exceptions) {
+        	String classtype = edef.getType();
             try {
                 if (Class.forName(classtype).isInstance(ex)) {
                 	String view = edef.getView(vtype.toString());

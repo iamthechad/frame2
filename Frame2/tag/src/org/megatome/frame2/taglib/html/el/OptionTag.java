@@ -51,7 +51,6 @@
 package org.megatome.frame2.taglib.html.el;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import javax.servlet.jsp.JspException;
 
@@ -141,10 +140,9 @@ public class OptionTag extends BaseOptionTag {
         }
 
         if (collection != null) {
-            Iterator<?> iter = collection.iterator();
-            while (iter.hasNext()) {
-                // NIT make work for all primatives
-                String val = (String)iter.next();
+        	for (Object obj : collection) {
+                // NIT make work for all primitives
+                String val = (String)obj;
                 if (val.equals(valueval)) {
                     setAttr(Constants.SELECTED, Constants.NULL_VALUE);
                     break;
@@ -153,7 +151,7 @@ public class OptionTag extends BaseOptionTag {
         } else if (array != null) {
             int len = array.length;
             for (int i = 0; i < len; i++) {
-                // NIT make work for all primatives
+                // NIT make work for all primitives
                 String val = (String)array[i];
                 if (val.equals(valueval)) {
                     setAttr(Constants.SELECTED, Constants.NULL_VALUE);

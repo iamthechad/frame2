@@ -51,7 +51,6 @@
 package org.megatome.frame2.taglib.html.el;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import javax.servlet.jsp.JspException;
 
@@ -65,17 +64,17 @@ import org.megatome.frame2.tagsupport.util.HTMLHelpers;
 public class OptionsTag extends BaseOptionTag {
 	private static final long serialVersionUID = -1288010744940723077L;
 
-	private Collection<?> _selectedCollection;
+	private Collection<Object> _selectedCollection;
 
 	private Object[] _selectedArray;
 
 	private String _selectedString;
 
-	private Collection<?> _displayValueCollection;
+	private Collection<Object> _displayValueCollection;
 
 	private Object[] _displayValueArray;
 
-	private Collection<?> _valueCollection;
+	private Collection<Object> _valueCollection;
 
 	private Object[] _valueArray;
 
@@ -234,11 +233,9 @@ public class OptionsTag extends BaseOptionTag {
 	protected boolean isSelected(String valueval) {
 		boolean selected = false;
 		if (this._selectedCollection != null) {
-			Iterator<?> iter = this._selectedCollection.iterator();
-			while (iter.hasNext()) {
-				// NIT make work for all primatives
-				// String val = (String)iter.next();
-				String val = String.valueOf(iter.next());
+			for (Object obj : this._selectedCollection) {
+				// NIT make work for all primitives
+				String val = String.valueOf(obj);
 				if (val.equals(valueval)) {
 					selected = true;
 					break;
@@ -247,8 +244,7 @@ public class OptionsTag extends BaseOptionTag {
 		} else if (this._selectedArray != null) {
 			int len = this._selectedArray.length;
 			for (int i = 0; i < len; i++) {
-				// NIT make work for all primatives
-				// String val = (String)_selectedArray[i];
+				// NIT make work for all primitives
 				String val = String.valueOf(this._selectedArray[i]);
 				if (val.equals(valueval)) {
 					selected = true;

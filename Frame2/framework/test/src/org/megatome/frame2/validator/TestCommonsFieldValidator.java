@@ -50,7 +50,6 @@
  */
 package org.megatome.frame2.validator;
 
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.commons.validator.Validator;
@@ -179,12 +178,10 @@ public class TestCommonsFieldValidator extends MockFrame2TestCase {
       String prependMsg,
       String msg,
       String errorKey) {
-      Iterator<Error> iter = errors.iterator();
 
       boolean foundValidationlError = false;
       boolean foundSeedError = false;
-      while (iter.hasNext()) {
-         Error error = iter.next();
+      for (Error error : errors.get()) {
          if (error.getKey().equals("seed")) { //$NON-NLS-1$
             foundSeedError = true;
          }

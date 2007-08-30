@@ -51,8 +51,9 @@
 package org.megatome.frame2.taglib.template.el;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -102,8 +103,8 @@ public class InsertTag extends BaseFrame2Tag {
 		return this.parameters;
 	}
 
-	public Iterator<String> getParameterNames() {
-		return this.parameters.keySet().iterator();
+	public List<String> getParameterNames() {
+		return new ArrayList<String>(this.parameters.keySet());
 	}
 
 	public void addParameter(String name, String value) {
@@ -134,9 +135,7 @@ public class InsertTag extends BaseFrame2Tag {
 	}
 
 	public void addParamsToRequest() {
-		Iterator<String> names = getParameterNames();
-		while (names.hasNext()) {
-			String name = names.next();
+		for (String name : getParameterNames()) {
 			this.pageContext.setAttribute(name, getParameterValues(name),
 					PageContext.REQUEST_SCOPE);
 		}

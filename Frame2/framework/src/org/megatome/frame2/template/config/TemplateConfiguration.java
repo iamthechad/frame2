@@ -53,7 +53,6 @@ package org.megatome.frame2.template.config;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -103,8 +102,7 @@ public class TemplateConfiguration implements TemplateConfigurationInterface {
       throws TemplateException {
       Collection<TemplateDefI> defs = this.definitions.values();
 
-      for (Iterator<TemplateDefI> iterator = defs.iterator(); iterator.hasNext();) {
-         TemplateDefI def = iterator.next();
+      for (TemplateDefI def : defs) {
          validateDefinitionPath(context, def);
          validateDefinitionPutPaths(context, def);
       }
@@ -124,8 +122,7 @@ public class TemplateConfiguration implements TemplateConfigurationInterface {
                                                             throws TemplateException {
       Map<String, String> puts = def.getPutParams();
       Collection<String> paths = puts.values();
-      for (Iterator<String> iter = paths.iterator(); iter.hasNext();) {
-         String path = iter.next();
+      for (String path : paths) {
          InputStream is = context.getResourceAsStream(this.configDir + path);
          if (is == null) {
             throw new TemplateException(TEMPLATE_PUT_PATH_EXCEPTION_MSG + 

@@ -50,7 +50,7 @@
  */
 package org.megatome.frame2.errors;
 
-import java.util.Iterator;
+import java.util.List;
 
 /**
  * A container for Error objects, which can be stored and retrieved by key. The
@@ -145,23 +145,23 @@ public interface Errors {
             final Object value2, final Object value3);
 
     /**
-     * Get an iterator of all errors for this key.
+     * Get a list of all errors for this key.
      * @param key Error key to retrieve Error objects for
-     * @return Iterator of all found Error objects, or null if none found.
+     * @return List of all found Error objects, or null if none found.
      */
-    public abstract Iterator<Error> iterator(String key);
+    public abstract List<Error> get(String key);
 
     /**
-     * Get an iterator of all errors in this object.
-     * @return Iterator of all errors in this collection.
+     * Get a list of all errors in this object.
+     * @return List of all errors in this collection.
      */
-    public abstract Iterator<Error> iterator();
+    public abstract List<Error> get();
 
     /**
      * Get all errors in the collection in an array
      * @return Array of Error objects
      */
-    public abstract Error[] get();
+    //public abstract Error[] get();
 
     /**
      * Get all Error objects associated with the specified key
@@ -169,10 +169,10 @@ public interface Errors {
      *        in the collection.
      * @return Array of Error objects
      */
-    public abstract Error[] get(String key);
+    //public abstract Error[] get(String key);
 
     /**
-     * Test to see if te object contains any errors.
+     * Test to see if the object contains any errors.
      * @return boolean Returns true if the object contains no errors, false
      *         otherwise.
      */

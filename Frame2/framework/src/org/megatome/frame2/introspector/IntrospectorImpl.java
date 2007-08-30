@@ -51,7 +51,6 @@
 package org.megatome.frame2.introspector;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -101,8 +100,7 @@ class IntrospectorImpl implements Introspector {
 
       if (mapexcs != null) {
          LOGGER.severe("Unable to perform mapping due to bean errors:"); //$NON-NLS-1$
-         for (Iterator<MappingException> i = mapexcs.iterator(); i.hasNext();) {
-            MappingException me = i.next();
+         for (MappingException me : mapexcs) {
             LOGGER.severe("Mapping error for bean [" + me.getBeanName() + "." + me.getProperty() +"]: " + me.getMessage(), me); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          }
          throw new MappingsException("Unable to perform mapping due to bean errors", mapexcs); //$NON-NLS-1$

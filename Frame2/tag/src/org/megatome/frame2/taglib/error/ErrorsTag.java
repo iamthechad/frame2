@@ -124,16 +124,14 @@ public class ErrorsTag extends TagSupport {
 
       StringBuffer buffer = new StringBuffer();
 
-      Error[] errs = errors.get(this.errorKey);
-
       Locale locale = HTMLHelpers.getLocale(this.pageContext,this.localeKey);
       ResourceBundle bundle = ResourceLocator.getBundle(locale);
 
       addElement(bundle, locale, buffer, Globals.ERRORS_HEADER, true);
 
-      for (int i = 0; i < errs.length; i++) {        
+      for (Error errs : errors.get(this.errorKey)) {
          addElement(bundle, locale, buffer, Globals.ERRORS_PREFIX, false);                  
-         buffer.append(errs[i].getMessage(locale));
+         buffer.append(errs.getMessage(locale));
          addElement(bundle, locale, buffer, Globals.ERRORS_SUFFIX, false);
          buffer.append("\n"); //$NON-NLS-1$
       }

@@ -51,7 +51,6 @@
 package org.megatome.frame2.front;
 
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -212,8 +211,7 @@ public class Frame2ContextListener implements ServletContextListener {
          return;
       }
       
-      for (Iterator<PluginProxy> iter=proxys.iterator(); iter.hasNext();){
-         PluginProxy proxy = iter.next(); 
+      for (PluginProxy proxy : proxys) {
          try {            
             PluginInterface plugin = proxy.getPlugin();
             plugin.init(context,proxy.getInitParams());
@@ -235,8 +233,7 @@ public class Frame2ContextListener implements ServletContextListener {
          return;
       }
       
-      for (Iterator<PluginProxy> iter=proxys.iterator(); iter.hasNext();){
-         PluginProxy proxy = iter.next(); 
+      for (PluginProxy proxy : proxys) {
          if (proxy.initThrewException()) {
             continue;
          }

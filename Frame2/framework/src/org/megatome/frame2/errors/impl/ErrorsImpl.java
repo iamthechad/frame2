@@ -51,8 +51,7 @@
 package org.megatome.frame2.errors.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -65,7 +64,7 @@ import org.megatome.frame2.errors.Errors;
  * key).
  */
 final class ErrorsImpl implements Errors {
-    private Map<String, Collection<Error>> errors = new TreeMap<String, Collection<Error>>();
+    private Map<String, List<Error>> errors = new TreeMap<String, List<Error>>();
 
     private int count;
 
@@ -116,7 +115,7 @@ final class ErrorsImpl implements Errors {
      * @param error Error to add
      */
     public void add(final Error error) {
-        Collection<Error> errorsForKey = errorsForKey(error.getKey());
+        List<Error> errorsForKey = get(error.getKey());
 
         if (errorsForKey == null) {
             errorsForKey = new ArrayList<Error>();
@@ -134,13 +133,9 @@ final class ErrorsImpl implements Errors {
      * @return boolean True if the error is in the collection
      */
     public boolean contains(final Error error) {
-        Collection<Error> errorsForKey = errorsForKey(error.getKey());
+        List<Error> errorsForKey = get(error.getKey());
 
         return (errorsForKey != null) && errorsForKey.contains(error);
-    }
-
-    private Collection<Error> errorsForKey(final String key) {
-        return this.errors.get(key);
     }
 
     /**
@@ -188,31 +183,36 @@ final class ErrorsImpl implements Errors {
     }
 
     /**
-     * Get an iterator of all errors for this key.
+     * Get a collection of all errors for this key.
      * @param key Error key to retrieve Error objects for
-     * @return Iterator of all found Error objects, or null if none found.
+     * @return Collection of all found Error objects, or null if none found.
      */
-    public Iterator<Error> iterator(String key) {
-        Collection<Error> errorsForKey = this.errors.get(key);
-
-        return (errorsForKey == null) ? null : errorsForKey.iterator();
+    public List<Error> get(String key) {
+    	if (key == null) {
+    		return get();
+    	}
+    	List<Error> errorList = this.errors.get(key);
+    	if (errorList == null) {
+    		errorList = new ArrayList<Error>();
+    	}
+    	return errorList;
     }
 
     /**
-     * Get an iterator of all errors in this object.
-     * @return Iterator of all errors in this collection.
+     * Get a collection of all errors in this object.
+     * @return Collection of all errors in this collection.
      */
-    public Iterator<Error> iterator() {
-        return allErrors().iterator();
+    public List<Error> get() {
+        return allErrors();
     }
 
     /**
      * Get all errors in the collection in an array
      * @return Array of Error objects
      */
-    public Error[] get() {
+    /*public Error[] get() {
         return allErrors().toArray(new Error[0]);
-    }
+    }*/
 
     /**
      * Get all Error objects associated with the specified key
@@ -220,7 +220,7 @@ final class ErrorsImpl implements Errors {
      *        in the collection.
      * @return Array of Error objects
      */
-    public Error[] get(String key) {
+    /*public Error[] get(String key) {
         if (key == null) {
             return get();
         }
@@ -231,21 +231,20 @@ final class ErrorsImpl implements Errors {
         }
 
         return new Error[0];
-    }
+    }*/
 
-    private Collection<Error> allErrors() {
-        Collection<Error> result = new ArrayList<Error>();
-        Iterator<Collection<Error>> errorsForKeys = this.errors.values().iterator();
+    private List<Error> allErrors() {
+        List<Error> result = new ArrayList<Error>();
 
-        while (errorsForKeys.hasNext()) {
-            result.addAll(errorsForKeys.next());
+        for (List<Error> errs : this.errors.values()) {
+        	result.addAll(errs);
         }
 
         return result;
     }
 
     /**
-     * Test to see if te object contains any errors.
+     * Test to see if the object contains any errors.
      * @return boolean Returns true if the object contains no errors, false
      *         otherwise.
      */
@@ -283,15 +282,11 @@ final class ErrorsImpl implements Errors {
     @Override
 	public String toString() {
         StringBuffer buffer = new StringBuffer();
-        Iterator<Error> errs = iterator();
-
-        while (errs.hasNext()) {
-            Error error = errs.next();
-
-            buffer.append("Errors: Key[" + error.getKey() + "] Value[" //$NON-NLS-1$ //$NON-NLS-2$
+        
+        for (Error error : allErrors()) {
+        	buffer.append("Errors: Key[" + error.getKey() + "] Value[" //$NON-NLS-1$ //$NON-NLS-2$
                     + error.getValue() + "]\n"); //$NON-NLS-1$
         }
-
         return buffer.toString();
     }
 }

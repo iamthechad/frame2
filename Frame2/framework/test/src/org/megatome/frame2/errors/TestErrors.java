@@ -95,9 +95,7 @@ public class TestErrors extends TestCase {
 
 	public void testGetIfEmpty() {
 		assertTrue(this.errors.isEmpty());
-		assertNull(this.errors.iterator(FOO));
-		assertEquals(0, this.errors.get().length);
-		assertEquals(0, this.errors.get(FOO).length);
+		assertTrue(this.errors.get(FOO).isEmpty());
 	}
 
 	public void testAdd() {
@@ -119,7 +117,7 @@ public class TestErrors extends TestCase {
 		assertFalse(this.errors.isEmpty());
 		assertEquals(3, this.errors.size());
 
-		Iterator<Error> allKeys = this.errors.iterator();
+		Iterator<Error> allKeys = this.errors.get().iterator();
 
 		assertError(allKeys.next(), KEY1, ONE, null, null);
 		assertError(allKeys.next(), KEY2, ONE, TWO, null);
@@ -127,20 +125,12 @@ public class TestErrors extends TestCase {
 
 		assertFalse(allKeys.hasNext());
 
-		Error[] errorArray = this.errors.get();
+		allKeys = this.errors.get(KEY2).iterator();
+		//errorArray = this.errors.get(KEY2);
 
-		assertNotNull(errorArray);
-		assertEquals(3, errorArray.length);
-
-		assertError(errorArray[0], KEY1, ONE, null, null);
-		assertError(errorArray[1], KEY2, ONE, TWO, null);
-		assertError(errorArray[2], KEY3, ONE, TWO, THREE);
-
-		errorArray = this.errors.get(KEY2);
-
-		assertNotNull(errorArray);
-		assertEquals(1, errorArray.length);
-		assertError(errorArray[0], KEY2, ONE, TWO, null);
+		assertTrue(allKeys.hasNext());
+		assertError(allKeys.next(), KEY2, ONE, TWO, null);
+		assertFalse(allKeys.hasNext());
 	}
 
 	public void testAddDuplicateKeys() {
@@ -152,7 +142,7 @@ public class TestErrors extends TestCase {
 		assertFalse(this.errors.isEmpty());
 		assertEquals(4, this.errors.size());
 
-		Iterator<Error> allKeys = this.errors.iterator();
+		Iterator<Error> allKeys = this.errors.get().iterator();
 
 		assertError(allKeys.next(), KEY1, ONE, null, null);
 		assertError(allKeys.next(), KEY1, ONE, TWO, null);
@@ -161,7 +151,7 @@ public class TestErrors extends TestCase {
 
 		assertFalse(allKeys.hasNext());
 
-		Iterator<Error> key1keys = this.errors.iterator(KEY1);
+		Iterator<Error> key1keys = this.errors.get(KEY1).iterator();
 
 		assertError(key1keys.next(), KEY1, ONE, null, null);
 		assertError(key1keys.next(), KEY1, ONE, TWO, null);
@@ -173,7 +163,7 @@ public class TestErrors extends TestCase {
 	public void testValueList_3() {
 		this.errors.add(KEY1, ONE, TWO, THREE);
 
-		Error error = this.errors.iterator().next();
+		Error error = this.errors.get().iterator().next();
 
 		Object[] valueArray = error.getValues();
 		assertNotNull(valueArray);
@@ -197,7 +187,7 @@ public class TestErrors extends TestCase {
 	public void testValueList_1() {
 		this.errors.add(KEY1, ONE);
 
-		Error error = this.errors.iterator().next();
+		Error error = this.errors.get().iterator().next();
 
 		Object[] valueArray = error.getValues();
 		assertNotNull(valueArray);
@@ -217,7 +207,7 @@ public class TestErrors extends TestCase {
 	public void testEmptyValueList() {
 		this.errors.add(KEY1, null);
 
-		Error error = this.errors.iterator().next();
+		Error error = this.errors.get().iterator().next();
 
 		Object[] valueArray = error.getValues();
 		assertNotNull(valueArray);
@@ -267,7 +257,7 @@ public class TestErrors extends TestCase {
 
 		assertEquals(2, this.errors.size());
 
-		Iterator<Error> emptyKeys = this.errors.iterator(Error.MISSING_KEY);
+		Iterator<Error> emptyKeys = this.errors.get(Error.MISSING_KEY).iterator();
 
 		assertTrue(emptyKeys.hasNext());
 	}

@@ -50,7 +50,7 @@
  */
 package org.megatome.frame2.taglib.html.el;
 
-import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.servlet.jsp.JspException;
 
@@ -343,13 +343,12 @@ public abstract class BaseHtmlTag extends BaseFrame2Tag {
 	// set new attr for encode ="true" to encode or not.
 	protected String genTagAttrs() throws JspException {
 		StringBuffer tagAttrs = new StringBuffer();
-		Iterator<String> it = this.attrs.keySet().iterator();
-		while (it.hasNext()) {
-			String attrName = it.next();
+		for (Entry<String, String> entry : this.attrs.entrySet()) {
+			String attrName = entry.getKey();
 
 			// Some of the attributes have unique behaviors.
 			String attrValue = null;
-			String attrExprValue = this.attrs.get(attrName);
+			String attrExprValue = entry.getValue();
 			if (!attrExprValue.equals(Constants.NULL_VALUE)) {
 				try {
 					attrValue = evalStringAttr(attrName, attrExprValue);

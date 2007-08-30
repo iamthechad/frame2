@@ -227,9 +227,10 @@ public abstract class BaseFrame2Tag extends BodyTagSupport implements
 	 *             If either the <code>attrValue</code> is null, or the
 	 *             resulting evaluated value is null.
 	 */
-	protected Collection<?> evalCollectionAttr(String attrName, String attrValue)
+	@SuppressWarnings("unchecked")
+	protected Collection<Object> evalCollectionAttr(String attrName, String attrValue)
 			throws Exception {
-		return (Collection<?>) (EvalHelper.eval(getTagName(), attrName, attrValue,
+		return (Collection<Object>) (EvalHelper.eval(getTagName(), attrName, attrValue,
 				Collection.class, this, this.pageContext));
 	}
 

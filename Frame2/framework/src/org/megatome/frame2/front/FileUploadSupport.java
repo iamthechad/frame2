@@ -53,7 +53,6 @@ package org.megatome.frame2.front;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -102,8 +101,7 @@ public final class FileUploadSupport {
             throw new Frame2Exception("File Upload Exception", fue); //$NON-NLS-1$
         }
 
-        for (final Iterator<FileItem> i = fileItems.iterator(); i.hasNext();) {
-            FileItem fi = i.next();
+        for (FileItem fi : fileItems) {
             String fieldName = fi.getFieldName();
 
             if (fi.isFormField()) {

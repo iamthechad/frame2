@@ -97,7 +97,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertNotNull(events);
 		assertEquals(1, events.size());
 		SoapEventMap event = events.get(0);
-		Object obj = event.getEventsIterator().next();
+		Object obj = event.getEvents().get(0);
 
 		assertTrue(obj instanceof PurchaseOrderType);
 

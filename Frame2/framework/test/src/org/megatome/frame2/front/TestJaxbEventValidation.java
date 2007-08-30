@@ -50,8 +50,6 @@
  */
 package org.megatome.frame2.front;
 
-import java.util.Iterator;
-
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.jaxbgen.Items;
@@ -85,7 +83,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 				.instance(config, elements, TARGET_PKG);
 
 		SoapEventMap event = this.processor.getEvents().get(0);
-		this.po = (PurchaseOrderType) event.getEventsIterator().next();
+		this.po = (PurchaseOrderType) event.getEvents().get(0);
 	}
 
 	public void testEventInstanceOfCommonsValidatorEvent() {
@@ -109,9 +107,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
 		assertEquals(2, errors.size());
 
-		// Error error = errors.iterator().next();
-		for (final Iterator<Error> i = errors.iterator(); i.hasNext();) {
-			Error error = i.next();
+		for (Error error : errors.get()) {
 			assertEquals("org.megatome.frame2.jaxbgen.Items", error.getKey()); //$NON-NLS-1$
 			// assertEquals(
 			// "the value does not match the regular expression
@@ -133,8 +129,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
 		assertEquals(2, errors.size());
 
-		for (final Iterator<Error> i = errors.iterator(); i.hasNext();) {
-			Error error = i.next();
+		for (Error error : errors.get()) {
 			assertEquals("org.megatome.frame2.jaxbgen.Items", error.getKey()); //$NON-NLS-1$
 			// assertEquals(
 			// "the value is out of the range (maxExclusive specifies 100).",
@@ -154,10 +149,11 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 
 		assertEquals(1, errors.size());
 
-		Error error = errors.iterator().next();
-		assertEquals(
-				"org.megatome.frame2.jaxbgen.PurchaseOrderType", error.getKey()); //$NON-NLS-1$
-		assertTrue(error.getValue1().toString().contains("'{billTo}'")); //$NON-NLS-1$
-		assertNull(error.getValue2());
+		for (Error error : errors.get()) {
+			assertEquals(
+					"org.megatome.frame2.jaxbgen.PurchaseOrderType", error.getKey()); //$NON-NLS-1$
+			assertTrue(error.getValue1().toString().contains("'{billTo}'")); //$NON-NLS-1$
+			assertNull(error.getValue2());
+		}
 	}
 }

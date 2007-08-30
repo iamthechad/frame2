@@ -55,7 +55,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -148,12 +147,9 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
 			try {
 				// iterate over this event's list of events
-				Iterator<Event> eventList = event.getEventsIterator();
-
-				while (eventList.hasNext()) {
+				for (Event childEvent : event.getEvents()) {
 					listIndex++;
 
-					Event childEvent = eventList.next();
 					childEvent.setEventName(eventName);
 
 					boolean valid = true;
@@ -210,12 +206,11 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
 		for (int i = 0; i < events.size(); i++) {
 			SoapEventMap event = events.get(i);
-			Iterator<Element> iter = event.getResponsesIterator();
 
 			if ((event.getResolve() == ResolveType.PARENT)
 					|| (event.getResolve() == ResolveType.PASSTHRU)) {
 				// no extra processing, 1-1
-				resultList.add(iter.next());
+				resultList.add(event.getResponses().get(0));
 			} else if (event.getResolve().equals(ResolveType.CHILDREN)) {
 				// NIT: wrap in event name element for now
 				Document doc = builder.newDocument();
@@ -223,9 +218,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
 				doc.appendChild(parent);
 
-				while (iter.hasNext()) {
-					Element elem = iter.next();
-
+				for (Element elem : event.getResponses()) {
 					parent.appendChild(doc.importNode(elem, true));
 				}
 
@@ -282,12 +275,10 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
 		ResourceBundle bundle = ResourceLocator.getBundle();
 
-		Error[] error = errs.get();
+		for (Error error : errs.get()) {
+			String msg = bundle.getString(error.getKey());
 
-		for (int i = 0; i < error.length; i++) {
-			String msg = bundle.getString(error[i].getKey());
-
-			buffer.append(MessageFormatter.format(msg, error[i].getValues()));
+			buffer.append(MessageFormatter.format(msg, error.getValues()));
 			buffer.append("\n"); //$NON-NLS-1$
 		}
 

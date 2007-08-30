@@ -144,11 +144,6 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 				String value = entry.getValue();
 				opts[i] = new NVPair(key, value);
 			}
-			/*for (Iterator<String> it = parm.keySet().iterator(); it.hasNext();) {
-				String key = it.next();
-				String value = parm.get(key);
-				opts[i] = new NVPair(key, value);
-			}*/
 		}
 
 		NVPair[] file;
@@ -161,12 +156,6 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 				URL configFile = getContext().getResource(value);
 				file[i] = new NVPair(key, configFile.getFile());
 			}
-			/*for (Iterator<String> it = parm.keySet().iterator(); it.hasNext();) {
-				String key = it.next();
-				String value = parm.get(key);
-				URL configFile = getContext().getResource(value);
-				file[i] = new NVPair(key, configFile.getFile());
-			}*/
 		}
 
 		try {

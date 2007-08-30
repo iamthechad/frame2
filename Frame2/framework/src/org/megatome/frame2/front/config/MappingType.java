@@ -51,7 +51,6 @@
 package org.megatome.frame2.front.config;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -97,15 +96,13 @@ public abstract class MappingType {
     protected static MappingType getMappingByString(String value) {
         MappingType result = null;
 
-        for (final Iterator<MappingType> i = mappings.iterator(); i.hasNext();) {
-            MappingType current = i.next();
-
-            if (current.getValue().equals(value)) {
+        for (MappingType current : mappings) {
+        	if (current.getValue().equals(value)) {
                 result = current;
                 break;
             }
         }
-
+        
         return result;
     }
 

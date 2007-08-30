@@ -50,7 +50,6 @@
  */
 package org.megatome.frame2.front.config;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -193,11 +192,9 @@ public class TestEventConfigReader extends TestCase {
 		assertNotNull(eventMapping);
 		List<String> handlers = eventMapping.getHandlers();
 		assertTrue(handlers.size() == 3);
-		Iterator<String> iter = handlers.iterator();
 		int count = 0;
-		while (iter.hasNext()) {
+		for (String handler : handlers) {
 			count++;
-			String handler = iter.next();
 			switch (count) {
 			case 1:
 				assertEquals(handler, "handler1-eventMapping1"); //$NON-NLS-1$
@@ -339,12 +336,9 @@ public class TestEventConfigReader extends TestCase {
 
 		List<PluginDef> plugins = reader.getPlugins();
 		assertTrue(plugins.size() == 1);
-		Iterator<PluginDef> iter = plugins.iterator();
-		while (iter.hasNext()) {
-			PluginDef plugin = iter.next();
-			assertTrue(plugin.getName().equals("PluginName")); //$NON-NLS-1$
-			assertTrue(plugin.getType().equals("org.megatome.something")); //$NON-NLS-1$
-		}
+		PluginDef plugin = plugins.get(0);
+		assertTrue(plugin.getName().equals("PluginName")); //$NON-NLS-1$
+		assertTrue(plugin.getType().equals("org.megatome.something")); //$NON-NLS-1$
 	}
 
 	public void testPluginMultiple() {
@@ -382,17 +376,14 @@ public class TestEventConfigReader extends TestCase {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/pluginTag-Dup-Negative-Param-1_1.xml"); //$NON-NLS-1$
 
 		List<PluginDef> plugins = reader.getPlugins();
-		Iterator<PluginDef> iter = plugins.iterator();
 		assertTrue(plugins.size() == 1);
-		while (iter.hasNext()) {
-			PluginDef plugin = iter.next();
-			assertTrue(plugin.getName().equals("PluginName1")); //$NON-NLS-1$
-			assertTrue(plugin.getType().equals("org.megatome.something1")); //$NON-NLS-1$
-			Map<String, String> params = plugin.getInitParams();
-			assertNotNull(params);
-			String val = params.get("param1"); //$NON-NLS-1$
-			assertTrue(val.equals("value1")); //$NON-NLS-1$
-		}
+		PluginDef plugin = plugins.get(0);
+		assertTrue(plugin.getName().equals("PluginName1")); //$NON-NLS-1$
+		assertTrue(plugin.getType().equals("org.megatome.something1")); //$NON-NLS-1$
+		Map<String, String> params = plugin.getInitParams();
+		assertNotNull(params);
+		String val = params.get("param1"); //$NON-NLS-1$
+		assertTrue(val.equals("value1")); //$NON-NLS-1$
 	}
 
 	public void testNegativeDuplicateInitParam() {

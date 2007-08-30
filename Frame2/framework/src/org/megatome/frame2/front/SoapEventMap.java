@@ -51,7 +51,7 @@
  package org.megatome.frame2.front;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 
 import org.megatome.frame2.event.Event;
@@ -64,7 +64,7 @@ import org.w3c.dom.Element;
  */
 public class SoapEventMap {
    // used to keep soap event
-   // and responses symetrical
+   // and responses symmetrical
    private String eventName;
    private List<Event> events = new ArrayList<Event>();
    private List<Element> responses = new ArrayList<Element>();
@@ -97,12 +97,12 @@ public class SoapEventMap {
       this.events = new ArrayList<Event>(events);
    }
 
-   public Iterator<Event> getEventsIterator() {
-      return this.events.iterator();
+   public List<Event> getEvents() {
+      return Collections.unmodifiableList(this.events);
    }
 
-   public Iterator<Element> getResponsesIterator() {
-      return this.responses.iterator();
+   public List<Element> getResponses() {
+      return Collections.unmodifiableList(this.responses);
    }
 
    public void setResponse(int i, Element obj) {
