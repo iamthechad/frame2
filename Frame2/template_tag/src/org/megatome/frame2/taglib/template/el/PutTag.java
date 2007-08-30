@@ -59,7 +59,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.megatome.frame2.taglib.template.TemplateConstants;
 import org.megatome.frame2.tagsupport.BaseFrame2Tag;
-import org.megatome.frame2.template.config.TemplateDef;
+import org.megatome.frame2.template.config.TemplateDefI;
 
 public class PutTag extends BaseFrame2Tag {
 
@@ -150,7 +150,7 @@ public class PutTag extends BaseFrame2Tag {
 					"Put Tag must be contained within an Insert Tag"); //$NON-NLS-1$
 		}
 
-		TemplateDef def = (TemplateDef) this.pageContext
+		TemplateDefI def = (TemplateDefI) this.pageContext
 				.findAttribute(TemplateConstants.FRAME2_INSERT_KEY);
 
 		if (def == null) {

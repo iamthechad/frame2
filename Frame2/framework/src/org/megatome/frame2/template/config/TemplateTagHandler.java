@@ -71,15 +71,15 @@ class TemplateTagHandler extends ConfigElementHandler {
     public static final String PATH = "path"; //$NON-NLS-1$
 
     private PutParamTagHandler putTagHandler;
-    private Map<String, TemplateDef> definitions = new HashMap<String, TemplateDef>();
-    private TemplateDef templateDef;
+    private Map<String, TemplateDefI> definitions = new HashMap<String, TemplateDefI>();
+    private TemplateDefI templateDef;
 
     /**
      * Constructs an EventHandlerTagHandler.
      * @param InitParamTagHandler
      * @param ForwardTagHandler
      */
-    public TemplateTagHandler(PutParamTagHandler putTagHandler, Map<String, TemplateDef> definitions) {
+    public TemplateTagHandler(PutParamTagHandler putTagHandler, Map<String, TemplateDefI> definitions) {
         this.definitions = definitions;
         this.putTagHandler = putTagHandler;
     }

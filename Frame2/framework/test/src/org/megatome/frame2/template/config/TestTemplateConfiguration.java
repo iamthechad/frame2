@@ -94,12 +94,12 @@ public class TestTemplateConfiguration extends TestCase {
       TemplateDef def1 = new TemplateDef();
       def1.setName("def1"); //$NON-NLS-1$
       def1.setPath("path1"); //$NON-NLS-1$
-      Map<String, TemplateDef> map = new HashMap<String, TemplateDef>();
+      Map<String, TemplateDefI> map = new HashMap<String, TemplateDefI>();
       map.put("def1",def1); //$NON-NLS-1$
       this.config.setDefinitions(map);
       
       assertNotNull(this.config.getDefinition("def1")); //$NON-NLS-1$
-      TemplateDef retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
+      TemplateDefI retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
       assertTrue(retDef.getName().equals("def1")); //$NON-NLS-1$
       assertTrue(retDef.getPath().equals("path1")); //$NON-NLS-1$
       assertTrue(retDef.getPutParams().isEmpty());
@@ -112,19 +112,19 @@ public class TestTemplateConfiguration extends TestCase {
       Map<String, String> puts = new HashMap<String, String>();
       puts.put("put1","val1"); //$NON-NLS-1$ //$NON-NLS-2$
       def1.setPutParams(puts);
-      Map<String, TemplateDef> map = new HashMap<String, TemplateDef>();
+      Map<String, TemplateDefI> map = new HashMap<String, TemplateDefI>();
       map.put("def1",def1); //$NON-NLS-1$
       this.config.setDefinitions(map);
       
       assertNotNull(this.config.getDefinition("def1")); //$NON-NLS-1$
-      TemplateDef retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
+      TemplateDefI retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
       assertTrue(retDef.getName().equals("def1")); //$NON-NLS-1$
       assertTrue(retDef.getPath().equals("path1")); //$NON-NLS-1$
       assertTrue(retDef.getPutParams().size() == 1);
    }
    
    public void testMultDef(){
-      Map<String, TemplateDef> map = new HashMap<String, TemplateDef>();
+      Map<String, TemplateDefI> map = new HashMap<String, TemplateDefI>();
       TemplateDef def1 = new TemplateDef();
       def1.setName("def1"); //$NON-NLS-1$
       def1.setPath("path1"); //$NON-NLS-1$
@@ -138,13 +138,13 @@ public class TestTemplateConfiguration extends TestCase {
       this.config.setDefinitions(map);      
       
       assertNotNull(this.config.getDefinition("def1")); //$NON-NLS-1$
-      TemplateDef retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
+      TemplateDefI retDef = this.config.getDefinition("def1"); //$NON-NLS-1$
       assertTrue(retDef.getName().equals("def1")); //$NON-NLS-1$
       assertTrue(retDef.getPath().equals("path1")); //$NON-NLS-1$
       assertTrue(retDef.getPutParams().isEmpty());
       
       assertNotNull(this.config.getDefinition("def2")); //$NON-NLS-1$
-      TemplateDef retDef2 = this.config.getDefinition("def2"); //$NON-NLS-1$
+      TemplateDefI retDef2 = this.config.getDefinition("def2"); //$NON-NLS-1$
       assertTrue(retDef2.getName().equals("def2")); //$NON-NLS-1$
       assertTrue(retDef2.getPath().equals("path2")); //$NON-NLS-1$
       assertTrue(retDef2.getPutParams().isEmpty());

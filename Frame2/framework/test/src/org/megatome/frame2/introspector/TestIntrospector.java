@@ -53,6 +53,7 @@ package org.megatome.frame2.introspector;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -321,21 +322,22 @@ public class TestIntrospector extends TestCase {
    }
 
    private void assertMappingsException(Bean1 bean, Object value, MappingsException e) {
-      MappingException[] mapexcs = e.getMappingExceptions();
+      List<MappingException> mapexcs = e.getMappingExceptions();
       
       assertNotNull(mapexcs);
-      assertEquals(1,mapexcs.length);
+      assertEquals(1,mapexcs.size());
       
-      assertEquals(bean.getClass().getName(),mapexcs[0].getBeanName());
-      assertEquals(Globals.MAPPING_KEY_PREFIX + "org.megatome.frame2.introspector.Bean1.shortP",mapexcs[0].getKey()); //$NON-NLS-1$
-      assertEquals("shortP",mapexcs[0].getProperty()); //$NON-NLS-1$
-      Object mapValue = mapexcs[0].getValue();
+      MappingException me = mapexcs.get(0);
+      assertEquals(bean.getClass().getName(),me.getBeanName());
+      assertEquals(Globals.MAPPING_KEY_PREFIX + "org.megatome.frame2.introspector.Bean1.shortP",me.getKey()); //$NON-NLS-1$
+      assertEquals("shortP",me.getProperty()); //$NON-NLS-1$
+      Object mapValue = me.getValue();
       if (mapValue instanceof Object[]) {
       	assertSame(value, ((Object[])mapValue)[0]);
       } else {
       	assertSame(value,mapValue);
       }
-      assertTrue(mapexcs[0].getCause() instanceof IllegalArgumentException);
+      assertTrue(me.getCause() instanceof IllegalArgumentException);
    }
    
    public void testHiddenJunkOnData( ) throws Exception {

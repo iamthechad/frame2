@@ -57,7 +57,7 @@ import org.megatome.frame2.taglib.template.TemplateHelper;
 import org.megatome.frame2.tagsupport.BaseFrame2Tag;
 import org.megatome.frame2.template.TemplateConfigFactory;
 import org.megatome.frame2.template.TemplateException;
-import org.megatome.frame2.template.config.TemplateDef;
+import org.megatome.frame2.template.config.TemplateDefI;
 
 public class TestGetTag extends BaseTemplateTagTest {
 	private static final String TEMPLATE1 = "template1"; //$NON-NLS-1$
@@ -94,7 +94,7 @@ public class TestGetTag extends BaseTemplateTagTest {
 	public void testGetTagWithDef() {
 		this.getTag.setName("header"); //$NON-NLS-1$
 		try {
-			TemplateDef def = TemplateConfigFactory.instance().getDefinition(
+			TemplateDefI def = TemplateConfigFactory.instance().getDefinition(
 					"template1"); //$NON-NLS-1$
 			assertNotNull(def);
 			this.pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY,

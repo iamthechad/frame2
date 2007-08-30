@@ -62,13 +62,13 @@ import org.megatome.frame2.taglib.template.TemplateHelper;
 import org.megatome.frame2.template.TemplateConfigFactory;
 import org.megatome.frame2.template.TemplateException;
 import org.megatome.frame2.template.TemplatePlugin;
-import org.megatome.frame2.template.config.TemplateDef;
+import org.megatome.frame2.template.config.TemplateDefI;
 
 public class TestTemplateTags extends JspTestCase {
 
 	private InsertTag _insertTag;
 
-	private TemplateDef _def = null;
+	private TemplateDefI _def = null;
 
 	static private String TEMPLATE2 = "template2"; //$NON-NLS-1$
 
@@ -243,7 +243,7 @@ public class TestTemplateTags extends JspTestCase {
 	private String getParameterValue(String name) {
 
 		String insertDef = this._insertTag.getDefinition();
-		TemplateDef def = null;
+		TemplateDefI def = null;
 		try {
 			def = TemplateConfigFactory.instance().getDefinition(insertDef);
 		} catch (TemplateException e) {

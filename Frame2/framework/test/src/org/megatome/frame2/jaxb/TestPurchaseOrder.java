@@ -213,7 +213,7 @@ public class TestPurchaseOrder extends TestCase {
 		return element.getValue();
 	}
 
-	class ValidationMonitor implements ValidationEventHandler {
+	static class ValidationMonitor implements ValidationEventHandler {
 		private List<ValidationEvent> events = new ArrayList<ValidationEvent>();
 
 		/**

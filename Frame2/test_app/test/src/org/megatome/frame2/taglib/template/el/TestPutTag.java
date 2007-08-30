@@ -58,7 +58,7 @@ import org.megatome.frame2.taglib.template.TemplateHelper;
 import org.megatome.frame2.tagsupport.BaseFrame2Tag;
 import org.megatome.frame2.template.TemplateConfigFactory;
 import org.megatome.frame2.template.TemplateException;
-import org.megatome.frame2.template.config.TemplateDef;
+import org.megatome.frame2.template.config.TemplateDefI;
 
 public class TestPutTag extends BaseTemplateTagTest {
 
@@ -124,7 +124,7 @@ public class TestPutTag extends BaseTemplateTagTest {
 		this.putTag.setParent(parent);
 
 		try {
-			TemplateDef def = TemplateConfigFactory.instance().getDefinition(
+			TemplateDefI def = TemplateConfigFactory.instance().getDefinition(
 					"template1"); //$NON-NLS-1$
 			assertNotNull(def);
 			this.pageContext.setAttribute(TemplateConstants.FRAME2_INSERT_KEY,

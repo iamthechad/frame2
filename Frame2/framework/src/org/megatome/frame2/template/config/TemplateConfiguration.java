@@ -59,25 +59,29 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.megatome.frame2.template.TemplateException;
-import org.megatome.frame2.template.TemplatePlugin;
 
 public class TemplateConfiguration implements TemplateConfigurationInterface {
    public static final String TEMPLATE_PATH_EXCEPTION_MSG =
       "validateTemplateFiles(), Unable to load template path= "; //$NON-NLS-1$
    public static final String TEMPLATE_PUT_PATH_EXCEPTION_MSG =
       "validateTemplateFiles(), Unable to load template put path= "; //$NON-NLS-1$
-   private Map<String, TemplateDef> definitions = new HashMap<String, TemplateDef>();
+   private Map<String, TemplateDefI> definitions = new HashMap<String, TemplateDefI>();
+   private String configDir;
+   
+   public void setConfigDir(final String configDir) {
+	   this.configDir = configDir;
+   }
 
-   public TemplateDef getDefinition(String name) {
+   public TemplateDefI getDefinition(String name) {
       return this.definitions.get(name);
    }
 
-   public Map<String, TemplateDef> getDefinitions() {
+   public Map<String, TemplateDefI> getDefinitions() {
       return this.definitions;
    }
 
-   public void setDefinitions(Map<String, TemplateDef> map) {
-      this.definitions = new HashMap<String, TemplateDef>(map);
+   public void setDefinitions(Map<String, TemplateDefI> map) {
+      this.definitions = new HashMap<String, TemplateDefI>(map);
    }
 
    public void loadTemplateFile(InputStream is) throws TemplateException {
@@ -90,39 +94,42 @@ public class TemplateConfiguration implements TemplateConfigurationInterface {
             "Unable to load template definition file", //$NON-NLS-1$
             e);
       }
+      for (TemplateDefI def : this.definitions.values()) {
+    	  def.setConfigDir(this.configDir);
+      }
    }
 
    public void validateTemplateFiles(ServletContext context)
       throws TemplateException {
-      Collection<TemplateDef> defs = this.definitions.values();
+      Collection<TemplateDefI> defs = this.definitions.values();
 
-      for (Iterator<TemplateDef> iterator = defs.iterator(); iterator.hasNext();) {
-         TemplateDef def = iterator.next();
+      for (Iterator<TemplateDefI> iterator = defs.iterator(); iterator.hasNext();) {
+         TemplateDefI def = iterator.next();
          validateDefinitionPath(context, def);
          validateDefinitionPutPaths(context, def);
       }
 
    }
-   protected void validateDefinitionPath(ServletContext context,TemplateDef def)
+   protected void validateDefinitionPath(ServletContext context,TemplateDefI def)
                                                          throws TemplateException {
-      InputStream is = context.getResourceAsStream(TemplatePlugin.getConfigDir() + def.getPath());
+      InputStream is = context.getResourceAsStream(this.configDir + def.getPath());
       if (is == null) {
          throw new TemplateException(TEMPLATE_PATH_EXCEPTION_MSG +
-                                      TemplatePlugin.getConfigDir() +
+                                      this.configDir +
                                       def.getPath());
       }
    }
 
-   protected void validateDefinitionPutPaths(ServletContext context,TemplateDef def)
+   protected void validateDefinitionPutPaths(ServletContext context,TemplateDefI def)
                                                             throws TemplateException {
       Map<String, String> puts = def.getPutParams();
       Collection<String> paths = puts.values();
       for (Iterator<String> iter = paths.iterator(); iter.hasNext();) {
          String path = iter.next();
-         InputStream is = context.getResourceAsStream(TemplatePlugin.getConfigDir() + path);
+         InputStream is = context.getResourceAsStream(this.configDir + path);
          if (is == null) {
             throw new TemplateException(TEMPLATE_PUT_PATH_EXCEPTION_MSG + 
-                                         TemplatePlugin.getConfigDir() + path);
+                                         this.configDir + path);
          }
       }
    }

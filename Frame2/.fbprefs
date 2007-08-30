@@ -1,7 +1,7 @@
 #FindBugs User Preferences
-#Wed Aug 29 15:18:49 MDT 2007
+#Thu Aug 30 09:18:24 MDT 2007
 detectorBCPMethodReturnCheck=BCPMethodReturnCheck|false
-detectorBadAppletConstructor=BadAppletConstructor|false
+detectorBadAppletConstructor=BadAppletConstructor|true
 detectorBadResultSetAccess=BadResultSetAccess|true
 detectorBadSyntaxForRegularExpression=BadSyntaxForRegularExpression|true
 detectorBadUseOfReturnValue=BadUseOfReturnValue|true
@@ -120,7 +120,7 @@ detectorTrainUnconditionalDerefParams=TrainUnconditionalDerefParams|true
 detectorURLProblems=URLProblems|true
 detectorUncallableMethodOfAnonymousClass=UncallableMethodOfAnonymousClass|true
 detectorUnnecessaryMath=UnnecessaryMath|true
-detectorUnreadFields=UnreadFields|false
+detectorUnreadFields=UnreadFields|true
 detectorUseObjectEquals=UseObjectEquals|true
 detectorUselessSubclassMethod=UselessSubclassMethod|true
 detectorVarArgsProblems=VarArgsProblems|true
@@ -129,7 +129,5 @@ detectorWaitInLoop=WaitInLoop|true
 detectorWrongMapIterator=WrongMapIterator|true
 detectorXMLFactoryBypass=XMLFactoryBypass|true
 detector_threshold=2
-effort=default
-excludefilter0=findBugsFilter.xml
 filter_settings=Medium|MALICIOUS_CODE,STYLE,BAD_PRACTICE,CORRECTNESS,I18N,PERFORMANCE,MT_CORRECTNESS|false
 filter_settings_neg=|

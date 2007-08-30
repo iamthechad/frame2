@@ -78,7 +78,7 @@ public class TestTemplateConfigFactory extends MockFrame2TestCase {
    
    public void testGetConfiguration() {
       try {
-         TemplateConfigFactory.loadTemplateFile(this.context, "/org/megatome/frame2/template/config/multTag-Put-Template.xml"); //$NON-NLS-1$
+         TemplateConfigFactory.loadTemplateFile(this.context, "multTag-Put-Template.xml", "/org/megatome/frame2/template/config/"); //$NON-NLS-1$ //$NON-NLS-2$
          
          assertNotNull( TemplateConfigFactory.instance());     
       } catch (TemplateException e) {

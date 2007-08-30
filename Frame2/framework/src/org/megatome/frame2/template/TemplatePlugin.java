@@ -91,8 +91,7 @@ public class TemplatePlugin implements PluginInterface {
 		getLogger().debug("TemplatePlugin init()"); //$NON-NLS-1$
 
 		try {
-			TemplateConfigFactory.loadTemplateFile(context, configDir
-					+ this.templateFile);
+			TemplateConfigFactory.loadTemplateFile(context, this.templateFile, configDir);
 		} catch (TemplateException e) {
 			getLogger().severe(PLUGIN_INIT_ERROR + e.getMessage());
 			throw new PluginException(PLUGIN_INIT_ERROR + e.getMessage(), e);

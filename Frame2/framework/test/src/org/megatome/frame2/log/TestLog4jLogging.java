@@ -192,7 +192,7 @@ public class TestLog4jLogging extends TestCase {
 		assertTrue(this.stdStream.toString().indexOf("test exception") > 0); //$NON-NLS-1$
 	}
 
-	private class TestException extends Throwable {
+	private static class TestException extends Throwable {
 		private static final long serialVersionUID = -2237703023771112459L;
 
 		TestException(String msg) {

@@ -90,6 +90,7 @@ public class RadioTag extends BaseInputTag {
 
 	private void handleDisplayValueAtrr() throws JspException {
 		String dispExpr = getAttr(Constants.DISPLAY_VALUE);
+		// TODO Fix
 		if (dispExpr == null || dispExpr == "") { //$NON-NLS-1$
 			// Evaluate the remainder of this page
 			return;

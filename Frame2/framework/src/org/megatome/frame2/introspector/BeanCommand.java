@@ -60,8 +60,6 @@ import java.beans.PropertyDescriptor;
  * Defines basic operations for operating on a bean.
  */
 abstract class BeanCommand {
-   private static BeanCommand SIMPLE_COMMAND = new SimpleCommand();
-   private static BeanCommand INDEXED_COMMAND = new IndexedCommand();
 
    /**
     * Provide the appropriate instance of a command depending on the key.
@@ -70,13 +68,9 @@ abstract class BeanCommand {
     *
     * @return BeanCommand
     */
-   static BeanCommand instance(String key) {
-      if (KeyHelper.isIndexed(key)) {
-         return INDEXED_COMMAND;
-      } 
-      
-      return SIMPLE_COMMAND;
-   }
+   /*static BeanCommand instance(String key) {
+	   return BeanCommandFactory.getInstance(key);
+   }*/
 
    abstract void set(PropertyMapping mapping, Object value)
       throws BeanException;

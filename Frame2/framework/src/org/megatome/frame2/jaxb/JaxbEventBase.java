@@ -153,7 +153,7 @@ public abstract class JaxbEventBase extends CommonsValidatorEvent {
 		return result;
 	}
     
-    class ValidationMonitor implements ValidationEventHandler {
+    static class ValidationMonitor implements ValidationEventHandler {
 		private List<ValidationEvent> events = new ArrayList<ValidationEvent>();
 
 		/**

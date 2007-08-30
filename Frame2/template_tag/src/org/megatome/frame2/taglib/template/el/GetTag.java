@@ -60,7 +60,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.megatome.frame2.taglib.template.ServletResponseIncludeWrapper;
 import org.megatome.frame2.taglib.template.TemplateConstants;
 import org.megatome.frame2.tagsupport.BaseFrame2Tag;
-import org.megatome.frame2.template.config.TemplateDef;
+import org.megatome.frame2.template.config.TemplateDefI;
 
 public class GetTag extends BaseFrame2Tag {
 
@@ -100,7 +100,7 @@ public class GetTag extends BaseFrame2Tag {
 	@Override
 	public int doStartTag() throws JspException {
 
-		TemplateDef def = (TemplateDef) this.pageContext
+		TemplateDefI def = (TemplateDefI) this.pageContext
 				.findAttribute(TemplateConstants.FRAME2_INSERT_KEY);
 
 		if (def == null) {

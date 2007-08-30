@@ -50,44 +50,50 @@
  */
 package org.megatome.frame2.introspector;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * The MappingsExceptions aggregates MappingException objects for later processing.
- * The introspection framework will make a best effort to map all properties and record all
- * errors; this exception type is how it communicates those errors back to client.
+ * The MappingsExceptions aggregates MappingException objects for later
+ * processing. The introspection framework will make a best effort to map all
+ * properties and record all errors; this exception type is how it communicates
+ * those errors back to client.
  */
 public class MappingsException extends IntrospectorException {
 
-   private static final long serialVersionUID = -8210673102700291097L;
+	private static final long serialVersionUID = -8210673102700291097L;
 
-   private MappingException[] mappingExceptions;
-
-   static private MappingException[] TYPE_ARRAY = new MappingException[0];
+	private List<MappingException> mappingExceptions;
 
 	/**
 	 * Constructor for MappingsException.
-	 * @param errors Collection of errors to aggregate
+	 * 
+	 * @param errors
+	 *            Collection of errors to aggregate
 	 */
-	MappingsException(Collection<MappingException> errors) {
-      this.mappingExceptions = errors.toArray(TYPE_ARRAY);
+	MappingsException(List<MappingException> errors) {
+		this.mappingExceptions = errors;
 	}
 
 	/**
 	 * Constructor for MappingsException.
-	 * @param message The message for this exception
-	 * @param errors The errors to aggregate
+	 * 
+	 * @param message
+	 *            The message for this exception
+	 * @param errors
+	 *            The errors to aggregate
 	 */
-	MappingsException(String message,Collection<MappingException> errors) {
+	MappingsException(String message, List<MappingException> errors) {
 		super(message);
-      this.mappingExceptions = errors.toArray(TYPE_ARRAY);
+		this.mappingExceptions = errors;
 	}
-   
-   /**
-    * Returns all errors stored in the object.
-    * @return An array of all errors generated for a map call.
-    */
-   public MappingException[] getMappingExceptions() {
-      return this.mappingExceptions;
-   }
+
+	/**
+	 * Returns all errors stored in the object.
+	 * 
+	 * @return An array of all errors generated for a map call.
+	 */
+	public List<MappingException> getMappingExceptions() {
+		return Collections.unmodifiableList(this.mappingExceptions);
+	}
 }

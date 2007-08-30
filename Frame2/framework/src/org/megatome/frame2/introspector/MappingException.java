@@ -52,101 +52,118 @@ package org.megatome.frame2.introspector;
 
 import org.megatome.frame2.Globals;
 
-
-
 /**
- * Indicates an error when trying to map data to a bean property. When a failure occurs the
- * exception records the bean name (the fully qualified class name), the property name used to
- * access the property, the value that was mapped (if known), and the key.
- *
+ * Indicates an error when trying to map data to a bean property. When a failure
+ * occurs the exception records the bean name (the fully qualified class name),
+ * the property name used to access the property, the value that was mapped (if
+ * known), and the key.
+ * 
  * @see org.megatome.frame2.introspector.MappingException#getKey
  */
 public class MappingException extends BeanException {
 	private static final long serialVersionUID = 2446083195663847286L;
-	private PropertyMapping mapping;
-   private Object value = "[unknown]"; //$NON-NLS-1$
+	private String beanName;
+	private String property;
+	private String key;
+	private Object value = "[unknown]"; //$NON-NLS-1$
 
-   MappingException(String message, PropertyMapping mapping) {
-      super(message);
-      this.mapping = mapping;
-   }
+	MappingException(String message, PropertyMapping mapping) {
+		super(message);
+		this.beanName = getBeanName(mapping);
+		this.property = getProperty(mapping);
+		this.key = getKey(mapping);
+	}
 
-   MappingException(String message, PropertyMapping mapping, Throwable t) {
-      super(message, t);
-      this.mapping = mapping;
-   }
+	MappingException(String message, PropertyMapping mapping, Throwable t) {
+		super(message, t);
+		this.beanName = getBeanName(mapping);
+		this.property = getProperty(mapping);
+		this.key = getKey(mapping);
+	}
 
-   MappingException(String message, PropertyMapping mapping, Object value) {
-      super(message);
-      this.mapping = mapping;
-      this.value = value;
-   }
+	MappingException(String message, PropertyMapping mapping, Object value) {
+		this(message, mapping);
+		this.value = value;
+	}
 
-   MappingException(String message, PropertyMapping mapping, Object value, Throwable t) {
-      super(message, t);
-      this.mapping = mapping;
-      this.value = value;
-   }
+	MappingException(String message, PropertyMapping mapping, Object value,
+			Throwable t) {
+		this(message, mapping, t);
+		this.value = value;
+	}
 
-   /**
-    * Returns the class name of the bean.
-    * @return Bean name
-    */
-   public String getBeanName() {
-      String result = null;
+	/**
+	 * Returns the class name of the bean.
+	 * 
+	 * @return Bean name
+	 */
+	public String getBeanName() {
+		return this.beanName;
+	}
 
-      if (this.mapping != null) {
-         result = this.mapping.getBean().getClass().getName();
-      }
+	private String getBeanName(final PropertyMapping mapping) {
+		if (mapping != null) {
+			return mapping.getBean().getClass().getName();
+		}
+		return null;
+	}
 
-      return result;
-   }
+	/**
+	 * Returns the name of the property that generated the error (for example,
+	 * 'foo' for the bean property <code>getFoo()</code>).
+	 * 
+	 * @return Property name
+	 */
+	public String getProperty() {
+		return this.property;
+	}
+	
+	private String getProperty(final PropertyMapping mapping) {
+		if (mapping != null) {
+			return mapping.getKey();
+		}
+		
+		return null;
+	}
 
-   /**
-    * Returns the name of the property that generated the error (for example, 'foo' for the bean
-    * property <code>getFoo()</code>).
-    * @return Property name
-    */
-   public String getProperty() {
-      String result = null;
+	/**
+	 * Returns the value that was used in trying to set the property. If the
+	 * value is not known or relevent (for example, the error was generated in
+	 * trying to locate the property on the bean) than a string with value
+	 * '[unknown]' is returned.
+	 * 
+	 * @return As above
+	 */
+	public Object getValue() {
+		return this.value;
+	}
 
-      if (this.mapping != null) {
-         result = this.mapping.getKey();
-      }
+	/**
+	 * Return the key for the property. The key's value is composed of a
+	 * framework-determined prefix, the bean name, and the property name. For
+	 * example, if the framework is unable to map a value to the property
+	 * <code>foo</code> on the bean <code>com.mycompany.BigEvent</code> then
+	 * the key will be:<br>
+	 * <br>
+	 * <code>frame2.mapping.com.mycompany.BigEvent.foo</code>
+	 * 
+	 * @return As above
+	 */
+	public String getKey() {
+		return this.key;
+	}
+	
+	private String getKey(final PropertyMapping mapping) {
+		if (mapping != null) {
+			StringBuffer result = new StringBuffer(Globals.MAPPING_KEY_PREFIX);
 
-      return result;
-   }
+			result.append(getBeanName());
+			result.append("."); //$NON-NLS-1$
+			result.append(mapping.getKey());
 
-   /**
-    * Returns the value that was used in trying to set the property.  If the value is not known or
-    * relevent (for example, the error was generated in trying to locate the property on the bean)
-    * than a string with value '[unknown]' is returned.
-    * @return As above
-    */
-   public Object getValue() {
-      return this.value;
-   }
+			return result.toString();
+		}
 
-   /**
-    * Return the key for the property. The key's value is composed of a framework-determined
-    * prefix, the bean name, and the property name. For example, if the framework is unable to map
-    * a value to the property <code>foo</code> on the bean <code>com.mycompany.BigEvent</code>
-    * then the key will be:<br>
-    * <br>
-    * <code>frame2.mapping.com.mycompany.BigEvent.foo</code>
-    * @return As above
-    */
-   public String getKey() {
-      if (this.mapping != null) {
-         StringBuffer result = new StringBuffer(Globals.MAPPING_KEY_PREFIX);
-
-         result.append(getBeanName());
-         result.append("."); //$NON-NLS-1$
-         result.append(this.mapping.getKey());
-
-         return result.toString();
-      }
-      
-      return null;
-   }
+		return null;
+	}
 }

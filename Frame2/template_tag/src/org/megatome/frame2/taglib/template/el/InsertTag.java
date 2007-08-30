@@ -67,7 +67,7 @@ import org.megatome.frame2.taglib.template.TemplateConstants;
 import org.megatome.frame2.tagsupport.BaseFrame2Tag;
 import org.megatome.frame2.template.TemplateConfigFactory;
 import org.megatome.frame2.template.TemplateException;
-import org.megatome.frame2.template.config.TemplateDef;
+import org.megatome.frame2.template.config.TemplateDefI;
 
 public class InsertTag extends BaseFrame2Tag {
 
@@ -75,7 +75,7 @@ public class InsertTag extends BaseFrame2Tag {
 
 	private Map<String, String[]> parameters = new HashMap<String, String[]>();
 
-	private TemplateDef def = null;
+	private TemplateDefI def = null;
 
 	/**
 	 * 

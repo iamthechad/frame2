@@ -166,7 +166,7 @@ public class Configuration {
      * @return Date
      */
     public Date getInitTime() {
-        return this.initTime;
+        return new Date(this.initTime.getTime());
     }
 
     /**

@@ -199,7 +199,7 @@ public class TestStandardLogging extends TestCase {
 		assertTrue(log.indexOf("test exception") > 0); //$NON-NLS-1$
 	}
 
-	private class TestException extends Throwable {
+	private static class TestException extends Throwable {
 		/**
 		 * 
 		 */

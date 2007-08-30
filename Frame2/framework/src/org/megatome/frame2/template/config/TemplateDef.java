@@ -50,61 +50,75 @@
  */
 package org.megatome.frame2.template.config;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.jsp.PageContext;
 
-import org.megatome.frame2.template.TemplatePlugin;
-
-public class TemplateDef implements Comparable<Object> {
-    private String name = ""; //$NON-NLS-1$
+public class TemplateDef implements Comparable<Object>, Serializable, TemplateDefI {
+	private static final long serialVersionUID = -2825779862791803265L;
+	private String name = ""; //$NON-NLS-1$
     private String path = ""; //$NON-NLS-1$
+    private String configDir;
     private Map<String, String> putParams = new HashMap<String, String>();
+    
+    public void setConfigDir(final String configDir) {
+    	this.configDir = configDir;
+    }
 
-    /**
-     * @return
-     */
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#getPutParams()
+	 */
     public Map<String, String> getPutParams() {
         return this.putParams;
     }
 
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#getPutParam(java.lang.String)
+	 */
     public String getPutParam(String paramName) {
         return this.putParams.get(paramName);
     }
 
-    /**
-     * @return
-     */
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#getName()
+	 */
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @return
-     */
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#getPath()
+	 */
     public String getPath() {
         return this.path;
     }
 
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#getTemplateJspPath()
+	 */
     public String getTemplateJspPath() {
-        return TemplatePlugin.getConfigDir() + getPath();
+        return this.configDir + getPath();
     }
 
-    /**
-     * @param map
-     */
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#setPutParams(java.util.Map)
+	 */
     public void setPutParams(Map<String, String> map) {
         this.putParams = new HashMap<String, String>(map);
     }
 
-    /**
-     * @param string
-     */
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#setName(java.lang.String)
+	 */
     public void setName(String name) {
         this.name = name;
     }
 
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#overridePutParam(java.lang.String, java.lang.String, javax.servlet.jsp.PageContext, int)
+	 */
     @SuppressWarnings("unchecked")
 	public void overridePutParam(String putName, String putValue,
             PageContext context, int scope) {
@@ -120,6 +134,9 @@ public class TemplateDef implements Comparable<Object> {
         }
     }
 
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#getPutParam(java.lang.String, javax.servlet.jsp.PageContext)
+	 */
     @SuppressWarnings("unchecked")
 	public String getPutParam(String paramName, PageContext context) {
         int[] scopeValues = { PageContext.PAGE_SCOPE,
@@ -141,15 +158,15 @@ public class TemplateDef implements Comparable<Object> {
         }
 
         if (paramValue != null) {
-            paramValue = TemplatePlugin.getConfigDir() + paramValue;
+            paramValue = this.configDir + paramValue;
         }
 
         return paramValue;
     }
 
-    /**
-     * @param string
-     */
+    /* (non-Javadoc)
+	 * @see org.megatome.frame2.template.config.TemplateDefI#setPath(java.lang.String)
+	 */
     public void setPath(String path) {
         this.path = path;
     }
@@ -159,7 +176,7 @@ public class TemplateDef implements Comparable<Object> {
         return this.name.compareTo(td.name);
     }
 
-    public int compareTo(TemplateDef other) {
+    public int compareTo(TemplateDefI other) {
         return this.name.compareTo(other.getName());
     }
 

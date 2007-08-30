@@ -52,6 +52,8 @@ package org.megatome.frame2.front;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -98,7 +100,8 @@ import org.w3c.dom.NodeList;
  * together the data and logic necessary for processing the request.
  */
 public class SoapRequestProcessor extends RequestProcessorBase {
-	private Element[] elements;
+	//private Element[] elements;
+	private List<Element> elements;
 
 	private String eventPkg;
 
@@ -117,7 +120,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 	public SoapRequestProcessor(Configuration config, Element[] elements,
 			String eventPkg) {
 		super(config);
-		this.elements = elements;
+		this.elements = Collections.unmodifiableList(Arrays.asList(elements));
 		this.errors = ErrorsFactory.newInstance();
 		this.context = new ContextImpl();
 		this.eventPkg = eventPkg;
@@ -319,12 +322,12 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			Unmarshaller unmarshaller = jcontext.createUnmarshaller();
 
 			if (this.elements != null) {
-				for (int i = 0; i < this.elements.length; i++) {
-					if (this.elements[i] != null) {
+				for (Element element : this.elements) {
+					if (element != null) {
 						SoapEventMap event = new SoapEventMap();
 						List<Event> eventList = new ArrayList<Event>();
 
-						String eventName = this.elements[i].getTagName();
+						String eventName = element.getTagName();
 
 						event.setEventName(eventName);
 
@@ -342,7 +345,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 							// put eventNames in arraylist for iteration
 							// put events in list mapped by eventName
 							JaxbEventBase evt = unmarshall(unmarshaller, DOMStreamConverter
-									.toInputStream(this.elements[i]));
+									.toInputStream(element));
 							evt.setValidatingSchema(s);
 							eventList.add(evt);
 							/*
@@ -354,8 +357,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 							event.setEvents(eventList);
 							events.add(event);
 						} else if (eventProxy.isChildren()) {
-							NodeList nodeList = this.elements[i]
-									.getChildNodes();
+							NodeList nodeList = element.getChildNodes();
 
 							for (int j = 0; j < nodeList.getLength(); j++) {
 								if (nodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
@@ -380,7 +382,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 							PassthruEvent psevent = (PassthruEvent) eventProxy
 									.getEvent();
 
-							psevent.setPassthruData(this.elements[i]);
+							psevent.setPassthruData(element);
 							eventList.add(psevent);
 							event.setResolve(ResolveType.PASSTHRU);
 							event.setEvents(eventList);

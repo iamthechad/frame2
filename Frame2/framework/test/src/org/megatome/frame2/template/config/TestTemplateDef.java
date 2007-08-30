@@ -60,7 +60,7 @@ import org.megatome.frame2.template.config.TemplateDef;
 
 public class TestTemplateDef extends TestCase {
    
-   private TemplateDef templateDef;
+   private TemplateDefI templateDef;
    
    public TestTemplateDef() {
       super();

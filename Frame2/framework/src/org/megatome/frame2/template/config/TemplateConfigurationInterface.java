@@ -53,11 +53,13 @@ package org.megatome.frame2.template.config;
 import java.util.Map;
 
 public interface TemplateConfigurationInterface {
+	
+	public void setConfigDir(String configDir);
 
-    public TemplateDef getDefinition(String name);
+    public TemplateDefI getDefinition(String name);
 
-    public Map<String, TemplateDef> getDefinitions();
+    public Map<String, TemplateDefI> getDefinitions();
 
-    public void setDefinitions(Map<String, TemplateDef> map);
+    public void setDefinitions(Map<String, TemplateDefI> map);
 
 }

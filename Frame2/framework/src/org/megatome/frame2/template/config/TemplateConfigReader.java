@@ -78,7 +78,7 @@ public class TemplateConfigReader {
 
     private TemplateTagHandler templateTagHandler;
 
-    public TemplateConfigReader(Map<String, TemplateDef> definitions) {
+    public TemplateConfigReader(Map<String, TemplateDefI> definitions) {
         this.putTagHandler = new PutParamTagHandler();
         this.templateTagHandler = new TemplateTagHandler(this.putTagHandler,
                 definitions);

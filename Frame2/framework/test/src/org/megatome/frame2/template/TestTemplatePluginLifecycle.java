@@ -54,11 +54,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.megatome.frame2.plugin.PluginException;
-import org.megatome.frame2.template.TemplateConfigFactory;
-import org.megatome.frame2.template.TemplateException;
-import org.megatome.frame2.template.TemplatePlugin;
 import org.megatome.frame2.template.config.TemplateConfiguration;
-import org.megatome.frame2.template.config.TemplateDef;
+import org.megatome.frame2.template.config.TemplateConfigurationInterface;
+import org.megatome.frame2.template.config.TemplateDefI;
 
 import servletunit.frame2.MockFrame2ServletContextSimulator;
 import servletunit.frame2.MockFrame2TestCase;
@@ -95,9 +93,9 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
     }
 
     public void testTemplatePluginSingleLoadDefaultDir() {
-        TemplateConfiguration config = testTemplatePlugin(null);
+        TemplateConfigurationInterface config = testTemplatePlugin(null);
 
-        TemplateDef def = config.getDefinition("foo"); //$NON-NLS-1$
+        TemplateDefI def = config.getDefinition("foo"); //$NON-NLS-1$
         assertNotNull(def);
         assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
         assertTrue(def.getPutParams().isEmpty());
@@ -117,9 +115,9 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
     }
 
     public void testTemplatePluginSingleLoad() {
-        TemplateConfiguration config = testTemplatePlugin("/templates/good/single/"); //$NON-NLS-1$
+        TemplateConfigurationInterface config = testTemplatePlugin("/templates/good/single/"); //$NON-NLS-1$
 
-        TemplateDef def = config.getDefinition("foo"); //$NON-NLS-1$
+        TemplateDefI def = config.getDefinition("foo"); //$NON-NLS-1$
         assertNotNull(def);
         assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
 
@@ -172,7 +170,7 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
         return null;
     }
 
-    private TemplateConfiguration testTemplatePlugin(String dir) {
+    private TemplateConfigurationInterface testTemplatePlugin(String dir) {
 
         if (dir != null) {
             TemplatePlugin.setConfigDir(dir);
@@ -185,7 +183,7 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
             fail();
         }
 
-        TemplateConfiguration config = null;
+        TemplateConfigurationInterface config = null;
         try {
             config = TemplateConfigFactory.instance();
         } catch (TemplateException e1) {

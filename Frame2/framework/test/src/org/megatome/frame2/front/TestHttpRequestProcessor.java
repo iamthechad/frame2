@@ -57,6 +57,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -745,8 +746,9 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 			assertTrue(e instanceof MappingsException);
 			MappingsException mes = (MappingsException) e;
 
-			assertTrue((mes.getMappingExceptions()).length == 1);
-			MappingException me = (mes.getMappingExceptions())[0];
+			List<MappingException> mec = mes.getMappingExceptions();
+			assertTrue(mec.size() == 1);
+			MappingException me = mec.get(0);
 
 			assertTrue(me.getBeanName().equals(
 					"org.megatome.frame2.front.Event1")); //$NON-NLS-1$
@@ -807,8 +809,9 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 			assertTrue(e instanceof MappingsException);
 			MappingsException mes = (MappingsException) e;
 
-			assertTrue((mes.getMappingExceptions()).length == 1);
-			MappingException me = (mes.getMappingExceptions())[0];
+			List<MappingException> mec = mes.getMappingExceptions();
+			assertTrue(mec.size() == 1);
+			MappingException me = mec.get(0);
 
 			assertTrue(me.getBeanName().equals(
 					"org.megatome.frame2.front.Event1")); //$NON-NLS-1$

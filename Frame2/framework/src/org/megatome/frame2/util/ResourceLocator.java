@@ -132,8 +132,6 @@ public class ResourceLocator {
 	}
 
 	static class EmptyBundle extends ResourceBundle {
-		Enumeration<String> emptyEnumeration = new EmptyEnumeration();
-
 		@Override
 		protected Object handleGetObject(@SuppressWarnings("unused")
 		String key) {
@@ -142,17 +140,15 @@ public class ResourceLocator {
 
 		@Override
 		public Enumeration<String> getKeys() {
-			return this.emptyEnumeration;
-		}
+			return new Enumeration<String>() {
+				public boolean hasMoreElements() {
+					return false;
+				}
 
-		class EmptyEnumeration implements Enumeration<String> {
-			public boolean hasMoreElements() {
-				return false;
-			}
-
-			public String nextElement() {
-				return null;
-			}
+				public String nextElement() {
+					return null;
+				}
+			};
 		}
 	}
 

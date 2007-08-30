@@ -51,8 +51,8 @@
 package org.megatome.frame2.introspector;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -82,7 +82,7 @@ class IntrospectorImpl implements Introspector {
          return;
       }
       
-      Collection<MappingException> mapexcs = null;
+      List<MappingException> mapexcs = null;
       
       for (Entry<String, Object> entry : fromMap.entrySet()) {
     	  String key = entry.getKey();
@@ -99,24 +99,6 @@ class IntrospectorImpl implements Introspector {
            }
       }
 
-      /*Iterator<String> propertyKeys = fromMap.keySet().iterator();
-
-      while (propertyKeys.hasNext()) {
-         String key = propertyKeys.next();
-
-         if (key != null) {
-            try {
-               setProperty(toBean, key, fromMap.get(key));
-            } catch (MappingException e) {
-               if (mapexcs == null) {
-                  mapexcs = new ArrayList<MappingException>();
-               }
-
-               mapexcs.add(e);
-            }
-         }
-      }*/
-
       if (mapexcs != null) {
          LOGGER.severe("Unable to perform mapping due to bean errors:"); //$NON-NLS-1$
          for (Iterator<MappingException> i = mapexcs.iterator(); i.hasNext();) {
@@ -132,7 +114,7 @@ class IntrospectorImpl implements Introspector {
       PropertyMapping mapping = getPropertyMapping(inBean, key);
 
       if (mapping != null) {
-         BeanCommand command = BeanCommand.instance(mapping.getKey());
+         BeanCommand command = BeanCommandFactory.getInstance(mapping.getKey());
 
          //value = extractFromArray(value);
 
@@ -164,7 +146,7 @@ class IntrospectorImpl implements Introspector {
       // NIT: it would be nice to push the nested dependence out
       if (KeyHelper.isNested(key)) {
          String topKey = KeyHelper.getTopKey(key);
-         BeanCommand command = BeanCommand.instance(topKey);
+         BeanCommand command = BeanCommandFactory.getInstance(topKey);
          Object nextBean = command.get(getPropertyMapping(bean, topKey));
 
          result = getPropertyMapping(nextBean, KeyHelper.getRemainderKey(key));

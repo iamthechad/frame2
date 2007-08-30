@@ -55,21 +55,23 @@ import java.io.InputStream;
 import javax.servlet.ServletContext;
 
 import org.megatome.frame2.template.config.TemplateConfiguration;
+import org.megatome.frame2.template.config.TemplateConfigurationInterface;
 
 
 public class TemplateConfigFactory {
 
-   private static TemplateConfiguration instance;
+   private static TemplateConfigurationInterface instance;
 
-   public static void loadTemplateFile(ServletContext context, String fileName) throws TemplateException{
+   public static void loadTemplateFile(ServletContext context, String fileName, String configDir) throws TemplateException{
       TemplateConfiguration config = new TemplateConfiguration();
-      InputStream is = context.getResourceAsStream(fileName);
+      config.setConfigDir(configDir);
+      InputStream is = context.getResourceAsStream(configDir + fileName);
       config.loadTemplateFile(is);
       config.validateTemplateFiles(context);
       instance = config;
    }
 
-   public static TemplateConfiguration instance() throws TemplateException {
+   public static TemplateConfigurationInterface instance() throws TemplateException {
       if (instance == null) {
          throw new TemplateException("Could not retrieve TemplateConfiguration"); //$NON-NLS-1$
       }

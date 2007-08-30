@@ -14,18 +14,6 @@
 		<Bug pattern="NM_CLASS_NOT_EXCEPTION"/>
 	</Match>
 	
-	<!-- 
-	<Match>
-		<Class name="org.megatome.frame2.introspector.MappingException"/>
-		<Bug pattern="SE_BAD_FIELD"/>
-	</Match>
-	
-	<Match>
-		<Class name="org.megatome.frame2.taglib.template.el.InsertTag"/>
-		<Bug pattern="SE_BAD_FIELD"/>
-	</Match>
-	-->
-	
 	<Match>
 		<Class name="org.megatome.frame2.jaxb.TestPurchaseOrder"/>
 		<Method name="loadSchema"/>

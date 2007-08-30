@@ -57,8 +57,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.megatome.frame2.template.TemplateException;
-import org.megatome.frame2.template.config.TemplateConfigReader;
-import org.megatome.frame2.template.config.TemplateDef;
 
 public class TestTemplateConfigReader extends TestCase {
 
@@ -79,21 +77,21 @@ public class TestTemplateConfigReader extends TestCase {
    
    public void testConfigurationSingleDefinition(){
       String filename = "org/megatome/frame2/template/config/singleTag-Template.xml";  //$NON-NLS-1$
-      Map<String, TemplateDef> definitions = readConfig(filename);
+      Map<String, TemplateDefI> definitions = readConfig(filename);
 
       assertTrue(definitions.size() == 1);
       assertNotNull(definitions.get("xxx")); //$NON-NLS-1$
-      TemplateDef def = definitions.get("xxx"); //$NON-NLS-1$
+      TemplateDefI def = definitions.get("xxx"); //$NON-NLS-1$
       assertTrue(def.getPath().equals("xxx")); //$NON-NLS-1$
    }
    
    public void testConfigurationSingleDefinitionPut(){
       String filename = "org/megatome/frame2/template/config/singleTag-Put-Template.xml";  //$NON-NLS-1$
-      Map<String, TemplateDef> definitions = readConfig(filename);
+      Map<String, TemplateDefI> definitions = readConfig(filename);
 
       assertTrue(definitions.size() == 1);
       assertNotNull(definitions.get("xxx")); //$NON-NLS-1$
-      TemplateDef def = definitions.get("xxx"); //$NON-NLS-1$
+      TemplateDefI def = definitions.get("xxx"); //$NON-NLS-1$
       assertTrue(def.getPath().equals("xxx")); //$NON-NLS-1$
       Map<String, String> map = def.getPutParams();
       assertTrue(map.size() ==1);
@@ -104,11 +102,11 @@ public class TestTemplateConfigReader extends TestCase {
    
    public void testConfigurationMultiDefinitionPut(){
       String filename = "org/megatome/frame2/template/config/multTag-Put-Template.xml";  //$NON-NLS-1$
-      Map<String, TemplateDef> definitions = readConfig(filename);
+      Map<String, TemplateDefI> definitions = readConfig(filename);
 
       assertTrue(definitions.size() == 3);
       assertNotNull(definitions.get("xxx1")); //$NON-NLS-1$
-      TemplateDef def = definitions.get("xxx1"); //$NON-NLS-1$
+      TemplateDefI def = definitions.get("xxx1"); //$NON-NLS-1$
       assertTrue(def.getPath().equals("xxx.jsp")); //$NON-NLS-1$
       Map<String, String> map = def.getPutParams();
       assertTrue(map.size() ==2);
@@ -164,7 +162,7 @@ public class TestTemplateConfigReader extends TestCase {
    
    public void testConfigurationEmptyTagDefinition(){
       String filename = "org/megatome/frame2/template/config/emptyTags-Template.xml";  //$NON-NLS-1$
-      Map<String, TemplateDef> definitions = readConfig(filename);
+      Map<String, TemplateDefI> definitions = readConfig(filename);
       assertTrue(definitions.isEmpty());
    }
    
@@ -173,8 +171,8 @@ public class TestTemplateConfigReader extends TestCase {
       readNegativeConfig(filename);
    }  
    
-   public Map<String, TemplateDef> readConfig(String filename){
-      Map<String, TemplateDef> definitions = new HashMap<String, TemplateDef>();
+   public Map<String, TemplateDefI> readConfig(String filename){
+      Map<String, TemplateDefI> definitions = new HashMap<String, TemplateDefI>();
       TemplateConfigReader reader = new TemplateConfigReader(definitions);
       try {
          InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
@@ -186,7 +184,7 @@ public class TestTemplateConfigReader extends TestCase {
    }   
    
    public void readNegativeConfig(String filename){
-      TemplateConfigReader reader = new TemplateConfigReader(new HashMap<String, TemplateDef>());
+      TemplateConfigReader reader = new TemplateConfigReader(new HashMap<String, TemplateDefI>());
       try {
          InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
          reader.execute(is);
