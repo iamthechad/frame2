@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ public class DisplayUsersHandler implements EventHandler {
 	public String handle(Event event, Context context) throws Exception {
 		DisplayUsers myEvent = (DisplayUsers)event;
 		
-		List users = UserStorage.getUsers();
+		List<User> users = UserStorage.getUsers();
 		myEvent.setUsers(users);
 		return null;
 	}

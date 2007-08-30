@@ -1,4 +1,4 @@
 <hr>
-Copyright 2004 Megatome Technologies
+Copyright 2007 Megatome Technologies
 </body>
 </html>

@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,19 +55,19 @@ import java.util.List;
 import org.megatome.frame2.event.CommonsValidatorEvent;
 
 public class DisplayUsers extends CommonsValidatorEvent {
-	private List users;
+	private List<User> users;
 	
 	/**
 	 * @return Returns the users.
 	 */
-	public List getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
 	
 	/**
 	 * @param users The users to set.
 	 */
-	public void setUsers(List users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 }

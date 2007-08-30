@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2006 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,13 +54,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserStorage {
-	private static List users = new ArrayList();
+	private static List<User> users = new ArrayList<User>();
 	
 	public static void addUser(User user) {
 		users.add(user);
 	}
 	
-	public static List getUsers() {
+	public static List<User> getUsers() {
 		return users;
 	}
 }

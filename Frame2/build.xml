@@ -355,7 +355,6 @@
      			<exclude name="org/megatome/frame2/validator/CommonsValidatorException.java"/>
      			<exclude name="org/megatome/frame2/util/soap/SOAPException.java"/>
      			<exclude name="org/megatome/frame2/util/dom/DocumentException.java"/>
-     			<exclude name="org/megatome/frame2/introspector/IntrospectorException.java"/>
      			<exclude name="org/megatome/frame2/template/TemplateException.java"/>
      			<exclude name="org/megatome/frame2/util/sax/ParserException.java"/>
      			<include name="org/megatome/frame2/Globals.java"/>
@@ -374,8 +373,8 @@
 				<![CDATA[<em>Copyright (C) 2004-2007, Megatome Technologies</em>
 				<br>All Rights Reserved]]>
 			</bottom>
-			<link href="http://java.sun.com/j2se/1.6.0/docs/api/"/>
-			<link href="http://java.sun.com/j2ee/1.5/docs/api/"/>
+			<link href="http://java.sun.com/javase/6/docs/api/"/>
+			<link href="http://java.sun.com/javaee/5/docs/api/"/>
 			<link href="http://jakarta.apache.org/commons/validator/apidocs/"/>
 		</javadoc>
 	</target>
@@ -623,6 +622,8 @@
 		</fileset>
 		<fileset dir="${proj-base}">
 			<include name="LICENSE.txt"/>
+			<include name="THIRD_PARTY_LICENSE.txt"/>
+			<include name="NOTICE.txt"/>
 			<include name="samples/**"/>
 			<include name="support_files/**"/>
 			<include name="docs/**"/>
