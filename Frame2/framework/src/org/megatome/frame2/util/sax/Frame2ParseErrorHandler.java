@@ -63,15 +63,13 @@ import org.xml.sax.SAXParseException;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class Frame2ParseErrorHandler implements ErrorHandler {
-   private Logger getLogger() {
-      return LoggerFactory.instance(Frame2ParseErrorHandler.class.getName());
-   }   
+   private static final Logger LOGGER = LoggerFactory.instance(Frame2ParseErrorHandler.class.getName());
 
    /* (non-Javadoc)
     * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
     */
    public void error(SAXParseException exception) throws SAXException {
-      getLogger().severe("Caught error in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
+      LOGGER.severe("Caught error in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
       throw (exception);
    }
 
@@ -79,7 +77,7 @@ public class Frame2ParseErrorHandler implements ErrorHandler {
     * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
     */
    public void fatalError(SAXParseException exception) throws SAXException {
-      getLogger().severe("Caught fatalError in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
+      LOGGER.severe("Caught fatalError in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
       throw (exception);
    }
 
@@ -87,7 +85,7 @@ public class Frame2ParseErrorHandler implements ErrorHandler {
     * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
     */
    public void warning(SAXParseException exception) throws SAXException {
-      getLogger().severe("Caught warning in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
+      LOGGER.severe("Caught warning in SAX Error Handler " + exception.getMessage()); //$NON-NLS-1$
       throw (exception);
    }
 

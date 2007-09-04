@@ -208,9 +208,9 @@ public abstract class BaseFrame2Tag extends BodyTagSupport implements
 	 *             resulting evaluated value is null.
 	 */
 	@SuppressWarnings("unchecked")
-	protected HashMap<Object, Object> evalHashMapAttr(String attrName,
+	protected HashMap<String, Object> evalHashMapAttr(String attrName,
 			String attrValue) throws Exception {
-		return (HashMap<Object, Object>) (EvalHelper.eval(getTagName(),
+		return (HashMap<String, Object>) (EvalHelper.eval(getTagName(),
 				attrName, attrValue, HashMap.class, this, this.pageContext));
 	}
 

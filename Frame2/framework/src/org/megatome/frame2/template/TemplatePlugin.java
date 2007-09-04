@@ -60,20 +60,12 @@ import org.megatome.frame2.plugin.PluginException;
 import org.megatome.frame2.plugin.PluginInterface;
 
 public class TemplatePlugin implements PluginInterface {
-
+	private static final Logger LOGGER = LoggerFactory.instance(TemplatePlugin.class.getName());
 	private static String DEFAULT_TEMPLATE_DIR = "/WEB-INF/templates/"; //$NON-NLS-1$
-
 	private static String configDir = DEFAULT_TEMPLATE_DIR;
-
 	private static String DEFAULT_TEMPLATE_FILE = "templates.xml"; //$NON-NLS-1$
-
 	public final static String PLUGIN_INIT_ERROR = "Template Plugin Initialization Error: "; //$NON-NLS-1$
-
 	private String templateFile = DEFAULT_TEMPLATE_FILE;
-
-	private Logger getLogger() {
-		return LoggerFactory.instance(TemplatePlugin.class.getName());
-	}
 
 	/**
 	 * 
@@ -88,12 +80,12 @@ public class TemplatePlugin implements PluginInterface {
 
 	public void init(ServletContext context, @SuppressWarnings("unused")
 	Map<String, String> initParams) throws PluginException {
-		getLogger().debug("TemplatePlugin init()"); //$NON-NLS-1$
+		LOGGER.debug("TemplatePlugin init()"); //$NON-NLS-1$
 
 		try {
 			TemplateConfigFactory.loadTemplateFile(context, this.templateFile, configDir);
 		} catch (TemplateException e) {
-			getLogger().severe(PLUGIN_INIT_ERROR + e.getMessage());
+			LOGGER.severe(PLUGIN_INIT_ERROR + e.getMessage());
 			throw new PluginException(PLUGIN_INIT_ERROR + e.getMessage(), e);
 		}
 	}
@@ -101,7 +93,7 @@ public class TemplatePlugin implements PluginInterface {
 	public void destroy(@SuppressWarnings("unused")
 	ServletContext context, @SuppressWarnings("unused")
 	Map<String, String> initParams) {
-		getLogger().debug("TemplatePlugin destroy()"); //$NON-NLS-1$
+		LOGGER.debug("TemplatePlugin destroy()"); //$NON-NLS-1$
 		TemplateConfigFactory.release();
 	}
 

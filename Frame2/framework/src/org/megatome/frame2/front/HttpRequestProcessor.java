@@ -51,6 +51,7 @@
 package org.megatome.frame2.front;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -92,9 +93,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 
     private static final String MULTIPART = "multipart/"; //$NON-NLS-1$
 
-    private Logger getLogger() {
-        return LoggerFactory.instance(HttpRequestProcessor.class.getName());
-    }
+    private static final Logger LOGGER = LoggerFactory.instance(HttpRequestProcessor.class.getName());
 
     /**
      * Constructor for HttpRequestProcessor.
@@ -160,11 +159,23 @@ public class HttpRequestProcessor extends RequestProcessorBase {
 
         IntrospectorFactory.instance().mapProperties(this.requestParams, event);
 
-        boolean passed = true;
+        return validateMappedEvent(validate, event);
+    }
+    
+    boolean mapAttributesToEvent(Map<String, Object> attributes, Event event, boolean validate)
+            throws IntrospectorException, CommonsValidatorException {
 
-        if ((validate) && (event != null)) {
+        IntrospectorFactory.instance().mapProperties(attributes, event);
+
+        return validateMappedEvent(validate, event);
+    }
+    
+    private boolean validateMappedEvent(boolean validate, Event event) throws CommonsValidatorException {
+    	boolean passed = true;
+
+        if (validate && (event != null)) {
             try {
-                passed &= event.validate(this.errors);
+                passed = event.validate(this.errors);
             } catch (NoClassDefFoundError e) {
                 // Bug Fix: 917752
                 // Detect missing CommonsValidator and respond appropriately
@@ -172,7 +183,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
                 PluginProxy cvp = getConfig().getPluginProxy(
                         "CommonsValidatorPlugin"); //$NON-NLS-1$
                 if (cvp != null) {
-                    getLogger().warn("Cannot validate event", e); //$NON-NLS-1$
+                    LOGGER.warn("Cannot validate event", e); //$NON-NLS-1$
                     throw new CommonsValidatorException(
                             "CommonsValidator missing from classpath, but specified in configuration"); //$NON-NLS-1$
                 }
@@ -245,9 +256,10 @@ public class HttpRequestProcessor extends RequestProcessorBase {
      * @see org.megatome.frame2.front.RequestProcessor#processRequest()
      */
     public Object processRequest() throws Throwable {
-        getLogger().debug("In HttpRequestProcessor processRequest()"); //$NON-NLS-1$
-        String view = null;
-        ForwardProxy result = null;
+        LOGGER.debug("In HttpRequestProcessor processRequest()"); //$NON-NLS-1$
+        //String view = null;
+        //ForwardProxy result = null;
+        ViewProxy proxy = null;
         try {
             String eventName = getEventName(this.request.getServletPath());
             Event event = getEvent();
@@ -271,28 +283,25 @@ public class HttpRequestProcessor extends RequestProcessorBase {
                 throw new AuthorizationException("User " + login //$NON-NLS-1$
                         + " not authorized for mapping " + eventName); //$NON-NLS-1$
             }
-            //requestParams = getRequestParameterMap(request);
 
-            //if (isCancelRequest(request)) {
             if (isCancelRequest(this.requestParams)) {
-                result = getConfig().cancelViewFor(eventName,
+                ForwardProxy result = getConfig().cancelViewFor(eventName,
                         Configuration.HTML_TOKEN);
 
+                // TODO This assumes that nothing gets forwarded to the cancel page
                 if (result.isEventType()) {
                     result = callHandlers(result.getPath(), getConfig()
                             .getEventProxy(result.getPath()).getEvent(),
                             ViewType.HTML);
                 }
-                view = result.getPath();
-
+                String view = result.getPath();
+                proxy = new ViewProxy(result, view);
             } else {
                 if (mapRequestToEvent(event, getConfig().validateFor(eventName))) {
-                    result = callHandlers(eventName, event, ViewType.HTML);
-                    view = result.getPath();
+                    ForwardProxy result = callHandlers(eventName, event, ViewType.HTML);
+                    proxy = callAndMapHandlers(result);
                 } else {
-                    getContextWrapper().setRequestAttribute(eventName, event);
-                    view = getConfig().inputViewFor(eventName,
-                            configResourceType());
+                	proxy = new ViewProxy(getValidationFailedView(event, eventName));
                 }
             }
         } catch (Throwable ex) {
@@ -306,16 +315,43 @@ public class HttpRequestProcessor extends RequestProcessorBase {
             getContextWrapper().setRequestAttribute(keyRequest, ex);
 
             if (exception.isEventType()) {
-                result = callHandlers(exception.getPath(), getConfig()
+            	// TODO This assumes that nothing gets forwarded to the exception page
+                ForwardProxy result = callHandlers(exception.getPath(), getConfig()
                         .getEventProxy(exception.getPath()).getEvent(),
                         ViewType.HTML);
-                view = result.getPath();
+                String view = result.getPath();
+                proxy = new ViewProxy(result, view);
             } else {
-                view = exception.getPath();
+                proxy = new ViewProxy(exception.getPath());
             }
         }
-        resolveForward(result, view);
+        resolveForward(proxy);
         return null;
+    }
+    
+    private ViewProxy callAndMapHandlers(ForwardProxy proxy) throws Exception {
+    	boolean valid = true;
+    	ForwardProxy result = proxy;
+        while (result.isEventType()) {
+        	// Map URI params into event, then callHandlers again
+        	Event next = getConfig().getEventProxy(result.getPath()).getEvent();
+        	if (getContextWrapper().hasResponseURIAttributes()) {
+        		valid = mapAttributesToEvent(getContextWrapper().getResponseURIAttributes(), next, getConfig().validateFor(next.getEventName()));
+        	}
+        	if (valid) {
+        		result = callHandlers(result.getPath(), next, ViewType.HTML);
+        	} else {
+        		return new ViewProxy(result, getValidationFailedView(next, next.getEventName()));
+        	}
+        }
+    	getContextWrapper().clearResponseURIAttributes();
+    	return new ViewProxy(result, result.getPath());
+    }
+    
+    private String getValidationFailedView(final Event event, final String eventName) throws Exception {
+    	getContextWrapper().setRequestAttribute(eventName, event);
+        return getConfig().inputViewFor(eventName,
+                configResourceType());
     }
 
     /**
@@ -323,7 +359,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
      * @see org.megatome.frame2.front.RequestProcessor#preProcess()
      */
     public void preProcess() {
-        getLogger().debug("In HttpRequestProcessor preProcess()"); //$NON-NLS-1$
+        LOGGER.debug("In HttpRequestProcessor preProcess()"); //$NON-NLS-1$
     }
 
     /**
@@ -331,15 +367,16 @@ public class HttpRequestProcessor extends RequestProcessorBase {
      * @see org.megatome.frame2.front.RequestProcessor#postProcess()
      */
     public void postProcess() {
-        getLogger().debug("In HttpRequestProcessor postProcess()"); //$NON-NLS-1$
+        LOGGER.debug("In HttpRequestProcessor postProcess()"); //$NON-NLS-1$
     }
 
-    private void resolveForward(ForwardProxy result, String view)
+    private void resolveForward(final ViewProxy proxy)
             throws ServletException, IOException {
-        if ((result != null) && result.isRedirect()) {
-            redirectTo(view);
+        //if ((result != null) && result.isRedirect()) {
+    	if (proxy.isRedirect()) {
+            redirectTo(proxy.getView());
         } else {
-            forwardTo(view);
+            forwardTo(proxy.getView());
         }
     }
 
@@ -392,7 +429,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
                 this.fileUploadException = new Frame2Exception(
                         "The Commons FileUpload library is missing." //$NON-NLS-1$
                                 + " It is required to process file uploads."); //$NON-NLS-1$
-                getLogger().severe("File Upload Error", this.fileUploadException); //$NON-NLS-1$
+                LOGGER.severe("File Upload Error", this.fileUploadException); //$NON-NLS-1$
                 return null;
             }
 
@@ -425,6 +462,7 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         private Map<String, String> initParms;
 
         private Set<String> redirectAttrs = new TreeSet<String>();
+        private Map<String,Object> responseAttrs = new HashMap<String,Object>();
 
         public ServletContext getServletContext() {
             return HttpRequestProcessor.this.servletContext;
@@ -487,5 +525,25 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         public void setInitParameters(Map<String, String> initParms) {
             this.initParms = initParms;
         }
+
+		@Override
+		public void addResponseURIAttribute(String key, Object value) {
+			this.responseAttrs.put(key, value);
+		}
+
+		@Override
+		public Map<String, Object> getResponseURIAttributes() {
+			return Collections.unmodifiableMap(this.responseAttrs);
+		}
+
+		@Override
+		public boolean hasResponseURIAttributes() {
+			return (!this.responseAttrs.isEmpty());
+		}
+
+		@Override
+		public void clearResponseURIAttributes() {
+			this.responseAttrs.clear();
+		}
     }
 }

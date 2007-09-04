@@ -50,6 +50,8 @@
  */
 package org.megatome.frame2.event;
 
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 
 import org.megatome.frame2.errors.Errors;
@@ -154,4 +156,12 @@ public interface Context {
     * @see javax.servlet.ServletContext
     */
    public ServletContext getServletContext();
+   
+   public void addResponseURIAttribute(String key, Object value);
+   
+   public boolean hasResponseURIAttributes();
+   
+   public Map<String, Object> getResponseURIAttributes();
+   
+   public void clearResponseURIAttributes();
 }

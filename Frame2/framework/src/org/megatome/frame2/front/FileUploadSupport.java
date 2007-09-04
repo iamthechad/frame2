@@ -67,12 +67,9 @@ import org.megatome.frame2.log.Logger;
 import org.megatome.frame2.log.LoggerFactory;
 
 public final class FileUploadSupport {
+	private static final Logger LOGGER = LoggerFactory.instance(FileUploadSupport.class.getName());
 
     private FileUploadSupport() { // Non-public ctor
-    }
-
-    private static Logger getLogger() {
-        return LoggerFactory.instance(FileUploadSupport.class.getName());
     }
 
     @SuppressWarnings("unchecked")
@@ -97,7 +94,7 @@ public final class FileUploadSupport {
         try {
             fileItems = upload.parseRequest(request);
         } catch (FileUploadException fue) {
-            getLogger().severe("File Upload Error", fue); //$NON-NLS-1$
+            LOGGER.severe("File Upload Error", fue); //$NON-NLS-1$
             throw new Frame2Exception("File Upload Exception", fue); //$NON-NLS-1$
         }
 

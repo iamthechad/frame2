@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE frame2-config PUBLIC
-  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
-  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.1//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_1.dtd">
 
 <frame2-config>
    <global-forwards>
@@ -20,6 +20,9 @@
       <forward name="view7" type="XMLResource" path="testViewClass"/>
       <forward name="redirect" type="HTMLResource" path="http://frame2.org/redirect.jsp"/>
       <forward name="eventChain2" type="event" path="eventChain2"/>
+      <forward name="uriEventForward" type="event" path="uriEvent"/>
+      <forward name="successForward" type="HTMLResource" path="/success.jsp"/>
+      <forward name="failForward" type="HTMLResource" path="/fail.jsp"/>
    </global-forwards>
    <events>
       <event name="event1" type="org.megatome.frame2.front.Event1"/>
@@ -48,6 +51,9 @@
       <event name="eventChain1" type="org.megatome.frame2.front.Event1"/>
       <event name="eventChain2" type="org.megatome.frame2.front.Event2"/>
       <event name="servletContextEvent" type="org.megatome.frame2.front.Event2"/>
+      <event name="attributeEvent" type="org.megatome.frame2.front.Event1"/>
+      <event name="attributeEvent2" type="org.megatome.frame2.front.Event2"/>
+      <event name="uriEvent" type="org.megatome.frame2.front.URIEvent"/>
    </events>
    <event-mappings>
       <event-mapping 
@@ -57,6 +63,23 @@
          <handler name="ev1handler1"/>
          <handler name="ev1handler2"/>
 		 <view type="HTML" forwardName="view3"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="attributeEvent">
+         <handler name="attributeHandler"/>
+		 <view type="HTML" forwardName="uriEventForward"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="attributeEvent2">
+         <handler name="attributeHandler"/>
+		 <view type="HTML" forwardName="uriEventForward"/>
+      </event-mapping>
+      <event-mapping 
+      	 eventName="uriEvent"
+      	 inputView="failForward"
+      	 validate="true">
+         <handler name="uriEventHandler"/>
+         <view type="HTML" forwardName="successForward"/>
       </event-mapping>
       <event-mapping 
       	 eventName="event2"
@@ -186,6 +209,14 @@
       </event-mapping>
    </event-mappings>
    <event-handlers>
+   <event-handler
+         name="attributeHandler"
+         type="org.megatome.frame2.front.AttributeHandler">
+      </event-handler>
+      <event-handler
+         name="uriEventHandler"
+         type="org.megatome.frame2.front.URIEventHandler">
+      </event-handler>
       <event-handler
          name="ev1handler1"
          type="org.megatome.frame2.front.Ev1handler1">

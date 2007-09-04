@@ -99,14 +99,9 @@ import org.w3c.dom.NodeList;
  * together the data and logic necessary for processing the request.
  */
 public class SoapRequestProcessor extends RequestProcessorBase {
-	//private Element[] elements;
+	private static final Logger LOGGER = LoggerFactory.instance(SoapRequestProcessor.class.getName());
 	private List<Element> elements;
-
 	private String eventPkg;
-
-	private Logger getLogger() {
-		return LoggerFactory.instance(SoapRequestProcessor.class.getName());
-	}
 
 	/**
 	 * Create a new instance of SoapRequestProcessor
@@ -133,7 +128,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 	 * @see org.megatome.frame2.front.RequestProcessor#processRequest()
 	 */
 	public Object processRequest() throws Exception {
-		getLogger().debug("In SoapRequestProcessor processRequest()"); //$NON-NLS-1$
+		LOGGER.debug("In SoapRequestProcessor processRequest()"); //$NON-NLS-1$
 		List<Element> resultList = new ArrayList<Element>();
 
 		// get event objects from request
@@ -159,6 +154,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 					}
 
 					if (valid) {
+						// TODO Is it possible to get an event type forward here? 
 						ForwardProxy fwd = callHandlers(eventName, childEvent,
 								ViewType.XML);
 
@@ -234,7 +230,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 	 * @see org.megatome.frame2.front.RequestProcessor#preProcess()
 	 */
 	public void preProcess() {
-		getLogger().debug("In SoapRequestProcessor preProcess()"); //$NON-NLS-1$
+		LOGGER.debug("In SoapRequestProcessor preProcess()"); //$NON-NLS-1$
 	}
 
 	/**
@@ -243,7 +239,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 	 * @see org.megatome.frame2.front.RequestProcessor#preProcess()
 	 */
 	public void postProcess() {
-		getLogger().debug("In SoapRequestProcessor postProcess()"); //$NON-NLS-1$
+		LOGGER.debug("In SoapRequestProcessor postProcess()"); //$NON-NLS-1$
 	}
 
 	/*
@@ -278,7 +274,11 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 		for (Error error : errs.get()) {
 			String msg = bundle.getString(error.getKey());
 
-			buffer.append(MessageFormatter.format(msg, error.getValues()));
+			if (msg == null) {
+				buffer.append("Could not find resource for key: " + error.getKey()); //$NON-NLS-1$
+			} else {
+				buffer.append(MessageFormatter.format(msg, error.getValues()));
+			}
 			buffer.append("\n"); //$NON-NLS-1$
 		}
 
@@ -494,6 +494,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 		private Map<String, Object> sessionAttributes;
 
 		private Set<String> redirectAttrs = new TreeSet<String>();
+		private Map<String, Object> responseAttrs = new HashMap<String,Object>();
 
 		public ServletContext getServletContext() {
 			return null;
@@ -528,6 +529,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			removeIfNotNull(key, this.sessionAttributes);
 		}
 
+		@Override
 		public void setRequestAttribute(String key, Object value) {
 			if (this.requestAttributes == null) {
 				this.requestAttributes = new HashMap<String, Object>();
@@ -536,6 +538,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			this.requestAttributes.put(key, value);
 		}
 
+		@Override
 		public void setRequestAttribute(String key, Object value,
 				boolean redirectAttr) {
 			if (redirectAttr) {
@@ -547,6 +550,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			setRequestAttribute(key, value);
 		}
 
+		@Override
 		public void setSessionAttribute(String key, Object value) {
 			if (this.sessionAttributes == null) {
 				this.sessionAttributes = new HashMap<String, Object>();
@@ -555,6 +559,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			this.sessionAttributes.put(key, value);
 		}
 
+		@Override
 		public void setInitParameters(Map<String, String> initParms) {
 			this.initParms = initParms;
 		}
@@ -568,6 +573,26 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 			if (map != null) {
 				map.remove(key);
 			}
+		}
+
+		@Override
+		public void addResponseURIAttribute(String key, Object value) {
+			this.responseAttrs.put(key, value);
+		}
+
+		@Override
+		public Map<String, Object> getResponseURIAttributes() {
+			return Collections.unmodifiableMap(this.responseAttrs);
+		}
+
+		@Override
+		public boolean hasResponseURIAttributes() {
+			return (!this.responseAttrs.isEmpty());
+		}
+
+		@Override
+		public void clearResponseURIAttributes() {
+			this.responseAttrs.clear();
 		}
 	}
 }

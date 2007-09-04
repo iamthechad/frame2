@@ -278,6 +278,7 @@ public class Configuration {
             if (type != null) {
                 //event = (Event) getClass().forName(type).newInstance();
                 event = (Event)Class.forName(type).newInstance();
+                event.setEventName(eventName);
             }
         } catch (Exception e) {
             throw new ConfigException("Invalid Event ", e); //$NON-NLS-1$

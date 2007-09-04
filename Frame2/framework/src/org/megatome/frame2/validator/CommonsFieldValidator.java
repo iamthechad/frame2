@@ -71,21 +71,13 @@ import org.megatome.frame2.log.LoggerFactory;
  * class.
  */
 public class CommonsFieldValidator {
+	private static final Logger LOGGER = LoggerFactory.instance(CommonsFieldValidator.class.getName());
 
 	/**
 	 * Constructor for CommonsFieldValidator.
 	 */
 	public CommonsFieldValidator() {
 		super();
-	}
-
-	/**
-	 * Get the logger instance for this class.
-	 * 
-	 * @return Logger instance
-	 */
-	protected static Logger getLogger() {
-		return LoggerFactory.instance(CommonsFieldValidator.class.getName());
 	}
 
 	/**
@@ -291,7 +283,7 @@ public class CommonsFieldValidator {
 			}
 			return true;
 		} catch (Exception e) {
-			getLogger().info("mask = " + mask + " caused an exception:" + e); //$NON-NLS-1$ //$NON-NLS-2$
+			LOGGER.info("mask = " + mask + " caused an exception:" + e); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return true;
 	}
@@ -639,7 +631,7 @@ public class CommonsFieldValidator {
 				return null;
 			}
 		} catch (Exception e) {
-			getLogger().info("Date validation failed for value = " + value //$NON-NLS-1$
+			LOGGER.info("Date validation failed for value = " + value //$NON-NLS-1$
 					+ " exception: " + e); //$NON-NLS-1$
 		}
 		if (result == null) {

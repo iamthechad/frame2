@@ -225,7 +225,6 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files = new HashMap<String, String>();
 
-		
 		String fileName = "/WEB-INF/commonsvalidator/commons-validation.xml"; //$NON-NLS-1$
 		parms.put("parm1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
 		files.put("fileparm", fileName); //$NON-NLS-1$
@@ -617,54 +616,33 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
-	public void testLocalForwardToAnEvent() throws Exception {
+	public void testLocalForwardToAnEvent() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
-		ForwardProxy view = null;
 		setServletPath("/event12.f2"); //$NON-NLS-1$
 		HttpRequestProcessor request = createHelper(config);
-		Event12 event = (Event12) request.getEvent();
-		try {
-			view = request.callHandlers("event12", event, ViewType.HTML); //$NON-NLS-1$
-		} catch (ViewException ex) {
-			fail("We should Not have gotten an exception"); //$NON-NLS-1$
-		}
-		assertNotNull(view);
-		assertEquals(view.getPath(), "/view1.jsp"); //$NON-NLS-1$
+		request.processRequest();
+		verifyForward("/view1.jsp"); //$NON-NLS-1$
 	}
 
 	@SuppressWarnings("null")
-	public void testGlobalForwardToAnEvent() throws Exception {
+	public void testGlobalForwardToAnEvent() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
-		ForwardProxy view = null;
 		setServletPath("/event13.f2"); //$NON-NLS-1$
 		HttpRequestProcessor request = createHelper(config);
-		Event13 event = (Event13) request.getEvent();
-		try {
-			view = request.callHandlers("event13", event, ViewType.HTML); //$NON-NLS-1$
-		} catch (ViewException ex) {
-			fail("We should Not have gotten an exception"); //$NON-NLS-1$
-		}
-		assertNotNull(view);
-		assertEquals(view.getPath(), "/view4.jsp"); //$NON-NLS-1$
+		request.processRequest();
+		verifyForward("/view4.jsp"); //$NON-NLS-1$
 	}
 
 	@SuppressWarnings("null")
-	public void testEventMappingViewToAnEvent() throws Exception {
+	public void testEventMappingViewToAnEvent() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
-		ForwardProxy view = null;
 		setServletPath("/event14.f2"); //$NON-NLS-1$
 		HttpRequestProcessor request = createHelper(config);
-		Event14 event = (Event14) request.getEvent();
-		try {
-			view = request.callHandlers("event14", event, ViewType.HTML); //$NON-NLS-1$
-		} catch (ViewException ex) {
-			fail("We should Not have gotten an exception"); //$NON-NLS-1$
-		}
-		assertNotNull(view);
-		assertEquals(view.getPath(), "/view1.jsp"); //$NON-NLS-1$
+		request.processRequest();
+		verifyForwardPath("/view1.jsp"); //$NON-NLS-1$
 	}
 
 	@SuppressWarnings("null")
@@ -812,7 +790,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	/*
-	 * This test verifies a bug fix. The bug occurrs when chained events are
+	 * This test verifies a bug fix. The bug occurs when chained events are
 	 * used. Any event after the initial one does not gets it name set
 	 * correctly.
 	 */
@@ -838,8 +816,9 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	/*
-	 * This test verifies a bug fix. The bug is that the context objct available
-	 * in an event handler does not have access to the servlet context.
+	 * This test verifies a bug fix. The bug is that the context object
+	 * available in an event handler does not have access to the servlet
+	 * context.
 	 */
 	public void testProcessRequestServletContext() throws Throwable {
 		Configuration config = new Configuration(
@@ -855,6 +834,28 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 				.getAttribute("foo"); //$NON-NLS-1$
 		assertNotNull(msg);
 		assertTrue(msg.equals("bar")); //$NON-NLS-1$
+	}
+
+	public void testAppendAttributes() throws Throwable {
+		Configuration config = new Configuration(
+				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
+		setServletPath("/attributeEvent.f2"); //$NON-NLS-1$
+		HttpRequestProcessor request = createHelper(config);
+
+		request.processRequest();
+
+		verifyForwardPath("/success.jsp"); //$NON-NLS-1$
+	}
+
+	public void testValidateChainedEvent() throws Throwable {
+		Configuration config = new Configuration(
+				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
+		setServletPath("/attributeEvent2.f2"); //$NON-NLS-1$
+		HttpRequestProcessor request = createHelper(config);
+
+		request.processRequest();
+
+		verifyForwardPath("/fail.jsp"); //$NON-NLS-1$
 	}
 
 	public void testViewExceptionForwardToPath() throws Throwable {

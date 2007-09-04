@@ -162,24 +162,24 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		Map<String, Forward> globalForwards = config.getGlobalHTMLForwards();
 
 		assertNotNull(globalForwards);
-		assertEquals(10, globalForwards.size());
+		assertEquals(13, globalForwards.size());
 
 		assertNotNull(globalForwards.get("view1")); //$NON-NLS-1$
 
 		Map<String, EventDef> events = config.getEvents();
 
 		assertNotNull(events);
-		assertEquals(26, events.size());
+		assertEquals(29, events.size());
 
 		Map<String, EventHandlerDef> eventHandlers = config.getEventHandlers();
 
 		assertNotNull(eventHandlers);
-		assertEquals(14, eventHandlers.size());
+		assertEquals(16, eventHandlers.size());
 
 		Map<String, EventMapping> eventMappings = config.getEventMappings();
 
 		assertNotNull(eventMappings);
-		assertEquals(21, eventMappings.size());
+		assertEquals(24, eventMappings.size());
 	}
 
 	// NIT: This test is really more of a test of the Mock framework.  Should it be

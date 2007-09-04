@@ -68,27 +68,30 @@ import org.megatome.frame2.util.ResourceLocator;
 
 /**
  * The Frame2ContextListener performs initialization for Frame2 based on the
- * context parameters provided in the web application deployment descriptor (web.xml).
- * The initialization is triggered by the context initialized event, and consists of the following
- * three steps:
+ * context parameters provided in the web application deployment descriptor
+ * (web.xml). The initialization is triggered by the context initialized event,
+ * and consists of the following three steps:
  * 
- * 1) If the LOGGER_TYPE parameter is set, the value will be used as the type to be created
- * by the LoggerFactory. The type name must be the fully qualified name of the Logger type and
- * must implement the Logger interface.  If the parameter is not set, the default Logger will
- * be used.
+ * 1) If the LOGGER_TYPE parameter is set, the value will be used as the type to
+ * be created by the LoggerFactory. The type name must be the fully qualified
+ * name of the Logger type and must implement the Logger interface. If the
+ * parameter is not set, the default Logger will be used.
  * 
- * 2) If the CONFIG_FILE parameter is set, the value will be used to configure the framework.
- * The value will be treated as a resource that will be streamed into the configuration parser.
- * If the parameter is not set, the framework will attempt to load the configuration using the
- * default path (DEFAULT_CONFIG_FILE).  Failure to configure using either the parameter or the
+ * 2) If the CONFIG_FILE parameter is set, the value will be used to configure
+ * the framework. The value will be treated as a resource that will be streamed
+ * into the configuration parser. If the parameter is not set, the framework
+ * will attempt to load the configuration using the default path
+ * (DEFAULT_CONFIG_FILE). Failure to configure using either the parameter or the
  * default is a runtime error.
  * 
- * 3) If the RESOURCE_BUNDLE parameter is set, the value will be used as the basename for all
- * resource calls used by the framework.  There is no default provided, though if the parameter is not set
- * the framework will attempt to the default bundle specified as part of the JSTL installation
- * (see the JSTL specification for setting the basename).
+ * 3) If the RESOURCE_BUNDLE parameter is set, the value will be used as the
+ * basename for all resource calls used by the framework. There is no default
+ * provided, though if the parameter is not set the framework will attempt to
+ * the default bundle specified as part of the JSTL installation (see the JSTL
+ * specification for setting the basename).
  * 
- * 4) Invoke the Plugin classes init()/destroy() methods at initialize/destroy events.
+ * 4) Invoke the Plugin classes init()/destroy() methods at initialize/destroy
+ * events.
  * 
  * @see org.megatome.frame2.log.LoggerFactory
  * @see org.megatome.frame2.log.Logger
@@ -98,161 +101,170 @@ import org.megatome.frame2.util.ResourceLocator;
 
 public class Frame2ContextListener implements ServletContextListener {
 
-   private Logger getLogger() {
-      return LoggerFactory.instance(Frame2ContextListener.class.getName());
-   }
+	private static final Logger LOGGER = LoggerFactory
+			.instance(Frame2ContextListener.class.getName());
 
-   /**
-    * This is the flag jstl uses to detect a bundle configuration for the web application.
-    * The context listener will attempt to use this if the parameter is not specified
-    * for Frame2 by use of the RESOURCE_BUNDLE parameter.
-    */
+	/**
+	 * This is the flag jstl uses to detect a bundle configuration for the web
+	 * application. The context listener will attempt to use this if the
+	 * parameter is not specified for Frame2 by use of the RESOURCE_BUNDLE
+	 * parameter.
+	 */
 
-   static String JSTL_CONTEXT_BUNDLE_PARAM = "javax.servlet.jsp.jstl.fmt.basename"; //$NON-NLS-1$
+	static String JSTL_CONTEXT_BUNDLE_PARAM = "javax.servlet.jsp.jstl.fmt.basename"; //$NON-NLS-1$
 
-   /**
-    * @see javax.servlet.ServletContextListener#contextInitialized(ServletContextEvent)
-    */
-   public void contextInitialized(ServletContextEvent event) {
-      ServletContext context = event.getServletContext();
+	/**
+	 * @see javax.servlet.ServletContextListener#contextInitialized(ServletContextEvent)
+	 */
+	public void contextInitialized(ServletContextEvent event) {
+		ServletContext context = event.getServletContext();
 
-      setLoggerFirst(context);
-      JAXBSchemaFactory.setServletContext(context);
-      setConfigFile(context);
-      setResourceBundle(context);
-      setFileUploadOptions(context);
-      initPlugins(context);
-   }
+		setLoggerFirst(context);
+		JAXBSchemaFactory.setServletContext(context);
+		setConfigFile(context);
+		setResourceBundle(context);
+		setFileUploadOptions(context);
+		initPlugins(context);
+	}
 
-   private void setResourceBundle(ServletContext context) {
-      String basename = context.getInitParameter(Globals.RESOURCE_BUNDLE);
+	private void setResourceBundle(ServletContext context) {
+		String basename = context.getInitParameter(Globals.RESOURCE_BUNDLE);
 
-      if (basename == null) {
-         basename = context.getInitParameter(JSTL_CONTEXT_BUNDLE_PARAM);
-      }
+		if (basename == null) {
+			basename = context.getInitParameter(JSTL_CONTEXT_BUNDLE_PARAM);
+		}
 
-      if (basename != null) {
-         ResourceLocator.setBasename(basename);
-      }
-   }
+		if (basename != null) {
+			ResourceLocator.setBasename(basename);
+		}
+	}
 
-   private void setConfigFile(ServletContext context) {
-      String configFileName = context.getInitParameter(Globals.CONFIG_FILE);
+	private void setConfigFile(ServletContext context) {
+		String configFileName = context.getInitParameter(Globals.CONFIG_FILE);
 
-      if (configFileName == null) {
-         configFileName = Globals.DEFAULT_CONFIG_FILE;
+		if (configFileName == null) {
+			configFileName = Globals.DEFAULT_CONFIG_FILE;
 
-         getLogger().info(
-            "Configuration file not set through context params, using default path of " //$NON-NLS-1$
-               + configFileName);
-      } else {
-         getLogger().info("Configuration file set to " + configFileName); //$NON-NLS-1$
-      }
+			LOGGER
+					.info("Configuration file not set through context params, using default path of " //$NON-NLS-1$
+							+ configFileName);
+		} else {
+			LOGGER.info("Configuration file set to " + configFileName); //$NON-NLS-1$
+		}
 
-      InputStream is = context.getResourceAsStream(configFileName);
+		InputStream is = context.getResourceAsStream(configFileName);
 
-      if (is == null) {
-         getLogger().severe("Unable to locate resource " + configFileName); //$NON-NLS-1$
-      } else {
-         getLogger().info("Located resource " + configFileName); //$NON-NLS-1$
-      }
+		if (is == null) {
+			LOGGER.severe("Unable to locate resource " + configFileName); //$NON-NLS-1$
+		} else {
+			LOGGER.info("Located resource " + configFileName); //$NON-NLS-1$
+		}
 
-      ConfigFactory.setConfigFile(is, configFileName);
-   }
+		ConfigFactory.setConfigFile(is, configFileName);
+	}
 
-   private void setLoggerFirst(ServletContext context) {
-      String loggerType = context.getInitParameter(Globals.LOGGER_TYPE);
+	private void setLoggerFirst(ServletContext context) {
+		String loggerType = context.getInitParameter(Globals.LOGGER_TYPE);
 
-      try {
-         if (loggerType != null) {
-            LoggerFactory.setType(loggerType, getClass().getClassLoader());
-            getLogger().info("Configuring Frame2 logging to use " + loggerType); //$NON-NLS-1$
-         }
-      } catch (LoggerException e) {
-         throw new RuntimeException("Unable to set logger type to " + loggerType, e); //$NON-NLS-1$
-      }
-   }
-   
-   private void setFileUploadOptions(ServletContext context) {
-   	String fileUploadDir = context.getInitParameter(Globals.FILE_UPLOAD_DIR);
-   	if (fileUploadDir != null) {
-   		FileUploadConfig.setFileTempDir(fileUploadDir);
-   	}
-   	
-		String fileBufferSize = context.getInitParameter(Globals.FILE_BUFFER_SIZE);
+		try {
+			if (loggerType != null) {
+				LoggerFactory.setType(loggerType, getClass().getClassLoader());
+				LOGGER.info("Configuring Frame2 logging to use " + loggerType); //$NON-NLS-1$
+			}
+		} catch (LoggerException e) {
+			throw new RuntimeException(
+					"Unable to set logger type to " + loggerType, e); //$NON-NLS-1$
+		}
+	}
+
+	private void setFileUploadOptions(ServletContext context) {
+		String fileUploadDir = context
+				.getInitParameter(Globals.FILE_UPLOAD_DIR);
+		if (fileUploadDir != null) {
+			FileUploadConfig.setFileTempDir(fileUploadDir);
+		}
+
+		String fileBufferSize = context
+				.getInitParameter(Globals.FILE_BUFFER_SIZE);
 		if (fileBufferSize != null) {
 			try {
 				int bufferSize = Integer.parseInt(fileBufferSize);
 				FileUploadConfig.setBufferSize(bufferSize);
 			} catch (NumberFormatException nfe) {
-				getLogger().warn("Invalid file buffer size specified in init-param"); //$NON-NLS-1$
+				LOGGER.warn("Invalid file buffer size specified in init-param"); //$NON-NLS-1$
 			}
 		}
-		
+
 		String maxFileSize = context.getInitParameter(Globals.MAX_FILE_SIZE);
 		if (maxFileSize != null) {
 			try {
 				Long maxFile = new Long(maxFileSize);
 				FileUploadConfig.setMaxFileSize(maxFile.longValue());
 			} catch (NumberFormatException nfe) {
-				getLogger().warn("Invalid maximum file size specified in init-param"); //$NON-NLS-1$
+				LOGGER
+						.warn("Invalid maximum file size specified in init-param"); //$NON-NLS-1$
 			}
 		}
-   }
-   
-   private void initPlugins(ServletContext context) {
-      getLogger().info("Frame2ContextListener, initPlugins()"); //$NON-NLS-1$
-      
-      List<PluginProxy> proxys;
-      try {
-         proxys = ConfigFactory.instance().getPluginProxies();
-      } catch (ConfigException e) {
-         getLogger().severe("Error: initPlugins(), Unable to load configFile,Not Loading Plugins."); //$NON-NLS-1$
-         return;
-      }
-      
-      for (PluginProxy proxy : proxys) {
-         try {            
-            PluginInterface plugin = proxy.getPlugin();
-            plugin.init(context,proxy.getInitParams());
-         } catch (PluginException e) {
-            getLogger().warn("Warning: initPlugins(), Unable to initialize plugin: " + proxy.getName() + " (" + e.getMessage() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            proxy.setInitThrewException(true);
-         }
-      }    
-   }
+	}
 
-   private void destroyPlugins(ServletContext context) {
-       getLogger().info("Frame2ContextListener, destroyPlugins()"); //$NON-NLS-1$
-           
-      List<PluginProxy> proxys;
-      try {
-         proxys = ConfigFactory.instance().getPluginProxies();
-      } catch (ConfigException e) {
-         getLogger().severe("Error: destroyPlugins(), Unable to load configFile,Not Loading Plugins."); //$NON-NLS-1$
-         return;
-      }
-      
-      for (PluginProxy proxy : proxys) {
-         if (proxy.initThrewException()) {
-            continue;
-         }
-         
-         try {            
-            PluginInterface plugin = proxy.getPlugin();
-            plugin.destroy(context,proxy.getInitParams());
-         } catch (PluginException e) {
-            getLogger().warn("Warning: destroyPlugins(), Unable to destroy plugin: " + proxy.getName());         //$NON-NLS-1$
-         }
-      }    
-   }
-   /**
-    * @see javax.servlet.ServletContextListener#contextDestroyed(ServletContextEvent)
-    */
-   public void contextDestroyed(ServletContextEvent event) {
-      ServletContext context = event.getServletContext();
-      destroyPlugins(context);
-      JAXBSchemaFactory.clearContext();
-      ConfigFactory.release();
-   }
+	private void initPlugins(ServletContext context) {
+		LOGGER.info("Frame2ContextListener, initPlugins()"); //$NON-NLS-1$
+
+		List<PluginProxy> proxys;
+		try {
+			proxys = ConfigFactory.instance().getPluginProxies();
+		} catch (ConfigException e) {
+			LOGGER
+					.severe("Error: initPlugins(), Unable to load configFile,Not Loading Plugins."); //$NON-NLS-1$
+			return;
+		}
+
+		for (PluginProxy proxy : proxys) {
+			try {
+				PluginInterface plugin = proxy.getPlugin();
+				plugin.init(context, proxy.getInitParams());
+			} catch (PluginException e) {
+				LOGGER
+						.warn("Warning: initPlugins(), Unable to initialize plugin: " + proxy.getName() + " (" + e.getMessage() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				proxy.setInitThrewException(true);
+			}
+		}
+	}
+
+	private void destroyPlugins(ServletContext context) {
+		LOGGER.info("Frame2ContextListener, destroyPlugins()"); //$NON-NLS-1$
+
+		List<PluginProxy> proxys;
+		try {
+			proxys = ConfigFactory.instance().getPluginProxies();
+		} catch (ConfigException e) {
+			LOGGER
+					.severe("Error: destroyPlugins(), Unable to load configFile,Not Loading Plugins."); //$NON-NLS-1$
+			return;
+		}
+
+		for (PluginProxy proxy : proxys) {
+			if (proxy.initThrewException()) {
+				continue;
+			}
+
+			try {
+				PluginInterface plugin = proxy.getPlugin();
+				plugin.destroy(context, proxy.getInitParams());
+			} catch (PluginException e) {
+				LOGGER
+						.warn("Warning: destroyPlugins(), Unable to destroy plugin: " + proxy.getName()); //$NON-NLS-1$
+			}
+		}
+	}
+
+	/**
+	 * @see javax.servlet.ServletContextListener#contextDestroyed(ServletContextEvent)
+	 */
+	public void contextDestroyed(ServletContextEvent event) {
+		ServletContext context = event.getServletContext();
+		destroyPlugins(context);
+		JAXBSchemaFactory.clearContext();
+		ConfigFactory.release();
+	}
 }

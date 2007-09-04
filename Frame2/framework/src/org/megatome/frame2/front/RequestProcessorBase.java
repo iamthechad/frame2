@@ -95,37 +95,22 @@ abstract class RequestProcessorBase implements RequestProcessor {
       ctx.setRequestAttribute(eventName, event);
 
       handlerList = this.config.getHandlers(eventName);
-      if (handlerList != null && (handlerList.size() >0)) {
+      if (handlerList != null) {
          if(event == null) {
             throw new ConfigException("No event Type specified for its Handlers"); //$NON-NLS-1$
          }
-         for (int i = 0; i < handlerList.size(); i++) {
-            EventHandlerProxy handler = handlerList.get(i);
+         for (EventHandlerProxy handler : handlerList) {
 
             token = processHandler(event, handler, ctx);
 
             if (token != null) {
-               fwd = this.config.resolveForward(handler, token, configResourceType());
-
-               if (fwd.isEventType()) {
-                  return callHandlers(fwd.getPath(),
-                     this.config.getEventProxy(fwd.getPath()).getEvent(), vtype);
-               }
-
-               break; // not an event
+               return this.config.resolveForward(handler, token, configResourceType());
             }
          }
       }
 
-      if (token == null) {
-         token = this.config.getEventMappingView(eventName, vtype);
-         fwd = this.config.resolveForward(token, configResourceType());
-
-         if (fwd.isEventType()) {
-            return callHandlers(fwd.getPath(), this.config.getEventProxy(fwd.getPath()).getEvent(),
-               vtype);
-         }
-      }
+     token = this.config.getEventMappingView(eventName, vtype);
+     fwd = this.config.resolveForward(token, configResourceType());
     
       return fwd;
    }
@@ -160,7 +145,7 @@ abstract class RequestProcessorBase implements RequestProcessor {
 	/**
 	 * Determine if the request to be processed is a cancel request.
  	 * @param requestParameters All request parameters
-	 * @return True if this request should be cancelled
+	 * @return True if this request should be canceled
 	 */
 	protected boolean isCancelRequest(Map<String, Object> requestParameters) {
 		return requestParameters.get(Globals.CANCEL) != null;

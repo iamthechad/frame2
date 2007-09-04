@@ -193,6 +193,8 @@
 	</target>
 	
 	<target name="compile_tag_test" depends="compile">
+		<echo message="No tests defined for tags - skipping compile"/>
+		<!--
 		<mkdir dir="${taglib_test_build}"/>
 		<javac deprecation="on"
           destdir="${taglib_test_build}"
@@ -200,6 +202,7 @@
           classpathref="taglib-test-compile-class-path"
 			debug="${compile.debug}"
         />
+        -->
 	</target>
 	
 	<target name="compile_template_test" depends="compile">
@@ -228,9 +231,11 @@
 	            <exclude name="**/TestMissingCommonsValidation.java"/>
 	         	<exclude name="**/TestMissingFileUpload.java"/>
 	         </fileset>
+	      	<!--
 	         <fileset dir="./tag/test/src">
 	            <include name="**/Test*.java" />
 	         </fileset>
+	         -->
 	         <!--
 	         <fileset dir="./template_tag/test/src">
 	            <include name="**/Test*.java" />

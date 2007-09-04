@@ -57,7 +57,7 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 
 import org.megatome.frame2.taglib.html.Constants;
-import org.megatome.frame2.taglib.util.URLHelper;
+import org.megatome.frame2.util.URLHelper;
 
 public class ATag extends BaseHtmlTag {
 
@@ -65,7 +65,7 @@ public class ATag extends BaseHtmlTag {
 
 	String _displayValue;
 
-    Map<Object, Object> _paramMap;
+    Map<String, Object> _paramMap;
 
     public void setCharset(String charset) {
 
@@ -194,7 +194,7 @@ public class ATag extends BaseHtmlTag {
     private void handleHrefAndQueryParamsAttr() throws JspException {
 
         String queryParams = getAttr(Constants.QUERY_PARAMS);
-        Map<Object, Object> params = this._paramMap;
+        Map<String, Object> params = this._paramMap;
         // If queryparams are not null and map is not null, error
         if ((queryParams != null) && (params != null)) {
             throw new JspException(
@@ -251,7 +251,7 @@ public class ATag extends BaseHtmlTag {
      */
     public void addParam(String paramName, String paramValue) {
         if (this._paramMap == null) {
-            this._paramMap = new HashMap<Object, Object>();
+            this._paramMap = new HashMap<String, Object>();
         }
 
         Object valueObject = paramValue;
