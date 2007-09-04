@@ -72,7 +72,7 @@ class ViewTagHandler extends ConfigElementHandler {
             Attributes attributes) throws ParserException {
         String forwardName = attributes.getValue(FORWARD_NAME);
         String viewattr = attributes.getValue(TYPE);
-        ViewType vtype = ViewType.getValueByString(viewattr);
+        ViewType vtype = ViewType.fromString(viewattr);
 
         if (vtype == null) {
             throw new ParserException(INVALID_TYPE + forwardName + " type " //$NON-NLS-1$

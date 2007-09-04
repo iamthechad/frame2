@@ -85,7 +85,7 @@ class EventTagHandler extends ConfigElementHandler {
         if (resolveAs == null) {
             rtype = ResolveType.PARENT; // Default setting
         } else {
-            rtype = ResolveType.getValueByString(resolveAs);
+            rtype = ResolveType.fromString(resolveAs);
         }
 
         if (rtype == null) {

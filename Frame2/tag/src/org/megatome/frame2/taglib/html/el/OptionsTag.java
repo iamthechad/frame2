@@ -156,8 +156,7 @@ public class OptionsTag extends BaseOptionTag {
 	// display value.
 	@Override
 	protected void handleDisplayValueAttr() throws JspException {
-		// TODO Fix comparison
-		if (this._displayExpr == null || this._displayExpr == "") { //$NON-NLS-1$
+		if (this._displayExpr == null || this._displayExpr.isEmpty()) {
 			// Evaluate the remainder of this page
 			return;
 		}
@@ -185,17 +184,15 @@ public class OptionsTag extends BaseOptionTag {
 		// get the select attr
 		String selectExpr = (String) this.pageContext
 				.getAttribute(Constants.SELECT_KEY);
-		// String selectExpr = _selected;
 
-		// TODO Fix
-		if ((selectExpr == null) || (selectExpr == "")) { //$NON-NLS-1$
+		if ((selectExpr == null) || selectExpr.isEmpty()) {
 			selectExpr = this._selected;
 		}
 
 		// now get value
 		String valueExpr = getAttr(Constants.VALUE);
-		if (valueExpr == null || valueExpr == "" || //$NON-NLS-1$
-				selectExpr == null || selectExpr == "") { //$NON-NLS-1$
+		if (valueExpr == null || valueExpr.isEmpty() || 
+				selectExpr == null || selectExpr.isEmpty()) {
 			return;
 		}
 

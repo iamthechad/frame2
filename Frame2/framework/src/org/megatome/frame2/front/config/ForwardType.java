@@ -51,23 +51,32 @@
 package org.megatome.frame2.front.config;
 
 /**
- * This file is mainly used as an enumeration for the ForwardType (event,
+ * This file is used as an enumeration for the ForwardType (event,
  * XMLResource, HTMLResource, XMLResponder)
  */
-public class ForwardType extends MappingType {
-    // enumeration value declarations
-    public static final ForwardType EVENT = new ForwardType("event"); //$NON-NLS-1$
-    public static final ForwardType XMLRESOURCE = new ForwardType("XMLResource"); //$NON-NLS-1$
-    public static final ForwardType HTMLRESOURCE = new ForwardType(
-            "HTMLResource"); //$NON-NLS-1$
-    public static final ForwardType XMLRESPONDER = new ForwardType(
-            "XMLResponder"); //$NON-NLS-1$
-
-    private ForwardType(String value) {
-        super(value);
-    }
-
-    public static ForwardType getValueByString(String value) {
-        return (ForwardType)getMappingByString(value);
-    }
+public enum ForwardType {
+	EVENT("event"), //$NON-NLS-1$
+	XMLRESOURCE("XMLResource"), //$NON-NLS-1$
+	HTMLRESOURCE("HTMLResource"), //$NON-NLS-1$
+	XMLRESPONDER("XMLResponder"); //$NON-NLS-1$
+	
+	private String type;
+	
+	ForwardType(String type) {
+		this.type = type;
+	}
+	
+	@Override
+	public String toString() {
+		return this.type;
+	}
+	
+	public static ForwardType fromString(final String typeName) {
+		for (ForwardType ft : ForwardType.values()) {
+			if (ft.type.equals(typeName)) {
+				return ft;
+			}
+		}
+		return null;
+	}
 }

@@ -82,7 +82,7 @@ class ForwardTagHandler extends ConfigElementHandler {
             Attributes attributes) throws ParserException {
         String name = attributes.getValue(NAME);
         String type = attributes.getValue(TYPE);
-        ForwardType ftype = ForwardType.getValueByString(type);
+        ForwardType ftype = ForwardType.fromString(type);
 
         if (ftype == null) {
             throw new ParserException(INVALID_TYPE + name + " type " + type); //$NON-NLS-1$

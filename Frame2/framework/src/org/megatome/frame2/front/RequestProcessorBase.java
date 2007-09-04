@@ -95,7 +95,7 @@ abstract class RequestProcessorBase implements RequestProcessor {
       ctx.setRequestAttribute(eventName, event);
 
       handlerList = this.config.getHandlers(eventName);
-      if (handlerList != null) {
+      if ((handlerList != null) && !handlerList.isEmpty()) {
          if(event == null) {
             throw new ConfigException("No event Type specified for its Handlers"); //$NON-NLS-1$
          }

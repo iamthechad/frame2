@@ -71,7 +71,7 @@ public class Forward {
      */
     public Forward(String name, String type, String path) {
         this.name = name;
-        this.type = ForwardType.getValueByString(type);
+        this.type = ForwardType.fromString(type);
         this.path = path;
     }
 
@@ -139,7 +139,7 @@ public class Forward {
      *        event)
      */
     public void setType(String type) {
-        this.type = ForwardType.getValueByString(type);
+        this.type = ForwardType.fromString(type);
     }
 
     /**

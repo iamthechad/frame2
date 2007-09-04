@@ -69,7 +69,7 @@ public class EventDef {
     public EventDef(String name, String type, String resolve) {
         this.name = name;
         this.type = type;
-        this.resolve = ResolveType.getValueByString(resolve);
+        this.resolve = ResolveType.fromString(resolve);
     }
 
     /**
@@ -135,7 +135,7 @@ public class EventDef {
      * @param resolve The String representation of ResolveType to set
      */
     public void setResolveAs(String resolve) {
-        this.resolve = ResolveType.getValueByString(resolve);
+        this.resolve = ResolveType.fromString(resolve);
     }
 
     /**

@@ -51,21 +51,31 @@
 package org.megatome.frame2.front.config;
 
 /**
- * This file is mainly used as an enumeration for the ResolveType (parent,
+ * This file is used as an enumeration for the ResolveType (parent,
  * children, passthru)
  */
-// TODO Refactor to enumeration
-public class ResolveType extends MappingType {
-    // enumeration value declarations
-    public static final ResolveType PARENT = new ResolveType("parent"); //$NON-NLS-1$
-    public static final ResolveType CHILDREN = new ResolveType("children"); //$NON-NLS-1$
-    public static final ResolveType PASSTHRU = new ResolveType("passthru"); //$NON-NLS-1$
+public enum ResolveType {
+	PARENT("parent"), //$NON-NLS-1$
+	CHILDREN("children"), //$NON-NLS-1$
+	PASSTHRU("passthru"); //$NON-NLS-1$
+	
+	private String type;
 
-    private ResolveType(String value) {
-        super(value);
+    ResolveType(String type) {
+        this.type = type;
     }
 
-    public static ResolveType getValueByString(String value) {
-        return (ResolveType)getMappingByString(value);
+    @Override
+	public String toString() {
+    	return this.type;
     }
+    
+    public static ResolveType fromString(final String typeName) {
+		for (ResolveType rt : ResolveType.values()) {
+			if (rt.type.equals(typeName)) {
+				return rt;
+			}
+		}
+		return null;
+	}
 }

@@ -51,20 +51,30 @@
 package org.megatome.frame2.front.config;
 
 /**
- * This file is mainly used as an enumeration for the ViewType (XML, HTML, Both)
+ * This file is used as an enumeration for the ViewType (XML, HTML, Both)
  */
-// TODO Refactor to enumeration
-public class ViewType extends MappingType {
-    // enumeration value declarations
-    public static final ViewType XML = new ViewType("XML"); //$NON-NLS-1$
-    public static final ViewType HTML = new ViewType("HTML"); //$NON-NLS-1$
-    public static final ViewType BOTH = new ViewType("Both"); //$NON-NLS-1$
+public enum ViewType {
+	XML("XML"), //$NON-NLS-1$
+	HTML("HTML"), //$NON-NLS-1$
+	BOTH("Both"); //$NON-NLS-1$
+	
+	private String type;
 
-    private ViewType(String value) {
-        super(value);
+    ViewType(String type) {
+        this.type = type;
     }
 
-    public static ViewType getValueByString(String value) {
-        return (ViewType)getMappingByString(value);
+    @Override
+	public String toString() {
+    	return this.type;
     }
+    
+    public static ViewType fromString(final String typeName) {
+		for (ViewType vt : ViewType.values()) {
+			if (vt.type.equals(typeName)) {
+				return vt;
+			}
+		}
+		return null;
+	}
 }

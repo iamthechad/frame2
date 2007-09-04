@@ -89,8 +89,7 @@ public class RadioTag extends BaseInputTag {
 
 	private void handleDisplayValueAtrr() throws JspException {
 		String dispExpr = getAttr(Constants.DISPLAY_VALUE);
-		// TODO Fix
-		if (dispExpr == null || dispExpr == "") { //$NON-NLS-1$
+		if (dispExpr == null || dispExpr.isEmpty()) {
 			// Evaluate the remainder of this page
 			return;
 		}
@@ -111,8 +110,8 @@ public class RadioTag extends BaseInputTag {
 	protected void handleCheckedAttr() throws JspException {
 		// now get value
 		String valueExpr = getAttr(Constants.VALUE);
-		if (valueExpr == null || valueExpr == "" || //$NON-NLS-1$
-				this._checked == null || this._checked == "") { //$NON-NLS-1$
+		if (valueExpr == null || valueExpr.isEmpty() ||
+				this._checked == null || this._checked.isEmpty()) {
 			return;
 		}
 
