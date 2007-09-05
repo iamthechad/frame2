@@ -276,6 +276,7 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 
 			if (msg == null) {
 				buffer.append("Could not find resource for key: " + error.getKey()); //$NON-NLS-1$
+				LOGGER.severe("Error creating SOAP fault message. Missing resource for key: " + error.getKey()); //$NON-NLS-1$
 			} else {
 				buffer.append(MessageFormatter.format(msg, error.getValues()));
 			}
