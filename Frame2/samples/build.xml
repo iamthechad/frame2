@@ -204,6 +204,7 @@
 	         </lib> -->
 			 <lib dir="${lib-prefix}">
   	      	 	<patternset refid="standard-libs"/>
+			 	<patternset refid="jstl-libs"/>
   	      	 </lib>
 	         <lib dir="${frame2.lib}">
 	            <include name="**/*.jar"/>

@@ -21,10 +21,13 @@ intended for developers who wish to extend or modify the framework and for
 users who want a better understanding of the framework's implementation.
 <h2>Distribution Contents</h2>
 <table border="1">
-<th>File</th><th>Description</th><th>Used in Source</th><th>Used in Binary</th>
+<tr>
+<th>File</th><th>Description</th><th>Used in Source</th><th>Used in full Source</th><th>Used in Binary</th>
+</tr>
 <tr>
   <td>LICENSE.txt</td>
   <td>The Frame2 Open Source License</td>
+  <td>X</td>
   <td>X</td>
   <td>X</td>
 </tr>
@@ -32,17 +35,20 @@ users who want a better understanding of the framework's implementation.
   <td>build.xml</td>
   <td>The master ant build file. This build file generates the distributions as well as running unit tests.</td>
   <td>X</td>
+  <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
   <td>env.properties</td>
   <td>Environment properties used by the ant build. These reference the 3rd-party libraries, tools and directory space. Developers may override the given settings by re-declaring the properties in a file called 'override.properties'.</td>
   <td>X</td>
+  <td>X</td>
   <td>&nbsp;</td>
 </tr>
-<tr>
+<tr><td valign="top">building.txt<br></td><td valign="top">Instructions for building Frame2 from source.<br></td><td valign="top">X<br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr><td valign="top">NOTICE.txt<br></td><td valign="top">Required notice for third party libraries.<br></td><td valign="top">X<br></td><td valign="top">X<br></td><td valign="top">X<br></td></tr><tr><td valign="top">README<br></td><td valign="top">Notes about using Frame2.<br></td><td valign="top">X<br></td><td valign="top">X<br></td><td valign="top">X<br></td></tr><tr><td valign="top">std.properties<br></td><td valign="top">Used for logging during build.<br></td><td valign="top">X<br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr><td valign="top">THIRD_PARTY_LICENSE.txt<br></td><td valign="top">Details licenses of third party libraries used and distributed with Frame2.<br></td><td valign="top">X<br></td><td valign="top">X<br></td><td valign="top">X<br></td></tr><tr>
   <td>framework</td>
   <td>The core subproject that builds and unit tests the framework.</td>
+  <td>X</td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
@@ -50,11 +56,13 @@ users who want a better understanding of the framework's implementation.
   <td>tag</td>
   <td>The subproject that builds and unit tests the framework custom tag library. Note that many of the unit tests for the tags are run under the test_app subproject container tests.</td>
   <td>X</td>
+  <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
   <td>template_tag</td>
   <td>The subproject that builds and unit tests the framework template custom tag library. Note that many of the unit tests for the tag are run under the test_app subproject container tests.</td>
+  <td>X</td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
@@ -62,33 +70,40 @@ users who want a better understanding of the framework's implementation.
   <td>test_app</td>
   <td>The test_app subproject that builds and unit tests the framework in a container (Tomcat). This area acts as a scratch web application and service for developers to host tests and minor demonstrations.</td>
   <td>X</td>
+  <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr><td>Samples</td><td>Sample web applications that use the Frame2 framework.</td>
   <td>X</td>
   <td>X</td>
+  <td>X*</td>
 </tr>
 <tr><td>support_files</td><td>Files commonly used by Frame2 applications.</td>
+  <td>X</td>
   <td>X</td>
   <td>X</td>
 </tr>
 <tr><td>docs/WhatIsFrame2.html</td><td>Introductory document to Frame2</td>
   <td>X</td>
   <td>X</td>
+  <td>X</td>
 </tr>
 <tr><td>docs/GettingStarted.html</td><td>Quick tutorial to building a Frame2 application</td>
   <td>X</td>
   <td>X</td>
+  <td>X</td>
 </tr>
-<tr>
+<tr><td valign="top">docs/GettingStartedTemplates.html<br></td><td valign="top">Quick tutorial to building a Frame2 application using templates.<br></td><td valign="top">X<br></td><td valign="top">X<br></td><td valign="top">X<br></td></tr><tr>
   <td>docs/TagAttributeMappings.html</td>
   <td>Attributes and mapping for the Frame2 custom tag library </td>
   <td>X</td>
   <td>X</td>
+  <td>X</td>
 </tr>
-<tr>
+<tr><td valign="top">docs/InstallingFrame2.html<br></td><td valign="top">This document<br></td><td valign="top">X<br></td><td valign="top">X<br></td><td valign="top">X<br></td></tr><tr>
   <td>lib/frame2.jar</td>
   <td>The Frame2 Java archive.</td>
+  <td>&nbsp;</td>
   <td>&nbsp;</td>
   <td>X</td>
 </tr>
@@ -96,11 +111,13 @@ users who want a better understanding of the framework's implementation.
   <td>lib/frame2-taglib.jar</td>
   <td>The Frame2 custom tag library Java archive, with embedded descriptor.</td>
   <td>&nbsp;</td>
+  <td>&nbsp;</td>
   <td>X</td>
 </tr>
 <tr>
   <td>lib/template-taglib.jar</td>
   <td>The Frame2 template tag library Java archive, with embedded descriptor.</td>
+  <td>&nbsp;</td>
   <td>&nbsp;</td>
   <td>X</td>
 </tr>
@@ -109,207 +126,136 @@ users who want a better understanding of the framework's implementation.
   <td>JavaDoc API, suitable for developers building web applications using Frame2</td>
   <td>X</td>
   <td>X</td>
+  <td>X</td>
 </tr>
-<tr>
+<tr><td valign="top">ext/THIRD_PARTY_LICENSE.txt<br></td><td valign="top">Details licenses of third party libraries used and distributed with Frame2.</td><td valign="top"><br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr><td valign="top">ext/axis/axis.jar<br></td><td valign="top">Axis project for web service support<br></td><td valign="top"><br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr><td valign="top">ext/axis/commons-discovery.jar<br></td><td valign="top">Library required by Axis<br></td><td valign="top"><br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr><td valign="top">ext/axis/jaxrpc.jar<br></td><td valign="top">Library required by Axis<br></td><td valign="top"><br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr><td valign="top">ext/axis/wsdl4j.jar<br></td><td valign="top">Library required by Axis<br></td><td valign="top"><br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr>
   <td>ext/framework/commons-beanutils.jar</td>
   <td>Commons bean utilities</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
 <tr>
   <td>ext/framework/commons-collections.jar</td>
   <td>Commons collection framework</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
 <tr>
   <td>ext/framework/commons-digester.jar</td>
   <td>Commons digester</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
 <tr>
   <td>ext/framework/commons-fileupload.jar</td>
   <td>Commons file upload support</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
-<tr>
+<tr><td valign="top">ext/framework/commons-io.jar<br></td><td valign="top">Library required for file upload.<br></td><td valign="top"><br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr>
   <td>ext/framework/commons-logging.jar</td>
   <td>Commons logging support</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
 <tr>
   <td>ext/framework/commons-validator.jar</td>
   <td>Commons Validator</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
 <tr>
   <td>ext/framework/jakarta-oro.jar</td>
   <td>Support file for the Commons Validator</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
 <tr>
   <td>ext/framework/jstl.jar</td>
   <td>JSTL Tag library</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
 <tr>
   <td>ext/framework/log4j.jar</td>
   <td>Logging framework</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
-<tr>
+<tr><td valign="top">ext/framework/servletapi-2.3.jar<br></td><td valign="top">Servlet and JSP API<br></td><td valign="top"><br></td><td valign="top">X<br></td><td valign="top"><br></td></tr><tr>
   <td>ext/framework/standard.jar</td>
   <td>Support file for JSTL</td>
+  <td><br></td>
   <td>X</td>
-  <td>X</td>
+  <td><br></td>
 </tr>
 <tr>
-  <td>ext/test/cactus-1.5.jar</td>
+  <td>ext/test/cactus-1.7.2.jar</td>
   <td>Cactus test framework</td>
+  <td><br></td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
-  <td>ext/test/aspectjrt-1.1.1.jar</td>
+  <td>ext/test/aspectjrt-1.2.1.jar</td>
   <td>Support file for Cactus</td>
+  <td><br></td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
-  <td>ext/test/commons-httpclient-2.0.jar</td>
+  <td>ext/test/commons-httpclient-2.0.2.jar</td>
   <td>Support file for Cactus</td>
+  <td><br></td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
   <td>ext/test/HTTPClient.jar</td>
   <td>HTTP Test framework</td>
+  <td><br></td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
   <td>ext/test/junit.jar</td>
   <td>Unit Test framework</td>
+  <td><br></td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
   <td>ext/test/junit-addons.jar</td>
   <td>Junit addon for testing file contents</td>
+  <td><br></td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
   <td>ext/test/strutstest-2.1.0.jar</td>
   <td>Web application test framework</td>
+  <td><br></td>
   <td>X</td>
   <td>&nbsp;</td>
 </tr>
 <tr>
   <td>ext/test/tagunit.jar</td>
   <td>Custom JSP tag test framework</td>
+  <td><br></td>
   <td>X</td>
   <td>&nbsp;</td>
-</tr>
-<tr>
-  <td>ext/ws/axis.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/commons-discovery.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/jaxrpc.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/saaj.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/wsdl4j.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>&nbsp;</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/jaxb-api.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/jaxb-impl.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/jaxb-libs.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/jax-qname.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/namespace.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/relaxngDatatype.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>X</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/xsdlib.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>&nbsp;</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/dom.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>&nbsp;</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/xercesImpl.jar</td>
-  <td>Web services support</td>
-  <td>X</td>
-  <td>&nbsp;</td>
-</tr>
-<tr>
-  <td>ext/ws/jwsdp/JWSDP_LICENSE.txt</td>
-  <td>License for files used from the Java Web Services Developer Pack</td>
-  <td>X</td>
-  <td>X</td>
 </tr>
 </table>
-<br>
+*: Only the blankwar example is included in the binary distribution.<br><br>
 The framework subproject also contains the DTD files for the Frame2 and template 
 configuration files.<br>
 The source distribution may be used in-place once it is extracted from the distribution 
@@ -319,7 +265,8 @@ on the development platform.
 <h2>Tools used by Frame2</h2>
 Tools used by distribution are as follows:<br>
 <table border="1">
-<th>Tool</th><th>Description</th>
+<tr>
+<th>Tool</th><th>Description</th></tr>
 <tr><td>ant</td><td>The distribution uses ant for its build system. See the 
 release notes for the currently-used version. Ant may be downloaded from 
 <a href="http://ant.apache.org">http://ant.apache.org</a>. To execute all 
@@ -331,11 +278,7 @@ approach is to copy the associated jar file into the ant lib directory.</td></tr
 unit testing, although any servlet container that supports the servlet 2.3 
 specification and the JSP 1.2 specification should work. Tomcat may be downloaded 
 from <a href="http://jakarta.apache.org/tomcat/">http://jakarta.apache.org/tomcat/</a>. 
-No special server or common packages are needed for the Tomcat installation. For 
-loading the in-container test web application it is required that a user in the 
-role of manager be configured.<br>
-To execute the in-container tests, the ant build system requires the Catalina 
-ant task jar.</td></tr>
+No special server or common packages are needed for the Tomcat installation.</td></tr>
 </table>
 <h2>Third-party Libraries</h2>
 The Frame2 distributions have two types of library dependencies. The first are 
@@ -346,7 +289,8 @@ The Frame2 framework leverages the J2EE specification to minimize its
 dependencies on third-party libraries when deployed. More detail is given in the 
 Getting Started Guide, but a brief outline is:
 <table border="1">
-<th>Library</th><th>Description</th>
+<tr>
+<th>Library</th><th>Description</th></tr>
 <tr><td>JSTL/EL</td><td>The framework uses the reference implementation of the 
 Java Standard Template Library as provided by Sun and the Apache Software 
 Foundation. The use is primarily of the Expression Language (EL).
@@ -359,8 +303,7 @@ libraries are intended to complement the JSTL tags.
 that all SOAP message bodies may be marshalled and unmarshalled using the JAXB 
 API and implementation. As such, users that wish to use Frame2 for implementing 
 their web services will need to use JAXB to generate their event classes as well 
-as provide JAXB to the service runtime. JAXB is available as part of the Java Web 
-Services Developer Pack	<a href="http://java.sun.com/jwsdp">http://java.sun.com/jwsdp</a>.
+as provide JAXB to the service runtime. JAXB is available as part of the Java 6.
 JAXB can also be used to generate event classes for the web application portion 
 of the framework.</td></tr>
 <tr><td>log4j (optional)</td><td>The user may choose to use the pre-built 
@@ -373,7 +316,8 @@ logging based on the java.util.logging package.</td></tr>
 The Frame2 baseline uses numerous open-source packages for its build and test 
 environment.
 <table border="1">
-<th>Package</th><th>Description</th>
+<tr>
+<th>Package</th><th>Description</th></tr>
 <tr><td>Apache AXIS</td><td>The test and example applications both use the Apache 
 AXIS SOAP. There is no Axis-depended code within the applications; however the web 
 application is configured through the deployment descriptors to use Axis. Axis 
@@ -383,7 +327,8 @@ is available at <a href="http://ws.apache.org/axis">http://ws.apache.org/axis</a
 <h3>Test packages</h3>	
 Test packages used in the baseline are:
 <table border="1">
-<th>Package</th><th>Description</th>
+<tr>
+<th>Package</th><th>Description</th></tr>
 <tr><td>junit</td><td>Most tests are based on the jUnit test framework. These 
 tests may be executed as part of the build or singularly. jUnit may be 
 downloaded from <a href="http://junit.org">http://junit.org</a>.<br>
@@ -409,7 +354,7 @@ the baseline. Each entry may be overridden by pre-declaring it in the
 override.properties file (create one as necessary). For example, to specify the 
 Tomcat location for the build make an entry in the override.properties, such as:
 <pre>tomcat-home    c:/tomcat_5.0</pre>
-By pre-declaring entries in the override file they will take precedence of the 
+By pre-declaring entries in the override file they will take precedence over the 
 configured values. The values in the env.properties reflect the structure of the 
 configured baseline.
 <h2>Building and Testing the Distribution</h2>
@@ -426,7 +371,8 @@ The primary targets of the master build.xml are described in the following table
 All derived elements are written into the output directory (specified by the 
 local-out property).
 <table border="1">
-<th>Target</th><th>Description</th>
+<tr>
+<th>Target</th><th>Description</th></tr>
 <tr><td>all</td><td>Compiles all source code and unit tests, generates JavaDoc, and runs all unit tests</td></tr>
 <tr><td>clean</td><td>Deletes the derived build elements.</td></tr>
 <tr><td>compile</td><td>Compiles all source code</td></tr>
