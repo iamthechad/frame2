@@ -49,6 +49,11 @@
  * ====================================================================
  */
 package org.megatome.frame2.util.dom;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -56,23 +61,24 @@ import java.io.OutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class TestDOMStreamConverter extends TestCase {
+public class TestDOMStreamConverter {
 	private Node node;
 
 	private DocumentBuilder builder;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		this.builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		this.node = toNode(ClassLoader
 				.getSystemResourceAsStream("org/megatome/frame2/util/dom/dom1.xml")); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testToInputStream() throws Exception {
 		InputStream is = DOMStreamConverter.toInputStream(this.node);
 
@@ -85,6 +91,7 @@ public class TestDOMStreamConverter extends TestCase {
 		assertEquals("purchaseOrder", n.getFirstChild().getNodeName()); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testToInputStream_Null() throws Exception {
 		InputStream is = DOMStreamConverter.toInputStream(null);
 
@@ -98,10 +105,12 @@ public class TestDOMStreamConverter extends TestCase {
 		}
 	}
 
+	@Test
 	public void testToInputStream_Empty() throws Exception {
 		assertNotNull(DOMStreamConverter.toInputStream(this.builder.newDocument()));
 	}
 
+	@Test
 	public void testToOutputStream() throws Exception {
 		OutputStream os = DOMStreamConverter.toOutputStream(this.node);
 
@@ -110,15 +119,18 @@ public class TestDOMStreamConverter extends TestCase {
 		assertTrue(os.toString().indexOf("purchaseOrder") > 0); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testToOutputStream_Empty() throws Exception {
 		assertNotNull(DOMStreamConverter.toOutputStream(this.builder.newDocument()));
 	}
 
+	@Test
 	public void testToOutputStream_Null() throws Exception {
 		OutputStream os = DOMStreamConverter.toOutputStream(null);
 		assertNotNull(os);
 	}
 
+	@Test
 	public void testStringToNode() throws Exception {
 		final String xml = "<tt:test xmlns:tt=\"http://test-uri/\">Test Value</tt:test>"; //$NON-NLS-1$
 
@@ -135,6 +147,7 @@ public class TestDOMStreamConverter extends TestCase {
 		assertEquals("Test Value", element.getFirstChild().getNodeValue()); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testStringToNode_NoNamespace() throws Exception {
 		final String xml = "<tt:test xmlns:tt=\"http://test-uri/\">Test Value</tt:test>"; //$NON-NLS-1$
 
@@ -155,6 +168,7 @@ public class TestDOMStreamConverter extends TestCase {
 		return this.builder.parse(istream);
 	}
 
+	@Test
 	public void testEncodeString() throws Exception {
 		final String data1 = "a&b<c>d'e\"f"; //$NON-NLS-1$
 		final String data2 = ""; //$NON-NLS-1$

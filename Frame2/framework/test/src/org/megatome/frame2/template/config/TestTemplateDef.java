@@ -50,71 +50,53 @@
  */
 package org.megatome.frame2.template.config;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.megatome.frame2.template.config.TemplateDef;
+public class TestTemplateDef {
 
+	private TemplateDefI templateDef;
 
-public class TestTemplateDef extends TestCase {
-   
-   private TemplateDefI templateDef;
-   
-   public TestTemplateDef() {
-      super();
-   }
+	@Before
+	public void setUp() throws Exception {
+		this.templateDef = new TemplateDef();
+	}
 
-   public TestTemplateDef(String name) {
-      super(name);
-   }
+	@Test
+	public void testTemplateDef() {
+		this.templateDef.setName("name"); //$NON-NLS-1$
+		this.templateDef.setPath("/WEB-INF/jsp/my.jsp"); //$NON-NLS-1$
 
-   /**
-    * @see junit.framework.TestCase#setUp()
-    */
-   @Override
-protected void setUp() throws Exception {
-      super.setUp();
-      this.templateDef = new TemplateDef();
-   }
+		assertEquals("name", this.templateDef.getName()); //$NON-NLS-1$
+		assertEquals("/WEB-INF/jsp/my.jsp", this.templateDef.getPath()); //$NON-NLS-1$
+	}
 
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   @Override
-protected void tearDown() throws Exception {
-      super.tearDown();
-   }
-   
-   public void testTemplateDef()
-   {
-      this.templateDef.setName("name"); //$NON-NLS-1$
-      this.templateDef.setPath("/WEB-INF/jsp/my.jsp"); //$NON-NLS-1$
-      
-      assertEquals("name", this.templateDef.getName()); //$NON-NLS-1$
-      assertEquals("/WEB-INF/jsp/my.jsp", this.templateDef.getPath()); //$NON-NLS-1$
-   }
-   
-   public void testTemplateDefPuts()
-   {
-      Map<String, String> fakePuts = new HashMap<String, String>();
-      fakePuts.put("param1", "/WEB-INF/jsp/your.jsp"); //$NON-NLS-1$ //$NON-NLS-2$
-      
-      this.templateDef.setPutParams(fakePuts);
-      
-      testTemplateDef();
-      Map<String, String> returnedParams = this.templateDef.getPutParams();
-      assertTrue(returnedParams.containsKey("param1")); //$NON-NLS-1$
-   }
-   
-   public void testTemplateDefGetParamByName()
-   {
-   	testTemplateDefPuts();
-   	
-   	String paramValue = this.templateDef.getPutParam("param1"); //$NON-NLS-1$
-   	assertNotNull(paramValue);
-   	assertEquals(paramValue, "/WEB-INF/jsp/your.jsp"); //$NON-NLS-1$
-   }
+	@Test
+	public void testTemplateDefPuts() {
+		Map<String, String> fakePuts = new HashMap<String, String>();
+		fakePuts.put("param1", "/WEB-INF/jsp/your.jsp"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		this.templateDef.setPutParams(fakePuts);
+
+		testTemplateDef();
+		Map<String, String> returnedParams = this.templateDef.getPutParams();
+		assertTrue(returnedParams.containsKey("param1")); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testTemplateDefGetParamByName() {
+		testTemplateDefPuts();
+
+		String paramValue = this.templateDef.getPutParam("param1"); //$NON-NLS-1$
+		assertNotNull(paramValue);
+		assertEquals(paramValue, "/WEB-INF/jsp/your.jsp"); //$NON-NLS-1$
+	}
 
 }

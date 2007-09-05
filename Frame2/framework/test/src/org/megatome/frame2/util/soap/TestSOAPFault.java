@@ -49,9 +49,12 @@
  * ====================================================================
  */
 package org.megatome.frame2.util.soap;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.megatome.frame2.util.dom.DOMStreamConverter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -60,7 +63,7 @@ import org.w3c.dom.NodeList;
 /**
  * 
  */
-public class TestSOAPFault extends TestCase {
+public class TestSOAPFault {
 
 	// <SOAP-ENV:Fault>
 	// <faultcode>SOAP-ENV:Server</faultcode>
@@ -93,12 +96,7 @@ public class TestSOAPFault extends TestCase {
 	private final static String ENCODED_ERROR_MESSAGE = DETAIL_START
 			+ ENC_START + ERROR_DETAIL_MESSAGE + ENC_END + DETAIL_END;
 
-	@Override
-	protected void setUp() throws Exception {
-		// factory = DocumentBuilderFactory.newInstance();
-		// builder = factory.newDocumentBuilder();
-	}
-
+	@Test
 	public void testCreateFault() throws Exception {
 		SOAPFault fault = new SOAPFault();
 
@@ -113,6 +111,7 @@ public class TestSOAPFault extends TestCase {
 		assertNull(detail.getFirstChild());
 	}
 
+	@Test
 	public void testCreateFault_StringDetail() throws Exception {
 		SOAPFault fault = new SOAPFault();
 
@@ -128,6 +127,7 @@ public class TestSOAPFault extends TestCase {
 				.getNodeValue());
 	}
 
+	@Test
 	public void testCreateFault_StringAsXmlDetail() throws Exception {
 		SOAPFault fault = new SOAPFault();
 
@@ -153,6 +153,7 @@ public class TestSOAPFault extends TestCase {
 	// NIT: Is this really correct? May need to actually encapsulate as unparsed
 	// character data.
 
+	@Test
 	public void testCreateFault_StringAsEncodedDetail() throws Exception {
 		SOAPFault fault = new SOAPFault();
 
@@ -168,6 +169,7 @@ public class TestSOAPFault extends TestCase {
 		assertTrue(idx != -1);
 	}
 
+	@SuppressWarnings("boxing")
 	private void assertFaultBody(Element faultElement) {
 		assertNotNull(faultElement);
 

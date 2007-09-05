@@ -49,6 +49,9 @@
  * ====================================================================
  */
 package org.megatome.frame2.jaxb;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -67,8 +70,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.front.TranslationException;
@@ -83,9 +85,11 @@ import org.xml.sax.SAXException;
 /**
  * 
  */
-public class TestPurchaseOrder extends TestCase {
+public class TestPurchaseOrder {
 	private static final String TARGET_PACKAGE = "org.megatome.frame2.jaxbgen"; //$NON-NLS-1$
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testUnmarshall_InputStream() throws Exception {
 		PurchaseOrderType po = unmarshall();
 
@@ -104,6 +108,7 @@ public class TestPurchaseOrder extends TestCase {
 		assertEquals(2, items.getItem().size());
 	}
 
+	@Test
 	public void testMarshall() throws Exception {
 		PurchaseOrderType po = unmarshall();
 
@@ -118,6 +123,8 @@ public class TestPurchaseOrder extends TestCase {
 		assertTrue(ostream.toString().indexOf("This comment has been changed") > 0); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testValidate() throws Exception {
 		PurchaseOrderType po = unmarshall();
 		Schema s = loadSchema();
@@ -232,18 +239,6 @@ public class TestPurchaseOrder extends TestCase {
 					}
 				this.events.clear();
 			}
-			/*if ((errors != null) && !this.events.isEmpty()) {
-				String className = proxy.getEvent().getClass()
-						.getCanonicalName();
-				for (int i = 0; i < this.events.size(); i++) {
-					ValidationEvent event = this.events.get(i);
-
-					String key = className;
-					String msg = getMessage(event);
-
-					errors.add(key, msg);
-				}
-			}*/
 		}
 
 		String getMessage(ValidationEvent event) {

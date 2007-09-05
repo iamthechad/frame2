@@ -50,63 +50,36 @@
  */
 package org.megatome.frame2.introspector;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.megatome.frame2.Globals;
-import org.megatome.frame2.introspector.Introspector;
-import org.megatome.frame2.introspector.IntrospectorFactory;
-import org.megatome.frame2.introspector.MappingException;
-import org.megatome.frame2.introspector.MappingsException;
 
 /**
- * TestIntrospector 
+ * TestIntrospector
  */
 
-public class TestIntrospector extends TestCase {
+public class TestIntrospector {
 
 	static private final double DELTA = 0.0001;
 
 	/**
-	 * Constructor for TestIntrospector.
-	 */
-	public TestIntrospector() {
-		super();
-	}
-
-	/**
-	 * Constructor for TestIntrospector.
-	 * @param name
-	 */
-	public TestIntrospector(String name) {
-		super(name);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	/**
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
-	/**
 	 * Method testSimplePopulate.
+	 * 
 	 * @throws Exception
 	 */
+	@SuppressWarnings("boxing")
+	@Test
 	public void testSimplePopulate() throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Bean1 bean = new Bean1();
@@ -168,15 +141,17 @@ public class TestIntrospector extends TestCase {
 		assertNotNull(array1);
 		assertTrue(array1.length == 1);
 		assertEquals("bar3", array1[0]); //$NON-NLS-1$
-		//assertEquals("bar3", bean.getStringArrayP1());
+		// assertEquals("bar3", bean.getStringArrayP1());
 		String[] array2 = bean.getStringArrayP2();
 		assertNotNull(array2);
 		assertTrue(array2.length == 2);
 		assertEquals("bar4", array2[0]); //$NON-NLS-1$
 		assertEquals("bar5", array2[1]); //$NON-NLS-1$
-		//assertEquals("bar4", bean.getStringArrayP2());
+		// assertEquals("bar4", bean.getStringArrayP2());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testMisalignment() throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Bean1 bean = new Bean1();
@@ -202,6 +177,7 @@ public class TestIntrospector extends TestCase {
 		assertEquals(0.0, bean.getDoubleP(), DELTA);
 	}
 
+	@Test
 	public void testNestedProperty() throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Bean1 bean = new Bean1();
@@ -217,6 +193,8 @@ public class TestIntrospector extends TestCase {
 		assertEquals(1.5, bean.getBean2P().getBean3P().getDoubleP(), DELTA);
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testSimpleIndexedProperty() throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Bean1 bean = new Bean1();
@@ -242,6 +220,7 @@ public class TestIntrospector extends TestCase {
 		assertEquals(6, bean.getIntPArray(6));
 	}
 
+	@Test
 	public void testNestedIndexedProperty() throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Bean1 bean = new Bean1();
@@ -255,18 +234,23 @@ public class TestIntrospector extends TestCase {
 
 		introspector.mapProperties(map, bean);
 
-		assertEquals(0.0, bean.getBean2P().getBean3PArray(0).getDoubleP(), DELTA);
-		assertEquals(1.0, bean.getBean2P().getBean3PArray(1).getDoubleP(), DELTA);
-		assertEquals(2.0, bean.getBean2P().getBean3PArray(2).getDoubleP(), DELTA);
-		assertEquals(3.0, bean.getBean2P().getBean3PArray(3).getDoubleP(), DELTA);
+		assertEquals(0.0, bean.getBean2P().getBean3PArray(0).getDoubleP(),
+				DELTA);
+		assertEquals(1.0, bean.getBean2P().getBean3PArray(1).getDoubleP(),
+				DELTA);
+		assertEquals(2.0, bean.getBean2P().getBean3PArray(2).getDoubleP(),
+				DELTA);
+		assertEquals(3.0, bean.getBean2P().getBean3PArray(3).getDoubleP(),
+				DELTA);
 	}
 
+	@Test
 	public void testNonConvertableValue() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Bean1 bean = new Bean1();
-      Object value = new Object();
+		Object value = new Object();
 
-		map.put("shortP",value); //$NON-NLS-1$
+		map.put("shortP", value); //$NON-NLS-1$
 		Introspector introspector = IntrospectorFactory.instance();
 
 		// This should pass until the conversion
@@ -275,80 +259,87 @@ public class TestIntrospector extends TestCase {
 			introspector.mapProperties(map, bean);
 			fail();
 		} catch (MappingsException e) {
-         assertMappingsException(bean, value, e);
-		} catch (Exception e ) {
-         fail();
-      }
+			assertMappingsException(bean, value, e);
+		} catch (Exception e) {
+			fail();
+		}
 	}
 
-   public void testNonParsableValue() {
-      Map<String, Object> map = new HashMap<String, Object>();
-      Bean1 bean = new Bean1();
-      String value = "ax111"; //$NON-NLS-1$
+	@Test
+	public void testNonParsableValue() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Bean1 bean = new Bean1();
+		String value = "ax111"; //$NON-NLS-1$
 
-      map.put("shortP", value ); //$NON-NLS-1$
-      Introspector introspector = IntrospectorFactory.instance();
+		map.put("shortP", value); //$NON-NLS-1$
+		Introspector introspector = IntrospectorFactory.instance();
 
-      // This should pass until the conversion
+		// This should pass until the conversion
 
-      try {
-         introspector.mapProperties(map, bean);
-         fail();
-      } catch (MappingsException e) {
-         assertMappingsException(bean, value, e);
-      } catch (Exception e ) {
-         fail();
-      }
-   }
+		try {
+			introspector.mapProperties(map, bean);
+			fail();
+		} catch (MappingsException e) {
+			assertMappingsException(bean, value, e);
+		} catch (Exception e) {
+			fail();
+		}
+	}
 
-   public void testParseWithStringArray() {
-      Map<String, Object> map = new HashMap<String, Object>();
-      Bean1 bean = new Bean1();
-      String value = "ax111"; //$NON-NLS-1$
+	@Test
+	public void testParseWithStringArray() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Bean1 bean = new Bean1();
+		String value = "ax111"; //$NON-NLS-1$
 
-      map.put("shortP", new String[] { value } ); //$NON-NLS-1$
-      Introspector introspector = IntrospectorFactory.instance();
+		map.put("shortP", new String[] { value }); //$NON-NLS-1$
+		Introspector introspector = IntrospectorFactory.instance();
 
-      // This should pass until the conversion
+		// This should pass until the conversion
 
-      try {
-         introspector.mapProperties(map, bean);
-         fail();
-      } catch (MappingsException e) {
-         assertMappingsException(bean, value, e);
-      } catch (Exception e ) {
-         fail();
-      }
-   }
+		try {
+			introspector.mapProperties(map, bean);
+			fail();
+		} catch (MappingsException e) {
+			assertMappingsException(bean, value, e);
+		} catch (Exception e) {
+			fail();
+		}
+	}
 
-   private void assertMappingsException(Bean1 bean, Object value, MappingsException e) {
-      List<MappingException> mapexcs = e.getMappingExceptions();
-      
-      assertNotNull(mapexcs);
-      assertEquals(1,mapexcs.size());
-      
-      MappingException me = mapexcs.get(0);
-      assertEquals(bean.getClass().getName(),me.getBeanName());
-      assertEquals(Globals.MAPPING_KEY_PREFIX + "org.megatome.frame2.introspector.Bean1.shortP",me.getKey()); //$NON-NLS-1$
-      assertEquals("shortP",me.getProperty()); //$NON-NLS-1$
-      Object mapValue = me.getValue();
-      if (mapValue instanceof Object[]) {
-      	assertSame(value, ((Object[])mapValue)[0]);
-      } else {
-      	assertSame(value,mapValue);
-      }
-      assertTrue(me.getCause() instanceof IllegalArgumentException);
-   }
-   
-   public void testHiddenJunkOnData( ) throws Exception {
-      Map<String, Object> map = new HashMap<String, Object>();
-      Bean1 bean = new Bean1();
+	@SuppressWarnings("boxing")
+	private void assertMappingsException(Bean1 bean, Object value,
+			MappingsException e) {
+		List<MappingException> mapexcs = e.getMappingExceptions();
 
-      map.put("intP","  100000  \n"); //$NON-NLS-1$ //$NON-NLS-2$
-      Introspector introspector = IntrospectorFactory.instance();
+		assertNotNull(mapexcs);
+		assertEquals(1, mapexcs.size());
 
-      introspector.mapProperties(map, bean);
+		MappingException me = mapexcs.get(0);
+		assertEquals(bean.getClass().getName(), me.getBeanName());
+		assertEquals(Globals.MAPPING_KEY_PREFIX
+				+ "org.megatome.frame2.introspector.Bean1.shortP", me.getKey()); //$NON-NLS-1$
+		assertEquals("shortP", me.getProperty()); //$NON-NLS-1$
+		Object mapValue = me.getValue();
+		if (mapValue instanceof Object[]) {
+			assertSame(value, ((Object[]) mapValue)[0]);
+		} else {
+			assertSame(value, mapValue);
+		}
+		assertTrue(me.getCause() instanceof IllegalArgumentException);
+	}
 
-      assertEquals(100000, bean.getIntP());
-   }
+	@SuppressWarnings("boxing")
+	@Test
+	public void testHiddenJunkOnData() throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Bean1 bean = new Bean1();
+
+		map.put("intP", "  100000  \n"); //$NON-NLS-1$ //$NON-NLS-2$
+		Introspector introspector = IntrospectorFactory.instance();
+
+		introspector.mapProperties(map, bean);
+
+		assertEquals(100000, bean.getIntP());
+	}
 }

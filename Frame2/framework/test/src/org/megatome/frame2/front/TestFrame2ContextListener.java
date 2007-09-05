@@ -49,10 +49,17 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
+import org.junit.After;
+import org.junit.Test;
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.log.LoggerFactory;
 import org.megatome.frame2.log.impl.Log4jLogger;
@@ -65,29 +72,13 @@ import servletunit.frame2.MockFrame2TestCase;
  * TestFrame2ContextListener.java
  */
 public class TestFrame2ContextListener extends MockFrame2TestCase {
-
-	/**
-	 * Constructor for TestConfiguration.
-	 * 
-	 * @param name
-	 */
-	public TestFrame2ContextListener(String name) {
-		super(name);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
-	protected void tearDown() {
+	
+	@After
+	public void tearDown() {
 		ResourceLocator.setBasename(null);
 	}
 
+	@Test
 	public void testSetConfigFile() {
 		String path = "/org/megatome/frame2/front/test-config.xml"; //$NON-NLS-1$
 
@@ -105,6 +96,7 @@ public class TestFrame2ContextListener extends MockFrame2TestCase {
 		}
 	}
 
+	@Test
 	public void testSetConfigFile_Invalid() {
 		sendContextInitializedEvent(Globals.CONFIG_FILE, "foo"); //$NON-NLS-1$
 
@@ -118,6 +110,7 @@ public class TestFrame2ContextListener extends MockFrame2TestCase {
 		}
 	}
 
+	@Test
 	public void testSetConfigFile_Negative_Plugin() {
 		sendContextInitializedEvent(Globals.CONFIG_FILE,
 				"/org/megatome/frame2/front/config/pluginTag-Single-Param-1_1.xml"); //$NON-NLS-1$
@@ -130,6 +123,7 @@ public class TestFrame2ContextListener extends MockFrame2TestCase {
 		}
 	}
 
+	@Test
 	public void testSetLoggerType() {
 		// assertTrue(LoggerFactory.instance("foo") instanceof StandardLogger);
 
@@ -139,6 +133,7 @@ public class TestFrame2ContextListener extends MockFrame2TestCase {
 		assertTrue(LoggerFactory.instance("bar") instanceof Log4jLogger); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testSetLoggerType_Invalid() {
 
 		try {
@@ -150,6 +145,7 @@ public class TestFrame2ContextListener extends MockFrame2TestCase {
 		}
 	}
 
+	@Test
 	public void testSetResourceBundle_NoFlag() {
 		assertEmptyBundle(ResourceLocator.getBundle());
 
@@ -158,6 +154,7 @@ public class TestFrame2ContextListener extends MockFrame2TestCase {
 		assertEmptyBundle(ResourceLocator.getBundle());
 	}
 
+	@Test
 	public void testSetResourceBundle_Frame2Flag() {
 		assertEmptyBundle(ResourceLocator.getBundle());
 
@@ -169,6 +166,7 @@ public class TestFrame2ContextListener extends MockFrame2TestCase {
 				"tag.question", "alt.tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Test
 	public void testSetResourceBundle_JstlFmtFlag() {
 		assertEmptyBundle(ResourceLocator.getBundle());
 
@@ -181,6 +179,7 @@ public class TestFrame2ContextListener extends MockFrame2TestCase {
 				"alt.tag.question", "tag.question"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Test
 	public void testSetResourceBundle_Frame2TakesPrecedence() {
 		assertEmptyBundle(ResourceLocator.getBundle());
 

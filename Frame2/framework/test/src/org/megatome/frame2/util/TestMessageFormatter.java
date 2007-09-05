@@ -49,17 +49,18 @@
  * ====================================================================
  */
 package org.megatome.frame2.util;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-/**
- * 
- */
-public class TestMessageFormatter extends TestCase {
+public class TestMessageFormatter {
 
+	@Test
 	public void testFormatting() {
 		assertEquals("Is this Frame2?", MessageFormatter.format("Is this Frame2?", null)); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(
@@ -76,6 +77,7 @@ public class TestMessageFormatter extends TestCase {
 			MessageFormatter.format("Is this {0} Frame2?", new Object[] { Integer.valueOf(100000)})); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testFormatting_Locale() {
 		assertEquals(
 			"Is this Frame2?", //$NON-NLS-1$
@@ -103,6 +105,7 @@ public class TestMessageFormatter extends TestCase {
 				new Object[] { new Double(10.01)}));
 	}
 
+	@Test
 	public void testGetFormatter() {
 		MessageFormat format = MessageFormatter.getFormat("Is this Frame2?", Locale.UK); //$NON-NLS-1$
 		assertNotNull(format);

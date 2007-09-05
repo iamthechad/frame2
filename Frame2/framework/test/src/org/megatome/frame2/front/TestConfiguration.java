@@ -49,12 +49,19 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.front.config.Forward;
 import org.megatome.frame2.front.config.ViewType;
@@ -62,34 +69,16 @@ import org.megatome.frame2.front.config.ViewType;
 /**
  *
  */
-public class TestConfiguration extends TestCase {
+public class TestConfiguration {
 	private Configuration config;
 
-	/**
-	* Constructor for TestConfiguration.
-	*/
-	public TestConfiguration() {
-		super();
-	}
-
-	/**
-	* Constructor for TestConfiguration.
-	* @param name
-	*/
-	public TestConfiguration(String name) {
-		super(name);
-	}
-
-	/**
-	* @see junit.framework.TestCase#setUp()
-	*/
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		this.config =
 			new Configuration("org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testEventBinding() {
 		Event event = null;
 		try {
@@ -101,27 +90,33 @@ public class TestConfiguration extends TestCase {
 		assertNotNull(event);
 	}
 
+	@Test
 	public void testEventBinding_Empty() {
 		assertGetEventFails(this.config, ""); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testEventBinding_WrongEventType() {
 		assertGetEventFails(this.config, "wrongEventType"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testEventBinding_TypeMissing() {
 		assertGetEventFails(this.config, "bogus1"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testEventBinding_TypeNotEvent() {
 		assertGetEventFails(this.config, "bogus2"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testEventBinding_NullName() {
 		assertGetEventFails(this.config, null);
 	}
 
-	@SuppressWarnings("null")
+	@SuppressWarnings({ "null", "boxing" })
+	@Test
 	public void testHandlerBinding() {
 		List<EventHandlerProxy> eventHandlers = null;
 		try {
@@ -163,6 +158,7 @@ public class TestConfiguration extends TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testXMLHandlerBinding() {
 		List<EventHandlerProxy> eventHandlers = null;
 		try {
@@ -201,6 +197,7 @@ public class TestConfiguration extends TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testXMLResponder() {
 		List<EventHandlerProxy> eventHandlers = null;
 		try {
@@ -237,6 +234,7 @@ public class TestConfiguration extends TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testXMLResponderNotInHTMLForwardsMap() {
 		List<EventHandlerProxy> eventHandlers = null;
 		try {
@@ -256,6 +254,7 @@ public class TestConfiguration extends TestCase {
 		assertNull(xmlResponderNotExist);
 	}
 
+	@Test
 	public void testHandlerBinding_Cache() {
 		try {
 			List<EventHandlerProxy> eventHandlers1 = this.config.getHandlers("event1"); //$NON-NLS-1$
@@ -267,21 +266,25 @@ public class TestConfiguration extends TestCase {
 		}
 	}
 
+	@Test
 	public void testHandlerBinding_UnimplementedHandler() {
 		assertGetHandlerFails(this.config, "event10"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testHandlerBinding_InvalidNames() {
 		assertGetHandlerFails(this.config, null);
 		assertGetHandlerFails(this.config, ""); //$NON-NLS-1$
 		assertGetHandlerFails(this.config, "bogusEventName"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testHandlerBinding_NoHandlerConfigured() {
 		assertGetHandlerFails(this.config, "event9"); //$NON-NLS-1$
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testBothViewType() {
 		String htmlForwardName = null;
 		try {
@@ -324,6 +327,7 @@ public class TestConfiguration extends TestCase {
 		assertEquals("/view4.jsp", fwd.getPath()); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testNonExistingXMLViewType() {
 		try {
 			this.config.getEventMappingView("event14", ViewType.XML); //$NON-NLS-1$
@@ -333,6 +337,7 @@ public class TestConfiguration extends TestCase {
 		}
 	}
 
+	@Test
 	public void testNonExistingXMLGlobalForwardType() {
 		// test XML View
 		try {
@@ -343,6 +348,7 @@ public class TestConfiguration extends TestCase {
 		}
 	}
 
+	@Test
 	public void testEventDefaultResolveAs() {
 		try {
 			EventProxy eProxy = this.config.getEventProxy("event1"); //$NON-NLS-1$
@@ -354,6 +360,7 @@ public class TestConfiguration extends TestCase {
 		}
 	}
 
+	@Test
 	public void testEventResolveAsChildren() {
 		try {
 			EventProxy eProxy = this.config.getEventProxy("event12"); //$NON-NLS-1$
@@ -365,6 +372,7 @@ public class TestConfiguration extends TestCase {
 		}
 	}
 
+	@Test
 	public void testEventResolveAsPassThru() {
 		try {
 			EventProxy eProxy = this.config.getEventProxy("event2"); //$NON-NLS-1$
@@ -376,6 +384,7 @@ public class TestConfiguration extends TestCase {
 		}
 	}
 
+	@Test
 	public void testExceptionProxy() {
 		ConfigTestException ex = new ConfigTestException();
 		ExceptionProxy exception = null;
@@ -393,6 +402,7 @@ public class TestConfiguration extends TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testExceptionProxyHTMLFowardPath() {
 		ConfigTestException ex = new ConfigTestException();
 		ExceptionProxy exception = null;
@@ -411,6 +421,7 @@ public class TestConfiguration extends TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testExceptionProxyXMLFowardPath() {
 		ConfigTestException ex = new ConfigTestException();
 		ExceptionProxy exception = null;
@@ -429,6 +440,7 @@ public class TestConfiguration extends TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testRedirect() {
 		ForwardProxy fwd = null;
 		try {
@@ -445,6 +457,7 @@ public class TestConfiguration extends TestCase {
 		assertTrue(fwd.isRedirect());
 	}
 
+	@Test
 	public void testInputViewFor() {
 		try {
 			assertEquals(
@@ -465,6 +478,7 @@ public class TestConfiguration extends TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testCancelViewFor() {
 		ForwardProxy fwd = null;
 		try {
@@ -485,6 +499,7 @@ public class TestConfiguration extends TestCase {
 		}
 	}
 
+	@Test
 	public void testPluginProxy() {
 		List<PluginProxy> proxies = this.config.getPluginProxies();
 		assertTrue(proxies.size() == 5);
@@ -501,6 +516,7 @@ public class TestConfiguration extends TestCase {
 		assertTrue(params.get("param1").equals("value1")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Test
 	public void testNegativePluginProxy() {
 		try {
 			this.config =

@@ -49,6 +49,10 @@
  * ====================================================================
  */
 package org.megatome.app.jaxb;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.OutputStream;
 
@@ -56,8 +60,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.megatome.app.jaxbgen.ObjectFactory;
 import org.megatome.app.jaxbgen.User;
 import org.megatome.frame2.errors.Errors;
@@ -65,7 +68,7 @@ import org.megatome.frame2.errors.impl.ErrorsFactory;
 import org.megatome.frame2.util.Helper;
 import org.xml.sax.SAXException;
 
-public class TestUser extends TestCase {
+public class TestUser {
 	private static final String TARGET_PACKAGE = "org.megatome.app.jaxbgen"; //$NON-NLS-1$
 	private static final ObjectFactory of = new ObjectFactory();
 	
@@ -81,6 +84,8 @@ public class TestUser extends TestCase {
 		return s;
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testUser() {
 		User user = makeFred();
 		user.setValidatingSchema(loadSchema());
@@ -119,6 +124,7 @@ public class TestUser extends TestCase {
 		return of.createNACK("It was a bad thing."); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testMarshall() throws Exception {
 		User user = makeFred();
 		OutputStream os = Helper.marshall(user, TARGET_PACKAGE, getClass()
@@ -138,6 +144,7 @@ public class TestUser extends TestCase {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Test
 	public void testUnmarshall() throws Exception {
 		User user = (User) unmarshall("org/megatome/app/jaxb/user.xml"); //$NON-NLS-1$
 		assertNotNull(user);

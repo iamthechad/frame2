@@ -49,12 +49,15 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.front.config.PluginDef;
 import org.megatome.frame2.plugin.MockPluginInterface;
 import org.megatome.frame2.plugin.PluginInterface;
@@ -62,23 +65,12 @@ import org.megatome.frame2.plugin.PluginInterface;
 /**
  * @author cjohnston
  */
-public class TestPluginProxy extends TestCase {
+public class TestPluginProxy {
 
-   PluginProxy proxy = null;
-   /**
-    * Constructor for PluginProxyTest.
-    * @param name
-    */
-   public TestPluginProxy(String name) {
-      super(name);
-   }
+   private PluginProxy proxy = null;
 
-   /*
-    * @see TestCase#setUp()
-    */
-   @Override
-protected void setUp() throws Exception {
-      super.setUp();
+   @Before
+   public void setUp() throws Exception {
       PluginDef pluginDef = new PluginDef();
       pluginDef.setName("PluginName"); //$NON-NLS-1$
       pluginDef.setType("PluginType"); //$NON-NLS-1$
@@ -90,34 +82,31 @@ protected void setUp() throws Exception {
       this.proxy = new PluginProxy(pluginDef, mockPlugin);
    }
 
-   /*
-    * @see TestCase#tearDown()
-    */
-   @Override
-protected void tearDown() throws Exception {
-      super.tearDown();
-   }
-
+   @Test
    public void testGetName() {
       assertTrue(this.proxy.getName().equals("PluginName")); //$NON-NLS-1$
    }
 
+   @Test
    public void testGetType() {
       assertTrue(this.proxy.getType().equals("PluginType")); //$NON-NLS-1$
    }
 
+   @Test
    public void testGetInitParams() {
       Map<String, String> params = this.proxy.getInitParams();
       assertTrue(params.size() == 1);
       assertTrue(params.get("param1").equals("value1")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
+   @Test
    public void testGetPlugin() {
       PluginInterface plugin = this.proxy.getPlugin();
       assertNotNull(plugin);
       assertTrue(plugin instanceof MockPluginInterface);
    }
    
+   @Test
    public void testInitThrewException() {
       assertFalse(this.proxy.initThrewException());
       this.proxy.setInitThrewException(true);

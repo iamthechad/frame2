@@ -50,6 +50,10 @@
  */
 package org.megatome.frame2.template.config;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
 import org.megatome.frame2.template.TemplateConfigFactory;
 import org.megatome.frame2.template.TemplateException;
 
@@ -59,33 +63,25 @@ import servletunit.frame2.MockFrame2TestCase;
 public class TestTemplateConfigFactory extends MockFrame2TestCase {
 
 	private ServletContextSimulator context;
-   /**
-    * Constructor for TestTemplateConfigFactory.
-    * @param name
-    */
-   public TestTemplateConfigFactory(String name) {
-      super(name);
-   }
-   
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
+
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		this.context = (ServletContextSimulator) getContext();
 	}
-   
-   public void testGetConfiguration() {
-      try {
-         TemplateConfigFactory.loadTemplateFile(this.context, "multTag-Put-Template.xml", "/org/megatome/frame2/template/config/"); //$NON-NLS-1$ //$NON-NLS-2$
-         
-         assertNotNull( TemplateConfigFactory.instance());     
-      } catch (TemplateException e) {
-      	e.printStackTrace();
-         fail(e.getMessage());
-      }
-   }
-   
 
+	@Test
+	public void testGetConfiguration() {
+		try {
+			TemplateConfigFactory
+					.loadTemplateFile(
+							this.context,
+							"multTag-Put-Template.xml", "/org/megatome/frame2/template/config/"); //$NON-NLS-1$ //$NON-NLS-2$
+
+			assertNotNull(TemplateConfigFactory.instance());
+		} catch (TemplateException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
 }

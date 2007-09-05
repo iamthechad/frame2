@@ -50,55 +50,28 @@
  */
 package org.megatome.frame2.front.config;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.validation.Schema;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.front.ForwardProxy;
 
-/**
- * TestWAMConfigReader.java
- */
-public class TestEventConfigReader extends TestCase {
-	/**
-	 * Constructor for TestEventConfigReader.
-	 */
-	public TestEventConfigReader() {
-		super();
-	}
-
-	/**
-	 * Constructor for TestEventConfigReader.
-	 * 
-	 * @param name
-	 */
-	public TestEventConfigReader(String name) {
-		super(name);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	/**
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+public class TestEventConfigReader {
 
 	/**
 	 * Method testSingleGlobalForward.
 	 */
+	@Test
 	public void testSingleGlobalForward() {
 
 		String name = "xxx"; //$NON-NLS-1$
@@ -119,9 +92,8 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Method testMultipleGlobalForward.
-	 * 
-	 * @throws Exception
 	 */
+	@Test
 	public void testMultipleGlobalForward() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/globalForward-Multiple-config.xml"); //$NON-NLS-1$
 
@@ -153,9 +125,8 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Method testEvents.
-	 * 
-	 * @throws Exception
 	 */
+	@Test
 	public void testEvents() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/events-config.xml"); //$NON-NLS-1$
 
@@ -173,9 +144,9 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Method testEventMappings.
-	 * 
-	 * @throws Exception
 	 */
+	@SuppressWarnings("boxing")
+	@Test
 	public void testEventMappings() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/eventMappings-config.xml"); //$NON-NLS-1$
 
@@ -262,9 +233,8 @@ public class TestEventConfigReader extends TestCase {
 
 	/**
 	 * Method testEmptyTags.
-	 * 
-	 * @throws Exception
 	 */
+	@Test
 	public void testEmptyTags() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/emptyTags-config.xml"); //$NON-NLS-1$
 
@@ -280,10 +250,9 @@ public class TestEventConfigReader extends TestCase {
 	}
 
 	/**
-	 * Method testEmptyTags.
-	 * 
-	 * @throws Exception
+	 * Method testEventHandlers.
 	 */
+	@Test
 	public void testEventHandlers() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/eventHandlers-config.xml"); //$NON-NLS-1$
 
@@ -326,11 +295,7 @@ public class TestEventConfigReader extends TestCase {
 		assertNull(handler.getHTMLForward("forward1")); //$NON-NLS-1$
 	}
 
-	/**
-	 * Method testEmptyTags.
-	 * 
-	 * @throws Exception
-	 */
+	@Test
 	public void testPluginSingle() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/pluginTag-Single-1_1.xml"); //$NON-NLS-1$
 
@@ -341,6 +306,7 @@ public class TestEventConfigReader extends TestCase {
 		assertTrue(plugin.getType().equals("org.megatome.something")); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testPluginMultiple() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/pluginTag-Mult-Param-1_1.xml"); //$NON-NLS-1$
 
@@ -372,6 +338,7 @@ public class TestEventConfigReader extends TestCase {
 		assertTrue(params.isEmpty());
 	}
 
+	@Test
 	public void testPluginMultipleDuplicate() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/pluginTag-Dup-Negative-Param-1_1.xml"); //$NON-NLS-1$
 
@@ -386,6 +353,7 @@ public class TestEventConfigReader extends TestCase {
 		assertTrue(val.equals("value1")); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testNegativeDuplicateInitParam() {
 		String filename = "org/megatome/frame2/front/config/pluginTag-Single-Negative-DupParam-1_1.xml"; //$NON-NLS-1$
 
@@ -398,6 +366,7 @@ public class TestEventConfigReader extends TestCase {
 		}
 	}
 
+	@Test
 	public void testReqProcEmpty() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/requestProc-Empty-1_1.xml"); //$NON-NLS-1$
 
@@ -410,6 +379,7 @@ public class TestEventConfigReader extends TestCase {
 
 	}
 
+	@Test
 	public void testTwoProcEmpty() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/requestProc-SoapAndHttp-1_1.xml"); //$NON-NLS-1$
 
@@ -422,6 +392,7 @@ public class TestEventConfigReader extends TestCase {
 
 	}
 
+	@Test
 	public void testSchemaMappings() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/events-config.xml"); //$NON-NLS-1$
 
@@ -438,6 +409,7 @@ public class TestEventConfigReader extends TestCase {
 		assertTrue(s == s2);
 	}
 
+	@Test
 	public void testSchemaMappingsDuplicateLocation() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/schema-config-dupe.xml"); //$NON-NLS-1$
 
@@ -457,6 +429,7 @@ public class TestEventConfigReader extends TestCase {
 		assertTrue(s == s3);
 	}
 	
+	@Test
 	public void testSchemaMappingsBadLocation() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/schema-bad-loc.xml"); //$NON-NLS-1$
 		
@@ -465,6 +438,7 @@ public class TestEventConfigReader extends TestCase {
 		assertTrue(schemaMappings.isEmpty());
 	}
 	
+	@Test
 	public void testSchemaMultipleEvent() {
 		EventConfigReader reader = getReader("org/megatome/frame2/front/config/schema-dupe-event.xml"); //$NON-NLS-1$
 		

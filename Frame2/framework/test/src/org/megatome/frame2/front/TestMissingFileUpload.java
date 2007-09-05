@@ -49,6 +49,10 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -60,6 +64,7 @@ import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 
+import org.junit.Test;
 import org.megatome.frame2.Globals;
 
 import servletunit.frame2.Frame2HttpServletRequestSimulator;
@@ -68,10 +73,6 @@ import HTTPClient.Codecs;
 import HTTPClient.NVPair;
 
 public class TestMissingFileUpload extends MockFrame2TestCase {
-
-	public TestMissingFileUpload(String name) {
-		super(name);
-	}
 
 	private void postNegativeHttpReqProc() {
 		HttpFrontController servlet = initializeServlet();
@@ -98,6 +99,7 @@ public class TestMissingFileUpload extends MockFrame2TestCase {
 		return servlet;
 	}
 
+	@Test
 	public void testPrerequisites() {
 		try {
 			Class.forName("org.apache.commons.fileupload.DiskFileUpload"); //$NON-NLS-1$
@@ -109,6 +111,7 @@ public class TestMissingFileUpload extends MockFrame2TestCase {
 		}
 	}
 
+	@Test
 	public void testUploadWithoutLibrary() throws Exception {
 
 		sendContextInitializedEvent(Globals.CONFIG_FILE,
@@ -127,6 +130,7 @@ public class TestMissingFileUpload extends MockFrame2TestCase {
 		postNegativeHttpReqProc();
 	}
 
+	@Test
 	public void testMapRequestToEvent() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$

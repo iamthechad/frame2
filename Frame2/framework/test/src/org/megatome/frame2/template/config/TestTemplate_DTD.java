@@ -49,6 +49,7 @@
  * ====================================================================
  */
 package org.megatome.frame2.template.config;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,40 +57,19 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.util.sax.Frame2EntityResolver;
 import org.megatome.frame2.util.sax.Frame2ParseErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-/**
- * TestWAMConfigReader.java
- */
-public class TestTemplate_DTD extends TestCase {
+public class TestTemplate_DTD {
     
    private DocumentBuilder documentBuilder = null;
-   /**
-    * Constructor for TestTemplate_DTD
-    */
-   public TestTemplate_DTD() {
-      super();
-   }
 
-   /**
-    * Constructor for TestTemplate_DTD
-    * @param name
-    */
-   public TestTemplate_DTD(String name) {
-      super(name);
-   }
-
-   /**
-    * @see junit.framework.TestCase#setUp()
-    */
-   @Override
-   protected void setUp() throws Exception {
-      super.setUp();
+   @Before
+   public void setUp() throws Exception {
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
       dbf.setValidating(true);
       
@@ -98,79 +78,85 @@ public class TestTemplate_DTD extends TestCase {
       this.documentBuilder.setEntityResolver(new Frame2EntityResolver());
    }
 
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   @Override
-   protected void tearDown() throws Exception {
-      super.tearDown();
-   }
-
+   @Test
    public void testDTD()
    {
       parseConfig("org/megatome/frame2/template/config/emptyTags-Template.xml");  //$NON-NLS-1$
    }    
    
+   @Test
    public void testNegativeDTD()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/emptyConfigTag-Negative-Template.xml"); //$NON-NLS-1$
    }
    
+   @Test
    public void testNegativeConfigParentTag()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/emptyTags-NegativeConfig-Template.xml"); //$NON-NLS-1$
    } 
    
+   @Test
    public void testNegativeConfigTemplatesTag()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/emptyTags-Negative-Template.xml"); //$NON-NLS-1$
    }   
    
+   @Test
    public void testSingleTemplate()
    {
       parseConfig("org/megatome/frame2/template/config/singleTag-Template.xml"); //$NON-NLS-1$
    }
    
+   @Test
    public void testNegativeNameSingleTemplate()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativeName-Template.xml"); //$NON-NLS-1$
    }
    
+   @Test
    public void testNegativePathSingleTemplate()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePath-Template.xml"); //$NON-NLS-1$
    }
    
+   @Test
    public void testSingleTemplatePut()
    {
       parseConfig("org/megatome/frame2/template/config/singleTag-Put-Template.xml"); //$NON-NLS-1$
    }
    
+   @Test
    public void testNegativeSingleTemplatePutName()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePutName-Template.xml"); //$NON-NLS-1$
    }
    
+   @Test
    public void testNegativeSingleTemplatePutPath()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/singleTag-NegativePutPath-Template.xml"); //$NON-NLS-1$
    }
    
+   @Test
    public void testMultipleTemplate()
    {
       parseConfig("org/megatome/frame2/template/config/multTag-Template.xml"); //$NON-NLS-1$
    }
    
+   @Test
    public void testMultipleTemplatePut()
    {
       parseConfig("org/megatome/frame2/template/config/multTag-Put-Template.xml"); //$NON-NLS-1$
    }   
    
+   @Test
    public void testNegativeNameMultipleTemplate()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/multTag-NegativeName-Template.xml"); //$NON-NLS-1$
    }   
       
+   @Test
    public void testNegativePathMultipleTemplate()
    {
       parseNegativeConfig("org/megatome/frame2/template/config/multTag-NegativePath-Template.xml"); //$NON-NLS-1$

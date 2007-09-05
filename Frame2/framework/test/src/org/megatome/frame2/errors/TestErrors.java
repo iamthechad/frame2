@@ -53,15 +53,18 @@ package org.megatome.frame2.errors;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.errors.impl.ErrorFactory;
 import org.megatome.frame2.errors.impl.ErrorsFactory;
 
 /**
  * 
  */
-public class TestErrors extends TestCase {
+public class TestErrors {
 
 	private static final String ZERO = "0"; //$NON-NLS-1$
 	private static final String THREE = "3"; //$NON-NLS-1$
@@ -74,30 +77,24 @@ public class TestErrors extends TestCase {
 
 	private Errors errors;
 
-	/**
-	 * Constructor for TestErrors.
-	 * 
-	 * @param name
-	 */
-	public TestErrors(String name) {
-		super(name);
-	}
-
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUpErrors() {
 		this.errors = ErrorsFactory.newInstance();
 	}
 
-	@Override
-	protected void tearDown() {
+	@After
+	public void releaseErrors() {
 		this.errors.release();
 	}
 
+	@Test
 	public void testGetIfEmpty() {
 		assertTrue(this.errors.isEmpty());
 		assertTrue(this.errors.get(FOO).isEmpty());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testAdd() {
 		assertTrue(this.errors.isEmpty());
 		assertEquals(0, this.errors.size());
@@ -133,6 +130,8 @@ public class TestErrors extends TestCase {
 		assertFalse(allKeys.hasNext());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testAddDuplicateKeys() {
 		this.errors.add(KEY1, ONE);
 		this.errors.add(KEY1, ONE, TWO);
@@ -160,6 +159,8 @@ public class TestErrors extends TestCase {
 		assertFalse(key1keys.hasNext());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testValueList_3() {
 		this.errors.add(KEY1, ONE, TWO, THREE);
 
@@ -184,6 +185,8 @@ public class TestErrors extends TestCase {
 		assertEquals(THREE, values.next());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testValueList_1() {
 		this.errors.add(KEY1, ONE);
 
@@ -204,6 +207,8 @@ public class TestErrors extends TestCase {
 		assertEquals(ONE, values.next());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testEmptyValueList() {
 		this.errors.add(KEY1, null);
 
@@ -223,6 +228,8 @@ public class TestErrors extends TestCase {
 		assertFalse(values.hasNext());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testRelease() {
 		this.errors.add(KEY1, ONE);
 
@@ -234,6 +241,8 @@ public class TestErrors extends TestCase {
 		assertTrue(this.errors.isEmpty());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testAddUnique() {
 		this.errors.add(KEY1, ONE);
 		this.errors.add(KEY1, ONE);
@@ -248,6 +257,8 @@ public class TestErrors extends TestCase {
 		assertEquals(3, this.errors.size());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testEmpty() {
 		this.errors.add(KEY1, null);
 
@@ -262,6 +273,8 @@ public class TestErrors extends TestCase {
 		assertTrue(emptyKeys.hasNext());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testAddKeyOnly() {
 		assertTrue(this.errors.isEmpty());
 		assertEquals(0, this.errors.size());
@@ -272,6 +285,8 @@ public class TestErrors extends TestCase {
 		assertEquals(1, this.errors.size());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testAddError() {
 		assertTrue(this.errors.isEmpty());
 		assertEquals(0, this.errors.size());

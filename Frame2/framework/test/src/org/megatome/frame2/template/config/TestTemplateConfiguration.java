@@ -49,47 +49,28 @@
  * ====================================================================
  */
 package org.megatome.frame2.template.config;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
-import org.megatome.frame2.template.config.TemplateConfiguration;
-import org.megatome.frame2.template.config.TemplateConfigurationInterface;
-import org.megatome.frame2.template.config.TemplateDef;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class TestTemplateConfiguration extends TestCase {
+public class TestTemplateConfiguration {
 
    TemplateConfigurationInterface config;
    
-   public TestTemplateConfiguration() {
-      super();
-   }
-
-
-   public TestTemplateConfiguration(String name) {
-      super(name);
-   }
-
-   /**
-    * @see junit.framework.TestCase#setUp()
-    */
-   @Override
-   protected void setUp() throws Exception {
-      super.setUp();
+   @Before
+   public void setUp() throws Exception {
       this.config = new TemplateConfiguration();
    }
 
-   /**
-    * @see junit.framework.TestCase#tearDown()
-    */
-   @Override
-   protected void tearDown() throws Exception {
-      super.tearDown();
-   }
-   
+
+   @Test
    public void testSingleDefNoPut(){
       TemplateDef def1 = new TemplateDef();
       def1.setName("def1"); //$NON-NLS-1$
@@ -105,6 +86,7 @@ public class TestTemplateConfiguration extends TestCase {
       assertTrue(retDef.getPutParams().isEmpty());
    }
    
+   @Test
    public void testSingleDefWithPut(){
       TemplateDef def1 = new TemplateDef();
       def1.setName("def1"); //$NON-NLS-1$
@@ -123,6 +105,7 @@ public class TestTemplateConfiguration extends TestCase {
       assertTrue(retDef.getPutParams().size() == 1);
    }
    
+   @Test
    public void testMultDef(){
       Map<String, TemplateDefI> map = new HashMap<String, TemplateDefI>();
       TemplateDef def1 = new TemplateDef();
@@ -150,6 +133,7 @@ public class TestTemplateConfiguration extends TestCase {
       assertTrue(retDef2.getPutParams().isEmpty());
    }
    
+   @Test
    public void testNullOnUndefinedDef(){
       assertNull(this.config.getDefinition("def1")); //$NON-NLS-1$
    }

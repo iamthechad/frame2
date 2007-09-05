@@ -49,51 +49,26 @@
  * ====================================================================
  */
 package org.megatome.frame2.validator;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.Locale;
 
 import org.apache.commons.validator.Form;
 import org.apache.commons.validator.ValidatorResources;
-import org.megatome.frame2.validator.CommonsValidatorException;
-import org.megatome.frame2.validator.CommonsValidatorWrapper;
+import org.junit.Test;
 
 import servletunit.frame2.MockFrame2TestCase;
 
-/**
- * @author hmilligan
- * 
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates. To enable and disable the creation of type
- * comments go to Window>Preferences>Java>Code Generation.
- */
 public class TestCommonsValidatorWrapper extends MockFrame2TestCase {
 
-	/**
-	 * Constructor for TestCommonsValidatorResources.
-	 * 
-	 * @param name
-	 */
-	public TestCommonsValidatorWrapper(String name) {
-		super(name);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 	}
 
-	/**
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
 	@SuppressWarnings("null")
+	@Test
 	public void testValidatorInitialization() {
 
 		ValidatorResources resources = null;
@@ -112,6 +87,7 @@ public class TestCommonsValidatorWrapper extends MockFrame2TestCase {
 
 	}
 
+	@Test
 	public void testNegativeValidatorInitializationFileNotFound() {
 
 		try {

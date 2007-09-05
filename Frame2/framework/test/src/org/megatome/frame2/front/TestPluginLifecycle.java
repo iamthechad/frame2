@@ -50,6 +50,10 @@
  */
 package org.megatome.frame2.front;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.plugin.MockPluginInterface;
 import org.megatome.frame2.plugin.PluginInterface;
@@ -58,30 +62,10 @@ import servletunit.frame2.MockFrame2TestCase;
 
 public class TestPluginLifecycle extends MockFrame2TestCase {
 
-	/**
-	 * Constructor for TestHttpFrontController.
-	 * 
-	 * @param name
-	 */
-	public TestPluginLifecycle(String name) {
-		super(name);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Override
+	/*@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-	}
-
-	/**
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+	}*/
 
 	private PluginProxy initAndGetProxy(final String pluginName)
 			throws Exception {
@@ -98,6 +82,7 @@ public class TestPluginLifecycle extends MockFrame2TestCase {
 		return proxy;
 	}
 
+	@Test
 	public void testPluginInit() throws Exception {
 		PluginProxy proxy = initAndGetProxy("mockPlugin"); //$NON-NLS-1$
 
@@ -105,12 +90,14 @@ public class TestPluginLifecycle extends MockFrame2TestCase {
 		assertTrue(((MockPluginInterface) plugin).getState() == MockPluginInterface.STATE_INIT);
 	}
 
+	@Test
 	public void testNegativePluginInitThrows() throws Exception {
 		PluginProxy proxy = initAndGetProxy("mockPluginThrows"); //$NON-NLS-1$
 
 		assertTrue(proxy.initThrewException());
 	}
 
+	@Test
 	public void testPluginDestroy() throws Exception {
 		PluginProxy proxy = initAndGetProxy("mockPlugin"); //$NON-NLS-1$
 
@@ -121,6 +108,7 @@ public class TestPluginLifecycle extends MockFrame2TestCase {
 		assertTrue(((MockPluginInterface) plugin).getState() == MockPluginInterface.STATE_DESTROY);
 	}
 
+	@Test
 	public void testNegativePluginDestroyNotCalled() throws Exception {
 		PluginProxy proxy = initAndGetProxy("mockPluginThrows"); //$NON-NLS-1$
 
@@ -130,6 +118,7 @@ public class TestPluginLifecycle extends MockFrame2TestCase {
 		assertTrue(((MockPluginInterface) plugin).getState() == MockPluginInterface.STATE_NONE);
 	}
 
+	@Test
 	public void testNegativePluginDestroyThrows() throws Exception {
 		PluginProxy proxy = initAndGetProxy("mockPluginDestroyThrows"); //$NON-NLS-1$
 

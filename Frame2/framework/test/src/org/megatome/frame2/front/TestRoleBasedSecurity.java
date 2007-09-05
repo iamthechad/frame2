@@ -50,6 +50,10 @@
  */
 package org.megatome.frame2.front;
 
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import servletunit.frame2.MockFrame2TestCase;
 
 /**
@@ -57,70 +61,76 @@ import servletunit.frame2.MockFrame2TestCase;
  */
 public class TestRoleBasedSecurity extends MockFrame2TestCase {
 
-   private Configuration config;
-
-	public TestRoleBasedSecurity(String name) {
-		super(name);
-	}
+	private Configuration config;
 
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
-      this.config = new Configuration("org/megatome/frame2/front/test-security-config.xml"); //$NON-NLS-1$
+		this.config = new Configuration(
+				"org/megatome/frame2/front/test-security-config.xml"); //$NON-NLS-1$
 	}
 
-   public void testSecurity_FailsNone() throws Throwable {
-      assertFails(null);
-   }
+	@Test
+	public void testSecurity_FailsNone() throws Throwable {
+		assertFails(null);
+	}
 
-   public void testSecurity_FailsOther() throws Throwable {
-      assertFails("bogus"); //$NON-NLS-1$
-   }
+	@Test
+	public void testSecurity_FailsOther() throws Throwable {
+		assertFails("bogus"); //$NON-NLS-1$
+	}
 
-   public void testSecurity_PassesAdmin() throws Throwable {
-      assertPasses("/event1.sec","admin","/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-   }
+	@Test
+	public void testSecurity_PassesAdmin() throws Throwable {
+		assertPasses("/event1.sec", "admin", "/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-   public void testSecurity_PassesGuest() throws Throwable {
-		assertPasses("/event1.sec","guest","/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-   }
-   
-   public void testNoAuthorizationRequired() throws Throwable {
-      assertPasses("/event2.sec","guest","/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-      assertPasses("/event2.sec",null,"/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$
-      assertPasses("/event2.sec","bogus","/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-   }
+	@Test
+	public void testSecurity_PassesGuest() throws Throwable {
+		assertPasses("/event1.sec", "guest", "/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-	private void assertPasses(String path,String role,String view) throws Throwable {
+	@Test
+	public void testNoAuthorizationRequired() throws Throwable {
+		assertPasses("/event2.sec", "guest", "/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertPasses("/event2.sec", null, "/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$
+		assertPasses("/event2.sec", "bogus", "/view1.jsp"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+
+	private void assertPasses(String path, String role, String view)
+			throws Throwable {
 		setServletPath(path);
-		
+
 		setUserRole(role);
-      setRemoteUser("fred"); //$NON-NLS-1$
-		
-		HttpRequestProcessor request = (HttpRequestProcessor) RequestProcessorFactory.instance(this.config,getContext(),getRequest(),getResponse());
-		
+		setRemoteUser("fred"); //$NON-NLS-1$
+
+		HttpRequestProcessor request = (HttpRequestProcessor) RequestProcessorFactory
+				.instance(this.config, getContext(), getRequest(),
+						getResponse());
+
 		request.processRequest();
-		
+
 		verifyForwardPath(view);
 	}
 
+	private void assertFails(String role) throws Throwable {
+		setServletPath("/event1.sec"); //$NON-NLS-1$
 
-   private void assertFails(String role) throws Throwable {
-      setServletPath("/event1.sec"); //$NON-NLS-1$
+		if (role != null) {
+			setUserRole(role);
+		}
 
-      if ( role != null ) {
-         setUserRole(role);
-      }
+		setRemoteUser("fred"); //$NON-NLS-1$
 
-      setRemoteUser("fred"); //$NON-NLS-1$
+		HttpRequestProcessor request = (HttpRequestProcessor) RequestProcessorFactory
+				.instance(this.config, getContext(), getRequest(),
+						getResponse());
 
-      HttpRequestProcessor request = (HttpRequestProcessor) RequestProcessorFactory.instance(this.config,getContext(),getRequest(),getResponse());
-      
-      try {
-         request.processRequest();
-         fail();
-      } catch ( AuthorizationException expected ) {
-    	  // expected
-      }
-   }
+		try {
+			request.processRequest();
+			fail();
+		} catch (AuthorizationException expected) {
+			// expected
+		}
+	}
 }

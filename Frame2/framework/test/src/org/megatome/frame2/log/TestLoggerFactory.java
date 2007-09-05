@@ -49,20 +49,21 @@
  * ====================================================================
  */
 package org.megatome.frame2.log;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import junit.framework.TestCase;
-
-import org.megatome.frame2.log.Logger;
-import org.megatome.frame2.log.LoggerException;
-import org.megatome.frame2.log.LoggerFactory;
+import org.junit.Test;
 import org.megatome.frame2.log.impl.Log4jLogger;
 import org.megatome.frame2.log.impl.StandardLogger;
 
 /**
  * 
  */
-public class TestLoggerFactory extends TestCase {
+public class TestLoggerFactory {
 
+	@Test
     public void testStandardLogger () throws LoggerException {
         String className = "org.megatome.frame2.log.impl.StandardLogger"; //$NON-NLS-1$
         LoggerFactory.setType(className, this.getClass().getClassLoader()); 
@@ -73,6 +74,7 @@ public class TestLoggerFactory extends TestCase {
       
     }
    
+	@Test
     public void testLog4jLogger () throws LoggerException {
         String className = "org.megatome.frame2.log.impl.Log4jLogger"; //$NON-NLS-1$
         LoggerFactory.setType(className, this.getClass().getClassLoader()); 
@@ -83,7 +85,7 @@ public class TestLoggerFactory extends TestCase {
       
     }
    
-   
+	@Test
     public void testBogusLogger () {
         String className = "org.megatome.frame2.log.impl.BogusLogger"; //$NON-NLS-1$
         try {

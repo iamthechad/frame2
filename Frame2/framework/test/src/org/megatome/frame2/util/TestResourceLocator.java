@@ -49,26 +49,31 @@
  * ====================================================================
  */
 package org.megatome.frame2.util;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import junit.framework.TestCase;
-
+import org.junit.After;
+import org.junit.Test;
 import org.megatome.frame2.Globals;
-import org.megatome.frame2.util.ResourceLocator;
 
 import servletunit.ServletContextSimulator;
 
-public class TestResourceLocator extends TestCase {
+public class TestResourceLocator {
 
-   @Override
-protected void tearDown() {
+   @After
+public void tearDown() {
       ResourceLocator.setBasename(null);
    }
 
+   @Test
    public void testDefaultBundle() throws Exception {
       ResourceBundle bundle = ResourceLocator.getBundle();
 
@@ -77,6 +82,7 @@ protected void tearDown() {
       assertFalse(keys.hasMoreElements());
    }
 
+   @Test
    public void testDefaultBundle_FR() throws Exception {
       ResourceBundle bundle = ResourceLocator.getBundle(Locale.FRENCH);
 
@@ -85,6 +91,7 @@ protected void tearDown() {
       assertFalse(keys.hasMoreElements());
    }
 
+   @Test
    public void testResetBundleName() throws Exception {
       ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
       
@@ -113,6 +120,7 @@ protected void tearDown() {
       }
    }
 
+   @Test
    public void testSetResourceBundle() throws Exception {
       ServletContextSimulator context = new ServletContextSimulator();
       context.setInitParameter(Globals.RESOURCE_BUNDLE,"frame2-resource"); //$NON-NLS-1$
@@ -131,6 +139,7 @@ protected void tearDown() {
 		}
    }
 
+   @Test
    public void testSetResourceBundle_FR() throws Exception {
       ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 
@@ -148,7 +157,7 @@ protected void tearDown() {
       assertSame(bundle,ResourceLocator.getBundle(Locale.FRENCH));
    }
 
-
+   @Test
    public void testSetResourceBundle_DE() throws Exception {
       ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 

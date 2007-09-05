@@ -49,6 +49,12 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -66,6 +72,8 @@ import javax.servlet.http.HttpServletRequest;
 import junitx.framework.FileAssert;
 
 import org.apache.commons.fileupload.FileItem;
+import org.junit.After;
+import org.junit.Test;
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.event.Event;
 import org.megatome.frame2.front.config.ViewType;
@@ -85,14 +93,13 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 
 	private long origMaxFileSize;
 
-	public TestHttpRequestProcessor(String name) {
-		super(name);
-
+	public TestHttpRequestProcessor() {
 		this.origTmpDir = FileUploadConfig.getFileTempDir();
 		this.origBufferSize = FileUploadConfig.getBufferSize();
 		this.origMaxFileSize = FileUploadConfig.getMaxFileSize();
 	}
 
+	@Test
 	public void testGetEvent() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -107,6 +114,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertTrue(event instanceof Event1);
 	}
 
+	@Test
 	public void testMapRequestToEvent() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -195,6 +203,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		}
 	}
 
+	@Test
 	public void testMultipartUploadSingle() throws Exception {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files = new HashMap<String, String>();
@@ -221,6 +230,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyFiles(fi, "testSingleFileUpload.xml", fileName); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testMultipartUploadLargeSingle() throws Exception {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files = new HashMap<String, String>();
@@ -247,6 +257,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyFiles(fi, "testSingleBigFileUpload.xml", fileName); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testMultipartUploadMultipleDiffParam() throws Exception {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files1 = new HashMap<String, String>();
@@ -283,6 +294,8 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyFiles(fi, "testMultFileUpload2.xml", fileName2); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testMultipartUploadMultipleSameParam() throws Exception {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files1 = new HashMap<String, String>();
@@ -319,6 +332,8 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyFiles(fi[1], "testMultFileSameParamUpload2.xml", fileName2); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testSingleParamToArray() throws Exception {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> files1 = new HashMap<String, String>();
@@ -348,6 +363,8 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyFiles(fi[0], "testParmToArrayUpload.xml", fileName1); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testSingleArrayParamToSingle() throws Exception {
 		Map<String, String> parms = new HashMap<String, String>();
 		Map<String, String> parms2 = new HashMap<String, String>();
@@ -379,6 +396,8 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyFiles(fi[0], "testArrayToSingleParmUpload.xml", fileName1); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testOverrideFileUploadValues() {
 		resetFileUploadValues();
 
@@ -398,6 +417,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertEquals(238, newMaxFileSize);
 	}
 
+	@Test
 	public void testNegativeOverrideFileUploadValues() {
 		resetFileUploadValues();
 
@@ -410,6 +430,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertTrue(this.origMaxFileSize == newMaxFileSize);
 	}
 
+	@Test
 	public void testUploadOverrideTmpDir() throws Exception {
 		String userDir = System.getProperty("user.home") + File.separator; //$NON-NLS-1$
 		FileUploadConfig.setFileTempDir(userDir);
@@ -417,6 +438,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		testMultipartUploadSingle();
 	}
 
+	@Test
 	public void testNegativeUploadOverrideTmpDir() throws Exception {
 		String tmpDir = "Q:\\bogus"; //$NON-NLS-1$
 		FileUploadConfig.setFileTempDir(tmpDir);
@@ -441,6 +463,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertNull(fi);
 	}
 
+	@Test
 	public void testNegativeUploadOverrideMaxSize() throws Exception {
 		long fileSize = 1024;
 		FileUploadConfig.setMaxFileSize(fileSize);
@@ -465,6 +488,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertNull(fi);
 	}
 
+	@Test
 	public void testMapRequestToEvent_Fails() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -484,6 +508,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertEquals("value4", event.getParm2()); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testMapRequestToEvent_FailsButDisabled() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -503,6 +528,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertEquals("value4", event.getParm2()); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testMapRequestToEvent_WithNoMapping() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -518,6 +544,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testForwardNameReturnedByHandlerAvailableAtGlobalOnly()
 			throws Exception {
 		Configuration config = new Configuration(
@@ -535,6 +562,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertEquals(view.getPath(), "/view1.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testIncorrectForwardNameReturnedByHandler() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -550,6 +578,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testForwardNameReturnedByHandler() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -567,6 +596,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testViewForHTMLEventMapping() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -583,6 +613,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertEquals(view.getPath(), "/view4.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testNonExistentViewForEventMapping() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -598,6 +629,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testUsingCorrectPathOfLocalForwardInsteadOfGlobal()
 			throws Exception {
 		Configuration config = new Configuration(
@@ -616,6 +648,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testLocalForwardToAnEvent() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -626,6 +659,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testGlobalForwardToAnEvent() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -636,6 +670,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testEventMappingViewToAnEvent() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -646,6 +681,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	}
 
 	@SuppressWarnings("null")
+	@Test
 	public void testRequestDispatcherHasCorrectView() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -665,6 +701,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("/ev2.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testProcessRequest() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -676,6 +713,8 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("/ev2.jsp"); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testProcessRequest_EventValidationFails() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -694,6 +733,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("/view4.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testProcessRequest_ParseValidation() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -726,6 +766,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		}
 	}
 
+	@Test
 	public void testProcessRequest_CancelToHTMLResource() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-cancel.xml"); //$NON-NLS-1$
@@ -741,6 +782,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("/cancel.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testProcessRequest_CancelToEvent() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-cancel.xml"); //$NON-NLS-1$
@@ -762,6 +804,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	 * introspection and do not have an input view. Very confusing for the app
 	 * developer.
 	 */
+	@Test
 	public void testProcessRequestIntrospectionFails() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -794,6 +837,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	 * used. Any event after the initial one does not gets it name set
 	 * correctly.
 	 */
+	@Test
 	public void testProcessRequestEventChain() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -820,6 +864,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 	 * available in an event handler does not have access to the servlet
 	 * context.
 	 */
+	@Test
 	public void testProcessRequestServletContext() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -836,6 +881,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertTrue(msg.equals("bar")); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testAppendAttributes() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -847,6 +893,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("/success.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testValidateChainedEvent() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -858,6 +905,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("/fail.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testViewExceptionForwardToPath() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -871,6 +919,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("/view4.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testConfigExceptionForwardToEvent() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -884,6 +933,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("/view4.jsp"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testHandlerExceptionForwardToEvent() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
@@ -898,6 +948,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 
 	}
 
+	@Test
 	public void testRedirectHasCorrectView() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-redirect-config.xml"); //$NON-NLS-1$
@@ -908,6 +959,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		verifyForwardPath("http://frame2.org/redirect.jsp?firstName=Barney&lastName=Jones&middle=Jeff"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testNoEventNeeded() {
 		try {
 			Configuration config = new Configuration(
@@ -927,6 +979,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 				getContext(), getRequest(), getResponse());
 	}
 
+	@Test
 	public void testNegativeHttpRequestProcessorClass() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/httpRequestNegativeClass.xml"); //$NON-NLS-1$
@@ -935,6 +988,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertNull(requestProcessor);
 	}
 
+	@Test
 	public void testNegativeHttpRequestProcessorClassImplementRequestProcessor()
 			throws Exception {
 		Configuration config = new Configuration(
@@ -944,6 +998,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertNull(requestProcessor);
 	}
 
+	@Test
 	public void testHttpRequestProcessorDefaultRequestProcessors()
 			throws Exception {
 		Configuration config = new Configuration(
@@ -956,6 +1011,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertEquals(className, requestProcessor.getClass().getName());
 	}
 
+	@Test
 	public void testCustomHttpRequestProcessor() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/httpRequestCustom.xml"); //$NON-NLS-1$
@@ -966,6 +1022,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		assertEquals(className, requestProcessor.getClass().getName());
 	}
 
+	@Test
 	public void testEventNameFromContext() {
 		try {
 			String EVENT_NAME = "event5"; //$NON-NLS-1$
@@ -985,6 +1042,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 
 	}
 
+	@Test
 	public void testEventFailValidationEventStillInRequest() throws Throwable {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/httpRequestProc.xml"); //$NON-NLS-1$
@@ -1006,7 +1064,8 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 		}
 	}
 
-	private void resetFileUploadValues() {
+	@After
+	public void resetFileUploadValues() {
 		FileUploadConfig.setFileTempDir(this.origTmpDir);
 		FileUploadConfig.setBufferSize(this.origBufferSize);
 		FileUploadConfig.setMaxFileSize(this.origMaxFileSize);

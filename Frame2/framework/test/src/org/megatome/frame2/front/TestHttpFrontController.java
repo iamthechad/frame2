@@ -49,12 +49,16 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import org.junit.Test;
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.front.config.EventDef;
 import org.megatome.frame2.front.config.EventHandlerDef;
@@ -70,33 +74,11 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 	private HttpServletRequestSimulator request;
 	private HttpServletResponseSimulator response;
 
-	/**
-	 * Constructor for TestHttpFrontController.
-	 *
-	 * @param name
-	 */
-	public TestHttpFrontController(String name) {
-		super(name);
-
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		this.request = (HttpServletRequestSimulator)getRequest();
 		this.response = (HttpServletResponseSimulator)getResponse();
-	}
-
-	/**
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-
 	}
 
 	private void postNegativeHttpReqProc() {
@@ -136,6 +118,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		return servlet;
 	}
 
+	@Test
 	public void testBlankRequest() {
 		try {
 			doEvent();
@@ -145,6 +128,8 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		}
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testInit() {
 		sendContextInitializedEvent(
 			Globals.CONFIG_FILE,
@@ -184,6 +169,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 
 	// NIT: This test is really more of a test of the Mock framework.  Should it be
 	// a separate test?
+	@Test
 	public void testInitConfig() {
 		assertNotNull(getRequest());
 		assertNotNull(getResponse());
@@ -197,6 +183,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		assertNotNull(servlet.getServletInfo());
 	}
 
+	@Test
 	public void testInstantiateHttpRequestProcessor() {
 
 		sendContextInitializedEvent(
@@ -207,6 +194,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 
 	}
 
+	@Test
 	public void testNegativeInstantiateHttpRequestProcessor() {
 
 		sendContextInitializedEvent(

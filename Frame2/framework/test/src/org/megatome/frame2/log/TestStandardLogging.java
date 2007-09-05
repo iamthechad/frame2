@@ -49,19 +49,22 @@
  * ====================================================================
  */
 package org.megatome.frame2.log;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 
-import junit.framework.TestCase;
-
-import org.megatome.frame2.log.Logger;
-import org.megatome.frame2.log.LoggerFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.log.impl.StandardLogger;
 
 /**
  * 
  */
-public class TestStandardLogging extends TestCase {
+public class TestStandardLogging {
 
 	final static String LOGGER_NAME = "org.megatome.frame2.log.TestLogging"; //$NON-NLS-1$
 
@@ -75,8 +78,8 @@ public class TestStandardLogging extends TestCase {
 
 	private Logger logger;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		this.stdFormatter = new java.util.logging.SimpleFormatter();
 		this.stdStream = new ByteArrayOutputStream(1000);
 		this.stdLogger = java.util.logging.Logger.getLogger(LOGGER_NAME);
@@ -100,17 +103,19 @@ public class TestStandardLogging extends TestCase {
 		this.logger = LoggerFactory.instance(LOGGER_NAME);
 	}
 
-	@Override
-	protected void tearDown() {
+	@After
+	public void tearDown() {
 		this.stdStream.reset();
 	}
 
+	@Test
 	public void testName() {
 		assertNotNull(this.logger);
 		assertTrue(this.logger instanceof StandardLogger);
 		assertEquals(LOGGER_NAME, this.logger.getName());
 	}
 
+	@Test
 	public void testStatusDebug() {
 		this.stdLogger.setLevel(java.util.logging.Level.INFO);
 		assertFalse(this.logger.isDebugEnabled());
@@ -118,6 +123,7 @@ public class TestStandardLogging extends TestCase {
 		assertTrue(this.logger.isDebugEnabled());
 	}
 
+	@Test
 	public void testStatusInfo() {
 		this.stdLogger.setLevel(java.util.logging.Level.WARNING);
 		assertFalse(this.logger.isInfoEnabled());
@@ -125,6 +131,7 @@ public class TestStandardLogging extends TestCase {
 		assertTrue(this.logger.isInfoEnabled());
 	}
 
+	@Test
 	public void testStatusWarn() {
 		this.stdLogger.setLevel(java.util.logging.Level.SEVERE);
 		assertFalse(this.logger.isWarnEnabled());
@@ -132,6 +139,7 @@ public class TestStandardLogging extends TestCase {
 		assertTrue(this.logger.isWarnEnabled());
 	}
 
+	@Test
 	public void testStatusSevere() {
 		this.stdLogger.setLevel(java.util.logging.Level.OFF);
 		assertFalse(this.logger.isSevereEnabled());
@@ -139,6 +147,7 @@ public class TestStandardLogging extends TestCase {
 		assertTrue(this.logger.isSevereEnabled());
 	}
 
+	@Test
 	public void testLogDebug() {
 		this.logger.debug("debug message"); //$NON-NLS-1$
 
@@ -151,6 +160,7 @@ public class TestStandardLogging extends TestCase {
 		assertLog("debug"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testLogInfo() {
 		this.logger.info("info message"); //$NON-NLS-1$
 
@@ -162,6 +172,7 @@ public class TestStandardLogging extends TestCase {
 		assertLog("info"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testLogSevere() {
 		this.logger.severe("severe message"); //$NON-NLS-1$
 
@@ -174,6 +185,7 @@ public class TestStandardLogging extends TestCase {
 		assertLog("severe"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testLogWarn() {
 		this.logger.warn("warn message"); //$NON-NLS-1$
 

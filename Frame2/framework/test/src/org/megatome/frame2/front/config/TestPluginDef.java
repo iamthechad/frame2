@@ -50,14 +50,16 @@
  */
 package org.megatome.frame2.front.config;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.megatome.frame2.front.config.PluginDef;
-
-public class TestPluginDef extends TestCase {
+public class TestPluginDef {
 
 	private static final String VALUE = "value1"; //$NON-NLS-1$
 	private static final String PARAM = "param1"; //$NON-NLS-1$
@@ -66,31 +68,12 @@ public class TestPluginDef extends TestCase {
 
 	private PluginDef pluginDef;
 
-	public TestPluginDef() {
-		super();
-	}
-
-	public TestPluginDef(String name) {
-		super(name);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		this.pluginDef = new PluginDef();
 	}
 
-	/**
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
+	@Test
 	public void testPluginDef() {
 		this.pluginDef.setName(PLUGIN_NAME);
 		this.pluginDef.setType(PLUGIN_TYPE);
@@ -99,6 +82,7 @@ public class TestPluginDef extends TestCase {
 		assertEquals(PLUGIN_TYPE, this.pluginDef.getType());
 	}
 
+	@Test
 	public void testPluginDefParams() {
 		Map<String, String> fakeParams = new HashMap<String, String>();
 		fakeParams.put(PARAM, VALUE);

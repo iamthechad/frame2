@@ -50,6 +50,13 @@
  */
 package org.megatome.frame2.front;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.OutputStream;
 import java.util.List;
 
@@ -58,8 +65,8 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.Frame2Exception;
 import org.megatome.frame2.event.Context;
 import org.megatome.frame2.front.config.ViewType;
@@ -72,13 +79,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class TestSoapRequestProcessor extends TestCase {
+public class TestSoapRequestProcessor {
 	final private static String TARGET_PKG = "org.megatome.frame2.jaxbgen"; //$NON-NLS-1$
 	private Element[] elements;
 	private Configuration config;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		this.config = new Configuration(
 				"org/megatome/frame2/front/test-wsconfig.xml"); //$NON-NLS-1$
 		this.elements = Helper.loadEvents(
@@ -86,6 +93,8 @@ public class TestSoapRequestProcessor extends TestCase {
 		ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testUnmarshallElements() throws Exception {
 		SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory
 				.instance(this.config, this.elements, TARGET_PKG);
@@ -106,6 +115,8 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertEquals("1999-10-20", Helper.calendarToString(po.getOrderDate())); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testUnmarshallElements_Empty() throws Exception {
 		SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory
 				.instance(this.config, new Element[3], TARGET_PKG);
@@ -118,6 +129,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertEquals(0, events.size());
 	}
 
+	@Test
 	public void testCallHandler() throws Exception {
 		SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory
 				.instance(this.config, this.elements, TARGET_PKG);
@@ -135,6 +147,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertEquals(PurchaseOrderHandler.NEW_COMMENT, poi.getComment());
 	}
 
+	@Test
 	public void testCallHandlerReponder() throws Exception {
 		SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory
 				.instance(this.config, this.elements, TARGET_PKG);
@@ -149,6 +162,7 @@ public class TestSoapRequestProcessor extends TestCase {
 				"org.megatome.frame2.front.AckResponder", response.getPath()); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testCallHandlerReponderChildren() throws Exception {
 		this.elements = Helper.loadEvents(
 				"org/megatome/frame2/jaxb/pochildren.xml", getClass()); //$NON-NLS-1$
@@ -165,6 +179,7 @@ public class TestSoapRequestProcessor extends TestCase {
 				"org.megatome.frame2.front.AckResponder", response.getPath()); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testProcessRequestChildren() throws Exception {
 		this.elements = Helper.loadEvents(
 				"org/megatome/frame2/jaxb/pochildren.xml", getClass()); //$NON-NLS-1$
@@ -176,6 +191,8 @@ public class TestSoapRequestProcessor extends TestCase {
 	}
 
 	// POTestChildrenMixedData.xml, 3 po orders, 3rd has bad date
+	@SuppressWarnings("boxing")
+	@Test
 	public void testProcessRequestChildrenMixedData() throws Exception {
 		ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 
@@ -208,6 +225,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		}
 	}
 
+	@Test
 	public void testCallHandlerInvalidEvent() throws Exception {
 		SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory
 				.instance(this.config, this.elements, TARGET_PKG);
@@ -223,6 +241,7 @@ public class TestSoapRequestProcessor extends TestCase {
 
 	}
 
+	@Test
 	public void testMarshalResponse() throws Exception {
 		SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory
 				.instance(this.config, this.elements, TARGET_PKG);
@@ -236,6 +255,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertNotNull(element);
 	}
 
+	@Test
 	public void testMarshalResponse_Null() throws Exception {
 		SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory
 				.instance(this.config, this.elements, TARGET_PKG);
@@ -261,6 +281,7 @@ public class TestSoapRequestProcessor extends TestCase {
 	 * simply pass in the DOM element. } }
 	 */
 
+	@Test
 	public void testProcessRequest() throws Exception {
 		SoapRequestProcessor processor = (SoapRequestProcessor) RequestProcessorFactory
 				.instance(this.config, this.elements, TARGET_PKG);
@@ -271,6 +292,8 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertEquals("purchaseOrder", result[0].getLocalName()); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testProcessRequest_Batch() throws Exception {
 		Element[] batchElements = new Element[] { this.elements[0],
 				this.elements[0], this.elements[0] };
@@ -286,6 +309,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertEquals(3, result.length);
 	}
 
+	@Test
 	public void testProcessRequest_Passthru() throws Exception {
 		Document doc = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder().newDocument();
@@ -314,6 +338,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		return pot.getValue();
 	}
 
+	@Test
 	public void testNegativeSoapRequestProcessorClass() throws Exception {
 		Document doc = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder().newDocument();
@@ -325,6 +350,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertNull(requestProcessor);
 	}
 
+	@Test
 	public void testNegativeSoapRequestProcessorClassImplementRequestProcessor()
 			throws Exception {
 		Document doc = DocumentBuilderFactory.newInstance()
@@ -337,6 +363,7 @@ public class TestSoapRequestProcessor extends TestCase {
 		assertNull(requestProcessor);
 	}
 
+	@Test
 	public void testSoapRequestProcessorDefaultRequestProcessors()
 			throws Exception {
 		Configuration cfg = new Configuration(
@@ -353,6 +380,7 @@ public class TestSoapRequestProcessor extends TestCase {
 
 	}
 
+	@Test
 	public void testCustomSoapRequestProcessor() throws Exception {
 		Document doc = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder().newDocument();

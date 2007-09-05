@@ -50,28 +50,16 @@
  */
 package org.megatome.frame2.front.config;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
+import org.junit.Test;
 import org.megatome.frame2.front.config.RequestProcessorDef;
 
-public class TestRequestProcessorDef extends TestCase {
+public class TestRequestProcessorDef {
 
 	private static final String DEF_TYPE = "org.megatome.something"; //$NON-NLS-1$
 
-	/**
-	 * 
-	 */
-	public TestRequestProcessorDef() {
-		super();
-	}
-
-	/**
-	 * @param name
-	 */
-	public TestRequestProcessorDef(String name) {
-		super(name);
-	}
-
+	@Test
 	public void testRequestProcessorDef() {
 		RequestProcessorDef def = new RequestProcessorDef();
 

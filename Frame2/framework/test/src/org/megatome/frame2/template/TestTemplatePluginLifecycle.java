@@ -49,10 +49,15 @@
  * ====================================================================
  */
 package org.megatome.frame2.template;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Test;
 import org.megatome.frame2.plugin.PluginException;
 import org.megatome.frame2.template.config.TemplateConfiguration;
 import org.megatome.frame2.template.config.TemplateConfigurationInterface;
@@ -66,32 +71,14 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
     private MockFrame2ServletContextSimulator context;
     private TemplatePlugin plugin;
 
-    /**
-     * Constructor for TestHttpFrontController.
-     * @param name
-     */
-    public TestTemplatePluginLifecycle(String name) {
-        super(name);
-    }
-
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
     @Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
         super.setUp();
         this.context = (MockFrame2ServletContextSimulator)getContext();
         this.plugin = new TemplatePlugin();
     }
 
-    /**
-     * @see junit.framework.TestCase#tearDown()
-     */
-    @Override
-	protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testTemplatePluginSingleLoadDefaultDir() {
         TemplateConfigurationInterface config = testTemplatePlugin(null);
 
@@ -114,6 +101,7 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
         assertTrue(def.getPutParams().isEmpty());
     }
 
+    @Test
     public void testTemplatePluginSingleLoad() {
         TemplateConfigurationInterface config = testTemplatePlugin("/templates/good/single/"); //$NON-NLS-1$
 
@@ -127,6 +115,7 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
         assertTrue(params.get("yyy").equals("yyy.jsp")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
+    @Test
     public void testTemplatePluginDestroy() {
         testTemplatePluginSingleLoad();
         this.plugin.destroy(this.context, new HashMap<String, String>());
@@ -139,10 +128,12 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
         }
     }
 
+    @Test
     public void testNegativeTemplatePluginSingleLoad() {
         testNegativeTemplatePlugin("/templates/bad/single/"); //$NON-NLS-1$
     }
 
+    @Test
     public void testNegativeTemplatePluginTemplatePath() {
         String dir = "/templates/bad/validateTemplatePaths/"; //$NON-NLS-1$
         String exceptionMsg = testNegativeTemplatePlugin(dir);
@@ -151,6 +142,7 @@ public class TestTemplatePluginLifecycle extends MockFrame2TestCase {
                 + "badpath", exceptionMsg); //$NON-NLS-1$
     }
 
+    @Test
     public void testNegativeTemplatePluginPutPath() {
         String dir = "/templates/bad/validateTemplatePutPaths/"; //$NON-NLS-1$
         String exceptionMsg = testNegativeTemplatePlugin(dir);

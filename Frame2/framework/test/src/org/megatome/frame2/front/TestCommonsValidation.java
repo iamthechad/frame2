@@ -49,9 +49,12 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import javax.servlet.ServletException;
 
+import org.junit.Test;
 import org.megatome.frame2.Globals;
 
 import servletunit.HttpServletRequestSimulator;
@@ -63,46 +66,13 @@ public class TestCommonsValidation extends MockFrame2TestCase {
 	private HttpServletRequestSimulator request;
 	private HttpServletResponseSimulator response;
 
-	/**
-	 * Constructor for TestCommonsValidation.
-	 *
-	 * @param name
-	 */
-	public TestCommonsValidation(String name) {
-		super(name);
-
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		this.request = (HttpServletRequestSimulator)getRequest();
 		this.response = (HttpServletResponseSimulator)getResponse();
 	}
 
-	/**
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-
-	}
-/*
-	private void postNegativeHttpReqProc() {
-		HttpFrontController servlet = initializeServlet();
-
-		try {
-			servlet.doPost(request, response);
-		} catch (Exception e) {
-			return;
-		}
-		fail();
-	}
-*/
 	private void postHttpReqProc() {
 		HttpFrontController servlet = initializeServlet();
 
@@ -129,6 +99,7 @@ public class TestCommonsValidation extends MockFrame2TestCase {
 		return servlet;
 	}
 
+	@Test
 	public void testInvokeValidate() {
 
 		sendContextInitializedEvent(

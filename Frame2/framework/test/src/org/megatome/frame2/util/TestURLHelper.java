@@ -49,15 +49,16 @@
  * ====================================================================
  */
 package org.megatome.frame2.util;
+import static org.junit.Assert.assertEquals;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TestURLHelper extends TestCase {
+public class TestURLHelper {
 
 	final static String PARAM_1_NAME = "param1"; //$NON-NLS-1$
 
@@ -73,6 +74,7 @@ public class TestURLHelper extends TestCase {
 
 	final static String BASE_URI = "test.f2"; //$NON-NLS-1$
 
+	@Test
 	public void testURLEncoding() throws Exception {
 
 		String expected = "The+string+%C3%BC%40foo-bar" //$NON-NLS-1$
@@ -85,6 +87,7 @@ public class TestURLHelper extends TestCase {
 		assertEquals(expected, actual);
 	}
 
+	@Test
 	public void testNullHashMap() throws Exception {
 		String uri = BASE_URI;
 		String expected = BASE_URI;
@@ -92,6 +95,7 @@ public class TestURLHelper extends TestCase {
 		assertEquals(expected, actual);
 	}
 
+	@Test
 	public void testEmptyHashMap() throws Exception {
 		String uri = BASE_URI;
 		String expected = BASE_URI;
@@ -99,6 +103,7 @@ public class TestURLHelper extends TestCase {
 		assertEquals(expected, actual);
 	}
 
+	@Test
 	public void testOneEmptyEntryHashMap() throws Exception {
 		String uri = BASE_URI;
 		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_1_NAME
@@ -110,6 +115,7 @@ public class TestURLHelper extends TestCase {
 		assertEquals(expected, actual);
 	}
 
+	@Test
 	public void testOneEntryHashMap() throws Exception {
 		String uri = BASE_URI;
 		String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_1_NAME
@@ -120,6 +126,7 @@ public class TestURLHelper extends TestCase {
 		assertEquals(expected, actual);
 	}
 
+	@Test
 	public void testMultipleEntryHashMap() throws Exception {
 		String uri = BASE_URI;
 		// String expected = BASE_URI + URLHelper.QUESTION_MARK + PARAM_2_NAME +
@@ -138,6 +145,7 @@ public class TestURLHelper extends TestCase {
 		assertEquals(expected, actual);
 	}
 
+	@Test
 	public void testStringArrayAndBooleanObjectsInHashMap() throws Exception {
 		String uri = BASE_URI;
 		String expected = BASE_URI + URLHelper.QUESTION_MARK + 

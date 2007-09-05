@@ -49,7 +49,14 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.errors.Error;
 import org.megatome.frame2.errors.Errors;
 import org.megatome.frame2.jaxbgen.Items;
@@ -64,16 +71,16 @@ import servletunit.frame2.Frame2TestCase;
  */
 public class TestJaxbEventValidation extends Frame2TestCase {
 
-	public TestJaxbEventValidation(String name) {
-		super(name);
+	public TestJaxbEventValidation() {
+		super();
 	}
 
 	final private static String TARGET_PKG = "org.megatome.frame2.jaxbgen"; //$NON-NLS-1$
 	private PurchaseOrderType po;
 	private SoapRequestProcessor processor;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		Configuration config = new Configuration(
 				"org/megatome/frame2/front/test-wsconfig.xml"); //$NON-NLS-1$
 		Element[] elements = Helper.loadEvents(
@@ -86,6 +93,7 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 		this.po = (PurchaseOrderType) event.getEvents().get(0);
 	}
 
+	@Test
 	public void testEventInstanceOfCommonsValidatorEvent() {
 		try {
 			assertTrue(Class
@@ -95,6 +103,8 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 		}
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testValidateError_InvalidPartNum() throws Exception {
 
 		Items.Item item = this.po.getItems().getItem().get(0);
@@ -117,6 +127,8 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 		}
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testValidateError_InvalidDate() throws Exception {
 
 		Items.Item item = this.po.getItems().getItem().get(0);
@@ -139,6 +151,8 @@ public class TestJaxbEventValidation extends Frame2TestCase {
 		}
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
 	public void testValidateError_NullAddress() throws Exception {
 
 		this.po.setBillTo(null);

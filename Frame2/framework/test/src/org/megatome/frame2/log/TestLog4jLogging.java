@@ -49,22 +49,25 @@
  * ====================================================================
  */
 package org.megatome.frame2.log;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.WriterAppender;
-import org.megatome.frame2.log.Logger;
-import org.megatome.frame2.log.LoggerException;
-import org.megatome.frame2.log.LoggerFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.log.impl.Log4jLogger;
 
 /**
  * 
  */
-public class TestLog4jLogging extends TestCase {
+public class TestLog4jLogging {
 
 	final static String LOGGER_NAME = "org.megatome.frame2.log.TestLogging"; //$NON-NLS-1$
 
@@ -74,8 +77,8 @@ public class TestLog4jLogging extends TestCase {
 
 	private Logger logger;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		this.stdStream = new ByteArrayOutputStream(1000);
 		this.l4jLogger = org.apache.log4j.Logger.getLogger(LOGGER_NAME);
 
@@ -95,11 +98,12 @@ public class TestLog4jLogging extends TestCase {
 		this.logger = LoggerFactory.instance(LOGGER_NAME);
 	}
 
-	@Override
-	protected void tearDown() {
+	@After
+	public void tearDown() {
 		this.stdStream.reset();
 	}
 
+	@Test
 	public void testLoggerFindsLevel() {
 		Logger otherLogger = LoggerFactory.instance("some.other.logger"); //$NON-NLS-1$
 
@@ -116,12 +120,14 @@ public class TestLog4jLogging extends TestCase {
 		}
 	}
 
+	@Test
 	public void testName() {
 		assertNotNull(this.logger);
 		assertTrue(this.logger instanceof Log4jLogger);
 		assertEquals(LOGGER_NAME, this.logger.getName());
 	}
 
+	@Test
 	public void testLogDebug() {
 		this.logger.debug("debug message"); //$NON-NLS-1$
 
@@ -133,6 +139,7 @@ public class TestLog4jLogging extends TestCase {
 		assertTrue(this.stdStream.toString().indexOf("test exception") > 0); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testStatusDebug() {
 		this.l4jLogger.setLevel(org.apache.log4j.Level.INFO);
 		assertFalse(this.logger.isDebugEnabled());
@@ -140,6 +147,7 @@ public class TestLog4jLogging extends TestCase {
 		assertTrue(this.logger.isDebugEnabled());
 	}
 
+	@Test
 	public void testStatusInfo() {
 		this.l4jLogger.setLevel(org.apache.log4j.Level.WARN);
 		assertFalse(this.logger.isInfoEnabled());
@@ -147,6 +155,7 @@ public class TestLog4jLogging extends TestCase {
 		assertTrue(this.logger.isInfoEnabled());
 	}
 
+	@Test
 	public void testStatusWarn() {
 		this.l4jLogger.setLevel(org.apache.log4j.Level.ERROR);
 		assertFalse(this.logger.isWarnEnabled());
@@ -154,6 +163,7 @@ public class TestLog4jLogging extends TestCase {
 		assertTrue(this.logger.isWarnEnabled());
 	}
 
+	@Test
 	public void testStatusSevere() {
 		this.l4jLogger.setLevel(org.apache.log4j.Level.OFF);
 		assertFalse(this.logger.isSevereEnabled());
@@ -161,6 +171,7 @@ public class TestLog4jLogging extends TestCase {
 		assertTrue(this.logger.isSevereEnabled());
 	}
 
+	@Test
 	public void testLogInfo() {
 		this.logger.info("info message"); //$NON-NLS-1$
 
@@ -171,6 +182,7 @@ public class TestLog4jLogging extends TestCase {
 		assertTrue(this.stdStream.toString().indexOf("test exception") > 0); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testLogSevere() {
 		this.logger.severe("severe message"); //$NON-NLS-1$
 
@@ -182,6 +194,7 @@ public class TestLog4jLogging extends TestCase {
 		assertTrue(this.stdStream.toString().indexOf("test exception") > 0); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testLogWarn() {
 		this.logger.warn("warn message"); //$NON-NLS-1$
 

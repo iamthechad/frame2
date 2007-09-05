@@ -49,15 +49,15 @@
  * ====================================================================
  */
 package org.megatome.frame2.util;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.megatome.frame2.util.HTMLEncoder;
 
 /**
  * TestHTMLEncoder.java
  */
-public class TestHTMLEncoder extends TestCase {
+public class TestHTMLEncoder {
    public static final String CONTAINS_HTML_CHARS =
     "May the force <replaces angles > be 'tick ' and \" quote \" and & this!."; //$NON-NLS-1$
 
@@ -73,12 +73,14 @@ public class TestHTMLEncoder extends TestCase {
 
    public static final String NO_HTML_CHARS = 
       "There should be no substitutions here!."; //$NON-NLS-1$
-      
+     
+   @Test
    public void testHTMLEncoding(){
       String result = HTMLEncoder.encode(CONTAINS_HTML_CHARS);
       assertEquals(result,CONTAINS_HTML_CHARS_OUTPUT);
    }
    
+   @Test
    public void testNoHTMLEncoding(){
       String result = HTMLEncoder.encode(NO_HTML_CHARS);
       assertEquals(result,NO_HTML_CHARS);

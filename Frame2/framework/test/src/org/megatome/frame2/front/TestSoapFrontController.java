@@ -49,7 +49,11 @@
  * ====================================================================
  */
 package org.megatome.frame2.front;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import org.junit.Test;
 import org.megatome.frame2.Globals;
 import org.megatome.frame2.util.Helper;
 import org.w3c.dom.Element;
@@ -62,20 +66,8 @@ public class TestSoapFrontController extends MockFrame2TestCase {
 
 	Element[] elements;
 
-	/**
-	 * Constructor for TestSoapFrontController.
-	 * 
-	 * @param name
-	 */
-	public TestSoapFrontController(String name) {
-		super(name);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		this.elements = createPOEventXML();
 	}
@@ -91,20 +83,14 @@ public class TestSoapFrontController extends MockFrame2TestCase {
 		return el;
 	}
 
-	/**
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
+	@Test
 	public void testInstantiateSoapRequestProcessor() throws Exception {
 		sendContextInitializedEvent(Globals.CONFIG_FILE,
 				"/org/megatome/frame2/front/test-wsconfig.xml"); //$NON-NLS-1$
 		processSoapReqProc(true);
 	}
 
+	@Test
 	public void testNegativeInstantiateSoapRequestProcessor() throws Exception {
 		sendContextInitializedEvent(Globals.CONFIG_FILE,
 				"/org/megatome/frame2/front/test-negative-request-processor.xml"); //$NON-NLS-1$

@@ -52,12 +52,13 @@ package org.megatome.frame2.errors;
 
 import java.util.Locale;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import static org.junit.Assert.*;
+import org.junit.Test;
 import org.megatome.frame2.errors.impl.ErrorFactory;
 import org.megatome.frame2.util.ResourceLocator;
 
-public class TestError extends TestCase {
+public class TestError {
 
     private static final String TAG_QUESTION_WITH_TWO_PARMS = "tag.question.with.two.parms"; //$NON-NLS-1$
     private static final String TAG_QUESTION_WITH_PARM = "tag.question.with.parm"; //$NON-NLS-1$
@@ -75,38 +76,12 @@ public class TestError extends TestCase {
 
     static final String MSG_WITH_PARAMS = "Is this append Frame2?"; //$NON-NLS-1$
 
-    /**
-     * Constructor for TestError.
-     */
-    public TestError() {
-        super();
-    }
-
-    /**
-     * Constructor for TestError.
-     * @param name
-     */
-    public TestError(String name) {
-        super(name);
-    }
-
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-	protected void setUp() throws Exception {
+    @Before
+	public void setBundle() throws Exception {
         ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
-        super.setUp();
     }
 
-    /**
-     * @see junit.framework.TestCase#tearDown()
-     */
-    @Override
-	protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testEqualityNoValues() {
         Error error1 = ErrorFactory.createError(TAG_PREPEND);
         Error error2 = ErrorFactory.createError(TAG_PREPEND);
@@ -134,6 +109,7 @@ public class TestError extends TestCase {
         assertTrue(!error1.equals(error7));
     }
 
+    @Test
     public void testEqualityOneValue() {
         Error error1 = ErrorFactory.createError(TAG_PREPEND, VALUE1);
         Error error2 = ErrorFactory.createError(TAG_PREPEND, VALUE1);
@@ -163,6 +139,7 @@ public class TestError extends TestCase {
         assertTrue(!error1.equals(error8));
     }
 
+    @Test
     public void testEqualityTwoValues() {
         Error error1 = ErrorFactory.createError(TAG_PREPEND, VALUE1, VALUE2);
         Error error2 = ErrorFactory.createError(TAG_PREPEND, VALUE1, VALUE2);
@@ -194,6 +171,7 @@ public class TestError extends TestCase {
         assertTrue(!error1.equals(error9));
     }
 
+    @Test
     public void testEqualityThreeValues() {
         Error error1 = ErrorFactory.createError(TAG_PREPEND, VALUE1, VALUE2, VALUE3);
         Error error2 = ErrorFactory.createError(TAG_PREPEND, VALUE1, VALUE2, VALUE3);
@@ -227,12 +205,14 @@ public class TestError extends TestCase {
         assertTrue(!error1.equals(error10));
     }
 
+    @Test
     public void testSingleError() {
         Error error = ErrorFactory.createError(TAG_PREPEND);
         String msg = error.getMessage(Locale.US);
         assertEquals(PREPEND_MSG, msg);
     }
 
+    @Test
     public void testErrorWithOneParam() {
         Error prependError = ErrorFactory.createError(TAG_PREPEND);
         //String prependMsg = prependError.getMessage(Locale.US);
@@ -241,6 +221,7 @@ public class TestError extends TestCase {
         assertEquals(PREPEND_MSG + FRAME2_MSG, msg);
     }
 
+    @Test
     public void testErrorWithOneParamExpanded() {
         Error prependError = ErrorFactory.createError(TAG_PREPEND);
         String prependMsg = prependError.getMessage(Locale.US);
@@ -249,6 +230,7 @@ public class TestError extends TestCase {
         assertEquals(PREPEND_MSG + FRAME2_MSG, msg);
     }
 
+    @Test
     public void testErrorWithTwoParams() {
         Error prependError = ErrorFactory.createError(TAG_PREPEND);
         Error paramError = ErrorFactory.createError(TAG_APPEND);
@@ -258,6 +240,7 @@ public class TestError extends TestCase {
         assertEquals(PREPEND_MSG + MSG_WITH_PARAMS, msg);
     }
 
+    @Test
     public void testErrorWithTwoParamsExpanded() {
         Error prependError = ErrorFactory.createError(TAG_PREPEND);
         String prependMsg = prependError.getMessage(Locale.US);
@@ -269,6 +252,7 @@ public class TestError extends TestCase {
         assertEquals(PREPEND_MSG + MSG_WITH_PARAMS, msg);
     }
 
+    @Test
     public void testErrorWithThreeParams() {
         Error prependError = ErrorFactory.createError(TAG_PREPEND);
         Error paramError = ErrorFactory.createError(TAG_APPEND);
@@ -279,6 +263,7 @@ public class TestError extends TestCase {
         assertEquals(PREPEND_MSG + MSG_WITH_PARAMS + APPEND_MSG, msg);
     }
 
+    @Test
     public void testErrorWithThreeParamsExpanded() {
         Error prependError = ErrorFactory.createError(TAG_PREPEND);
         String prependMsg = prependError.getMessage(Locale.US);

@@ -13,6 +13,8 @@
 
 package servletunit.frame2;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.InputStream;
 
@@ -25,11 +27,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 
 import org.apache.commons.digester.Digester;
-import org.megatome.frame2.front.HttpFrontController;
+import org.junit.Before;
 import org.megatome.frame2.front.Frame2ContextListener;
+import org.megatome.frame2.front.HttpFrontController;
 import org.megatome.frame2.log.LoggerFactory;
 
 import servletunit.HttpServletResponseSimulator;
@@ -54,15 +56,7 @@ import servletunit.ServletContextSimulator;
  * details on how this file is located.
  */
 
-public class MockFrame2TestCase extends TestCase {
-
-    /**
-     * Constructor for MockFrame2TestCase.
-     * @param name
-     */
-    public MockFrame2TestCase(String name) {
-        super(name);
-    }
+public class MockFrame2TestCase {
 
     //HttpServletRequestSimulator request;
     Frame2HttpServletRequestSimulator request;
@@ -99,8 +93,8 @@ public class MockFrame2TestCase extends TestCase {
      * debugging, and creates a mock HttpServletRequest and HttpServletResponse
      * object to use in this test.
      */
-    @Override
-	protected void setUp() throws Exception {
+    @Before
+	public void setUp() throws Exception {
         if (this.servlet == null) {
             this.servlet = new HttpFrontController();
         }

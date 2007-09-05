@@ -49,13 +49,15 @@
  * ====================================================================
  */
 package org.megatome.frame2.validator;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 
 import org.apache.commons.validator.ValidatorResources;
+import org.junit.Test;
 import org.megatome.frame2.plugin.PluginException;
-import org.megatome.frame2.validator.CommonsValidatorPlugin;
-import org.megatome.frame2.validator.CommonsValidatorWrapper;
 
 import servletunit.frame2.MockFrame2ServletContextSimulator;
 import servletunit.frame2.MockFrame2TestCase;
@@ -65,31 +67,12 @@ public class TestCommonsValidatorPluginLifecycle extends MockFrame2TestCase {
     private MockFrame2ServletContextSimulator context;
     private CommonsValidatorPlugin plugin;
 
-    /**
-     * Constructor for TestCommonsValidatorPluginLifecycle.
-     * @param name
-     */
-    public TestCommonsValidatorPluginLifecycle(String name) {
-        super(name);
-    }
-
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
     @Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
         super.setUp();
         this.context = (MockFrame2ServletContextSimulator)getContext();
         this.plugin = new CommonsValidatorPlugin();
         CommonsValidatorWrapper.release();
-    }
-
-    /**
-     * @see junit.framework.TestCase#tearDown()
-     */
-    @Override
-	protected void tearDown() throws Exception {
-        super.tearDown();
     }
 
     public void pluginInit() {
@@ -104,6 +87,7 @@ public class TestCommonsValidatorPluginLifecycle extends MockFrame2TestCase {
         this.plugin.destroy(this.context, new HashMap<String, String>());
     }
 
+    @Test
     public void testPluginDefault() {
         pluginInit();
         ValidatorResources res = CommonsValidatorWrapper
@@ -116,6 +100,7 @@ public class TestCommonsValidatorPluginLifecycle extends MockFrame2TestCase {
 
     }
 
+    @Test
     public void testNegativePluginDefault() {
 
         CommonsValidatorWrapper

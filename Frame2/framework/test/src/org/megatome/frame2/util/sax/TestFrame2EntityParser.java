@@ -49,49 +49,30 @@
  * ====================================================================
  */
 package org.megatome.frame2.util.sax;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.megatome.frame2.Globals;
 import org.xml.sax.InputSource;
 
-public class TestFrame2EntityParser extends TestCase {
+public class TestFrame2EntityParser {
 
     private Frame2EntityResolver resolver = null;
-
-    // private static final String GOOD_FRAME2_PUBLIC_ID = "-//Megatome
-    // Technologies//DTD Frame2 Configuration 1.0//EN";
-    // private static final String GOOD_FRAME2_SYSTEM_ID =
-    // "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd";
 
     private static final String BAD_FRAME2_PUBLIC_ID = "-//Megatome Technologies//DTD Bob2 Configuration 1.0//EN"; //$NON-NLS-1$
     private static final String BAD_FRAME2_SYSTEM_ID = "http://frame2.sourceforge.net/dtds/bob2-config_1_0.dtd"; //$NON-NLS-1$
 
-    // private static final String GOOD_TEMPLATE_PUBLIC_ID = "-//Megatome
-    // Technologies//DTD Frame2 Template Plugin 1.0//EN";
-    // private static final String GOOD_TEMPLATE_SYSTEM_ID =
-    // "http://frame2.sourceforge.net/dtds/frame2-template_1_0.dtd";
-
     private static final String BAD_TEMPLATE_PUBLIC_ID = "-//Megatome Technologies//DTD Frame2 Bogus Plugin 1.0//EN"; //$NON-NLS-1$
     private static final String BAD_TEMPLATE_SYSTEM_ID = "http://frame2.sourceforge.net/dtds/frame2-bogus_1_0.dtd"; //$NON-NLS-1$
 
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-	protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+	public void setUp() throws Exception {
         this.resolver = new Frame2EntityResolver();
     }
 
-    /**
-     * @see junit.framework.TestCase#tearDown()
-     */
-    @Override
-	protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testResolveDTD() {
         InputSource is = null;
         is = this.resolver.resolveEntity(Globals.FRAME2_DTD_PUBLIC_ID,
@@ -100,6 +81,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNotNull("InputSource should not be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testNegativeResolveDTD() {
         InputSource is = null;
         is = this.resolver.resolveEntity(BAD_FRAME2_PUBLIC_ID, BAD_FRAME2_SYSTEM_ID);
@@ -107,6 +89,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNull("InputSource should be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testNegativePublicIdResolveDTD() {
         InputSource is = null;
         is = this.resolver.resolveEntity(BAD_FRAME2_PUBLIC_ID,
@@ -115,6 +98,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNull("InputSource should be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testNegativeSystemIdResolveDTD() {
         InputSource is = null;
         is = this.resolver.resolveEntity(Globals.FRAME2_DTD_PUBLIC_ID,
@@ -123,6 +107,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNull("InputSource should be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testResolveTemplateDTD() {
         InputSource is = null;
         is = this.resolver.resolveEntity(Globals.FRAME2_TEMPLATE_DTD_PUBLIC_ID,
@@ -131,6 +116,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNotNull("InputSource should not be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testNegativeResolveTemplateDTD() {
         InputSource is = null;
         is = this.resolver.resolveEntity(BAD_TEMPLATE_PUBLIC_ID,
@@ -139,6 +125,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNull("InputSource should be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testNegativePublicIdResolveTemplateDTD() {
         InputSource is = null;
         is = this.resolver.resolveEntity(BAD_TEMPLATE_PUBLIC_ID,
@@ -147,6 +134,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNull("InputSource should be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testNegativeSystemIdResolveTemplateDTD() {
         InputSource is = null;
         is = this.resolver.resolveEntity(Globals.FRAME2_TEMPLATE_DTD_PUBLIC_ID,
@@ -155,6 +143,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNull("InputSource should be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testNullPublicId() {
         InputSource is = null;
         is = this.resolver.resolveEntity(null, Globals.FRAME2_DTD_SYSTEM_ID);
@@ -162,6 +151,7 @@ public class TestFrame2EntityParser extends TestCase {
         assertNull("InputSource should be null", is); //$NON-NLS-1$
     }
 
+    @Test
     public void testNullSystemId() {
         InputSource is = null;
         is = this.resolver.resolveEntity(Globals.FRAME2_DTD_PUBLIC_ID, null);
