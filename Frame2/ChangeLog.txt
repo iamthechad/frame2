@@ -1,0 +1,19 @@
+I didn't maintain a list of changes before 1.3, changes to any version prior to 1.3 are not captured here.
+
+
+Changes in 1.3:
+--------------------
+Major Updates
+* Version 1.3 requires Java 6
+* Removed dependencies on Java Web Services Developer Kit since JAXB support is now in Java 6
+* Updated Frame2 DTD to allow specification of schemas for JAXB events. Schemas are used when validating the contents of a SOAP message.
+
+Minor Changes
+* Version 1.2 and earlier used two separate files for Commons Validation - a rules file and a mappings file. In 1.3, these files have been combined into a single file.
+
+Features
+* Added a way to pass event information to chained events without having to resort to something dodgy like sticking the information in the session.
+
+Bug Fixes
+* Don't crash when creating a SOAP fault and there are no matching properties for the error message.
+* Properly validate all chained events, not just the first.

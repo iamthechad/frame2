@@ -627,6 +627,7 @@
 		<fileset dir="${proj-base}">
 			<include name="LICENSE.txt"/>
 			<include name="THIRD_PARTY_LICENSE.txt"/>
+			<include name="ChangeLog.txt"/>
 			<include name="NOTICE.txt"/>
 			<include name="samples/**"/>
 			<include name="support_files/**"/>
@@ -688,6 +689,7 @@
 			<include name="LICENSE.txt"/>
 			<include name="README"/>
 			<include name="THIRD_PARTY_LICENSE.txt"/>
+			<include name="ChangeLog.txt"/>
 			<include name="NOTICE.txt"/>
 			<include name="build.xml"/>
 			<include name="building.txt"/>
@@ -738,6 +740,7 @@
 			<include name="LICENSE.txt"/>
 			<include name="README"/>
 			<include name="THIRD_PARTY_LICENSE.txt"/>
+			<include name="ChangeLog.txt"/>
 			<include name="NOTICE.txt"/>
 			<include name="build.xml"/>
 			<include name="building.txt"/>
