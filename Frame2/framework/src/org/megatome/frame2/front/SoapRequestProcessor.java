@@ -595,5 +595,12 @@ public class SoapRequestProcessor extends RequestProcessorBase {
 		public void clearResponseURIAttributes() {
 			this.responseAttrs.clear();
 		}
+		
+		@Override
+		public void removeResponseURIAttribute(final String key) {
+			if (key != null) {
+				this.responseAttrs.remove(key);
+			}
+		}
 	}
 }
