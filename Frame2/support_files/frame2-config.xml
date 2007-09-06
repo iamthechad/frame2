@@ -23,7 +23,8 @@
    <plugins>
    	   <!-- 
    	   Uncomment if you want use the Commons Validator. Be sure to include the appropriate
-   	   jars (commons-validator.jar, commons-digester.jar, commons-beanutils.jar, jakarta-oro.jar)
+   	   jars (commons-validator.jar, commons-digester.jar, commons-beanutils.jar, jakarta-oro.jar,
+   	   commons-logging.jar)
    	   in the web application's lib directory
 	   <plugin name="CommonsValidator" type="org.megatome.frame2.validator.CommonsValidatorPlugin"/>
 	   -->
