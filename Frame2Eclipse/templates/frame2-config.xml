@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE frame2-config PUBLIC
-  "-//Megatome Technologies//DTD Frame2 Configuration 1.0//EN"
-  "http://frame2.sourceforge.net/dtds/frame2-config_1_0.dtd">
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.1//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_1.dtd">
 
 <frame2-config>
    <global-forwards>
@@ -21,7 +21,11 @@
    </exceptions>
 
    <plugins>
-   	<!-- Uncomment if you want to use Commons Validation 
+   	   <!-- 
+   	   Uncomment if you want use the Commons Validator. Be sure to include the appropriate
+   	   jars (commons-validator.jar, commons-digester.jar, commons-beanutils.jar, jakarta-oro.jar,
+   	   commons-logging.jar)
+   	   in the web application's lib directory
 	   <plugin name="CommonsValidator" type="org.megatome.frame2.validator.CommonsValidatorPlugin"/>
 	   -->
 	   <!--
