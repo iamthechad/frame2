@@ -46,20 +46,22 @@ package org.megatome.frame2.model;
 
 public class Frame2ModelException extends Exception {
 
-   public Frame2ModelException() {
-      super();
-   }
+	private static final long serialVersionUID = 8526716906663642698L;
 
-   public Frame2ModelException(String message) {
-      super(message);
-   }
+	public Frame2ModelException() {
+		super();
+	}
 
-   public Frame2ModelException(String message, Throwable cause) {
-      super(message, cause);
-   }
+	public Frame2ModelException(final String message) {
+		super(message);
+	}
 
-   public Frame2ModelException(Throwable cause) {
-      super(cause);
-   }
+	public Frame2ModelException(final String message, final Throwable cause) {
+		super(message, cause);
+	}
+
+	public Frame2ModelException(final Throwable cause) {
+		super(cause);
+	}
 
 }

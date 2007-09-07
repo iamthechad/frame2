@@ -48,194 +48,229 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.megatome.frame2.Frame2Plugin;
 
-public class EventHandlers extends XMLCommentPreserver {
+public class EventHandlers extends Frame2DomainObject {
 
-   private List _EventHandler = new ArrayList(); // List<EventHandler>
+	private final List<EventHandler> eventHandlers = new ArrayList<EventHandler>(); // List<EventHandler>
 
-   public EventHandlers() {
-      clearComments();
-   }
+	public EventHandlers() {
+		clearComments();
+	}
 
-   // Deep copy
-   public EventHandlers(EventHandlers source) {
-      for (Iterator it = source._EventHandler.iterator(); it.hasNext();) {
-         _EventHandler.add(new EventHandler((EventHandler) it.next()));
-      }
+	@Override
+	public EventHandlers copy() {
+		return new EventHandlers(this);
+	}
 
-      setComments(source.getCommentMap());
-   }
+	// Deep copy
+	private EventHandlers(final EventHandlers source) {
+		for (EventHandler handler : source.eventHandlers) {
+			this.eventHandlers.add(handler.copy());
+		}
 
-   // This attribute is an array, possibly empty
-   public void setEventHandler(EventHandler[] value) {
-      if (value == null) value = new EventHandler[0];
-      _EventHandler.clear();
-      for (int i = 0; i < value.length; ++i) {
-         _EventHandler.add(value[i]);
-      }
-   }
+		setComments(source.getCommentMap());
+	}
 
-   public void setEventHandler(int index, EventHandler value) {
-      _EventHandler.set(index, value);
-   }
+	// This attribute is an array, possibly empty
+	public void setEventHandler(final EventHandler[] value) {
+		this.eventHandlers.clear();
+		if (value == null) {
+			return;
+		}
+		for (int i = 0; i < value.length; ++i) {
+			this.eventHandlers.add(value[i]);
+		}
+	}
 
-   public EventHandler[] getEventHandler() {
-      EventHandler[] arr = new EventHandler[_EventHandler.size()];
-      return (EventHandler[]) _EventHandler.toArray(arr);
-   }
+	public void setEventHandler(final int index, final EventHandler value) {
+		this.eventHandlers.set(index, value);
+	}
 
-   public List fetchEventHandlerList() {
-      return _EventHandler;
-   }
+	public EventHandler[] getEventHandler() {
+		final EventHandler[] arr = new EventHandler[this.eventHandlers.size()];
+		return this.eventHandlers.toArray(arr);
+	}
 
-   public EventHandler getEventHandler(int index) {
-      return (EventHandler) _EventHandler.get(index);
-   }
+	public List<EventHandler> fetchEventHandlerList() {
+		return this.eventHandlers;
+	}
 
-   // Return the number of eventHandler
-   public int sizeEventHandler() {
-      return _EventHandler.size();
-   }
+	public EventHandler getEventHandler(final int index) {
+		return this.eventHandlers.get(index);
+	}
 
-   public int addEventHandler(EventHandler value) {
-      _EventHandler.add(value);
-      return _EventHandler.size() - 1;
-   }
+	// Return the number of eventHandler
+	@Override
+	public int size() {
+		return this.eventHandlers.size();
+	}
 
-   // Search from the end looking for @param value, and then remove it.
-   public int removeEventHandler(EventHandler value) {
-      int pos = _EventHandler.indexOf(value);
-      if (pos >= 0) {
-         _EventHandler.remove(pos);
-      }
-      return pos;
-   }
+	public int addEventHandler(final EventHandler value) {
+		this.eventHandlers.add(value);
+		return this.eventHandlers.size() - 1;
+	}
 
-   public void writeNode(Writer out, String nodeName, String indent)
-         throws IOException {
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
-      out.write(nodeName);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
-      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-      int index = 0;
-      for (Iterator it = _EventHandler.iterator(); it.hasNext();) {
+	// Search from the end looking for @param value, and then remove it.
+	public int removeEventHandler(final EventHandler value) {
+		final int pos = this.eventHandlers.indexOf(value);
+		if (pos >= 0) {
+			this.eventHandlers.remove(pos);
+		}
+		return pos;
+	}
 
-         index = writeCommentsAt(out, indent, index);
+	public void writeNode(final Writer out, final String nodeName,
+			final String indent) throws IOException {
+		out.write(indent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(nodeName);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		final String nextIndent = indent
+				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+		int index = 0;
+		for (final Iterator<EventHandler> it = this.eventHandlers.iterator(); it
+				.hasNext();) {
 
-         EventHandler element = (EventHandler) it.next();
-         if (element != null) {
-            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.event-handler"), nextIndent); //$NON-NLS-1$
-         }
-      }
+			index = writeCommentsAt(out, indent, index);
 
-      writeRemainingComments(out, indent);
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+			final EventHandler element = it.next();
+			if (element != null) {
+				element
+						.writeNode(
+								out,
+								Frame2Plugin
+										.getResourceString("Frame2Model.event-handler"), nextIndent); //$NON-NLS-1$
+			}
+		}
 
-   public void readNode(Node node) {
-      NodeList children = node.getChildNodes();
-      int elementCount = 0;
-      for (int i = 0, size = children.getLength(); i < size; ++i) {
-         Node childNode = children.item(i);
-         String childNodeName = (childNode.getLocalName() == null ? childNode
-               .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = ""; //$NON-NLS-1$
-         if (childNode.getFirstChild() != null) {
-            childNodeValue = childNode.getFirstChild().getNodeValue();
-         }
-         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.event-handler"))) { //$NON-NLS-1$
-            EventHandler aEventHandler = new EventHandler();
-            aEventHandler.readNode(childNode);
-            _EventHandler.add(aEventHandler);
-            elementCount++;
-         } else {
-            // Found extra unrecognized childNode
-            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
-               recordComment(childNode, elementCount++);
-            }
-         }
-      }
-   }
+		writeRemainingComments(out, indent);
+		out.write(indent);
+		out
+				.write(Frame2Plugin
+						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-   public void validate() throws Frame2Config.ValidateException {
-      boolean restrictionFailure = false;
-      // Validating property eventHandler
-      for (int _index = 0; _index < sizeEventHandler(); ++_index) {
-         EventHandler element = getEventHandler(_index);
-         if (element != null) {
-            element.validate();
-         }
-      }
-   }
+	public void readNode(final Node node) {
+		final NodeList children = node.getChildNodes();
+		int elementCount = 0;
+		for (int i = 0, size = children.getLength(); i < size; ++i) {
+			final Node childNode = children.item(i);
+			final String childNodeName = (childNode.getLocalName() == null ? childNode
+					.getNodeName().intern()
+					: childNode.getLocalName().intern());
+			/*
+			 * String childNodeValue = ""; //$NON-NLS-1$ if
+			 * (childNode.getFirstChild() != null) { childNodeValue =
+			 * childNode.getFirstChild().getNodeValue(); }
+			 */
+			if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.event-handler"))) { //$NON-NLS-1$
+				final EventHandler aEventHandler = new EventHandler();
+				aEventHandler.readNode(childNode);
+				this.eventHandlers.add(aEventHandler);
+				elementCount++;
+			} else {
+				// Found extra unrecognized childNode
+				if (childNodeName.equals(Frame2Plugin
+						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+					recordComment(childNode, elementCount++);
+				}
+			}
+		}
+	}
 
-   public void changePropertyByName(String name, Object value) {
-      if (name == null) return;
-      name = name.intern();
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventHandler"))) //$NON-NLS-1$
-         addEventHandler((EventHandler) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventHandlerArray"))) //$NON-NLS-1$
-         setEventHandler((EventHandler[]) value);
-      else
-         throw new IllegalArgumentException(name
-               + Frame2Plugin.getResourceString("Frame2Model.invalidEventHandlersProperty")); //$NON-NLS-1$
-   }
+	public void validate() throws Frame2Config.ValidateException {
+		// boolean restrictionFailure = false;
+		// Validating property eventHandler
+		for (int _index = 0; _index < size(); ++_index) {
+			final EventHandler element = getEventHandler(_index);
+			if (element != null) {
+				element.validate();
+			}
+		}
+	}
 
-   public Object fetchPropertyByName(String name) {
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventHandlerArray"))) return getEventHandler(); //$NON-NLS-1$
-      throw new IllegalArgumentException(name
-            + Frame2Plugin.getResourceString("Frame2Model.invalidEventHandlersProperty")); //$NON-NLS-1$
-   }
+	public void changePropertyByName(final String name, final Object value) {
+		if (name == null) {
+			return;
+		}
+		final String intName = name.intern();
+		if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.eventHandler"))) { //$NON-NLS-1$
+			addEventHandler((EventHandler) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.eventHandlerArray"))) { //$NON-NLS-1$
+			setEventHandler((EventHandler[]) value);
+		} else {
+			throw new IllegalArgumentException(
+					intName
+							+ Frame2Plugin
+									.getResourceString("Frame2Model.invalidEventHandlersProperty")); //$NON-NLS-1$
+		}
+	}
 
-   // Return an array of all of the properties that are beans and are set.
-   public java.lang.Object[] childBeans(boolean recursive) {
-      List children = new LinkedList();
-      childBeans(recursive, children);
-      Object[] result = new Object[children.size()];
-      return (Object[]) children.toArray(result);
-   }
+	public Object fetchPropertyByName(final String name) {
+		if (name.equals(Frame2Plugin
+				.getResourceString("Frame2Model.eventHandlerArray"))) { //$NON-NLS-1$
+			return getEventHandler();
+		}
+		throw new IllegalArgumentException(
+				name
+						+ Frame2Plugin
+								.getResourceString("Frame2Model.invalidEventHandlersProperty")); //$NON-NLS-1$
+	}
 
-   // Put all child beans into the beans list.
-   public void childBeans(boolean recursive, java.util.List beans) {
-      for (java.util.Iterator it = _EventHandler.iterator(); it.hasNext();) {
-         EventHandler element = (EventHandler) it.next();
-         if (element != null) {
-            if (recursive) {
-               element.childBeans(true, beans);
-            }
-            beans.add(element);
-         }
-      }
-   }
+	// Put all child beans into the beans list.
+	public void childBeans(final boolean recursive, final List<Object> beans) {
+		for (final Iterator<EventHandler> it = this.eventHandlers.iterator(); it
+				.hasNext();) {
+			final EventHandler element = it.next();
+			if (element != null) {
+				if (recursive) {
+					element.childBeans(true, beans);
+				}
+				beans.add(element);
+			}
+		}
+	}
 
-   public boolean equals(Object o) {
-      if (o == this) return true;
-      if (!(o instanceof EventHandlers)) return false;
-      EventHandlers inst = (EventHandlers) o;
-      if (sizeEventHandler() != inst.sizeEventHandler()) return false;
-      // Compare every element.
-      for (Iterator it = _EventHandler.iterator(), it2 = inst._EventHandler
-            .iterator(); it.hasNext() && it2.hasNext();) {
-         EventHandler element = (EventHandler) it.next();
-         EventHandler element2 = (EventHandler) it2.next();
-         if (!(element == null ? element2 == null : element.equals(element2)))
-               return false;
-      }
-      return true;
-   }
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof EventHandlers)) {
+			return false;
+		}
+		final EventHandlers inst = (EventHandlers) o;
+		if (size() != inst.size()) {
+			return false;
+		}
+		// Compare every element.
+		for (Iterator<EventHandler> it = this.eventHandlers.iterator(), it2 = inst.eventHandlers
+				.iterator(); it.hasNext() && it2.hasNext();) {
+			final EventHandler element = it.next();
+			final EventHandler element2 = it2.next();
+			if (!(element == null ? element2 == null : element.equals(element2))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-   public int hashCode() {
-      int result = 17;
-      result = 37 * result
-            + (_EventHandler == null ? 0 : _EventHandler.hashCode());
-      return result;
-   }
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 37
+				* result
+				+ (this.eventHandlers == null ? 0 : this.eventHandlers
+						.hashCode());
+		return result;
+	}
 
 }

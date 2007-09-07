@@ -50,20 +50,21 @@ import org.xml.sax.SAXParseException;
 
 public class Frame2ErrorHandler implements ErrorHandler {
 
-   public Frame2ErrorHandler() {
-      super();
-   }
+	public Frame2ErrorHandler() {
+		super();
+	}
 
-   public void warning(SAXParseException exception) throws SAXException {
-      throw exception;
-   }
+	public void warning(final SAXParseException exception) throws SAXException {
+		throw exception;
+	}
 
-   public void error(SAXParseException exception) throws SAXException {
-      throw exception;
-   }
+	public void error(final SAXParseException exception) throws SAXException {
+		throw exception;
+	}
 
-   public void fatalError(SAXParseException exception) throws SAXException {
-      throw exception;
-   }
+	public void fatalError(final SAXParseException exception)
+			throws SAXException {
+		throw exception;
+	}
 
 }

@@ -78,42 +78,39 @@ import org.megatome.frame2.model.View;
 
 public class EventMappingWizard extends BaseFrame2Wizard {
 	private EventMappingWizardPage1 page1;
-    private EventMappingWizardPage2 page2;
-    private EventMappingWizardPage3 page3;
+	private EventMappingWizardPage2 page2;
+	private EventMappingWizardPage3 page3;
 
 	public EventMappingWizard() {
 		super();
 		setNeedsProgressMonitor(true);
 	}
 
+	@Override
 	public void addPages() {
-		page1 = new EventMappingWizardPage1(selection);
-        page2 = new EventMappingWizardPage2(selection);
-        page3 = new EventMappingWizardPage3(selection);
-		addPage(page1);
-        addPage(page2);
-        addPage(page3);
+		this.page1 = new EventMappingWizardPage1(this.selection);
+		this.page2 = new EventMappingWizardPage2(this.selection);
+		this.page3 = new EventMappingWizardPage3(this.selection);
+		addPage(this.page1);
+		addPage(this.page2);
+		addPage(this.page3);
 	}
 
+	@Override
 	public boolean performFinish() {
-		final String eventName = page1.getEventName();
-		final String inputView = page1.getInputView();
-        final String cancelView = page1.getCancelView();
-        final List handlers = page2.getSelectedHandlers();
-        final String htmlView = page3.getHTMLView();
-        final String xmlView = page3.getXMLView();
-        final List roles = page3.getSecurityRoles();
-		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+		final String eventName = this.page1.getEventName();
+		final String inputView = this.page1.getInputView();
+		final String cancelView = this.page1.getCancelView();
+		final List<String> handlers = this.page2.getSelectedHandlers();
+		final String htmlView = this.page3.getHTMLView();
+		final String xmlView = this.page3.getXMLView();
+		final List<String> roles = this.page3.getSecurityRoles();
+		final IRunnableWithProgress op = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
 				try {
-					doFinish(eventName, 
-                             inputView, 
-                             cancelView,
-                             handlers,
-                             htmlView,
-                             xmlView,
-                             roles,
-                             monitor);
+					doFinish(eventName, inputView, cancelView, handlers,
+							htmlView, xmlView, roles, monitor);
 				} catch (CoreException e) {
 					throw new InvocationTargetException(e);
 				} finally {
@@ -123,87 +120,93 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 		};
 		try {
 			getContainer().run(true, false, op);
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			return false;
-		} catch (InvocationTargetException e) {
-			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), Frame2Plugin.getResourceString("EventMappingWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
+		} catch (final InvocationTargetException e) {
+			final Throwable realException = e.getTargetException();
+			MessageDialog
+					.openError(
+							getShell(),
+							Frame2Plugin
+									.getResourceString("EventMappingWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;
 	}
-	
-	private void doFinish(
-		String eventName,
-		String inputView,
-        String cancelView,
-        List handlers,
-        String htmlView,
-        String xmlView,
-        List roles,
-		IProgressMonitor monitor)
-		throws CoreException {
-		monitor.beginTask(Frame2Plugin.getResourceString("EventMappingWizard.creatingMappingStatus"), 1); //$NON-NLS-1$
-        
-        EventMapping mapping = new EventMapping();
-        mapping.setEventName(eventName);
-        
-        if (inputView.length() > 0) {
-            mapping.setInputView(inputView);
-            mapping.setValidate(Frame2Plugin.getResourceString("EventMappingWizard.true_value")); //$NON-NLS-1$
-        }
-        
-        if (cancelView.length() > 0) {
-            mapping.setCancelView(cancelView);
-        }
-        
-        for (Iterator i = handlers.iterator(); i.hasNext();) {
-            String handlerName = (String)i.next();
-            Handler handler = new Handler();
-            handler.setName(handlerName);
-            mapping.addHandler(handler);
-        }
-        
-        if ((htmlView.length() != 0) && 
-            (xmlView.length() != 0) && 
-            htmlView.equals(xmlView)) {
-            View view = new View();
-            view.setForwardName(htmlView);
-            view.setType(Frame2Plugin.getResourceString("EventMappingWizard.both_type")); //$NON-NLS-1$
-            mapping.addView(view);
-        } else {
-            if (htmlView.length() != 0) {
-                View view = new View();
-                view.setForwardName(htmlView);
-                view.setType(Frame2Plugin.getResourceString("EventMappingWizard.html_type")); //$NON-NLS-1$
-                mapping.addView(view);
-            } 
-            if (xmlView.length() != 0) {
-                View view = new View();
-                view.setForwardName(xmlView);
-                view.setType(Frame2Plugin.getResourceString("EventMappingWizard.xml_type")); //$NON-NLS-1$
-                mapping.addView(view);
-            }
-        }
-        
-        if (roles.size() > 0) {
-            Security security = new Security();
-            for (Iterator i = roles.iterator(); i.hasNext();) {
-                String roleName = (String)i.next();
-                Role role = new Role();
-                role.setName(roleName);
-                security.addRole(role);
-            }
-            mapping.setSecurity(security);
-        }
-        
-        try {
-            model.addEventMapping(mapping);
-            model.persistConfiguration();
-        } catch (Frame2ModelException e) {
-            throwCoreException(Frame2Plugin.getResourceString("EventMappingWizard.createMappingError") + e.getMessage()); //$NON-NLS-1$
-        }
-        
+
+	void doFinish(final String eventName, final String inputView,
+			final String cancelView, final List<String> handlers,
+			final String htmlView, final String xmlView,
+			final List<String> roles, final IProgressMonitor monitor)
+			throws CoreException {
+		monitor
+				.beginTask(
+						Frame2Plugin
+								.getResourceString("EventMappingWizard.creatingMappingStatus"), 1); //$NON-NLS-1$
+
+		final EventMapping mapping = new EventMapping();
+		mapping.setEventName(eventName);
+
+		if (inputView.length() > 0) {
+			mapping.setInputView(inputView);
+			mapping.setValidate(Frame2Plugin
+					.getResourceString("EventMappingWizard.true_value")); //$NON-NLS-1$
+		}
+
+		if (cancelView.length() > 0) {
+			mapping.setCancelView(cancelView);
+		}
+
+		for (final Iterator<String> i = handlers.iterator(); i.hasNext();) {
+			final String handlerName = i.next();
+			final Handler handler = new Handler();
+			handler.setName(handlerName);
+			mapping.addHandler(handler);
+		}
+
+		if ((htmlView.length() != 0) && (xmlView.length() != 0)
+				&& htmlView.equals(xmlView)) {
+			final View view = new View();
+			view.setForwardName(htmlView);
+			view.setType(Frame2Plugin
+					.getResourceString("EventMappingWizard.both_type")); //$NON-NLS-1$
+			mapping.addView(view);
+		} else {
+			if (htmlView.length() != 0) {
+				final View view = new View();
+				view.setForwardName(htmlView);
+				view.setType(Frame2Plugin
+						.getResourceString("EventMappingWizard.html_type")); //$NON-NLS-1$
+				mapping.addView(view);
+			}
+			if (xmlView.length() != 0) {
+				final View view = new View();
+				view.setForwardName(xmlView);
+				view.setType(Frame2Plugin
+						.getResourceString("EventMappingWizard.xml_type")); //$NON-NLS-1$
+				mapping.addView(view);
+			}
+		}
+
+		if (roles.size() > 0) {
+			final Security security = new Security();
+			for (final Iterator<String> i = roles.iterator(); i.hasNext();) {
+				final String roleName = i.next();
+				final Role role = new Role();
+				role.setName(roleName);
+				security.addRole(role);
+			}
+			mapping.setSecurity(security);
+		}
+
+		try {
+			this.model.addEventMapping(mapping);
+			this.model.persistConfiguration();
+		} catch (final Frame2ModelException e) {
+			throwCoreException(Frame2Plugin
+					.getResourceString("EventMappingWizard.createMappingError") + e.getMessage()); //$NON-NLS-1$
+		}
+
 		monitor.worked(1);
 	}
 }

@@ -2,31 +2,34 @@ package org.megatome.frame2.editors;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
- 
+
 public class WordPartDetector {
 	String wordPart = ""; //$NON-NLS-1$
 	int docOffset;
-	
-	public WordPartDetector(ITextViewer viewer, int documentOffset) {
-		docOffset = documentOffset - 1;		
+
+	public WordPartDetector(final ITextViewer viewer, final int documentOffset) {
+		this.docOffset = documentOffset - 1;
 		try {
-			while (((docOffset) >= viewer.getTopIndexStartOffset())   && Character.isLetterOrDigit(viewer.getDocument().getChar(docOffset))) {
-				docOffset--;
+			while (((this.docOffset) >= viewer.getTopIndexStartOffset())
+					&& Character.isLetterOrDigit(viewer.getDocument().getChar(
+							this.docOffset))) {
+				this.docOffset--;
 			}
-			//we've been one step too far : increase the offset
-			docOffset++;
-			wordPart = viewer.getDocument().get(docOffset, documentOffset - docOffset);
-		} catch (BadLocationException e) {
+			// we've been one step too far : increase the offset
+			this.docOffset++;
+			this.wordPart = viewer.getDocument().get(this.docOffset,
+					documentOffset - this.docOffset);
+		} catch (final BadLocationException e) {
 			// do nothing
 		}
 	}
-	
+
 	public String getString() {
-		return wordPart;
+		return this.wordPart;
 	}
-	
+
 	public int getOffset() {
-		return docOffset;
+		return this.docOffset;
 	}
 
 }

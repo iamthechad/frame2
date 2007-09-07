@@ -76,209 +76,236 @@ import org.megatome.frame2.model.Frame2Exception;
 import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.Frame2Plugin;
 
-
 public class ExceptionWizardPage1 extends WizardPage {
 	private Text requestKeyText;
 	private Text typeText;
-    private Combo htmlViewCombo;
-    private Combo xmlViewCombo;
-    private ISelection selection;
-    
-    private boolean badModel = false;
-    
-    private Frame2Exception[] definedExceptions = new Frame2Exception[0];
-    
-    private static String noneString = Frame2Plugin.getResourceString("ExceptionWizardPage1.noneString"); //$NON-NLS-1$
+	private Combo htmlViewCombo;
+	private Combo xmlViewCombo;
+	// private ISelection selection;
 
-	public ExceptionWizardPage1(ISelection selection) {
+	private boolean badModel = false;
+
+	private Frame2Exception[] definedExceptions = new Frame2Exception[0];
+
+	private static String noneString = Frame2Plugin
+			.getResourceString("ExceptionWizardPage1.noneString"); //$NON-NLS-1$
+
+	public ExceptionWizardPage1(@SuppressWarnings("unused")
+	final ISelection selection) {
 		super(Frame2Plugin.getResourceString("ExceptionWizardPage1.wizardName")); //$NON-NLS-1$
-		setTitle(Frame2Plugin.getResourceString("ExceptionWizardPage1.pageTitle")); //$NON-NLS-1$
-		setDescription(Frame2Plugin.getResourceString("ExceptionWizardPage1.pageDescription")); //$NON-NLS-1$
-		this.selection = selection;
+		setTitle(Frame2Plugin
+				.getResourceString("ExceptionWizardPage1.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin
+				.getResourceString("ExceptionWizardPage1.pageDescription")); //$NON-NLS-1$
+		// this.selection = selection;
 	}
 
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
+	public void createControl(final Composite parent) {
+		final Composite container = new Composite(parent, SWT.NULL);
+		final GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 		layout.numColumns = 2;
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
-		label.setText(Frame2Plugin.getResourceString("ExceptionWizardPage1.requestKeyLabel")); //$NON-NLS-1$
+		label.setText(Frame2Plugin
+				.getResourceString("ExceptionWizardPage1.requestKeyLabel")); //$NON-NLS-1$
 
-		requestKeyText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		this.requestKeyText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        requestKeyText.setLayoutData(gd);
-        requestKeyText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
+		this.requestKeyText.setLayoutData(gd);
+		this.requestKeyText.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText(Frame2Plugin.getResourceString("ExceptionWizardPage1.exceptionTypeLabel")); //$NON-NLS-1$
+		label.setText(Frame2Plugin
+				.getResourceString("ExceptionWizardPage1.exceptionTypeLabel")); //$NON-NLS-1$
 
-		typeText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		this.typeText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		typeText.setLayoutData(gd);
-		typeText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
+		this.typeText.setLayoutData(gd);
+		this.typeText.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
-        
-        label = new Label(container, SWT.NULL);
-        label.setText(Frame2Plugin.getResourceString("ExceptionWizardPage1.htmlViewLabel")); //$NON-NLS-1$
 
-        htmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        htmlViewCombo.setLayoutData(gd);
-                
-        label = new Label(container, SWT.NULL);
-        label.setText(Frame2Plugin.getResourceString("ExceptionWizardPage1.xmlViewLabel")); //$NON-NLS-1$
+		label = new Label(container, SWT.NULL);
+		label.setText(Frame2Plugin
+				.getResourceString("ExceptionWizardPage1.htmlViewLabel")); //$NON-NLS-1$
 
-        xmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        xmlViewCombo.setLayoutData(gd);
-        
+		this.htmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		this.htmlViewCombo.setLayoutData(gd);
+
+		label = new Label(container, SWT.NULL);
+		label.setText(Frame2Plugin
+				.getResourceString("ExceptionWizardPage1.xmlViewLabel")); //$NON-NLS-1$
+
+		this.xmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		this.xmlViewCombo.setLayoutData(gd);
+
 		initialize();
-		//dialogChanged();
-        setPageComplete(false);
-        htmlViewCombo.setText(noneString);
-        xmlViewCombo.setText(noneString);
-        
-        htmlViewCombo.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        
-        xmlViewCombo.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        
-        requestKeyText.setFocus();
-        
+		// dialogChanged();
+		setPageComplete(false);
+		this.htmlViewCombo.setText(noneString);
+		this.xmlViewCombo.setText(noneString);
+
+		this.htmlViewCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		this.xmlViewCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		this.requestKeyText.setFocus();
+
 		setControl(container);
 	}
-	
-	
-	private void initialize() {
-        Frame2Model model = ((ExceptionWizard)getWizard()).getFrame2Model();
-        
-        if (model != null) {
-            htmlViewCombo.add(noneString);
-            xmlViewCombo.add(noneString);
-            
-            Forward[] forwards = model.getGlobalForwards();
-            for (int i =0; i < forwards.length; i++) {
-                String forwardType = forwards[i].getType();
-                if (forwardType.equals(Frame2Plugin.getResourceString("ExceptionWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
-                    htmlViewCombo.add(forwards[i].getName());
-                } else if (forwardType.equals(Frame2Plugin.getResourceString("ExceptionWizardPage1.xmlResource_type")) || //$NON-NLS-1$
-                           forwardType.equals(Frame2Plugin.getResourceString("ExceptionWizardPage1.xmlResponse_type"))) { //$NON-NLS-1$
-                    xmlViewCombo.add(forwards[i].getName());
-                } else if (forwardType.equals(Frame2Plugin.getResourceString("ExceptionWizardPage1.event_internal_type"))) { //$NON-NLS-1$
-                    htmlViewCombo.add(forwards[i].getName());
-                    xmlViewCombo.add(forwards[i].getName());
-                }
-            }
-            
-            htmlViewCombo.setText(noneString);
-            xmlViewCombo.setText(noneString);
-            
-            definedExceptions = model.getExceptions();
-        } else {
-            setPageComplete(false);
-            badModel = true;
-            dialogChanged();
-        }
-	}
-	
-	private void dialogChanged() {
-        if (badModel) {
-            updateStatus(Frame2Plugin.getResourceString("ExceptionWizardPage1.errorConfig")); //$NON-NLS-1$
-            return;
-        }
-        
-		String requestKey = getRequestKey();
-		String exceptionType = getExceptionType();
-        String htmlView = getHTMLView();
-        String xmlView = getXMLView();
 
-        
-        
+	private void initialize() {
+		final Frame2Model model = ((ExceptionWizard) getWizard())
+				.getFrame2Model();
+
+		if (model != null) {
+			this.htmlViewCombo.add(noneString);
+			this.xmlViewCombo.add(noneString);
+
+			final Forward[] forwards = model.getGlobalForwards();
+			for (int i = 0; i < forwards.length; i++) {
+				final String forwardType = forwards[i].getType();
+				if (forwardType
+						.equals(Frame2Plugin
+								.getResourceString("ExceptionWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
+					this.htmlViewCombo.add(forwards[i].getName());
+				} else if (forwardType
+						.equals(Frame2Plugin
+								.getResourceString("ExceptionWizardPage1.xmlResource_type")) || //$NON-NLS-1$
+						forwardType
+								.equals(Frame2Plugin
+										.getResourceString("ExceptionWizardPage1.xmlResponse_type"))) { //$NON-NLS-1$
+					this.xmlViewCombo.add(forwards[i].getName());
+				} else if (forwardType
+						.equals(Frame2Plugin
+								.getResourceString("ExceptionWizardPage1.event_internal_type"))) { //$NON-NLS-1$
+					this.htmlViewCombo.add(forwards[i].getName());
+					this.xmlViewCombo.add(forwards[i].getName());
+				}
+			}
+
+			this.htmlViewCombo.setText(noneString);
+			this.xmlViewCombo.setText(noneString);
+
+			this.definedExceptions = model.getExceptions();
+		} else {
+			setPageComplete(false);
+			this.badModel = true;
+			dialogChanged();
+		}
+	}
+
+	void dialogChanged() {
+		if (this.badModel) {
+			updateStatus(Frame2Plugin
+					.getResourceString("ExceptionWizardPage1.errorConfig")); //$NON-NLS-1$
+			return;
+		}
+
+		final String requestKey = getRequestKey();
+		final String exceptionType = getExceptionType();
+		final String htmlView = getHTMLView();
+		final String xmlView = getXMLView();
+
 		if (requestKey.length() == 0) {
-			updateStatus(Frame2Plugin.getResourceString("ExceptionWizardPage1.errorMissingRequestKey")); //$NON-NLS-1$
+			updateStatus(Frame2Plugin
+					.getResourceString("ExceptionWizardPage1.errorMissingRequestKey")); //$NON-NLS-1$
 			return;
 		}
 		if (exceptionType.length() == 0) {
-			updateStatus(Frame2Plugin.getResourceString("ExceptionWizardPage1.errorMissingExceptionType")); //$NON-NLS-1$
+			updateStatus(Frame2Plugin
+					.getResourceString("ExceptionWizardPage1.errorMissingExceptionType")); //$NON-NLS-1$
 			return;
 		}
-        if (isDuplicateType()) {
-            updateStatus(Frame2Plugin.getResourceString("ExceptionWizardPage1.errorDuplicateHandler")); //$NON-NLS-1$
-            return;
-        }
-		
-        if ((htmlView.length() == 0) &&
-           (xmlView.length() == 0)) {
-               updateStatus(Frame2Plugin.getResourceString("ExceptionWizardPage1.errorMissingView")); //$NON-NLS-1$
-               return;
-        }
-        
+		if (isDuplicateType()) {
+			updateStatus(Frame2Plugin
+					.getResourceString("ExceptionWizardPage1.errorDuplicateHandler")); //$NON-NLS-1$
+			return;
+		}
+
+		if ((htmlView.length() == 0) && (xmlView.length() == 0)) {
+			updateStatus(Frame2Plugin
+					.getResourceString("ExceptionWizardPage1.errorMissingView")); //$NON-NLS-1$
+			return;
+		}
+
 		updateStatus(null);
 	}
-    
-    private boolean isDuplicateType() {
-        String exceptionType = getExceptionType();
-        
-        for (int i = 0; i < definedExceptions.length; i++) {
-            if (definedExceptions[i].getType().equals(exceptionType)) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
 
-	private void updateStatus(String message) {
+	private boolean isDuplicateType() {
+		final String exceptionType = getExceptionType();
+
+		for (int i = 0; i < this.definedExceptions.length; i++) {
+			if (this.definedExceptions[i].getType().equals(exceptionType)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void updateStatus(final String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
 
 	public String getRequestKey() {
-		return requestKeyText.getText();
+		return this.requestKeyText.getText();
 	}
-	public String getExceptionType() {
-		return typeText.getText();
-	}
-    public String getHTMLView() {
-        String viewText = htmlViewCombo.getText();
-        if (viewText.equals(noneString)) {
-            return ""; //$NON-NLS-1$
-        }
-        
-        return viewText;
-    }
-    public String getXMLView() {
-        String viewText = xmlViewCombo.getText();
-        if (viewText.equals(noneString)) {
-            return ""; //$NON-NLS-1$
-        }
-    
-        return viewText;
-    }
 
-    public void dispose() {
-        super.dispose();
-        
-        requestKeyText.dispose();
-        typeText.dispose();
-        htmlViewCombo.dispose();
-        xmlViewCombo.dispose();
-    }
+	public String getExceptionType() {
+		return this.typeText.getText();
+	}
+
+	public String getHTMLView() {
+		final String viewText = this.htmlViewCombo.getText();
+		if (viewText.equals(noneString)) {
+			return ""; //$NON-NLS-1$
+		}
+
+		return viewText;
+	}
+
+	public String getXMLView() {
+		final String viewText = this.xmlViewCombo.getText();
+		if (viewText.equals(noneString)) {
+			return ""; //$NON-NLS-1$
+		}
+
+		return viewText;
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		this.requestKeyText.dispose();
+		this.typeText.dispose();
+		this.htmlViewCombo.dispose();
+		this.xmlViewCombo.dispose();
+	}
 
 }

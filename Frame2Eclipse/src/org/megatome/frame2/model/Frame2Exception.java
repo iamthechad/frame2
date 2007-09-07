@@ -48,269 +48,320 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.megatome.frame2.Frame2Plugin;
 
-public class Frame2Exception extends XMLCommentPreserver {
+public class Frame2Exception extends Frame2DomainObject {
 
-   private String _RequestKey;
+	private String requestKey;
 
-   private String _Type;
+	private String type;
 
-   private List _View = new ArrayList(); // List<View>
+	private final List<View> views = new ArrayList<View>(); // List<View>
 
-   public Frame2Exception() {
-      _RequestKey = ""; //$NON-NLS-1$
-      _Type = ""; //$NON-NLS-1$
-      clearComments();
-   }
+	public Frame2Exception() {
+		this.requestKey = ""; //$NON-NLS-1$
+		this.type = ""; //$NON-NLS-1$
+		clearComments();
+	}
+	
+	@Override
+	public Frame2Exception copy() {
+		return new Frame2Exception(this);
+	}
 
-   // Deep copy
-   public Frame2Exception(Frame2Exception source) {
-      _RequestKey = source._RequestKey;
-      _Type = source._Type;
-      for (Iterator it = source._View.iterator(); it.hasNext();) {
-         _View.add(new View((View) it.next()));
-      }
-      setComments(source.getCommentMap());
-   }
+	// Deep copy
+	private Frame2Exception(final Frame2Exception source) {
+		this.requestKey = source.requestKey;
+		this.type = source.type;
+		for (View view : source.views) {
+			this.views.add(view.copy());
+		}
+		setComments(source.getCommentMap());
+	}
 
-   // This attribute is mandatory
-   public void setRequestKey(String value) {
-      _RequestKey = value;
-   }
+	// This attribute is mandatory
+	public void setRequestKey(final String value) {
+		this.requestKey = value;
+	}
 
-   public String getRequestKey() {
-      return _RequestKey;
-   }
+	public String getRequestKey() {
+		return this.requestKey;
+	}
 
-   // This attribute is mandatory
-   public void setType(String value) {
-      _Type = value;
-   }
+	// This attribute is mandatory
+	public void setType(final String value) {
+		this.type = value;
+	}
 
-   public String getType() {
-      return _Type;
-   }
+	public String getType() {
+		return this.type;
+	}
 
-   // This attribute is an array containing at least one element
-   public void setView(View[] value) {
-      if (value == null) value = new View[0];
-      _View.clear();
-      for (int i = 0; i < value.length; ++i) {
-         _View.add(value[i]);
-      }
-   }
+	// This attribute is an array containing at least one element
+	public void setView(final View[] value) {
+		this.views.clear();
+		if (value == null) {
+			return;
+		}
+		for (int i = 0; i < value.length; ++i) {
+			this.views.add(value[i]);
+		}
+	}
 
-   public void setView(int index, View value) {
-      _View.set(index, value);
-   }
+	public void setView(final int index, final View value) {
+		this.views.set(index, value);
+	}
 
-   public View[] getView() {
-      View[] arr = new View[_View.size()];
-      return (View[]) _View.toArray(arr);
-   }
+	public View[] getView() {
+		final View[] arr = new View[this.views.size()];
+		return this.views.toArray(arr);
+	}
 
-   public List fetchViewList() {
-      return _View;
-   }
+	public List<View> fetchViewList() {
+		return this.views;
+	}
 
-   public View getView(int index) {
-      return (View) _View.get(index);
-   }
+	public View getView(final int index) {
+		return this.views.get(index);
+	}
 
-   // Return the number of view
-   public int sizeView() {
-      return _View.size();
-   }
+	// Return the number of view
+	@Override
+	public int size() {
+		return this.views.size();
+	}
 
-   public int addView(View value) {
-      _View.add(value);
-      return _View.size() - 1;
-   }
+	public int addView(final View value) {
+		this.views.add(value);
+		return this.views.size() - 1;
+	}
 
-   // Search from the end looking for @param value, and then remove it.
-   public int removeView(View value) {
-      int pos = _View.indexOf(value);
-      if (pos >= 0) {
-         _View.remove(pos);
-      }
-      return pos;
-   }
+	// Search from the end looking for @param value, and then remove it.
+	public int removeView(final View value) {
+		final int pos = this.views.indexOf(value);
+		if (pos >= 0) {
+			this.views.remove(pos);
+		}
+		return pos;
+	}
 
-   public void writeNode(Writer out, String nodeName, String indent)
-         throws IOException {
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
-      out.write(nodeName);
-      // requestKey is an attribute
-      if (_RequestKey != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.requestKeyAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _RequestKey, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      // type is an attribute
-      if (_Type != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _Type, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
-      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-      int index = 0;
-      for (Iterator it = _View.iterator(); it.hasNext();) {
+	public void writeNode(final Writer out, final String nodeName,
+			final String indent) throws IOException {
+		out.write(indent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(nodeName);
+		// requestKey is an attribute
+		if (this.requestKey != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.requestKeyAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.requestKey, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		// type is an attribute
+		if (this.type != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.type, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		final String nextIndent = indent
+				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+		int index = 0;
+		for (final Iterator<View> it = this.views.iterator(); it.hasNext();) {
 
-         index = writeCommentsAt(out, indent, index);
-         View element = (View) it.next();
-         if (element != null) {
-            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.view"), nextIndent); //$NON-NLS-1$
-         }
-      }
+			index = writeCommentsAt(out, indent, index);
+			final View element = it.next();
+			if (element != null) {
+				element.writeNode(out, Frame2Plugin
+						.getResourceString("Frame2Model.view"), nextIndent); //$NON-NLS-1$
+			}
+		}
 
-      writeRemainingComments(out, indent);
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+		writeRemainingComments(out, indent);
+		out.write(indent);
+		out
+				.write(Frame2Plugin
+						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-   public void readNode(Node node) {
-      if (node.hasAttributes()) {
-         NamedNodeMap attrs = node.getAttributes();
-         Attr attr;
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.requestKey")); //$NON-NLS-1$
-         if (attr != null) {
-            _RequestKey = attr.getValue();
-         }
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.type")); //$NON-NLS-1$
-         if (attr != null) {
-            _Type = attr.getValue();
-         }
-      }
-      NodeList children = node.getChildNodes();
-      int elementCount = 0;
-      for (int i = 0, size = children.getLength(); i < size; ++i) {
-         Node childNode = children.item(i);
-         String childNodeName = (childNode.getLocalName() == null ? childNode
-               .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = ""; //$NON-NLS-1$
-         if (childNode.getFirstChild() != null) {
-            childNodeValue = childNode.getFirstChild().getNodeValue();
-         }
-         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
-            View aView = new View();
-            aView.readNode(childNode);
-            _View.add(aView);
-            elementCount++;
-         } else {
-            // Found extra unrecognized childNode
-            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
-               recordComment(childNode, elementCount++);
-            }
-         }
-      }
-   }
+	public void readNode(final Node node) {
+		if (node.hasAttributes()) {
+			final NamedNodeMap attrs = node.getAttributes();
+			Attr attr;
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.requestKey")); //$NON-NLS-1$
+			if (attr != null) {
+				this.requestKey = attr.getValue();
+			}
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.type")); //$NON-NLS-1$
+			if (attr != null) {
+				this.type = attr.getValue();
+			}
+		}
+		final NodeList children = node.getChildNodes();
+		int elementCount = 0;
+		for (int i = 0, size = children.getLength(); i < size; ++i) {
+			final Node childNode = children.item(i);
+			final String childNodeName = (childNode.getLocalName() == null ? childNode
+					.getNodeName().intern()
+					: childNode.getLocalName().intern());
+			/*
+			 * String childNodeValue = ""; //$NON-NLS-1$ if
+			 * (childNode.getFirstChild() != null) { childNodeValue =
+			 * childNode.getFirstChild().getNodeValue(); }
+			 */
+			if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
+				final View aView = new View();
+				aView.readNode(childNode);
+				this.views.add(aView);
+				elementCount++;
+			} else {
+				// Found extra unrecognized childNode
+				if (childNodeName.equals(Frame2Plugin
+						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+					recordComment(childNode, elementCount++);
+				}
+			}
+		}
+	}
 
-   public void validate() throws Frame2Config.ValidateException {
-      boolean restrictionFailure = false;
-      // Validating property requestKey
-      if (getRequestKey() == null) { throw new Frame2Config.ValidateException(
-            Frame2Plugin.getResourceString("Frame2Model.getRequestKeyNull"), Frame2Plugin.getResourceString("Frame2Model.requestKey"), this); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-      // Validating property type
-      if (getType() == null) { throw new Frame2Config.ValidateException(
-            Frame2Plugin.getResourceString("Frame2Model.getTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-      // Validating property view
-      if (sizeView() == 0) { throw new Frame2Config.ValidateException(
-            Frame2Plugin.getResourceString("Frame2Model.sizeViewZero"), Frame2Plugin.getResourceString("Frame2Model.view"), this); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-      for (int _index = 0; _index < sizeView(); ++_index) {
-         View element = getView(_index);
-         if (element != null) {
-            element.validate();
-         }
-      }
-   }
+	public void validate() throws Frame2Config.ValidateException {
+		// boolean restrictionFailure = false;
+		// Validating property requestKey
+		if (getRequestKey() == null) {
+			throw new Frame2Config.ValidateException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.getRequestKeyNull"), Frame2Plugin.getResourceString("Frame2Model.requestKey"), this); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		// Validating property type
+		if (getType() == null) {
+			throw new Frame2Config.ValidateException(
+					Frame2Plugin.getResourceString("Frame2Model.getTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		// Validating property view
+		if (size() == 0) {
+			throw new Frame2Config.ValidateException(
+					Frame2Plugin.getResourceString("Frame2Model.sizeViewZero"), Frame2Plugin.getResourceString("Frame2Model.view"), this); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		for (int _index = 0; _index < size(); ++_index) {
+			final View element = getView(_index);
+			if (element != null) {
+				element.validate();
+			}
+		}
+	}
 
-   public void changePropertyByName(String name, Object value) {
-      if (name == null) return;
-      name = name.intern();
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.requestKey"))) //$NON-NLS-1$
-         setRequestKey((String) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) //$NON-NLS-1$
-         setType((String) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.view"))) //$NON-NLS-1$
-         addView((View) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) //$NON-NLS-1$
-         setView((View[]) value);
-      else
-         throw new IllegalArgumentException(name
-               + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2ExceptionProperty")); //$NON-NLS-1$
-   }
+	public void changePropertyByName(final String name, final Object value) {
+		if (name == null) {
+			return;
+		}
+		final String intName = name.intern();
+		if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.requestKey"))) { //$NON-NLS-1$
+			setRequestKey((String) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.type"))) { //$NON-NLS-1$
+			setType((String) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
+			addView((View) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.viewArray"))) { //$NON-NLS-1$
+			setView((View[]) value);
+		} else {
+			throw new IllegalArgumentException(
+					intName
+							+ Frame2Plugin
+									.getResourceString("Frame2Model.invalidFrame2ExceptionProperty")); //$NON-NLS-1$
+		}
+	}
 
-   public Object fetchPropertyByName(String name) {
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.requestProperty"))) return getRequestKey(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) return getType(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) return getView(); //$NON-NLS-1$
-      throw new IllegalArgumentException(name
-            + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2ExceptionProperty")); //$NON-NLS-1$
-   }
+	public Object fetchPropertyByName(final String name) {
+		if (name.equals(Frame2Plugin
+				.getResourceString("Frame2Model.requestProperty"))) { //$NON-NLS-1$
+			return getRequestKey();
+		}
+		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) { //$NON-NLS-1$
+			return getType();
+		}
+		if (name
+				.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) { //$NON-NLS-1$
+			return getView();
+		}
+		throw new IllegalArgumentException(
+				name
+						+ Frame2Plugin
+								.getResourceString("Frame2Model.invalidFrame2ExceptionProperty")); //$NON-NLS-1$
+	}
 
-   // Return an array of all of the properties that are beans and are set.
-   public Object[] childBeans(boolean recursive) {
-      List children = new LinkedList();
-      childBeans(recursive, children);
-      Object[] result = new Object[children.size()];
-      return (Object[]) children.toArray(result);
-   }
+	// Put all child beans into the beans list.
+	public void childBeans(final boolean recursive, final List<Object> beans) {
+		for (final Iterator<View> it = this.views.iterator(); it.hasNext();) {
+			final View element = it.next();
+			if (element != null) {
+				if (recursive) {
+					element.childBeans(true, beans);
+				}
+				beans.add(element);
+			}
+		}
+	}
 
-   // Put all child beans into the beans list.
-   public void childBeans(boolean recursive, List beans) {
-      for (Iterator it = _View.iterator(); it.hasNext();) {
-         View element = (View) it.next();
-         if (element != null) {
-            if (recursive) {
-               element.childBeans(true, beans);
-            }
-            beans.add(element);
-         }
-      }
-   }
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof Frame2Exception)) {
+			return false;
+		}
+		final Frame2Exception inst = (Frame2Exception) o;
+		if (!(this.requestKey == null ? inst.requestKey == null
+				: this.requestKey.equals(inst.requestKey))) {
+			return false;
+		}
+		if (!(this.type == null ? inst.type == null : this.type
+				.equals(inst.type))) {
+			return false;
+		}
+		if (size() != inst.size()) {
+			return false;
+		}
+		// Compare every element.
+		for (Iterator<View> it = this.views.iterator(), it2 = inst.views
+				.iterator(); it.hasNext() && it2.hasNext();) {
+			final View element = it.next();
+			final View element2 = it2.next();
+			if (!(element == null ? element2 == null : element.equals(element2))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-   public boolean equals(Object o) {
-      if (o == this) return true;
-      if (!(o instanceof Frame2Exception)) return false;
-      Frame2Exception inst = (Frame2Exception) o;
-      if (!(_RequestKey == null ? inst._RequestKey == null : _RequestKey
-            .equals(inst._RequestKey))) return false;
-      if (!(_Type == null ? inst._Type == null : _Type.equals(inst._Type)))
-            return false;
-      if (sizeView() != inst.sizeView()) return false;
-      // Compare every element.
-      for (Iterator it = _View.iterator(), it2 = inst._View.iterator(); it
-            .hasNext()
-            && it2.hasNext();) {
-         View element = (View) it.next();
-         View element2 = (View) it2.next();
-         if (!(element == null ? element2 == null : element.equals(element2)))
-               return false;
-      }
-      return true;
-   }
-
-   public int hashCode() {
-      int result = 17;
-      result = 37 * result + (_RequestKey == null ? 0 : _RequestKey.hashCode());
-      result = 37 * result + (_Type == null ? 0 : _Type.hashCode());
-      result = 37 * result + (_View == null ? 0 : _View.hashCode());
-      return result;
-   }
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 37 * result
+				+ (this.requestKey == null ? 0 : this.requestKey.hashCode());
+		result = 37 * result + (this.type == null ? 0 : this.type.hashCode());
+		result = 37 * result + (this.views == null ? 0 : this.views.hashCode());
+		return result;
+	}
 
 }

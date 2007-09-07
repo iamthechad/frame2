@@ -63,12 +63,12 @@ package org.megatome.frame2.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -91,353 +91,395 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.EventHandler;
 import org.megatome.frame2.model.Frame2Model;
-import org.megatome.frame2.Frame2Plugin;
 
 public class EventHandlerWizardPage1 extends NewTypeWizardPage {
-    private Text handlerNameText;
-    private Table initParamTable;
-    private TableEditor editor;
+	private Text handlerNameText;
+	Table initParamTable;
+	TableEditor editor;
 
-    private Button removeButton;
+	Button removeButton;
 
-    private ISelection selection;
+	private final ISelection selection;
 
-    private static int addRowValue = 1;
+	static int addRowValue = 1;
 
-    private IStatus handlerNameStatus;
-    private IStatus initParamStatus;
-    private StatusInfo badModelStatus = new StatusInfo();
-    
-    private EventHandler[] definedHandlers = new EventHandler[0];
-    
-    private static final String PAGE_NAME = Frame2Plugin.getResourceString("EventHandlerWizardPage1.wizardName"); //$NON-NLS-1$
+	private IStatus handlerNameStatus;
+	private IStatus initParamStatus;
+	private IStatus badModelStatus = ValidationStatus.ok();
 
-    public EventHandlerWizardPage1(ISelection selection) {
-        super(true, PAGE_NAME);
-        setTitle(Frame2Plugin.getResourceString("EventHandlerWizardPage1.pageTitle")); //$NON-NLS-1$
-        setDescription(Frame2Plugin.getResourceString("EventHandlerWizardPage1.pageDescription")); //$NON-NLS-1$
-        this.selection = selection;
-    }
+	private EventHandler[] definedHandlers = new EventHandler[0];
 
-    public void createControl(Composite parent) {
-        initializeDialogUnits(parent);
+	private static final String PAGE_NAME = Frame2Plugin
+			.getResourceString("EventHandlerWizardPage1.wizardName"); //$NON-NLS-1$
 
-        Composite composite = new Composite(parent, SWT.NONE);
+	public EventHandlerWizardPage1(final ISelection selection) {
+		super(true, PAGE_NAME);
+		setTitle(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.pageDescription")); //$NON-NLS-1$
+		this.selection = selection;
+	}
 
-        int nColumns = 4;
+	public void createControl(final Composite parent) {
+		initializeDialogUnits(parent);
 
-        GridLayout layout = new GridLayout();
-        layout.numColumns = nColumns;
-        layout.verticalSpacing = 9;
-        composite.setLayout(layout);
+		final Composite composite = new Composite(parent, SWT.NONE);
 
-        Label label = new Label(composite, SWT.NULL);
-        label.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.handlerNameLabel")); //$NON-NLS-1$
+		final int nColumns = 4;
 
-        handlerNameText = new Text(composite, SWT.BORDER | SWT.SINGLE);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        handlerNameText.setLayoutData(gd);
-        handlerNameText.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+		final GridLayout layout = new GridLayout();
+		layout.numColumns = nColumns;
+		layout.verticalSpacing = 9;
+		composite.setLayout(layout);
 
-        createSeparator(composite, nColumns);
+		Label label = new Label(composite, SWT.NULL);
+		label.setText(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.handlerNameLabel")); //$NON-NLS-1$
 
-        createContainerControls(composite, nColumns);
-        createPackageControls(composite, nColumns);
-        createTypeNameControls(composite, nColumns);
+		this.handlerNameText = new Text(composite, SWT.BORDER | SWT.SINGLE);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		this.handlerNameText.setLayoutData(gd);
+		this.handlerNameText.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 
-        createSeparator(composite, nColumns);
+		createSeparator(composite, nColumns);
 
-        label = new Label(composite, SWT.NULL);
-        label.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.initParamLabel")); //$NON-NLS-1$
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 4;
-        label.setLayoutData(gd);
+		createContainerControls(composite, nColumns);
+		createPackageControls(composite, nColumns);
+		createTypeNameControls(composite, nColumns);
 
-        initParamTable = new Table(composite, SWT.SINGLE | SWT.FULL_SELECTION);
-        initParamTable.setLinesVisible(true);
-        initParamTable.setHeaderVisible(true);
-        gd = new GridData(GridData.FILL_BOTH);
-        gd.horizontalSpan = 4;
-        initParamTable.setLayoutData(gd);
-        int tableWidth = initParamTable.getClientArea().width;
+		createSeparator(composite, nColumns);
 
-        TableColumn tc = new TableColumn(initParamTable, SWT.NULL);
-        tc.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.nameColumn")); //$NON-NLS-1$
-        tc.setWidth(200);
+		label = new Label(composite, SWT.NULL);
+		label.setText(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.initParamLabel")); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 4;
+		label.setLayoutData(gd);
 
-        TableColumn tc2 = new TableColumn(initParamTable, SWT.NULL);
-        tc2.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.valueColumn")); //$NON-NLS-1$
-        tc2.setWidth(200);
+		this.initParamTable = new Table(composite, SWT.SINGLE
+				| SWT.FULL_SELECTION);
+		this.initParamTable.setLinesVisible(true);
+		this.initParamTable.setHeaderVisible(true);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 4;
+		this.initParamTable.setLayoutData(gd);
+		// int tableWidth = initParamTable.getClientArea().width;
 
-        editor = new TableEditor(initParamTable);
-        editor.horizontalAlignment = SWT.LEFT;
-        editor.grabHorizontal = true;
-        initParamTable.addListener(SWT.MouseDown, new Listener() {
-            public void handleEvent(Event event) {
-                Rectangle clientArea = initParamTable.getClientArea();
-                Point pt = new Point(event.x, event.y);
-                int index = initParamTable.getTopIndex();
-                while (index < initParamTable.getItemCount()) {
-                    boolean visible = false;
-                    final TableItem item = initParamTable.getItem(index);
-                    for (int i = 0; i < initParamTable.getColumnCount(); i++) {
-                        Rectangle rect = item.getBounds(i);
-                        if (rect.contains(pt)) {
-                            final int column = i;
-                            final Text text =
-                                new Text(initParamTable, SWT.NONE);
-                            Listener textListener = new Listener() {
-                                public void handleEvent(final Event e) {
-                                    switch (e.type) {
-                                        case SWT.FocusOut :
-                                            item.setText(
-                                                column,
-                                                text.getText());
-                                            text.dispose();
-                                            break;
-                                        case SWT.Traverse :
-                                            switch (e.detail) {
-                                                case SWT.TRAVERSE_RETURN :
-                                                    item.setText(
-                                                        column,
-                                                        text.getText());
-                                                    //FALL THROUGH
-                                                case SWT.TRAVERSE_ESCAPE :
-                                                    text.dispose();
-                                                    e.doit = false;
-                                            }
-                                            break;
-                                    }
-                                    dialogChanged();
-                                }
-                            };
-                            text.addListener(SWT.FocusOut, textListener);
-                            text.addListener(SWT.Traverse, textListener);
-                            editor.setEditor(text, item, i);
-                            text.setText(item.getText(i));
-                            text.selectAll();
-                            text.setFocus();
-                            removeButton.setEnabled(true);
-                            return;
-                        }
-                        if (!visible && rect.intersects(clientArea)) {
-                            visible = true;
-                        }
-                    }
-                    if (!visible)
-                        return;
-                    index++;
-                }
-            }
-        });
+		final TableColumn tc = new TableColumn(this.initParamTable, SWT.NULL);
+		tc.setText(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.nameColumn")); //$NON-NLS-1$
+		tc.setWidth(200);
 
-        Button addButton = new Button(composite, SWT.PUSH);
-        addButton.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.addRowCtl")); //$NON-NLS-1$
-        gd = new GridData(GridData.BEGINNING);
-        gd.horizontalSpan = 2;
-        addButton.setLayoutData(gd);
-        addButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                final TableItem item = new TableItem(initParamTable, SWT.NONE);
-                String[] initialText =
-                    new String[] {
-                        Frame2Plugin.getResourceString("EventHandlerWizardPage1.dummyName") + addRowValue, //$NON-NLS-1$
-                        Frame2Plugin.getResourceString("EventHandlerWizardPage1.dummyValue") + addRowValue }; //$NON-NLS-1$
-                addRowValue++;
-                item.setText(initialText);
-            }
-        });
+		final TableColumn tc2 = new TableColumn(this.initParamTable, SWT.NULL);
+		tc2.setText(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.valueColumn")); //$NON-NLS-1$
+		tc2.setWidth(200);
 
-        removeButton = new Button(composite, SWT.PUSH);
-        removeButton.setText(Frame2Plugin.getResourceString("EventHandlerWizardPage1.removeRowCtl")); //$NON-NLS-1$
-        gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
-        gd.horizontalSpan = 2;
-        removeButton.setLayoutData(gd);
-        removeButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                int selIndex = initParamTable.getSelectionIndex();
-                if (selIndex == -1) {
-                    return;
-                }
+		this.editor = new TableEditor(this.initParamTable);
+		this.editor.horizontalAlignment = SWT.LEFT;
+		this.editor.grabHorizontal = true;
+		this.initParamTable.addListener(SWT.MouseDown, new Listener() {
+			public void handleEvent(final Event event) {
+				final Rectangle clientArea = EventHandlerWizardPage1.this.initParamTable
+						.getClientArea();
+				final Point pt = new Point(event.x, event.y);
+				int index = EventHandlerWizardPage1.this.initParamTable
+						.getTopIndex();
+				while (index < EventHandlerWizardPage1.this.initParamTable
+						.getItemCount()) {
+					boolean visible = false;
+					final TableItem item = EventHandlerWizardPage1.this.initParamTable
+							.getItem(index);
+					for (int i = 0; i < EventHandlerWizardPage1.this.initParamTable
+							.getColumnCount(); i++) {
+						final Rectangle rect = item.getBounds(i);
+						if (rect.contains(pt)) {
+							final int column = i;
+							final Text text = new Text(
+									EventHandlerWizardPage1.this.initParamTable,
+									SWT.NONE);
+							final Listener textListener = new Listener() {
+								@SuppressWarnings("fallthrough")
+								public void handleEvent(final Event e) {
+									switch (e.type) {
+									case SWT.FocusOut:
+										item.setText(column, text.getText());
+										text.dispose();
+										break;
+									case SWT.Traverse:
+										switch (e.detail) {
+										case SWT.TRAVERSE_RETURN:
+											item
+													.setText(column, text
+															.getText());
+											// FALL THROUGH
+										case SWT.TRAVERSE_ESCAPE:
+											text.dispose();
+											e.doit = false;
+										}
+										break;
+									}
+									dialogChanged();
+								}
+							};
+							text.addListener(SWT.FocusOut, textListener);
+							text.addListener(SWT.Traverse, textListener);
+							EventHandlerWizardPage1.this.editor.setEditor(text,
+									item, i);
+							text.setText(item.getText(i));
+							text.selectAll();
+							text.setFocus();
+							EventHandlerWizardPage1.this.removeButton
+									.setEnabled(true);
+							return;
+						}
+						if (!visible && rect.intersects(clientArea)) {
+							visible = true;
+						}
+					}
+					if (!visible) {
+						return;
+					}
+					index++;
+				}
+			}
+		});
 
-                initParamTable.remove(selIndex);
-                removeButton.setEnabled(false);
-            }
-        });
-        removeButton.setEnabled(false);
+		final Button addButton = new Button(composite, SWT.PUSH);
+		addButton.setText(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.addRowCtl")); //$NON-NLS-1$
+		gd = new GridData(GridData.BEGINNING);
+		gd.horizontalSpan = 2;
+		addButton.setLayoutData(gd);
+		addButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				final TableItem item = new TableItem(
+						EventHandlerWizardPage1.this.initParamTable, SWT.NONE);
+				final String[] initialText = new String[] {
+						Frame2Plugin
+								.getResourceString("EventHandlerWizardPage1.dummyName") + addRowValue, //$NON-NLS-1$
+						Frame2Plugin
+								.getResourceString("EventHandlerWizardPage1.dummyValue") + addRowValue }; //$NON-NLS-1$
+				addRowValue++;
+				item.setText(initialText);
+			}
+		});
 
-        initialize();
-        dialogChanged();
-        setPageComplete(false);
-        setControl(composite);
-    }
+		this.removeButton = new Button(composite, SWT.PUSH);
+		this.removeButton.setText(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.removeRowCtl")); //$NON-NLS-1$
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		gd.horizontalSpan = 2;
+		this.removeButton.setLayoutData(gd);
+		this.removeButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				final int selIndex = EventHandlerWizardPage1.this.initParamTable
+						.getSelectionIndex();
+				if (selIndex == -1) {
+					return;
+				}
 
-    private void initialize() {
-        addRowValue = 1;
-        Frame2Model model = ((EventHandlerWizard)getWizard()).getFrame2Model();
-        
-        if (model != null) {
-            definedHandlers = model.getEventHandlers();
-        } else {
-            setPageComplete(false);
-            badModelStatus.setError(Frame2Plugin.getResourceString("EventHandlerWizardPage1.configError")); //$NON-NLS-1$
-            doStatusUpdate();
-        }
+				EventHandlerWizardPage1.this.initParamTable.remove(selIndex);
+				EventHandlerWizardPage1.this.removeButton.setEnabled(false);
+			}
+		});
+		this.removeButton.setEnabled(false);
 
-        if (selection != null
-            && selection.isEmpty() == false
-            && selection instanceof IStructuredSelection) {
-            IStructuredSelection ssel = (IStructuredSelection)selection;
-            if (ssel.size() > 1)
-                return;
-            IJavaElement jelem = getInitialJavaElement(ssel);
-            initContainerPage(jelem);
-            initTypePage(jelem);
-        }
+		initialize();
+		dialogChanged();
+		setPageComplete(false);
+		setControl(composite);
+	}
 
-        List interfaces = new ArrayList();
-        interfaces.add(Frame2Plugin.getResourceString("EventHandlerWizardPage1.eventHandlerInterface")); //$NON-NLS-1$
-        setSuperInterfaces(interfaces, true);
-    }
+	private void initialize() {
+		addRowValue = 1;
+		final Frame2Model model = ((EventHandlerWizard) getWizard())
+				.getFrame2Model();
 
-    //  ------ validation --------
-    private void doStatusUpdate() {
-        handlerNameStatus = getHandlerNameStatus();
-        initParamStatus = getInitParamStatus();
-        
-        // status of all used components
-        IStatus[] status =
-            new IStatus[] {
-                badModelStatus,
-                handlerNameStatus,
-                fContainerStatus,
-                fPackageStatus,
-                fTypeNameStatus,
-                initParamStatus,
-                };
-                
-        updateStatus(status);
-    }
+		if (model != null) {
+			this.definedHandlers = model.getEventHandlers();
+		} else {
+			setPageComplete(false);
+			this.badModelStatus = ValidationStatus.error(Frame2Plugin
+					.getResourceString("EventHandlerWizardPage1.configError")); //$NON-NLS-1$
+			doStatusUpdate();
+		}
 
-    private void dialogChanged() {
-        doStatusUpdate();
-    }
+		if (this.selection != null && this.selection.isEmpty() == false
+				&& this.selection instanceof IStructuredSelection) {
+			final IStructuredSelection ssel = (IStructuredSelection) this.selection;
+			if (ssel.size() > 1) {
+				return;
+			}
+			final IJavaElement jelem = getInitialJavaElement(ssel);
+			initContainerPage(jelem);
+			initTypePage(jelem);
+		}
 
-    private IStatus getHandlerNameStatus() {
-        StatusInfo status = new StatusInfo();
-        String handlerName = getHandlerName();
+		final List<String> interfaces = new ArrayList<String>();
+		interfaces
+				.add(Frame2Plugin
+						.getResourceString("EventHandlerWizardPage1.eventHandlerInterface")); //$NON-NLS-1$
+		setSuperInterfaces(interfaces, true);
+	}
 
-        if (handlerName.length() == 0) {
-            status.setError(Frame2Plugin.getResourceString("EventHandlerWizardPage1.errorMissingHandlerName")); //$NON-NLS-1$
-            return status;
-        }
+	// ------ validation --------
+	private void doStatusUpdate() {
+		this.handlerNameStatus = getHandlerNameStatus();
+		this.initParamStatus = getInitParamStatus();
 
-        for (int i = 0; i < definedHandlers.length; i++) {
-            if (handlerName.equals(definedHandlers[i].getName())) {
-                status.setError(Frame2Plugin.getResourceString("EventHandlerWizardPage1.errorDuplicateHandler")); //$NON-NLS-1$
-                return status;
-            }
-        }
+		// status of all used components
+		final IStatus[] status = new IStatus[] { this.badModelStatus,
+				this.handlerNameStatus, this.fContainerStatus,
+				this.fPackageStatus, this.fTypeNameStatus,
+				this.initParamStatus, };
 
-        return status;
-    }
+		updateStatus(status);
+	}
 
-    private IStatus getInitParamStatus() {
-        StatusInfo status = new StatusInfo();
+	void dialogChanged() {
+		doStatusUpdate();
+	}
 
-        int paramCount = initParamTable.getItemCount();
-        if (paramCount == 0) {
-            return status;
-        }
+	private IStatus getHandlerNameStatus() {
+		// IStatus status = new Status();
+		final String handlerName = getHandlerName();
 
-        for (int i = 0; i < paramCount; i++) {
-            TableItem item = initParamTable.getItem(i);
-            String paramName = item.getText(0);
-            if (paramName.length() == 0) {
-                status.setError(Frame2Plugin.getResourceString("EventHandlerWizardPage1.errorEmptyParamName")); //$NON-NLS-1$
-                return status;
-            }
-        }
+		if (handlerName.length() == 0) {
+			return ValidationStatus
+					.error(Frame2Plugin
+							.getResourceString("EventHandlerWizardPage1.errorMissingHandlerName")); //$NON-NLS-1$
+		}
 
-        return status;
-    }
+		for (int i = 0; i < this.definedHandlers.length; i++) {
+			if (handlerName.equals(this.definedHandlers[i].getName())) {
+				return ValidationStatus
+						.error(Frame2Plugin
+								.getResourceString("EventHandlerWizardPage1.errorDuplicateHandler")); //$NON-NLS-1$
+			}
+		}
 
-    private void updateStatus(String message) {
-        setErrorMessage(message);
-        setPageComplete(message == null);
-    }
+		return ValidationStatus.ok();
+	}
 
-    public String getHandlerName() {
-        return handlerNameText.getText();
-    }
-    
-    public String getHandlerType() {
-        String handlerClass = ""; //$NON-NLS-1$
-        handlerClass = getPackageText();
-        handlerClass += "."; //$NON-NLS-1$
-        handlerClass += getTypeName();
+	private IStatus getInitParamStatus() {
+		final int paramCount = this.initParamTable.getItemCount();
+		if (paramCount == 0) {
+			return ValidationStatus.ok();
+		}
 
-        return handlerClass;
-    }
-    
-    public List getInitParams() {
-        List initParams = new ArrayList();
-        
-        int paramCount = initParamTable.getItemCount();
-        for (int i = 0; i < paramCount; i++) {
-            TableItem item = initParamTable.getItem(i);
-            String[] nameValue = new String[] { item.getText(0), item.getText(1) };
-            initParams.add(nameValue);
-        }
-        
-        return initParams;
-    }
+		for (int i = 0; i < paramCount; i++) {
+			final TableItem item = this.initParamTable.getItem(i);
+			final String paramName = item.getText(0);
+			if (paramName.length() == 0) {
+				return ValidationStatus
+						.error(Frame2Plugin
+								.getResourceString("EventHandlerWizardPage1.errorEmptyParamName")); //$NON-NLS-1$
+			}
+		}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jdt.ui.wizards.NewContainerWizardPage#handleFieldChanged(java.lang.String)
-     */
-    protected void handleFieldChanged(String fieldName) {
-        super.handleFieldChanged(fieldName);
+		return ValidationStatus.ok();
+	}
 
-        doStatusUpdate();
-    }
-    
-    protected void createTypeMembers(
-        IType newType,
-        ImportsManager imports,
-        IProgressMonitor monitor)
-        throws CoreException {
-    
-        imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.eventHandlerInterface")); //$NON-NLS-1$
-        
-        StringBuffer handleBuffer = new StringBuffer();
-        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.public_modifier")); //$NON-NLS-1$
-        handleBuffer.append(imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.stringImport"))); //$NON-NLS-1$
-        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.handleMethodStart")); //$NON-NLS-1$
-        handleBuffer.append(imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.eventClass"))); //$NON-NLS-1$
-        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.event_name")); //$NON-NLS-1$
-        handleBuffer.append(imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.contextClass"))); //$NON-NLS-1$
-        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.context_name")); //$NON-NLS-1$
-        handleBuffer.append(imports.addImport(Frame2Plugin.getResourceString("EventHandlerWizardPage1.exceptionClass"))); //$NON-NLS-1$
-        handleBuffer.append(Frame2Plugin.getResourceString("EventHandlerWizardPage1.handle_body")); //$NON-NLS-1$
-        
-        newType.createMethod(handleBuffer.toString(), null, true, monitor);
-    
-    }
+	/*
+	 * private void updateStatus(String message) { setErrorMessage(message);
+	 * setPageComplete(message == null); }
+	 */
 
-    public void dispose() {
-        super.dispose();
-        handlerNameText.dispose();
-        editor.dispose();
-        initParamTable.dispose();
-    
-        removeButton.dispose();
-    }
+	public String getHandlerName() {
+		return this.handlerNameText.getText();
+	}
+
+	public String getHandlerType() {
+		String handlerClass = ""; //$NON-NLS-1$
+		handlerClass = getPackageText();
+		handlerClass += "."; //$NON-NLS-1$
+		handlerClass += getTypeName();
+
+		return handlerClass;
+	}
+
+	public List<String[]> getInitParams() {
+		final List<String[]> initParams = new ArrayList<String[]>();
+
+		final int paramCount = this.initParamTable.getItemCount();
+		for (int i = 0; i < paramCount; i++) {
+			final TableItem item = this.initParamTable.getItem(i);
+			final String[] nameValue = new String[] { item.getText(0),
+					item.getText(1) };
+			initParams.add(nameValue);
+		}
+
+		return initParams;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jdt.ui.wizards.NewContainerWizardPage#handleFieldChanged(java.lang.String)
+	 */
+	@Override
+	protected void handleFieldChanged(final String fieldName) {
+		super.handleFieldChanged(fieldName);
+
+		doStatusUpdate();
+	}
+
+	@Override
+	protected void createTypeMembers(final IType newType,
+			final ImportsManager imports, final IProgressMonitor monitor)
+			throws CoreException {
+
+		imports
+				.addImport(Frame2Plugin
+						.getResourceString("EventHandlerWizardPage1.eventHandlerInterface")); //$NON-NLS-1$
+
+		final StringBuffer handleBuffer = new StringBuffer();
+		handleBuffer.append(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.public_modifier")); //$NON-NLS-1$
+		handleBuffer.append(imports.addImport(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.stringImport"))); //$NON-NLS-1$
+		handleBuffer
+				.append(Frame2Plugin
+						.getResourceString("EventHandlerWizardPage1.handleMethodStart")); //$NON-NLS-1$
+		handleBuffer.append(imports.addImport(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.eventClass"))); //$NON-NLS-1$
+		handleBuffer.append(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.event_name")); //$NON-NLS-1$
+		handleBuffer.append(imports.addImport(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.contextClass"))); //$NON-NLS-1$
+		handleBuffer.append(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.context_name")); //$NON-NLS-1$
+		handleBuffer.append(imports.addImport(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.exceptionClass"))); //$NON-NLS-1$
+		handleBuffer.append(Frame2Plugin
+				.getResourceString("EventHandlerWizardPage1.handle_body")); //$NON-NLS-1$
+
+		newType.createMethod(handleBuffer.toString(), null, true, monitor);
+
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		this.handlerNameText.dispose();
+		this.editor.dispose();
+		this.initParamTable.dispose();
+
+		this.removeButton.dispose();
+	}
 
 }

@@ -48,193 +48,223 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.megatome.frame2.Frame2Plugin;
 
-public class Frame2Events extends XMLCommentPreserver {
+public class Frame2Events extends Frame2DomainObject {
 
-   private List _Frame2Event = new ArrayList(); // List<Frame2Event>
+	private final List<Frame2Event> events = new ArrayList<Frame2Event>(); // List<Frame2Event>
 
-   public Frame2Events() {
-      clearComments();
-   }
+	public Frame2Events() {
+		clearComments();
+	}
+	
+	@Override
+	public Frame2Events copy() {
+		return new Frame2Events(this);
+	}
 
-   // Deep copy
-   public Frame2Events(Frame2Events source) {
-      for (Iterator it = source._Frame2Event.iterator(); it.hasNext();) {
-         _Frame2Event.add(new Frame2Event((Frame2Event) it.next()));
-      }
+	// Deep copy
+	private Frame2Events(final Frame2Events source) {
+		for (Frame2Event event : source.events) {
+			this.events.add(event.copy());
+		}
 
-      setComments(source.getCommentMap());
-   }
+		setComments(source.getCommentMap());
+	}
 
-   // This attribute is an array, possibly empty
-   public void setFrame2Event(Frame2Event[] value) {
-      if (value == null) value = new Frame2Event[0];
-      _Frame2Event.clear();
-      for (int i = 0; i < value.length; ++i) {
-         _Frame2Event.add(value[i]);
-      }
-   }
+	// This attribute is an array, possibly empty
+	public void setFrame2Event(final Frame2Event[] value) {
+		this.events.clear();
+		if (value == null) {
+			return;
+		}
+		for (int i = 0; i < value.length; ++i) {
+			this.events.add(value[i]);
+		}
+	}
 
-   public void setFrame2Event(int index, Frame2Event value) {
-      _Frame2Event.set(index, value);
-   }
+	public void setFrame2Event(final int index, final Frame2Event value) {
+		this.events.set(index, value);
+	}
 
-   public Frame2Event[] getFrame2Event() {
-      Frame2Event[] arr = new Frame2Event[_Frame2Event.size()];
-      return (Frame2Event[]) _Frame2Event.toArray(arr);
-   }
+	public Frame2Event[] getFrame2Event() {
+		final Frame2Event[] arr = new Frame2Event[this.events.size()];
+		return this.events.toArray(arr);
+	}
 
-   public List fetchFrame2EventList() {
-      return _Frame2Event;
-   }
+	public List<Frame2Event> fetchFrame2EventList() {
+		return this.events;
+	}
 
-   public Frame2Event getFrame2Event(int index) {
-      return (Frame2Event) _Frame2Event.get(index);
-   }
+	public Frame2Event getFrame2Event(final int index) {
+		return this.events.get(index);
+	}
 
-   // Return the number of Frame2Event
-   public int sizeFrame2Event() {
-      return _Frame2Event.size();
-   }
+	// Return the number of Frame2Event
+	@Override
+	public int size() {
+		return this.events.size();
+	}
 
-   public int addFrame2Event(Frame2Event value) {
-      _Frame2Event.add(value);
-      return _Frame2Event.size() - 1;
-   }
+	public int addFrame2Event(final Frame2Event value) {
+		this.events.add(value);
+		return this.events.size() - 1;
+	}
 
-   // Search from the end looking for @param value, and then remove it.
-   public int removeFrame2Event(Frame2Event value) {
-      int pos = _Frame2Event.indexOf(value);
-      if (pos >= 0) {
-         _Frame2Event.remove(pos);
-      }
-      return pos;
-   }
+	// Search from the end looking for @param value, and then remove it.
+	public int removeFrame2Event(final Frame2Event value) {
+		final int pos = this.events.indexOf(value);
+		if (pos >= 0) {
+			this.events.remove(pos);
+		}
+		return pos;
+	}
 
-   public void writeNode(Writer out, String nodeName, String indent)
-         throws IOException {
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
-      out.write(nodeName);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
-      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-      int index = 0;
-      for (Iterator it = _Frame2Event.iterator(); it.hasNext();) {
+	public void writeNode(final Writer out, final String nodeName,
+			final String indent) throws IOException {
+		out.write(indent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(nodeName);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		final String nextIndent = indent
+				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+		int index = 0;
+		for (final Iterator<Frame2Event> it = this.events.iterator(); it
+				.hasNext();) {
 
-         index = writeCommentsAt(out, indent, index);
+			index = writeCommentsAt(out, indent, index);
 
-         Frame2Event element = (Frame2Event) it.next();
-         if (element != null) {
-            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.event"), nextIndent); //$NON-NLS-1$
-         }
-      }
-      writeRemainingComments(out, indent);
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+			final Frame2Event element = it.next();
+			if (element != null) {
+				element.writeNode(out, Frame2Plugin
+						.getResourceString("Frame2Model.event"), nextIndent); //$NON-NLS-1$
+			}
+		}
+		writeRemainingComments(out, indent);
+		out.write(indent);
+		out
+				.write(Frame2Plugin
+						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-   public void readNode(Node node) {
-      NodeList children = node.getChildNodes();
-      int elementCount = 0;
-      for (int i = 0, size = children.getLength(); i < size; ++i) {
-         Node childNode = children.item(i);
-         String childNodeName = (childNode.getLocalName() == null ? childNode
-               .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = ""; //$NON-NLS-1$
-         if (childNode.getFirstChild() != null) {
-            childNodeValue = childNode.getFirstChild().getNodeValue();
-         }
-         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.event"))) { //$NON-NLS-1$
-            Frame2Event aFrame2Event = new Frame2Event();
-            aFrame2Event.readNode(childNode);
-            _Frame2Event.add(aFrame2Event);
-            elementCount++;
-         } else {
-            // Found extra unrecognized childNode
-            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
-               recordComment(childNode, elementCount++);
-            }
-         }
-      }
-   }
+	public void readNode(final Node node) {
+		final NodeList children = node.getChildNodes();
+		int elementCount = 0;
+		for (int i = 0, size = children.getLength(); i < size; ++i) {
+			final Node childNode = children.item(i);
+			final String childNodeName = (childNode.getLocalName() == null ? childNode
+					.getNodeName().intern()
+					: childNode.getLocalName().intern());
+			/*
+			 * String childNodeValue = ""; //$NON-NLS-1$ if
+			 * (childNode.getFirstChild() != null) { childNodeValue =
+			 * childNode.getFirstChild().getNodeValue(); }
+			 */
+			if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.event"))) { //$NON-NLS-1$
+				final Frame2Event aFrame2Event = new Frame2Event();
+				aFrame2Event.readNode(childNode);
+				this.events.add(aFrame2Event);
+				elementCount++;
+			} else {
+				// Found extra unrecognized childNode
+				if (childNodeName.equals(Frame2Plugin
+						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+					recordComment(childNode, elementCount++);
+				}
+			}
+		}
+	}
 
-   public void validate() throws Frame2Config.ValidateException {
-      boolean restrictionFailure = false;
-      // Validating property Frame2Event
-      for (int _index = 0; _index < sizeFrame2Event(); ++_index) {
-         Frame2Event element = getFrame2Event(_index);
-         if (element != null) {
-            element.validate();
-         }
-      }
-   }
+	public void validate() throws Frame2Config.ValidateException {
+		// boolean restrictionFailure = false;
+		// Validating property Frame2Event
+		for (int _index = 0; _index < size(); ++_index) {
+			final Frame2Event element = getFrame2Event(_index);
+			if (element != null) {
+				element.validate();
+			}
+		}
+	}
 
-   public void changePropertyByName(String name, Object value) {
-      if (name == null) return;
-      name = name.intern();
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2Event"))) //$NON-NLS-1$
-         addFrame2Event((Frame2Event) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2EventArray"))) //$NON-NLS-1$
-         setFrame2Event((Frame2Event[]) value);
-      else
-         throw new IllegalArgumentException(name
-               + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2EventsProperty")); //$NON-NLS-1$
-   }
+	public void changePropertyByName(final String name, final Object value) {
+		if (name == null) {
+			return;
+		}
+		final String intName = name.intern();
+		if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.Frame2Event"))) { //$NON-NLS-1$
+			addFrame2Event((Frame2Event) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.Frame2EventArray"))) { //$NON-NLS-1$
+			setFrame2Event((Frame2Event[]) value);
+		} else {
+			throw new IllegalArgumentException(
+					intName
+							+ Frame2Plugin
+									.getResourceString("Frame2Model.invalidFrame2EventsProperty")); //$NON-NLS-1$
+		}
+	}
 
-   public Object fetchPropertyByName(String name) {
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2EventArray"))) return getFrame2Event(); //$NON-NLS-1$
-      throw new IllegalArgumentException(name
-            + Frame2Plugin.getResourceString("Frame2Model.invalidFrame2EventsProperty")); //$NON-NLS-1$
-   }
+	public Object fetchPropertyByName(final String name) {
+		if (name.equals(Frame2Plugin
+				.getResourceString("Frame2Model.Frame2EventArray"))) { //$NON-NLS-1$
+			return getFrame2Event();
+		}
+		throw new IllegalArgumentException(
+				name
+						+ Frame2Plugin
+								.getResourceString("Frame2Model.invalidFrame2EventsProperty")); //$NON-NLS-1$
+	}
 
-   // Return an array of all of the properties that are beans and are set.
-   public Object[] childBeans(boolean recursive) {
-      List children = new LinkedList();
-      childBeans(recursive, children);
-      Object[] result = new Object[children.size()];
-      return (Object[]) children.toArray(result);
-   }
+	// Put all child beans into the beans list.
+	public void childBeans(final boolean recursive, final List<Object> beans) {
+		for (final Iterator<Frame2Event> it = this.events.iterator(); it
+				.hasNext();) {
+			final Frame2Event element = it.next();
+			if (element != null) {
+				if (recursive) {
+					element.childBeans(true, beans);
+				}
+				beans.add(element);
+			}
+		}
+	}
 
-   // Put all child beans into the beans list.
-   public void childBeans(boolean recursive, List beans) {
-      for (Iterator it = _Frame2Event.iterator(); it.hasNext();) {
-         Frame2Event element = (Frame2Event) it.next();
-         if (element != null) {
-            if (recursive) {
-               element.childBeans(true, beans);
-            }
-            beans.add(element);
-         }
-      }
-   }
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof Frame2Events)) {
+			return false;
+		}
+		final Frame2Events inst = (Frame2Events) o;
+		if (size() != inst.size()) {
+			return false;
+		}
+		// Compare every element.
+		for (Iterator<Frame2Event> it = this.events.iterator(), it2 = inst.events
+				.iterator(); it.hasNext() && it2.hasNext();) {
+			final Frame2Event element = it.next();
+			final Frame2Event element2 = it2.next();
+			if (!(element == null ? element2 == null : element.equals(element2))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-   public boolean equals(Object o) {
-      if (o == this) return true;
-      if (!(o instanceof Frame2Events)) return false;
-      Frame2Events inst = (Frame2Events) o;
-      if (sizeFrame2Event() != inst.sizeFrame2Event()) return false;
-      // Compare every element.
-      for (Iterator it = _Frame2Event.iterator(), it2 = inst._Frame2Event
-            .iterator(); it.hasNext() && it2.hasNext();) {
-         Frame2Event element = (Frame2Event) it.next();
-         Frame2Event element2 = (Frame2Event) it2.next();
-         if (!(element == null ? element2 == null : element.equals(element2)))
-               return false;
-      }
-      return true;
-   }
-
-   public int hashCode() {
-      int result = 17;
-      result = 37 * result
-            + (_Frame2Event == null ? 0 : _Frame2Event.hashCode());
-      return result;
-   }
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 37 * result
+				+ (this.events == null ? 0 : this.events.hashCode());
+		return result;
+	}
 
 }

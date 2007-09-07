@@ -48,194 +48,224 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.megatome.frame2.Frame2Plugin;
 
-public class GlobalForwards extends XMLCommentPreserver {
+public class GlobalForwards extends Frame2DomainObject {
 
-   private List _Forward = new ArrayList(); // List<Forward>
+	private final List<Forward> forwards = new ArrayList<Forward>(); // List<Forward>
 
-   public GlobalForwards() {
-      clearComments();
-   }
+	public GlobalForwards() {
+		clearComments();
+	}
+	
+	@Override
+	public GlobalForwards copy() {
+		return new GlobalForwards(this);
+	}
 
-   // Deep copy
-   public GlobalForwards(GlobalForwards source) {
-      for (Iterator it = source._Forward.iterator(); it.hasNext();) {
-         _Forward.add(new Forward((Forward) it.next()));
-      }
+	// Deep copy
+	private GlobalForwards(final GlobalForwards source) {
+		for (Forward forward : source.forwards) {
+			this.forwards.add(forward.copy());
+		}
 
-      setComments(source.getCommentMap());
-   }
+		setComments(source.getCommentMap());
+	}
 
-   // This attribute is an array, possibly empty
-   public void setForward(Forward[] value) {
-      if (value == null) value = new Forward[0];
-      _Forward.clear();
-      for (int i = 0; i < value.length; ++i) {
-         _Forward.add(value[i]);
-      }
-   }
+	// This attribute is an array, possibly empty
+	public void setForward(final Forward[] value) {
+		this.forwards.clear();
+		if (value == null) {
+			return;
+		}
+		for (int i = 0; i < value.length; ++i) {
+			this.forwards.add(value[i]);
+		}
+	}
 
-   public void setForward(int index, Forward value) {
-      _Forward.set(index, value);
-   }
+	public void setForward(final int index, final Forward value) {
+		this.forwards.set(index, value);
+	}
 
-   public Forward[] getForward() {
-      Forward[] arr = new Forward[_Forward.size()];
-      return (Forward[]) _Forward.toArray(arr);
-   }
+	public Forward[] getForward() {
+		final Forward[] arr = new Forward[this.forwards.size()];
+		return this.forwards.toArray(arr);
+	}
 
-   public List fetchForwardList() {
-      return _Forward;
-   }
+	public List<Forward> fetchForwardList() {
+		return this.forwards;
+	}
 
-   public Forward getForward(int index) {
-      return (Forward) _Forward.get(index);
-   }
+	public Forward getForward(final int index) {
+		return this.forwards.get(index);
+	}
 
-   // Return the number of forward
-   public int sizeForward() {
-      return _Forward.size();
-   }
+	// Return the number of forward
+	@Override
+	public int size() {
+		return this.forwards.size();
+	}
 
-   public int addForward(Forward value) {
-      _Forward.add(value);
-      return _Forward.size() - 1;
-   }
+	public int addForward(final Forward value) {
+		this.forwards.add(value);
+		return this.forwards.size() - 1;
+	}
 
-   // Search from the end looking for @param value, and then remove it.
-   public int removeForward(Forward value) {
-      int pos = _Forward.indexOf(value);
-      if (pos >= 0) {
-         _Forward.remove(pos);
-      }
-      return pos;
-   }
+	// Search from the end looking for @param value, and then remove it.
+	public int removeForward(final Forward value) {
+		final int pos = this.forwards.indexOf(value);
+		if (pos >= 0) {
+			this.forwards.remove(pos);
+		}
+		return pos;
+	}
 
-   public void writeNode(Writer out, String nodeName, String indent)
-         throws IOException {
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
-      out.write(nodeName);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
-      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-      int index = 0;
-      for (Iterator it = _Forward.iterator(); it.hasNext();) {
+	public void writeNode(final Writer out, final String nodeName,
+			final String indent) throws IOException {
+		out.write(indent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(nodeName);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		final String nextIndent = indent
+				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+		int index = 0;
+		for (final Iterator<Forward> it = this.forwards.iterator(); it
+				.hasNext();) {
 
-         index = writeCommentsAt(out, indent, index);
+			index = writeCommentsAt(out, indent, index);
 
-         Forward element = (Forward) it.next();
-         if (element != null) {
-            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
-         }
-      }
+			final Forward element = it.next();
+			if (element != null) {
+				element.writeNode(out, Frame2Plugin
+						.getResourceString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
+			}
+		}
 
-      writeRemainingComments(out, indent);
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+		writeRemainingComments(out, indent);
+		out.write(indent);
+		out
+				.write(Frame2Plugin
+						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-   public void readNode(Node node) {
-      NodeList children = node.getChildNodes();
-      int elementCount = 0;
-      for (int i = 0, size = children.getLength(); i < size; ++i) {
-         Node childNode = children.item(i);
-         String childNodeName = (childNode.getLocalName() == null ? childNode
-               .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = ""; //$NON-NLS-1$
-         if (childNode.getFirstChild() != null) {
-            childNodeValue = childNode.getFirstChild().getNodeValue();
-         }
-         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
-            Forward aForward = new Forward();
-            aForward.readNode(childNode);
-            _Forward.add(aForward);
-            elementCount++;
-         } else {
-            // Found extra unrecognized childNode
-            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
-               recordComment(childNode, elementCount++);
-            }
-         }
-      }
-   }
+	public void readNode(final Node node) {
+		final NodeList children = node.getChildNodes();
+		int elementCount = 0;
+		for (int i = 0, size = children.getLength(); i < size; ++i) {
+			final Node childNode = children.item(i);
+			final String childNodeName = (childNode.getLocalName() == null ? childNode
+					.getNodeName().intern()
+					: childNode.getLocalName().intern());
+			/*
+			 * String childNodeValue = ""; //$NON-NLS-1$ if
+			 * (childNode.getFirstChild() != null) { childNodeValue =
+			 * childNode.getFirstChild().getNodeValue(); }
+			 */
+			if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
+				final Forward aForward = new Forward();
+				aForward.readNode(childNode);
+				this.forwards.add(aForward);
+				elementCount++;
+			} else {
+				// Found extra unrecognized childNode
+				if (childNodeName.equals(Frame2Plugin
+						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+					recordComment(childNode, elementCount++);
+				}
+			}
+		}
+	}
 
-   public void validate() throws Frame2Config.ValidateException {
-      boolean restrictionFailure = false;
-      // Validating property forward
-      for (int _index = 0; _index < sizeForward(); ++_index) {
-         Forward element = getForward(_index);
-         if (element != null) {
-            element.validate();
-         }
-      }
-   }
+	public void validate() throws Frame2Config.ValidateException {
+		// boolean restrictionFailure = false;
+		// Validating property forward
+		for (int _index = 0; _index < size(); ++_index) {
+			final Forward element = getForward(_index);
+			if (element != null) {
+				element.validate();
+			}
+		}
+	}
 
-   public void changePropertyByName(String name, Object value) {
-      if (name == null) return;
-      name = name.intern();
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.forward"))) //$NON-NLS-1$
-         addForward((Forward) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.forwardArray"))) //$NON-NLS-1$
-         setForward((Forward[]) value);
-      else
-         throw new IllegalArgumentException(name
-               + Frame2Plugin.getResourceString("Frame2Model.invalidGlobalForwardsProperty")); //$NON-NLS-1$
-   }
+	public void changePropertyByName(final String name, final Object value) {
+		if (name == null) {
+			return;
+		}
+		final String intName = name.intern();
+		if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
+			addForward((Forward) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.forwardArray"))) { //$NON-NLS-1$
+			setForward((Forward[]) value);
+		} else {
+			throw new IllegalArgumentException(
+					intName
+							+ Frame2Plugin
+									.getResourceString("Frame2Model.invalidGlobalForwardsProperty")); //$NON-NLS-1$
+		}
+	}
 
-   public Object fetchPropertyByName(String name) {
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.forwardArray"))) return getForward(); //$NON-NLS-1$
-      throw new IllegalArgumentException(name
-            + Frame2Plugin.getResourceString("Frame2Model.invalidGlobalForwardsProperty")); //$NON-NLS-1$
-   }
+	public Object fetchPropertyByName(final String name) {
+		if (name.equals(Frame2Plugin
+				.getResourceString("Frame2Model.forwardArray"))) { //$NON-NLS-1$
+			return getForward();
+		}
+		throw new IllegalArgumentException(
+				name
+						+ Frame2Plugin
+								.getResourceString("Frame2Model.invalidGlobalForwardsProperty")); //$NON-NLS-1$
+	}
 
-   // Return an array of all of the properties that are beans and are set.
-   public Object[] childBeans(boolean recursive) {
-      List children = new LinkedList();
-      childBeans(recursive, children);
-      Object[] result = new Object[children.size()];
-      return (Object[]) children.toArray(result);
-   }
+	// Put all child beans into the beans list.
+	public void childBeans(final boolean recursive, final List<Object> beans) {
+		for (final Iterator<Forward> it = this.forwards.iterator(); it
+				.hasNext();) {
+			final Forward element = it.next();
+			if (element != null) {
+				if (recursive) {
+					element.childBeans(true, beans);
+				}
+				beans.add(element);
+			}
+		}
+	}
 
-   // Put all child beans into the beans list.
-   public void childBeans(boolean recursive, List beans) {
-      for (Iterator it = _Forward.iterator(); it.hasNext();) {
-         Forward element = (Forward) it.next();
-         if (element != null) {
-            if (recursive) {
-               element.childBeans(true, beans);
-            }
-            beans.add(element);
-         }
-      }
-   }
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof GlobalForwards)) {
+			return false;
+		}
+		final GlobalForwards inst = (GlobalForwards) o;
+		if (size() != inst.size()) {
+			return false;
+		}
+		// Compare every element.
+		for (Iterator<Forward> it = this.forwards.iterator(), it2 = inst.forwards
+				.iterator(); it.hasNext() && it2.hasNext();) {
+			final Forward element = it.next();
+			final Forward element2 = it2.next();
+			if (!(element == null ? element2 == null : element.equals(element2))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-   public boolean equals(Object o) {
-      if (o == this) return true;
-      if (!(o instanceof GlobalForwards)) return false;
-      GlobalForwards inst = (GlobalForwards) o;
-      if (sizeForward() != inst.sizeForward()) return false;
-      // Compare every element.
-      for (Iterator it = _Forward.iterator(), it2 = inst._Forward.iterator(); it
-            .hasNext()
-            && it2.hasNext();) {
-         Forward element = (Forward) it.next();
-         Forward element2 = (Forward) it2.next();
-         if (!(element == null ? element2 == null : element.equals(element2)))
-               return false;
-      }
-      return true;
-   }
-
-   public int hashCode() {
-      int result = 17;
-      result = 37 * result + (_Forward == null ? 0 : _Forward.hashCode());
-      return result;
-   }
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 37 * result
+				+ (this.forwards == null ? 0 : this.forwards.hashCode());
+		return result;
+	}
 
 }

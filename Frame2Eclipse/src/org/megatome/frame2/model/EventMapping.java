@@ -48,450 +48,581 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.megatome.frame2.Frame2Plugin;
+import org.megatome.frame2.model.Frame2Config.ValidateException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.megatome.frame2.Frame2Plugin;
 
-public class EventMapping extends XMLCommentPreserver {
+public class EventMapping extends Frame2DomainObject {
 
-   private String _EventName;
+	private String eventName;
 
-   private String _InputView;
+	private String inputView;
 
-   private String _CancelView;
+	private String cancelView;
 
-   private String _Validate;
+	private String validate;
 
-   private List _Handler = new ArrayList(); // List<Handler>
+	private final List<Handler> handlers = new ArrayList<Handler>(); // List<Handler>
 
-   private List _View = new ArrayList(); // List<View>
+	private final List<View> views = new ArrayList<View>(); // List<View>
 
-   private Security _Security;
+	private Security security;
 
-   public EventMapping() {
-      _EventName = ""; //$NON-NLS-1$
-      clearComments();
-   }
+	public EventMapping() {
+		this.eventName = ""; //$NON-NLS-1$
+		clearComments();
+	}
 
-   // Deep copy
-   public EventMapping(EventMapping source) {
-      _EventName = source._EventName;
-      _InputView = source._InputView;
-      _CancelView = source._CancelView;
-      _Validate = source._Validate;
-      for (Iterator it = source._Handler.iterator(); it.hasNext();) {
-         _Handler.add(new Handler((Handler) it.next()));
-      }
-      for (Iterator it = source._View.iterator(); it.hasNext();) {
-         _View.add(new View((View) it.next()));
-      }
-      setComments(source.getCommentMap());
-      _Security = new Security(source._Security);
-   }
+	@Override
+	public EventMapping copy() {
+		return new EventMapping(this);
+	}
 
-   // This attribute is mandatory
-   public void setEventName(String value) {
-      _EventName = value;
-   }
+	// Deep copy
+	private EventMapping(final EventMapping source) {
+		this.eventName = source.eventName;
+		this.inputView = source.inputView;
+		this.cancelView = source.cancelView;
+		this.validate = source.validate;
+		for (Handler handler : source.handlers) {
+			this.handlers.add(handler.copy());
+		}
+		for (View view : source.views) {
+			this.views.add(view.copy());
+		}
+		setComments(source.getCommentMap());
+		this.security = source.security.copy();
+	}
 
-   public String getEventName() {
-      return _EventName;
-   }
+	// This attribute is mandatory
+	public void setEventName(final String value) {
+		this.eventName = value;
+	}
 
-   // This attribute is optional
-   public void setInputView(String value) {
-      _InputView = value;
-   }
+	public String getEventName() {
+		return this.eventName;
+	}
 
-   public String getInputView() {
-      return _InputView;
-   }
+	// This attribute is optional
+	public void setInputView(final String value) {
+		this.inputView = value;
+	}
 
-   // This attribute is optional
-   public void setCancelView(String value) {
-      _CancelView = value;
-   }
+	public String getInputView() {
+		return this.inputView;
+	}
 
-   public String getCancelView() {
-      return _CancelView;
-   }
+	// This attribute is optional
+	public void setCancelView(final String value) {
+		this.cancelView = value;
+	}
 
-   // This attribute is optional
-   public void setValidate(String value) {
-      _Validate = value;
-   }
+	public String getCancelView() {
+		return this.cancelView;
+	}
 
-   public String getValidate() {
-      return _Validate;
-   }
+	// This attribute is optional
+	public void setValidate(final String value) {
+		this.validate = value;
+	}
 
-   // This attribute is an array, possibly empty
-   public void setHandler(Handler[] value) {
-      if (value == null) value = new Handler[0];
-      _Handler.clear();
-      for (int i = 0; i < value.length; ++i) {
-         _Handler.add(value[i]);
-      }
-   }
+	public String getValidate() {
+		return this.validate;
+	}
 
-   public void setHandler(int index, Handler value) {
-      _Handler.set(index, value);
-   }
+	// This attribute is an array, possibly empty
+	public void setHandler(final Handler[] value) {
+		this.handlers.clear();
+		if (value == null) {
+			return;
+		}
+		for (int i = 0; i < value.length; ++i) {
+			this.handlers.add(value[i]);
+		}
+	}
 
-   public Handler[] getHandler() {
-      Handler[] arr = new Handler[_Handler.size()];
-      return (Handler[]) _Handler.toArray(arr);
-   }
+	public void setHandler(final int index, final Handler value) {
+		this.handlers.set(index, value);
+	}
 
-   public List fetchHandlerList() {
-      return _Handler;
-   }
+	public Handler[] getHandler() {
+		final Handler[] arr = new Handler[this.handlers.size()];
+		return this.handlers.toArray(arr);
+	}
 
-   public Handler getHandler(int index) {
-      return (Handler) _Handler.get(index);
-   }
+	public List<Handler> fetchHandlerList() {
+		return this.handlers;
+	}
 
-   // Return the number of handler
-   public int sizeHandler() {
-      return _Handler.size();
-   }
+	public Handler getHandler(final int index) {
+		return this.handlers.get(index);
+	}
 
-   public int addHandler(Handler value) {
-      _Handler.add(value);
-      return _Handler.size() - 1;
-   }
+	// Return the number of handler
+	public int sizeHandler() {
+		return this.handlers.size();
+	}
 
-   // Search from the end looking for @param value, and then remove it.
-   public int removeHandler(Handler value) {
-      int pos = _Handler.indexOf(value);
-      if (pos >= 0) {
-         _Handler.remove(pos);
-      }
-      return pos;
-   }
+	public int addHandler(final Handler value) {
+		this.handlers.add(value);
+		return this.handlers.size() - 1;
+	}
 
-   // This attribute is an array, possibly empty
-   public void setView(View[] value) {
-      if (value == null) value = new View[0];
-      _View.clear();
-      for (int i = 0; i < value.length; ++i) {
-         _View.add(value[i]);
-      }
-   }
+	// Search from the end looking for @param value, and then remove it.
+	public int removeHandler(final Handler value) {
+		final int pos = this.handlers.indexOf(value);
+		if (pos >= 0) {
+			this.handlers.remove(pos);
+		}
+		return pos;
+	}
 
-   public void setView(int index, View value) {
-      _View.set(index, value);
-   }
+	// This attribute is an array, possibly empty
+	public void setView(final View[] value) {
+		this.views.clear();
+		if (value == null) {
+			return;
+		}
+		for (int i = 0; i < value.length; ++i) {
+			this.views.add(value[i]);
+		}
+	}
 
-   public View[] getView() {
-      View[] arr = new View[_View.size()];
-      return (View[]) _View.toArray(arr);
-   }
+	public void setView(final int index, final View value) {
+		this.views.set(index, value);
+	}
 
-   public List fetchViewList() {
-      return _View;
-   }
+	public View[] getView() {
+		final View[] arr = new View[this.views.size()];
+		return this.views.toArray(arr);
+	}
 
-   public View getView(int index) {
-      return (View) _View.get(index);
-   }
+	public List<View> fetchViewList() {
+		return this.views;
+	}
 
-   // Return the number of view
-   public int sizeView() {
-      return _View.size();
-   }
+	public View getView(final int index) {
+		return this.views.get(index);
+	}
 
-   public int addView(View value) {
-      _View.add(value);
-      return _View.size() - 1;
-   }
+	// Return the number of view
+	/**
+	 * @return
+	 * @see org.megatome.frame2.model.IDomainObject#size()
+	 */
+	@Override
+	public int size() {
+		return this.views.size();
+	}
 
-   // Search from the end looking for @param value, and then remove it.
-   public int removeView(View value) {
-      int pos = _View.indexOf(value);
-      if (pos >= 0) {
-         _View.remove(pos);
-      }
-      return pos;
-   }
+	public int addView(final View value) {
+		this.views.add(value);
+		return this.views.size() - 1;
+	}
 
-   // This attribute is optional
-   public void setSecurity(Security value) {
-      _Security = value;
-   }
+	// Search from the end looking for @param value, and then remove it.
+	public int removeView(final View value) {
+		final int pos = this.views.indexOf(value);
+		if (pos >= 0) {
+			this.views.remove(pos);
+		}
+		return pos;
+	}
 
-   public Security getSecurity() {
-      return _Security;
-   }
+	// This attribute is optional
+	public void setSecurity(final Security value) {
+		this.security = value;
+	}
 
-   public void writeNode(Writer out, String nodeName, String indent)
-         throws IOException {
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
-      out.write(nodeName);
-      // eventName is an attribute
-      if (_EventName != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.eventNameAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _EventName, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      // inputView is an attribute
-      if (_InputView != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.inputViewAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _InputView, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      // cancelView is an attribute
-      if (_CancelView != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.cancelViewAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _CancelView, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      // validate is an attribute
-      if (_Validate != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.validateAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _Validate, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
-      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-      for (Iterator it = _Handler.iterator(); it.hasNext();) {
-         Handler element = (Handler) it.next();
-         if (element != null) {
-            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.handler"), nextIndent); //$NON-NLS-1$
-         }
-      }
-      for (Iterator it = _View.iterator(); it.hasNext();) {
-         View element = (View) it.next();
-         if (element != null) {
-            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.view"), nextIndent); //$NON-NLS-1$
-         }
-      }
+	public Security getSecurity() {
+		return this.security;
+	}
 
-      writeRemainingComments(out, indent);
+	/**
+	 * @param out
+	 * @param nodeName
+	 * @param indent
+	 * @throws IOException
+	 * @see org.megatome.frame2.model.IDomainObject#writeNode(java.io.Writer, java.lang.String, java.lang.String)
+	 */
+	public void writeNode(final Writer out, final String nodeName,
+			final String indent) throws IOException {
+		out.write(indent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(nodeName);
+		// eventName is an attribute
+		if (this.eventName != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.eventNameAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.eventName, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		// inputView is an attribute
+		if (this.inputView != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.inputViewAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.inputView, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		// cancelView is an attribute
+		if (this.cancelView != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.cancelViewAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.cancelView, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		// validate is an attribute
+		if (this.validate != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.validateAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.validate, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		final String nextIndent = indent
+				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+		for (final Iterator<Handler> it = this.handlers.iterator(); it
+				.hasNext();) {
+			final Handler element = it.next();
+			if (element != null) {
+				element.writeNode(out, Frame2Plugin
+						.getResourceString("Frame2Model.handler"), nextIndent); //$NON-NLS-1$
+			}
+		}
+		for (final Iterator<View> it = this.views.iterator(); it.hasNext();) {
+			final View element = it.next();
+			if (element != null) {
+				element.writeNode(out, Frame2Plugin
+						.getResourceString("Frame2Model.view"), nextIndent); //$NON-NLS-1$
+			}
+		}
 
-      if (_Security != null) {
-         _Security.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.security"), nextIndent); //$NON-NLS-1$
-      }
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+		writeRemainingComments(out, indent);
 
-   public void readNode(Node node) {
-      if (node.hasAttributes()) {
-         NamedNodeMap attrs = node.getAttributes();
-         Attr attr;
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.eventName")); //$NON-NLS-1$
-         if (attr != null) {
-            _EventName = attr.getValue();
-         }
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.inputView")); //$NON-NLS-1$
-         if (attr != null) {
-            _InputView = attr.getValue();
-         }
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.cancelView")); //$NON-NLS-1$
-         if (attr != null) {
-            _CancelView = attr.getValue();
-         }
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.validate")); //$NON-NLS-1$
-         if (attr != null) {
-            _Validate = attr.getValue();
-         }
-      }
-      NodeList children = node.getChildNodes();
-      for (int i = 0, size = children.getLength(); i < size; ++i) {
-         Node childNode = children.item(i);
-         String childNodeName = (childNode.getLocalName() == null ? childNode
-               .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = ""; //$NON-NLS-1$
-         if (childNode.getFirstChild() != null) {
-            childNodeValue = childNode.getFirstChild().getNodeValue();
-         }
-         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.handler"))) { //$NON-NLS-1$
-            Handler aHandler = new Handler();
-            aHandler.readNode(childNode);
-            _Handler.add(aHandler);
-         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
-            View aView = new View();
-            aView.readNode(childNode);
-            _View.add(aView);
-         } else if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.security"))) { //$NON-NLS-1$
-            _Security = new Security();
-            _Security.readNode(childNode);
-         } else {
-            // Found extra unrecognized childNode
-            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
-               recordComment(childNode, i);
-            }
-         }
-      }
-   }
+		if (this.security != null) {
+			this.security.writeNode(out, Frame2Plugin
+					.getResourceString("Frame2Model.security"), nextIndent); //$NON-NLS-1$
+		}
+		out.write(indent);
+		out
+				.write(Frame2Plugin
+						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-   public void validate() throws Frame2Config.ValidateException {
-      boolean restrictionFailure = false;
-      // Validating property eventName
-      if (getEventName() == null) { throw new Frame2Config.ValidateException(
-            Frame2Plugin.getResourceString("Frame2Model.eventNameNull"), Frame2Plugin.getResourceString("Frame2Model.eventName"), this); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-      // Validating property inputView
-      if (getInputView() != null) {
-      }
-      // Validating property cancelView
-      if (getCancelView() != null) {
-      }
-      // Validating property validate
-      if (getValidate() != null) {
-      }
-      // Validating property handler
-      for (int _index = 0; _index < sizeHandler(); ++_index) {
-         Handler element = getHandler(_index);
-         if (element != null) {
-            element.validate();
-         }
-      }
-      // Validating property view
-      for (int _index = 0; _index < sizeView(); ++_index) {
-         View element = getView(_index);
-         if (element != null) {
-            element.validate();
-         }
-      }
-      // Validating property security
-      if (getSecurity() != null) {
-         getSecurity().validate();
-      }
-   }
+	/**
+	 * @param node
+	 * @see org.megatome.frame2.model.IDomainObject#readNode(org.w3c.dom.Node)
+	 */
+	public void readNode(final Node node) {
+		if (node.hasAttributes()) {
+			final NamedNodeMap attrs = node.getAttributes();
+			Attr attr;
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.eventName")); //$NON-NLS-1$
+			if (attr != null) {
+				this.eventName = attr.getValue();
+			}
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.inputView")); //$NON-NLS-1$
+			if (attr != null) {
+				this.inputView = attr.getValue();
+			}
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.cancelView")); //$NON-NLS-1$
+			if (attr != null) {
+				this.cancelView = attr.getValue();
+			}
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.validate")); //$NON-NLS-1$
+			if (attr != null) {
+				this.validate = attr.getValue();
+			}
+		}
+		final NodeList children = node.getChildNodes();
+		for (int i = 0, size = children.getLength(); i < size; ++i) {
+			final Node childNode = children.item(i);
+			final String childNodeName = (childNode.getLocalName() == null ? childNode
+					.getNodeName().intern()
+					: childNode.getLocalName().intern());
+			/*
+			 * String childNodeValue = ""; //$NON-NLS-1$ if
+			 * (childNode.getFirstChild() != null) { childNodeValue =
+			 * childNode.getFirstChild().getNodeValue(); }
+			 */
+			if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.handler"))) { //$NON-NLS-1$
+				final Handler aHandler = new Handler();
+				aHandler.readNode(childNode);
+				this.handlers.add(aHandler);
+			} else if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
+				final View aView = new View();
+				aView.readNode(childNode);
+				this.views.add(aView);
+			} else if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.security"))) { //$NON-NLS-1$
+				this.security = new Security();
+				this.security.readNode(childNode);
+			} else {
+				// Found extra unrecognized childNode
+				if (childNodeName.equals(Frame2Plugin
+						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+					recordComment(childNode, i);
+				}
+			}
+		}
+	}
 
-   public void changePropertyByName(String name, Object value) {
-      if (name == null) return;
-      name = name.intern();
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventName"))) //$NON-NLS-1$
-         setEventName((String) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.inputView"))) //$NON-NLS-1$
-         setInputView((String) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.cancelView"))) //$NON-NLS-1$
-         setCancelView((String) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.validate"))) //$NON-NLS-1$
-         setValidate((String) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.handler"))) //$NON-NLS-1$
-         addHandler((Handler) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.handlerArray"))) //$NON-NLS-1$
-         setHandler((Handler[]) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.view"))) //$NON-NLS-1$
-         addView((View) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) //$NON-NLS-1$
-         setView((View[]) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.security"))) //$NON-NLS-1$
-         setSecurity((Security) value);
-      else
-         throw new IllegalArgumentException(name
-               + Frame2Plugin.getResourceString("Frame2Model.invalidEventMappingProperty")); //$NON-NLS-1$
-   }
+	/**
+	 * @throws ValidateException
+	 * @see org.megatome.frame2.model.IDomainObject#validate()
+	 */
+	public void validate() throws Frame2Config.ValidateException {
+		// boolean restrictionFailure = false;
+		// Validating property eventName
+		if (getEventName() == null) {
+			throw new Frame2Config.ValidateException(
+					Frame2Plugin.getResourceString("Frame2Model.eventNameNull"), Frame2Plugin.getResourceString("Frame2Model.eventName"), this); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		// Validating property inputView
+		if (getInputView() != null) {
+			// NOOP
+		}
+		// Validating property cancelView
+		if (getCancelView() != null) {
+			// NOOP
+		}
+		// Validating property validate
+		if (getValidate() != null) {
+			// NOOP
+		}
+		// Validating property handler
+		for (int _index = 0; _index < sizeHandler(); ++_index) {
+			final Handler element = getHandler(_index);
+			if (element != null) {
+				element.validate();
+			}
+		}
+		// Validating property view
+		for (int _index = 0; _index < size(); ++_index) {
+			final View element = getView(_index);
+			if (element != null) {
+				element.validate();
+			}
+		}
+		// Validating property security
+		if (getSecurity() != null) {
+			getSecurity().validate();
+		}
+	}
 
-   public Object fetchPropertyByName(String name) {
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.eventName"))) return getEventName(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.inputView"))) return getInputView(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.cancelView"))) return getCancelView(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.validate"))) return getValidate(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.handlerArray"))) return getHandler(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) return getView(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.security"))) return getSecurity(); //$NON-NLS-1$
-      throw new IllegalArgumentException(name
-            + Frame2Plugin.getResourceString("Frame2Model.invalidEventMappingProperty")); //$NON-NLS-1$
-   }
+	/**
+	 * @param name
+	 * @param value
+	 * @see org.megatome.frame2.model.IDomainObject#changePropertyByName(java.lang.String, java.lang.Object)
+	 */
+	public void changePropertyByName(final String name, final Object value) {
+		if (name == null) {
+			return;
+		}
+		final String intName = name.intern();
+		if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.eventName"))) { //$NON-NLS-1$
+			setEventName((String) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.inputView"))) { //$NON-NLS-1$
+			setInputView((String) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.cancelView"))) { //$NON-NLS-1$
+			setCancelView((String) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.validate"))) { //$NON-NLS-1$
+			setValidate((String) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.handler"))) { //$NON-NLS-1$
+			addHandler((Handler) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.handlerArray"))) { //$NON-NLS-1$
+			setHandler((Handler[]) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
+			addView((View) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.viewArray"))) { //$NON-NLS-1$
+			setView((View[]) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.security"))) { //$NON-NLS-1$
+			setSecurity((Security) value);
+		} else {
+			throw new IllegalArgumentException(
+					name
+							+ Frame2Plugin
+									.getResourceString("Frame2Model.invalidEventMappingProperty")); //$NON-NLS-1$
+		}
+	}
 
-   // Return an array of all of the properties that are beans and are set.
-   public Object[] childBeans(boolean recursive) {
-      List children = new LinkedList();
-      childBeans(recursive, children);
-      Object[] result = new Object[children.size()];
-      return (Object[]) children.toArray(result);
-   }
+	/**
+	 * @param name
+	 * @return
+	 * @see org.megatome.frame2.model.IDomainObject#fetchPropertyByName(java.lang.String)
+	 */
+	public Object fetchPropertyByName(final String name) {
+		if (name
+				.equals(Frame2Plugin.getResourceString("Frame2Model.eventName"))) { //$NON-NLS-1$
+			return getEventName();
+		}
+		if (name
+				.equals(Frame2Plugin.getResourceString("Frame2Model.inputView"))) { //$NON-NLS-1$
+			return getInputView();
+		}
+		if (name.equals(Frame2Plugin
+				.getResourceString("Frame2Model.cancelView"))) { //$NON-NLS-1$
+			return getCancelView();
+		}
+		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.validate"))) { //$NON-NLS-1$
+			return getValidate();
+		}
+		if (name.equals(Frame2Plugin
+				.getResourceString("Frame2Model.handlerArray"))) { //$NON-NLS-1$
+			return getHandler();
+		}
+		if (name
+				.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) { //$NON-NLS-1$
+			return getView();
+		}
+		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.security"))) { //$NON-NLS-1$
+			return getSecurity();
+		}
+		throw new IllegalArgumentException(
+				name
+						+ Frame2Plugin
+								.getResourceString("Frame2Model.invalidEventMappingProperty")); //$NON-NLS-1$
+	}
 
-   // Put all child beans into the beans list.
-   public void childBeans(boolean recursive, List beans) {
-      for (Iterator it = _Handler.iterator(); it.hasNext();) {
-         Handler element = (Handler) it.next();
-         if (element != null) {
-            if (recursive) {
-               element.childBeans(true, beans);
-            }
-            beans.add(element);
-         }
-      }
-      for (Iterator it = _View.iterator(); it.hasNext();) {
-         View element = (View) it.next();
-         if (element != null) {
-            if (recursive) {
-               element.childBeans(true, beans);
-            }
-            beans.add(element);
-         }
-      }
-      if (_Security != null) {
-         if (recursive) {
-            _Security.childBeans(true, beans);
-         }
-         beans.add(_Security);
-      }
-   }
+	// Put all child beans into the beans list.
+	/**
+	 * @param recursive
+	 * @param beans
+	 * @see org.megatome.frame2.model.IDomainObject#childBeans(boolean, java.util.List)
+	 */
+	public void childBeans(final boolean recursive, final List<Object> beans) {
+		for (final Iterator<Handler> it = this.handlers.iterator(); it
+				.hasNext();) {
+			final Handler element = it.next();
+			if (element != null) {
+				if (recursive) {
+					element.childBeans(true, beans);
+				}
+				beans.add(element);
+			}
+		}
+		for (final Iterator<View> it = this.views.iterator(); it.hasNext();) {
+			final View element = it.next();
+			if (element != null) {
+				if (recursive) {
+					element.childBeans(true, beans);
+				}
+				beans.add(element);
+			}
+		}
+		if (this.security != null) {
+			if (recursive) {
+				this.security.childBeans(true, beans);
+			}
+			beans.add(this.security);
+		}
+	}
 
-   public boolean equals(Object o) {
-      if (o == this) return true;
-      if (!(o instanceof EventMapping)) return false;
-      EventMapping inst = (EventMapping) o;
-      if (!(_EventName == null ? inst._EventName == null : _EventName
-            .equals(inst._EventName))) return false;
-      if (!(_InputView == null ? inst._InputView == null : _InputView
-            .equals(inst._InputView))) return false;
-      if (!(_CancelView == null ? inst._CancelView == null : _CancelView
-            .equals(inst._CancelView))) return false;
-      if (!(_Validate == null ? inst._Validate == null : _Validate
-            .equals(inst._Validate))) return false;
-      if (sizeHandler() != inst.sizeHandler()) return false;
-      // Compare every element.
-      for (Iterator it = _Handler.iterator(), it2 = inst._Handler.iterator(); it
-            .hasNext()
-            && it2.hasNext();) {
-         Handler element = (Handler) it.next();
-         Handler element2 = (Handler) it2.next();
-         if (!(element == null ? element2 == null : element.equals(element2)))
-               return false;
-      }
-      if (sizeView() != inst.sizeView()) return false;
-      // Compare every element.
-      for (Iterator it = _View.iterator(), it2 = inst._View.iterator(); it
-            .hasNext()
-            && it2.hasNext();) {
-         View element = (View) it.next();
-         View element2 = (View) it2.next();
-         if (!(element == null ? element2 == null : element.equals(element2)))
-               return false;
-      }
-      if (!(_Security == null ? inst._Security == null : _Security
-            .equals(inst._Security))) return false;
-      return true;
-   }
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof EventMapping)) {
+			return false;
+		}
+		final EventMapping inst = (EventMapping) o;
+		if (!(this.eventName == null ? inst.eventName == null : this.eventName
+				.equals(inst.eventName))) {
+			return false;
+		}
+		if (!(this.inputView == null ? inst.inputView == null : this.inputView
+				.equals(inst.inputView))) {
+			return false;
+		}
+		if (!(this.cancelView == null ? inst.cancelView == null
+				: this.cancelView.equals(inst.cancelView))) {
+			return false;
+		}
+		if (!(this.validate == null ? inst.validate == null : this.validate
+				.equals(inst.validate))) {
+			return false;
+		}
+		if (sizeHandler() != inst.sizeHandler()) {
+			return false;
+		}
+		// Compare every element.
+		for (Iterator<Handler> it = this.handlers.iterator(), it2 = inst.handlers
+				.iterator(); it.hasNext() && it2.hasNext();) {
+			final Handler element = it.next();
+			final Handler element2 = it2.next();
+			if (!(element == null ? element2 == null : element.equals(element2))) {
+				return false;
+			}
+		}
+		if (size() != inst.size()) {
+			return false;
+		}
+		// Compare every element.
+		for (Iterator<View> it = this.views.iterator(), it2 = inst.views
+				.iterator(); it.hasNext() && it2.hasNext();) {
+			final View element = it.next();
+			final View element2 = it2.next();
+			if (!(element == null ? element2 == null : element.equals(element2))) {
+				return false;
+			}
+		}
+		if (!(this.security == null ? inst.security == null : this.security
+				.equals(inst.security))) {
+			return false;
+		}
+		return true;
+	}
 
-   public int hashCode() {
-      int result = 17;
-      result = 37 * result + (_EventName == null ? 0 : _EventName.hashCode());
-      result = 37 * result + (_InputView == null ? 0 : _InputView.hashCode());
-      result = 37 * result + (_CancelView == null ? 0 : _CancelView.hashCode());
-      result = 37 * result + (_Validate == null ? 0 : _Validate.hashCode());
-      result = 37 * result + (_Handler == null ? 0 : _Handler.hashCode());
-      result = 37 * result + (_View == null ? 0 : _View.hashCode());
-      result = 37 * result + (_Security == null ? 0 : _Security.hashCode());
-      return result;
-   }
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 37 * result
+				+ (this.eventName == null ? 0 : this.eventName.hashCode());
+		result = 37 * result
+				+ (this.inputView == null ? 0 : this.inputView.hashCode());
+		result = 37 * result
+				+ (this.cancelView == null ? 0 : this.cancelView.hashCode());
+		result = 37 * result
+				+ (this.validate == null ? 0 : this.validate.hashCode());
+		result = 37 * result
+				+ (this.handlers == null ? 0 : this.handlers.hashCode());
+		result = 37 * result + (this.views == null ? 0 : this.views.hashCode());
+		result = 37 * result
+				+ (this.security == null ? 0 : this.security.hashCode());
+		return result;
+	}
 
 }

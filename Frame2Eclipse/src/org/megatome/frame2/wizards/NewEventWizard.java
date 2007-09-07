@@ -82,123 +82,120 @@ import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2ModelException;
 
+public class NewEventWizard extends BaseFrame2Wizard {
+	private NewEventWizardPage1 page;
 
-public class NewEventWizard extends BaseFrame2Wizard  {
-    private NewEventWizardPage1 page;
+	public NewEventWizard() {
+		super();
+		setNeedsProgressMonitor(true);
+	}
 
-    public NewEventWizard() {
-        super();
-        setNeedsProgressMonitor(true);
-    }
+	@Override
+	public void addPages() {
+		this.page = new NewEventWizardPage1(this.selection);
+		addPage(this.page);
+	}
 
-    public void addPages() {
-        page = new NewEventWizardPage1(selection);
-        addPage(page);
-    }
+	@Override
+	public boolean performFinish() {
+		final String containerName = this.page.getPackageFragmentRootText();
+		final String eventName = this.page.getEventName();
+		final String eventType = this.page.getEventClassType();
+		final String newEventType = this.page.getNewEventType();
+		final IRunnableWithProgress op = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
+				try {
+					doFinish(containerName, eventName, eventType, newEventType,
+							monitor);
+				} catch (CoreException e) {
+					throw new InvocationTargetException(e);
+				} finally {
+					monitor.done();
+				}
+			}
+		};
+		try {
+			getContainer().run(true, false, op);
+		} catch (final InterruptedException e) {
+			return false;
+		} catch (final InvocationTargetException e) {
+			final Throwable realException = e.getTargetException();
+			MessageDialog.openError(getShell(), Frame2Plugin
+					.getResourceString("NewEventWizard.ErrorTitle"), //$NON-NLS-1$
+					realException.getMessage());
+			return false;
+		}
+		return true;
+	}
 
-    public boolean performFinish() {
-        final String containerName = page.getPackageFragmentRootText();
-        final String eventName = page.getEventName();
-        final String eventType = page.getEventClassType();
-        final String newEventType = page.getNewEventType();
-        IRunnableWithProgress op = new IRunnableWithProgress() {
-            public void run(IProgressMonitor monitor)
-                throws InvocationTargetException {
-                try {
-                    doFinish(
-                        containerName,
-                        eventName,
-                        eventType,
-                        newEventType,
-                        monitor);
-                } catch (CoreException e) {
-                    throw new InvocationTargetException(e);
-                } finally {
-                    monitor.done();
-                }
-            }
-        };
-        try {
-            getContainer().run(true, false, op);
-        } catch (InterruptedException e) {
-            return false;
-        } catch (InvocationTargetException e) {
-            Throwable realException = e.getTargetException();
-            MessageDialog.openError(
-                getShell(),
-                Frame2Plugin.getResourceString("NewEventWizard.ErrorTitle"), //$NON-NLS-1$
-                realException.getMessage());
-            return false;
-        }
-        return true;
-    }
+	void doFinish(final String containerName, final String eventName,
+			final String eventType, final String newEventType,
+			final IProgressMonitor monitor) throws CoreException {
 
+		if (newEventType.equals(NewEventWizardPage1.NEW_CLASS)) {
+			// create a sample file
+			monitor
+					.beginTask(
+							Frame2Plugin
+									.getResourceString("NewEventWizard.creatingEventStatus"), 3); //$NON-NLS-1$
+			final IWorkspaceRoot root = ResourcesPlugin.getWorkspace()
+					.getRoot();
+			final IResource resource = root.findMember(new Path(containerName));
+			if (!resource.exists() || !(resource instanceof IContainer)) {
+				throwCoreException(Frame2Plugin
+						.getResourceString("NewEventWizard.containerMessagePre") + containerName + Frame2Plugin.getResourceString("NewEventWizard.containerMessagePost")); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			final IContainer container = (IContainer) resource;
 
-    private void doFinish(
-        String containerName,
-        String eventName,
-        String eventType,
-        String newEventType,
-        IProgressMonitor monitor)
-        throws CoreException {
+			try {
+				this.page.createType(monitor);
+			} catch (final InterruptedException e1) {
+				throwCoreException(Frame2Plugin
+						.getResourceString("NewEventWizard.classCreateError") + e1.getMessage()); //$NON-NLS-1$
+			}
+			final IType type = this.page.getCreatedType();
+			final IPath typePath = type.getPath();
+			final IPath containerPath = container.getFullPath();
 
-        if (newEventType.equals(NewEventWizardPage1.NEW_CLASS)) {
-            // create a sample file
-            monitor.beginTask(Frame2Plugin.getResourceString("NewEventWizard.creatingEventStatus"), 3); //$NON-NLS-1$
-            IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-            IResource resource = root.findMember(new Path(containerName));
-            if (!resource.exists() || !(resource instanceof IContainer)) {
-                throwCoreException(
-                    Frame2Plugin.getResourceString("NewEventWizard.containerMessagePre") + containerName + Frame2Plugin.getResourceString("NewEventWizard.containerMessagePost")); //$NON-NLS-1$ //$NON-NLS-2$
-            }
-            IContainer container = (IContainer)resource;
+			final int count = typePath.matchingFirstSegments(containerPath);
+			final IPath newTypePath = typePath.removeFirstSegments(count);
 
-            try {
-                page.createType(monitor);
-            } catch (InterruptedException e1) {
-                throwCoreException(
-                    Frame2Plugin.getResourceString("NewEventWizard.classCreateError") + e1.getMessage()); //$NON-NLS-1$
-            }
-            IType type = page.getCreatedType();
-            IPath typePath = type.getPath();
-            IPath containerPath = container.getFullPath();
-            
-            int count = typePath.matchingFirstSegments(containerPath);
-            IPath newTypePath = typePath.removeFirstSegments(count);
-                        
-            final IFile file = container.getFile(newTypePath);
-            monitor.worked(1);
-            monitor.setTaskName(Frame2Plugin.getResourceString("NewEventWizard.openingFileStatus")); //$NON-NLS-1$
-            getShell().getDisplay().asyncExec(new Runnable() {
-                public void run() {
-                    IWorkbenchPage page =
-                        PlatformUI
-                            .getWorkbench()
-                            .getActiveWorkbenchWindow()
-                            .getActivePage();
-                    try {
-                       IDE.openEditor(page, file, true);
-                    } catch (PartInitException e) {}
-                }
-            });
-            monitor.worked(1);
-        } else {
-            monitor.beginTask(Frame2Plugin.getResourceString("NewEventWizard.addToConfigStatus"), 1); //$NON-NLS-1$
-        }
+			final IFile file = container.getFile(newTypePath);
+			monitor.worked(1);
+			monitor.setTaskName(Frame2Plugin
+					.getResourceString("NewEventWizard.openingFileStatus")); //$NON-NLS-1$
+			getShell().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					final IWorkbenchPage iwpage = PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getActivePage();
+					try {
+						IDE.openEditor(iwpage, file, true);
+					} catch (final PartInitException e) {
+						// Ignore
+					}
+				}
+			});
+			monitor.worked(1);
+		} else {
+			monitor.beginTask(Frame2Plugin
+					.getResourceString("NewEventWizard.addToConfigStatus"), 1); //$NON-NLS-1$
+		}
 
-        Frame2Event event = new Frame2Event();
-        event.setName(eventName);
-        if (!newEventType.equals(NewEventWizardPage1.NO_CLASS))
-            event.setType(eventType);
+		final Frame2Event event = new Frame2Event();
+		event.setName(eventName);
+		if (!newEventType.equals(NewEventWizardPage1.NO_CLASS)) {
+			event.setType(eventType);
+		}
 
-        try {
-            model.addEvent(event);
-            model.persistConfiguration();
-        } catch (Frame2ModelException e) {
-            throwCoreException(
-                Frame2Plugin.getResourceString("NewEventWizard.addToConfigError") + e.getMessage()); //$NON-NLS-1$
-        }
+		try {
+			this.model.addEvent(event);
+			this.model.persistConfiguration();
+		} catch (final Frame2ModelException e) {
+			throwCoreException(Frame2Plugin
+					.getResourceString("NewEventWizard.addToConfigError") + e.getMessage()); //$NON-NLS-1$
+		}
 
-        monitor.worked(1);
-    }
+		monitor.worked(1);
+	}
 }

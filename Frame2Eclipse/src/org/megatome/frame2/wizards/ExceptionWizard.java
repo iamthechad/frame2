@@ -78,21 +78,25 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 		super();
 		setNeedsProgressMonitor(true);
 	}
-	
+
+	@Override
 	public void addPages() {
-		page = new ExceptionWizardPage1(selection);
-		addPage(page);
+		this.page = new ExceptionWizardPage1(this.selection);
+		addPage(this.page);
 	}
 
+	@Override
 	public boolean performFinish() {
-		final String requestKey = page.getRequestKey();
-		final String exceptionType = page.getExceptionType();
-        final String htmlView = page.getHTMLView();
-        final String xmlView = page.getXMLView();
-		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+		final String requestKey = this.page.getRequestKey();
+		final String exceptionType = this.page.getExceptionType();
+		final String htmlView = this.page.getHTMLView();
+		final String xmlView = this.page.getXMLView();
+		final IRunnableWithProgress op = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
 				try {
-					doFinish(requestKey, exceptionType, htmlView, xmlView, monitor);
+					doFinish(requestKey, exceptionType, htmlView, xmlView,
+							monitor);
 				} catch (CoreException e) {
 					throw new InvocationTargetException(e);
 				} finally {
@@ -102,59 +106,63 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 		};
 		try {
 			getContainer().run(true, false, op);
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			return false;
-		} catch (InvocationTargetException e) {
-			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), Frame2Plugin.getResourceString("ExceptionWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
+		} catch (final InvocationTargetException e) {
+			final Throwable realException = e.getTargetException();
+			MessageDialog
+					.openError(
+							getShell(),
+							Frame2Plugin
+									.getResourceString("ExceptionWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;
 	}
-	
-	private void doFinish(
-		String requestKey,
-		String exceptionType,
-        String htmlView,
-        String xmlView,
-		IProgressMonitor monitor)
-		throws CoreException {
+
+	void doFinish(final String requestKey, final String exceptionType,
+			final String htmlView, final String xmlView,
+			final IProgressMonitor monitor) throws CoreException {
 		// create a sample file
-		monitor.beginTask(Frame2Plugin.getResourceString("ExceptionWizard.creatingEntryStatus"), 1); //$NON-NLS-1$
-        
-        Frame2Exception exception = new Frame2Exception();
-        exception.setRequestKey(requestKey);
-        exception.setType(exceptionType);
-        
-        if ((htmlView.length() != 0) && 
-            (xmlView.length() != 0) && 
-            htmlView.equals(xmlView)) {
-            View view = new View();
-            view.setForwardName(htmlView);
-            view.setType(Frame2Plugin.getResourceString("ExceptionWizard.both_type")); //$NON-NLS-1$
-            exception.addView(view);
-        } else {
-            if (htmlView.length() != 0) {
-                View view = new View();
-                view.setForwardName(htmlView);
-                view.setType(Frame2Plugin.getResourceString("ExceptionWizard.html_type")); //$NON-NLS-1$
-                exception.addView(view);
-            } 
-            if (xmlView.length() != 0) {
-                View view = new View();
-                view.setForwardName(xmlView);
-                view.setType(Frame2Plugin.getResourceString("ExceptionWizard.xml_type")); //$NON-NLS-1$
-                exception.addView(view);
-            }
-        }
-        
-        try {
-            model.addFrame2Exception(exception);
-            model.persistConfiguration();
-        } catch (Frame2ModelException e) {
-            throwCoreException(Frame2Plugin.getResourceString("ExceptionWizard.errorCreatingException") + e.getMessage()); //$NON-NLS-1$
-        }
-        
+		monitor.beginTask(Frame2Plugin
+				.getResourceString("ExceptionWizard.creatingEntryStatus"), 1); //$NON-NLS-1$
+
+		final Frame2Exception exception = new Frame2Exception();
+		exception.setRequestKey(requestKey);
+		exception.setType(exceptionType);
+
+		if ((htmlView.length() != 0) && (xmlView.length() != 0)
+				&& htmlView.equals(xmlView)) {
+			final View view = new View();
+			view.setForwardName(htmlView);
+			view.setType(Frame2Plugin
+					.getResourceString("ExceptionWizard.both_type")); //$NON-NLS-1$
+			exception.addView(view);
+		} else {
+			if (htmlView.length() != 0) {
+				final View view = new View();
+				view.setForwardName(htmlView);
+				view.setType(Frame2Plugin
+						.getResourceString("ExceptionWizard.html_type")); //$NON-NLS-1$
+				exception.addView(view);
+			}
+			if (xmlView.length() != 0) {
+				final View view = new View();
+				view.setForwardName(xmlView);
+				view.setType(Frame2Plugin
+						.getResourceString("ExceptionWizard.xml_type")); //$NON-NLS-1$
+				exception.addView(view);
+			}
+		}
+
+		try {
+			this.model.addFrame2Exception(exception);
+			this.model.persistConfiguration();
+		} catch (final Frame2ModelException e) {
+			throwCoreException(Frame2Plugin
+					.getResourceString("ExceptionWizard.errorCreatingException") + e.getMessage()); //$NON-NLS-1$
+		}
+
 		monitor.worked(1);
 	}
 }

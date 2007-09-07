@@ -48,194 +48,228 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.megatome.frame2.Frame2Plugin;
 
-public class Exceptions extends XMLCommentPreserver {
+public class Exceptions extends Frame2DomainObject {
 
-   private List _Frame2Exception = new ArrayList(); // List<Frame2Exception>
+	private final List<Frame2Exception> exceptions = new ArrayList<Frame2Exception>(); // List<Frame2Exception>
 
-   public Exceptions() {
-      clearComments();
-   }
+	public Exceptions() {
+		clearComments();
+	}
 
-   // Deep copy
-   public Exceptions(Exceptions source) {
-      for (Iterator it = source._Frame2Exception.iterator(); it.hasNext();) {
-         _Frame2Exception.add(new Frame2Exception((Frame2Exception) it.next()));
-      }
+	@Override
+	public Exceptions copy() {
+		return new Exceptions(this);
+	}
+	
+	// Deep copy
+	private Exceptions(final Exceptions source) {
+		for (Frame2Exception exception : source.exceptions) {
+			this.exceptions.add(exception.copy());
+		}
 
-      setComments(source.getCommentMap());
-   }
+		setComments(source.getCommentMap());
+	}
 
-   // This attribute is an array, possibly empty
-   public void setFrame2Exception(Frame2Exception[] value) {
-      if (value == null) value = new Frame2Exception[0];
-      _Frame2Exception.clear();
-      for (int i = 0; i < value.length; ++i) {
-         _Frame2Exception.add(value[i]);
-      }
-   }
+	// This attribute is an array, possibly empty
+	public void setFrame2Exception(final Frame2Exception[] value) {
+		this.exceptions.clear();
+		if (value == null) {
+			return;
+		}
+		for (int i = 0; i < value.length; ++i) {
+			this.exceptions.add(value[i]);
+		}
+	}
 
-   public void setFrame2Exception(int index, Frame2Exception value) {
-      _Frame2Exception.set(index, value);
-   }
+	public void setFrame2Exception(final int index, final Frame2Exception value) {
+		this.exceptions.set(index, value);
+	}
 
-   public Frame2Exception[] getFrame2Exception() {
-      Frame2Exception[] arr = new Frame2Exception[_Frame2Exception.size()];
-      return (Frame2Exception[]) _Frame2Exception.toArray(arr);
-   }
+	public Frame2Exception[] getFrame2Exception() {
+		final Frame2Exception[] arr = new Frame2Exception[this.exceptions
+				.size()];
+		return this.exceptions.toArray(arr);
+	}
 
-   public List fetchFrame2ExceptionList() {
-      return _Frame2Exception;
-   }
+	public List<Frame2Exception> fetchFrame2ExceptionList() {
+		return this.exceptions;
+	}
 
-   public Frame2Exception getFrame2Exception(int index) {
-      return (Frame2Exception) _Frame2Exception.get(index);
-   }
+	public Frame2Exception getFrame2Exception(final int index) {
+		return this.exceptions.get(index);
+	}
 
-   // Return the number of Frame2Exception
-   public int sizeFrame2Exception() {
-      return _Frame2Exception.size();
-   }
+	// Return the number of Frame2Exception
+	@Override
+	public int size() {
+		return this.exceptions.size();
+	}
 
-   public int addFrame2Exception(Frame2Exception value) {
-      _Frame2Exception.add(value);
-      return _Frame2Exception.size() - 1;
-   }
+	public int addFrame2Exception(final Frame2Exception value) {
+		this.exceptions.add(value);
+		return this.exceptions.size() - 1;
+	}
 
-   // Search from the end looking for @param value, and then remove it.
-   public int removeFrame2Exception(Frame2Exception value) {
-      int pos = _Frame2Exception.indexOf(value);
-      if (pos >= 0) {
-         _Frame2Exception.remove(pos);
-      }
-      return pos;
-   }
+	// Search from the end looking for @param value, and then remove it.
+	public int removeFrame2Exception(final Frame2Exception value) {
+		final int pos = this.exceptions.indexOf(value);
+		if (pos >= 0) {
+			this.exceptions.remove(pos);
+		}
+		return pos;
+	}
 
-   public void writeNode(Writer out, String nodeName, String indent)
-         throws IOException {
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
-      out.write(nodeName);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
-      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-      int index = 0;
-      for (Iterator it = _Frame2Exception.iterator(); it.hasNext();) {
+	public void writeNode(final Writer out, final String nodeName,
+			final String indent) throws IOException {
+		out.write(indent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(nodeName);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		final String nextIndent = indent
+				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+		int index = 0;
+		for (final Iterator<Frame2Exception> it = this.exceptions.iterator(); it
+				.hasNext();) {
 
-         index = writeCommentsAt(out, indent, index);
+			index = writeCommentsAt(out, indent, index);
 
-         Frame2Exception element = (Frame2Exception) it.next();
-         if (element != null) {
-            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.exception"), nextIndent); //$NON-NLS-1$
-         }
-      }
+			final Frame2Exception element = it.next();
+			if (element != null) {
+				element
+						.writeNode(
+								out,
+								Frame2Plugin
+										.getResourceString("Frame2Model.exception"), nextIndent); //$NON-NLS-1$
+			}
+		}
 
-      writeRemainingComments(out, indent);
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+		writeRemainingComments(out, indent);
+		out.write(indent);
+		out
+				.write(Frame2Plugin
+						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-   public void readNode(Node node) {
-      NodeList children = node.getChildNodes();
-      int elementCount = 0;
-      for (int i = 0, size = children.getLength(); i < size; ++i) {
-         Node childNode = children.item(i);
-         String childNodeName = (childNode.getLocalName() == null ? childNode
-               .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = ""; //$NON-NLS-1$
-         if (childNode.getFirstChild() != null) {
-            childNodeValue = childNode.getFirstChild().getNodeValue();
-         }
-         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.exception"))) { //$NON-NLS-1$
-            Frame2Exception aFrame2Exception = new Frame2Exception();
-            aFrame2Exception.readNode(childNode);
-            _Frame2Exception.add(aFrame2Exception);
-            elementCount++;
-         } else {
-            // Found extra unrecognized childNode
-            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
-               recordComment(childNode, elementCount++);
-            }
-         }
-      }
-   }
+	public void readNode(final Node node) {
+		final NodeList children = node.getChildNodes();
+		int elementCount = 0;
+		for (int i = 0, size = children.getLength(); i < size; ++i) {
+			final Node childNode = children.item(i);
+			final String childNodeName = (childNode.getLocalName() == null ? childNode
+					.getNodeName().intern()
+					: childNode.getLocalName().intern());
+			/*
+			 * String childNodeValue = ""; //$NON-NLS-1$ if
+			 * (childNode.getFirstChild() != null) { childNodeValue =
+			 * childNode.getFirstChild().getNodeValue(); }
+			 */
+			if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.exception"))) { //$NON-NLS-1$
+				final Frame2Exception aFrame2Exception = new Frame2Exception();
+				aFrame2Exception.readNode(childNode);
+				this.exceptions.add(aFrame2Exception);
+				elementCount++;
+			} else {
+				// Found extra unrecognized childNode
+				if (childNodeName.equals(Frame2Plugin
+						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+					recordComment(childNode, elementCount++);
+				}
+			}
+		}
+	}
 
-   public void validate() throws Frame2Config.ValidateException {
-      boolean restrictionFailure = false;
-      // Validating property Frame2Exception
-      for (int _index = 0; _index < sizeFrame2Exception(); ++_index) {
-         Frame2Exception element = getFrame2Exception(_index);
-         if (element != null) {
-            element.validate();
-         }
-      }
-   }
+	public void validate() throws Frame2Config.ValidateException {
+		// boolean restrictionFailure = false;
+		// Validating property Frame2Exception
+		for (int _index = 0; _index < size(); ++_index) {
+			final Frame2Exception element = getFrame2Exception(_index);
+			if (element != null) {
+				element.validate();
+			}
+		}
+	}
 
-   public void changePropertyByName(String name, Object value) {
-      if (name == null) return;
-      name = name.intern();
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2Exception"))) //$NON-NLS-1$
-         addFrame2Exception((Frame2Exception) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2ExceptionArray"))) //$NON-NLS-1$
-         setFrame2Exception((Frame2Exception[]) value);
-      else
-         throw new IllegalArgumentException(name
-               + Frame2Plugin.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
-   }
+	public void changePropertyByName(final String name, final Object value) {
+		if (name == null) {
+			return;
+		}
+		final String intName = name.intern();
+		if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.Frame2Exception"))) { //$NON-NLS-1$
+			addFrame2Exception((Frame2Exception) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.Frame2ExceptionArray"))) { //$NON-NLS-1$
+			setFrame2Exception((Frame2Exception[]) value);
+		} else {
+			throw new IllegalArgumentException(
+					intName
+							+ Frame2Plugin
+									.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
+		}
+	}
 
-   public Object fetchPropertyByName(String name) {
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.Frame2ExceptionArray"))) return getFrame2Exception(); //$NON-NLS-1$
-      throw new IllegalArgumentException(name
-            + Frame2Plugin.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
-   }
+	public Object fetchPropertyByName(final String name) {
+		if (name.equals(Frame2Plugin
+				.getResourceString("Frame2Model.Frame2ExceptionArray"))) { //$NON-NLS-1$
+			return getFrame2Exception();
+		}
+		throw new IllegalArgumentException(
+				name
+						+ Frame2Plugin
+								.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
+	}
 
-   // Return an array of all of the properties that are beans and are set.
-   public Object[] childBeans(boolean recursive) {
-      List children = new LinkedList();
-      childBeans(recursive, children);
-      Object[] result = new Object[children.size()];
-      return (Object[]) children.toArray(result);
-   }
+	// Put all child beans into the beans list.
+	public void childBeans(final boolean recursive, final List<Object> beans) {
+		for (final Iterator<Frame2Exception> it = this.exceptions.iterator(); it
+				.hasNext();) {
+			final Frame2Exception element = it.next();
+			if (element != null) {
+				if (recursive) {
+					element.childBeans(true, beans);
+				}
+				beans.add(element);
+			}
+		}
+	}
 
-   // Put all child beans into the beans list.
-   public void childBeans(boolean recursive, List beans) {
-      for (Iterator it = _Frame2Exception.iterator(); it.hasNext();) {
-         Frame2Exception element = (Frame2Exception) it.next();
-         if (element != null) {
-            if (recursive) {
-               element.childBeans(true, beans);
-            }
-            beans.add(element);
-         }
-      }
-   }
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof Exceptions)) {
+			return false;
+		}
+		final Exceptions inst = (Exceptions) o;
+		if (size() != inst.size()) {
+			return false;
+		}
+		// Compare every element.
+		for (Iterator<Frame2Exception> it = this.exceptions.iterator(), it2 = inst.exceptions
+				.iterator(); it.hasNext() && it2.hasNext();) {
+			final Frame2Exception element = it.next();
+			final Frame2Exception element2 = it2.next();
+			if (!(element == null ? element2 == null : element.equals(element2))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-   public boolean equals(Object o) {
-      if (o == this) return true;
-      if (!(o instanceof Exceptions)) return false;
-      Exceptions inst = (Exceptions) o;
-      if (sizeFrame2Exception() != inst.sizeFrame2Exception()) return false;
-      // Compare every element.
-      for (Iterator it = _Frame2Exception.iterator(), it2 = inst._Frame2Exception
-            .iterator(); it.hasNext() && it2.hasNext();) {
-         Frame2Exception element = (Frame2Exception) it.next();
-         Frame2Exception element2 = (Frame2Exception) it2.next();
-         if (!(element == null ? element2 == null : element.equals(element2)))
-               return false;
-      }
-      return true;
-   }
-
-   public int hashCode() {
-      int result = 17;
-      result = 37 * result
-            + (_Frame2Exception == null ? 0 : _Frame2Exception.hashCode());
-      return result;
-   }
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 37 * result
+				+ (this.exceptions == null ? 0 : this.exceptions.hashCode());
+		return result;
+	}
 
 }

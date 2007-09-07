@@ -55,63 +55,67 @@ import org.megatome.frame2.Frame2Plugin;
 
 public abstract class XMLCommentPreserver {
 
-   private Map commentMap = new HashMap();
+	private Map<Integer, Node> commentMap = new HashMap<Integer, Node>();
 
-   protected void clearComments() {
-      commentMap.clear();
-   }
+	protected void clearComments() {
+		this.commentMap.clear();
+	}
 
-   protected void recordComment(Node commentNode, int commentIndex) {
-      commentMap.put(new Integer(commentIndex), commentNode);
-   }
+	protected void recordComment(final Node commentNode, final int commentIndex) {
+		this.commentMap.put(Integer.valueOf(commentIndex), commentNode);
+	}
 
-   protected int writeCommentsAt(Writer out, String indent, int index)
-         throws IOException {
-      int commentIndex = index;
+	protected int writeCommentsAt(final Writer out, final String indent,
+			final int index) throws IOException {
+		int commentIndex = index;
 
-      while (writeCommentAt(out, indent, commentIndex++)) {
-         //commentIndex ++;
-         // Sit and Spin
-      }
+		while (writeCommentAt(out, indent, commentIndex++)) {
+			// commentIndex ++;
+			// Sit and Spin
+		}
 
-      return (commentIndex == index) ? (commentIndex + 1) : commentIndex;
-   }
+		return (commentIndex == index) ? (commentIndex + 1) : commentIndex;
+	}
 
-   private boolean writeCommentAt(Writer out, String indent, int index)
-         throws IOException {
-      Node n = (Node) commentMap.remove(new Integer(index));
-      if (n == null) { return false; }
+	private boolean writeCommentAt(final Writer out, final String indent,
+			final int index) throws IOException {
+		final Node n = this.commentMap.remove(Integer.valueOf(index));
+		if (n == null) {
+			return false;
+		}
 
-      writeComment(out, indent, n);
+		writeComment(out, indent, n);
 
-      return true;
-   }
+		return true;
+	}
 
-   protected void writeRemainingComments(Writer out, String indent)
-         throws IOException {
-      for (Iterator i = commentMap.values().iterator(); i.hasNext();) {
-         Node n = (Node) i.next();
+	protected void writeRemainingComments(final Writer out, final String indent)
+			throws IOException {
+		for (final Iterator<Node> i = this.commentMap.values().iterator(); i
+				.hasNext();) {
+			final Node n = i.next();
 
-         writeComment(out, indent, n);
-      }
+			writeComment(out, indent, n);
+		}
 
-      commentMap.clear();
-   }
+		this.commentMap.clear();
+	}
 
-   private void writeComment(Writer out, String indent, Node comment)
-         throws IOException {
-      String commentIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-      out.write(commentIndent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.commentStart")); //$NON-NLS-1$
-      out.write(comment.getNodeValue().trim());
-      out.write(Frame2Plugin.getResourceString("Frame2Model.commentEnd")); //$NON-NLS-1$
-   }
+	private void writeComment(final Writer out, final String indent,
+			final Node comment) throws IOException {
+		final String commentIndent = indent
+				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+		out.write(commentIndent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.commentStart")); //$NON-NLS-1$
+		out.write(comment.getNodeValue().trim());
+		out.write(Frame2Plugin.getResourceString("Frame2Model.commentEnd")); //$NON-NLS-1$
+	}
 
-   protected Map getCommentMap() {
-      return new HashMap(commentMap);
-   }
+	protected Map<Integer, Node> getCommentMap() {
+		return new HashMap<Integer, Node>(this.commentMap);
+	}
 
-   protected void setComments(Map commentMap) {
-      this.commentMap = new HashMap(commentMap);
-   }
+	protected void setComments(final Map<Integer, Node> commentMap) {
+		this.commentMap = new HashMap<Integer, Node>(commentMap);
+	}
 }

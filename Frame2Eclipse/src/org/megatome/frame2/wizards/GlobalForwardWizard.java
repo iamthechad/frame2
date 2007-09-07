@@ -69,7 +69,6 @@ import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2ModelException;
 
-
 public class GlobalForwardWizard extends BaseFrame2Wizard {
 	private GlobalForwardWizardPage1 page;
 
@@ -77,35 +76,43 @@ public class GlobalForwardWizard extends BaseFrame2Wizard {
 		super();
 		setNeedsProgressMonitor(true);
 	}
-    
+
+	@Override
 	public void addPages() {
-		page = new GlobalForwardWizardPage1(selection);
-		addPage(page);
+		this.page = new GlobalForwardWizardPage1(this.selection);
+		addPage(this.page);
 	}
 
+	@Override
 	public boolean performFinish() {
-		final String forwardName = page.getForwardName();
-		final String forwardType = page.getForwardType();
-        final String forwardPath = page.getForwardPath();
-        
-		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
-				try {
-                    monitor.beginTask(Frame2Plugin.getResourceString("GlobalForwardWizard.creatingStatus"), 1); //$NON-NLS-1$
-                    if (model != null) {
-                        Forward forward = new Forward();
-                        forward.setName(forwardName);
-                        forward.setType(forwardType);
-                        forward.setPath(forwardPath);
+		final String forwardName = this.page.getForwardName();
+		final String forwardType = this.page.getForwardType();
+		final String forwardPath = this.page.getForwardPath();
 
-                        try {
-                            model.addGlobalForward(forward);
-                            model.persistConfiguration();
-                        } catch (Frame2ModelException e) {
-                            throw new InvocationTargetException(e);
-                        }
-                    }
-                    monitor.worked(1);
+		final IRunnableWithProgress op = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
+				try {
+					monitor
+							.beginTask(
+									Frame2Plugin
+											.getResourceString("GlobalForwardWizard.creatingStatus"), 1); //$NON-NLS-1$
+					if (GlobalForwardWizard.this.model != null) {
+						Forward forward = new Forward();
+						forward.setName(forwardName);
+						forward.setType(forwardType);
+						forward.setPath(forwardPath);
+
+						try {
+							GlobalForwardWizard.this.model
+									.addGlobalForward(forward);
+							GlobalForwardWizard.this.model
+									.persistConfiguration();
+						} catch (Frame2ModelException e) {
+							throw new InvocationTargetException(e);
+						}
+					}
+					monitor.worked(1);
 				} finally {
 					monitor.done();
 				}
@@ -113,11 +120,15 @@ public class GlobalForwardWizard extends BaseFrame2Wizard {
 		};
 		try {
 			getContainer().run(true, false, op);
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			return false;
-		} catch (InvocationTargetException e) {
-			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), Frame2Plugin.getResourceString("GlobalForwardWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
+		} catch (final InvocationTargetException e) {
+			final Throwable realException = e.getTargetException();
+			MessageDialog
+					.openError(
+							getShell(),
+							Frame2Plugin
+									.getResourceString("GlobalForwardWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;

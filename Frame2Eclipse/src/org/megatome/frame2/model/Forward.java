@@ -46,193 +46,236 @@ package org.megatome.frame2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.megatome.frame2.Frame2Plugin;
 
-public class Forward {
+public class Forward extends Frame2DomainObject {
 
-   private String _Name;
+	private String forwardName;
 
-   private String _Type;
+	private String type;
 
-   private String _Path;
+	private String path;
 
-   public Forward() {
-      _Name = ""; //$NON-NLS-1$
-      _Type = ""; //$NON-NLS-1$
-      _Path = ""; //$NON-NLS-1$
-   }
+	public Forward() {
+		this.forwardName = ""; //$NON-NLS-1$
+		this.type = ""; //$NON-NLS-1$
+		this.path = ""; //$NON-NLS-1$
+	}
 
-   // Deep copy
-   public Forward(Forward source) {
-      _Name = source._Name;
-      _Type = source._Type;
-      _Path = source._Path;
-   }
+	@Override
+	public Forward copy() {
+		return new Forward(this);
+	}
+	
+	// Deep copy
+	private Forward(final Forward source) {
+		this.forwardName = source.forwardName;
+		this.type = source.type;
+		this.path = source.path;
+	}
 
-   // This attribute is mandatory
-   public void setName(String value) {
-      _Name = value;
-   }
+	// This attribute is mandatory
+	public void setName(final String value) {
+		this.forwardName = value;
+	}
 
-   public String getName() {
-      return _Name;
-   }
+	public String getName() {
+		return this.forwardName;
+	}
 
-   // This attribute is mandatory
-   public void setType(String value) {
-      _Type = value;
-   }
+	// This attribute is mandatory
+	public void setType(final String value) {
+		this.type = value;
+	}
 
-   public String getType() {
-      return _Type;
-   }
+	public String getType() {
+		return this.type;
+	}
 
-   // This attribute is mandatory
-   public void setPath(String value) {
-      _Path = value;
-   }
+	// This attribute is mandatory
+	public void setPath(final String value) {
+		this.path = value;
+	}
 
-   public String getPath() {
-      return _Path;
-   }
+	public String getPath() {
+		return this.path;
+	}
 
-   public void writeNode(Writer out, String nodeName, String indent)
-         throws IOException {
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
-      out.write(nodeName);
-      // name is an attribute
-      if (_Name != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.nameAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _Name, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      // type is an attribute
-      if (_Type != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _Type, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      // path is an attribute
-      if (_Path != null) {
-         out.write(Frame2Plugin.getResourceString("Frame2Model.pathAttribute")); //$NON-NLS-1$
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
-         Frame2Config.writeXML(out, _Path, true);
-         out.write(Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
-      }
-      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
-      //String nextIndent = indent + " ";
-      //out.write(indent);
-      //out.write("</"+nodeName+">\n");
-   }
+	public void writeNode(final Writer out, final String nodeName,
+			final String indent) throws IOException {
+		out.write(indent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(nodeName);
+		// name is an attribute
+		if (this.forwardName != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.nameAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.forwardName, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		// type is an attribute
+		if (this.type != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.type, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		// path is an attribute
+		if (this.path != null) {
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.pathAttribute")); //$NON-NLS-1$
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+			Frame2Config.writeXML(out, this.path, true);
+			out.write(Frame2Plugin
+					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+		}
+		out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
+		// String nextIndent = indent + " ";
+		// out.write(indent);
+		// out.write("</"+nodeName+">\n");
+	}
 
-   public void readNode(Node node) {
-      if (node.hasAttributes()) {
-         NamedNodeMap attrs = node.getAttributes();
-         Attr attr;
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.name")); //$NON-NLS-1$
-         if (attr != null) {
-            _Name = attr.getValue();
-         }
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.type")); //$NON-NLS-1$
-         if (attr != null) {
-            _Type = attr.getValue();
-         }
-         attr = (Attr) attrs.getNamedItem(Frame2Plugin.getResourceString("Frame2Model.path")); //$NON-NLS-1$
-         if (attr != null) {
-            _Path = attr.getValue();
-         }
-      }
-      NodeList children = node.getChildNodes();
-      for (int i = 0, size = children.getLength(); i < size; ++i) {
-         Node childNode = children.item(i);
-         String childNodeName = (childNode.getLocalName() == null ? childNode
-               .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = ""; //$NON-NLS-1$
-         if (childNode.getFirstChild() != null) {
-            childNodeValue = childNode.getFirstChild().getNodeValue();
-         }
-      }
-   }
+	public void readNode(final Node node) {
+		if (node.hasAttributes()) {
+			final NamedNodeMap attrs = node.getAttributes();
+			Attr attr;
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.name")); //$NON-NLS-1$
+			if (attr != null) {
+				this.forwardName = attr.getValue();
+			}
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.type")); //$NON-NLS-1$
+			if (attr != null) {
+				this.type = attr.getValue();
+			}
+			attr = (Attr) attrs.getNamedItem(Frame2Plugin
+					.getResourceString("Frame2Model.path")); //$NON-NLS-1$
+			if (attr != null) {
+				this.path = attr.getValue();
+			}
+		}
+		/*
+		 * NodeList children = node.getChildNodes(); for (int i = 0, size =
+		 * children.getLength(); i < size; ++i) { Node childNode =
+		 * children.item(i); String childNodeName = (childNode.getLocalName() ==
+		 * null ? childNode .getNodeName().intern() :
+		 * childNode.getLocalName().intern()); String childNodeValue = "";
+		 * //$NON-NLS-1$ if (childNode.getFirstChild() != null) { childNodeValue =
+		 * childNode.getFirstChild().getNodeValue(); } }
+		 */
+	}
 
-   public void validate() throws Frame2Config.ValidateException {
-      boolean restrictionFailure = false;
-      // Validating property name
-      if (getName() == null) { throw new Frame2Config.ValidateException(
-            Frame2Plugin.getResourceString("Frame2Model.forwardNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-      // Validating property type
-      if (getType() == null) { throw new Frame2Config.ValidateException(
-            Frame2Plugin.getResourceString("Frame2Model.forwardTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-      // Validating property path
-      if (getPath() == null) { throw new Frame2Config.ValidateException(
-            Frame2Plugin.getResourceString("Frame2Model.forwardPathNull"), Frame2Plugin.getResourceString("Frame2Model.path"), this); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-   }
+	public void validate() throws Frame2Config.ValidateException {
+		// boolean restrictionFailure = false;
+		// Validating property name
+		if (getName() == null) {
+			throw new Frame2Config.ValidateException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.forwardNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		// Validating property type
+		if (getType() == null) {
+			throw new Frame2Config.ValidateException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.forwardTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		// Validating property path
+		if (getPath() == null) {
+			throw new Frame2Config.ValidateException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.forwardPathNull"), Frame2Plugin.getResourceString("Frame2Model.path"), this); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
 
-   public void changePropertyByName(String name, Object value) {
-      if (name == null) return;
-      name = name.intern();
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) //$NON-NLS-1$
-         setName((String) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) //$NON-NLS-1$
-         setType((String) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.path"))) //$NON-NLS-1$
-         setPath((String) value);
-      else
-         throw new IllegalArgumentException(name
-               + Frame2Plugin.getResourceString("Frame2Model.invalidForwardProperty")); //$NON-NLS-1$
-   }
+	public void changePropertyByName(final String name, final Object value) {
+		if (name == null) {
+			return;
+		}
+		final String intName = name.intern();
+		if (intName.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) { //$NON-NLS-1$
+			setName((String) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.type"))) { //$NON-NLS-1$
+			setType((String) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.path"))) { //$NON-NLS-1$
+			setPath((String) value);
+		} else {
+			throw new IllegalArgumentException(
+					intName
+							+ Frame2Plugin
+									.getResourceString("Frame2Model.invalidForwardProperty")); //$NON-NLS-1$
+		}
+	}
 
-   public Object fetchPropertyByName(String name) {
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) return getName(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) return getType(); //$NON-NLS-1$
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.path"))) return getPath(); //$NON-NLS-1$
-      throw new IllegalArgumentException(name
-            + Frame2Plugin.getResourceString("Frame2Model.invalidForwardProperty")); //$NON-NLS-1$
-   }
+	public Object fetchPropertyByName(final String name) {
+		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) { //$NON-NLS-1$
+			return getName();
+		}
+		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) { //$NON-NLS-1$
+			return getType();
+		}
+		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.path"))) { //$NON-NLS-1$
+			return getPath();
+		}
+		throw new IllegalArgumentException(
+				name
+						+ Frame2Plugin
+								.getResourceString("Frame2Model.invalidForwardProperty")); //$NON-NLS-1$
+	}
 
-   // Return an array of all of the properties that are beans and are set.
-   public Object[] childBeans(boolean recursive) {
-      List children = new LinkedList();
-      childBeans(recursive, children);
-      Object[] result = new Object[children.size()];
-      return (Object[]) children.toArray(result);
-   }
+	// Put all child beans into the beans list.
+	public void childBeans(@SuppressWarnings("unused")
+	final boolean recursive, @SuppressWarnings("unused")
+	final List<Object> beans) {
+		// Not used
+	}
 
-   // Put all child beans into the beans list.
-   public void childBeans(boolean recursive, List beans) {
-   }
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof Forward)) {
+			return false;
+		}
+		final Forward inst = (Forward) o;
+		if (!(this.forwardName == null ? inst.forwardName == null
+				: this.forwardName.equals(inst.forwardName))) {
+			return false;
+		}
+		if (!(this.type == null ? inst.type == null : this.type
+				.equals(inst.type))) {
+			return false;
+		}
+		if (!(this.path == null ? inst.path == null : this.path
+				.equals(inst.path))) {
+			return false;
+		}
+		return true;
+	}
 
-   public boolean equals(Object o) {
-      if (o == this) return true;
-      if (!(o instanceof Forward)) return false;
-      Forward inst = (Forward) o;
-      if (!(_Name == null ? inst._Name == null : _Name.equals(inst._Name)))
-            return false;
-      if (!(_Type == null ? inst._Type == null : _Type.equals(inst._Type)))
-            return false;
-      if (!(_Path == null ? inst._Path == null : _Path.equals(inst._Path)))
-            return false;
-      return true;
-   }
-
-   public int hashCode() {
-      int result = 17;
-      result = 37 * result + (_Name == null ? 0 : _Name.hashCode());
-      result = 37 * result + (_Type == null ? 0 : _Type.hashCode());
-      result = 37 * result + (_Path == null ? 0 : _Path.hashCode());
-      return result;
-   }
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 37 * result
+				+ (this.forwardName == null ? 0 : this.forwardName.hashCode());
+		result = 37 * result + (this.type == null ? 0 : this.type.hashCode());
+		result = 37 * result + (this.path == null ? 0 : this.path.hashCode());
+		return result;
+	}
 
 }

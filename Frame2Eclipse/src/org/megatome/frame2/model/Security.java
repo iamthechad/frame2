@@ -48,196 +48,223 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.megatome.frame2.Frame2Plugin;
 
-public class Security extends XMLCommentPreserver {
+public class Security extends Frame2DomainObject {
 
-   private List _Role = new ArrayList(); // List<Role>
+	private final List<Role> roles = new ArrayList<Role>(); // List<Role>
 
-   public Security() {
-      clearComments();
-   }
+	public Security() {
+		clearComments();
+	}
+	
+	@Override
+	public Security copy() {
+		return new Security(this);
+	}
 
-   // Deep copy
-   public Security(Security source) {
-      for (Iterator it = source._Role.iterator(); it.hasNext();) {
-         _Role.add(new Role((Role) it.next()));
-      }
+	// Deep copy
+	private Security(final Security source) {
+		for (Role role : source.roles) {
+			this.roles.add(role.copy());
+		}
 
-      setComments(source.getCommentMap());
-   }
+		setComments(source.getCommentMap());
+	}
 
-   // This attribute is an array containing at least one element
-   public void setRole(Role[] value) {
-      if (value == null) value = new Role[0];
-      _Role.clear();
-      for (int i = 0; i < value.length; ++i) {
-         _Role.add(value[i]);
-      }
-   }
+	// This attribute is an array containing at least one element
+	public void setRole(final Role[] value) {
+		this.roles.clear();
+		if (value == null) {
+			return;
+		}
+		for (int i = 0; i < value.length; ++i) {
+			this.roles.add(value[i]);
+		}
+	}
 
-   public void setRole(int index, Role value) {
-      _Role.set(index, value);
-   }
+	public void setRole(final int index, final Role value) {
+		this.roles.set(index, value);
+	}
 
-   public Role[] getRole() {
-      Role[] arr = new Role[_Role.size()];
-      return (Role[]) _Role.toArray(arr);
-   }
+	public Role[] getRole() {
+		final Role[] arr = new Role[this.roles.size()];
+		return this.roles.toArray(arr);
+	}
 
-   public List fetchRoleList() {
-      return _Role;
-   }
+	public List<Role> fetchRoleList() {
+		return this.roles;
+	}
 
-   public Role getRole(int index) {
-      return (Role) _Role.get(index);
-   }
+	public Role getRole(final int index) {
+		return this.roles.get(index);
+	}
 
-   // Return the number of role
-   public int sizeRole() {
-      return _Role.size();
-   }
+	// Return the number of role
+	@Override
+	public int size() {
+		return this.roles.size();
+	}
 
-   public int addRole(Role value) {
-      _Role.add(value);
-      return _Role.size() - 1;
-   }
+	public int addRole(final Role value) {
+		this.roles.add(value);
+		return this.roles.size() - 1;
+	}
 
-   // Search from the end looking for @param value, and then remove it.
-   public int removeRole(Role value) {
-      int pos = _Role.indexOf(value);
-      if (pos >= 0) {
-         _Role.remove(pos);
-      }
-      return pos;
-   }
+	// Search from the end looking for @param value, and then remove it.
+	public int removeRole(final Role value) {
+		final int pos = this.roles.indexOf(value);
+		if (pos >= 0) {
+			this.roles.remove(pos);
+		}
+		return pos;
+	}
 
-   public void writeNode(Writer out, String nodeName, String indent)
-         throws IOException {
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
-      out.write(nodeName);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
-      String nextIndent = indent + Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-      int index = 0;
-      for (Iterator it = _Role.iterator(); it.hasNext();) {
+	public void writeNode(final Writer out, final String nodeName,
+			final String indent) throws IOException {
+		out.write(indent);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(nodeName);
+		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		final String nextIndent = indent
+				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+		int index = 0;
+		for (final Iterator<Role> it = this.roles.iterator(); it.hasNext();) {
 
-         index = writeCommentsAt(out, indent, index);
+			index = writeCommentsAt(out, indent, index);
 
-         Role element = (Role) it.next();
-         if (element != null) {
-            element.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.role"), nextIndent); //$NON-NLS-1$
-         }
-      }
-      writeRemainingComments(out, indent);
-      out.write(indent);
-      out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+			final Role element = it.next();
+			if (element != null) {
+				element.writeNode(out, Frame2Plugin
+						.getResourceString("Frame2Model.role"), nextIndent); //$NON-NLS-1$
+			}
+		}
+		writeRemainingComments(out, indent);
+		out.write(indent);
+		out
+				.write(Frame2Plugin
+						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-   public void readNode(Node node) {
-      NodeList children = node.getChildNodes();
-      int elementCount = 0;
-      for (int i = 0, size = children.getLength(); i < size; ++i) {
-         Node childNode = children.item(i);
-         String childNodeName = (childNode.getLocalName() == null ? childNode
-               .getNodeName().intern() : childNode.getLocalName().intern());
-         String childNodeValue = ""; //$NON-NLS-1$
-         if (childNode.getFirstChild() != null) {
-            childNodeValue = childNode.getFirstChild().getNodeValue();
-         }
-         if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.role"))) { //$NON-NLS-1$
-            Role aRole = new Role();
-            aRole.readNode(childNode);
-            _Role.add(aRole);
-            elementCount++;
-         } else {
-            // Found extra unrecognized childNode
-            if (childNodeName.equals(Frame2Plugin.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
-               recordComment(childNode, elementCount++);
-            }
-         }
-      }
-   }
+	public void readNode(final Node node) {
+		final NodeList children = node.getChildNodes();
+		int elementCount = 0;
+		for (int i = 0, size = children.getLength(); i < size; ++i) {
+			final Node childNode = children.item(i);
+			final String childNodeName = (childNode.getLocalName() == null ? childNode
+					.getNodeName().intern()
+					: childNode.getLocalName().intern());
+			/*
+			 * String childNodeValue = ""; //$NON-NLS-1$ if
+			 * (childNode.getFirstChild() != null) { childNodeValue =
+			 * childNode.getFirstChild().getNodeValue(); }
+			 */
+			if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.role"))) { //$NON-NLS-1$
+				final Role aRole = new Role();
+				aRole.readNode(childNode);
+				this.roles.add(aRole);
+				elementCount++;
+			} else {
+				// Found extra unrecognized childNode
+				if (childNodeName.equals(Frame2Plugin
+						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+					recordComment(childNode, elementCount++);
+				}
+			}
+		}
+	}
 
-   public void validate() throws Frame2Config.ValidateException {
-      boolean restrictionFailure = false;
-      // Validating property role
-      if (sizeRole() == 0) { throw new Frame2Config.ValidateException(
-            Frame2Plugin.getResourceString("Frame2Model.sizeRoleZero"), Frame2Plugin.getResourceString("Frame2Model.role"), this); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-      for (int _index = 0; _index < sizeRole(); ++_index) {
-         Role element = getRole(_index);
-         if (element != null) {
-            element.validate();
-         }
-      }
-   }
+	public void validate() throws Frame2Config.ValidateException {
+		// boolean restrictionFailure = false;
+		// Validating property role
+		if (size() == 0) {
+			throw new Frame2Config.ValidateException(
+					Frame2Plugin.getResourceString("Frame2Model.sizeRoleZero"), Frame2Plugin.getResourceString("Frame2Model.role"), this); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		for (int _index = 0; _index < size(); ++_index) {
+			final Role element = getRole(_index);
+			if (element != null) {
+				element.validate();
+			}
+		}
+	}
 
-   public void changePropertyByName(String name, Object value) {
-      if (name == null) return;
-      name = name.intern();
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.role"))) //$NON-NLS-1$
-         addRole((Role) value);
-      else if (name.equals(Frame2Plugin.getResourceString("Frame2Model.roleArray"))) //$NON-NLS-1$
-         setRole((Role[]) value);
-      else
-         throw new IllegalArgumentException(name
-               + Frame2Plugin.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
-   }
+	public void changePropertyByName(final String name, final Object value) {
+		if (name == null) {
+			return;
+		}
+		final String intName = name.intern();
+		if (intName.equals(Frame2Plugin.getResourceString("Frame2Model.role"))) { //$NON-NLS-1$
+			addRole((Role) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.roleArray"))) { //$NON-NLS-1$
+			setRole((Role[]) value);
+		} else {
+			throw new IllegalArgumentException(
+					intName
+							+ Frame2Plugin
+									.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
+		}
+	}
 
-   public Object fetchPropertyByName(String name) {
-      if (name.equals(Frame2Plugin.getResourceString("Frame2Model.roleArray"))) return getRole(); //$NON-NLS-1$
-      throw new IllegalArgumentException(name
-            + Frame2Plugin.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
-   }
+	public Object fetchPropertyByName(final String name) {
+		if (name
+				.equals(Frame2Plugin.getResourceString("Frame2Model.roleArray"))) { //$NON-NLS-1$
+			return getRole();
+		}
+		throw new IllegalArgumentException(
+				name
+						+ Frame2Plugin
+								.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
+	}
 
-   // Return an array of all of the properties that are beans and are set.
-   public Object[] childBeans(boolean recursive) {
-      List children = new LinkedList();
-      childBeans(recursive, children);
-      Object[] result = new Object[children.size()];
-      return (Object[]) children.toArray(result);
-   }
+	// Put all child beans into the beans list.
+	public void childBeans(final boolean recursive, final List<Object> beans) {
+		for (final Iterator<Role> it = this.roles.iterator(); it.hasNext();) {
+			final Role element = it.next();
+			if (element != null) {
+				if (recursive) {
+					element.childBeans(true, beans);
+				}
+				beans.add(element);
+			}
+		}
+	}
 
-   // Put all child beans into the beans list.
-   public void childBeans(boolean recursive, List beans) {
-      for (Iterator it = _Role.iterator(); it.hasNext();) {
-         Role element = (Role) it.next();
-         if (element != null) {
-            if (recursive) {
-               element.childBeans(true, beans);
-            }
-            beans.add(element);
-         }
-      }
-   }
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof Security)) {
+			return false;
+		}
+		final Security inst = (Security) o;
+		if (size() != inst.size()) {
+			return false;
+		}
+		// Compare every element.
+		for (Iterator<Role> it = this.roles.iterator(), it2 = inst.roles
+				.iterator(); it.hasNext() && it2.hasNext();) {
+			final Role element = it.next();
+			final Role element2 = it2.next();
+			if (!(element == null ? element2 == null : element.equals(element2))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-   public boolean equals(Object o) {
-      if (o == this) return true;
-      if (!(o instanceof Security)) return false;
-      Security inst = (Security) o;
-      if (sizeRole() != inst.sizeRole()) return false;
-      // Compare every element.
-      for (Iterator it = _Role.iterator(), it2 = inst._Role.iterator(); it
-            .hasNext()
-            && it2.hasNext();) {
-         Role element = (Role) it.next();
-         Role element2 = (Role) it2.next();
-         if (!(element == null ? element2 == null : element.equals(element2)))
-               return false;
-      }
-      return true;
-   }
-
-   public int hashCode() {
-      int result = 17;
-      result = 37 * result + (_Role == null ? 0 : _Role.hashCode());
-      return result;
-   }
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 37 * result + (this.roles == null ? 0 : this.roles.hashCode());
+		return result;
+	}
 
 }

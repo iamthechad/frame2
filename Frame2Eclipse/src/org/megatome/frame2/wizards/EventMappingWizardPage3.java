@@ -92,271 +92,314 @@ import org.megatome.frame2.Frame2Plugin;
 public class EventMappingWizardPage3 extends WizardPage {
 	private Combo htmlViewCombo;
 	private Combo xmlViewCombo;
-    private Table rolesTable;
-    private TableEditor editor;
-    private Button addRowButton;
-    private Button removeRowButton;
-	private ISelection selection;
-    //private IProject rootProject;
-    private boolean badModel = false;
-    
-    private boolean handlersSelected = false;
-    
-    private final String noneString = Frame2Plugin.getResourceString("EventMappingWizardPage3.noneString"); //$NON-NLS-1$
-    private static int roleIndex = 1;
+	Table rolesTable;
+	TableEditor editor;
+	private Button addRowButton;
+	Button removeRowButton;
+	// private ISelection selection;
+	// private IProject rootProject;
+	private boolean badModel = false;
 
-	public EventMappingWizardPage3(ISelection selection) {
-		super(Frame2Plugin.getResourceString("EventMappingWizardPage3.wizardName")); //$NON-NLS-1$
-		setTitle(Frame2Plugin.getResourceString("EventMappingWizardPage3.pageTitle")); //$NON-NLS-1$
-		setDescription(Frame2Plugin.getResourceString("EventMappingWizardPage3.pageDescription")); //$NON-NLS-1$
-		this.selection = selection;
+	private boolean handlersSelected = false;
+
+	private final String noneString = Frame2Plugin
+			.getResourceString("EventMappingWizardPage3.noneString"); //$NON-NLS-1$
+	static int roleIndex = 1;
+
+	public EventMappingWizardPage3(@SuppressWarnings("unused")
+	final ISelection selection) {
+		super(Frame2Plugin
+				.getResourceString("EventMappingWizardPage3.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin
+				.getResourceString("EventMappingWizardPage3.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin
+				.getResourceString("EventMappingWizardPage3.pageDescription")); //$NON-NLS-1$
+		// this.selection = selection;
 	}
 
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
+	public void createControl(final Composite parent) {
+		final Composite container = new Composite(parent, SWT.NULL);
+		final GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
-		label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.htmlViewLabel")); //$NON-NLS-1$
+		label.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage3.htmlViewLabel")); //$NON-NLS-1$
 
-		htmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
+		this.htmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        htmlViewCombo.setLayoutData(gd);
+		gd.horizontalSpan = 2;
+		this.htmlViewCombo.setLayoutData(gd);
 
 		label = new Label(container, SWT.NULL);
-		label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.xmlViewLabel")); //$NON-NLS-1$
+		label.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage3.xmlViewLabel")); //$NON-NLS-1$
 
-		xmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
+		this.xmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        xmlViewCombo.setLayoutData(gd);
-        
-        // Sep
-        label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 3;
-        label.setLayoutData(gd);
+		gd.horizontalSpan = 2;
+		this.xmlViewCombo.setLayoutData(gd);
 
-        rolesTable = new Table(container, SWT.SINGLE | SWT.FULL_SELECTION);
-        rolesTable.setHeaderVisible(true);
-        gd = new GridData(GridData.FILL_BOTH);
-        gd.horizontalSpan = 3;
-        rolesTable.setLayoutData(gd);
-        
-        TableColumn tc = new TableColumn(rolesTable, SWT.NULL);
-        tc.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.userRolesColumn")); //$NON-NLS-1$
-        tc.setWidth(200);
-        
-        editor = new TableEditor(rolesTable);
-        editor.horizontalAlignment = SWT.LEFT;
-        editor.grabHorizontal = true;
-        rolesTable.addListener(SWT.MouseDown, new Listener() {
-            public void handleEvent(Event event) {
-                Rectangle clientArea = rolesTable.getClientArea();
-                Point pt = new Point(event.x, event.y);
-                int index = rolesTable.getTopIndex();
-                while (index < rolesTable.getItemCount()) {
-                    boolean visible = false;
-                    final TableItem item = rolesTable.getItem(index);
-                    for (int i = 0; i < rolesTable.getColumnCount(); i++) {
-                        Rectangle rect = item.getBounds(i);
-                        if (rect.contains(pt)) {
-                            final int column = i;
-                            final Text text =
-                                new Text(rolesTable, SWT.NONE);
-                            Listener textListener = new Listener() {
-                                public void handleEvent(final Event e) {
-                                    switch (e.type) {
-                                        case SWT.FocusOut :
-                                            item.setText(
-                                                column,
-                                                text.getText());
-                                            text.dispose();
-                                            break;
-                                        case SWT.Traverse :
-                                            switch (e.detail) {
-                                                case SWT.TRAVERSE_RETURN :
-                                                    item.setText(
-                                                        column,
-                                                        text.getText());
-                                                    //FALL THROUGH
-                                                case SWT.TRAVERSE_ESCAPE :
-                                                    text.dispose();
-                                                    e.doit = false;
-                                            }
-                                            break;
-                                    }
-                                    dialogChanged();
-                                }
-                            };
-                            text.addListener(SWT.FocusOut, textListener);
-                            text.addListener(SWT.Traverse, textListener);
-                            editor.setEditor(text, item, i);
-                            text.setText(item.getText(i));
-                            text.selectAll();
-                            text.setFocus();
-                            removeRowButton.setEnabled(true);
-                            return;
-                        }
-                        if (!visible && rect.intersects(clientArea)) {
-                            visible = true;
-                        }
-                    }
-                    if (!visible)
-                        return;
-                    index++;
-                }
-            }
-        });
-        
-        addRowButton = new Button(container, SWT.PUSH);
-        addRowButton.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.addRowCtl")); //$NON-NLS-1$
-        gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-        gd.horizontalSpan = 2;
-        addRowButton.setLayoutData(gd);
-        addRowButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                TableItem item = new TableItem(rolesTable, SWT.NULL);
-                item.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.dummyRole") + roleIndex++); //$NON-NLS-1$
-            }
-        });
-        
-        removeRowButton = new Button(container, SWT.PUSH);
-        removeRowButton.setText(Frame2Plugin.getResourceString("EventMappingWizardPage3.removeRowCtl")); //$NON-NLS-1$
-        gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
-        gd.horizontalSpan = 1;
-        removeRowButton.setLayoutData(gd);
-        removeRowButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                int selIndex = rolesTable.getSelectionIndex();
-                if (selIndex != -1) {
-                    rolesTable.remove(selIndex);
-                }
-                
-                removeRowButton.setEnabled(false);
-            }
-        });
-        removeRowButton.setEnabled(false);
-                        
+		// Sep
+		label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		label.setLayoutData(gd);
+
+		this.rolesTable = new Table(container, SWT.SINGLE | SWT.FULL_SELECTION);
+		this.rolesTable.setHeaderVisible(true);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 3;
+		this.rolesTable.setLayoutData(gd);
+
+		final TableColumn tc = new TableColumn(this.rolesTable, SWT.NULL);
+		tc.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage3.userRolesColumn")); //$NON-NLS-1$
+		tc.setWidth(200);
+
+		this.editor = new TableEditor(this.rolesTable);
+		this.editor.horizontalAlignment = SWT.LEFT;
+		this.editor.grabHorizontal = true;
+		this.rolesTable.addListener(SWT.MouseDown, new Listener() {
+			public void handleEvent(final Event event) {
+				final Rectangle clientArea = EventMappingWizardPage3.this.rolesTable
+						.getClientArea();
+				final Point pt = new Point(event.x, event.y);
+				int index = EventMappingWizardPage3.this.rolesTable
+						.getTopIndex();
+				while (index < EventMappingWizardPage3.this.rolesTable
+						.getItemCount()) {
+					boolean visible = false;
+					final TableItem item = EventMappingWizardPage3.this.rolesTable
+							.getItem(index);
+					for (int i = 0; i < EventMappingWizardPage3.this.rolesTable
+							.getColumnCount(); i++) {
+						final Rectangle rect = item.getBounds(i);
+						if (rect.contains(pt)) {
+							final int column = i;
+							final Text text = new Text(
+									EventMappingWizardPage3.this.rolesTable,
+									SWT.NONE);
+							final Listener textListener = new Listener() {
+								@SuppressWarnings("fallthrough")
+								public void handleEvent(final Event e) {
+									switch (e.type) {
+									case SWT.FocusOut:
+										item.setText(column, text.getText());
+										text.dispose();
+										break;
+									case SWT.Traverse:
+										switch (e.detail) {
+										case SWT.TRAVERSE_RETURN:
+											item
+													.setText(column, text
+															.getText());
+											// FALL THROUGH
+										case SWT.TRAVERSE_ESCAPE:
+											text.dispose();
+											e.doit = false;
+										}
+										break;
+									}
+									dialogChanged();
+								}
+							};
+							text.addListener(SWT.FocusOut, textListener);
+							text.addListener(SWT.Traverse, textListener);
+							EventMappingWizardPage3.this.editor.setEditor(text,
+									item, i);
+							text.setText(item.getText(i));
+							text.selectAll();
+							text.setFocus();
+							EventMappingWizardPage3.this.removeRowButton
+									.setEnabled(true);
+							return;
+						}
+						if (!visible && rect.intersects(clientArea)) {
+							visible = true;
+						}
+					}
+					if (!visible) {
+						return;
+					}
+					index++;
+				}
+			}
+		});
+
+		this.addRowButton = new Button(container, SWT.PUSH);
+		this.addRowButton.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage3.addRowCtl")); //$NON-NLS-1$
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gd.horizontalSpan = 2;
+		this.addRowButton.setLayoutData(gd);
+		this.addRowButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				final TableItem item = new TableItem(
+						EventMappingWizardPage3.this.rolesTable, SWT.NULL);
+				item
+						.setText(Frame2Plugin
+								.getResourceString("EventMappingWizardPage3.dummyRole") + roleIndex++); //$NON-NLS-1$
+			}
+		});
+
+		this.removeRowButton = new Button(container, SWT.PUSH);
+		this.removeRowButton.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage3.removeRowCtl")); //$NON-NLS-1$
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		gd.horizontalSpan = 1;
+		this.removeRowButton.setLayoutData(gd);
+		this.removeRowButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				final int selIndex = EventMappingWizardPage3.this.rolesTable
+						.getSelectionIndex();
+				if (selIndex != -1) {
+					EventMappingWizardPage3.this.rolesTable.remove(selIndex);
+				}
+
+				EventMappingWizardPage3.this.removeRowButton.setEnabled(false);
+			}
+		});
+		this.removeRowButton.setEnabled(false);
+
 		initialize();
-        
-        htmlViewCombo.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        
-        xmlViewCombo.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        
-        setPageComplete(handlersSelected);
-        dialogChanged();
+
+		this.htmlViewCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		this.xmlViewCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		setPageComplete(this.handlersSelected);
+		dialogChanged();
 		setControl(container);
 	}
-    
-	
-	private void initialize() {
-        roleIndex = 1;
-        Frame2Model model = ((EventMappingWizard)getWizard()).getFrame2Model();
-        
-        if (model != null) {
-            htmlViewCombo.add(noneString);
-            xmlViewCombo.add(noneString);
-            
-            Forward[] forwards = model.getGlobalForwards();
-            for (int i =0; i < forwards.length; i++) {
-                String forwardType = forwards[i].getType();
-                if (forwardType.equals(Frame2Plugin.getResourceString("EventMappingWizardPage3.htmlResource_type"))) { //$NON-NLS-1$
-                    htmlViewCombo.add(forwards[i].getName());
-                } else if (forwardType.equals(Frame2Plugin.getResourceString("EventMappingWizardPage3.xmlResource_type")) || //$NON-NLS-1$
-                           forwardType.equals(Frame2Plugin.getResourceString("EventMappingWizardPage3.xmlResponse_type"))) { //$NON-NLS-1$
-                    xmlViewCombo.add(forwards[i].getName());
-                } else if (forwardType.equals(Frame2Plugin.getResourceString("EventMappingWizardPage3.event_internal_type"))) { //$NON-NLS-1$
-                    htmlViewCombo.add(forwards[i].getName());
-                    xmlViewCombo.add(forwards[i].getName());
-                }
-            }
-            
-            htmlViewCombo.setText(noneString);
-            xmlViewCombo.setText(noneString);
-        } else {
-            setPageComplete(false);
-            badModel = true;
-            dialogChanged();
-        }
-	}
-	
-	private void dialogChanged() {
-        if (badModel) {
-            updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage3.errorConfig")); //$NON-NLS-1$
-            return;
-        }
-        
-		String htmlView = getHTMLView();
-        String xmlView = getXMLView();
 
-        if ((htmlView.length() == 0) &&
-            (xmlView.length() == 0)  && 
-            (!handlersSelected)) {
-			updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage3.errorMissingInformation")); //$NON-NLS-1$
+	private void initialize() {
+		roleIndex = 1;
+		final Frame2Model model = ((EventMappingWizard) getWizard())
+				.getFrame2Model();
+
+		if (model != null) {
+			this.htmlViewCombo.add(this.noneString);
+			this.xmlViewCombo.add(this.noneString);
+
+			final Forward[] forwards = model.getGlobalForwards();
+			for (int i = 0; i < forwards.length; i++) {
+				final String forwardType = forwards[i].getType();
+				if (forwardType
+						.equals(Frame2Plugin
+								.getResourceString("EventMappingWizardPage3.htmlResource_type"))) { //$NON-NLS-1$
+					this.htmlViewCombo.add(forwards[i].getName());
+				} else if (forwardType
+						.equals(Frame2Plugin
+								.getResourceString("EventMappingWizardPage3.xmlResource_type")) || //$NON-NLS-1$
+						forwardType
+								.equals(Frame2Plugin
+										.getResourceString("EventMappingWizardPage3.xmlResponse_type"))) { //$NON-NLS-1$
+					this.xmlViewCombo.add(forwards[i].getName());
+				} else if (forwardType
+						.equals(Frame2Plugin
+								.getResourceString("EventMappingWizardPage3.event_internal_type"))) { //$NON-NLS-1$
+					this.htmlViewCombo.add(forwards[i].getName());
+					this.xmlViewCombo.add(forwards[i].getName());
+				}
+			}
+
+			this.htmlViewCombo.setText(this.noneString);
+			this.xmlViewCombo.setText(this.noneString);
+		} else {
+			setPageComplete(false);
+			this.badModel = true;
+			dialogChanged();
+		}
+	}
+
+	void dialogChanged() {
+		if (this.badModel) {
+			updateStatus(Frame2Plugin
+					.getResourceString("EventMappingWizardPage3.errorConfig")); //$NON-NLS-1$
 			return;
 		}
-        
+
+		final String htmlView = getHTMLView();
+		final String xmlView = getXMLView();
+
+		if ((htmlView.length() == 0) && (xmlView.length() == 0)
+				&& (!this.handlersSelected)) {
+			updateStatus(Frame2Plugin
+					.getResourceString("EventMappingWizardPage3.errorMissingInformation")); //$NON-NLS-1$
+			return;
+		}
+
 		updateStatus(null);
 	}
 
-	private void updateStatus(String message) {
+	private void updateStatus(final String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
 
 	public String getHTMLView() {
-        String htmlView = htmlViewCombo.getText();
-        if (htmlView.equals(noneString)) {
-            return ""; //$NON-NLS-1$
-        }
-        
+		final String htmlView = this.htmlViewCombo.getText();
+		if (htmlView.equals(this.noneString)) {
+			return ""; //$NON-NLS-1$
+		}
+
 		return htmlView;
 	}
-    public String getXMLView() {
-        String xmlView = xmlViewCombo.getText();
-        if (xmlView.equals(noneString)) {
-            return ""; //$NON-NLS-1$
-        }
-        
-        return xmlView;
-    }
-    public List getSecurityRoles() {
-        List roles = new ArrayList();
-        
-        int roleCount = rolesTable.getItemCount();
-        for (int i = 0; i < roleCount; i++) {
-            TableItem item = rolesTable.getItem(i);
-            roles.add(item.getText());
-        }
-        
-        return roles;
-    }
-    public void setHandlersSelected(boolean selected) {
-        handlersSelected = selected;
-        dialogChanged();
-    }
 
-    public void dispose() {
-        super.dispose();
-        
-        htmlViewCombo.dispose();
-        xmlViewCombo.dispose();
-        editor.dispose();
-        rolesTable.dispose();
-        addRowButton.dispose();
-        removeRowButton.dispose();
-    }
+	public String getXMLView() {
+		final String xmlView = this.xmlViewCombo.getText();
+		if (xmlView.equals(this.noneString)) {
+			return ""; //$NON-NLS-1$
+		}
+
+		return xmlView;
+	}
+
+	public List<String> getSecurityRoles() {
+		final List<String> roles = new ArrayList<String>();
+
+		final int roleCount = this.rolesTable.getItemCount();
+		for (int i = 0; i < roleCount; i++) {
+			final TableItem item = this.rolesTable.getItem(i);
+			roles.add(item.getText());
+		}
+
+		return roles;
+	}
+
+	public void setHandlersSelected(final boolean selected) {
+		this.handlersSelected = selected;
+		dialogChanged();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		this.htmlViewCombo.dispose();
+		this.xmlViewCombo.dispose();
+		this.editor.dispose();
+		this.rolesTable.dispose();
+		this.addRowButton.dispose();
+		this.removeRowButton.dispose();
+	}
 
 }

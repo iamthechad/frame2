@@ -87,129 +87,131 @@ import org.megatome.frame2.model.Frame2ModelException;
 import org.megatome.frame2.model.InitParam;
 
 public class EventHandlerWizard extends BaseFrame2Wizard {
-    private EventHandlerWizardPage1 page;
-    private EventHandlerWizardPage2 page2;
+	private EventHandlerWizardPage1 page;
+	private EventHandlerWizardPage2 page2;
 
-    public EventHandlerWizard() {
-        super();
-        setNeedsProgressMonitor(true);
-    }
+	public EventHandlerWizard() {
+		super();
+		setNeedsProgressMonitor(true);
+	}
 
-    public void addPages() {
-        page = new EventHandlerWizardPage1(selection);
-        page2 = new EventHandlerWizardPage2(selection);
-        addPage(page);
-        addPage(page2);
-    }
+	@Override
+	public void addPages() {
+		this.page = new EventHandlerWizardPage1(this.selection);
+		this.page2 = new EventHandlerWizardPage2(this.selection);
+		addPage(this.page);
+		addPage(this.page2);
+	}
 
-    public boolean performFinish() {
-        final String containerName = page.getPackageFragmentRootText();
-        final String handlerName = page.getHandlerName();
-        final String handlerClass = page.getHandlerType();
-        final List initParams = page.getInitParams();
-        final List localForwards = page2.getLocalForwards();
-        IRunnableWithProgress op = new IRunnableWithProgress() {
-            public void run(IProgressMonitor monitor)
-                throws InvocationTargetException {
-                try {
-                    doFinish(containerName, handlerName, handlerClass, initParams, localForwards, monitor);
-                } catch (CoreException e) {
-                    throw new InvocationTargetException(e);
-                } finally {
-                    monitor.done();
-                }
-            }
-        };
-        try {
-            getContainer().run(true, false, op);
-        } catch (InterruptedException e) {
-            return false;
-        } catch (InvocationTargetException e) {
-            Throwable realException = e.getTargetException();
-            MessageDialog.openError(
-                getShell(),
-                Frame2Plugin.getResourceString("EventHandlerWizard.ErrorTitle"), //$NON-NLS-1$
-                realException.getMessage());
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean performFinish() {
+		final String containerName = this.page.getPackageFragmentRootText();
+		final String handlerName = this.page.getHandlerName();
+		final String handlerClass = this.page.getHandlerType();
+		final List<String[]> initParams = this.page.getInitParams();
+		final List<String[]> localForwards = this.page2.getLocalForwards();
+		final IRunnableWithProgress op = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
+				try {
+					doFinish(containerName, handlerName, handlerClass,
+							initParams, localForwards, monitor);
+				} catch (CoreException e) {
+					throw new InvocationTargetException(e);
+				} finally {
+					monitor.done();
+				}
+			}
+		};
+		try {
+			getContainer().run(true, false, op);
+		} catch (final InterruptedException e) {
+			return false;
+		} catch (final InvocationTargetException e) {
+			final Throwable realException = e.getTargetException();
+			MessageDialog.openError(getShell(), Frame2Plugin
+					.getResourceString("EventHandlerWizard.ErrorTitle"), //$NON-NLS-1$
+					realException.getMessage());
+			return false;
+		}
+		return true;
+	}
 
-    private void doFinish(
-        String containerName,
-        String handlerName,
-        String handlerClass,
-        List initParams,
-        List localForwards,
-        IProgressMonitor monitor)
-        throws CoreException {
-        monitor.beginTask(Frame2Plugin.getResourceString("EventHandlerWizard.createHandlerStatus"), 3); //$NON-NLS-1$
-        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        IResource resource = root.findMember(new Path(containerName));
-        if (!resource.exists() || !(resource instanceof IContainer)) {
-            throwCoreException(
-                Frame2Plugin.getResourceString("EventHandlerWizard.containerPre") + containerName + Frame2Plugin.getResourceString("EventHandlerWizard.containerPost")); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        IContainer container = (IContainer)resource;
+	void doFinish(final String containerName, final String handlerName,
+			final String handlerClass, final List<String[]> initParams,
+			final List<String[]> localForwards, final IProgressMonitor monitor)
+			throws CoreException {
+		monitor
+				.beginTask(
+						Frame2Plugin
+								.getResourceString("EventHandlerWizard.createHandlerStatus"), 3); //$NON-NLS-1$
+		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		final IResource resource = root.findMember(new Path(containerName));
+		if (!resource.exists() || !(resource instanceof IContainer)) {
+			throwCoreException(Frame2Plugin
+					.getResourceString("EventHandlerWizard.containerPre") + containerName + Frame2Plugin.getResourceString("EventHandlerWizard.containerPost")); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		final IContainer container = (IContainer) resource;
 
-        try {
-            page.createType(monitor);
-        } catch (InterruptedException e1) {
-            throwCoreException(Frame2Plugin.getResourceString("EventHandlerWizard.createClassError") + e1.getMessage()); //$NON-NLS-1$
-        }
-        IType type = page.getCreatedType();
-        IPath typePath = type.getPath();
-        IPath containerPath = container.getFullPath();
+		try {
+			this.page.createType(monitor);
+		} catch (final InterruptedException e1) {
+			throwCoreException(Frame2Plugin
+					.getResourceString("EventHandlerWizard.createClassError") + e1.getMessage()); //$NON-NLS-1$
+		}
+		final IType type = this.page.getCreatedType();
+		final IPath typePath = type.getPath();
+		final IPath containerPath = container.getFullPath();
 
-        int count = typePath.matchingFirstSegments(containerPath);
-        IPath newTypePath = typePath.removeFirstSegments(count);
+		final int count = typePath.matchingFirstSegments(containerPath);
+		final IPath newTypePath = typePath.removeFirstSegments(count);
 
-        final IFile file = container.getFile(newTypePath);
-        monitor.worked(1);
-        monitor.setTaskName(Frame2Plugin.getResourceString("EventHandlerWizard.openFileStatus")); //$NON-NLS-1$
-        getShell().getDisplay().asyncExec(new Runnable() {
-            public void run() {
-                IWorkbenchPage page =
-                    PlatformUI
-                        .getWorkbench()
-                        .getActiveWorkbenchWindow()
-                        .getActivePage();
-                try {
-                    IDE.openEditor(page, file, true);
-                } catch (PartInitException e) {}
-            }
-        });
-        monitor.worked(1);
-        
-        EventHandler handler = new EventHandler();
-        handler.setName(handlerName);
-        handler.setType(handlerClass);
-        
-        for (Iterator i = initParams.iterator(); i.hasNext();) {
-            String[] param = (String[])i.next();
-            InitParam ip = new InitParam();
-            ip.setName(param[0]);
-            ip.setValue(param[1]);
-            handler.addInitParam(ip); 
-        }
-        
-        for (Iterator i = localForwards.iterator(); i.hasNext();) {
-            String[] forward = (String[])i.next();
-            Forward f = new Forward();
-            f.setName(forward[0]);
-            f.setType(forward[1]);
-            f.setPath(forward[2]);
-            handler.addForward(f); 
-        }
-        
-        try {
-            model.addEventHandler(handler);
-            model.persistConfiguration();
-        } catch (Frame2ModelException e) {
-            throwCoreException(
-                Frame2Plugin.getResourceString("EventHandlerWizard.errorAddingToConfig") + e.getMessage()); //$NON-NLS-1$
-        }
+		final IFile file = container.getFile(newTypePath);
+		monitor.worked(1);
+		monitor.setTaskName(Frame2Plugin
+				.getResourceString("EventHandlerWizard.openFileStatus")); //$NON-NLS-1$
+		getShell().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				final IWorkbenchPage iwpage = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getActivePage();
+				try {
+					IDE.openEditor(iwpage, file, true);
+				} catch (final PartInitException e) {
+					// Ignore
+				}
+			}
+		});
+		monitor.worked(1);
 
-        monitor.worked(1);
-    }
+		final EventHandler handler = new EventHandler();
+		handler.setName(handlerName);
+		handler.setType(handlerClass);
+
+		for (final Iterator<String[]> i = initParams.iterator(); i.hasNext();) {
+			final String[] param = i.next();
+			final InitParam ip = new InitParam();
+			ip.setName(param[0]);
+			ip.setValue(param[1]);
+			handler.addInitParam(ip);
+		}
+
+		for (final Iterator<String[]> i = localForwards.iterator(); i.hasNext();) {
+			final String[] forward = i.next();
+			final Forward f = new Forward();
+			f.setName(forward[0]);
+			f.setType(forward[1]);
+			f.setPath(forward[2]);
+			handler.addForward(f);
+		}
+
+		try {
+			this.model.addEventHandler(handler);
+			this.model.persistConfiguration();
+		} catch (final Frame2ModelException e) {
+			throwCoreException(Frame2Plugin
+					.getResourceString("EventHandlerWizard.errorAddingToConfig") + e.getMessage()); //$NON-NLS-1$
+		}
+
+		monitor.worked(1);
+	}
 }

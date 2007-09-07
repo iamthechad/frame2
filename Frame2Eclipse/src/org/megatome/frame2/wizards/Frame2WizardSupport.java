@@ -58,19 +58,22 @@ import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2WizardSupport {
 
-    private Frame2WizardSupport() {}
-    
-    public static ImageDescriptor getFrame2Logo() {
-        String logoFile = Frame2Plugin.getResourceString("Frame2WizardSupport.frame2LogoLarge"); //$NON-NLS-1$
-        
-        try {
-            Frame2Plugin plugin = Frame2Plugin.getDefault();
-            URL installURL = plugin.getDescriptor().getInstallURL();
-            URL url = new URL(installURL, logoFile);
-            return ImageDescriptor.createFromURL(url);
-        } catch (MalformedURLException e) {
-            return null;
-        } 
-    }
+	private Frame2WizardSupport() {
+		// Not public
+	}
+
+	public static ImageDescriptor getFrame2Logo() {
+		final String logoFile = Frame2Plugin
+				.getResourceString("Frame2WizardSupport.frame2LogoLarge"); //$NON-NLS-1$
+
+		try {
+			final Frame2Plugin plugin = Frame2Plugin.getDefault();
+			final URL installURL = plugin.getBundle().getEntry("/"); //$NON-NLS-1$
+			final URL url = new URL(installURL, logoFile);
+			return ImageDescriptor.createFromURL(url);
+		} catch (final MalformedURLException e) {
+			return null;
+		}
+	}
 
 }

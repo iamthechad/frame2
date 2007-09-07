@@ -18,57 +18,63 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 	private XMLTagScanner tagScanner;
 	private XMLScanner scanner;
 	private XMLCompletionProcessor completionProcessor;
-	private ColorManager colorManager;
+	private final ColorManager colorManager;
 
-	public XMLConfiguration(ColorManager colorManager) {
+	public XMLConfiguration(final ColorManager colorManager) {
 		this.colorManager = colorManager;
 	}
-	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		return new String[] {
-			IDocument.DEFAULT_CONTENT_TYPE,
-			XMLPartitionScanner.XML_COMMENT,
-			XMLPartitionScanner.XML_TAG };
+
+	@Override
+	public String[] getConfiguredContentTypes(@SuppressWarnings("unused")
+	final ISourceViewer sourceViewer) {
+		return new String[] { IDocument.DEFAULT_CONTENT_TYPE,
+				XMLPartitionScanner.XML_COMMENT, XMLPartitionScanner.XML_TAG };
 	}
+
+	@Override
 	public ITextDoubleClickStrategy getDoubleClickStrategy(
-		ISourceViewer sourceViewer,
-		String contentType) {
-		if (doubleClickStrategy == null)
-			doubleClickStrategy = new XMLDoubleClickStrategy();
-		return doubleClickStrategy;
+			@SuppressWarnings("unused")
+			final ISourceViewer sourceViewer, @SuppressWarnings("unused")
+			final String contentType) {
+		if (this.doubleClickStrategy == null) {
+			this.doubleClickStrategy = new XMLDoubleClickStrategy();
+		}
+		return this.doubleClickStrategy;
 	}
 
 	protected XMLScanner getXMLScanner() {
-		if (scanner == null) {
-			scanner = new XMLScanner(colorManager);
-			scanner.setDefaultReturnToken(
-				new Token(
-					new TextAttribute(
-						colorManager.getColor(IXMLColorConstants.DEFAULT))));
+		if (this.scanner == null) {
+			this.scanner = new XMLScanner(this.colorManager);
+			this.scanner.setDefaultReturnToken(new Token(new TextAttribute(
+					this.colorManager.getColor(IXMLColorConstants.DEFAULT))));
 		}
-		return scanner;
+		return this.scanner;
 	}
+
 	protected XMLTagScanner getXMLTagScanner() {
-		if (tagScanner == null) {
-			tagScanner = new XMLTagScanner(colorManager);
-			tagScanner.setDefaultReturnToken(
-				new Token(
-					new TextAttribute(
-						colorManager.getColor(IXMLColorConstants.TAG))));
+		if (this.tagScanner == null) {
+			this.tagScanner = new XMLTagScanner(this.colorManager);
+			this.tagScanner.setDefaultReturnToken(new Token(new TextAttribute(
+					this.colorManager.getColor(IXMLColorConstants.TAG))));
 		}
-		return tagScanner;
+		return this.tagScanner;
 	}
+
 	protected XMLCompletionProcessor getXMLCompletionProcessor() {
-	   if (completionProcessor == null) {
-	      completionProcessor = new XMLCompletionProcessor();
-	   }
-	   return completionProcessor;
+		if (this.completionProcessor == null) {
+			this.completionProcessor = new XMLCompletionProcessor();
+		}
+		return this.completionProcessor;
 	}
 
-	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
-		PresentationReconciler reconciler = new PresentationReconciler();
+	@Override
+	public IPresentationReconciler getPresentationReconciler(
+			@SuppressWarnings("unused")
+			final ISourceViewer sourceViewer) {
+		final PresentationReconciler reconciler = new PresentationReconciler();
 
-		DefaultDamagerRepairer dr =
-			new DefaultDamagerRepairer(getXMLTagScanner());
+		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(
+				getXMLTagScanner());
 		reconciler.setDamager(dr, XMLPartitionScanner.XML_TAG);
 		reconciler.setRepairer(dr, XMLPartitionScanner.XML_TAG);
 
@@ -76,26 +82,32 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 
-		NonRuleBasedDamagerRepairer ndr =
-			new NonRuleBasedDamagerRepairer(
-				new TextAttribute(
-					colorManager.getColor(IXMLColorConstants.XML_COMMENT)));
+		final NonRuleBasedDamagerRepairer ndr = new NonRuleBasedDamagerRepairer(
+				new TextAttribute(this.colorManager
+						.getColor(IXMLColorConstants.XML_COMMENT)));
 		reconciler.setDamager(ndr, XMLPartitionScanner.XML_COMMENT);
 		reconciler.setRepairer(ndr, XMLPartitionScanner.XML_COMMENT);
 
 		return reconciler;
 	}
 
-   public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
-      ContentAssistant assistant = new ContentAssistant();
-      assistant.setContentAssistProcessor(getXMLCompletionProcessor(), IDocument.DEFAULT_CONTENT_TYPE);
-      assistant.setContentAssistProcessor(getXMLCompletionProcessor(), XMLPartitionScanner.XML_TAG);
-      assistant.enableAutoActivation(true);
-      assistant.setAutoActivationDelay(500);
-      
-      assistant.setProposalPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
-      assistant.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
-      assistant.setContextInformationPopupBackground(colorManager.getColor(new RGB(0, 191, 255)));
-      return assistant;
-   }
+	@Override
+	public IContentAssistant getContentAssistant(@SuppressWarnings("unused")
+	final ISourceViewer sourceViewer) {
+		final ContentAssistant assistant = new ContentAssistant();
+		assistant.setContentAssistProcessor(getXMLCompletionProcessor(),
+				IDocument.DEFAULT_CONTENT_TYPE);
+		assistant.setContentAssistProcessor(getXMLCompletionProcessor(),
+				XMLPartitionScanner.XML_TAG);
+		assistant.enableAutoActivation(true);
+		assistant.setAutoActivationDelay(500);
+
+		assistant
+				.setProposalPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
+		assistant
+				.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
+		assistant.setContextInformationPopupBackground(this.colorManager
+				.getColor(new RGB(0, 191, 255)));
+		return assistant;
+	}
 }

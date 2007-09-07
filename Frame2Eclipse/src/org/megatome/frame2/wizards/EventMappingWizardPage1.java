@@ -79,161 +79,178 @@ import org.megatome.frame2.Frame2Plugin;
 public class EventMappingWizardPage1 extends WizardPage {
 	private Combo eventCombo;
 	private Combo inputViewCombo;
-    private Combo cancelViewCombo;
-	private ISelection selection;
-    
-    private boolean badModel = false;
-    
-    private final String noneString = Frame2Plugin.getResourceString("EventMappingWizardPage1.noneString"); //$NON-NLS-1$
+	private Combo cancelViewCombo;
+	// private ISelection selection;
 
-	public EventMappingWizardPage1(ISelection selection) {
-		super(Frame2Plugin.getResourceString("EventMappingWizardPage1.wizardName")); //$NON-NLS-1$
-		setTitle(Frame2Plugin.getResourceString("EventMappingWizardPage1.pageTitle")); //$NON-NLS-1$
-		setDescription(Frame2Plugin.getResourceString("EventMappingWizardPage1.pageDescription")); //$NON-NLS-1$
-		this.selection = selection;
+	private boolean badModel = false;
+
+	private final String noneString = Frame2Plugin
+			.getResourceString("EventMappingWizardPage1.noneString"); //$NON-NLS-1$
+
+	public EventMappingWizardPage1(@SuppressWarnings("unused")
+	final ISelection selection) {
+		super(Frame2Plugin
+				.getResourceString("EventMappingWizardPage1.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin
+				.getResourceString("EventMappingWizardPage1.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin
+				.getResourceString("EventMappingWizardPage1.pageDescription")); //$NON-NLS-1$
+		// this.selection = selection;
 	}
 
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
+	public void createControl(final Composite parent) {
+		final Composite container = new Composite(parent, SWT.NULL);
+		final GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
-		label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage1.eventLabel")); //$NON-NLS-1$
+		label.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage1.eventLabel")); //$NON-NLS-1$
 
-		eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
+		this.eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        eventCombo.setLayoutData(gd);
-        eventCombo.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
+		gd.horizontalSpan = 2;
+		this.eventCombo.setLayoutData(gd);
+		this.eventCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage1.inputViewLabel")); //$NON-NLS-1$
+		label.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage1.inputViewLabel")); //$NON-NLS-1$
 
-		inputViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
+		this.inputViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        inputViewCombo.setLayoutData(gd);
-        
-        
-        label = new Label(container, SWT.NULL);
-        label.setText(Frame2Plugin.getResourceString("EventMappingWizardPage1.cancelViewLabel")); //$NON-NLS-1$
+		gd.horizontalSpan = 2;
+		this.inputViewCombo.setLayoutData(gd);
 
-        cancelViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        cancelViewCombo.setLayoutData(gd);
-        
+		label = new Label(container, SWT.NULL);
+		label.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage1.cancelViewLabel")); //$NON-NLS-1$
+
+		this.cancelViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		this.cancelViewCombo.setLayoutData(gd);
+
 		initialize();
-        
-        inputViewCombo.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        
-        cancelViewCombo.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        
-		//dialogChanged();
-        setPageComplete(false);
+
+		this.inputViewCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		this.cancelViewCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		// dialogChanged();
+		setPageComplete(false);
 		setControl(container);
 	}
 
-	
 	private void initialize() {
-        Frame2Model model = ((EventMappingWizard)getWizard()).getFrame2Model();
-        
-        if (model != null) {
-            Frame2Event[] events = model.getEvents();
-            EventMapping[] mappings = model.getEventMappings();
-            for (int i = 0; i < events.length; i++) {
-                boolean isEventUsed = false;
-                for (int j = 0; j < mappings.length; j++) {
-                    if (mappings[j].getEventName().equals(events[i].getName())) {
-                        isEventUsed = true;
-                        break;
-                    }
-                }
-                
-                if (!isEventUsed) {
-                    eventCombo.add(events[i].getName());
-                }
-            }
-            
-            inputViewCombo.add(noneString);
-            cancelViewCombo.add(noneString);
-            Forward[] forwards = model.getGlobalForwards();
-            for (int i =0; i < forwards.length; i++) {
-                inputViewCombo.add(forwards[i].getName());
-                cancelViewCombo.add(forwards[i].getName());
-            }
-            
-            inputViewCombo.setText(noneString);
-            cancelViewCombo.setText(noneString);
-        } else {
-            setPageComplete(false);
-            badModel = true;
-            dialogChanged();
-        }
+		final Frame2Model model = ((EventMappingWizard) getWizard())
+				.getFrame2Model();
+
+		if (model != null) {
+			final Frame2Event[] events = model.getEvents();
+			final EventMapping[] mappings = model.getEventMappings();
+			for (int i = 0; i < events.length; i++) {
+				boolean isEventUsed = false;
+				for (int j = 0; j < mappings.length; j++) {
+					if (mappings[j].getEventName().equals(events[i].getName())) {
+						isEventUsed = true;
+						break;
+					}
+				}
+
+				if (!isEventUsed) {
+					this.eventCombo.add(events[i].getName());
+				}
+			}
+
+			this.inputViewCombo.add(this.noneString);
+			this.cancelViewCombo.add(this.noneString);
+			final Forward[] forwards = model.getGlobalForwards();
+			for (int i = 0; i < forwards.length; i++) {
+				this.inputViewCombo.add(forwards[i].getName());
+				this.cancelViewCombo.add(forwards[i].getName());
+			}
+
+			this.inputViewCombo.setText(this.noneString);
+			this.cancelViewCombo.setText(this.noneString);
+		} else {
+			setPageComplete(false);
+			this.badModel = true;
+			dialogChanged();
+		}
 	}
-	
 
-	private void dialogChanged() {
-        if (badModel) {
-            updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage1.errorConfig")); //$NON-NLS-1$
-            return;
-        }
-        
-		String eventName = getEventName();
-
-		if (eventName.length() == 0) {
-			updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage1.errorMissingEvent")); //$NON-NLS-1$
+	void dialogChanged() {
+		if (this.badModel) {
+			updateStatus(Frame2Plugin
+					.getResourceString("EventMappingWizardPage1.errorConfig")); //$NON-NLS-1$
 			return;
 		}
-        
+
+		final String eventName = getEventName();
+
+		if (eventName.length() == 0) {
+			updateStatus(Frame2Plugin
+					.getResourceString("EventMappingWizardPage1.errorMissingEvent")); //$NON-NLS-1$
+			return;
+		}
+
 		updateStatus(null);
 	}
 
-	private void updateStatus(String message) {
+	private void updateStatus(final String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
 
 	public String getEventName() {
-		return eventCombo.getText();
+		return this.eventCombo.getText();
 	}
+
 	public String getInputView() {
-        String inputView = inputViewCombo.getText();
-        if (inputView.equals(noneString)) {
-            return ""; //$NON-NLS-1$
-        }
-        
+		final String inputView = this.inputViewCombo.getText();
+		if (inputView.equals(this.noneString)) {
+			return ""; //$NON-NLS-1$
+		}
+
 		return inputView;
 	}
-    public String getCancelView() {
-        String cancelView = cancelViewCombo.getText();
-        if (cancelView.equals(noneString)) {
-            return ""; //$NON-NLS-1$
-        }
-        
-        return cancelView;
-    }
 
-    public void dispose() {
-        super.dispose();
-        
-        eventCombo.dispose();
-        inputViewCombo.dispose();
-        cancelViewCombo.dispose();
-    }
+	public String getCancelView() {
+		final String cancelView = this.cancelViewCombo.getText();
+		if (cancelView.equals(this.noneString)) {
+			return ""; //$NON-NLS-1$
+		}
+
+		return cancelView;
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		this.eventCombo.dispose();
+		this.inputViewCombo.dispose();
+		this.cancelViewCombo.dispose();
+	}
 
 }

@@ -70,6 +70,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -90,473 +91,570 @@ import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.Frame2Plugin;
 
-
 public class GlobalForwardWizardPage1 extends WizardPage {
-    private Text nameText;
-    private Text htmlResourceText;
-    private Text xmlResourceText;
-    private Text xmlResponderText;
-    private Label nameLabel;
-    private Label typeLabel;
-    private Label htmlResourceLabel;
-    private Label xmlResourceLabel;
-    private Label xmlResponderLabel;
-    private Label eventLabel;
-    private Combo eventCombo;
+	private Text nameText;
+	Text htmlResourceText;
+	Text xmlResourceText;
+	Text xmlResponderText;
+	private Label nameLabel;
+	private Label typeLabel;
+	Label htmlResourceLabel;
+	Label xmlResourceLabel;
+	Label xmlResponderLabel;
+	Label eventLabel;
+	Combo eventCombo;
 
-    private Button htmlResourceRadio;
-    private Button xmlResourceRadio;
-    private Button xmlResponderRadio;
-    private Button eventRadio;
+	private Button htmlResourceRadio;
+	private Button xmlResourceRadio;
+	private Button xmlResponderRadio;
+	private Button eventRadio;
 
-    private Button htmlResourceBrowse;
+	Button htmlResourceBrowse;
 
-    private SelectionListener radioListener;
+	private SelectionListener radioListener;
 
-    private ISelection selection;
-    private IProject rootProject;
-    
-    private boolean badModel = false;
+	private final ISelection selection;
+	private IProject rootProject;
 
-     public GlobalForwardWizardPage1(ISelection selection) {
-        super(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.wizardName")); //$NON-NLS-1$
-        setTitle(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.pageTitle")); //$NON-NLS-1$
-        setDescription(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.pageDescription")); //$NON-NLS-1$
-        this.selection = selection;
-    }
+	private boolean badModel = false;
 
-    public void createControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.NULL);
-        GridLayout layout = new GridLayout();
-        container.setLayout(layout);
-        layout.numColumns = 3;
-        layout.verticalSpacing = 9;
-        nameLabel = new Label(container, SWT.NULL);
-        nameLabel.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.nameCtl")); //$NON-NLS-1$
+	public GlobalForwardWizardPage1(final ISelection selection) {
+		super(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.pageDescription")); //$NON-NLS-1$
+		this.selection = selection;
+	}
 
-        nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        nameText.setLayoutData(gd);
-        nameText.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+	public void createControl(final Composite parent) {
+		final Composite container = new Composite(parent, SWT.NULL);
+		final GridLayout layout = new GridLayout();
+		container.setLayout(layout);
+		layout.numColumns = 3;
+		layout.verticalSpacing = 9;
+		this.nameLabel = new Label(container, SWT.NULL);
+		this.nameLabel.setText(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.nameCtl")); //$NON-NLS-1$
 
-        nameLabel.setEnabled(false);
-        nameText.setEnabled(false);
+		this.nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		this.nameText.setLayoutData(gd);
+		this.nameText.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 
-        typeLabel = new Label(container, SWT.NULL);
-        typeLabel.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.typeCtl")); //$NON-NLS-1$
+		this.nameLabel.setEnabled(false);
+		this.nameText.setEnabled(false);
 
-        typeLabel.setEnabled(false);
+		this.typeLabel = new Label(container, SWT.NULL);
+		this.typeLabel.setText(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.typeCtl")); //$NON-NLS-1$
 
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 3;
-        typeLabel.setLayoutData(gd);
+		this.typeLabel.setEnabled(false);
 
-        htmlResourceRadio = new Button(container, SWT.RADIO);
-        htmlResourceRadio.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.htmlResource_type")); //$NON-NLS-1$
-        htmlResourceRadio.setSelection(true);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 3;
-        htmlResourceRadio.setLayoutData(gd);
-        htmlResourceRadio.addSelectionListener(getRadioListener());
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		this.typeLabel.setLayoutData(gd);
 
-        htmlResourceLabel = new Label(container, SWT.NULL);
-        htmlResourceLabel.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
+		this.htmlResourceRadio = new Button(container, SWT.RADIO);
+		this.htmlResourceRadio
+				.setText(Frame2Plugin
+						.getResourceString("GlobalForwardWizardPage1.htmlResource_type")); //$NON-NLS-1$
+		this.htmlResourceRadio.setSelection(true);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		this.htmlResourceRadio.setLayoutData(gd);
+		this.htmlResourceRadio.addSelectionListener(getRadioListener());
 
-        htmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        htmlResourceText.setLayoutData(gd);
-        htmlResourceText.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+		this.htmlResourceLabel = new Label(container, SWT.NULL);
+		this.htmlResourceLabel.setText(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
 
-        htmlResourceBrowse = new Button(container, SWT.PUSH);
-        htmlResourceBrowse.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.browseCtl")); //$NON-NLS-1$
-        gd = new GridData(GridData.END);
-        htmlResourceBrowse.setLayoutData(gd);
-        htmlResourceBrowse.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                handleBrowse();
-            }
-        });
+		this.htmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		this.htmlResourceText.setLayoutData(gd);
+		this.htmlResourceText.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 
-        htmlResourceRadio.setEnabled(false);
-        htmlResourceLabel.setEnabled(false);
-        htmlResourceText.setEnabled(false);
-        htmlResourceBrowse.setEnabled(false);
+		this.htmlResourceBrowse = new Button(container, SWT.PUSH);
+		this.htmlResourceBrowse.setText(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.browseCtl")); //$NON-NLS-1$
+		gd = new GridData(GridData.END);
+		this.htmlResourceBrowse.setLayoutData(gd);
+		this.htmlResourceBrowse.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				handleBrowse();
+			}
+		});
 
-        xmlResourceRadio = new Button(container, SWT.RADIO);
-        xmlResourceRadio.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.xmlResource_type")); //$NON-NLS-1$
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 3;
-        xmlResourceRadio.setLayoutData(gd);
-        xmlResourceRadio.addSelectionListener(getRadioListener());
+		this.htmlResourceRadio.setEnabled(false);
+		this.htmlResourceLabel.setEnabled(false);
+		this.htmlResourceText.setEnabled(false);
+		this.htmlResourceBrowse.setEnabled(false);
 
-        xmlResourceLabel = new Label(container, SWT.NULL);
-        xmlResourceLabel.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
+		this.xmlResourceRadio = new Button(container, SWT.RADIO);
+		this.xmlResourceRadio
+				.setText(Frame2Plugin
+						.getResourceString("GlobalForwardWizardPage1.xmlResource_type")); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		this.xmlResourceRadio.setLayoutData(gd);
+		this.xmlResourceRadio.addSelectionListener(getRadioListener());
 
-        xmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        xmlResourceText.setLayoutData(gd);
-        xmlResourceText.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+		this.xmlResourceLabel = new Label(container, SWT.NULL);
+		this.xmlResourceLabel.setText(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
 
-        xmlResourceRadio.setEnabled(false);
-        xmlResourceLabel.setEnabled(false);
-        xmlResourceText.setEnabled(false);
+		this.xmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		this.xmlResourceText.setLayoutData(gd);
+		this.xmlResourceText.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 
-        xmlResponderRadio = new Button(container, SWT.RADIO);
-        xmlResponderRadio.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.xmlResponder_type")); //$NON-NLS-1$
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 3;
-        xmlResponderRadio.setLayoutData(gd);
-        xmlResponderRadio.addSelectionListener(getRadioListener());
+		this.xmlResourceRadio.setEnabled(false);
+		this.xmlResourceLabel.setEnabled(false);
+		this.xmlResourceText.setEnabled(false);
 
-        xmlResponderLabel = new Label(container, SWT.NULL);
-        xmlResponderLabel.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
+		this.xmlResponderRadio = new Button(container, SWT.RADIO);
+		this.xmlResponderRadio
+				.setText(Frame2Plugin
+						.getResourceString("GlobalForwardWizardPage1.xmlResponder_type")); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		this.xmlResponderRadio.setLayoutData(gd);
+		this.xmlResponderRadio.addSelectionListener(getRadioListener());
 
-        xmlResponderText = new Text(container, SWT.BORDER | SWT.SINGLE);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        xmlResponderText.setLayoutData(gd);
-        xmlResponderText.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+		this.xmlResponderLabel = new Label(container, SWT.NULL);
+		this.xmlResponderLabel.setText(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
 
-        xmlResponderRadio.setEnabled(false);
-        xmlResponderLabel.setEnabled(false);
-        xmlResponderText.setEnabled(false);
+		this.xmlResponderText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		this.xmlResponderText.setLayoutData(gd);
+		this.xmlResponderText.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 
-        eventRadio = new Button(container, SWT.RADIO);
-        eventRadio.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.event_type")); //$NON-NLS-1$
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 3;
-        eventRadio.setLayoutData(gd);
-        eventRadio.addSelectionListener(getRadioListener());
+		this.xmlResponderRadio.setEnabled(false);
+		this.xmlResponderLabel.setEnabled(false);
+		this.xmlResponderText.setEnabled(false);
 
-        eventLabel = new Label(container, SWT.NULL);
-        eventLabel.setText(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
+		this.eventRadio = new Button(container, SWT.RADIO);
+		this.eventRadio.setText(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.event_type")); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		this.eventRadio.setLayoutData(gd);
+		this.eventRadio.addSelectionListener(getRadioListener());
 
-        eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        eventCombo.setLayoutData(gd);
-        eventCombo.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+		this.eventLabel = new Label(container, SWT.NULL);
+		this.eventLabel.setText(Frame2Plugin
+				.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
 
-        eventRadio.setEnabled(false);
-        eventLabel.setEnabled(false);
-        eventCombo.setEnabled(false);
+		this.eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		this.eventCombo.setLayoutData(gd);
+		this.eventCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 
-        initialize();
-        //dialogChanged();
-        setPageComplete(false);
-        setControl(container);
-    }
+		this.eventRadio.setEnabled(false);
+		this.eventLabel.setEnabled(false);
+		this.eventCombo.setEnabled(false);
 
-    private void initialize() {
-        Frame2Model model = ((GlobalForwardWizard)getWizard()).getFrame2Model();
-        
-        if (model != null) {
-            nameLabel.setEnabled(true);
-            nameText.setEnabled(true);
+		initialize();
+		// dialogChanged();
+		setPageComplete(false);
+		setControl(container);
+	}
 
-            typeLabel.setEnabled(true);
-            htmlResourceRadio.setEnabled(true);
-            xmlResourceRadio.setEnabled(true);
-            xmlResponderRadio.setEnabled(true);
-            eventRadio.setEnabled(true);
+	private void initialize() {
+		final Frame2Model model = ((GlobalForwardWizard) getWizard())
+				.getFrame2Model();
 
-            htmlResourceText.setEnabled(true);
-            htmlResourceBrowse.setEnabled(true);
+		if (model != null) {
+			this.nameLabel.setEnabled(true);
+			this.nameText.setEnabled(true);
 
-            Frame2Event[] events = model.getEvents();
-            for (int i = 0; i < events.length; i++) {
-                eventCombo.add(events[i].getName());
-            }
-        } else {
-            setPageComplete(false);
-            badModel = true;
-            dialogChanged();
-        }
-        
-        if (selection != null && selection.isEmpty() == false
-        && selection instanceof IStructuredSelection) {
-            IStructuredSelection ssel = (IStructuredSelection)selection;
-            if (ssel.size() > 1)
-                return;
-                
-            Object obj = ssel.getFirstElement();
-            if (obj instanceof IResource) {
-                rootProject = ((IResource)obj).getProject();
-            }
-        }
-    }
+			this.typeLabel.setEnabled(true);
+			this.htmlResourceRadio.setEnabled(true);
+			this.xmlResourceRadio.setEnabled(true);
+			this.xmlResponderRadio.setEnabled(true);
+			this.eventRadio.setEnabled(true);
 
-    private void handleBrowse() {
-        IResource[] forwardElements = findForwardResources();
-        ResourceListSelectionDialog dialog =
-            new ResourceListSelectionDialog(
-                getShell(),
-                forwardElements);
-        dialog.setInitialSelections(forwardElements);
-        if (dialog.open() == ResourceListSelectionDialog.OK) {
-            Object[] results = dialog.getResult();
-            if (results.length == 1) {
-                htmlResourceText.setText("/" + ((IFile)results[0]).getProjectRelativePath().toString()); //$NON-NLS-1$
-                dialogChanged();
-            }
-        }
-    }
-    
-    private IResource[] findForwardResources() {
-        List filteredResources = new ArrayList();
-        
-        filterResources(rootProject, filteredResources);
-        
-        IResource[] allFiltered = new IResource[0];
-        allFiltered = (IResource[])filteredResources.toArray(allFiltered);
-        
-        return allFiltered;
-    }
-    
-    private void filterResources(IContainer container, List resourceList) {
-        IResource[] members;
-        try {
-            members = container.members();
-        } catch (CoreException e) {
-            return;
-        }
-        
-        for (int i = 0; i < members.length; i++) {
-            if (members[i] instanceof IContainer) {
-                filterResources((IContainer)members[i], resourceList);
-            }
-            
-            String fileExt = members[i].getFileExtension();
-            if ((fileExt != null) && 
-               (fileExt.equalsIgnoreCase(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.jsp_file_type")) || //$NON-NLS-1$
-                fileExt.equalsIgnoreCase(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.htm_file_type")) || //$NON-NLS-1$
-                fileExt.equalsIgnoreCase(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.html_file_type")))) { //$NON-NLS-1$
-                    resourceList.add(members[i]);
-                } 
-        }
-    }
+			this.htmlResourceText.setEnabled(true);
+			this.htmlResourceBrowse.setEnabled(true);
 
-    private SelectionListener getRadioListener() {
-        if (radioListener == null) {
-            radioListener = new SelectionListener() {
-                public void widgetDefaultSelected(SelectionEvent e) {}
-                public void widgetSelected(SelectionEvent e) {
-                    Button source = (Button)e.getSource();
-                    String buttonText = source.getText();
+			final Frame2Event[] events = model.getEvents();
+			for (int i = 0; i < events.length; i++) {
+				this.eventCombo.add(events[i].getName());
+			}
+		} else {
+			setPageComplete(false);
+			this.badModel = true;
+			dialogChanged();
+		}
 
-                    if (buttonText.equals(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
-                        htmlResourceLabel.setEnabled(true);
-                        htmlResourceText.setEnabled(true);
-                        htmlResourceBrowse.setEnabled(true);
+		if (this.selection != null && this.selection.isEmpty() == false
+				&& this.selection instanceof IStructuredSelection) {
+			final IStructuredSelection ssel = (IStructuredSelection) this.selection;
+			if (ssel.size() > 1) {
+				return;
+			}
 
-                        xmlResourceLabel.setEnabled(false);
-                        xmlResourceText.setEnabled(false);
+			final Object obj = ssel.getFirstElement();
+			if (obj instanceof IResource) {
+				this.rootProject = ((IResource) obj).getProject();
+			}
+		}
+	}
 
-                        xmlResponderLabel.setEnabled(false);
-                        xmlResponderText.setEnabled(false);
+	void handleBrowse() {
+		final IResource[] forwardElements = findForwardResources();
+		final ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(
+				getShell(), forwardElements);
+		dialog.setInitialSelections(forwardElements);
+		if (dialog.open() == Window.OK) {
+			final Object[] results = dialog.getResult();
+			if (results.length == 1) {
+				this.htmlResourceText
+						.setText("/" + ((IFile) results[0]).getProjectRelativePath().toString()); //$NON-NLS-1$
+				dialogChanged();
+			}
+		}
+	}
 
-                        eventLabel.setEnabled(false);
-                        eventCombo.setEnabled(false);
-                    } else if (buttonText.equals(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.xmlResource_type"))) { //$NON-NLS-1$
-                        htmlResourceLabel.setEnabled(false);
-                        htmlResourceText.setEnabled(false);
-                        htmlResourceBrowse.setEnabled(false);
+	private IResource[] findForwardResources() {
+		final List<IResource> filteredResources = new ArrayList<IResource>();
 
-                        xmlResourceLabel.setEnabled(true);
-                        xmlResourceText.setEnabled(true);
+		filterResources(this.rootProject, filteredResources);
 
-                        xmlResponderLabel.setEnabled(false);
-                        xmlResponderText.setEnabled(false);
+		IResource[] allFiltered = new IResource[0];
+		allFiltered = filteredResources.toArray(allFiltered);
 
-                        eventLabel.setEnabled(false);
-                        eventCombo.setEnabled(false);
-                    } else if (buttonText.equals(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.xmlResponder_type"))) { //$NON-NLS-1$
-                        htmlResourceLabel.setEnabled(false);
-                        htmlResourceText.setEnabled(false);
-                        htmlResourceBrowse.setEnabled(false);
+		return allFiltered;
+	}
 
-                        xmlResourceLabel.setEnabled(false);
-                        xmlResourceText.setEnabled(false);
+	private void filterResources(final IContainer container,
+			final List<IResource> resourceList) {
+		IResource[] members;
+		try {
+			members = container.members();
+		} catch (final CoreException e) {
+			return;
+		}
 
-                        xmlResponderLabel.setEnabled(true);
-                        xmlResponderText.setEnabled(true);
+		for (int i = 0; i < members.length; i++) {
+			if (members[i] instanceof IContainer) {
+				filterResources((IContainer) members[i], resourceList);
+			}
 
-                        eventLabel.setEnabled(false);
-                        eventCombo.setEnabled(false);
-                    } else if (buttonText.equals(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.event_type"))) { //$NON-NLS-1$
-                        htmlResourceLabel.setEnabled(false);
-                        htmlResourceText.setEnabled(false);
-                        htmlResourceBrowse.setEnabled(false);
+			final String fileExt = members[i].getFileExtension();
+			if ((fileExt != null)
+					&& (fileExt
+							.equalsIgnoreCase(Frame2Plugin
+									.getResourceString("GlobalForwardWizardPage1.jsp_file_type")) || //$NON-NLS-1$
+							fileExt
+									.equalsIgnoreCase(Frame2Plugin
+											.getResourceString("GlobalForwardWizardPage1.htm_file_type")) || //$NON-NLS-1$
+					fileExt
+							.equalsIgnoreCase(Frame2Plugin
+									.getResourceString("GlobalForwardWizardPage1.html_file_type")))) { //$NON-NLS-1$
+				resourceList.add(members[i]);
+			}
+		}
+	}
 
-                        xmlResourceLabel.setEnabled(false);
-                        xmlResourceText.setEnabled(false);
+	private SelectionListener getRadioListener() {
+		if (this.radioListener == null) {
+			this.radioListener = new SelectionListener() {
+				public void widgetDefaultSelected(@SuppressWarnings("unused")
+				final SelectionEvent e) {
+					// Ignored
+				}
 
-                        xmlResponderLabel.setEnabled(false);
-                        xmlResponderText.setEnabled(false);
+				public void widgetSelected(final SelectionEvent e) {
+					final Button source = (Button) e.getSource();
+					final String buttonText = source.getText();
 
-                        eventLabel.setEnabled(true);
-                        eventCombo.setEnabled(true);
-                    }
+					if (buttonText
+							.equals(Frame2Plugin
+									.getResourceString("GlobalForwardWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
+						GlobalForwardWizardPage1.this.htmlResourceLabel
+								.setEnabled(true);
+						GlobalForwardWizardPage1.this.htmlResourceText
+								.setEnabled(true);
+						GlobalForwardWizardPage1.this.htmlResourceBrowse
+								.setEnabled(true);
 
-                    dialogChanged();
-                }
-            };
-        }
+						GlobalForwardWizardPage1.this.xmlResourceLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.xmlResourceText
+								.setEnabled(false);
 
-        return radioListener;
-    }
+						GlobalForwardWizardPage1.this.xmlResponderLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.xmlResponderText
+								.setEnabled(false);
 
+						GlobalForwardWizardPage1.this.eventLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.eventCombo
+								.setEnabled(false);
+					} else if (buttonText
+							.equals(Frame2Plugin
+									.getResourceString("GlobalForwardWizardPage1.xmlResource_type"))) { //$NON-NLS-1$
+						GlobalForwardWizardPage1.this.htmlResourceLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.htmlResourceText
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.htmlResourceBrowse
+								.setEnabled(false);
 
-    private void dialogChanged() {
-        if (badModel) {
-            updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.configError")); //$NON-NLS-1$
-            return;
-        }
-        
-        String name = getForwardName();
-        String type = getForwardType();
-        String path = getForwardPath();
+						GlobalForwardWizardPage1.this.xmlResourceLabel
+								.setEnabled(true);
+						GlobalForwardWizardPage1.this.xmlResourceText
+								.setEnabled(true);
 
-        if (name.length() == 0) {
-            updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.missingNameMessage")); //$NON-NLS-1$
-            return;
-        }
-        if (type.length() == 0) {
-            updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.missingTypeMessage")); //$NON-NLS-1$
-            return;
-        }
-        if (path.length() == 0) {
-            updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.missingPathMessage")); //$NON-NLS-1$
-            return;
-        }
+						GlobalForwardWizardPage1.this.xmlResponderLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.xmlResponderText
+								.setEnabled(false);
 
-        if (!validateForwardName()) {
-            return;
-        }
-        
-        if (!validateForwardPath()) {
-            return;
-        }
+						GlobalForwardWizardPage1.this.eventLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.eventCombo
+								.setEnabled(false);
+					} else if (buttonText
+							.equals(Frame2Plugin
+									.getResourceString("GlobalForwardWizardPage1.xmlResponder_type"))) { //$NON-NLS-1$
+						GlobalForwardWizardPage1.this.htmlResourceLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.htmlResourceText
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.htmlResourceBrowse
+								.setEnabled(false);
 
-        updateStatus(null);
-    }
+						GlobalForwardWizardPage1.this.xmlResourceLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.xmlResourceText
+								.setEnabled(false);
 
-    private void updateStatus(String message) {
-        setErrorMessage(message);
-        setPageComplete(message == null);
-    }
+						GlobalForwardWizardPage1.this.xmlResponderLabel
+								.setEnabled(true);
+						GlobalForwardWizardPage1.this.xmlResponderText
+								.setEnabled(true);
 
-    public String getForwardName() {
-        return nameText.getText();
-    }
-    public String getForwardType() {
-        if (htmlResourceRadio.getSelection()) {
-            return Frame2Plugin.getResourceString("GlobalForwardWizardPage1.htmlResource_type"); //$NON-NLS-1$
-        } else if (xmlResourceRadio.getSelection()) {
-            return Frame2Plugin.getResourceString("GlobalForwardWizardPage1.xmlResource_type"); //$NON-NLS-1$
-        } else if (xmlResponderRadio.getSelection()) {
-            return Frame2Plugin.getResourceString("GlobalForwardWizardPage1.xmlResponder_type"); //$NON-NLS-1$
-        } else if (eventRadio.getSelection()) {
-            return Frame2Plugin.getResourceString("GlobalForwardWizardPage1.event_internal_type"); //$NON-NLS-1$
-        }
+						GlobalForwardWizardPage1.this.eventLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.eventCombo
+								.setEnabled(false);
+					} else if (buttonText
+							.equals(Frame2Plugin
+									.getResourceString("GlobalForwardWizardPage1.event_type"))) { //$NON-NLS-1$
+						GlobalForwardWizardPage1.this.htmlResourceLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.htmlResourceText
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.htmlResourceBrowse
+								.setEnabled(false);
 
-        return ""; //$NON-NLS-1$
-    }
-    public String getForwardPath() {
-        if (htmlResourceRadio.getSelection()) {
-            return htmlResourceText.getText();
-        } else if (xmlResourceRadio.getSelection()) {
-            return xmlResourceText.getText();
-        } else if (xmlResponderRadio.getSelection()) {
-            return xmlResponderText.getText();
-        } else if (eventRadio.getSelection()) {
-            return eventCombo.getText();
-        }
+						GlobalForwardWizardPage1.this.xmlResourceLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.xmlResourceText
+								.setEnabled(false);
 
-        return ""; //$NON-NLS-1$
-    }
+						GlobalForwardWizardPage1.this.xmlResponderLabel
+								.setEnabled(false);
+						GlobalForwardWizardPage1.this.xmlResponderText
+								.setEnabled(false);
 
-    private boolean validateForwardName() {
-        String forwardName = getForwardName();
-        Forward[] allForwards = ((GlobalForwardWizard)getWizard()).getFrame2Model().getGlobalForwards();
-        for (int i = 0; i < allForwards.length; i++) {
-            if (forwardName.equals(allForwards[i].getName())) {
-                updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.errorDuplicateName")); //$NON-NLS-1$
-                return false;
-            }
-        }
-        
-        return true;
-    }
+						GlobalForwardWizardPage1.this.eventLabel
+								.setEnabled(true);
+						GlobalForwardWizardPage1.this.eventCombo
+								.setEnabled(true);
+					}
 
-    private boolean validateForwardPath() {
-        String forwardType = getForwardType();
-        String forwardPath = getForwardPath();
-        
-        if (forwardType.equals(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
-            
-            if (forwardPath.indexOf(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.uriPrefix")) != -1) { //$NON-NLS-1$
-                return true;
-            }
-            
-            IResource filePath = rootProject.findMember(forwardPath);
-            if (filePath != null) {
-                if (!filePath.exists() || (!(filePath instanceof IFile))) {
-                    updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.missingForwardFile")); //$NON-NLS-1$
-                    return false;
-                }
-            } else {
-                updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.missingForwardFile")); //$NON-NLS-1$
-                return false;
-            }
-                
-        }
-        
-        return true;
-    }
+					dialogChanged();
+				}
+			};
+		}
 
-    public void dispose() {
-        super.dispose();
-        nameText.dispose();
-        htmlResourceText.dispose();
-        xmlResourceText.dispose();
-        xmlResponderText.dispose();
-        nameLabel.dispose();
-        typeLabel.dispose();
-        htmlResourceLabel.dispose();
-        xmlResourceLabel.dispose();
-        xmlResponderLabel.dispose();
-        eventLabel.dispose();
-        eventCombo.dispose();
-    
-        htmlResourceRadio.dispose();
-        xmlResourceRadio.dispose();
-        xmlResponderRadio.dispose();
-        eventRadio.dispose();
-    
-        htmlResourceBrowse.dispose();
-    }
+		return this.radioListener;
+	}
+
+	void dialogChanged() {
+		if (this.badModel) {
+			updateStatus(Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.configError")); //$NON-NLS-1$
+			return;
+		}
+
+		final String name = getForwardName();
+		final String type = getForwardType();
+		final String path = getForwardPath();
+
+		if (name.length() == 0) {
+			updateStatus(Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.missingNameMessage")); //$NON-NLS-1$
+			return;
+		}
+		if (type.length() == 0) {
+			updateStatus(Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.missingTypeMessage")); //$NON-NLS-1$
+			return;
+		}
+		if (path.length() == 0) {
+			updateStatus(Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.missingPathMessage")); //$NON-NLS-1$
+			return;
+		}
+
+		if (!validateForwardName()) {
+			return;
+		}
+
+		if (!validateForwardPath()) {
+			return;
+		}
+
+		updateStatus(null);
+	}
+
+	private void updateStatus(final String message) {
+		setErrorMessage(message);
+		setPageComplete(message == null);
+	}
+
+	public String getForwardName() {
+		return this.nameText.getText();
+	}
+
+	public String getForwardType() {
+		if (this.htmlResourceRadio.getSelection()) {
+			return Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.htmlResource_type"); //$NON-NLS-1$
+		} else if (this.xmlResourceRadio.getSelection()) {
+			return Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.xmlResource_type"); //$NON-NLS-1$
+		} else if (this.xmlResponderRadio.getSelection()) {
+			return Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.xmlResponder_type"); //$NON-NLS-1$
+		} else if (this.eventRadio.getSelection()) {
+			return Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.event_internal_type"); //$NON-NLS-1$
+		}
+
+		return ""; //$NON-NLS-1$
+	}
+
+	public String getForwardPath() {
+		if (this.htmlResourceRadio.getSelection()) {
+			return this.htmlResourceText.getText();
+		} else if (this.xmlResourceRadio.getSelection()) {
+			return this.xmlResourceText.getText();
+		} else if (this.xmlResponderRadio.getSelection()) {
+			return this.xmlResponderText.getText();
+		} else if (this.eventRadio.getSelection()) {
+			return this.eventCombo.getText();
+		}
+
+		return ""; //$NON-NLS-1$
+	}
+
+	private boolean validateForwardName() {
+		final String forwardName = getForwardName();
+		final Forward[] allForwards = ((GlobalForwardWizard) getWizard())
+				.getFrame2Model().getGlobalForwards();
+		for (int i = 0; i < allForwards.length; i++) {
+			if (forwardName.equals(allForwards[i].getName())) {
+				updateStatus(Frame2Plugin
+						.getResourceString("GlobalForwardWizardPage1.errorDuplicateName")); //$NON-NLS-1$
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private boolean validateForwardPath() {
+		final String forwardType = getForwardType();
+		final String forwardPath = getForwardPath();
+
+		if (forwardType
+				.equals(Frame2Plugin
+						.getResourceString("GlobalForwardWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
+
+			if (forwardPath.indexOf(Frame2Plugin
+					.getResourceString("GlobalForwardWizardPage1.uriPrefix")) != -1) { //$NON-NLS-1$
+				return true;
+			}
+
+			final IResource filePath = this.rootProject.findMember(forwardPath);
+			if (filePath != null) {
+				if (!filePath.exists() || (!(filePath instanceof IFile))) {
+					updateStatus(Frame2Plugin
+							.getResourceString("GlobalForwardWizardPage1.missingForwardFile")); //$NON-NLS-1$
+					return false;
+				}
+			} else {
+				updateStatus(Frame2Plugin
+						.getResourceString("GlobalForwardWizardPage1.missingForwardFile")); //$NON-NLS-1$
+				return false;
+			}
+
+		}
+
+		return true;
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		this.nameText.dispose();
+		this.htmlResourceText.dispose();
+		this.xmlResourceText.dispose();
+		this.xmlResponderText.dispose();
+		this.nameLabel.dispose();
+		this.typeLabel.dispose();
+		this.htmlResourceLabel.dispose();
+		this.xmlResourceLabel.dispose();
+		this.xmlResponderLabel.dispose();
+		this.eventLabel.dispose();
+		this.eventCombo.dispose();
+
+		this.htmlResourceRadio.dispose();
+		this.xmlResourceRadio.dispose();
+		this.xmlResponderRadio.dispose();
+		this.eventRadio.dispose();
+
+		this.htmlResourceBrowse.dispose();
+	}
 
 }

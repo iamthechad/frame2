@@ -21,51 +21,58 @@ public class XMLEditorContributor extends TextEditorActionContributor {
 
 	public XMLEditorContributor() {
 		super();
-		ResourceBundle bundle =
-			Frame2Plugin.getDefault().getResourceBundle();
+		final ResourceBundle bundle = Frame2Plugin.getDefault()
+				.getResourceBundle();
 
-		fContentAssistProposal =
-			new RetargetTextEditorAction(bundle, "ContentAssistProposal.");
-		//		Added this call for 2.1 changes
-		// 		New to 2.1 - CTRL+Space key doesn't work without making this call 	
+		this.fContentAssistProposal = new RetargetTextEditorAction(bundle,
+				"ContentAssistProposal."); //$NON-NLS-1$
+		// Added this call for 2.1 changes
+		// New to 2.1 - CTRL+Space key doesn't work without making this call
 
-		fContentAssistProposal.setActionDefinitionId(
-			ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+		this.fContentAssistProposal
+				.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
 
-		fContentFormatProposal =
-			new RetargetTextEditorAction(bundle, "ContentFormatProposal.");
-		fContentAssistTip =
-			new RetargetTextEditorAction(bundle, "ContentAssistTip.");
-		fContentAssistTip.setActionDefinitionId(
-			ITextEditorActionDefinitionIds.CONTENT_ASSIST_CONTEXT_INFORMATION);
+		this.fContentFormatProposal = new RetargetTextEditorAction(bundle,
+				"ContentFormatProposal."); //$NON-NLS-1$
+		this.fContentAssistTip = new RetargetTextEditorAction(bundle,
+				"ContentAssistTip."); //$NON-NLS-1$
+		this.fContentAssistTip
+				.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_CONTEXT_INFORMATION);
 
 	}
-	public void contributeToMenu(IMenuManager mm) {
-		IMenuManager editMenu =
-			mm.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
+
+	@Override
+	public void contributeToMenu(final IMenuManager mm) {
+		final IMenuManager editMenu = mm
+				.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
 		if (editMenu != null) {
 			editMenu.add(new Separator());
-			editMenu.add(fContentAssistProposal);
-			editMenu.add(fContentFormatProposal);
-			editMenu.add(fContentAssistTip);
+			editMenu.add(this.fContentAssistProposal);
+			editMenu.add(this.fContentFormatProposal);
+			editMenu.add(this.fContentAssistTip);
 		}
 	}
-	public void setActiveEditor(IEditorPart part) {
+
+	@Override
+	public void setActiveEditor(final IEditorPart part) {
 
 		super.setActiveEditor(part);
 
 		ITextEditor editor = null;
-		if (part instanceof ITextEditor)
+		if (part instanceof ITextEditor) {
 			editor = (ITextEditor) part;
+		}
 
-		fContentAssistProposal.setAction(
-			getAction(editor, "ContentAssistProposal"));
-		fContentFormatProposal.setAction(
-			getAction(editor, "ContentFormatProposal"));
-		fContentAssistTip.setAction(getAction(editor, "ContentAssistTip"));
+		this.fContentAssistProposal.setAction(getAction(editor,
+				"ContentAssistProposal")); //$NON-NLS-1$
+		this.fContentFormatProposal.setAction(getAction(editor,
+				"ContentFormatProposal")); //$NON-NLS-1$
+		this.fContentAssistTip.setAction(getAction(editor, "ContentAssistTip")); //$NON-NLS-1$
 
 	}
-	public void contributeToToolBar(IToolBarManager tbm) {
+
+	@Override
+	public void contributeToToolBar(final IToolBarManager tbm) {
 		tbm.add(new Separator());
 	}
 

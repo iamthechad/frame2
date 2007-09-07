@@ -54,151 +54,163 @@ import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2Model {
 
-   private static Frame2Config config = null;
+	private static Frame2Config config = null;
 
-   private static Frame2Model instance = null;
+	private static Frame2Model instance = null;
 
-   private static String fileName = null;
+	private static String fileName = null;
 
-   private Frame2Model(String configFile) throws Frame2ModelException {
-      fileName = configFile;
-      FileInputStream fis = null;
-      try {
-         fis = new FileInputStream(fileName);
-      } catch (FileNotFoundException e) {
-         throw new Frame2ModelException(
-               Frame2Plugin.getResourceString("Frame2Model.errorLoadingConfig") + configFile, e); //$NON-NLS-1$
-      }
-      try {
-         config = Frame2Config.read(new InputSource(fis), true, null,
-               new Frame2ErrorHandler());
-      } catch (Exception e1) {
-         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorLoadingConfig"), e1); //$NON-NLS-1$
-      }
-   }
+	private Frame2Model(final String configFile) throws Frame2ModelException {
+		fileName = configFile;
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(fileName);
+		} catch (final FileNotFoundException e) {
+			throw new Frame2ModelException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.errorLoadingConfig") + configFile, e); //$NON-NLS-1$
+		}
+		try {
+			config = Frame2Config.read(new InputSource(fis), true, null,
+					new Frame2ErrorHandler());
+		} catch (final Exception e1) {
+			throw new Frame2ModelException(Frame2Plugin
+					.getResourceString("Frame2Model.errorLoadingConfig"), e1); //$NON-NLS-1$
+		}
+	}
 
-   public static Frame2Model getInstance(String configFile)
-         throws Frame2ModelException {
-      instance = new Frame2Model(configFile);
-      return instance;
-   }
+	public static Frame2Model getInstance(final String configFile)
+			throws Frame2ModelException {
+		instance = new Frame2Model(configFile);
+		return instance;
+	}
 
-   public static Frame2Model getInstance() {
-      return instance;
-   }
+	public static Frame2Model getInstance() {
+		return instance;
+	}
 
-   public void persistConfiguration() throws Frame2ModelException {
-      try {
-         FileOutputStream fos = new FileOutputStream(fileName);
-         config.validate();
-         config.write(fos);
-      } catch (Exception e) {
-         throw new Frame2ModelException(
-               Frame2Plugin.getResourceString("Frame2Model.errorPersistingConfiguration"), e); //$NON-NLS-1$
-      }
-   }
+	public void persistConfiguration() throws Frame2ModelException {
+		try {
+			final FileOutputStream fos = new FileOutputStream(fileName);
+			config.validate();
+			config.write(fos);
+		} catch (final Exception e) {
+			throw new Frame2ModelException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.errorPersistingConfiguration"), e); //$NON-NLS-1$
+		}
+	}
 
-   public Frame2Event[] getEvents() {
-      return config.getFrame2Events().getFrame2Event();
-   }
+	public Frame2Event[] getEvents() {
+		return config.getFrame2Events().getFrame2Event();
+	}
 
-   public EventHandler[] getEventHandlers() {
-      return config.getEventHandlers().getEventHandler();
-   }
+	public EventHandler[] getEventHandlers() {
+		return config.getEventHandlers().getEventHandler();
+	}
 
-   public EventMapping[] getEventMappings() {
-      return config.getEventMappings().getEventMapping();
-   }
+	public EventMapping[] getEventMappings() {
+		return config.getEventMappings().getEventMapping();
+	}
 
-   public Frame2Exception[] getExceptions() {
-      return config.getExceptions().getFrame2Exception();
-   }
+	public Frame2Exception[] getExceptions() {
+		return config.getExceptions().getFrame2Exception();
+	}
 
-   public Forward[] getGlobalForwards() {
-      return config.getGlobalForwards().getForward();
-   }
+	public Forward[] getGlobalForwards() {
+		return config.getGlobalForwards().getForward();
+	}
 
-   public Plugin[] getPlugins() {
-      return config.getPlugins().getPlugin();
-   }
+	public Plugin[] getPlugins() {
+		return config.getPlugins().getPlugin();
+	}
 
-   public HttpRequestProcessor getHttpRequestProcessor() {
-      return config.getRequestProcessors().getHttpRequestProcessor();
-   }
+	public HttpRequestProcessor getHttpRequestProcessor() {
+		return config.getRequestProcessors().getHttpRequestProcessor();
+	}
 
-   public SoapRequestProcessor getSoapRequestProcessor() {
-      return config.getRequestProcessors().getSoapRequestProcessor();
-   }
+	public SoapRequestProcessor getSoapRequestProcessor() {
+		return config.getRequestProcessors().getSoapRequestProcessor();
+	}
 
-   public void addEventHandler(EventHandler handler)
-         throws Frame2ModelException {
-      EventHandlers handlers = config.getEventHandlers();
-      handlers.addEventHandler(handler);
-      try {
-         handlers.validate();
-      } catch (ValidateException e) {
-         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingEventHandler"), e); //$NON-NLS-1$
-      }
-   }
+	public void addEventHandler(final EventHandler handler)
+			throws Frame2ModelException {
+		final EventHandlers handlers = config.getEventHandlers();
+		handlers.addEventHandler(handler);
+		try {
+			handlers.validate();
+		} catch (final ValidateException e) {
+			throw new Frame2ModelException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.errorAddingEventHandler"), e); //$NON-NLS-1$
+		}
+	}
 
-   public void addEventMapping(EventMapping mapping)
-         throws Frame2ModelException {
-      EventMappings mappings = config.getEventMappings();
-      mappings.addEventMapping(mapping);
-      try {
-         mappings.validate();
-      } catch (ValidateException e) {
-         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingEventMapping"), e); //$NON-NLS-1$
-      }
-   }
+	public void addEventMapping(final EventMapping mapping)
+			throws Frame2ModelException {
+		final EventMappings mappings = config.getEventMappings();
+		mappings.addEventMapping(mapping);
+		try {
+			mappings.validate();
+		} catch (final ValidateException e) {
+			throw new Frame2ModelException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.errorAddingEventMapping"), e); //$NON-NLS-1$
+		}
+	}
 
-   public void addEvent(Frame2Event event) throws Frame2ModelException {
-      Frame2Events events = config.getFrame2Events();
-      events.addFrame2Event(event);
-      try {
-         events.validate();
-      } catch (ValidateException e) {
-         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingEvent"), e); //$NON-NLS-1$
-      }
-   }
+	public void addEvent(final Frame2Event event) throws Frame2ModelException {
+		final Frame2Events events = config.getFrame2Events();
+		events.addFrame2Event(event);
+		try {
+			events.validate();
+		} catch (final ValidateException e) {
+			throw new Frame2ModelException(Frame2Plugin
+					.getResourceString("Frame2Model.errorAddingEvent"), e); //$NON-NLS-1$
+		}
+	}
 
-   public void addFrame2Exception(Frame2Exception exception)
-         throws Frame2ModelException {
-      Exceptions exceptions = config.getExceptions();
-      exceptions.addFrame2Exception(exception);
-      try {
-         exceptions.validate();
-      } catch (ValidateException e) {
-         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingException"), e); //$NON-NLS-1$
-      }
-   }
+	public void addFrame2Exception(final Frame2Exception exception)
+			throws Frame2ModelException {
+		final Exceptions exceptions = config.getExceptions();
+		exceptions.addFrame2Exception(exception);
+		try {
+			exceptions.validate();
+		} catch (final ValidateException e) {
+			throw new Frame2ModelException(Frame2Plugin
+					.getResourceString("Frame2Model.errorAddingException"), e); //$NON-NLS-1$
+		}
+	}
 
-   public void addGlobalForward(Forward forward) throws Frame2ModelException {
-      GlobalForwards forwards = config.getGlobalForwards();
-      forwards.addForward(forward);
-      try {
-         forwards.validate();
-      } catch (ValidateException e) {
-         throw new Frame2ModelException(Frame2Plugin.getResourceString("Frame2Model.errorAddingGlobalForward"), e); //$NON-NLS-1$
-      }
-   }
+	public void addGlobalForward(final Forward forward)
+			throws Frame2ModelException {
+		final GlobalForwards forwards = config.getGlobalForwards();
+		forwards.addForward(forward);
+		try {
+			forwards.validate();
+		} catch (final ValidateException e) {
+			throw new Frame2ModelException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.errorAddingGlobalForward"), e); //$NON-NLS-1$
+		}
+	}
 
-   public void addPlugin(Plugin plugin) {
-      Plugins plugins = config.getPlugins();
-      plugins.addPlugin(plugin);
-      config.setPlugins(plugins);
-   }
+	public void addPlugin(final Plugin plugin) {
+		final Plugins plugins = config.getPlugins();
+		plugins.addPlugin(plugin);
+		config.setPlugins(plugins);
+	}
 
-   public void setHttpRequestProcessor(HttpRequestProcessor processor) {
-      RequestProcessors processors = config.getRequestProcessors();
-      processors.setHttpRequestProcessor(processor);
-      config.setRequestProcessors(processors);
-   }
+	public void setHttpRequestProcessor(final HttpRequestProcessor processor) {
+		final RequestProcessors processors = config.getRequestProcessors();
+		processors.setHttpRequestProcessor(processor);
+		config.setRequestProcessors(processors);
+	}
 
-   public void setSoapRequestProcessor(SoapRequestProcessor processor) {
-      RequestProcessors processors = config.getRequestProcessors();
-      processors.setSoapRequestProcessor(processor);
-      config.setRequestProcessors(processors);
-   }
+	public void setSoapRequestProcessor(final SoapRequestProcessor processor) {
+		final RequestProcessors processors = config.getRequestProcessors();
+		processors.setSoapRequestProcessor(processor);
+		config.setRequestProcessors(processors);
+	}
 
 }

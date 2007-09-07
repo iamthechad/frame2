@@ -3,7 +3,7 @@
  *
  * Frame2 Open Source License
  *
- * Copyright (c) 2004-2005 Megatome Technologies.  All rights
+ * Copyright (c) 2004-2007 Megatome Technologies.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,25 +50,27 @@
  */
 package org.megatome.frame2;
 
-import org.eclipse.ui.plugin.*;
-import org.eclipse.core.runtime.*;
-import org.eclipse.core.resources.*;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
-import java.util.*;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class Frame2Plugin extends AbstractUIPlugin {
-	//The shared instance.
+	// The shared instance.
 	private static Frame2Plugin plugin;
-	//Resource bundle.
+	// Resource bundle.
 	private ResourceBundle resourceBundle;
-	
-	public Frame2Plugin(IPluginDescriptor descriptor) {
-		super(descriptor);
+
+	public Frame2Plugin() {
+		super();
 		plugin = this;
 		try {
-			resourceBundle= ResourceBundle.getBundle("org.megatome.frame2.Frame2PluginResources"); //$NON-NLS-1$
-		} catch (MissingResourceException x) {
-			resourceBundle = null;
+			this.resourceBundle = ResourceBundle
+					.getBundle("org.megatome.frame2.Frame2PluginResources"); //$NON-NLS-1$
+		} catch (final MissingResourceException x) {
+			this.resourceBundle = null;
 		}
 	}
 
@@ -80,16 +82,17 @@ public class Frame2Plugin extends AbstractUIPlugin {
 		return ResourcesPlugin.getWorkspace();
 	}
 
-	public static String getResourceString(String key) {
-		ResourceBundle bundle= Frame2Plugin.getDefault().getResourceBundle();
+	public static String getResourceString(final String key) {
+		final ResourceBundle bundle = Frame2Plugin.getDefault()
+				.getResourceBundle();
 		try {
 			return bundle.getString(key);
-		} catch (MissingResourceException e) {
+		} catch (final MissingResourceException e) {
 			return key;
 		}
 	}
 
 	public ResourceBundle getResourceBundle() {
-		return resourceBundle;
+		return this.resourceBundle;
 	}
 }

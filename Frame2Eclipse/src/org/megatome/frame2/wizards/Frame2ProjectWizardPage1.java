@@ -70,38 +70,47 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
-    private Button enableServicesButton;
-	private ISelection selection;
+	private Button enableServicesButton;
 
-	public Frame2ProjectWizardPage1(ISelection selection) {
-		super(Frame2Plugin.getResourceString("Frame2ProjectWizardPage1.wizardName")); //$NON-NLS-1$
-		setTitle(Frame2Plugin.getResourceString("Frame2ProjectWizardPage1.pageTitle")); //$NON-NLS-1$
-		setDescription(Frame2Plugin.getResourceString("Frame2ProjectWizardPage1.pageDescription")); //$NON-NLS-1$
-		this.selection = selection;
+	// private ISelection selection;
+
+	public Frame2ProjectWizardPage1(@SuppressWarnings("unused")
+	final ISelection selection) {
+		super(Frame2Plugin
+				.getResourceString("Frame2ProjectWizardPage1.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin
+				.getResourceString("Frame2ProjectWizardPage1.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin
+				.getResourceString("Frame2ProjectWizardPage1.pageDescription")); //$NON-NLS-1$
+		// this.selection = selection;
 	}
 
-	public void createControl(Composite parent) {
-        super.createControl(parent);
-        Control c = getControl();
-        Composite container = new Composite((Composite)c, SWT.NULL);
-        GridLayout layout = new GridLayout();
-        container.setLayout(layout);
-        layout.verticalSpacing = 10;
-                
-        enableServicesButton = new Button(container, SWT.CHECK);
-        enableServicesButton.setText(Frame2Plugin.getResourceString("Frame2ProjectWizardPage1.enableWebServicesCtl")); //$NON-NLS-1$
-        // Disable for now....
-        enableServicesButton.setEnabled(false);
-	}
-    
-    public boolean enableWebServices() {
-        return enableServicesButton.getSelection();
-    }
+	@Override
+	public void createControl(final Composite parent) {
+		super.createControl(parent);
+		final Control c = getControl();
+		final Composite container = new Composite((Composite) c, SWT.NULL);
+		final GridLayout layout = new GridLayout();
+		container.setLayout(layout);
+		layout.verticalSpacing = 10;
 
-    public void dispose() {
-        super.dispose();
-        
-        enableServicesButton.dispose();
-    }
+		this.enableServicesButton = new Button(container, SWT.CHECK);
+		this.enableServicesButton
+				.setText(Frame2Plugin
+						.getResourceString("Frame2ProjectWizardPage1.enableWebServicesCtl")); //$NON-NLS-1$
+		// Disable for now....
+		this.enableServicesButton.setEnabled(false);
+	}
+
+	public boolean enableWebServices() {
+		return this.enableServicesButton.getSelection();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		this.enableServicesButton.dispose();
+	}
 
 }

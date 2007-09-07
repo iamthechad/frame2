@@ -85,319 +85,370 @@ import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.EventHandler;
 import org.megatome.frame2.model.Frame2Model;
 
-
 public class EventMappingWizardPage2 extends WizardPage {
 	private Table availableHandlersTable;
 	private Table selectedHandlersTable;
-    private Button addSingleButton;
-    private Button addAllButton;
-    private Button removeSingleButton;
-    private Button removeAllButton;
-    private Button moveUpButton;
-    private Button moveDownButton;
-	private ISelection selection;
-    private boolean badModel = false;
-    
-	public EventMappingWizardPage2(ISelection selection) {
-		super(Frame2Plugin.getResourceString("EventMappingWizardPage2.wizardName")); //$NON-NLS-1$
-		setTitle(Frame2Plugin.getResourceString("EventMappingWizardPage2.pageTitle")); //$NON-NLS-1$
-		setDescription(Frame2Plugin.getResourceString("EventMappingWizardPage2.pageDescription")); //$NON-NLS-1$
-		this.selection = selection;
+	private Button addSingleButton;
+	private Button addAllButton;
+	private Button removeSingleButton;
+	private Button removeAllButton;
+	private Button moveUpButton;
+	private Button moveDownButton;
+	// private ISelection selection;
+	private boolean badModel = false;
+
+	public EventMappingWizardPage2(@SuppressWarnings("unused")
+	final ISelection selection) {
+		super(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.pageTitle")); //$NON-NLS-1$
+		setDescription(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.pageDescription")); //$NON-NLS-1$
+		// this.selection = selection;
 	}
 
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
+	public void createControl(final Composite parent) {
+		final Composite container = new Composite(parent, SWT.NULL);
+		final GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 		layout.numColumns = 6;
 		layout.verticalSpacing = 9;
 
-        availableHandlersTable = new Table(container, SWT.SINGLE | SWT.FULL_SELECTION);
-        availableHandlersTable.setHeaderVisible(true);
-        GridData gd = new GridData(GridData.FILL_BOTH);
-        gd.horizontalSpan = 2;
-        availableHandlersTable.setLayoutData(gd);
-        availableHandlersTable.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                enableMovementButtons();
-            }
-        });
+		this.availableHandlersTable = new Table(container, SWT.SINGLE
+				| SWT.FULL_SELECTION);
+		this.availableHandlersTable.setHeaderVisible(true);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 2;
+		this.availableHandlersTable.setLayoutData(gd);
+		this.availableHandlersTable
+				.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(@SuppressWarnings("unused")
+					final SelectionEvent e) {
+						enableMovementButtons();
+					}
+				});
 
-        TableColumn tc = new TableColumn(availableHandlersTable, SWT.NULL);
-        tc.setText(Frame2Plugin.getResourceString("EventMappingWizardPage2.availableColumn")); //$NON-NLS-1$
-        tc.setWidth(200);
+		TableColumn tc = new TableColumn(this.availableHandlersTable, SWT.NULL);
+		tc.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.availableColumn")); //$NON-NLS-1$
+		tc.setWidth(200);
 
-        Composite buttonContainer = new Composite(container, SWT.NULL);
-        RowLayout rl = new RowLayout();
-        rl.type = SWT.VERTICAL;
-        rl.pack = false;
-        buttonContainer.setLayout(rl);
+		final Composite buttonContainer = new Composite(container, SWT.NULL);
+		final RowLayout rl = new RowLayout();
+		rl.type = SWT.VERTICAL;
+		rl.pack = false;
+		buttonContainer.setLayout(rl);
 
-        addSingleButton = new Button(buttonContainer, SWT.PUSH);
-        addSingleButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.arrowRightImage"))); //$NON-NLS-1$
-        addSingleButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                addHandlerToSelected();
-            }
-        });
-        
-        removeSingleButton = new Button(buttonContainer, SWT.PUSH);
-        removeSingleButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.arrowLeftImage"))); //$NON-NLS-1$
-        removeSingleButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                removeHandlerFromSelected();
-            }
-        });
-        
-        addAllButton = new Button(buttonContainer, SWT.PUSH);
-        addAllButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.doubleArrowRightImage"))); //$NON-NLS-1$
-        addAllButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                addAllHandlersToSelected();
-            }
-        });
-                
-        removeAllButton = new Button(buttonContainer, SWT.PUSH);
-        removeAllButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.doubleArrowLeftImage"))); //$NON-NLS-1$
-        removeAllButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                removeAllHandlersFromSelected();
-            }
-        });
-                
-        gd = new GridData(GridData.VERTICAL_ALIGN_CENTER);
-        gd.horizontalSpan = 1;
-        buttonContainer.setLayoutData(gd);
-        
-        selectedHandlersTable = new Table(container, SWT.SINGLE | SWT.FULL_SELECTION);
-        selectedHandlersTable.setHeaderVisible(true);
-        gd = new GridData(GridData.FILL_BOTH);
-        gd.horizontalSpan = 2;
-        selectedHandlersTable.setLayoutData(gd);
-        selectedHandlersTable.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                enableMovementButtons();
-            }
-        });
+		this.addSingleButton = new Button(buttonContainer, SWT.PUSH);
+		this.addSingleButton.setImage(getImage(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.arrowRightImage"))); //$NON-NLS-1$
+		this.addSingleButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				addHandlerToSelected();
+			}
+		});
 
-        tc = new TableColumn(selectedHandlersTable, SWT.NULL);
-        tc.setText(Frame2Plugin.getResourceString("EventMappingWizardPage2.selectedColumn")); //$NON-NLS-1$
-        tc.setWidth(200);
-        
-        Composite buttonContainer2 = new Composite(container, SWT.NULL);
-        RowLayout rl2 = new RowLayout();
-        rl2.type = SWT.VERTICAL;
-        rl2.pack = false;
-        rl2.spacing = 6;
-        buttonContainer2.setLayout(rl2);
-        
-        moveUpButton = new Button(buttonContainer2, SWT.PUSH);
-        moveUpButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.arrowUpImage"))); //$NON-NLS-1$
-        moveUpButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                moveSelectedHandler(true);
-            }
-        });
-        
-        moveDownButton = new Button(buttonContainer2, SWT.PUSH);
-        moveDownButton.setImage(getImage(Frame2Plugin.getResourceString("EventMappingWizardPage2.arrowDownImage"))); //$NON-NLS-1$
-        moveDownButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                moveSelectedHandler(false);
-            }
-        });
-        
-        gd = new GridData(GridData.VERTICAL_ALIGN_CENTER);
-        gd.horizontalSpan = 1;
-        buttonContainer2.setLayoutData(gd);
-        
-        addSingleButton.setEnabled(false);
-        addAllButton.setEnabled(false);
-        removeSingleButton.setEnabled(false);
-        removeAllButton.setEnabled(false);
-        
-        moveUpButton.setEnabled(false);
-        moveDownButton.setEnabled(false);
+		this.removeSingleButton = new Button(buttonContainer, SWT.PUSH);
+		this.removeSingleButton.setImage(getImage(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.arrowLeftImage"))); //$NON-NLS-1$
+		this.removeSingleButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				removeHandlerFromSelected();
+			}
+		});
 
-        initialize();
-        enableMovementButtons();
+		this.addAllButton = new Button(buttonContainer, SWT.PUSH);
+		this.addAllButton
+				.setImage(getImage(Frame2Plugin
+						.getResourceString("EventMappingWizardPage2.doubleArrowRightImage"))); //$NON-NLS-1$
+		this.addAllButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				addAllHandlersToSelected();
+			}
+		});
+
+		this.removeAllButton = new Button(buttonContainer, SWT.PUSH);
+		this.removeAllButton
+				.setImage(getImage(Frame2Plugin
+						.getResourceString("EventMappingWizardPage2.doubleArrowLeftImage"))); //$NON-NLS-1$
+		this.removeAllButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				removeAllHandlersFromSelected();
+			}
+		});
+
+		gd = new GridData(GridData.VERTICAL_ALIGN_CENTER);
+		gd.horizontalSpan = 1;
+		buttonContainer.setLayoutData(gd);
+
+		this.selectedHandlersTable = new Table(container, SWT.SINGLE
+				| SWT.FULL_SELECTION);
+		this.selectedHandlersTable.setHeaderVisible(true);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 2;
+		this.selectedHandlersTable.setLayoutData(gd);
+		this.selectedHandlersTable.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				enableMovementButtons();
+			}
+		});
+
+		tc = new TableColumn(this.selectedHandlersTable, SWT.NULL);
+		tc.setText(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.selectedColumn")); //$NON-NLS-1$
+		tc.setWidth(200);
+
+		final Composite buttonContainer2 = new Composite(container, SWT.NULL);
+		final RowLayout rl2 = new RowLayout();
+		rl2.type = SWT.VERTICAL;
+		rl2.pack = false;
+		rl2.spacing = 6;
+		buttonContainer2.setLayout(rl2);
+
+		this.moveUpButton = new Button(buttonContainer2, SWT.PUSH);
+		this.moveUpButton.setImage(getImage(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.arrowUpImage"))); //$NON-NLS-1$
+		this.moveUpButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				moveSelectedHandler(true);
+			}
+		});
+
+		this.moveDownButton = new Button(buttonContainer2, SWT.PUSH);
+		this.moveDownButton.setImage(getImage(Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.arrowDownImage"))); //$NON-NLS-1$
+		this.moveDownButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(@SuppressWarnings("unused")
+			final SelectionEvent e) {
+				moveSelectedHandler(false);
+			}
+		});
+
+		gd = new GridData(GridData.VERTICAL_ALIGN_CENTER);
+		gd.horizontalSpan = 1;
+		buttonContainer2.setLayoutData(gd);
+
+		this.addSingleButton.setEnabled(false);
+		this.addAllButton.setEnabled(false);
+		this.removeSingleButton.setEnabled(false);
+		this.removeAllButton.setEnabled(false);
+
+		this.moveUpButton.setEnabled(false);
+		this.moveDownButton.setEnabled(false);
+
+		initialize();
+		enableMovementButtons();
 		setControl(container);
 	}
-	
-	private void initialize() {
-        Frame2Model model = ((EventMappingWizard)getWizard()).getFrame2Model();
-        
-        if (model != null) {
-            EventHandler[] handlers = model.getEventHandlers();
-            for (int i = 0; i < handlers.length; i++) {
-                TableItem item = new TableItem(availableHandlersTable, SWT.NULL);
-                item.setText(handlers[i].getName());
-            }
-        } else {
-            setPageComplete(false);
-            badModel = true;
-            updateStatus(Frame2Plugin.getResourceString("EventMappingWizardPage2.errorConfig")); //$NON-NLS-1$
-        }
-	}
-    
-    private void setHandlerPageValid() {
-        IWizardPage page = getNextPage();
-        
-        if ((page != null) && 
-            (page instanceof EventMappingWizardPage3)) {
-                EventMappingWizardPage3 viewPage = (EventMappingWizardPage3)page;
-                viewPage.setHandlersSelected(selectedHandlersTable.getItemCount() > 0);
-                // Force wizard to update enabled/disabled buttons
-                if (!badModel) setPageComplete(true);
-            }
-    }
-    
-    private void enableMovementButtons() {
-        int availSel = availableHandlersTable.getSelectionIndex();
-        int selectedSel = selectedHandlersTable.getSelectionIndex();
-        
-        addSingleButton.setEnabled(availSel != -1);
-        removeSingleButton.setEnabled(selectedSel != -1);
-        
-        addAllButton.setEnabled(availableHandlersTable.getItemCount() > 0);
-        removeAllButton.setEnabled(selectedHandlersTable.getItemCount() > 0);
-        
-        moveUpButton.setEnabled(selectedSel > 0);
-        moveDownButton.setEnabled((selectedSel != -1) && (selectedSel < selectedHandlersTable.getItemCount() -1));
-    }
-    
-    private void addHandlerToSelected() {
-        int selIndex = availableHandlersTable.getSelectionIndex();
-        
-        if (selIndex == -1) {
-            return;
-        }
-        
-        moveItemToTable(availableHandlersTable, selectedHandlersTable, selIndex);
-        enableMovementButtons();
-        setHandlerPageValid();
-    }
-    
-    private void removeHandlerFromSelected() {
-        int selIndex = selectedHandlersTable.getSelectionIndex();
-        
-        if (selIndex == -1) {
-            return;
-        }
 
-        moveItemToTable(selectedHandlersTable, availableHandlersTable, selIndex);
-        enableMovementButtons();
-        setHandlerPageValid();
-    }
-    
-    private void addAllHandlersToSelected() {
-        int itemCount = availableHandlersTable.getItemCount();
-        
-        if (itemCount == 0) {
-            return;
-        }
-        
-        for (int i = 0; i < itemCount; i++) {
-            moveItemToTable(availableHandlersTable, selectedHandlersTable, 0);
-        }
-        enableMovementButtons();
-        setHandlerPageValid();
-    }
-    
-    private void removeAllHandlersFromSelected() {
-        int itemCount = selectedHandlersTable.getItemCount();
-    
-        if (itemCount == 0) {
-            return;
-        }
-    
-        for (int i = 0; i < itemCount; i++) {
-            moveItemToTable(selectedHandlersTable, availableHandlersTable, 0);
-        }
-        enableMovementButtons();
-        setHandlerPageValid();
-    }
-    
-    private void moveItemToTable(Table srcTable, Table destTable, int index) {
-        TableItem item = srcTable.getItem(index);
-        TableItem newItem = new TableItem(destTable, SWT.NULL);
-        newItem.setText(item.getText());
-        srcTable.remove(index);
-    }
-    
-    private void moveSelectedHandler(boolean moveUp) {
-        int selIndex = selectedHandlersTable.getSelectionIndex();
-        
-        if (selIndex == -1) {
-            return;
-        }
-        
-        int newIndex = -1;
-        if (moveUp) {
-            if (selIndex == 0) {
-                return;
-            }
-         
-            newIndex = selIndex - 1;   
-        } else {
-            if (selIndex == (selectedHandlersTable.getItemCount() -1)) {
-                return;
-            }
-            
-            newIndex = selIndex + 1;
-        }
-        
-        TableItem item1 = selectedHandlersTable.getItem(selIndex);
-        TableItem item2 = selectedHandlersTable.getItem(newIndex);
-        String text1 = item1.getText();
-        String text2 = item2.getText();
-        item1.setText(text2);
-        item2.setText(text1);
-        selectedHandlersTable.select(newIndex);
-        enableMovementButtons();
-    }
-	
-	private void updateStatus(String message) {
+	private void initialize() {
+		final Frame2Model model = ((EventMappingWizard) getWizard())
+				.getFrame2Model();
+
+		if (model != null) {
+			final EventHandler[] handlers = model.getEventHandlers();
+			for (int i = 0; i < handlers.length; i++) {
+				final TableItem item = new TableItem(
+						this.availableHandlersTable, SWT.NULL);
+				item.setText(handlers[i].getName());
+			}
+		} else {
+			setPageComplete(false);
+			this.badModel = true;
+			updateStatus(Frame2Plugin
+					.getResourceString("EventMappingWizardPage2.errorConfig")); //$NON-NLS-1$
+		}
+	}
+
+	private void setHandlerPageValid() {
+		final IWizardPage page = getNextPage();
+
+		if ((page != null) && (page instanceof EventMappingWizardPage3)) {
+			final EventMappingWizardPage3 viewPage = (EventMappingWizardPage3) page;
+			viewPage.setHandlersSelected(this.selectedHandlersTable
+					.getItemCount() > 0);
+			// Force wizard to update enabled/disabled buttons
+			if (!this.badModel) {
+				setPageComplete(true);
+			}
+		}
+	}
+
+	void enableMovementButtons() {
+		final int availSel = this.availableHandlersTable.getSelectionIndex();
+		final int selectedSel = this.selectedHandlersTable.getSelectionIndex();
+
+		this.addSingleButton.setEnabled(availSel != -1);
+		this.removeSingleButton.setEnabled(selectedSel != -1);
+
+		this.addAllButton
+				.setEnabled(this.availableHandlersTable.getItemCount() > 0);
+		this.removeAllButton.setEnabled(this.selectedHandlersTable
+				.getItemCount() > 0);
+
+		this.moveUpButton.setEnabled(selectedSel > 0);
+		this.moveDownButton
+				.setEnabled((selectedSel != -1)
+						&& (selectedSel < this.selectedHandlersTable
+								.getItemCount() - 1));
+	}
+
+	void addHandlerToSelected() {
+		final int selIndex = this.availableHandlersTable.getSelectionIndex();
+
+		if (selIndex == -1) {
+			return;
+		}
+
+		moveItemToTable(this.availableHandlersTable,
+				this.selectedHandlersTable, selIndex);
+		enableMovementButtons();
+		setHandlerPageValid();
+	}
+
+	void removeHandlerFromSelected() {
+		final int selIndex = this.selectedHandlersTable.getSelectionIndex();
+
+		if (selIndex == -1) {
+			return;
+		}
+
+		moveItemToTable(this.selectedHandlersTable,
+				this.availableHandlersTable, selIndex);
+		enableMovementButtons();
+		setHandlerPageValid();
+	}
+
+	void addAllHandlersToSelected() {
+		final int itemCount = this.availableHandlersTable.getItemCount();
+
+		if (itemCount == 0) {
+			return;
+		}
+
+		for (int i = 0; i < itemCount; i++) {
+			moveItemToTable(this.availableHandlersTable,
+					this.selectedHandlersTable, 0);
+		}
+		enableMovementButtons();
+		setHandlerPageValid();
+	}
+
+	void removeAllHandlersFromSelected() {
+		final int itemCount = this.selectedHandlersTable.getItemCount();
+
+		if (itemCount == 0) {
+			return;
+		}
+
+		for (int i = 0; i < itemCount; i++) {
+			moveItemToTable(this.selectedHandlersTable,
+					this.availableHandlersTable, 0);
+		}
+		enableMovementButtons();
+		setHandlerPageValid();
+	}
+
+	private void moveItemToTable(final Table srcTable, final Table destTable,
+			final int index) {
+		final TableItem item = srcTable.getItem(index);
+		final TableItem newItem = new TableItem(destTable, SWT.NULL);
+		newItem.setText(item.getText());
+		srcTable.remove(index);
+	}
+
+	void moveSelectedHandler(final boolean moveUp) {
+		final int selIndex = this.selectedHandlersTable.getSelectionIndex();
+
+		if (selIndex == -1) {
+			return;
+		}
+
+		int newIndex = -1;
+		if (moveUp) {
+			if (selIndex == 0) {
+				return;
+			}
+
+			newIndex = selIndex - 1;
+		} else {
+			if (selIndex == (this.selectedHandlersTable.getItemCount() - 1)) {
+				return;
+			}
+
+			newIndex = selIndex + 1;
+		}
+
+		final TableItem item1 = this.selectedHandlersTable.getItem(selIndex);
+		final TableItem item2 = this.selectedHandlersTable.getItem(newIndex);
+		final String text1 = item1.getText();
+		final String text2 = item2.getText();
+		item1.setText(text2);
+		item2.setText(text1);
+		this.selectedHandlersTable.select(newIndex);
+		enableMovementButtons();
+	}
+
+	private void updateStatus(final String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
 
-	public List getSelectedHandlers() {
-        List selected = new ArrayList();
-        
-        int selCount = selectedHandlersTable.getItemCount();
-        for (int i = 0; i < selCount; i++) {
-            TableItem item = selectedHandlersTable.getItem(i);
-            selected.add(item.getText());
-        }
-        
-        return selected;
-	}
-    
-    private Image getImage(String imageName) {
-        String iconPath = Frame2Plugin.getResourceString("EventMappingWizardPage2.iconDir"); //$NON-NLS-1$
-        ImageDescriptor id = null;
-        try {
-            Frame2Plugin plugin = Frame2Plugin.getDefault();
-            URL installURL = plugin.getDescriptor().getInstallURL();
-            URL url = new URL(installURL, iconPath + imageName);
-            id = ImageDescriptor.createFromURL(url);
-        } catch (MalformedURLException e) {}
-        
-        return id.createImage();
-    }
+	public List<String> getSelectedHandlers() {
+		final List<String> selected = new ArrayList<String>();
 
-    public void dispose() {
-        super.dispose();
-        
-        availableHandlersTable.dispose();
-        selectedHandlersTable.dispose();
-        addSingleButton.dispose();
-        addAllButton.dispose();
-        removeSingleButton.dispose();
-        removeAllButton.dispose();
-        moveUpButton.dispose();
-        moveDownButton.dispose();
-    }
+		final int selCount = this.selectedHandlersTable.getItemCount();
+		for (int i = 0; i < selCount; i++) {
+			final TableItem item = this.selectedHandlersTable.getItem(i);
+			selected.add(item.getText());
+		}
+
+		return selected;
+	}
+
+	private Image getImage(final String imageName) {
+		final String iconPath = Frame2Plugin
+				.getResourceString("EventMappingWizardPage2.iconDir"); //$NON-NLS-1$
+		ImageDescriptor id = null;
+		try {
+			final Frame2Plugin plugin = Frame2Plugin.getDefault();
+			final URL installURL = plugin.getBundle().getEntry("/"); //$NON-NLS-1$
+			final URL url = new URL(installURL, iconPath + imageName);
+			id = ImageDescriptor.createFromURL(url);
+		} catch (final MalformedURLException e) {
+			// Ignore
+		}
+
+		return (id != null) ? id.createImage() : null;
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		this.availableHandlersTable.dispose();
+		this.selectedHandlersTable.dispose();
+		this.addSingleButton.dispose();
+		this.addAllButton.dispose();
+		this.removeSingleButton.dispose();
+		this.removeAllButton.dispose();
+		this.moveUpButton.dispose();
+		this.moveDownButton.dispose();
+	}
 
 }
