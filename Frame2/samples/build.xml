@@ -1,317 +1,337 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="samples" default="all">
-   <property name="proj-base" value=".."/>
+	<property name="proj-base" value=".." />
 
 	<target name="init">
-		<property file="override.properties"/>
-		<property file="env.properties"/>
-		
+		<property file="override.properties" />
+		<property file="env.properties" />
+
 		<condition property="frame2.lib" value="${src-dist.lib}">
 			<and>
-				<available file="${src-dist.lib}/frame2.jar"/>
+				<available file="${src-dist.lib}/frame2.jar" />
 			</and>
 		</condition>
-		
+
 		<condition property="frame2.lib" value="${bin-dist.lib}">
 			<and>
-				<available file="${bin-dist.lib}/frame2.jar"/>
+				<available file="${bin-dist.lib}/frame2.jar" />
 			</and>
 		</condition>
-		
-		<fail message="Could not locate the Frame2 jars. Cannot build sample." 
-			unless="frame2.lib"/>
-		
+
+		<fail message="Could not locate the Frame2 jars. Cannot build sample." unless="frame2.lib" />
+
 		<patternset id="jstl-libs">
-			<include name="jstl.jar"/>
-			
+			<include name="jstl.jar" />
+
 		</patternset>
-		
+
 		<patternset id="standard-libs">
-			<include name="standard.jar"/>
+			<include name="standard.jar" />
 		</patternset>
-			
+
 		<patternset id="commons-val-libs">
-			<include name="commons-beanutils.jar"/>
-			<include name="commons-digester.jar"/>
-			<include name="commons-validator.jar"/>
-			<include name="jakarta-oro.jar"/>
-			<include name="commons-logging.jar"/>
+			<include name="commons-beanutils.jar" />
+			<include name="commons-digester.jar" />
+			<include name="commons-validator.jar" />
+			<include name="jakarta-oro.jar" />
+			<include name="commons-logging.jar" />
 		</patternset>
-		
+
 		<patternset id="ext-libs">
-			<include name="commons-collections.jar"/>
-			<include name="commons-fileupload.jar"/>
-			<include name="commons-io.jar"/>
-			<include name="commons-logging.jar"/>
-			<include name="log4j.jar"/>
+			<include name="commons-collections.jar" />
+			<include name="commons-fileupload.jar" />
+			<include name="commons-io.jar" />
+			<include name="commons-logging.jar" />
+			<include name="log4j.jar" />
 		</patternset>
-		
+
 		<patternset id="soap-libs">
-			<include name="axis.jar"/>
-			<include name="commons-discovery.jar"/>
-			<include name="jaxrpc.jar"/>
-			<include name="wsdl4j.jar"/>
+			<include name="axis.jar" />
+			<include name="commons-discovery.jar" />
+			<include name="jaxrpc.jar" />
+			<include name="wsdl4j.jar" />
 		</patternset>
-			
+
 		<path id="soap-compile-class-path">
-			<pathelement location="${commons-digester-home}/commons-digester.jar"/>
-			<pathelement location="${axis-lib-prefix}/axis.jar"/>
-			<pathelement location="${axis-lib-prefix}/jaxrpc.jar"/>
+			<pathelement location="${commons-digester-home}/commons-digester.jar" />
+			<pathelement location="${axis-lib-prefix}/axis.jar" />
+			<pathelement location="${axis-lib-prefix}/jaxrpc.jar" />
 		</path>
-		
-		<mkdir dir="${webapp-dir}"/>
+
+		<mkdir dir="${webapp-dir}" />
 	</target>
-	
+
 	<target name="all" depends="init, 
 		build-blankwar, 
 		build-examplewar, 
 		build-soapexamplewar,
-		build-template-examplewar"/>
-	
+		build-template-examplewar" />
+
 	<target name="clean" depends="init">
-		<delete dir="${webapp-dir}"/>
+		<delete dir="${webapp-dir}" />
 	</target>
-	
+
+	<target name="build_images" depends="init,
+		build-blankwar-image,
+		build-examplewar-image,
+		build-soapexamplewar-image,
+		build-template-examplewar-image" />
+
 	<target name="build-blankwar" depends="init">
 		<antcall target="no-src-war">
-			<param name="war-file" value="${blankwar-name}"/>
-			<param name="web-xml" value="${blank-web-xml}"/>
-			<param name="war-dir" value="${blankwar-dir}"/>
-			<param name="commons-files" value="${commonsvalidator-files}"/>
-			<param name="templates" value="${template-files}"/>
+			<param name="war-file" value="${blankwar-name}" />
+			<param name="web-xml" value="${blank-web-xml}" />
+			<param name="war-dir" value="${blankwar-dir}" />
+			<param name="commons-files" value="${commonsvalidator-files}" />
+			<param name="templates" value="${template-files}" />
 		</antcall>
 	</target>
-	
+
+	<target name="build-blankwar-image" depends="init, build-blankwar">
+		<antcall target="build-war-image">
+			<param name="war-file" value="${blankwar-name}" />
+		</antcall>
+	</target>
+
+	<target name="build-examplewar-image" depends="init, build-examplewar">
+		<antcall target="build-war-image">
+			<param name="war-file" value="${examplewar-name}" />
+		</antcall>
+	</target>
+
+	<target name="build-soapexamplewar-image" depends="init, build-soapexamplewar">
+		<antcall target="build-war-image">
+			<param name="war-file" value="${soapexamplewar-name}" />
+		</antcall>
+	</target>
+
+	<target name="build-template-examplewar-image" depends="init, build-template-examplewar">
+		<antcall target="build-war-image">
+			<param name="war-file" value="${template-examplewar-name}" />
+		</antcall>
+	</target>
+
+	<target name="build-war-image" depends="init">
+		<tar destfile="${webapp-dir}/${war-file}_${version}.tar.gz" compression="gzip" longfile="gnu">
+			<tarfileset file="${webapp-dir}/${war-file}" preserveLeadingSlashes="true">
+			</tarfileset>
+		</tar>
+	</target>
+
 	<target name="build-examplewar" depends="init">
-		<mkdir dir="${examplewar-dir}/WEB-INF/classes"/>
-		
-		<javac deprecation="off"
-          destdir="${examplewar-dir}/WEB-INF/classes"
-          srcdir="${examplewar-dir}/WEB-INF/src">
-          <classpath>
-          	<fileset dir="${frame2.lib}">
-          		<include name="*.jar"/>
-          	</fileset>
-          </classpath>
-        </javac>
-        <copy todir="${examplewar-dir}/WEB-INF/classes">
+		<mkdir dir="${examplewar-dir}/WEB-INF/classes" />
+
+		<javac deprecation="off" destdir="${examplewar-dir}/WEB-INF/classes" srcdir="${examplewar-dir}/WEB-INF/src">
+			<classpath>
+				<fileset dir="${frame2.lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${examplewar-dir}/WEB-INF/classes">
 			<fileset dir="${examplewar-dir}/WEB-INF/src">
-				<exclude name="**/*.java"/>
+				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
 		<antcall target="war">
-			<param name="war-file" value="${examplewar-name}"/>
-			<param name="web-xml" value="${blank-web-xml}"/>
-			<param name="war-dir" value="${examplewar-dir}"/>
-			<param name="commons-files" value="${examplewar-dir}/WEB-INF/commonsvalidator"/>
-			<param name="templates" value="${template-files}"/>
-			<param name="src-files" value="${examplewar-dir}/WEB-INF/src"/>
+			<param name="war-file" value="${examplewar-name}" />
+			<param name="web-xml" value="${blank-web-xml}" />
+			<param name="war-dir" value="${examplewar-dir}" />
+			<param name="commons-files" value="${examplewar-dir}/WEB-INF/commonsvalidator" />
+			<param name="templates" value="${template-files}" />
+			<param name="src-files" value="${examplewar-dir}/WEB-INF/src" />
 		</antcall>
 	</target>
-	
+
 	<target name="build-soapexamplewar" depends="init">
-		<property name="soap" value="true"/>
-		<mkdir dir="${soapexamplewar-dir}/WEB-INF/classes"/>
-		
-		<javac deprecation="off"
-          destdir="${soapexamplewar-dir}/WEB-INF/classes"
-          srcdir="${soapexamplewar-dir}/WEB-INF/src">
-          <classpath>
-          	<fileset dir="${frame2.lib}">
-          		<include name="*.jar"/>
-          	</fileset>
-          	<path refid="soap-compile-class-path"/>
-          </classpath>
-        </javac>
-        <copy todir="${soapexamplewar-dir}/WEB-INF/classes">
+		<property name="soap" value="true" />
+		<mkdir dir="${soapexamplewar-dir}/WEB-INF/classes" />
+
+		<javac deprecation="off" destdir="${soapexamplewar-dir}/WEB-INF/classes" srcdir="${soapexamplewar-dir}/WEB-INF/src">
+			<classpath>
+				<fileset dir="${frame2.lib}">
+					<include name="*.jar" />
+				</fileset>
+				<path refid="soap-compile-class-path" />
+			</classpath>
+		</javac>
+		<copy todir="${soapexamplewar-dir}/WEB-INF/classes">
 			<fileset dir="${soapexamplewar-dir}/WEB-INF/src">
-				<exclude name="**/*.java"/>
+				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
 		<antcall target="soap-war">
-			<param name="war-file" value="${soapexamplewar-name}"/>
-			<param name="web-xml" value="${soap-web-xml}"/>
-			<param name="war-dir" value="${soapexamplewar-dir}"/>
-			<param name="commons-files" value="${soapexamplewar-dir}/WEB-INF/commonsvalidator"/>
-			<param name="templates" value="${template-files}"/>
-			<param name="soap-xml-files" value="${soapexamplewar-dir}/WEB-INF/xml"/>
-			<param name="anteater-files" value="${soapexamplewar-dir}/xmlClient"/>
-			<param name="src-files" value="${soapexamplewar-dir}/WEB-INF/src"/>
+			<param name="war-file" value="${soapexamplewar-name}" />
+			<param name="web-xml" value="${soap-web-xml}" />
+			<param name="war-dir" value="${soapexamplewar-dir}" />
+			<param name="commons-files" value="${soapexamplewar-dir}/WEB-INF/commonsvalidator" />
+			<param name="templates" value="${template-files}" />
+			<param name="soap-xml-files" value="${soapexamplewar-dir}/WEB-INF/xml" />
+			<param name="anteater-files" value="${soapexamplewar-dir}/xmlClient" />
+			<param name="src-files" value="${soapexamplewar-dir}/WEB-INF/src" />
 		</antcall>
 	</target>
-	
+
 	<target name="build-template-examplewar" depends="init">
-		<mkdir dir="${template-examplewar-dir}/WEB-INF/classes"/>
-		
-		<javac deprecation="off"
-          destdir="${template-examplewar-dir}/WEB-INF/classes"
-          srcdir="${template-examplewar-dir}/WEB-INF/src">
-          <classpath>
-          	<fileset dir="${frame2.lib}">
-          		<include name="*.jar"/>
-          	</fileset>
-          </classpath>
-        </javac>
-        <copy todir="${template-examplewar-dir}/WEB-INF/classes">
+		<mkdir dir="${template-examplewar-dir}/WEB-INF/classes" />
+
+		<javac deprecation="off" destdir="${template-examplewar-dir}/WEB-INF/classes" srcdir="${template-examplewar-dir}/WEB-INF/src">
+			<classpath>
+				<fileset dir="${frame2.lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${template-examplewar-dir}/WEB-INF/classes">
 			<fileset dir="${template-examplewar-dir}/WEB-INF/src">
-				<exclude name="**/*.java"/>
+				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
 		<antcall target="war">
-			<param name="war-file" value="${template-examplewar-name}"/>
-			<param name="web-xml" value="${blank-web-xml}"/>
-			<param name="war-dir" value="${template-examplewar-dir}"/>
-			<param name="commons-files" value="${template-examplewar-dir}/WEB-INF/commonsvalidator"/>
-			<param name="templates" value="${template-examplewar-dir}/WEB-INF/templates"/>
-			<param name="src-files" value="${template-examplewar-dir}/WEB-INF/src"/>
+			<param name="war-file" value="${template-examplewar-name}" />
+			<param name="web-xml" value="${blank-web-xml}" />
+			<param name="war-dir" value="${template-examplewar-dir}" />
+			<param name="commons-files" value="${template-examplewar-dir}/WEB-INF/commonsvalidator" />
+			<param name="templates" value="${template-examplewar-dir}/WEB-INF/templates" />
+			<param name="src-files" value="${template-examplewar-dir}/WEB-INF/src" />
 		</antcall>
 	</target>
-	
+
 	<target name="no-src-war" depends="init">
-		  <echo message="Building WAR: ${war-file}"/>
-	      <delete file="${webapp-dir}/${war-file}"/>
-	      <mkdir dir="${war-dir}/WEB-INF/classes"/>
-	      <war destfile="${webapp-dir}/${war-file}" update="no" webxml="${web-xml}" duplicate="preserve">
-	         <fileset dir="${war-dir}">
-	            <include name="**/*.jsp"/>
-	            <include name="**/*.html"/>
-	         	<include name="**/*.txt"/>
-	         </fileset>
-	         <zipfileset dir="${commons-files}"
-			    prefix="WEB-INF/commonsvalidator">
-			    <include name="**/*.xml"/>
-			 </zipfileset>
-			 <zipfileset dir="${templates}"
-			    prefix="WEB-INF/templates">
-			    <include name="**/*.xml"/>
-			 	<include name="**/*.jsp"/>
-			 </zipfileset>
-	         <webinf dir="${support-files}">
-	            <include name="${blank-config}"/>
-	         </webinf>
-	         <webinf dir="${war-dir}/WEB-INF">
-	            <include name="**/*.xml"/>
-	            <include name="*.wsdd"/>
-	            <exclude name="web.xml"/>
-	            <exclude name=".ignore"/>
-	         </webinf>
-	         <classes dir="${war-dir}/WEB-INF/classes"/>
-	      	 <classes dir="${support-files}">
-	      	    <include name="${blank-app-properties}"/>
-	      	 </classes>
-	         <!-- <lib dir="${lib-prefix}">
+		<echo message="Building WAR: ${war-file}" />
+		<delete file="${webapp-dir}/${war-file}" />
+		<mkdir dir="${war-dir}/WEB-INF/classes" />
+		<war destfile="${webapp-dir}/${war-file}" update="no" webxml="${web-xml}" duplicate="preserve">
+			<fileset dir="${war-dir}">
+				<include name="**/*.jsp" />
+				<include name="**/*.html" />
+				<include name="**/*.txt" />
+			</fileset>
+			<zipfileset dir="${commons-files}" prefix="WEB-INF/commonsvalidator">
+				<include name="**/*.xml" />
+			</zipfileset>
+			<zipfileset dir="${templates}" prefix="WEB-INF/templates">
+				<include name="**/*.xml" />
+				<include name="**/*.jsp" />
+			</zipfileset>
+			<webinf dir="${support-files}">
+				<include name="${blank-config}" />
+			</webinf>
+			<webinf dir="${war-dir}/WEB-INF">
+				<include name="**/*.xml" />
+				<include name="*.wsdd" />
+				<exclude name="web.xml" />
+				<exclude name=".ignore" />
+			</webinf>
+			<classes dir="${war-dir}/WEB-INF/classes" />
+			<classes dir="${support-files}">
+				<include name="${blank-app-properties}" />
+			</classes>
+			<!-- <lib dir="${lib-prefix}">
 	         	<patternset refid="ext-libs"/>
 	         </lib> -->
-			 <lib dir="${lib-prefix}">
-  	      	 	<patternset refid="standard-libs"/>
-			 	<patternset refid="jstl-libs"/>
-  	      	 </lib>
-	         <lib dir="${frame2.lib}">
-	            <include name="**/*.jar"/>
-	         </lib>
-	      </war>
-	      <delete dir="${war-dir}/WEB-INF/classes"/>
-	   </target>
-	
+			<lib dir="${lib-prefix}">
+				<patternset refid="standard-libs" />
+				<patternset refid="jstl-libs" />
+			</lib>
+			<lib dir="${frame2.lib}">
+				<include name="**/*.jar" />
+			</lib>
+		</war>
+		<delete dir="${war-dir}/WEB-INF/classes" />
+	</target>
+
 	<target name="war" depends="init">
-	  <echo message="Building WAR: ${war-file}"/>
-      <delete file="${webapp-dir}/${war-file}"/>
-      <mkdir dir="${war-dir}/WEB-INF/classes"/>
-      <war destfile="${webapp-dir}/${war-file}" update="no" webxml="${web-xml}" duplicate="preserve">
-         <fileset dir="${war-dir}">
-            <include name="**/*.jsp"/>
-            <include name="**/*.html"/>
-         	<include name="**/*.txt"/>
-         </fileset>
-         <zipfileset dir="${commons-files}"
-		    prefix="WEB-INF/commonsvalidator">
-		    <include name="**/*.xml"/>
-		 </zipfileset>
-		 <zipfileset dir="${templates}"
-		    prefix="WEB-INF/templates">
-		    <include name="**/*.xml"/>
-		 	<include name="**/*.jsp"/>
-		 </zipfileset>
-         <zipfileset dir="${src-files}"
-      	 	prefix="WEB-INF/src">
-  		 </zipfileset>
-      	<!--
+		<echo message="Building WAR: ${war-file}" />
+		<delete file="${webapp-dir}/${war-file}" />
+		<mkdir dir="${war-dir}/WEB-INF/classes" />
+		<war destfile="${webapp-dir}/${war-file}" update="no" webxml="${web-xml}" duplicate="preserve">
+			<fileset dir="${war-dir}">
+				<include name="**/*.jsp" />
+				<include name="**/*.html" />
+				<include name="**/*.txt" />
+			</fileset>
+			<zipfileset dir="${commons-files}" prefix="WEB-INF/commonsvalidator">
+				<include name="**/*.xml" />
+			</zipfileset>
+			<zipfileset dir="${templates}" prefix="WEB-INF/templates">
+				<include name="**/*.xml" />
+				<include name="**/*.jsp" />
+			</zipfileset>
+			<zipfileset dir="${src-files}" prefix="WEB-INF/src">
+			</zipfileset>
+			<!--
          <webinf dir="${support-files}">
             <include name="${blank-config}"/>
          </webinf>
          -->
-         <webinf dir="${war-dir}/WEB-INF">
-            <include name="**/*.xml"/>
-            <include name="*.wsdd"/>
-         	<!-- <exclude name="frame2-config.xml"/> -->
-            <exclude name="web.xml"/>
-            <exclude name=".ignore"/>
-         </webinf>
-         <classes dir="${war-dir}/WEB-INF/classes"/>
-      	 <lib dir="${lib-prefix}">
-      	 	<patternset refid="jstl-libs"/>
-      	 	<patternset refid="commons-val-libs"/>
-      	 	<patternset refid="standard-libs"/>
-      	 </lib>
-         <!--<lib dir="${lib-prefix}">
+			<webinf dir="${war-dir}/WEB-INF">
+				<include name="**/*.xml" />
+				<include name="*.wsdd" />
+				<!-- <exclude name="frame2-config.xml"/> -->
+				<exclude name="web.xml" />
+				<exclude name=".ignore" />
+			</webinf>
+			<classes dir="${war-dir}/WEB-INF/classes" />
+			<lib dir="${lib-prefix}">
+				<patternset refid="jstl-libs" />
+				<patternset refid="commons-val-libs" />
+				<patternset refid="standard-libs" />
+			</lib>
+			<!--<lib dir="${lib-prefix}">
          	<patternset refid="ext-libs"/>
          </lib> -->
-         <lib dir="${frame2.lib}">
-            <include name="**/*.jar"/>
-         </lib>
-      </war>
-      <delete dir="${war-dir}/WEB-INF/classes"/>
-   </target>
-	
+			<lib dir="${frame2.lib}">
+				<include name="**/*.jar" />
+			</lib>
+		</war>
+		<delete dir="${war-dir}/WEB-INF/classes" />
+	</target>
+
 	<target name="soap-war" depends="init">
-	  <echo message="Building WAR: ${war-file}"/>
-      <delete file="${webapp-dir}/${war-file}"/>
-      <mkdir dir="${war-dir}/WEB-INF/classes"/>
-      <war destfile="${webapp-dir}/${war-file}" update="no" webxml="${web-xml}" duplicate="preserve">
-         <fileset dir="${war-dir}">
-            <include name="**/*.jsp"/>
-            <include name="**/*.html"/>
-         	<include name="**/*.txt"/>
-         </fileset>
-         <zipfileset dir="${commons-files}"
-		    prefix="WEB-INF/commonsvalidator">
-		    <include name="**/*.xml"/>
-		 </zipfileset>
-		 <zipfileset dir="${templates}"
-		    prefix="WEB-INF/templates">
-		    <include name="**/*.xml"/>
-		 </zipfileset>
-      	 <zipfileset dir="${soap-xml-files}"
-      	 	prefix="WEB-INF/xml">
-      	 </zipfileset>
-         <zipfileset dir="${anteater-files}"
-      	 	prefix="xmlClient">
-      	 	<include name="**/*.xml"/>
-      	 </zipfileset>
-      	 <zipfileset dir="${src-files}"
-      		prefix="WEB-INF/src">
-		 </zipfileset>
-         <webinf dir="${war-dir}/WEB-INF">
-            <include name="**/*.xml"/>
-            <include name="*.wsdd"/>
-            <exclude name="web.xml"/>
-            <exclude name=".ignore"/>
-         </webinf>
-         <classes dir="${war-dir}/WEB-INF/classes"/>
-         <lib dir="${lib-prefix}">
-      	 	<patternset refid="jstl-libs"/>
-         	<patternset refid="standard-libs"/>
-         	<patternset refid="commons-val-libs"/>
-         	<patternset refid="ext-libs"/>
-      	 </lib>
-		 <lib dir="${axis-lib-prefix}">
-      	  	<patternset refid="soap-libs"/>
-      	 </lib>
-         <lib dir="${frame2.lib}">
-            <include name="**/*.jar"/>
-         </lib>
-      </war>
-      <delete dir="${war-dir}/WEB-INF/classes"/>
-   </target>
+		<echo message="Building WAR: ${war-file}" />
+		<delete file="${webapp-dir}/${war-file}" />
+		<mkdir dir="${war-dir}/WEB-INF/classes" />
+		<war destfile="${webapp-dir}/${war-file}" update="no" webxml="${web-xml}" duplicate="preserve">
+			<fileset dir="${war-dir}">
+				<include name="**/*.jsp" />
+				<include name="**/*.html" />
+				<include name="**/*.txt" />
+			</fileset>
+			<zipfileset dir="${commons-files}" prefix="WEB-INF/commonsvalidator">
+				<include name="**/*.xml" />
+			</zipfileset>
+			<zipfileset dir="${templates}" prefix="WEB-INF/templates">
+				<include name="**/*.xml" />
+			</zipfileset>
+			<zipfileset dir="${soap-xml-files}" prefix="WEB-INF/xml">
+			</zipfileset>
+			<zipfileset dir="${anteater-files}" prefix="xmlClient">
+				<include name="**/*.xml" />
+			</zipfileset>
+			<zipfileset dir="${src-files}" prefix="WEB-INF/src">
+			</zipfileset>
+			<webinf dir="${war-dir}/WEB-INF">
+				<include name="**/*.xml" />
+				<include name="*.wsdd" />
+				<exclude name="web.xml" />
+				<exclude name=".ignore" />
+			</webinf>
+			<classes dir="${war-dir}/WEB-INF/classes" />
+			<lib dir="${lib-prefix}">
+				<patternset refid="jstl-libs" />
+				<patternset refid="standard-libs" />
+				<patternset refid="commons-val-libs" />
+				<patternset refid="ext-libs" />
+			</lib>
+			<lib dir="${axis-lib-prefix}">
+				<patternset refid="soap-libs" />
+			</lib>
+			<lib dir="${frame2.lib}">
+				<include name="**/*.jar" />
+			</lib>
+		</war>
+		<delete dir="${war-dir}/WEB-INF/classes" />
+	</target>
 </project>
 
