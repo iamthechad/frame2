@@ -26,18 +26,18 @@
             id="org.megatome.frame2">
       </category>
       <wizard
-            name="New Global Forward"
-            icon="icons/globalforwardwizard.gif"
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.GlobalForwardWizard"
-            id="org.megatome.frame2.wizards.GlobalForwardWizard">
+            icon="icons/arrow_right.png"
+            id="org.megatome.frame2.wizards.GlobalForwardWizard"
+            name="New Global Forward">
          <description>
             Create a new Frame2 Global Forward Entry
          </description>
       </wizard>
       <wizard
             name="New Event"
-            icon="icons/sample.gif"
+            icon="icons/brick.png"
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.NewEventWizard"
             id="org.megatome.frame2.wizards.NewEventWizard">
@@ -46,8 +46,8 @@
          </description>
       </wizard>
       <wizard
-            name="New Exception"
-            icon="icons/exceptionwizard.gif"
+            name="New Exception Mapping"
+            icon="icons/bomb.png"
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.ExceptionWizard"
             id="org.megatome.frame2.wizards.ExceptionWizard">
@@ -57,7 +57,7 @@
       </wizard>
       <wizard
             name="New Event Handler"
-            icon="icons/sample.gif"
+            icon="icons/brick_edit.png"
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.EventHandlerWizard"
             id="org.megatome.frame2.wizards.EventHandlerWizard">
@@ -67,7 +67,7 @@
       </wizard>
       <wizard
             name="New Event Mapping"
-            icon="icons/eventmappingwizard.gif"
+            icon="icons/brick_link.png"
             category="org.megatome.frame2"
             class="org.megatome.frame2.wizards.EventMappingWizard"
             id="org.megatome.frame2.wizards.EventMappingWizard">
