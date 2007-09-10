@@ -1,6 +1,5 @@
 package org.megatome.frame2.editors;
 
-import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.jface.text.ITextViewer;
@@ -47,10 +46,7 @@ public class XMLCompletionProcessor implements IContentAssistProcessor,
 
 		int index = 0;
 
-		for (final Iterator<String> i = this.proposalList.iterator(); i
-				.hasNext();) {
-			final String keyWord = i.next();
-
+		for (String keyWord : this.proposalList) {
 			final IContextInformation info = new ContextInformation(keyWord,
 					getContentInfoString(keyWord));
 			// Creates a new completion proposal.

@@ -51,7 +51,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -71,6 +70,8 @@ public class Frame2Config extends Frame2DomainObject {
 	private GlobalForwards globalForwards;
 
 	private Frame2Events events;
+	
+	private SchemaMappings schemaMappings;
 
 	private EventMappings eventMappings;
 
@@ -95,6 +96,7 @@ public class Frame2Config extends Frame2DomainObject {
 	private Frame2Config(final Frame2Config source) {
 		this.globalForwards = source.globalForwards.copy();
 		this.events = source.events.copy();
+		this.schemaMappings = source.schemaMappings.copy();
 		this.eventMappings = source.eventMappings.copy();
 		this.eventHandlers = source.eventHandlers.copy();
 		this.exceptions = source.exceptions.copy();
@@ -118,6 +120,14 @@ public class Frame2Config extends Frame2DomainObject {
 
 	public Frame2Events getFrame2Events() {
 		return this.events;
+	}
+	
+	public void setSchemaMappings(final SchemaMappings value) {
+		this.schemaMappings = value;
+	}
+	
+	public SchemaMappings getSchemaMappings() {
+		return this.schemaMappings;
 	}
 
 	// This attribute is optional
@@ -224,6 +234,9 @@ public class Frame2Config extends Frame2DomainObject {
 			this.events.writeNode(out, Frame2Plugin
 					.getResourceString("Frame2Model.events"), nextIndent); //$NON-NLS-1$
 		}
+		if (this.schemaMappings != null) {
+			this.schemaMappings.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.schema-mappings"), nextIndent); //$NON-NLS-1$
+		}
 		if (this.eventMappings != null) {
 			this.eventMappings
 					.writeNode(
@@ -325,6 +338,10 @@ public class Frame2Config extends Frame2DomainObject {
 					.getResourceString("Frame2Model.events"))) { //$NON-NLS-1$
 				this.events = new Frame2Events();
 				this.events.readNode(childNode);
+			} else if (childNodeName.equals(Frame2Plugin
+					.getResourceString("Frame2Model.schema-mappings"))) { //$NON-NLS-1$
+				this.schemaMappings = new SchemaMappings();
+				this.schemaMappings.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.event-mappings"))) { //$NON-NLS-1$
 				this.eventMappings = new EventMappings();
@@ -430,6 +447,10 @@ public class Frame2Config extends Frame2DomainObject {
 		if (getFrame2Events() != null) {
 			getFrame2Events().validate();
 		}
+		
+		if (getSchemaMappings() != null) {
+			getSchemaMappings().validate();
+		}
 		// Validating property eventMappings
 		if (getEventMappings() != null) {
 			getEventMappings().validate();
@@ -452,7 +473,7 @@ public class Frame2Config extends Frame2DomainObject {
 		}
 	}
 
-	public void changePropertyByName(final String name, final Object value) {
+	/*public void changePropertyByName(final String name, final Object value) {
 		if (name == null) {
 			return;
 		}
@@ -463,6 +484,9 @@ public class Frame2Config extends Frame2DomainObject {
 		} else if (intName.equals(Frame2Plugin
 				.getResourceString("Frame2Model.Frame2Events"))) { //$NON-NLS-1$
 			setFrame2Events((Frame2Events) value);
+		} else if (intName.equals(Frame2Plugin
+				.getResourceString("Frame2Model.schema-mappings"))) { //$NON-NLS-1$
+			setSchemaMappings((SchemaMappings) value);
 		} else if (intName.equals(Frame2Plugin
 				.getResourceString("Frame2Model.eventMappings"))) { //$NON-NLS-1$
 			setEventMappings((EventMappings) value);
@@ -484,9 +508,9 @@ public class Frame2Config extends Frame2DomainObject {
 							+ Frame2Plugin
 									.getResourceString("Frame2Model.invalidFrame2ConfigProperty")); //$NON-NLS-1$
 		}
-	}
+	}*/
 
-	public Object fetchPropertyByName(final String name) {
+	/*public Object fetchPropertyByName(final String name) {
 		if (name.equals(Frame2Plugin
 				.getResourceString("Frame2Model.globalForwards"))) { //$NON-NLS-1$
 			return getGlobalForwards();
@@ -494,6 +518,10 @@ public class Frame2Config extends Frame2DomainObject {
 		if (name.equals(Frame2Plugin
 				.getResourceString("Frame2Model.Frame2Events"))) { //$NON-NLS-1$
 			return getFrame2Events();
+		}
+		if (name.equals(Frame2Plugin
+				.getResourceString("Frame2Model.schema-mappings"))) { //$NON-NLS-1$
+			return getSchemaMappings();
 		}
 		if (name.equals(Frame2Plugin
 				.getResourceString("Frame2Model.eventMappings"))) { //$NON-NLS-1$
@@ -518,10 +546,10 @@ public class Frame2Config extends Frame2DomainObject {
 				name
 						+ Frame2Plugin
 								.getResourceString("Frame2Model.invalidFrame2ConfigProperty")); //$NON-NLS-1$
-	}
+	}*/
 
 	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
+	/*public void childBeans(final boolean recursive, final List<Object> beans) {
 		if (this.globalForwards != null) {
 			if (recursive) {
 				this.globalForwards.childBeans(true, beans);
@@ -533,6 +561,12 @@ public class Frame2Config extends Frame2DomainObject {
 				this.events.childBeans(true, beans);
 			}
 			beans.add(this.events);
+		}
+		if (this.schemaMappings != null) {
+			if (recursive) {
+				this.schemaMappings.childBeans(true, beans);
+			}
+			beans.add(this.schemaMappings);
 		}
 		if (this.eventMappings != null) {
 			if (recursive) {
@@ -564,7 +598,7 @@ public class Frame2Config extends Frame2DomainObject {
 			}
 			beans.add(this.requestProcessors);
 		}
-	}
+	}*/
 
 	@Override
 	public boolean equals(final Object o) {

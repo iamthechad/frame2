@@ -47,7 +47,6 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
@@ -230,9 +229,7 @@ public class EventHandler extends Frame2DomainObject {
 		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-		for (final Iterator<InitParam> it = this.initParams.iterator(); it
-				.hasNext();) {
-			final InitParam element = it.next();
+		for (InitParam element : this.initParams) {
 			if (element != null) {
 				element
 						.writeNode(
@@ -241,9 +238,7 @@ public class EventHandler extends Frame2DomainObject {
 										.getResourceString("Frame2Model.init-param"), nextIndent); //$NON-NLS-1$
 			}
 		}
-		for (final Iterator<Forward> it = this.forwards.iterator(); it
-				.hasNext();) {
-			final Forward element = it.next();
+		for (Forward element : this.forwards) {
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
 						.getResourceString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
@@ -278,11 +273,6 @@ public class EventHandler extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.init-param"))) { //$NON-NLS-1$
 				final InitParam aInitParam = new InitParam();
@@ -304,7 +294,6 @@ public class EventHandler extends Frame2DomainObject {
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property name
 		if (getName() == null) {
 			throw new Frame2Config.ValidateException(
@@ -336,81 +325,6 @@ public class EventHandler extends Frame2DomainObject {
 		}
 	}
 
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) { //$NON-NLS-1$
-			setName((String) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.type"))) { //$NON-NLS-1$
-			setType((String) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.initParam"))) { //$NON-NLS-1$
-			addInitParam((InitParam) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.initParamArray"))) { //$NON-NLS-1$
-			setInitParam((InitParam[]) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
-			addForward((Forward) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.forwardArray"))) { //$NON-NLS-1$
-			setForward((Forward[]) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidEventHandlerProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) { //$NON-NLS-1$
-			return getName();
-		}
-		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) { //$NON-NLS-1$
-			return getType();
-		}
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.initParamArray"))) { //$NON-NLS-1$
-			return getInitParam();
-		}
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.forwardArray"))) { //$NON-NLS-1$
-			return getForward();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidEventHandlerProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		for (final Iterator<InitParam> it = this.initParams.iterator(); it
-				.hasNext();) {
-			final InitParam element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
-			}
-		}
-		for (final Iterator<Forward> it = this.forwards.iterator(); it
-				.hasNext();) {
-			final Forward element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
-			}
-		}
-	}
-
 	@Override
 	public boolean equals(final Object o) {
 		if (o == this) {
@@ -428,29 +342,11 @@ public class EventHandler extends Frame2DomainObject {
 				.equals(inst.type))) {
 			return false;
 		}
-		if (sizeInitParam() != inst.sizeInitParam()) {
+		if (!this.initParams.equals(inst.initParams)) {
 			return false;
 		}
-		// Compare every element.
-		for (Iterator<InitParam> it = this.initParams.iterator(), it2 = inst.initParams
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final InitParam element = it.next();
-			final InitParam element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
-		}
-		if (sizeForward() != inst.sizeForward()) {
+		if (!this.forwards.equals(inst.forwards)) {
 			return false;
-		}
-		// Compare every element.
-		for (Iterator<Forward> it = this.forwards.iterator(), it2 = inst.forwards
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final Forward element = it.next();
-			final Forward element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
 		}
 		return true;
 	}

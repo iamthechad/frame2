@@ -47,7 +47,6 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
@@ -105,12 +104,6 @@ public class Exceptions extends Frame2DomainObject {
 		return this.exceptions.get(index);
 	}
 
-	// Return the number of Frame2Exception
-	@Override
-	public int size() {
-		return this.exceptions.size();
-	}
-
 	public int addFrame2Exception(final Frame2Exception value) {
 		this.exceptions.add(value);
 		return this.exceptions.size() - 1;
@@ -134,12 +127,8 @@ public class Exceptions extends Frame2DomainObject {
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
-		for (final Iterator<Frame2Exception> it = this.exceptions.iterator(); it
-				.hasNext();) {
-
+		for (Frame2Exception element : this.exceptions) {
 			index = writeCommentsAt(out, indent, index);
-
-			final Frame2Exception element = it.next();
 			if (element != null) {
 				element
 						.writeNode(
@@ -164,11 +153,6 @@ public class Exceptions extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.exception"))) { //$NON-NLS-1$
 				final Frame2Exception aFrame2Exception = new Frame2Exception();
@@ -186,56 +170,10 @@ public class Exceptions extends Frame2DomainObject {
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property Frame2Exception
-		for (int _index = 0; _index < size(); ++_index) {
-			final Frame2Exception element = getFrame2Exception(_index);
+		for (Frame2Exception element : this.exceptions) {
 			if (element != null) {
 				element.validate();
-			}
-		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.Frame2Exception"))) { //$NON-NLS-1$
-			addFrame2Exception((Frame2Exception) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.Frame2ExceptionArray"))) { //$NON-NLS-1$
-			setFrame2Exception((Frame2Exception[]) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.Frame2ExceptionArray"))) { //$NON-NLS-1$
-			return getFrame2Exception();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidExceptionsProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		for (final Iterator<Frame2Exception> it = this.exceptions.iterator(); it
-				.hasNext();) {
-			final Frame2Exception element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
 			}
 		}
 	}
@@ -249,19 +187,7 @@ public class Exceptions extends Frame2DomainObject {
 			return false;
 		}
 		final Exceptions inst = (Exceptions) o;
-		if (size() != inst.size()) {
-			return false;
-		}
-		// Compare every element.
-		for (Iterator<Frame2Exception> it = this.exceptions.iterator(), it2 = inst.exceptions
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final Frame2Exception element = it.next();
-			final Frame2Exception element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
-		}
-		return true;
+		return (this.exceptions.equals(inst.exceptions));
 	}
 
 	@Override

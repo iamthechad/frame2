@@ -47,7 +47,6 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
@@ -131,12 +130,6 @@ public class Frame2Exception extends Frame2DomainObject {
 		return this.views.get(index);
 	}
 
-	// Return the number of view
-	@Override
-	public int size() {
-		return this.views.size();
-	}
-
 	public int addView(final View value) {
 		this.views.add(value);
 		return this.views.size() - 1;
@@ -180,10 +173,8 @@ public class Frame2Exception extends Frame2DomainObject {
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
-		for (final Iterator<View> it = this.views.iterator(); it.hasNext();) {
-
+		for (View element : this.views) {
 			index = writeCommentsAt(out, indent, index);
-			final View element = it.next();
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
 						.getResourceString("Frame2Model.view"), nextIndent); //$NON-NLS-1$
@@ -219,11 +210,6 @@ public class Frame2Exception extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
 				final View aView = new View();
@@ -241,7 +227,6 @@ public class Frame2Exception extends Frame2DomainObject {
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property requestKey
 		if (getRequestKey() == null) {
 			throw new Frame2Config.ValidateException(
@@ -254,70 +239,13 @@ public class Frame2Exception extends Frame2DomainObject {
 					Frame2Plugin.getResourceString("Frame2Model.getTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		// Validating property view
-		if (size() == 0) {
+		if (this.views.isEmpty()) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin.getResourceString("Frame2Model.sizeViewZero"), Frame2Plugin.getResourceString("Frame2Model.view"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		for (int _index = 0; _index < size(); ++_index) {
-			final View element = getView(_index);
+		for (View element : this.views) {
 			if (element != null) {
 				element.validate();
-			}
-		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.requestKey"))) { //$NON-NLS-1$
-			setRequestKey((String) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.type"))) { //$NON-NLS-1$
-			setType((String) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
-			addView((View) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.viewArray"))) { //$NON-NLS-1$
-			setView((View[]) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidFrame2ExceptionProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.requestProperty"))) { //$NON-NLS-1$
-			return getRequestKey();
-		}
-		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.type"))) { //$NON-NLS-1$
-			return getType();
-		}
-		if (name
-				.equals(Frame2Plugin.getResourceString("Frame2Model.viewArray"))) { //$NON-NLS-1$
-			return getView();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidFrame2ExceptionProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		for (final Iterator<View> it = this.views.iterator(); it.hasNext();) {
-			final View element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
 			}
 		}
 	}
@@ -339,19 +267,8 @@ public class Frame2Exception extends Frame2DomainObject {
 				.equals(inst.type))) {
 			return false;
 		}
-		if (size() != inst.size()) {
-			return false;
-		}
-		// Compare every element.
-		for (Iterator<View> it = this.views.iterator(), it2 = inst.views
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final View element = it.next();
-			final View element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
-		}
-		return true;
+		
+		return (this.views.equals(inst.views));
 	}
 
 	@Override

@@ -47,7 +47,6 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
@@ -104,12 +103,6 @@ public class GlobalForwards extends Frame2DomainObject {
 		return this.forwards.get(index);
 	}
 
-	// Return the number of forward
-	@Override
-	public int size() {
-		return this.forwards.size();
-	}
-
 	public int addForward(final Forward value) {
 		this.forwards.add(value);
 		return this.forwards.size() - 1;
@@ -133,12 +126,8 @@ public class GlobalForwards extends Frame2DomainObject {
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
-		for (final Iterator<Forward> it = this.forwards.iterator(); it
-				.hasNext();) {
-
+		for (Forward element : this.forwards) {
 			index = writeCommentsAt(out, indent, index);
-
-			final Forward element = it.next();
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
 						.getResourceString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
@@ -160,11 +149,6 @@ public class GlobalForwards extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
 				final Forward aForward = new Forward();
@@ -182,56 +166,10 @@ public class GlobalForwards extends Frame2DomainObject {
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property forward
-		for (int _index = 0; _index < size(); ++_index) {
-			final Forward element = getForward(_index);
+		for (Forward element : this.forwards) {
 			if (element != null) {
 				element.validate();
-			}
-		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
-			addForward((Forward) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.forwardArray"))) { //$NON-NLS-1$
-			setForward((Forward[]) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidGlobalForwardsProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.forwardArray"))) { //$NON-NLS-1$
-			return getForward();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidGlobalForwardsProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		for (final Iterator<Forward> it = this.forwards.iterator(); it
-				.hasNext();) {
-			final Forward element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
 			}
 		}
 	}
@@ -245,19 +183,8 @@ public class GlobalForwards extends Frame2DomainObject {
 			return false;
 		}
 		final GlobalForwards inst = (GlobalForwards) o;
-		if (size() != inst.size()) {
-			return false;
-		}
-		// Compare every element.
-		for (Iterator<Forward> it = this.forwards.iterator(), it2 = inst.forwards
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final Forward element = it.next();
-			final Forward element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
-		}
-		return true;
+		
+		return (this.forwards.equals(inst.forwards));
 	}
 
 	@Override

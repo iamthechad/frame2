@@ -95,4 +95,8 @@ public class Frame2Plugin extends AbstractUIPlugin {
 	public ResourceBundle getResourceBundle() {
 		return this.resourceBundle;
 	}
+	
+	public static String getPluginId() {
+		return getResourceString("Frame2Plugin.pluginId"); //$NON-NLS-1$
+	}
 }

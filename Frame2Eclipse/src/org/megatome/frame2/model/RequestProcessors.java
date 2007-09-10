@@ -46,7 +46,6 @@ package org.megatome.frame2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Node;
@@ -125,11 +124,6 @@ public class RequestProcessors extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.http-request-processor"))) { //$NON-NLS-1$
 				this.httpRequestProcessor = new HttpRequestProcessor();
@@ -149,7 +143,6 @@ public class RequestProcessors extends Frame2DomainObject {
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property httpRequestProcessor
 		if (getHttpRequestProcessor() != null) {
 			getHttpRequestProcessor().validate();
@@ -157,56 +150,6 @@ public class RequestProcessors extends Frame2DomainObject {
 		// Validating property soapRequestProcessor
 		if (getSoapRequestProcessor() != null) {
 			getSoapRequestProcessor().validate();
-		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.httpRequestProcessor"))) { //$NON-NLS-1$
-			setHttpRequestProcessor((HttpRequestProcessor) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.soapRequestProcessor"))) { //$NON-NLS-1$
-			setSoapRequestProcessor((SoapRequestProcessor) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidRequestProcessorsProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.httpRequestProcessor"))) { //$NON-NLS-1$
-			return getHttpRequestProcessor();
-		}
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.soapRequestProcessor"))) { //$NON-NLS-1$
-			return getSoapRequestProcessor();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidRequestProcessorsProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		if (this.httpRequestProcessor != null) {
-			if (recursive) {
-				this.httpRequestProcessor.childBeans(true, beans);
-			}
-			beans.add(this.httpRequestProcessor);
-		}
-		if (this.soapRequestProcessor != null) {
-			if (recursive) {
-				this.soapRequestProcessor.childBeans(true, beans);
-			}
-			beans.add(this.soapRequestProcessor);
 		}
 	}
 

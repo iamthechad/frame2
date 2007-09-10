@@ -49,6 +49,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import org.megatome.frame2.model.Frame2Config.ValidateException;
+import org.megatome.frame2.util.Frame2EntityResolver;
 import org.xml.sax.InputSource;
 import org.megatome.frame2.Frame2Plugin;
 
@@ -71,7 +72,7 @@ public class Frame2Model {
 							.getResourceString("Frame2Model.errorLoadingConfig") + configFile, e); //$NON-NLS-1$
 		}
 		try {
-			config = Frame2Config.read(new InputSource(fis), true, null,
+			config = Frame2Config.read(new InputSource(fis), true, new Frame2EntityResolver(),
 					new Frame2ErrorHandler());
 		} catch (final Exception e1) {
 			throw new Frame2ModelException(Frame2Plugin
@@ -91,8 +92,8 @@ public class Frame2Model {
 
 	public void persistConfiguration() throws Frame2ModelException {
 		try {
-			final FileOutputStream fos = new FileOutputStream(fileName);
 			config.validate();
+			final FileOutputStream fos = new FileOutputStream(fileName);
 			config.write(fos);
 		} catch (final Exception e) {
 			throw new Frame2ModelException(

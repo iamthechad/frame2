@@ -63,7 +63,6 @@ package org.megatome.frame2.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -94,6 +93,7 @@ import org.eclipse.swt.widgets.Text;
 import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.EventHandler;
 import org.megatome.frame2.model.Frame2Model;
+import org.megatome.frame2.util.StatusFactory;
 
 public class EventHandlerWizardPage1 extends NewTypeWizardPage {
 	private Text handlerNameText;
@@ -108,7 +108,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
 
 	private IStatus handlerNameStatus;
 	private IStatus initParamStatus;
-	private IStatus badModelStatus = ValidationStatus.ok();
+	private IStatus badModelStatus = StatusFactory.ok();
 
 	private EventHandler[] definedHandlers = new EventHandler[0];
 
@@ -313,7 +313,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
 			this.definedHandlers = model.getEventHandlers();
 		} else {
 			setPageComplete(false);
-			this.badModelStatus = ValidationStatus.error(Frame2Plugin
+			this.badModelStatus = StatusFactory.error(Frame2Plugin
 					.getResourceString("EventHandlerWizardPage1.configError")); //$NON-NLS-1$
 			doStatusUpdate();
 		}
@@ -359,39 +359,39 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
 		final String handlerName = getHandlerName();
 
 		if (handlerName.length() == 0) {
-			return ValidationStatus
+			return StatusFactory
 					.error(Frame2Plugin
 							.getResourceString("EventHandlerWizardPage1.errorMissingHandlerName")); //$NON-NLS-1$
 		}
 
 		for (int i = 0; i < this.definedHandlers.length; i++) {
 			if (handlerName.equals(this.definedHandlers[i].getName())) {
-				return ValidationStatus
+				return StatusFactory
 						.error(Frame2Plugin
 								.getResourceString("EventHandlerWizardPage1.errorDuplicateHandler")); //$NON-NLS-1$
 			}
 		}
 
-		return ValidationStatus.ok();
+		return StatusFactory.ok();
 	}
 
 	private IStatus getInitParamStatus() {
 		final int paramCount = this.initParamTable.getItemCount();
 		if (paramCount == 0) {
-			return ValidationStatus.ok();
+			return StatusFactory.ok();
 		}
 
 		for (int i = 0; i < paramCount; i++) {
 			final TableItem item = this.initParamTable.getItem(i);
 			final String paramName = item.getText(0);
 			if (paramName.length() == 0) {
-				return ValidationStatus
+				return StatusFactory
 						.error(Frame2Plugin
 								.getResourceString("EventHandlerWizardPage1.errorEmptyParamName")); //$NON-NLS-1$
 			}
 		}
 
-		return ValidationStatus.ok();
+		return StatusFactory.ok();
 	}
 
 	/*

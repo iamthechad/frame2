@@ -61,7 +61,6 @@
 package org.megatome.frame2.wizards;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -157,8 +156,7 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 			mapping.setCancelView(cancelView);
 		}
 
-		for (final Iterator<String> i = handlers.iterator(); i.hasNext();) {
-			final String handlerName = i.next();
+		for (String handlerName : handlers) {
 			final Handler handler = new Handler();
 			handler.setName(handlerName);
 			mapping.addHandler(handler);
@@ -190,8 +188,7 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 
 		if (roles.size() > 0) {
 			final Security security = new Security();
-			for (final Iterator<String> i = roles.iterator(); i.hasNext();) {
-				final String roleName = i.next();
+			for (String roleName : roles) {
 				final Role role = new Role();
 				role.setName(roleName);
 				security.addRole(role);

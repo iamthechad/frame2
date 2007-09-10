@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+The DTD for the Frame2 Configuration File, Version 1.0
+
+  <!DOCTYPE frame2-config PUBLIC
+  "-//Megatome Technologies//DTD Frame2 Configuration 1.1//EN"
+  "http://frame2.sourceforge.net/dtds/frame2-config_1_1.dtd">
+-->
+<!--
+The frame2-config element is the root element of a Frame2
+configuration file.
+-->
+<!ELEMENT frame2-config (global-forwards?, events?, schema-mappings?, event-mappings?, event-handlers?, exceptions?, plugins?, request-processors?)>
+<!--
+The global forward elements specify named targets for how
+responses should be created. Forwards are used in both the
+global-forwards and in the event handlers.
+-->
+<!ELEMENT global-forwards (forward*)>
+<!--
+Forwards are named entities that describe how a response will be
+generated.  There are four types of declarable forwards:
+
+  - HTMLResource: Forward to an HTTP that will generate a view
+  for an HTML client.  In this case the path represents the path
+  to the resource.
+
+  - XMLResource: Generate a response by marshalling the value
+  stored within the request attributes at the key value specified
+  in the path.
+
+  - XMLResponder: Generate a response by making a call on a
+  user-defined Responder object. The type of Responder is
+  specified by the path.
+
+  - Event: Continue execution on the request by passing control
+  to a new event.  The event name is specified by the path.
+-->
+<!ELEMENT forward EMPTY>
+<!ATTLIST forward
+	name CDATA #REQUIRED
+	type (HTMLResource | XMLResource | XMLResponder | event) #REQUIRED
+	path CDATA #REQUIRED
+>
+<!--
+Events bind requests and their data to event types.  When the
+framework receives requests it instantiates the appropriate event
+type, populating it, and then passing control through the
+corresponding event mapping.  The optional resolve-as parameter
+applies to processing XML requests.  The values have the
+following effect:
+
+  - passthru: The XML request is wrapped in an XMLEventWrapper
+  and processed with the corresponding event-mapping.
+
+  - children: The child elements of the XML request will each be
+  processed with the event-mapping for the parent node.
+
+  - parent: The parent element of the XML request will be
+  processed with the event-mapping of the parent node (this is
+  the default).
+-->
+<!ELEMENT events (event*)>
+<!ELEMENT event EMPTY>
+<!ATTLIST event
+	name CDATA #REQUIRED
+	resolveAs (passthru | children | parent) #IMPLIED
+	type CDATA #IMPLIED
+>
+
+<!--
+Schema mappings define the XML schemas to be used when validating
+SOAP events.
+
+ - schemaLocation: Where the actual .xsd schema file is to be found.
+ This should be somewhere in the classpath. /WEB-INF/schemas is the 
+ recommended location.
+ 
+ - event-name: The name of an event that is to be validated with the
+ enclosing schema
+-->
+<!ELEMENT schema-mappings (schema-mapping*)>
+<!ELEMENT schema-mapping (event-name+)>
+<!ATTLIST schema-mapping
+	schemaLocation CDATA #REQUIRED
+>
+<!ELEMENT event-name (#PCDATA)>
+ 
+<!--
+Event mapping elements define how events are to be processed.
+The inputView resolves to a forward if validation of the event
+fails.  The cancelView similarly resolves to a forward if the
+submit was actually a cancel. Validate indicates whether
+automatic validation on the event should be executed.  The
+handlers will be called in order of declaration. Up to two
+default views may be specified, one each for HTML and XML (see
+the view element).  Security specifies roles that the user must
+be in (via the J2EE container security) in order to process the
+event.
+-->
+<!ELEMENT event-mappings (event-mapping*)>
+<!ELEMENT event-mapping (handler*, view*, security?)>
+<!ATTLIST event-mapping
+	eventName CDATA #REQUIRED
+	inputView CDATA #IMPLIED
+	cancelView CDATA #IMPLIED
+	validate (true | false) #IMPLIED
+>
+<!ELEMENT handler EMPTY>
+<!ATTLIST handler
+	name CDATA #REQUIRED
+>
+<!ELEMENT security (role+)>
+<!ELEMENT role EMPTY>
+<!ATTLIST role
+	name CDATA #REQUIRED
+>
+<!--
+Views act as default specifications for how the response should
+be generated if none of the event handlers specifies a view.  The
+type attribute indicates whether the view applies to HTML
+responses, XML responses, or both.
+-->
+<!ELEMENT view EMPTY>
+<!ATTLIST view
+	type (HTML | XML | Both) #REQUIRED
+	forwardName CDATA #REQUIRED
+>
+<!--
+Event handlers elements define the mapping between an event
+handler name and a user-implementation of the EventHandler
+interface.  Input params to the handler and local forward (that
+apply whenever the handler is invoked) may optionally be declared
+as well.
+-->
+<!ELEMENT event-handlers (event-handler*)>
+<!ELEMENT event-handler ((init-param | forward)*)>
+<!ATTLIST event-handler
+	name CDATA #REQUIRED
+	type CDATA #REQUIRED
+>
+<!--
+Initialization parameters may be specified for each handler.  The
+parameters are provided to the handler on each call through the
+Context.
+-->
+<!ELEMENT init-param EMPTY>
+<!ATTLIST init-param
+	name CDATA #REQUIRED
+	value CDATA #REQUIRED
+>
+<!--
+Exception elements specify a mapping between an Throwable type
+and a view.  If an exception is encountered when processing an
+event execution will proceed to the forward specified in the
+view.  Up to two views may be specified, one each of the XML and
+HTML type.
+-->
+<!ELEMENT exceptions (exception*)>
+<!ELEMENT exception (view+)>
+<!ATTLIST exception
+	requestKey CDATA #REQUIRED
+	type CDATA #REQUIRED
+>
+<!--
+Plugin elements specify classes that take advantage of the
+Frame2 plugin framework. Input parameters to the plugin class
+may be optionally declared.
+-->
+<!ELEMENT plugins (plugin*)>
+<!ELEMENT plugin (init-param*)>
+<!ATTLIST plugin
+	name CDATA #REQUIRED
+	type CDATA #REQUIRED
+>
+<!--
+Request Processor elements specify classes that extend either
+HTTPRequestProcessor, SoapRequestProcessor, or
+an implemention of RequestProcessorBase. 
+-->
+<!ELEMENT request-processors ((http-request-processor?,soap-request-processor?))>
+<!ELEMENT http-request-processor EMPTY>
+<!ATTLIST http-request-processor
+	type CDATA #REQUIRED>
+<!ELEMENT soap-request-processor EMPTY>
+<!ATTLIST soap-request-processor
+	type CDATA #REQUIRED>

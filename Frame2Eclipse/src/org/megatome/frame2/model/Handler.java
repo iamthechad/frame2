@@ -46,7 +46,6 @@ package org.megatome.frame2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
 import org.w3c.dom.Attr;
@@ -96,9 +95,6 @@ public class Handler extends Frame2DomainObject {
 					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
 		out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
-		// String nextIndent = indent + " ";
-		// out.write(indent);
-		// out.write("</"+nodeName+">\n");
 	}
 
 	public void readNode(final Node node) {
@@ -111,56 +107,14 @@ public class Handler extends Frame2DomainObject {
 				this.handlerName = attr.getValue();
 			}
 		}
-		/*
-		 * NodeList children = node.getChildNodes(); for (int i = 0, size =
-		 * children.getLength(); i < size; ++i) { Node childNode =
-		 * children.item(i); String childNodeName = (childNode.getLocalName() ==
-		 * null ? childNode .getNodeName().intern() :
-		 * childNode.getLocalName().intern()); String childNodeValue = "";
-		 * //$NON-NLS-1$ if (childNode.getFirstChild() != null) { childNodeValue =
-		 * childNode.getFirstChild().getNodeValue(); } }
-		 */
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property name
 		if (getName() == null) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin.getResourceString("Frame2Model.getNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) { //$NON-NLS-1$
-			setName((String) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidHandlerProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin.getResourceString("Frame2Model.name"))) { //$NON-NLS-1$
-			return getName();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidHandlerProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(@SuppressWarnings("unused")
-	final boolean recursive, @SuppressWarnings("unused")
-	final List<Object> beans) {
-		// NOOP
 	}
 
 	@Override

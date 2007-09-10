@@ -47,7 +47,6 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
@@ -104,12 +103,6 @@ public class EventMappings extends Frame2DomainObject {
 		return this.eventMappings.get(index);
 	}
 
-	// Return the number of eventMapping
-	@Override
-	public int size() {
-		return this.eventMappings.size();
-	}
-
 	public int addEventMapping(final EventMapping value) {
 		this.eventMappings.add(value);
 		return this.eventMappings.size() - 1;
@@ -133,12 +126,8 @@ public class EventMappings extends Frame2DomainObject {
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
-		for (final Iterator<EventMapping> it = this.eventMappings.iterator(); it
-				.hasNext();) {
-
+		for (EventMapping element : this.eventMappings) {
 			index = writeCommentsAt(out, indent, index);
-
-			final IDomainObject element = it.next();
 			if (element != null) {
 				element
 						.writeNode(
@@ -163,11 +152,6 @@ public class EventMappings extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.event-mapping"))) { //$NON-NLS-1$
 				final EventMapping aEventMapping = new EventMapping();
@@ -186,56 +170,10 @@ public class EventMappings extends Frame2DomainObject {
 
 	public void validate()
 			throws org.megatome.frame2.model.Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property eventMapping
-		for (int _index = 0; _index < size(); ++_index) {
-			final IDomainObject element = getEventMapping(_index);
+		for (EventMapping element : this.eventMappings) {
 			if (element != null) {
 				element.validate();
-			}
-		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.eventMapping"))) { //$NON-NLS-1$
-			addEventMapping((EventMapping) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.eventMappingArray"))) { //$NON-NLS-1$
-			setEventMapping((EventMapping[]) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidEventMappingsProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.eventMappingArray"))) { //$NON-NLS-1$
-			return getEventMapping();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidEventMappingsProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		for (final Iterator<EventMapping> it = this.eventMappings.iterator(); it
-				.hasNext();) {
-			final IDomainObject element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
 			}
 		}
 	}
@@ -249,19 +187,8 @@ public class EventMappings extends Frame2DomainObject {
 			return false;
 		}
 		final EventMappings inst = (EventMappings) o;
-		if (size() != inst.size()) {
-			return false;
-		}
-		// Compare every element.
-		for (Iterator<EventMapping> it = this.eventMappings.iterator(), it2 = inst.eventMappings
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final IDomainObject element = it.next();
-			final IDomainObject element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
-		}
-		return true;
+		
+		return (this.eventMappings.equals(inst.eventMappings));
 	}
 
 	@Override

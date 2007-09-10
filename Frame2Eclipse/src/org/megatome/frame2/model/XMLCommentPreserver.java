@@ -47,11 +47,10 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import org.w3c.dom.Node;
 import org.megatome.frame2.Frame2Plugin;
+import org.w3c.dom.Node;
 
 public abstract class XMLCommentPreserver {
 
@@ -91,10 +90,7 @@ public abstract class XMLCommentPreserver {
 
 	protected void writeRemainingComments(final Writer out, final String indent)
 			throws IOException {
-		for (final Iterator<Node> i = this.commentMap.values().iterator(); i
-				.hasNext();) {
-			final Node n = i.next();
-
+		for (Node n : this.commentMap.values()) {
 			writeComment(out, indent, n);
 		}
 

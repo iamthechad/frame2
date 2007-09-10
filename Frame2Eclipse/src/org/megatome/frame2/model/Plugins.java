@@ -47,7 +47,6 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
@@ -104,12 +103,6 @@ public class Plugins extends Frame2DomainObject {
 		return this.plugins.get(index);
 	}
 
-	// Return the number of plugin
-	@Override
-	public int size() {
-		return this.plugins.size();
-	}
-
 	public int addPlugin(final Plugin value) {
 		this.plugins.add(value);
 		return this.plugins.size() - 1;
@@ -133,11 +126,8 @@ public class Plugins extends Frame2DomainObject {
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
-		for (final Iterator<Plugin> it = this.plugins.iterator(); it.hasNext();) {
-
+		for (Plugin element : this.plugins) {
 			index = writeCommentsAt(out, indent, index);
-
-			final Plugin element = it.next();
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
 						.getResourceString("Frame2Model.plugin"), nextIndent); //$NON-NLS-1$
@@ -159,11 +149,6 @@ public class Plugins extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.plugin"))) { //$NON-NLS-1$
 				final Plugin aPlugin = new Plugin();
@@ -181,55 +166,10 @@ public class Plugins extends Frame2DomainObject {
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property plugin
-		for (int _index = 0; _index < size(); ++_index) {
-			final Plugin element = getPlugin(_index);
+		for (Plugin element : this.plugins) {
 			if (element != null) {
 				element.validate();
-			}
-		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName
-				.equals(Frame2Plugin.getResourceString("Frame2Model.plugin"))) { //$NON-NLS-1$
-			addPlugin((Plugin) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.pluginArray"))) { //$NON-NLS-1$
-			setPlugin((Plugin[]) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidPluginsProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.pluginArray"))) { //$NON-NLS-1$
-			return getPlugin();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidPluginsProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		for (final Iterator<Plugin> it = this.plugins.iterator(); it.hasNext();) {
-			final Plugin element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
 			}
 		}
 	}
@@ -243,19 +183,8 @@ public class Plugins extends Frame2DomainObject {
 			return false;
 		}
 		final Plugins inst = (Plugins) o;
-		if (size() != inst.size()) {
-			return false;
-		}
-		// Compare every element.
-		for (Iterator<Plugin> it = this.plugins.iterator(), it2 = inst.plugins
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final Plugin element = it.next();
-			final Plugin element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
-		}
-		return true;
+		
+		return this.plugins.equals(inst.plugins);
 	}
 
 	@Override

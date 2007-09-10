@@ -47,7 +47,6 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
@@ -104,12 +103,6 @@ public class Security extends Frame2DomainObject {
 		return this.roles.get(index);
 	}
 
-	// Return the number of role
-	@Override
-	public int size() {
-		return this.roles.size();
-	}
-
 	public int addRole(final Role value) {
 		this.roles.add(value);
 		return this.roles.size() - 1;
@@ -133,11 +126,8 @@ public class Security extends Frame2DomainObject {
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
-		for (final Iterator<Role> it = this.roles.iterator(); it.hasNext();) {
-
+		for (Role element : this.roles) {
 			index = writeCommentsAt(out, indent, index);
-
-			final Role element = it.next();
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
 						.getResourceString("Frame2Model.role"), nextIndent); //$NON-NLS-1$
@@ -158,11 +148,6 @@ public class Security extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.role"))) { //$NON-NLS-1$
 				final Role aRole = new Role();
@@ -180,58 +165,14 @@ public class Security extends Frame2DomainObject {
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property role
-		if (size() == 0) {
+		if (this.roles.isEmpty()) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin.getResourceString("Frame2Model.sizeRoleZero"), Frame2Plugin.getResourceString("Frame2Model.role"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		for (int _index = 0; _index < size(); ++_index) {
-			final Role element = getRole(_index);
+		for (Role element : this.roles) {
 			if (element != null) {
 				element.validate();
-			}
-		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin.getResourceString("Frame2Model.role"))) { //$NON-NLS-1$
-			addRole((Role) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.roleArray"))) { //$NON-NLS-1$
-			setRole((Role[]) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name
-				.equals(Frame2Plugin.getResourceString("Frame2Model.roleArray"))) { //$NON-NLS-1$
-			return getRole();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidSecurityProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		for (final Iterator<Role> it = this.roles.iterator(); it.hasNext();) {
-			final Role element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
 			}
 		}
 	}
@@ -245,19 +186,8 @@ public class Security extends Frame2DomainObject {
 			return false;
 		}
 		final Security inst = (Security) o;
-		if (size() != inst.size()) {
-			return false;
-		}
-		// Compare every element.
-		for (Iterator<Role> it = this.roles.iterator(), it2 = inst.roles
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final Role element = it.next();
-			final Role element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
-		}
-		return true;
+		
+		return this.roles.equals(inst.roles);
 	}
 
 	@Override

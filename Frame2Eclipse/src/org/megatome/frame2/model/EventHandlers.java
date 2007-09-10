@@ -47,7 +47,6 @@ package org.megatome.frame2.model;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.megatome.frame2.Frame2Plugin;
@@ -104,12 +103,6 @@ public class EventHandlers extends Frame2DomainObject {
 		return this.eventHandlers.get(index);
 	}
 
-	// Return the number of eventHandler
-	@Override
-	public int size() {
-		return this.eventHandlers.size();
-	}
-
 	public int addEventHandler(final EventHandler value) {
 		this.eventHandlers.add(value);
 		return this.eventHandlers.size() - 1;
@@ -133,12 +126,8 @@ public class EventHandlers extends Frame2DomainObject {
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
-		for (final Iterator<EventHandler> it = this.eventHandlers.iterator(); it
-				.hasNext();) {
-
+		for (EventHandler element : this.eventHandlers) {
 			index = writeCommentsAt(out, indent, index);
-
-			final EventHandler element = it.next();
 			if (element != null) {
 				element
 						.writeNode(
@@ -163,11 +152,6 @@ public class EventHandlers extends Frame2DomainObject {
 			final String childNodeName = (childNode.getLocalName() == null ? childNode
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
-			/*
-			 * String childNodeValue = ""; //$NON-NLS-1$ if
-			 * (childNode.getFirstChild() != null) { childNodeValue =
-			 * childNode.getFirstChild().getNodeValue(); }
-			 */
 			if (childNodeName.equals(Frame2Plugin
 					.getResourceString("Frame2Model.event-handler"))) { //$NON-NLS-1$
 				final EventHandler aEventHandler = new EventHandler();
@@ -185,56 +169,10 @@ public class EventHandlers extends Frame2DomainObject {
 	}
 
 	public void validate() throws Frame2Config.ValidateException {
-		// boolean restrictionFailure = false;
 		// Validating property eventHandler
-		for (int _index = 0; _index < size(); ++_index) {
-			final EventHandler element = getEventHandler(_index);
+		for (EventHandler element : this.eventHandlers) {
 			if (element != null) {
 				element.validate();
-			}
-		}
-	}
-
-	public void changePropertyByName(final String name, final Object value) {
-		if (name == null) {
-			return;
-		}
-		final String intName = name.intern();
-		if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.eventHandler"))) { //$NON-NLS-1$
-			addEventHandler((EventHandler) value);
-		} else if (intName.equals(Frame2Plugin
-				.getResourceString("Frame2Model.eventHandlerArray"))) { //$NON-NLS-1$
-			setEventHandler((EventHandler[]) value);
-		} else {
-			throw new IllegalArgumentException(
-					intName
-							+ Frame2Plugin
-									.getResourceString("Frame2Model.invalidEventHandlersProperty")); //$NON-NLS-1$
-		}
-	}
-
-	public Object fetchPropertyByName(final String name) {
-		if (name.equals(Frame2Plugin
-				.getResourceString("Frame2Model.eventHandlerArray"))) { //$NON-NLS-1$
-			return getEventHandler();
-		}
-		throw new IllegalArgumentException(
-				name
-						+ Frame2Plugin
-								.getResourceString("Frame2Model.invalidEventHandlersProperty")); //$NON-NLS-1$
-	}
-
-	// Put all child beans into the beans list.
-	public void childBeans(final boolean recursive, final List<Object> beans) {
-		for (final Iterator<EventHandler> it = this.eventHandlers.iterator(); it
-				.hasNext();) {
-			final EventHandler element = it.next();
-			if (element != null) {
-				if (recursive) {
-					element.childBeans(true, beans);
-				}
-				beans.add(element);
 			}
 		}
 	}
@@ -248,19 +186,8 @@ public class EventHandlers extends Frame2DomainObject {
 			return false;
 		}
 		final EventHandlers inst = (EventHandlers) o;
-		if (size() != inst.size()) {
-			return false;
-		}
-		// Compare every element.
-		for (Iterator<EventHandler> it = this.eventHandlers.iterator(), it2 = inst.eventHandlers
-				.iterator(); it.hasNext() && it2.hasNext();) {
-			final EventHandler element = it.next();
-			final EventHandler element2 = it2.next();
-			if (!(element == null ? element2 == null : element.equals(element2))) {
-				return false;
-			}
-		}
-		return true;
+		
+		return (this.eventHandlers.equals(inst.eventHandlers));
 	}
 
 	@Override

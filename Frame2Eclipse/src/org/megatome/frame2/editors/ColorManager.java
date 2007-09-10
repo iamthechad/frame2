@@ -1,7 +1,6 @@
 package org.megatome.frame2.editors;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.swt.graphics.Color;
@@ -13,9 +12,8 @@ public class ColorManager {
 	protected Map<RGB, Color> fColorTable = new HashMap<RGB, Color>(10);
 
 	public void dispose() {
-		final Iterator<Color> e = this.fColorTable.values().iterator();
-		while (e.hasNext()) {
-			e.next().dispose();
+		for (Color color : this.fColorTable.values()) {
+			color.dispose();
 		}
 	}
 

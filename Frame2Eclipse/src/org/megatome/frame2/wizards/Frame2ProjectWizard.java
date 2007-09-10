@@ -66,7 +66,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -285,10 +284,9 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 				entries.length + 1);
 		cp.addAll(Arrays.asList(entries));
 
-		for (final Iterator<String> i = libFiles.keySet().iterator(); i
-				.hasNext();) {
+		for (String item : libFiles.keySet()) {
 			final IResource fileResource = rootProject.findMember(prefix
-					+ i.next());
+					+ item);
 			final IClasspathEntry cpEntry = JavaCore.newLibraryEntry(
 					fileResource.getFullPath(), null, null);
 			cp.add(cpEntry);
@@ -364,25 +362,13 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		final Map<String, String> files = new HashMap<String, String>();
 
 		if (copyServiceFiles) {
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.services-web_xml"), Frame2Plugin.getResourceString("Frame2ProjectWizard.web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.server-config_wsdd"), Frame2Plugin.getResourceString("Frame2ProjectWizard.server-config_wsdd")); //$NON-NLS-1$ //$NON-NLS-2$
+			files.put(resourceString("services-web_xml"), resourceString("web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
+			files.put(resourceString("server-config_wsdd"), resourceString("server-config_wsdd")); //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.web_xml"), Frame2Plugin.getResourceString("Frame2ProjectWizard.web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
+			files.put(resourceString("web_xml"), resourceString("web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.frame2-config_xml"), Frame2Plugin.getResourceString("Frame2ProjectWizard.frame2-config_xml")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("frame2-config_xml"), resourceString("frame2-config_xml")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		return files;
 	}
@@ -390,16 +376,8 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	private Map<String, String> getCommonsFiles() {
 		final Map<String, String> files = new HashMap<String, String>();
 
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-validation-mappings_xml"), //$NON-NLS-1$
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-validation-mappings_xml")); //$NON-NLS-1$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-validator-rules_xml"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-validator-rules_xml")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-validation_xml"), //$NON-NLS-1$
+						resourceString("commons-validation_xml")); //$NON-NLS-1$
 
 		return files;
 	}
@@ -407,60 +385,20 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	private Map<String, String> getLibFiles(final boolean copyServiceJars) {
 		final Map<String, String> files = new HashMap<String, String>();
 
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-beanutils_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-beanutils_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-collections_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-collections_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-digester_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-digester_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-fileupload_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-fileupload_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-logging_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-logging_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.commons-validator_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-validator_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.jakarta-oro_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jakarta-oro_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		// files.put("jaxen-full.jar", "jaxen-full.jar");
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.jstl_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jstl_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.log4j_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.log4j_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		// files.put("saxpath.jar", "saxpath.jar");
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.standard_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.standard_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.template-taglib_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.template-taglib_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.frame2_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.frame2_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files
-				.put(
-						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.frame2-taglib_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.frame2-taglib_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-beanutils_jar"), resourceString("commons-beanutils_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-collections_jar"), resourceString("commons-collections_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-digester_jar"), resourceString("commons-digester_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-fileupload_jar"), resourceString("commons-fileupload_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-io_jar"), resourceString("commons-io_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-logging_jar"), resourceString("commons-logging_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-validator_jar"), resourceString("commons-validator_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("jakarta-oro_jar"), resourceString("jakarta-oro_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("jstl_jar"), resourceString("jstl_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("log4j_jar"), resourceString("log4j_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("standard_jar"), resourceString("standard_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("template-taglib_jar"), resourceString("template-taglib_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("frame2_jar"), resourceString("frame2_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("frame2-taglib_jar"), resourceString("frame2-taglib_jar")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if (copyServiceJars) {
 			files
@@ -518,6 +456,11 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		}
 
 		return files;
+	}
+	
+	private String resourceString(final String resource) {
+		String resourceString = "Frame2ProjectWizard." + resource; //$NON-NLS-1$
+		return Frame2Plugin.getResourceString(resourceString);
 	}
 
 	private void throwCoreException(final String message) throws CoreException {

@@ -61,7 +61,6 @@
 package org.megatome.frame2.wizards;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -187,16 +186,14 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 		handler.setName(handlerName);
 		handler.setType(handlerClass);
 
-		for (final Iterator<String[]> i = initParams.iterator(); i.hasNext();) {
-			final String[] param = i.next();
+		for (String[] param : initParams) {
 			final InitParam ip = new InitParam();
 			ip.setName(param[0]);
 			ip.setValue(param[1]);
 			handler.addInitParam(ip);
 		}
 
-		for (final Iterator<String[]> i = localForwards.iterator(); i.hasNext();) {
-			final String[] forward = i.next();
+		for (String[] forward : localForwards) {
 			final Forward f = new Forward();
 			f.setName(forward[0]);
 			f.setType(forward[1]);

@@ -55,7 +55,6 @@ package org.megatome.frame2.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -79,6 +78,7 @@ import org.eclipse.swt.widgets.Text;
 import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
+import org.megatome.frame2.util.StatusFactory;
 
 public class NewEventWizardPage1 extends NewTypeWizardPage {
 
@@ -91,7 +91,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 	private Text eventNameText;
 	// private IStatus eventNameStatus;
 	// private IStatus selectedEventStatus;
-	private IStatus badModelStatus = ValidationStatus.ok();
+	private IStatus badModelStatus = StatusFactory.ok();
 
 	private Frame2Event[] definedEvents = new Frame2Event[0];
 
@@ -208,7 +208,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		final Frame2Model model = ((NewEventWizard) getWizard())
 				.getFrame2Model();
 
-		this.badModelStatus = ValidationStatus.ok();
+		this.badModelStatus = StatusFactory.ok();
 		if (model != null) {
 			this.definedEvents = model.getEvents();
 			final List<String> uniqueEventNames = new ArrayList<String>();
@@ -225,7 +225,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 					.toArray(new String[uniqueEventNames.size()]));
 		} else {
 			setPageComplete(false);
-			this.badModelStatus = ValidationStatus
+			this.badModelStatus = StatusFactory
 					.error(Frame2Plugin
 							.getResourceString("NewEventWizardPage1.errorConfiguration")); //$NON-NLS-1$
 		}
@@ -271,38 +271,33 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		final String eventName = getEventName();
 
 		if (eventName.length() == 0) {
-			return ValidationStatus
+			return StatusFactory
 					.error(Frame2Plugin
 							.getResourceString("NewEventWizardPage1.errorMissingEventName")); //$NON-NLS-1$
 		}
 
 		for (int i = 0; i < this.definedEvents.length; i++) {
 			if (eventName.equals(this.definedEvents[i].getName())) {
-				return ValidationStatus
+				return StatusFactory
 						.error(Frame2Plugin
 								.getResourceString("NewEventWizardPage1.errorDuplicateEventName")); //$NON-NLS-1$
 			}
 		}
 
-		return ValidationStatus.ok();
+		return StatusFactory.ok();
 	}
 
 	private IStatus getSelectedEventStatus() {
 		final String eventClassType = getEventClassType();
 
 		if (eventClassType.length() == 0) {
-			return ValidationStatus
+			return StatusFactory
 					.error(Frame2Plugin
 							.getResourceString("NewEventWizardPage1.errorSelectExisting")); //$NON-NLS-1$
 		}
 
-		return ValidationStatus.ok();
+		return StatusFactory.ok();
 	}
-
-	/*
-	 * private void updateStatus(String message) { setErrorMessage(message);
-	 * setPageComplete(message == null); }
-	 */
 
 	private SelectionListener getRadioListener() {
 		if (this.radioListener == null) {
