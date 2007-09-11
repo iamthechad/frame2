@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Frame2 for Eclipse with Web Services
+Bundle-SymbolicName: org.megatome.frame2ws;singleton:=true
+Bundle-Version: 1.0.0
+Require-Bundle: org.megatome.frame2,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.launching,
+ org.eclipse.ui.ide
+Bundle-Vendor: Megatome Technologies
+Eclipse-LazyStart: true
