@@ -4,11 +4,12 @@
       label="Frame2"
       version="1.3.0"
       provider-name="Megatome Technologies"
+      plugin="org.megatome.frame2"
       os="linux,macosx,solaris,win32"
       ws="carbon,gtk,motif,win32"
       nl="en"
       arch="amd64,ia64,ppc,sparc,x86"
-      image="frame2logo.jpg">
+      image="frame2logo_med.jpg">
    <install-handler/>
 
    <description>
@@ -81,4 +82,5 @@ about TurboM2, visit http://www.turbom2.org
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+
 </feature>
