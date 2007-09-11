@@ -19,4 +19,8 @@
 		<topic label="org.megatome.frame2.validator" href="html/api/org/megatome/frame2/validator/package-summary.html"/>
 	</topic>
 	<topic label="Tag Attributes" href="html/TagAttributeMappings.html"/>
+	<topic label="License Information" href="html/licenses.html">
+		<topic label="Frame2 License" href="html/Frame2_license.html"/>
+		<topic label="Third Party Licenses" href="html/third_party.html"/>
+	</topic>
 </toc>
