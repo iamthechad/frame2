@@ -1,0 +1,324 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Getting started With Frame2</title>
+	</head>
+	<body>
+		<h1>
+			Getting Started With Templates in Frame2
+		</h1>
+		<h2>
+			Preface
+		</h2>
+		<p>
+			This document is intended to help developers become familiar with the
+			template feature of the Frame2 framework by creating a very simple
+			application.
+			<br>
+			<br>
+			Working knowledge of Frame2 is necessary to following this tutorial.
+			This example builds upon the example created in the Getting Started
+			guide.
+			<br>
+			This document also assumes knowledge of web applications and their
+			directory layouts. Information about web applications can be found at
+			<a
+				href="http://java.sun.com/webservices/docs/1.0/tutorial/doc/WebApp.html">Sun's
+				Website</a>.
+			<br>
+			<br>
+			The example built during this tutorial is available as part of the
+			Frame2 distribution. Read the instructions for how to build the
+			<code>
+				template-example
+			</code>
+			web application under the
+			<i>samples</i> directory.
+		</p>
+		<h2>
+			The Template Example Application
+		</h2>
+		<p>
+			This tutorial builds on the application created in the Getting
+			Started guide by adding very simple template support.
+		</p>
+		<h3>
+			What are Templates?
+		</h3>
+		<p>
+			Before we begin building the application, we should understand what
+			templates are, and the different parts of a template. A template is
+			simply a way to abstract commonly reused view elements. In other
+			words, if an application uses a constant header or footer, it makes
+			sense to create a single template that will be inserted in the proper
+			places instead of having multiple instances of the same content.
+		</p>
+		<p>
+			Frame2 templates are created by specifying a definition. Each
+			definition can contain any number of subelements. These subelements
+			can be overridden in individual JSPs, and parameters can also be
+			specified within the page. For example, an application can define a
+			template that contains the default header and site navigation
+			elements. In any JSP that uses this template, the header and
+			navigation elements may be replaced with a more specific version, or
+			with a blank page to remove an element.
+		</p>
+		<h3>
+			Reuse the Sample Application
+		</h3>
+		<p>
+			If you have already completed the Getting Started guide, you may use
+			the application you created. If you have not, you can use the ant
+			script to build the
+			<code>
+				example
+			</code>
+			web application included in the Frame2 distribution.
+		</p>
+		<h3>
+			Enable the Template Plugin
+		</h3>
+		<p>
+			The Template plugin must be enabled for Frame2 to properly handle
+			template content. Add or uncomment the following line in the Frame2
+			configuration file (
+			<em>frame2-config.xml</em>) between the
+			<code>
+				&lt;plugins&gt;
+			</code>
+			tags:
+		</p>
+		<pre>&lt;plugin name=&quot;Templates&quot; type=&quot;org.megatome.frame2.template.TemplatePlugin&quot;/&gt;</pre>
+		<h3>
+			Create the Template Configuration File
+		</h3>
+		<p>
+			Create a directory under
+			<em>WEB-INF</em> named templates. Create a file named
+			<em>templates.xml</em>, and copy the following content into it:
+		</p>
+		<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE template-config PUBLIC
+&quot;-//Megatome Technologies//DTD Frame2 Template Plugin 1.0//EN&quot;
+&quot;http://frame2.sourceforge.net/dtds/frame2-template_1_0.dtd&quot;&gt;
+&lt;template-config&gt;
+&lt;templates&gt;
+&lt;/templates&gt;
+&lt;/template-config&gt;</pre>
+
+		<h3>
+			Create the Template Footer Definition
+		</h3>
+		<p>
+			For this example, we will create two template definitions: one for
+			the header and some body content, and one for the footer. In this
+			step we will create the footer definition.
+		</p>
+		<p>
+			Copy the following line into the
+			<em>templates.xml</em> file, between the
+			<code>
+				&lt;templates&gt;
+			</code>
+			tags:
+		</p>
+		<pre>&lt;template name=&quot;defaultBottomLayout&quot; path=&quot;defaultFooter.jsp&quot;/&gt;
+</pre>
+		<p>
+			We have now defined a template named &quot;defaultBottomLayout&quot;.
+			You may have noticed that the JSP file referenced by the definition
+			does not exist - we need to create it now.
+		</p>
+		<p>
+			Create a file named
+			<em>defaultFooter.jsp</em> in the
+			<em>/WEB-INF/templates</em> directory. (This location is very
+			important - this is where the Frame2 Template plugin looks for files
+			referenced in template definitions.) Copy the following content into
+			the file:
+		</p>
+		<pre>&lt;hr&gt; 
+Copyright 2007 Megatome Technologies 
+&lt;/body&gt; 
+&lt;/html&gt;</pre>
+		<p>
+			This template will print a footer, and close the HTML tags (you may
+			chose to close the tags in each JSP if you wish - in that case,
+			remove the closing tags from the template JSP).
+		</p>
+		<h3>
+			Modify Existing JSPs
+		</h3>
+		<p>
+			In order for this template to show up, we need to modify the
+			<em>addUser.jsp</em> and
+			<em>displayUsers.jsp</em> files. At the top of each file, add the
+			following line to declare the template tag library:
+		</p>
+		<pre>&lt;%@ taglib uri=&quot;template_taglib.tld&quot; prefix=&quot;template&quot; %&gt; </pre>
+		At the bottom of each file, replace
+		<pre>&lt;/BODY&gt;&lt;/HTML&gt;</pre>
+		<p>
+			with:
+		</p>
+		<pre>&lt;template:insert definition=&quot;defaultBottomLayout&quot;/&gt;</pre>
+		<p>
+			When the application is run, the Frame2 Template plugin will replace
+			the template tag with the contents of the
+			&quot;defaultBottomLayout&quot; template. In this case, it's a simple
+			replacement with a few lines of HTML.
+		</p>
+		<h3>
+			Run the Application
+		</h3>
+		<p>
+			Run the application, verifying that the footer appears on the Add
+			User and Display Users pages.
+		</p>
+		<h3>
+			Create the Template Header Definition
+		</h3>
+		<p>
+			We have succeeded in using a simple template. Now, we'll create a
+			slightly more complicated one to use as a page header.
+		</p>
+		<p>
+			Add the following lines to the
+			<em>templates.xml</em> file:
+		</p>
+		<pre>&lt;template name=&quot;defaultTopLayout&quot; path=&quot;defaultTemplateTop.jsp&quot;&gt;
+  &lt;put name=&quot;header&quot; path=&quot;defaultHeader.jsp&quot;/&gt;
+  &lt;put name=&quot;preBody&quot; path=&quot;defaultPreBody.jsp&quot;/&gt;
+&lt;/template&gt;</pre>
+		<p>
+			We have now defined a template named &quot;defaultTopLayout&quot;
+			that includes an element named &quot;header&quot; and one named
+			&quot;preBody&quot;. The &quot;header&quot; element will be used to
+			set the page title, plus display the title as an HTML element. The
+			&quot;preBody&quot; element will be used to display some text as the
+			very first part of each page's body. As you may have guessed, we need
+			to create three JSP files this time around.
+		</p>
+		<h4>
+			Create defaultTemplateTop.jsp
+		</h4>
+		<p>
+			Create a file named
+			<em>defaultTemplateTop.jsp</em> in the
+			<em>templates</em> directory. Copy the following content into the
+			file:
+		</p>
+		<pre>&lt;%@ taglib uri=&quot;template_taglib.tld&quot; prefix=&quot;template&quot; %&gt;
+&lt;template:get name=&quot;header&quot;/&gt;
+&lt;template:get name=&quot;preBody&quot;/&gt;</pre>
+
+		<p>
+			This tells the template plugin to insert the contents of the
+			&quot;header&quot; element, immediately followed by the contents of
+			the &quot;preBody&quot; element.
+		</p>
+		<h4>
+			Create defaultHeader.jsp
+		</h4>
+		<p>
+			This JSP defines the default content that will be used for the
+			element named &quot;header&quot;. Create a file named
+			<em>defaultHeader.jsp</em> in the
+			<em>templates</em> directory and copy the following content into it:
+		</p>
+		<pre>&lt;%@ taglib uri=&quot;http://java.sun.com/jstl/core&quot; prefix=&quot;c&quot; %&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;&lt;c:out value=&quot;${page_title[0]}&quot;/&gt;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+&lt;h1&gt;&lt;c:out value=&quot;${page_title[0]}&quot;/&gt;&lt;/h1&gt; </pre>
+		<p>
+			This template also uses the standard tag library to display the value
+			of a parameter. We will set this parameter from the Add User and
+			Display Users pages.
+		</p>
+		<h4>
+			Create defaultPreBody.jsp
+		</h4>
+		<p>
+			This JSP defines the default content that will be used for the
+			element named &quot;preBody&quot;. Create a file named
+			<em>defaultPreBody.jsp</em> in the templates directory and copy the
+			following content into it:
+		</p>
+		<pre>This is the default pre-body content provided by the template.&lt;br&gt;&lt;br&gt;</pre>
+
+		<h4>
+			Modify Existing JSPs
+		</h4>
+		<p>
+			In
+			<em>addUser.jsp</em> and
+			<em>displayUsers.jsp</em>, replace the opening HTML through opening
+			BODY tags (&lt;HTML&gt;...&lt;BODY&gt;) with the following:
+		</p>
+		<pre>&lt;template:insert definition=&quot;defaultTopLayout&quot;&gt;
+  &lt;template:param name=&quot;page_title&quot; value=&quot;Add User&quot;/&gt;
+&lt;/template:insert&gt;</pre>
+		<p>
+			(Change the &quot;page_title&quot; parameter value to &quot;Display
+			Users&quot; for the
+			<em>displayUsers.jsp</em>).
+		</p>
+		<h3>
+			Run the Application
+		</h3>
+		<p>
+			Run the application, verifying that the Add User and Display Users
+			pages now show the extra content. Verify that each page's title is
+			the same as the large bold text shown.
+		</p>
+		<h3>
+			Overriding Definition Pages
+		</h3>
+		<p>
+			Sometimes it is desirable to override some of the content provided by
+			a template definition. Using the template tag library, this is a
+			simple process. We will override the &quot;preBody&quot; content for
+			the Add User page in the next step.
+		</p>
+		<h4>
+			Create the Override JSP
+		</h4>
+		<p>
+			Create a file named
+			<em>addUserPreBody.jsp</em> in the templates directory. This JSP will
+			contain the overridden content. Copy the following into the file:
+		</p>
+		<pre>This is an overridden pre-body content specified by using the &amp;lt;template:put&amp;gt; tag.&lt;br&gt;&lt;br&gt; </pre>
+		<h4>
+			Modify the Add User JSP
+		</h4>
+		<p>
+			Add the following line to the
+			<em>addUser.jsp</em>, between the
+			<code>
+				&lt;template:insert&gt;
+			</code>
+			tags:
+		</p>
+		<pre>&lt;template:put name=&quot;preBody&quot; path=&quot;addUserPreBody.jsp&quot;/&gt;</pre>
+		<p>
+			This line tells the template plugin to replace the content for the
+			element &quot;preBody&quot; with the content located in the specified
+			JSP. In this instance, the replacement will only take place for the
+			individual page (request scope), but the replacement can be specified
+			for session and application scopes as well.
+		</p>
+		<h3>
+			Run the Application
+		</h3>
+		<p>
+			Run the application, verifying that the text displayed for the Add
+			User page is replaced with the new content, while the Display Users
+			page shows the orginal content.
+		</p>
+	</body>
+</html>
+

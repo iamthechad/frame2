@@ -2,5 +2,21 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Frame2 User Guide">
+	<topic label="What is Frame2?" href="html/WhatIsFrame2.html"/>
 	<topic label="Getting Started" href="html/GettingStarted.html"/>
+	<topic label="Getting Started with Templates" href="html/GettingStartedTemplates.html"/>
+	<topic label="Frame2 API" href="html/api/overview-summary.html">
+		<topic label="org.megatome.frame2" href="html/api/org/megatome/frame2/package-summary.html"/>
+		<topic label="org.megatome.frame2.errors" href="html/api/org/megatome/frame2/errors/package-summary.html"/>
+		<topic label="org.megatome.frame2.errors.impl" href="html/api/org/megatome/frame2/errors/impl/package-summary.html"/>
+		<topic label="org.megatome.frame2.event" href="html/api/org/megatome/frame2/event/package-summary.html"/>
+		<topic label="org.megatome.frame2.event.xml" href="html/api/org/megatome/frame2/event/xml/package-summary.html"/>
+		<topic label="org.megatome.frame2.front" href="html/api/org/megatome/frame2/front/package-summary.html"/>
+		<topic label="org.megatome.frame2.introspector" href="html/api/org/megatome/frame2/introspector/package-summary.html"/>
+		<topic label="org.megatome.frame2.jaxb" href="html/api/org/megatome/frame2/jaxb/package-summary.html"/>
+		<topic label="org.megatome.frame2.log" href="html/api/org/megatome/frame2/log/package-summary.html"/>
+		<topic label="org.megatome.frame2.plugin" href="html/api/org/megatome/frame2/plugin/package-summary.html"/>
+		<topic label="org.megatome.frame2.validator" href="html/api/org/megatome/frame2/validator/package-summary.html"/>
+	</topic>
+	<topic label="Tag Attributes" href="html/TagAttributeMappings.html"/>
 </toc>

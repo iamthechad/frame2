@@ -1,0 +1,11 @@
+org.megatome.frame2
+org.megatome.frame2.errors
+org.megatome.frame2.errors.impl
+org.megatome.frame2.event
+org.megatome.frame2.event.xml
+org.megatome.frame2.front
+org.megatome.frame2.introspector
+org.megatome.frame2.jaxb
+org.megatome.frame2.log
+org.megatome.frame2.plugin
+org.megatome.frame2.validator
