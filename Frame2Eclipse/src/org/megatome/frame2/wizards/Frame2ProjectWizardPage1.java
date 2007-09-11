@@ -71,11 +71,12 @@ import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
 	private Button enableServicesButton;
+	private boolean canUseServices = false;
 
 	// private ISelection selection;
 
 	public Frame2ProjectWizardPage1(@SuppressWarnings("unused")
-	final ISelection selection) {
+	final ISelection selection, boolean canUseServices) {
 		super(Frame2Plugin
 				.getResourceString("Frame2ProjectWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
@@ -83,6 +84,7 @@ public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
 		setDescription(Frame2Plugin
 				.getResourceString("Frame2ProjectWizardPage1.pageDescription")); //$NON-NLS-1$
 		// this.selection = selection;
+		this.canUseServices = canUseServices;
 	}
 
 	@Override
@@ -98,8 +100,7 @@ public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
 		this.enableServicesButton
 				.setText(Frame2Plugin
 						.getResourceString("Frame2ProjectWizardPage1.enableWebServicesCtl")); //$NON-NLS-1$
-		// Disable for now....
-		this.enableServicesButton.setEnabled(false);
+		this.enableServicesButton.setEnabled(this.canUseServices);
 	}
 
 	public boolean enableWebServices() {

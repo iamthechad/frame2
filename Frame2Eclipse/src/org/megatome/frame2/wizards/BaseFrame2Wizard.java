@@ -53,6 +53,7 @@ package org.megatome.frame2.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -80,6 +81,7 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 	protected ISelection selection;
 
 	protected Frame2Model model = null;
+	private IFile modelFile = null;
 
 	protected void throwCoreException(final String message)
 			throws CoreException {
@@ -216,17 +218,28 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 			throw new Frame2ModelException(Frame2Plugin
 					.getResourceString("NewEventWizard.errorLocatingConfig")); //$NON-NLS-1$
 		}
-		final IPath path = resource.getLocation();
+		IPath path = resource.getLocation();
 		if (path == null) {
 			throw new Frame2ModelException(
 					Frame2Plugin
 							.getResourceString("NewEventWizard.errorLocatingConfigPath")); //$NON-NLS-1$
 		}
+		this.modelFile = (IFile) resource.getAdapter(IFile.class);
 		mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
 		return mod;
 	}
 
 	public Frame2Model getFrame2Model() {
 		return this.model;
+	}
+
+	public void refreshModelResource() throws Frame2ModelException {
+		try {
+			if (this.modelFile != null) {
+				this.modelFile.refreshLocal(IResource.DEPTH_ZERO, null);
+			}
+		} catch (CoreException e) {
+			throw new Frame2ModelException("Error refreshing config file", e); //$NON-NLS-1$
+		}
 	}
 }

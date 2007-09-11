@@ -108,6 +108,7 @@ public class GlobalForwardWizard extends BaseFrame2Wizard {
 									.addGlobalForward(forward);
 							GlobalForwardWizard.this.model
 									.persistConfiguration();
+							GlobalForwardWizard.this.refreshModelResource();
 						} catch (Frame2ModelException e) {
 							throw new InvocationTargetException(e);
 						}

@@ -20,3 +20,5 @@ Require-Bundle: org.eclipse.ui.ide,
 Eclipse-LazyStart: true
 Plugin-Class: org.megatome.frame2.Frame2Plugin
 Bundle-Activator: org.megatome.frame2.Frame2Plugin
+Export-Package: org.megatome.frame2.model,
+ org.megatome.frame2.wizards

@@ -191,6 +191,7 @@ public class NewEventWizard extends BaseFrame2Wizard {
 		try {
 			this.model.addEvent(event);
 			this.model.persistConfiguration();
+			refreshModelResource();
 		} catch (final Frame2ModelException e) {
 			throwCoreException(Frame2Plugin
 					.getResourceString("NewEventWizard.addToConfigError") + e.getMessage()); //$NON-NLS-1$

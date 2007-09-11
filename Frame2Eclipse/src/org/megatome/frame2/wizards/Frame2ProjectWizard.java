@@ -68,6 +68,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -112,15 +113,39 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 			.getResourceString("Frame2ProjectWizard.commonsvalidator"); //$NON-NLS-1$
 	private final static String SRC_DIR = Frame2Plugin
 			.getResourceString("Frame2ProjectWizard.src"); //$NON-NLS-1$
+	private final static String TEMPLATES_DIR = Frame2Plugin
+			.getResourceString("Frame2ProjectWizard.inf-templates"); //$NON-NLS-1$
+
+	private boolean canEnableServices = false;
+	private Bundle wsPlugin = null;
 
 	public Frame2ProjectWizard() {
 		super();
 		setNeedsProgressMonitor(true);
+		Bundle[] installed = Frame2Plugin.getDefault().getBundle()
+				.getBundleContext().getBundles();
+		for (Bundle bundle : installed) {
+			String name = bundle.getSymbolicName();
+			if (Frame2Plugin
+					.getResourceString("Frame2.WSPlugin").equals(name)) { //$NON-NLS-1$
+				int state = bundle.getState();
+				switch (state) {
+				case Bundle.INSTALLED:
+				case Bundle.STARTING:
+				case Bundle.ACTIVE:
+				case Bundle.RESOLVED:
+					this.canEnableServices = true;
+					this.wsPlugin = bundle;
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
 	public void addPages() {
-		this.page = new Frame2ProjectWizardPage1(this.selection);
+		this.page = new Frame2ProjectWizardPage1(this.selection,
+				this.canEnableServices);
 		addPage(this.page);
 	}
 
@@ -213,7 +238,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	private void createFolders(final IProject newProject,
 			final IProgressMonitor monitor) throws CoreException {
 		final String[] folders = new String[] { CLASSES_DIR, LIB_DIR,
-				COMMONS_DIR, SRC_DIR, };
+				COMMONS_DIR, TEMPLATES_DIR, SRC_DIR, };
 
 		try {
 			final IFolder infFolder = newProject.getFolder(WEBINF);
@@ -240,10 +265,19 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		// Copy commons validator files
 		copyProjectFiles(infFolder.getFolder(COMMONS_DIR), getCommonsFiles(),
 				monitor);
+		
+		// Copy template files
+		copyProjectFiles(infFolder.getFolder(TEMPLATES_DIR), getTemplatesFiles(),
+				monitor);
 
 		// Copy jar files
-		copyProjectFiles(infFolder.getFolder(LIB_DIR),
-				getLibFiles(enableServices), monitor);
+		copyProjectFiles(infFolder.getFolder(LIB_DIR), getLibFiles(), monitor);
+
+		// Copy optional WS files
+		if (enableServices) {
+			copyWSProjectFiles(infFolder.getFolder(LIB_DIR),
+					getWebServicesFiles(), monitor);
+		}
 	}
 
 	private IJavaProject configureFolders(final IProject newProject,
@@ -275,7 +309,10 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	private void configureClasspath(final IJavaProject jProject,
 			final boolean enableServices, @SuppressWarnings("unused")
 			final IProgressMonitor monitor) throws CoreException {
-		final Map<String, String> libFiles = getLibFiles(enableServices);
+		final Map<String, String> libFiles = getLibFiles();
+		if (enableServices) {
+			libFiles.putAll(getWebServicesFiles());
+		}
 		final IProject rootProject = jProject.getProject();
 		final String prefix = WEBINF + "/" + LIB_DIR + "/"; //$NON-NLS-1$//$NON-NLS-2$
 
@@ -285,8 +322,8 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		cp.addAll(Arrays.asList(entries));
 
 		for (String item : libFiles.keySet()) {
-			final IResource fileResource = rootProject.findMember(prefix
-					+ item);
+			final IResource fileResource = rootProject
+					.findMember(prefix + item);
 			final IClasspathEntry cpEntry = JavaCore.newLibraryEntry(
 					fileResource.getFullPath(), null, null);
 			cp.add(cpEntry);
@@ -322,35 +359,50 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	private void copyProjectFiles(final IFolder destination,
 			final Map<String, String> fileNames, final IProgressMonitor monitor)
 			throws CoreException {
-		for (java.util.Map.Entry<String, String> entry : fileNames.entrySet()) {
+		copyProjectFiles(destination, fileNames, monitor, Frame2Plugin.getDefault().getBundle());
+	}
+	
+	private void copyProjectFiles(final IFolder destination,
+			final Map<String, String> fileNames, final IProgressMonitor monitor, final Bundle bundle)
+			throws CoreException {
+		for (Entry<String, String> entry : fileNames.entrySet()) {
 			final String srcFileName = entry.getKey();
 			final String destFileName = entry.getValue();
-			copyProjectFile(destination, srcFileName, destFileName, monitor);
+			copyProjectFile(destination, srcFileName, destFileName, monitor, bundle);
 		}
 	}
 
 	private void copyProjectFile(final IFolder destination,
 			final String srcFileName, final String destFileName,
-			final IProgressMonitor monitor) throws CoreException {
+			final IProgressMonitor monitor, final Bundle bundle) throws CoreException {
 
 		final IFile destFile = destination.getFile(destFileName);
 		try {
-			destFile.create(loadPluginFile(srcFileName), true, monitor);
+			destFile.create(loadPluginFile(srcFileName, bundle), true, monitor);
 		} catch (final CoreException e) {
 			throwCoreException(Frame2Plugin
 					.getResourceString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
 		}
 	}
+	
+	private void copyWSProjectFiles(final IFolder destination,
+			final Map<String, String> fileNames, final IProgressMonitor monitor)
+			throws CoreException {
+		copyProjectFiles(destination, fileNames, monitor, this.wsPlugin);
+	}
 
-	private InputStream loadPluginFile(final String fileName)
+	private InputStream loadPluginFile(final String fileName, final Bundle bundle)
 			throws CoreException {
 		InputStream is = null;
 		try {
-			final Bundle bundle = Frame2Plugin.getDefault().getBundle();
+			//final Bundle bundle = Frame2Plugin.getDefault().getBundle();
 			is = FileLocator.openStream(bundle, new Path(Frame2Plugin
 					.getResourceString("Frame2ProjectWizard.templates") //$NON-NLS-1$
 					+ fileName), false);
 		} catch (final IOException e) {
+			throwCoreException(Frame2Plugin
+					.getResourceString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
+		} catch (final Exception e) {
 			throwCoreException(Frame2Plugin
 					.getResourceString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
 		}
@@ -362,13 +414,20 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		final Map<String, String> files = new HashMap<String, String>();
 
 		if (copyServiceFiles) {
-			files.put(resourceString("services-web_xml"), resourceString("web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
-			files.put(resourceString("server-config_wsdd"), resourceString("server-config_wsdd")); //$NON-NLS-1$ //$NON-NLS-2$
+			files
+					.put(
+							resourceString("services-web_xml"), resourceString("web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
+			// Don't need this?
+			//files
+			//		.put(
+			//				resourceString("server-config_wsdd"), resourceString("server-config_wsdd")); //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
 			files.put(resourceString("web_xml"), resourceString("web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		files.put(resourceString("frame2-config_xml"), resourceString("frame2-config_xml")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("frame2-config_xml"), resourceString("frame2-config_xml")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		return files;
 	}
@@ -377,87 +436,71 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		final Map<String, String> files = new HashMap<String, String>();
 
 		files.put(resourceString("commons-validation_xml"), //$NON-NLS-1$
-						resourceString("commons-validation_xml")); //$NON-NLS-1$
-
-		return files;
-	}
-
-	private Map<String, String> getLibFiles(final boolean copyServiceJars) {
-		final Map<String, String> files = new HashMap<String, String>();
-
-		files.put(resourceString("commons-beanutils_jar"), resourceString("commons-beanutils_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("commons-collections_jar"), resourceString("commons-collections_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("commons-digester_jar"), resourceString("commons-digester_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("commons-fileupload_jar"), resourceString("commons-fileupload_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("commons-io_jar"), resourceString("commons-io_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("commons-logging_jar"), resourceString("commons-logging_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("commons-validator_jar"), resourceString("commons-validator_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("jakarta-oro_jar"), resourceString("jakarta-oro_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("jstl_jar"), resourceString("jstl_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("log4j_jar"), resourceString("log4j_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("standard_jar"), resourceString("standard_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("template-taglib_jar"), resourceString("template-taglib_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("frame2_jar"), resourceString("frame2_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("frame2-taglib_jar"), resourceString("frame2-taglib_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-
-		if (copyServiceJars) {
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.axis_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.axis_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.commons-discovery_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.commons-discovery_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.jaxb-api_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jaxb-api_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.jaxb-libs_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jaxb-libs_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.jaxb-ri_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jaxb-ri_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.jaxb-xjc_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jaxb-xjc_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.jaxp-api_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jaxp-api_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.jax-qname_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jax-qname_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.jaxrpc_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jaxrpc_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.jaxrpc-api_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.jaxrpc-api_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.namespace_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.namespace_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.saaj-api_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.saaj-api_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-			files
-					.put(
-							Frame2Plugin
-									.getResourceString("Frame2ProjectWizard.wsdl4j_jar"), Frame2Plugin.getResourceString("Frame2ProjectWizard.wsdl4j_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		}
+				resourceString("commons-validation_xml")); //$NON-NLS-1$
 
 		return files;
 	}
 	
+	private Map<String, String> getTemplatesFiles() {
+		final Map<String, String> files = new HashMap<String, String>();
+
+		files.put(resourceString("templates_xml"), //$NON-NLS-1$
+				resourceString("templates_xml")); //$NON-NLS-1$
+
+		return files;
+	}
+
+	private Map<String, String> getLibFiles() {
+		final Map<String, String> files = new HashMap<String, String>();
+
+		files
+				.put(
+						resourceString("commons-beanutils_jar"), resourceString("commons-beanutils_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("commons-collections_jar"), resourceString("commons-collections_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("commons-digester_jar"), resourceString("commons-digester_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("commons-fileupload_jar"), resourceString("commons-fileupload_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("commons-io_jar"), resourceString("commons-io_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("commons-logging_jar"), resourceString("commons-logging_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("commons-validator_jar"), resourceString("commons-validator_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("jakarta-oro_jar"), resourceString("jakarta-oro_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("jstl_jar"), resourceString("jstl_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("log4j_jar"), resourceString("log4j_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(
+				resourceString("standard_jar"), resourceString("standard_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("template-taglib_jar"), resourceString("template-taglib_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("frame2_jar"), resourceString("frame2_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("frame2-taglib_jar"), resourceString("frame2-taglib_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+
+		return files;
+	}
+
+	private Map<String, String> getWebServicesFiles() {
+		Map<String, String> files = new HashMap<String, String>();
+		files.put(resourceString("axis_jar"), resourceString("axis_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("commons-discovery_jar"), resourceString("commons-discovery_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("jaxrpc_jar"), resourceString("jaxrpc_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files.put(resourceString("wsdl4j_jar"), resourceString("wsdl4j_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		return files;
+	}
+
 	private String resourceString(final String resource) {
 		String resourceString = "Frame2ProjectWizard." + resource; //$NON-NLS-1$
 		return Frame2Plugin.getResourceString(resourceString);

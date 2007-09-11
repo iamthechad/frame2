@@ -158,6 +158,7 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 		try {
 			this.model.addFrame2Exception(exception);
 			this.model.persistConfiguration();
+			refreshModelResource();
 		} catch (final Frame2ModelException e) {
 			throwCoreException(Frame2Plugin
 					.getResourceString("ExceptionWizard.errorCreatingException") + e.getMessage()); //$NON-NLS-1$
