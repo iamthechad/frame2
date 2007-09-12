@@ -73,21 +73,21 @@ import org.xml.sax.SAXException;
 
 public class Frame2Config extends Frame2DomainObject {
 
-	private GlobalForwards globalForwards;
+	private GlobalForwards globalForwards = new GlobalForwards();
 
-	private Frame2Events events;
+	private Frame2Events events = new Frame2Events();
 	
-	private SchemaMappings schemaMappings;
+	private SchemaMappings schemaMappings = new SchemaMappings();
 
-	private EventMappings eventMappings;
+	private EventMappings eventMappings = new EventMappings();
 
-	private EventHandlers eventHandlers;
+	private EventHandlers eventHandlers = new EventHandlers();
 
-	private Exceptions exceptions;
+	private Exceptions exceptions = new Exceptions();
 
-	private Plugins plugins;
+	private Plugins plugins = new Plugins();
 
-	private RequestProcessors requestProcessors;
+	private RequestProcessors requestProcessors = new RequestProcessors();
 
 	public Frame2Config() {
 		// Default
@@ -229,49 +229,49 @@ public class Frame2Config extends Frame2DomainObject {
 		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
 				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
-		if (this.globalForwards != null) {
+		//if (!this.globalForwards.isEmpty()) {
 			this.globalForwards
 					.writeNode(
 							out,
 							Frame2Plugin
 									.getResourceString("Frame2Model.global-forwards"), nextIndent); //$NON-NLS-1$
-		}
-		if (this.events != null) {
+		//}
+		//if (!this.events.isEmpty()) {
 			this.events.writeNode(out, Frame2Plugin
 					.getResourceString("Frame2Model.events"), nextIndent); //$NON-NLS-1$
-		}
-		if (this.schemaMappings != null) {
+		//}
+		//if (!this.schemaMappings.isEmpty()) {
 			this.schemaMappings.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.schema-mappings"), nextIndent); //$NON-NLS-1$
-		}
-		if (this.eventMappings != null) {
+		//}
+		//if (!this.eventMappings.isEmpty()) {
 			this.eventMappings
 					.writeNode(
 							out,
 							Frame2Plugin
 									.getResourceString("Frame2Model.event-mappings"), nextIndent); //$NON-NLS-1$
-		}
-		if (this.eventHandlers != null) {
+		//}
+		//if (!this.eventHandlers.isEmpty()) {
 			this.eventHandlers
 					.writeNode(
 							out,
 							Frame2Plugin
 									.getResourceString("Frame2Model.event-handlers"), nextIndent); //$NON-NLS-1$
-		}
-		if (this.exceptions != null) {
+		//}
+		//if (!this.exceptions.isEmpty()) {
 			this.exceptions.writeNode(out, Frame2Plugin
 					.getResourceString("Frame2Model.exceptions"), nextIndent); //$NON-NLS-1$
-		}
-		if (this.plugins != null) {
+		//}
+		//if (!this.plugins.isEmpty()) {
 			this.plugins.writeNode(out, Frame2Plugin
 					.getResourceString("Frame2Model.plugins"), nextIndent); //$NON-NLS-1$
-		}
-		if (this.requestProcessors != null) {
+		//}
+		//if (!this.requestProcessors.isEmpty()) {
 			this.requestProcessors
 					.writeNode(
 							out,
 							Frame2Plugin
 									.getResourceString("Frame2Model.request-processors"), nextIndent); //$NON-NLS-1$
-		}
+		//}
 		out.write(indent);
 		out
 				.write(Frame2Plugin
