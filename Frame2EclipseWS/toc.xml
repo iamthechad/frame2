@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Frame2 Web Services User Guide">
+	<topic label="Getting Started with Web Services" href="html/GettingStartedWS.html"/>
+	<topic label="Getting Started with Frame2" href="PLUGINS_ROOT/org.megatome.frame2/html/GettingStarted.html"/>
+	<topic label="Getting Started with Templates" href="PLUGINS_ROOT/org.megatome.frame2/html/GettingStartedTemplates.html"/>
+</toc>
