@@ -74,11 +74,15 @@ public class RequestProcessors extends Frame2DomainObject {
 
 	// Deep copy
 	private RequestProcessors(final RequestProcessors source) {
-		this.httpRequestProcessor = source.httpRequestProcessor.copy();
-		this.soapRequestProcessor = source.soapRequestProcessor.copy();
+		if (source.httpRequestProcessor != null) {
+			this.httpRequestProcessor = source.httpRequestProcessor.copy();
+		}
+		if (source.soapRequestProcessor != null) {
+			this.soapRequestProcessor = source.soapRequestProcessor.copy();
+		}
 		setComments(source.getCommentMap());
 	}
-
+	
 	// This attribute is optional
 	public void setHttpRequestProcessor(final HttpRequestProcessor value) {
 		this.httpRequestProcessor = value;
