@@ -111,6 +111,10 @@ public class Frame2Model {
 	public Frame2Event[] getEvents() {
 		return config.getFrame2Events().getFrame2Event();
 	}
+	
+	public SchemaMapping[] getSchemaMappings() {
+		return config.getSchemaMappings().getSchemaMapping();
+	}
 
 	public EventHandler[] getEventHandlers() {
 		return config.getEventHandlers().getEventHandler();
@@ -174,6 +178,17 @@ public class Frame2Model {
 		} catch (final ValidateException e) {
 			throw new Frame2ModelException(Frame2Plugin
 					.getResourceString("Frame2Model.errorAddingEvent"), e); //$NON-NLS-1$
+		}
+	}
+	
+	public void addSchemaMapping(final SchemaMapping mapping) throws Frame2ModelException {
+		final SchemaMappings mappings = config.getSchemaMappings();
+		mappings.addSchemaMapping(mapping);
+		try {
+			mappings.validate();
+		} catch (final ValidateException e) {
+			throw new Frame2ModelException(Frame2Plugin
+					.getResourceString("Frame2Model.errorAddingSchemaMapping"), e); //$NON-NLS-1$
 		}
 	}
 
