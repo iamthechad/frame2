@@ -17,6 +17,16 @@
             Create a new mapping between an XSD schema and Frame2 events.
          </description>
       </wizard>
+      <wizard
+            category="org.megatome.frame2"
+            class="org.megatome.frame2.wizards.NewResponderWizard"
+            icon="icons/arrow_undo.png"
+            id="org.megatome.frame2.wizards.NewResponderWizard"
+            name="New Responder">
+         <description>
+            Create a new Responder.
+         </description>
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.help.toc">
