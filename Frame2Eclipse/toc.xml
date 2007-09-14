@@ -3,8 +3,11 @@
 
 <toc label="Frame2 User Guide">
 	<topic label="What is Frame2?" href="html/WhatIsFrame2.html"/>
-	<topic label="Getting Started" href="html/GettingStarted.html"/>
-	<topic label="Getting Started with Templates" href="html/GettingStartedTemplates.html"/>
+	<topic label="Getting Started Guides">
+		<topic label="Getting Started with Frame2" href="html/GettingStarted.html"/>
+		<topic label="Getting Started with Templates" href="html/GettingStartedTemplates.html"/>
+		<anchor id="webservices"/>
+	</topic>
 	<topic label="Frame2 API" href="html/api/overview-summary.html">
 		<topic label="org.megatome.frame2" href="html/api/org/megatome/frame2/package-summary.html"/>
 		<topic label="org.megatome.frame2.errors" href="html/api/org/megatome/frame2/errors/package-summary.html"/>
