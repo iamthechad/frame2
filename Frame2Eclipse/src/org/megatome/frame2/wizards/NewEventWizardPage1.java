@@ -67,7 +67,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -88,7 +87,7 @@ import org.megatome.frame2.util.StatusFactory;
 
 public class NewEventWizardPage1 extends NewTypeWizardPage {
 
-	private final ISelection selection;
+	private final IStructuredSelection selection;
 	private SelectionListener radioListener;
 	private Button newClassRadio;
 	private Button existingClassRadio;
@@ -118,7 +117,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 	public static final String NO_CLASS = Frame2Plugin
 			.getResourceString("NewEventWizardPage1.noClass_type"); //$NON-NLS-1$
 
-	public NewEventWizardPage1(final ISelection selection) {
+	public NewEventWizardPage1(final IStructuredSelection selection) {
 		super(true, PAGE_NAME);
 		setTitle(Frame2Plugin
 				.getResourceString("NewEventWizardPage1.pageTitle")); //$NON-NLS-1$
@@ -236,9 +235,8 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 							.getResourceString("NewEventWizardPage1.errorConfiguration")); //$NON-NLS-1$
 		}
 
-		if (this.selection != null && this.selection.isEmpty() == false
-				&& this.selection instanceof IStructuredSelection) {
-			final IStructuredSelection ssel = (IStructuredSelection) this.selection;
+		if (this.selection != null && !this.selection.isEmpty()) {
+			final IStructuredSelection ssel = this.selection;
 			if (ssel.size() > 1) {
 				return;
 			}

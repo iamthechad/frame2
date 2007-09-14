@@ -71,7 +71,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -91,9 +90,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
-import org.megatome.frame2.Frame2Plugin;
 
 public class EventHandlerWizardPage2 extends WizardPage {
 	private Text nameText;
@@ -119,22 +118,19 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 	private SelectionListener radioListener;
 
-	// private ISelection selection;
 	private IProject htmlResourceProject;
 
 	private boolean badModel = false;
 
 	private String[] localForwardNames = null;
 
-	public EventHandlerWizardPage2(@SuppressWarnings("unused")
-	final ISelection selection) {
+	public EventHandlerWizardPage2() {
 		super(Frame2Plugin
 				.getResourceString("EventHandlerWizardPage2.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
 				.getResourceString("EventHandlerWizardPage2.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
 				.getResourceString("EventHandlerWizardPage2.pageDescription")); //$NON-NLS-1$
-		// this.selection = selection;
 	}
 
 	public void createControl(final Composite parent) {

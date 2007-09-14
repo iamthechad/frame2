@@ -97,7 +97,7 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 	@Override
 	public void addPages() {
 		this.page = new EventHandlerWizardPage1(this.selection);
-		this.page2 = new EventHandlerWizardPage2(this.selection);
+		this.page2 = new EventHandlerWizardPage2();
 		addPage(this.page);
 		addPage(this.page2);
 	}

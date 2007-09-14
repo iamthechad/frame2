@@ -64,7 +64,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
@@ -78,7 +77,8 @@ import org.megatome.frame2.model.Frame2ModelException;
 
 public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 
-	protected ISelection selection;
+	protected IStructuredSelection selection;
+	protected IProject currentProject = null;
 
 	protected Frame2Model model = null;
 	private IFile modelFile = null;
@@ -142,7 +142,7 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 	final IStructuredSelection selection) throws Frame2ModelException {
 		Frame2Model mod = null;
 		IProject selected = null;
-		if (selection != null && selection.isEmpty() == false) {
+		if (selection != null && !selection.isEmpty()) {
 			if (selection.size() > 1) {
 				throw new Frame2ModelException(
 						Frame2Plugin
@@ -205,6 +205,8 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 		if (selected != null) {
 			mod = loadFrame2Model(selected);
 		}
+		
+		this.currentProject = selected;
 
 		return mod;
 	}
@@ -231,6 +233,10 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 
 	public Frame2Model getFrame2Model() {
 		return this.model;
+	}
+	
+	public IProject getCurrentProject() {
+		return this.currentProject;
 	}
 
 	public void refreshModelResource() throws Frame2ModelException {

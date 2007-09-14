@@ -66,7 +66,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -94,18 +93,15 @@ public class EventMappingWizardPage2 extends WizardPage {
 	private Button removeAllButton;
 	private Button moveUpButton;
 	private Button moveDownButton;
-	// private ISelection selection;
 	private boolean badModel = false;
 
-	public EventMappingWizardPage2(@SuppressWarnings("unused")
-	final ISelection selection) {
+	public EventMappingWizardPage2() {
 		super(Frame2Plugin
 				.getResourceString("EventMappingWizardPage2.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
 				.getResourceString("EventMappingWizardPage2.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
 				.getResourceString("EventMappingWizardPage2.pageDescription")); //$NON-NLS-1$
-		// this.selection = selection;
 	}
 
 	public void createControl(final Composite parent) {

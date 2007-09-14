@@ -60,7 +60,6 @@
  *******************************************************************************/
 package org.megatome.frame2.wizards;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -73,17 +72,13 @@ public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
 	private Button enableServicesButton;
 	private boolean canUseServices = false;
 
-	// private ISelection selection;
-
-	public Frame2ProjectWizardPage1(@SuppressWarnings("unused")
-	final ISelection selection, boolean canUseServices) {
+	public Frame2ProjectWizardPage1(boolean canUseServices) {
 		super(Frame2Plugin
 				.getResourceString("Frame2ProjectWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
 				.getResourceString("Frame2ProjectWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
 				.getResourceString("Frame2ProjectWizardPage1.pageDescription")); //$NON-NLS-1$
-		// this.selection = selection;
 		this.canUseServices = canUseServices;
 	}
 

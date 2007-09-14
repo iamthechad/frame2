@@ -69,7 +69,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -102,7 +101,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
 
 	Button removeButton;
 
-	private final ISelection selection;
+	private final IStructuredSelection selection;
 
 	static int addRowValue = 1;
 
@@ -115,7 +114,7 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
 	private static final String PAGE_NAME = Frame2Plugin
 			.getResourceString("EventHandlerWizardPage1.wizardName"); //$NON-NLS-1$
 
-	public EventHandlerWizardPage1(final ISelection selection) {
+	public EventHandlerWizardPage1(final IStructuredSelection selection) {
 		super(true, PAGE_NAME);
 		setTitle(Frame2Plugin
 				.getResourceString("EventHandlerWizardPage1.pageTitle")); //$NON-NLS-1$
@@ -318,9 +317,8 @@ public class EventHandlerWizardPage1 extends NewTypeWizardPage {
 			doStatusUpdate();
 		}
 
-		if (this.selection != null && this.selection.isEmpty() == false
-				&& this.selection instanceof IStructuredSelection) {
-			final IStructuredSelection ssel = (IStructuredSelection) this.selection;
+		if (this.selection != null && !this.selection.isEmpty()) {
+			final IStructuredSelection ssel = this.selection;
 			if (ssel.size() > 1) {
 				return;
 			}

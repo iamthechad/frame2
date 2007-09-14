@@ -63,7 +63,6 @@ package org.megatome.frame2.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -85,9 +84,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2Model;
-import org.megatome.frame2.Frame2Plugin;
 
 public class EventMappingWizardPage3 extends WizardPage {
 	private Combo htmlViewCombo;
@@ -96,7 +95,6 @@ public class EventMappingWizardPage3 extends WizardPage {
 	TableEditor editor;
 	private Button addRowButton;
 	Button removeRowButton;
-	// private ISelection selection;
 	// private IProject rootProject;
 	private boolean badModel = false;
 
@@ -106,15 +104,13 @@ public class EventMappingWizardPage3 extends WizardPage {
 			.getResourceString("EventMappingWizardPage3.noneString"); //$NON-NLS-1$
 	static int roleIndex = 1;
 
-	public EventMappingWizardPage3(@SuppressWarnings("unused")
-	final ISelection selection) {
+	public EventMappingWizardPage3() {
 		super(Frame2Plugin
 				.getResourceString("EventMappingWizardPage3.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
 				.getResourceString("EventMappingWizardPage3.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
 				.getResourceString("EventMappingWizardPage3.pageDescription")); //$NON-NLS-1$
-		// this.selection = selection;
 	}
 
 	public void createControl(final Composite parent) {

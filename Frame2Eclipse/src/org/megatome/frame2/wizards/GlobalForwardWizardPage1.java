@@ -68,8 +68,17 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.search.IJavaSearchConstants;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
+import org.eclipse.jdt.core.search.SearchEngine;
+import org.eclipse.jdt.core.search.SearchMatch;
+import org.eclipse.jdt.core.search.SearchParticipant;
+import org.eclipse.jdt.core.search.SearchPattern;
+import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -86,10 +95,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
-import org.megatome.frame2.Frame2Plugin;
 
 public class GlobalForwardWizardPage1 extends WizardPage {
 	private Text nameText;
@@ -113,19 +122,18 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 	private SelectionListener radioListener;
 
-	private final ISelection selection;
 	private IProject rootProject;
 
 	private boolean badModel = false;
 
-	public GlobalForwardWizardPage1(final ISelection selection) {
+	public GlobalForwardWizardPage1(final IProject currentProject) {
 		super(Frame2Plugin
 				.getResourceString("GlobalForwardWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
 				.getResourceString("GlobalForwardWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
 				.getResourceString("GlobalForwardWizardPage1.pageDescription")); //$NON-NLS-1$
-		this.selection = selection;
+		this.rootProject = currentProject;
 	}
 
 	public void createControl(final Composite parent) {
@@ -319,19 +327,6 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 			setPageComplete(false);
 			this.badModel = true;
 			dialogChanged();
-		}
-
-		if (this.selection != null && this.selection.isEmpty() == false
-				&& this.selection instanceof IStructuredSelection) {
-			final IStructuredSelection ssel = (IStructuredSelection) this.selection;
-			if (ssel.size() > 1) {
-				return;
-			}
-
-			final Object obj = ssel.getFirstElement();
-			if (obj instanceof IResource) {
-				this.rootProject = ((IResource) obj).getProject();
-			}
 		}
 	}
 
@@ -629,6 +624,36 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 				return false;
 			}
 
+		} else if (forwardType.equals(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.xmlResponder_type"))) { //$NON-NLS-1$
+			IJavaProject javaProject = JavaCore.create(this.rootProject);
+			
+			try {
+				IType type = javaProject.findType(forwardPath);
+				if (type == null) {
+					updateStatus(Frame2Plugin
+							.getResourceString("GlobalForwardWizardPage1.missingResponderFile")); //$NON-NLS-1$
+					return false;
+				}
+				
+				SearchPattern pattern = SearchPattern.createPattern(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.responderClassName"), IJavaSearchConstants.TYPE, IJavaSearchConstants.IMPLEMENTORS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE); //$NON-NLS-1$
+				IJavaSearchScope scope = SearchEngine.createHierarchyScope(type);
+				
+				MatchSearchRequestor requestor = new MatchSearchRequestor();
+				
+				SearchEngine searchEngine = new SearchEngine();
+			    searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
+
+				if (!requestor.hadMatch()) {
+					updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.notImplementResponderMessage")); //$NON-NLS-1$
+					return false;
+				}
+			} catch (JavaModelException e) {
+				updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.validateResponderError")); //$NON-NLS-1$
+				return false;
+			} catch (CoreException e) {
+				updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.validateResponderError")); //$NON-NLS-1$
+				return false;
+			}
 		}
 
 		return true;
@@ -655,6 +680,20 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 		this.eventRadio.dispose();
 
 		this.htmlResourceBrowse.dispose();
+	}
+	
+	static class MatchSearchRequestor extends SearchRequestor {
+		private boolean matched = false;
+		@Override
+		@SuppressWarnings("unused")
+		public void acceptSearchMatch(SearchMatch match)
+				throws CoreException {
+			this.matched = true;
+		}
+		
+		public boolean hadMatch() {
+			return this.matched;
+		}
 	}
 
 }

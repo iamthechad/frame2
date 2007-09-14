@@ -60,7 +60,6 @@
  *******************************************************************************/
 package org.megatome.frame2.wizards;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -70,32 +69,29 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.EventMapping;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
-import org.megatome.frame2.Frame2Plugin;
 
 public class EventMappingWizardPage1 extends WizardPage {
 	private Combo eventCombo;
 	private Combo inputViewCombo;
 	private Combo cancelViewCombo;
-	// private ISelection selection;
 
 	private boolean badModel = false;
 
 	private final String noneString = Frame2Plugin
 			.getResourceString("EventMappingWizardPage1.noneString"); //$NON-NLS-1$
 
-	public EventMappingWizardPage1(@SuppressWarnings("unused")
-	final ISelection selection) {
+	public EventMappingWizardPage1() {
 		super(Frame2Plugin
 				.getResourceString("EventMappingWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
 				.getResourceString("EventMappingWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
 				.getResourceString("EventMappingWizardPage1.pageDescription")); //$NON-NLS-1$
-		// this.selection = selection;
 	}
 
 	public void createControl(final Composite parent) {

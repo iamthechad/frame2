@@ -79,7 +79,7 @@ public class GlobalForwardWizard extends BaseFrame2Wizard {
 
 	@Override
 	public void addPages() {
-		this.page = new GlobalForwardWizardPage1(this.selection);
+		this.page = new GlobalForwardWizardPage1(getCurrentProject());
 		addPage(this.page);
 	}
 

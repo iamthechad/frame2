@@ -81,7 +81,7 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 
 	@Override
 	public void addPages() {
-		this.page = new ExceptionWizardPage1(this.selection);
+		this.page = new ExceptionWizardPage1();
 		addPage(this.page);
 	}
 

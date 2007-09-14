@@ -60,7 +60,6 @@
  *******************************************************************************/
 package org.megatome.frame2.wizards;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -71,17 +70,16 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Forward;
 import org.megatome.frame2.model.Frame2Exception;
 import org.megatome.frame2.model.Frame2Model;
-import org.megatome.frame2.Frame2Plugin;
 
 public class ExceptionWizardPage1 extends WizardPage {
 	private Text requestKeyText;
 	private Text typeText;
 	private Combo htmlViewCombo;
 	private Combo xmlViewCombo;
-	// private ISelection selection;
 
 	private boolean badModel = false;
 
@@ -90,14 +88,12 @@ public class ExceptionWizardPage1 extends WizardPage {
 	private static String noneString = Frame2Plugin
 			.getResourceString("ExceptionWizardPage1.noneString"); //$NON-NLS-1$
 
-	public ExceptionWizardPage1(@SuppressWarnings("unused")
-	final ISelection selection) {
+	public ExceptionWizardPage1() {
 		super(Frame2Plugin.getResourceString("ExceptionWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
 				.getResourceString("ExceptionWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
 				.getResourceString("ExceptionWizardPage1.pageDescription")); //$NON-NLS-1$
-		// this.selection = selection;
 	}
 
 	public void createControl(final Composite parent) {

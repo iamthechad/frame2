@@ -87,9 +87,9 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 
 	@Override
 	public void addPages() {
-		this.page1 = new EventMappingWizardPage1(this.selection);
-		this.page2 = new EventMappingWizardPage2(this.selection);
-		this.page3 = new EventMappingWizardPage3(this.selection);
+		this.page1 = new EventMappingWizardPage1();
+		this.page2 = new EventMappingWizardPage2();
+		this.page3 = new EventMappingWizardPage3();
 		addPage(this.page1);
 		addPage(this.page2);
 		addPage(this.page3);

@@ -91,7 +91,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
@@ -101,7 +100,6 @@ import org.osgi.framework.Bundle;
 
 public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	private Frame2ProjectWizardPage1 page;
-	private ISelection selection;
 
 	private final static String WEBINF = Frame2Plugin
 			.getResourceString("Frame2ProjectWizard.WEB-INF"); //$NON-NLS-1$
@@ -144,8 +142,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 
 	@Override
 	public void addPages() {
-		this.page = new Frame2ProjectWizardPage1(this.selection,
-				this.canEnableServices);
+		this.page = new Frame2ProjectWizardPage1(this.canEnableServices);
 		addPage(this.page);
 	}
 
@@ -307,7 +304,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	}
 
 	private void configureClasspath(final IJavaProject jProject,
-			final boolean enableServices, @SuppressWarnings("unused")
+			final boolean enableServices, 
 			final IProgressMonitor monitor) throws CoreException {
 		final Map<String, String> libFiles = getLibFiles();
 		if (enableServices) {
@@ -330,7 +327,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		}
 
 		jProject.setRawClasspath(cp.toArray(new IClasspathEntry[cp.size()]),
-				null);
+				monitor);
 	}
 
 	private void setJavaNatureOnProject(final IProject newProject,
@@ -513,9 +510,8 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	}
 
 	public void init(@SuppressWarnings("unused")
-	final IWorkbench workbench, @SuppressWarnings("hiding")
+	final IWorkbench workbench, @SuppressWarnings("unused")
 	final IStructuredSelection selection) {
-		this.selection = selection;
 		setDefaultPageImageDescriptor(Frame2WizardSupport.getFrame2Logo());
 	}
 }
