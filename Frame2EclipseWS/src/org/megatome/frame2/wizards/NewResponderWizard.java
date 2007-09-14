@@ -11,7 +11,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -29,7 +28,7 @@ public class NewResponderWizard extends BaseFrame2Wizard {
 	@Override
 	public void addPages() {
 		this.page = new NewClassWizardPage();
-		this.page.init((IStructuredSelection) this.selection);
+		this.page.init(this.selection);
 		this.page.addSuperInterface(Frame2WSPlugin.getResourceString("NewResponderWizard.responderClass")); //$NON-NLS-1$
 		this.page.setDescription(Frame2WSPlugin.getResourceString("NewResponderWizard.wizardDescription")); //$NON-NLS-1$
 		this.page.setTitle(Frame2WSPlugin.getResourceString("NewResponderWizard.wizardTitle")); //$NON-NLS-1$
