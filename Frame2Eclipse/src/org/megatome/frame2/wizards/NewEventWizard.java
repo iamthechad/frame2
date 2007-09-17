@@ -92,7 +92,7 @@ public class NewEventWizard extends BaseFrame2Wizard {
 
 	@Override
 	public void addPages() {
-		this.page = new NewEventWizardPage1(this.selection);
+		this.page = new NewEventWizardPage1(this.selection, getCurrentProject());
 		addPage(this.page);
 	}
 
@@ -102,12 +102,13 @@ public class NewEventWizard extends BaseFrame2Wizard {
 		final String eventName = this.page.getEventName();
 		final String eventType = this.page.getEventClassType();
 		final String newEventType = this.page.getNewEventType();
+		final String resolveAs = this.page.getEventResolveAs();
 		final IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor)
 					throws InvocationTargetException {
 				try {
 					doFinish(containerName, eventName, eventType, newEventType,
-							monitor);
+							resolveAs, monitor);
 				} catch (CoreException e) {
 					throw new InvocationTargetException(e);
 				} finally {
@@ -131,7 +132,7 @@ public class NewEventWizard extends BaseFrame2Wizard {
 
 	void doFinish(final String containerName, final String eventName,
 			final String eventType, final String newEventType,
-			final IProgressMonitor monitor) throws CoreException {
+			final String resolveAs, final IProgressMonitor monitor) throws CoreException {
 
 		if (newEventType.equals(NewEventWizardPage1.NEW_CLASS)) {
 			// create a sample file
@@ -186,6 +187,10 @@ public class NewEventWizard extends BaseFrame2Wizard {
 		event.setName(eventName);
 		if (!newEventType.equals(NewEventWizardPage1.NO_CLASS)) {
 			event.setType(eventType);
+		}
+		
+		if (resolveAs != null) {
+			event.setResolveAs(resolveAs);
 		}
 
 		try {

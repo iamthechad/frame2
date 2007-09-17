@@ -61,11 +61,22 @@ package org.megatome.frame2.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.search.IJavaSearchConstants;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
+import org.eclipse.jdt.core.search.SearchEngine;
+import org.eclipse.jdt.core.search.SearchMatch;
+import org.eclipse.jdt.core.search.SearchParticipant;
+import org.eclipse.jdt.core.search.SearchPattern;
+import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -84,19 +95,24 @@ import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Frame2Event;
 import org.megatome.frame2.model.Frame2Model;
 import org.megatome.frame2.util.StatusFactory;
+import org.megatome.frame2.wizards.GlobalForwardWizardPage1.MatchSearchRequestor;
 
 public class NewEventWizardPage1 extends NewTypeWizardPage {
 
 	private final IStructuredSelection selection;
 	private SelectionListener radioListener;
 	private Button newClassRadio;
-	private Button existingClassRadio;
+	protected Button existingClassRadio;
 	private Button noClassRadio;
-	private Combo existingClassCombo;
+	protected Combo existingClassCombo;
+	protected Combo resolveAsCombo;
 	private Text eventNameText;
+	protected Label existingClassLabel;
+	protected Label resolveAsLabel;
 	// private IStatus eventNameStatus;
 	// private IStatus selectedEventStatus;
 	private IStatus badModelStatus = StatusFactory.ok();
+	private IProject rootProject;
 
 	private Frame2Event[] definedEvents = new Frame2Event[0];
 
@@ -116,14 +132,19 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 			.getResourceString("NewEventWizardPage1.existingClass_type"); //$NON-NLS-1$
 	public static final String NO_CLASS = Frame2Plugin
 			.getResourceString("NewEventWizardPage1.noClass_type"); //$NON-NLS-1$
+	private static final String RESOLVE_PASSTHRU = Frame2Plugin.getResourceString("NewEventWizardPage1.passthru"); //$NON-NLS-1$
+	private static final String RESOLVE_PARENT = Frame2Plugin.getResourceString("NewEventWizardPage1.parent"); //$NON-NLS-1$
+	private static final String RESOLVE_CHILDREN = Frame2Plugin.getResourceString("NewEventWizardPage1.children"); //$NON-NLS-1$
+	private static final String[] RESOLVE_TYPES = { RESOLVE_PASSTHRU, RESOLVE_CHILDREN, RESOLVE_PARENT };
 
-	public NewEventWizardPage1(final IStructuredSelection selection) {
+	public NewEventWizardPage1(final IStructuredSelection selection, final IProject currentProject) {
 		super(true, PAGE_NAME);
 		setTitle(Frame2Plugin
 				.getResourceString("NewEventWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
 				.getResourceString("NewEventWizardPage1.pageDescription")); //$NON-NLS-1$
 		this.selection = selection;
+		this.rootProject = currentProject;
 	}
 
 	public void createControl(final Composite parent) {
@@ -176,8 +197,8 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		gd.horizontalSpan = 4;
 		this.existingClassRadio.setLayoutData(gd);
 
-		label = new Label(composite, SWT.NULL);
-		label.setText(Frame2Plugin
+		this.existingClassLabel = new Label(composite, SWT.NULL);
+		this.existingClassLabel.setText(Frame2Plugin
 				.getResourceString("NewEventWizardPage1.eventLabel")); //$NON-NLS-1$
 
 		this.existingClassCombo = new Combo(composite, SWT.BORDER | SWT.SINGLE
@@ -191,7 +212,22 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 				dialogChanged();
 			}
 		});
-
+		
+		this.resolveAsLabel = new Label(composite, SWT.NULL);
+		this.resolveAsLabel.setText(Frame2Plugin.getResourceString("NewEventWizardPage1.resolveAsLabel")); //$NON-NLS-1$
+		
+		this.resolveAsCombo = new Combo(composite, SWT.BORDER | SWT.SINGLE
+				| SWT.READ_ONLY);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		this.resolveAsCombo.setLayoutData(gd);
+		/*this.resolveAsCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(@SuppressWarnings("unused")
+			final ModifyEvent e) {
+				dialogChanged();
+			}
+		});*/
+		
 		createSeparator(composite, nColumns);
 
 		this.noClassRadio = new Button(composite, SWT.RADIO);
@@ -226,8 +262,17 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 				}
 			}
 
+			findEventClasses(uniqueEventNames);
 			this.existingClassCombo.setItems(uniqueEventNames
 					.toArray(new String[uniqueEventNames.size()]));
+			
+			this.resolveAsCombo.setItems(RESOLVE_TYPES);
+			this.resolveAsCombo.select(0);
+			
+			this.existingClassLabel.setEnabled(false);
+			this.existingClassCombo.setEnabled(false);
+			this.resolveAsLabel.setEnabled(false);
+			this.resolveAsCombo.setEnabled(false);
 		} else {
 			setPageComplete(false);
 			this.badModelStatus = StatusFactory
@@ -258,10 +303,42 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		// eventNameStatus = getEventNameStatus();
 
 		if (eventType.equals(EXISTING_CLASS)) {
-			// selectedEventStatus = getSelectedEventStatus();
+			String eventClassType = getEventClassType();
+			boolean enableResolveControls = isJaxbEvent(eventClassType);
+			this.resolveAsLabel.setEnabled(enableResolveControls);
+			this.resolveAsCombo.setEnabled(enableResolveControls);
 		}
 
 		doStatusUpdate();
+	}
+	
+	private boolean isJaxbEvent(final String classType) {
+		IJavaProject javaProject = JavaCore.create(this.rootProject);
+		
+		try {
+			IType type = javaProject.findType(classType);
+			if (type == null) {
+				return false;
+			}
+			
+			SearchPattern pattern = SearchPattern.createPattern(Frame2Plugin.getResourceString("NewEventWizardPage1.JaxbEventBase"), IJavaSearchConstants.TYPE, IJavaSearchConstants.IMPLEMENTORS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE); //$NON-NLS-1$
+			IJavaSearchScope scope = SearchEngine.createHierarchyScope(type);
+			
+			MatchSearchRequestor requestor = new MatchSearchRequestor();
+			
+			SearchEngine searchEngine = new SearchEngine();
+		    searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
+
+			if (!requestor.hadMatch()) {
+				return false;
+			}
+		} catch (JavaModelException e) {
+			return false;
+		} catch (CoreException e) {
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -314,6 +391,13 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 
 				public void widgetSelected(@SuppressWarnings("unused")
 				final SelectionEvent e) {
+					boolean existingRadioSelected = (e.getSource() == NewEventWizardPage1.this.existingClassRadio);
+					NewEventWizardPage1.this.existingClassLabel.setEnabled(existingRadioSelected);
+					NewEventWizardPage1.this.existingClassCombo.setEnabled(existingRadioSelected);
+					if (!existingRadioSelected) {
+						NewEventWizardPage1.this.resolveAsLabel.setEnabled(false);
+						NewEventWizardPage1.this.resolveAsCombo.setEnabled(false);
+					}
 					dialogChanged();
 				}
 			};
@@ -376,6 +460,14 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 
 		return eventClass;
 	}
+	
+	public String getEventResolveAs() {
+		if (this.resolveAsCombo.isEnabled()) {
+			return this.resolveAsCombo.getText();
+		}
+		
+		return null;
+	}
 
 	@SuppressWarnings("unused")
 	@Override
@@ -394,10 +486,60 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		super.dispose();
 
 		this.newClassRadio.dispose();
+		this.existingClassLabel.dispose();
 		this.existingClassRadio.dispose();
+		this.resolveAsLabel.dispose();
+		this.resolveAsCombo.dispose();
 		this.noClassRadio.dispose();
 		this.existingClassCombo.dispose();
 		this.eventNameText.dispose();
+	}
+	
+	private void findEventClasses(List<String> classes) {
+		IJavaProject javaProject = JavaCore.create(this.rootProject);
+		
+		findEventClasses(javaProject, classes, Frame2Plugin.getResourceString("NewEventWizardPage1.CommonsValidatorClass")); //$NON-NLS-1$
+		findEventClasses(javaProject, classes, Frame2Plugin.getResourceString("NewEventWizardPage1.JaxbEventBase")); //$NON-NLS-1$
+	}
+	
+	private void findEventClasses(final IJavaProject project, final List<String> classes, final String superClass) {
+		try {
+			SearchPattern pattern = SearchPattern.createPattern(superClass, IJavaSearchConstants.TYPE, IJavaSearchConstants.IMPLEMENTORS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
+			IJavaSearchScope scope = SearchEngine.createJavaSearchScope(new IJavaElement[] { project });
+			
+			SearchRequestor requestor = new ClassSearchRequestor(classes);
+			
+			SearchEngine searchEngine = new SearchEngine();
+		    searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
+
+		} catch (JavaModelException e) {
+			//return classes;
+		} catch (CoreException e) {
+			//return classes;
+		}
+	}
+	
+	static class ClassSearchRequestor extends SearchRequestor {
+		private List<String> matches;
+		public ClassSearchRequestor(final List<String> matches) {
+			super();
+			this.matches = matches;
+		}
+		@Override
+		@SuppressWarnings("unused")
+		public void acceptSearchMatch(SearchMatch match)
+				throws CoreException {
+			if (match.getElement() instanceof IJavaElement) {
+				IJavaElement element = (IJavaElement)match.getElement();
+				if (element.getElementType() == IJavaElement.TYPE) {
+					IType type = (IType)element;
+					String fqn = type.getFullyQualifiedName();
+					if (!this.matches.contains(fqn)) {
+						this.matches.add(type.getFullyQualifiedName());
+					}
+				}
+			}
+		}
 	}
 
 }
