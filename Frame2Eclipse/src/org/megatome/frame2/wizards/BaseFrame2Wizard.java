@@ -60,6 +60,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
@@ -80,7 +81,7 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 	protected IStructuredSelection selection;
 	protected IProject currentProject = null;
 
-	protected Frame2Model model = null;
+	private Frame2Model model = null;
 	private IFile modelFile = null;
 	
 	public BaseFrame2Wizard() {
@@ -269,7 +270,6 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 
 	private Frame2Model loadFrame2Model(final IProject project)
 			throws Frame2ModelException {
-		Frame2Model mod = null;
 		final IResource resource = project.findMember(Frame2Plugin
 				.getResourceString("NewEventWizard.fullConfigPath")); //$NON-NLS-1$
 		if (resource == null) {
@@ -283,8 +283,7 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 							.getResourceString("NewEventWizard.errorLocatingConfigPath")); //$NON-NLS-1$
 		}
 		this.modelFile = (IFile) resource.getAdapter(IFile.class);
-		mod = Frame2Model.getInstance(path.toFile().getAbsolutePath());
-		return mod;
+		return Frame2Model.getInstance(this.modelFile);
 	}
 
 	public Frame2Model getFrame2Model() {
@@ -294,8 +293,17 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 	public IProject getCurrentProject() {
 		return this.currentProject;
 	}
+	
+	public void persistModel() throws Frame2ModelException {
+		persistModel(null);
+	}
+	
+	public void persistModel(IProgressMonitor monitor) throws Frame2ModelException {
+		this.model.persistConfiguration(this.modelFile, monitor);
+		refreshModelResource();
+	}
 
-	public void refreshModelResource() throws Frame2ModelException {
+	private void refreshModelResource() throws Frame2ModelException {
 		try {
 			if (this.modelFile != null) {
 				this.modelFile.refreshLocal(IResource.DEPTH_ZERO, null);

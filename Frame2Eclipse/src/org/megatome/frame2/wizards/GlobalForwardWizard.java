@@ -103,18 +103,16 @@ public class GlobalForwardWizard extends BaseFrame2Wizard {
 							.beginTask(
 									Frame2Plugin
 											.getResourceString("GlobalForwardWizard.creatingStatus"), 1); //$NON-NLS-1$
-					if (GlobalForwardWizard.this.model != null) {
+					if (GlobalForwardWizard.this.getFrame2Model() != null) {
 						Forward forward = new Forward();
 						forward.setName(forwardName);
 						forward.setType(forwardType);
 						forward.setPath(forwardPath);
 
 						try {
-							GlobalForwardWizard.this.model
+							GlobalForwardWizard.this.getFrame2Model()
 									.addGlobalForward(forward);
-							GlobalForwardWizard.this.model
-									.persistConfiguration();
-							GlobalForwardWizard.this.refreshModelResource();
+							GlobalForwardWizard.this.persistModel(monitor);
 						} catch (Frame2ModelException e) {
 							throw new InvocationTargetException(e);
 						}

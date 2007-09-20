@@ -203,9 +203,8 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 		}
 
 		try {
-			this.model.addEventMapping(mapping);
-			this.model.persistConfiguration();
-			refreshModelResource();
+			this.getFrame2Model().addEventMapping(mapping);
+			this.persistModel(monitor);
 		} catch (final Frame2ModelException e) {
 			throwCoreException(Frame2Plugin
 					.getResourceString("EventMappingWizard.createMappingError") + e.getMessage()); //$NON-NLS-1$

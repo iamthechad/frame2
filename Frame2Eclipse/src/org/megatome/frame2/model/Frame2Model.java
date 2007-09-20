@@ -50,57 +50,75 @@
  */
 package org.megatome.frame2.model;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.Frame2Config.ValidateException;
 import org.megatome.frame2.util.Frame2EntityResolver;
+import org.megatome.frame2.util.PluginLogger;
 import org.xml.sax.InputSource;
-import org.megatome.frame2.Frame2Plugin;
 
 public class Frame2Model {
 
-	private static Frame2Config config = null;
+	static Frame2Config config = null;
 
 	private static Frame2Model instance = null;
 
-	private static String fileName = null;
-
-	private Frame2Model(final String configFile) throws Frame2ModelException {
-		fileName = configFile;
-		FileInputStream fis = null;
+	private Frame2Model(final IFile configFile) throws Frame2ModelException {
+		InputStream is = null;
 		try {
-			fis = new FileInputStream(fileName);
-		} catch (final FileNotFoundException e) {
+			is = configFile.getContents(true);
+		} catch (final CoreException e) {
 			throw new Frame2ModelException(
 					Frame2Plugin
 							.getResourceString("Frame2Model.errorLoadingConfig") + configFile, e); //$NON-NLS-1$
 		}
 		try {
-			config = Frame2Config.read(new InputSource(fis), true, new Frame2EntityResolver(),
-					new Frame2ErrorHandler());
+			config = Frame2Config.read(new InputSource(is), true,
+					new Frame2EntityResolver(), new Frame2ErrorHandler());
 		} catch (final Exception e1) {
 			throw new Frame2ModelException(Frame2Plugin
 					.getResourceString("Frame2Model.errorLoadingConfig"), e1); //$NON-NLS-1$
 		}
+
+		if (is != null) {
+			try {
+				is.close();
+			} catch (IOException e) {
+				PluginLogger.error("Failed to close input stream", e); //$NON-NLS-1$
+			}
+		}
 	}
 
-	public static Frame2Model getInstance(final String configFile)
+	public static Frame2Model getInstance(final IFile modelFile)
 			throws Frame2ModelException {
-		instance = new Frame2Model(configFile);
+		instance = new Frame2Model(modelFile);
 		return instance;
 	}
 
-	public static Frame2Model getInstance() {
-		return instance;
-	}
-
-	public void persistConfiguration() throws Frame2ModelException {
+	public void persistConfiguration(IFile modelFile, IProgressMonitor monitor)
+			throws Frame2ModelException {
 		try {
 			config.validate();
-			final FileOutputStream fos = new FileOutputStream(fileName);
-			config.write(fos);
+			PipedInputStream in = new PipedInputStream();
+			final PipedOutputStream out = new PipedOutputStream(in);
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						config.write(out);
+						out.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+			modelFile.setContents(in, true, true, monitor);
 		} catch (final Exception e) {
 			throw new Frame2ModelException(
 					Frame2Plugin
@@ -111,7 +129,7 @@ public class Frame2Model {
 	public Frame2Event[] getEvents() {
 		return config.getFrame2Events().getFrame2Event();
 	}
-	
+
 	public SchemaMapping[] getSchemaMappings() {
 		return config.getSchemaMappings().getSchemaMapping();
 	}
@@ -180,15 +198,17 @@ public class Frame2Model {
 					.getResourceString("Frame2Model.errorAddingEvent"), e); //$NON-NLS-1$
 		}
 	}
-	
-	public void addSchemaMapping(final SchemaMapping mapping) throws Frame2ModelException {
+
+	public void addSchemaMapping(final SchemaMapping mapping)
+			throws Frame2ModelException {
 		final SchemaMappings mappings = config.getSchemaMappings();
 		mappings.addSchemaMapping(mapping);
 		try {
 			mappings.validate();
 		} catch (final ValidateException e) {
-			throw new Frame2ModelException(Frame2Plugin
-					.getResourceString("Frame2Model.errorAddingSchemaMapping"), e); //$NON-NLS-1$
+			throw new Frame2ModelException(
+					Frame2Plugin
+							.getResourceString("Frame2Model.errorAddingSchemaMapping"), e); //$NON-NLS-1$
 		}
 	}
 
