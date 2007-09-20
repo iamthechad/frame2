@@ -87,5 +87,132 @@
          </description>
       </wizard>
    </extension>
+   <extension
+         id="Frame2Builder"
+         name="Frame2 Model Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="org.megatome.frame2.builder.Frame2ModelBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="frame2Nature"
+         name="Frame2 Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.megatome.frame2.builder.Frame2Nature">
+         </run>
+      </runtime>
+      <builder
+            id="org.megatome.frame2.Frame2Builder">
+      </builder>
+   </extension>
+   <extension
+         id="frame2ConfigProblem"
+         name="Frame2 Configuration Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="org.megatome.frame2.decorators.Frame2ProjectDecorator"
+            id="org.megatome.frame2.decorator"
+            label="Frame2 Application Decorator"
+            lightweight="true"
+            state="true">
+         <enablement>
+               <objectClass
+                     name="org.eclipse.core.resources.IProject">
+               </objectClass>
+         </enablement>
+      </decorator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.megatome.frame2.contribution1"
+            objectClass="org.eclipse.core.resources.IProject">
+         <menu
+               id="org.megatome.frame2.menu1"
+               label="Frame2"
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="org.megatome.frame2.popup.actions.ToggleFrame2ProjectAction"
+               enablesFor="1"
+               icon="icons/frame2logo_small.jpg"
+               id="org.megatome.frame2.newAction"
+               label="Mark as Frame2 Project"
+               menubarPath="org.megatome.frame2.menu1/group1">
+         </action>
+      </objectContribution>
+      <objectContribution
+            id="org.megatome.frame2.contribution2"
+            nameFilter="frame2-config.xml"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="org.megatome.frame2.menu1"
+               label="Frame2"
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="org.megatome.frame2.popup.actions.GlobalForwardAction"
+               enablesFor="1"
+               icon="icons/arrow_right.png"
+               id="org.megatome.frame2.newGlobalForwardAction"
+               label="New Global Forward"
+               menubarPath="org.megatome.frame2.menu1/group1">
+         </action>
+         <action
+               class="org.megatome.frame2.popup.actions.NewEventAction"
+               enablesFor="1"
+               icon="icons/brick.png"
+               id="org.megatome.frame2.newEventAction"
+               label="New Event"
+               menubarPath="org.megatome.frame2.menu1/group1">
+         </action>
+         <action
+               class="org.megatome.frame2.popup.actions.ExceptionMappingAction"
+               enablesFor="1"
+               icon="icons/bomb.png"
+               id="org.megatome.frame2.newExceptionAction"
+               label="New Exception Mapping"
+               menubarPath="org.megatome.frame2.menu1/group1">
+         </action>
+         <action
+               class="org.megatome.frame2.popup.actions.EventHandlerAction"
+               enablesFor="1"
+               icon="icons/brick_edit.png"
+               id="org.megatome.frame2.newEventHandlerAction"
+               label="New Event Handler"
+               menubarPath="org.megatome.frame2.menu1/group1">
+         </action>
+         <action
+               class="org.megatome.frame2.popup.actions.EventMappingAction"
+               enablesFor="1"
+               icon="icons/brick_link.png"
+               id="org.megatome.frame2.newEventMappingAction"
+               label="New Event Mapping"
+               menubarPath="org.megatome.frame2.menu1/group1">
+         </action>
+      </objectContribution>
+   </extension>
 
 </plugin>
