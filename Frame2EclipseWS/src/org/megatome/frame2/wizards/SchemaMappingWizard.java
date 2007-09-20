@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.megatome.frame2.Frame2WSPlugin;
 import org.megatome.frame2.model.EventName;
 import org.megatome.frame2.model.Frame2ModelException;
@@ -16,6 +17,11 @@ public class SchemaMappingWizard extends BaseFrame2Wizard {
 	
 	public SchemaMappingWizard() {
 		super();
+		setNeedsProgressMonitor(true);
+	}
+	
+	public SchemaMappingWizard(final IStructuredSelection selection) {
+		super(selection);
 		setNeedsProgressMonitor(true);
 	}
 	
@@ -50,9 +56,7 @@ public class SchemaMappingWizard extends BaseFrame2Wizard {
 
 						try {
 							SchemaMappingWizard.this.getFrame2Model().addSchemaMapping(mapping);
-							SchemaMappingWizard.this.getFrame2Model()
-									.persistConfiguration();
-							SchemaMappingWizard.this.refreshModelResource();
+							SchemaMappingWizard.this.persistModel(monitor);
 						} catch (Frame2ModelException e) {
 							throw new InvocationTargetException(e);
 						}

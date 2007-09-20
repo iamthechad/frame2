@@ -11,6 +11,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -22,6 +23,11 @@ public class NewResponderWizard extends BaseFrame2Wizard {
 
 	public NewResponderWizard() {
 		super();
+		setNeedsProgressMonitor(true);
+	}
+	
+	public NewResponderWizard(final IStructuredSelection selection) {
+		super(selection);
 		setNeedsProgressMonitor(true);
 	}
 
