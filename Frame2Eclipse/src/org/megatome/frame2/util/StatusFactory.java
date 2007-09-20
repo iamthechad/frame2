@@ -63,7 +63,19 @@ public final class StatusFactory {
 		return new Status(IStatus.ERROR, Frame2Plugin.getPluginId(), message);
 	}
 	
+	public static IStatus error(final String message, final Throwable t) {
+		return new Status(IStatus.ERROR, Frame2Plugin.getPluginId(), message, t);
+	}
+	
 	public static IStatus ok() {
 		return new Status(IStatus.OK, Frame2Plugin.getPluginId(), ""); //$NON-NLS-1$
+	}
+	
+	public static IStatus info(final String message) {
+		return new Status(IStatus.INFO, Frame2Plugin.getPluginId(), message);
+	}
+	
+	public static IStatus warning(final String message) {
+		return new Status(IStatus.WARNING, Frame2Plugin.getPluginId(), message);
 	}
 }
