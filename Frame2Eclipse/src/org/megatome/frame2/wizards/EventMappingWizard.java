@@ -67,6 +67,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.megatome.frame2.Frame2Plugin;
 import org.megatome.frame2.model.EventMapping;
 import org.megatome.frame2.model.Frame2ModelException;
@@ -82,6 +83,11 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 
 	public EventMappingWizard() {
 		super();
+		setNeedsProgressMonitor(true);
+	}
+	
+	public EventMappingWizard(final IStructuredSelection selection) {
+		super(selection);
 		setNeedsProgressMonitor(true);
 	}
 

@@ -96,6 +96,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.megatome.frame2.Frame2Plugin;
+import org.megatome.frame2.builder.Frame2Nature;
 import org.osgi.framework.Bundle;
 
 public class Frame2ProjectWizard extends Wizard implements INewWizard {
@@ -124,8 +125,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 				.getBundleContext().getBundles();
 		for (Bundle bundle : installed) {
 			String name = bundle.getSymbolicName();
-			if (Frame2Plugin
-					.getResourceString("Frame2.WSPlugin").equals(name)) { //$NON-NLS-1$
+			if (Frame2Plugin.getResourceString("Frame2.WSPlugin").equals(name)) { //$NON-NLS-1$
 				int state = bundle.getState();
 				switch (state) {
 				case Bundle.INSTALLED:
@@ -262,10 +262,10 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		// Copy commons validator files
 		copyProjectFiles(infFolder.getFolder(COMMONS_DIR), getCommonsFiles(),
 				monitor);
-		
+
 		// Copy template files
-		copyProjectFiles(infFolder.getFolder(TEMPLATES_DIR), getTemplatesFiles(),
-				monitor);
+		copyProjectFiles(infFolder.getFolder(TEMPLATES_DIR),
+				getTemplatesFiles(), monitor);
 
 		// Copy jar files
 		copyProjectFiles(infFolder.getFolder(LIB_DIR), getLibFiles(), monitor);
@@ -282,6 +282,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		final IFolder infFolder = newProject.getFolder(WEBINF);
 
 		setJavaNatureOnProject(newProject, monitor);
+		setFrame2NatureOnProject(newProject, monitor);
 
 		final IJavaProject jProject = JavaCore.create(newProject);
 
@@ -304,8 +305,8 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	}
 
 	private void configureClasspath(final IJavaProject jProject,
-			final boolean enableServices, 
-			final IProgressMonitor monitor) throws CoreException {
+			final boolean enableServices, final IProgressMonitor monitor)
+			throws CoreException {
 		final Map<String, String> libFiles = getLibFiles();
 		if (enableServices) {
 			libFiles.putAll(getWebServicesFiles());
@@ -332,46 +333,71 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 
 	private void setJavaNatureOnProject(final IProject newProject,
 			final IProgressMonitor monitor) throws CoreException {
+		/*
+		 * final IProjectDescription description = newProject.getDescription();
+		 * final String[] prevNatures = description.getNatureIds();
+		 * 
+		 * int natureIndex = -1; for (int i = 0; i < prevNatures.length; i++) {
+		 * if (prevNatures[i].equals(JavaCore.NATURE_ID)) { natureIndex = i; i =
+		 * prevNatures.length; } }
+		 *  // Add nature only if it is not already there if (natureIndex == -1) {
+		 * final String[] newNatures = new String[prevNatures.length + 1];
+		 * System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
+		 * newNatures[prevNatures.length] = JavaCore.NATURE_ID;
+		 * description.setNatureIds(newNatures);
+		 * newProject.setDescription(description, monitor); }
+		 */
+		setNatureOnProject(JavaCore.NATURE_ID, newProject, monitor);
+	}
+
+	private void setFrame2NatureOnProject(final IProject newProject,
+			final IProgressMonitor monitor) throws CoreException {
+		setNatureOnProject(Frame2Nature.NATURE_ID, newProject, monitor);
+	}
+
+	private void setNatureOnProject(final String natureId,
+			final IProject newProject, final IProgressMonitor monitor)
+			throws CoreException {
 		final IProjectDescription description = newProject.getDescription();
 		final String[] prevNatures = description.getNatureIds();
 
-		int natureIndex = -1;
 		for (int i = 0; i < prevNatures.length; i++) {
-			if (prevNatures[i].equals(JavaCore.NATURE_ID)) {
-				natureIndex = i;
-				i = prevNatures.length;
+			if (natureId.equals(prevNatures[i])) {
+				return;
 			}
 		}
 
 		// Add nature only if it is not already there
-		if (natureIndex == -1) {
-			final String[] newNatures = new String[prevNatures.length + 1];
-			System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
-			newNatures[prevNatures.length] = JavaCore.NATURE_ID;
-			description.setNatureIds(newNatures);
-			newProject.setDescription(description, monitor);
-		}
+		final String[] newNatures = new String[prevNatures.length + 1];
+		System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
+		newNatures[prevNatures.length] = natureId;
+		description.setNatureIds(newNatures);
+		newProject.setDescription(description, monitor);
 	}
 
 	private void copyProjectFiles(final IFolder destination,
 			final Map<String, String> fileNames, final IProgressMonitor monitor)
 			throws CoreException {
-		copyProjectFiles(destination, fileNames, monitor, Frame2Plugin.getDefault().getBundle());
+		copyProjectFiles(destination, fileNames, monitor, Frame2Plugin
+				.getDefault().getBundle());
 	}
-	
+
 	private void copyProjectFiles(final IFolder destination,
-			final Map<String, String> fileNames, final IProgressMonitor monitor, final Bundle bundle)
+			final Map<String, String> fileNames,
+			final IProgressMonitor monitor, final Bundle bundle)
 			throws CoreException {
 		for (Entry<String, String> entry : fileNames.entrySet()) {
 			final String srcFileName = entry.getKey();
 			final String destFileName = entry.getValue();
-			copyProjectFile(destination, srcFileName, destFileName, monitor, bundle);
+			copyProjectFile(destination, srcFileName, destFileName, monitor,
+					bundle);
 		}
 	}
 
 	private void copyProjectFile(final IFolder destination,
 			final String srcFileName, final String destFileName,
-			final IProgressMonitor monitor, final Bundle bundle) throws CoreException {
+			final IProgressMonitor monitor, final Bundle bundle)
+			throws CoreException {
 
 		final IFile destFile = destination.getFile(destFileName);
 		try {
@@ -381,18 +407,18 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 					.getResourceString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
 		}
 	}
-	
+
 	private void copyWSProjectFiles(final IFolder destination,
 			final Map<String, String> fileNames, final IProgressMonitor monitor)
 			throws CoreException {
 		copyProjectFiles(destination, fileNames, monitor, this.wsPlugin);
 	}
 
-	private InputStream loadPluginFile(final String fileName, final Bundle bundle)
-			throws CoreException {
+	private InputStream loadPluginFile(final String fileName,
+			final Bundle bundle) throws CoreException {
 		InputStream is = null;
 		try {
-			//final Bundle bundle = Frame2Plugin.getDefault().getBundle();
+			// final Bundle bundle = Frame2Plugin.getDefault().getBundle();
 			is = FileLocator.openStream(bundle, new Path(Frame2Plugin
 					.getResourceString("Frame2ProjectWizard.templates") //$NON-NLS-1$
 					+ fileName), false);
@@ -415,9 +441,11 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 					.put(
 							resourceString("services-web_xml"), resourceString("web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
 			// Don't need this?
-			//files
-			//		.put(
-			//				resourceString("server-config_wsdd"), resourceString("server-config_wsdd")); //$NON-NLS-1$ //$NON-NLS-2$
+			// files
+			// .put(
+			// resourceString("server-config_wsdd"),
+			// resourceString("server-config_wsdd")); //$NON-NLS-1$
+			// //$NON-NLS-2$
 		} else {
 			files.put(resourceString("web_xml"), resourceString("web_xml")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -437,7 +465,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 
 		return files;
 	}
-	
+
 	private Map<String, String> getTemplatesFiles() {
 		final Map<String, String> files = new HashMap<String, String>();
 
@@ -492,7 +520,9 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	private Map<String, String> getWebServicesFiles() {
 		Map<String, String> files = new HashMap<String, String>();
 		files.put(resourceString("axis_jar"), resourceString("axis_jar")); //$NON-NLS-1$ //$NON-NLS-2$
-		files.put(resourceString("commons-discovery_jar"), resourceString("commons-discovery_jar")); //$NON-NLS-1$ //$NON-NLS-2$
+		files
+				.put(
+						resourceString("commons-discovery_jar"), resourceString("commons-discovery_jar")); //$NON-NLS-1$ //$NON-NLS-2$
 		files.put(resourceString("jaxrpc_jar"), resourceString("jaxrpc_jar")); //$NON-NLS-1$ //$NON-NLS-2$
 		files.put(resourceString("wsdl4j_jar"), resourceString("wsdl4j_jar")); //$NON-NLS-1$ //$NON-NLS-2$
 		return files;

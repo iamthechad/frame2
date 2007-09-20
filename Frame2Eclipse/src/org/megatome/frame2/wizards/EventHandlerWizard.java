@@ -75,6 +75,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -91,6 +92,11 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 
 	public EventHandlerWizard() {
 		super();
+		setNeedsProgressMonitor(true);
+	}
+	
+	public EventHandlerWizard(final IStructuredSelection selection) {
+		super(selection);
 		setNeedsProgressMonitor(true);
 	}
 
