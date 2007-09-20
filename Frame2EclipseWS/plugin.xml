@@ -35,5 +35,37 @@
             primary="true">
       </toc>
    </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.megatome.frame2.contribution2"
+            nameFilter="frame2-config.xml"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="org.megatome.frame2.menu1"
+               label="Frame2"
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="org.megatome.frame2.popup.actions.SchemaMappingAction"
+               enablesFor="1"
+               icon="icons/sitemap_color.png"
+               id="org.megatome.frame2.newSchemaMappingAction"
+               label="New Schema Mapping"
+               menubarPath="org.megatome.frame2.menu1/group1">
+         </action>
+         <action
+               class="org.megatome.frame2.popup.actions.ResponderAction"
+               enablesFor="1"
+               icon="icons/arrow_undo.png"
+               id="org.megatome.frame2.newResponderAction"
+               label="New Responder"
+               menubarPath="org.megatome.frame2.menu1/group1">
+         </action>
+      </objectContribution>
+   </extension>
 
 </plugin>
