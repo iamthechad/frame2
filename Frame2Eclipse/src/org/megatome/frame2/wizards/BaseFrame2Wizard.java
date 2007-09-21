@@ -104,49 +104,6 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 	final IWorkbench workbench, @SuppressWarnings("hiding")
 	final IStructuredSelection selection) {
 		initialize(selection);
-		/*this.selection = selection;
-		setDefaultPageImageDescriptor(Frame2WizardSupport.getFrame2Logo());
-		try {
-			this.model = initFrame2Model(selection);
-		} catch (final Frame2ModelException e) {
-			String errorMsg;
-			if (e.getCause() != null) {
-				errorMsg = e.getCause().getMessage();
-			} else {
-				errorMsg = e.getMessage();
-			}
-			final MultiStatus info = new MultiStatus(
-					"org.megatome.frame2", //$NON-NLS-1$
-					IStatus.ERROR,
-					Frame2Plugin
-							.getResourceString("NewEventWizard.configReadError"), e); //$NON-NLS-1$
-			final Status msg = new Status(IStatus.ERROR, "org.megatome.frame2", //$NON-NLS-1$
-					IStatus.ERROR, errorMsg, e);
-			info.add(msg);
-
-			ErrorDialog.openError(getShell(), Frame2Plugin
-					.getResourceString("NewEventWizard.wizardInitError"), //$NON-NLS-1$
-					null, info);
-		}
-
-		if (this.model == null) {
-			// Error
-			final String errorMsg = Frame2Plugin
-					.getResourceString("BaseFrame2Wizard.noFrame2ProjectSelected"); //$NON-NLS-1$
-			final Exception e = new Exception(errorMsg);
-			final MultiStatus info = new MultiStatus(
-					"org.megatome.frame2", //$NON-NLS-1$
-					IStatus.ERROR,
-					Frame2Plugin
-							.getResourceString("NewEventWizard.configReadError"), e); //$NON-NLS-1$
-			final Status msg = new Status(IStatus.ERROR, "org.megatome.frame2", //$NON-NLS-1$
-					IStatus.ERROR, errorMsg, e);
-			info.add(msg);
-
-			ErrorDialog.openError(getShell(), Frame2Plugin
-					.getResourceString("NewEventWizard.wizardInitError"), //$NON-NLS-1$
-					null, info);
-		}*/
 	}
 	
 	private void initialize(final IStructuredSelection iss) {
