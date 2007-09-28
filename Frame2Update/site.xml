@@ -6,7 +6,7 @@
    <feature url="features/org.megatome.frame2.feature_1.4.3.jar" id="org.megatome.frame2.feature" version="1.4.3" os="linux,macosx,solaris,win32" ws="carbon,gtk,motif,win32" nl="en" arch="ia64,ppc,sparc,x86">
       <category name="Frame2"/>
    </feature>
-   <feature url="features/org.megatome.frame2.wsfeature_1.2.3.jar" id="org.megatome.frame2.wsfeature" version="1.2.3" os="linux,macosx,solaris,win32" ws="carbon,gtk,motif,win32" nl="en" arch="ia64,ppc,sparc,x86">
+   <feature url="features/org.megatome.frame2.wsfeature_1.4.3.jar" id="org.megatome.frame2.wsfeature" version="1.4.3" os="linux,macosx,solaris,win32" ws="carbon,gtk,motif,win32" nl="en" arch="ia64,ppc,sparc,x86">
       <category name="Frame2"/>
    </feature>
    <category-def name="Frame2" label="Frame2">
