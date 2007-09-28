@@ -26,4 +26,9 @@
 		<topic label="Frame2 License" href="html/Frame2_license.html"/>
 		<topic label="Third Party Licenses" href="html/third_party.html"/>
 	</topic>
+	<topic label="Changelogs">
+		<topic label="Frame2 Changelog" href="html/Frame2Changes.html"/>
+		<topic label="Frame2 Eclipse Plugin Changelog" href="html/Frame2EclipseChanges.html"/>
+		<anchor id="webservices_changelog"/>
+	</topic>
 </toc>
