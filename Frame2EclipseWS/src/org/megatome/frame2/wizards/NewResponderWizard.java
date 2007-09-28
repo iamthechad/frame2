@@ -40,6 +40,11 @@ public class NewResponderWizard extends BaseFrame2Wizard {
 		this.page.setTitle(Frame2WSPlugin.getResourceString("NewResponderWizard.wizardTitle")); //$NON-NLS-1$
 		addPage(this.page);
 	}
+	
+	@Override
+	public String getFrame2WizardTitle() {
+		return Frame2WSPlugin.getResourceString("NewResponderWizard.windowTitle"); //$NON-NLS-1$
+	}
 
 	@Override
 	public boolean performFinish() {

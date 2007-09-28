@@ -27,6 +27,16 @@
             Create a new Responder.
          </description>
       </wizard>
+      <wizard
+            category="org.megatome.frame2"
+            class="org.megatome.frame2.wizards.SoapFrontControllerWizard"
+            icon="icons/cog.png"
+            id="org.megatome.frame2.wizards.SoapFrontControllerWizard"
+            name="New SOAP Front Controller">
+         <description>
+            Create a new Front Controller for receiving SOAP data.
+         </description>
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.help.toc">

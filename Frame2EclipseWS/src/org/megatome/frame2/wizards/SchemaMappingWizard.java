@@ -30,6 +30,11 @@ public class SchemaMappingWizard extends BaseFrame2Wizard {
 		this.page = new SchemaMappingWizardPage1(this.selection);
 		addPage(this.page);
 	}
+	
+	@Override
+	public String getFrame2WizardTitle() {
+		return Frame2WSPlugin.getResourceString("SchemaMappingWizard.windowTitle"); //$NON-NLS-1$
+	}
 		
 	@Override
 	public boolean performFinish() {
