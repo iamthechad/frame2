@@ -44,6 +44,10 @@
             file="toc.xml"
             primary="true">
       </toc>
+      <toc
+            file="toc_changes.xml"
+            primary="true">
+      </toc>
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
