@@ -1,7 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><title>Getting started With Frame2 for Eclipse</title>
-
-</head>
+<html><head><title>Getting started With Frame2 for Eclipse</title></head>
 <body>
 <h1>Getting Started With Web Services in Frame2</h1>
 <h2>Preface</h2>
@@ -747,18 +745,23 @@ following:<br>
 <pre>public String handle(Event event, Context context) throws Exception {<br> User user = null;<br> if (event instanceof org.megatome.example.jaxbgen.User) {<br> user = new User();<br> org.megatome.example.jaxbgen.User jaxbUser = (org.megatome.example.jaxbgen.User)event;<br> user.setUserName(jaxbUser.getUserName());<br> user.setEmail(jaxbUser.getEmail());<br> } else {<br> user = (User)event;<br> }<br>	<br> UserStorage.addUser(user);<br> return null;<br>}<br></pre>
 <h4>Create the Web Service Class</h4>
 Next, we need to create the class that will actually be called by Axis
-to process the web service call. Use the <code>New Class</code>
-wizard to create a class named <code>UserService</code> in
-the package <code>org.megatome.example.xmlhandlers</code>
-that extends <code>org.megatome.frame2.front.SoapFrontController</code>.<br>
+to process the web service call. This is where the transparency of the
+web model breaks down a bit. In order for the web service call to be
+processed correctly by Frame2, we need to create an instance of
+SoapFrontController. The instance we create will forward the received
+XML elements into the Frame2 processig engine. This sounds more
+complicated than it really is. I'll try to explain as we create the new
+object.<br>Using the <code>New SOAP Front Controller&nbsp;</code>wizard to create a class named <code>UserService</code> in
+the package <code>org.megatome.example.xmlhandlers</code>. Use the "Add Method Name" button to add an entry to the table. Click the default name in the table and change it to <code>addUser</code>. Select "Finish" to create the class.<br>
 <img src="images/user_service.jpg" alt="" align="" border="0">
 <br>
 <u><b>Creating The UserService Class</b></u><br>
 <br>
-Modify the class so that it resembles the following:
-<pre>public class UserService extends SoapFrontController {<br> public Element[] addUser(Element[] elems) {<br> Element[] result = null;<br><br> try {<br> result = processEvent(elems);<br> } catch (Exception e) {<br> }<br><br> return result;<br> }<br><br> @Override<br> public String getEventPackageSpecifier() {<br> return "org.megatome.example.jaxbgen";<br> }<br>}<br></pre>
-(Yes, this seems like a hack. I'm going to see if I can't make it a
-little less stupid in a future release of Frame2.)<br><br>Add the following line to <span style="font-style: italic;">frame2-app-bundle.properties</span>:<br><code>org.megatome.example.jaxbgen.User=Validation error<br></code>The message associated with the key doesn't matter, but the key must exist for the validation to work properly.<code><br></code>
+Modify the <code>getEventPackageName()</code> method so that it returns <code>"org.megatome.example.jaxbgen"</code>. This tells Frame2 where JAXB should look for object definitions when marshalling and demarshalling the XML objects.
+<span style="font-family: monospace;"><br></span><br>If you look at the generated <code>UserService</code> class, you'll see that a method named <code>addUser()</code> has been created that takes an <code>Element[]</code> as a parameter and returns <code>Element[]</code>. This method does nothing more than call <code>processEvent()</code>
+with the supplied argument. This is where the mapping between web
+service and Frame2 happens. Our web service will have a callable method
+named <code>addUser</code> which Axis will map to this method. The <code>addUser</code> method, in turn, sends the XML message into Frame2 where it is processed like any other event.<span style="font-family: monospace;"><br></span><br>Add the following line to <span style="font-style: italic;">frame2-app-bundle.properties</span>:<br><code>org.megatome.example.jaxbgen.User=Validation error<br></code>The message associated with the key doesn't matter, but the key must exist for the validation to work properly.<code><br></code>
 <h4>Create the Deployment Descriptor</h4>
 Now
 we're finally ready to create the deployment descriptor, which will
