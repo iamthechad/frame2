@@ -49,9 +49,9 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 	static int roleIndex = 1;
 
 	public SoapFrontControllerWizardPage1(final IStructuredSelection selection) {
-		super(true, Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.wizardName")); //$NON-NLS-1$
-		setTitle(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.wizardTitle")); //$NON-NLS-1$
-		setDescription(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.wizardDescription")); //$NON-NLS-1$
+		super(true, Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.wizardTitle")); //$NON-NLS-1$
+		setDescription(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.wizardDescription")); //$NON-NLS-1$
 		this.selection = selection;
 	}
 
@@ -74,7 +74,7 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 		
 		// Table? 
 		Label label = new Label(composite, SWT.NULL);
-		label.setText(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNamesLabel")); //$NON-NLS-1$
+		label.setText(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNamesLabel")); //$NON-NLS-1$
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 4;
 		label.setLayoutData(gd);
@@ -87,7 +87,7 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 		//this.rolesTable.set
 
 		final TableColumn tc = new TableColumn(this.rolesTable, SWT.NULL);
-		tc.setText(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNamesColumn")); //$NON-NLS-1$
+		tc.setText(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNamesColumn")); //$NON-NLS-1$
 		tc.setWidth(200);
 
 		this.editor = new TableEditor(this.rolesTable);
@@ -161,7 +161,7 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 		});
 
 		this.addRowButton = new Button(composite, SWT.PUSH);
-		this.addRowButton.setText(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.addMethodButton")); //$NON-NLS-1$
+		this.addRowButton.setText(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.addMethodButton")); //$NON-NLS-1$
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 2;
 		this.addRowButton.setLayoutData(gd);
@@ -172,13 +172,13 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 				final TableItem item = new TableItem(
 						SoapFrontControllerWizardPage1.this.rolesTable, SWT.NULL);
 				item
-						.setText(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodName") + roleIndex++); //$NON-NLS-1$
+						.setText(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodName") + roleIndex++); //$NON-NLS-1$
 				dialogChanged();
 			}
 		});
 
 		this.removeRowButton = new Button(composite, SWT.PUSH);
-		this.removeRowButton.setText(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.removeMethodButton")); //$NON-NLS-1$
+		this.removeRowButton.setText(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.removeMethodButton")); //$NON-NLS-1$
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		gd.horizontalSpan = 2;
 		this.removeRowButton.setLayoutData(gd);
@@ -211,7 +211,7 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 		this.badModelStatus = StatusFactory.ok();
 		if (model == null) {
 			setPageComplete(false);
-			this.badModelStatus = StatusFactory.error(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.configError")); //$NON-NLS-1$
+			this.badModelStatus = StatusFactory.error(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.configError")); //$NON-NLS-1$
 		}
 
 		if (this.selection != null && !this.selection.isEmpty()) {
@@ -224,7 +224,7 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 		}
 
 		// initialized = true;
-		setSuperClass(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.soapFrontControllerClass"), true); //$NON-NLS-1$
+		setSuperClass(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.soapFrontControllerClass"), true); //$NON-NLS-1$
 	}
 
 	@Override
@@ -262,26 +262,26 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 	private IStatus[] getMethodNameStatus() {
 		List<String> methodNames = getMethodNames();
 		if (methodNames.isEmpty()) {
-			return new IStatus[] { StatusFactory.error(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.noMethodsError")) }; //$NON-NLS-1$
+			return new IStatus[] { StatusFactory.error(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.noMethodsError")) }; //$NON-NLS-1$
 		}
 		
 		List<IStatus> statusItems = new ArrayList<IStatus>();
-		String regex = Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameRegex"); //$NON-NLS-1$
+		String regex = Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameRegex"); //$NON-NLS-1$
 		for (String text : methodNames) {
 			if (text.contains(LPAREN) || text.contains(RPAREN)) {
-				statusItems.add(StatusFactory.error(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameMsgPre") + text + Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameMsgParensPost"))); //$NON-NLS-1$ //$NON-NLS-2$
+				statusItems.add(StatusFactory.error(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameMsgPre") + text + Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameMsgParensPost"))); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			if (!Pattern.matches(regex, text)) {
-				statusItems.add(StatusFactory.error(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameMsgPre") + text + Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameMsgLegalPost"))); //$NON-NLS-1$ //$NON-NLS-2$
+				statusItems.add(StatusFactory.error(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameMsgPre") + text + Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameMsgLegalPost"))); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			if (text.startsWith(DOLLAR_SIGN)) {
-				statusItems.add(StatusFactory.warning(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameDollarStartMessage"))); //$NON-NLS-1$
+				statusItems.add(StatusFactory.warning(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameDollarStartMessage"))); //$NON-NLS-1$
 			}
 			if (text.startsWith(UNDERSCORE)) {
-				statusItems.add(StatusFactory.warning(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameUnderscoreStartMsg"))); //$NON-NLS-1$
+				statusItems.add(StatusFactory.warning(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameUnderscoreStartMsg"))); //$NON-NLS-1$
 			}
 			if (text.contains(DOLLAR_SIGN)) {
-				statusItems.add(StatusFactory.warning(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameContainDollarMsg"))); //$NON-NLS-1$
+				statusItems.add(StatusFactory.warning(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameContainDollarMsg"))); //$NON-NLS-1$
 			}
 		}
 		
@@ -307,17 +307,17 @@ public class SoapFrontControllerWizardPage1 extends NewTypeWizardPage {
 			final ImportsManager imports, final IProgressMonitor monitor)
 			throws CoreException {
 
-		imports.addImport(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.soapFrontControllerClass")); //$NON-NLS-1$
-		imports.addImport(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.elementClass")); //$NON-NLS-1$
+		imports.addImport(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.soapFrontControllerClass")); //$NON-NLS-1$
+		imports.addImport(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.elementClass")); //$NON-NLS-1$
 		
-		String epsMethodContent = Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.eventPkgSpecMethod"); //$NON-NLS-1$
+		String epsMethodContent = Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.eventPkgSpecMethod"); //$NON-NLS-1$
 		newType.createMethod(epsMethodContent, null, false, monitor);
 		
 		final List<String> methodNames = ((SoapFrontControllerWizard) getWizard())
 		.getMethodNames();
-		final String content = Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.elementWrapperMethod"); //$NON-NLS-1$
+		final String content = Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.elementWrapperMethod"); //$NON-NLS-1$
 		for (String name : methodNames) {
-			newType.createMethod(content.replaceAll(Frame2WSPlugin.getResourceString("SoapFrontControllerWizardPage1.methodNameToken"), name), null, false, monitor); //$NON-NLS-1$
+			newType.createMethod(content.replaceAll(Frame2WSPlugin.getString("SoapFrontControllerWizardPage1.methodNameToken"), name), null, false, monitor); //$NON-NLS-1$
 		}
 	}
 

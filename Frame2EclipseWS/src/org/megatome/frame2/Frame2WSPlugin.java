@@ -76,7 +76,7 @@ public class Frame2WSPlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 
-	public static String getResourceString(final String key) {
+	public static String getString(final String key) {
 		final ResourceBundle bundle = Frame2WSPlugin.getDefault()
 				.getResourceBundle();
 		try {
@@ -91,6 +91,6 @@ public class Frame2WSPlugin extends AbstractUIPlugin {
 	}
 	
 	public static String getPluginId() {
-		return getResourceString("Frame2WSPlugin.pluginId"); //$NON-NLS-1$
+		return getString("Frame2WSPlugin.pluginId"); //$NON-NLS-1$
 	}
 }

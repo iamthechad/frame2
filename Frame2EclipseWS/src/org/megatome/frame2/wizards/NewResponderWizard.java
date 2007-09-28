@@ -35,15 +35,15 @@ public class NewResponderWizard extends BaseFrame2Wizard {
 	public void addPages() {
 		this.page = new NewClassWizardPage();
 		this.page.init(this.selection);
-		this.page.addSuperInterface(Frame2WSPlugin.getResourceString("NewResponderWizard.responderClass")); //$NON-NLS-1$
-		this.page.setDescription(Frame2WSPlugin.getResourceString("NewResponderWizard.wizardDescription")); //$NON-NLS-1$
-		this.page.setTitle(Frame2WSPlugin.getResourceString("NewResponderWizard.wizardTitle")); //$NON-NLS-1$
+		this.page.addSuperInterface(Frame2WSPlugin.getString("NewResponderWizard.responderClass")); //$NON-NLS-1$
+		this.page.setDescription(Frame2WSPlugin.getString("NewResponderWizard.wizardDescription")); //$NON-NLS-1$
+		this.page.setTitle(Frame2WSPlugin.getString("NewResponderWizard.wizardTitle")); //$NON-NLS-1$
 		addPage(this.page);
 	}
 	
 	@Override
 	public String getFrame2WizardTitle() {
-		return Frame2WSPlugin.getResourceString("NewResponderWizard.windowTitle"); //$NON-NLS-1$
+		return Frame2WSPlugin.getString("NewResponderWizard.windowTitle"); //$NON-NLS-1$
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class NewResponderWizard extends BaseFrame2Wizard {
 			return false;
 		} catch (final InvocationTargetException e) {
 			final Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), Frame2WSPlugin.getResourceString("NewResponderWizard.errorTitle"), realException //$NON-NLS-1$
+			MessageDialog.openError(getShell(), Frame2WSPlugin.getString("NewResponderWizard.errorTitle"), realException //$NON-NLS-1$
 					.getMessage());
 			return false;
 		}
@@ -76,11 +76,11 @@ public class NewResponderWizard extends BaseFrame2Wizard {
 	void doFinish(final IProgressMonitor monitor)
 			throws CoreException {
 
-		monitor.beginTask(Frame2WSPlugin.getResourceString("NewResponderWizard.creatingResponderStatus"), 3); //$NON-NLS-1$
+		monitor.beginTask(Frame2WSPlugin.getString("NewResponderWizard.creatingResponderStatus"), 3); //$NON-NLS-1$
 		try {
 			this.page.createType(monitor);
 		} catch (final InterruptedException e1) {
-			throwCoreException(Frame2WSPlugin.getResourceString("NewResponderWizard.createError") + e1.getMessage()); //$NON-NLS-1$
+			throwCoreException(Frame2WSPlugin.getString("NewResponderWizard.createError") + e1.getMessage()); //$NON-NLS-1$
 		}
 		final IType type = this.page.getCreatedType();
 		final ICompilationUnit icu = type.getCompilationUnit();
@@ -95,7 +95,7 @@ public class NewResponderWizard extends BaseFrame2Wizard {
 		}
 		monitor.worked(1);
 		if (file != null) {
-			monitor.setTaskName(Frame2WSPlugin.getResourceString("NewResponderWizard.openingFileStatus")); //$NON-NLS-1$
+			monitor.setTaskName(Frame2WSPlugin.getString("NewResponderWizard.openingFileStatus")); //$NON-NLS-1$
 			final IFile f = file;
 			getShell().getDisplay().asyncExec(new Runnable() {
 				public void run() {

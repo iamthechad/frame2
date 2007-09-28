@@ -33,7 +33,7 @@ public class SchemaMappingWizard extends BaseFrame2Wizard {
 	
 	@Override
 	public String getFrame2WizardTitle() {
-		return Frame2WSPlugin.getResourceString("SchemaMappingWizard.windowTitle"); //$NON-NLS-1$
+		return Frame2WSPlugin.getString("SchemaMappingWizard.windowTitle"); //$NON-NLS-1$
 	}
 		
 	@Override
@@ -46,7 +46,7 @@ public class SchemaMappingWizard extends BaseFrame2Wizard {
 					throws InvocationTargetException {
 				try {
 					monitor
-							.beginTask(Frame2WSPlugin.getResourceString("SchemaMappingWizard.creatingMessage"), 1); //$NON-NLS-1$
+							.beginTask(Frame2WSPlugin.getString("SchemaMappingWizard.creatingMessage"), 1); //$NON-NLS-1$
 					if (SchemaMappingWizard.this.getFrame2Model() != null) {
 						SchemaMapping mapping = new SchemaMapping();
 						mapping.setSchemaLocation(schemaLocation);
@@ -81,7 +81,7 @@ public class SchemaMappingWizard extends BaseFrame2Wizard {
 			MessageDialog
 					.openError(
 							getShell(),
-							Frame2WSPlugin.getResourceString("SchemaMappingWizard.errorTitle"), realException.getMessage()); //$NON-NLS-1$
+							Frame2WSPlugin.getString("SchemaMappingWizard.errorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;

@@ -46,7 +46,7 @@ public class SoapFrontControllerWizard extends BaseFrame2Wizard {
 
 	@Override
 	public String getFrame2WizardTitle() {
-		return Frame2WSPlugin.getResourceString("SoapFrontControllerWizard.windowTitle"); //$NON-NLS-1$
+		return Frame2WSPlugin.getString("SoapFrontControllerWizard.windowTitle"); //$NON-NLS-1$
 	}
 	
 	List<String> getMethodNames() {
@@ -75,7 +75,7 @@ public class SoapFrontControllerWizard extends BaseFrame2Wizard {
 			return false;
 		} catch (final InvocationTargetException e) {
 			final Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), Frame2WSPlugin.getResourceString("SoapFrontControllerWizard.error"), realException //$NON-NLS-1$
+			MessageDialog.openError(getShell(), Frame2WSPlugin.getString("SoapFrontControllerWizard.error"), realException //$NON-NLS-1$
 					.getMessage());
 			return false;
 		}
@@ -86,18 +86,18 @@ public class SoapFrontControllerWizard extends BaseFrame2Wizard {
 			throws CoreException {
 
 		// create a sample file
-		monitor.beginTask(Frame2WSPlugin.getResourceString("SoapFrontControllerWizard.creatingClassStatus"), 3); //$NON-NLS-1$
+		monitor.beginTask(Frame2WSPlugin.getString("SoapFrontControllerWizard.creatingClassStatus"), 3); //$NON-NLS-1$
 		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		final IResource resource = root.findMember(new Path(containerName));
 		if (!resource.exists() || !(resource instanceof IContainer)) {
-			throwCoreException(Frame2WSPlugin.getResourceString("SoapFrontControllerWizard.containerMsgPre") + containerName + Frame2WSPlugin.getResourceString("SoapFrontControllerWizard.containerMsgPost")); //$NON-NLS-1$ //$NON-NLS-2$
+			throwCoreException(Frame2WSPlugin.getString("SoapFrontControllerWizard.containerMsgPre") + containerName + Frame2WSPlugin.getString("SoapFrontControllerWizard.containerMsgPost")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		final IContainer container = (IContainer) resource;
 
 		try {
 			this.page.createType(monitor);
 		} catch (final InterruptedException e1) {
-			throwCoreException(Frame2WSPlugin.getResourceString("SoapFrontControllerWizard.classCreateError") + e1.getMessage()); //$NON-NLS-1$
+			throwCoreException(Frame2WSPlugin.getString("SoapFrontControllerWizard.classCreateError") + e1.getMessage()); //$NON-NLS-1$
 		}
 		final IType type = this.page.getCreatedType();
 		final IPath typePath = type.getPath();
@@ -108,7 +108,7 @@ public class SoapFrontControllerWizard extends BaseFrame2Wizard {
 
 		final IFile file = container.getFile(newTypePath);
 		monitor.worked(1);
-		monitor.setTaskName(Frame2WSPlugin.getResourceString("SoapFrontControllerWizard.openingFileStatus")); //$NON-NLS-1$
+		monitor.setTaskName(Frame2WSPlugin.getString("SoapFrontControllerWizard.openingFileStatus")); //$NON-NLS-1$
 		getShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				final IWorkbenchPage iwpage = PlatformUI.getWorkbench()

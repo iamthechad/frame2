@@ -53,9 +53,9 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 	private boolean badModel = false;
 	
 	public SchemaMappingWizardPage1(final ISelection selection) {
-		super(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.wizardName")); //$NON-NLS-1$
-		setTitle(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.wizardTitle")); //$NON-NLS-1$
-		setDescription(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.wizardDescription")); //$NON-NLS-1$
+		super(Frame2WSPlugin.getString("SchemaMappingWizardPage1.wizardName")); //$NON-NLS-1$
+		setTitle(Frame2WSPlugin.getString("SchemaMappingWizardPage1.wizardTitle")); //$NON-NLS-1$
+		setDescription(Frame2WSPlugin.getString("SchemaMappingWizardPage1.wizardDescription")); //$NON-NLS-1$
 		this.selection = selection;
 	}
 
@@ -67,7 +67,7 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 		layout.verticalSpacing = 9;
 		
 		this.schemaLocationLabel = new Label(container, SWT.NULL);
-		this.schemaLocationLabel.setText(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.schemaLocationLabel")); //$NON-NLS-1$
+		this.schemaLocationLabel.setText(Frame2WSPlugin.getString("SchemaMappingWizardPage1.schemaLocationLabel")); //$NON-NLS-1$
 		GridData gd = new GridData();
 		this.schemaLocationLabel.setLayoutData(gd);
 
@@ -83,7 +83,7 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 		});
 
 		this.schemaLocationBrowse = new Button(container, SWT.PUSH);
-		this.schemaLocationBrowse.setText(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.browseButtonText")); //$NON-NLS-1$
+		this.schemaLocationBrowse.setText(Frame2WSPlugin.getString("SchemaMappingWizardPage1.browseButtonText")); //$NON-NLS-1$
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.END;
 		this.schemaLocationBrowse.setLayoutData(gd);
@@ -111,7 +111,7 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 				});
 
 		TableColumn tc = new TableColumn(this.availableEventsTable, SWT.NULL);
-		tc.setText(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.availableEventsHeader")); //$NON-NLS-1$
+		tc.setText(Frame2WSPlugin.getString("SchemaMappingWizardPage1.availableEventsHeader")); //$NON-NLS-1$
 		tc.setWidth(200);
 
 		final Composite buttonContainer = new Composite(container, SWT.NULL);
@@ -121,7 +121,7 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 		buttonContainer.setLayout(rl);
 
 		this.addButton = new Button(buttonContainer, SWT.PUSH);
-		this.addButton.setImage(getImage(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.rightArrowImage"))); //$NON-NLS-1$
+		this.addButton.setImage(getImage(Frame2WSPlugin.getString("SchemaMappingWizardPage1.rightArrowImage"))); //$NON-NLS-1$
 		this.addButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(@SuppressWarnings("unused")
@@ -131,7 +131,7 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 		});
 
 		this.removeButton = new Button(buttonContainer, SWT.PUSH);
-		this.removeButton.setImage(getImage(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.leftArrowImage"))); //$NON-NLS-1$
+		this.removeButton.setImage(getImage(Frame2WSPlugin.getString("SchemaMappingWizardPage1.leftArrowImage"))); //$NON-NLS-1$
 		this.removeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(@SuppressWarnings("unused")
@@ -159,7 +159,7 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 		});
 
 		tc = new TableColumn(this.selectedEventsTable, SWT.NULL);
-		tc.setText(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.selectedEventsHeader")); //$NON-NLS-1$
+		tc.setText(Frame2WSPlugin.getString("SchemaMappingWizardPage1.selectedEventsHeader")); //$NON-NLS-1$
 		tc.setWidth(200);
 		
 		initialize();
@@ -211,14 +211,14 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 	
 	void dialogChanged() {
 		if (this.badModel) {
-			updateStatus(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.badModelStatus")); //$NON-NLS-1$
+			updateStatus(Frame2WSPlugin.getString("SchemaMappingWizardPage1.badModelStatus")); //$NON-NLS-1$
 			return;
 		}
 
 		final String location = getSchemaLocation();
 
 		if (location.length() == 0) {
-			updateStatus(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.noLocationMessage")); //$NON-NLS-1$
+			updateStatus(Frame2WSPlugin.getString("SchemaMappingWizardPage1.noLocationMessage")); //$NON-NLS-1$
 			return;
 		}
 		
@@ -226,13 +226,13 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 		SchemaMapping[] mappings = model.getSchemaMappings();
 		for (SchemaMapping mapping : mappings) {
 			if (location.equalsIgnoreCase(mapping.getSchemaLocation())) {
-				updateStatus(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.locationUsedMessage")); //$NON-NLS-1$
+				updateStatus(Frame2WSPlugin.getString("SchemaMappingWizardPage1.locationUsedMessage")); //$NON-NLS-1$
 				return;
 			}
 		}
 		
 		if (getSelectedEvents().isEmpty()) {
-			updateStatus(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.noEventsMessage")); //$NON-NLS-1$
+			updateStatus(Frame2WSPlugin.getString("SchemaMappingWizardPage1.noEventsMessage")); //$NON-NLS-1$
 			return;
 		}
 
@@ -334,7 +334,7 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 			}
 
 			final String fileExt = members[i].getFileExtension();
-			if ((fileExt != null) && (fileExt.equalsIgnoreCase(Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.xsd_extension")))) { //$NON-NLS-1$
+			if ((fileExt != null) && (fileExt.equalsIgnoreCase(Frame2WSPlugin.getString("SchemaMappingWizardPage1.xsd_extension")))) { //$NON-NLS-1$
 				resourceList.add(members[i]);
 			}
 		}
@@ -350,7 +350,7 @@ public class SchemaMappingWizardPage1 extends WizardPage {
 	}
 	
 	private Image getImage(final String imageName) {
-		final String iconPath = Frame2WSPlugin.getResourceString("SchemaMappingWizardPage1.iconsLocation"); //$NON-NLS-1$
+		final String iconPath = Frame2WSPlugin.getString("SchemaMappingWizardPage1.iconsLocation"); //$NON-NLS-1$
 		ImageDescriptor id = null;
 		try {
 			final Frame2WSPlugin plugin = Frame2WSPlugin.getDefault();
