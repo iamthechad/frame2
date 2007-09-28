@@ -2,7 +2,7 @@
 <feature
       id="org.megatome.frame2.wsfeature"
       label="Frame2 Web Services"
-      version="1.2.3"
+      version="1.4.3"
       provider-name="Megatome Technologies"
       plugin="org.megatome.frame2ws"
       os="linux,macosx,solaris,win32"
