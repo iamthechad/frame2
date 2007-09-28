@@ -210,44 +210,44 @@ public class EventHandler extends Frame2DomainObject {
 	public void writeNode(final Writer out, final String nodeName,
 			final String indent) throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
 		// name is an attribute
 		if (this.handlerName != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.nameAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.nameAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.handlerName, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
 		// type is an attribute
 		if (this.type != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.typeAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.type, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
-				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+				+ Frame2Plugin.getString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		for (InitParam element : this.initParams) {
 			if (element != null) {
 				element
 						.writeNode(
 								out,
 								Frame2Plugin
-										.getResourceString("Frame2Model.init-param"), nextIndent); //$NON-NLS-1$
+										.getString("Frame2Model.init-param"), nextIndent); //$NON-NLS-1$
 			}
 		}
 		for (Forward element : this.forwards) {
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
-						.getResourceString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
+						.getString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
 			}
 		}
 
@@ -255,7 +255,7 @@ public class EventHandler extends Frame2DomainObject {
 		out.write(indent);
 		out
 				.write(Frame2Plugin
-						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+						.getString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void readNode(final Node node) {
@@ -263,12 +263,12 @@ public class EventHandler extends Frame2DomainObject {
 			final NamedNodeMap attrs = node.getAttributes();
 			Attr attr;
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.name")); //$NON-NLS-1$
+					.getString("Frame2Model.name")); //$NON-NLS-1$
 			if (attr != null) {
 				this.handlerName = attr.getValue();
 			}
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.type")); //$NON-NLS-1$
+					.getString("Frame2Model.type")); //$NON-NLS-1$
 			if (attr != null) {
 				this.type = attr.getValue();
 			}
@@ -280,19 +280,19 @@ public class EventHandler extends Frame2DomainObject {
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
 			if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.init-param"))) { //$NON-NLS-1$
+					.getString("Frame2Model.init-param"))) { //$NON-NLS-1$
 				final InitParam aInitParam = new InitParam();
 				aInitParam.readNode(childNode);
 				this.initParams.add(aInitParam);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
+					.getString("Frame2Model.forward"))) { //$NON-NLS-1$
 				final Forward aForward = new Forward();
 				aForward.readNode(childNode);
 				this.forwards.add(aForward);
 			} else {
 				// Found extra unrecognized childNode
 				if (childNodeName.equals(Frame2Plugin
-						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+						.getString("Frame2Model.comment"))) { //$NON-NLS-1$
 					recordComment(childNode, i);
 				}
 			}
@@ -304,13 +304,13 @@ public class EventHandler extends Frame2DomainObject {
 		if (getName() == null) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.eventHandlerNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
+							.getString("Frame2Model.eventHandlerNameNull"), Frame2Plugin.getString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		// Validating property type
 		if (getType() == null) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.eventHandlerTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
+							.getString("Frame2Model.eventHandlerTypeNull"), Frame2Plugin.getString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		// Validating property initParam
 		for (int _index = 0; _index < sizeInitParam(); ++_index) {

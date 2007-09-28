@@ -101,29 +101,29 @@ public class InitParam extends Frame2DomainObject {
 	public void writeNode(final Writer out, final String nodeName,
 			final String indent) throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
 		// name is an attribute
 		if (this.paramName != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.nameAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.nameAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.paramName, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
 		// value is an attribute
 		if (this.paramValue != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.valueAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.valueAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.paramValue, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
-		out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.endTagFinish")); //$NON-NLS-1$
 	}
 
 	public void readNode(final Node node) {
@@ -131,12 +131,12 @@ public class InitParam extends Frame2DomainObject {
 			final NamedNodeMap attrs = node.getAttributes();
 			Attr attr;
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.name")); //$NON-NLS-1$
+					.getString("Frame2Model.name")); //$NON-NLS-1$
 			if (attr != null) {
 				this.paramName = attr.getValue();
 			}
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.value")); //$NON-NLS-1$
+					.getString("Frame2Model.value")); //$NON-NLS-1$
 			if (attr != null) {
 				this.paramValue = attr.getValue();
 			}
@@ -147,12 +147,12 @@ public class InitParam extends Frame2DomainObject {
 		// Validating property name
 		if (getName() == null) {
 			throw new Frame2Config.ValidateException(
-					Frame2Plugin.getResourceString("Frame2Model.getNameNull"), Frame2Plugin.getResourceString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
+					Frame2Plugin.getString("Frame2Model.getNameNull"), Frame2Plugin.getString("Frame2Model.name"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		// Validating property value
 		if (getValue() == null) {
 			throw new Frame2Config.ValidateException(
-					Frame2Plugin.getResourceString("Frame2Model.getValueNull"), Frame2Plugin.getResourceString("Frame2Model.value"), this); //$NON-NLS-1$ //$NON-NLS-2$
+					Frame2Plugin.getString("Frame2Model.getValueNull"), Frame2Plugin.getString("Frame2Model.value"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

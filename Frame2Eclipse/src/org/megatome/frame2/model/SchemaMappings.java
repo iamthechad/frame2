@@ -133,7 +133,7 @@ public class SchemaMappings extends Frame2DomainObject {
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
 			if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.schema-mapping"))) { //$NON-NLS-1$
+					.getString("Frame2Model.schema-mapping"))) { //$NON-NLS-1$
 				final SchemaMapping aSchemaMapping = new SchemaMapping();
 				aSchemaMapping.readNode(childNode);
 				this.schemaMappings.add(aSchemaMapping);
@@ -141,7 +141,7 @@ public class SchemaMappings extends Frame2DomainObject {
 			} else {
 				// Found extra unrecognized childNode
 				if (childNodeName.equals(Frame2Plugin
-						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+						.getString("Frame2Model.comment"))) { //$NON-NLS-1$
 					recordComment(childNode, elementCount++);
 				}
 			}
@@ -157,11 +157,11 @@ public class SchemaMappings extends Frame2DomainObject {
 	public void writeNode(Writer out, String nodeName, String indent)
 			throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
-				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+				+ Frame2Plugin.getString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
 		for (SchemaMapping element : this.schemaMappings) {
 
@@ -172,7 +172,7 @@ public class SchemaMappings extends Frame2DomainObject {
 						.writeNode(
 								out,
 								Frame2Plugin
-										.getResourceString("Frame2Model.schema-mapping"), nextIndent); //$NON-NLS-1$
+										.getString("Frame2Model.schema-mapping"), nextIndent); //$NON-NLS-1$
 			}
 		}
 
@@ -180,7 +180,7 @@ public class SchemaMappings extends Frame2DomainObject {
 		out.write(indent);
 		out
 				.write(Frame2Plugin
-						.getResourceString("Frame2Model.engTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+						.getString("Frame2Model.engTagStart") + nodeName + Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override

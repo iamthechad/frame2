@@ -107,6 +107,11 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 		addPage(this.page);
 		addPage(this.page2);
 	}
+	
+	@Override
+	public String getFrame2WizardTitle() {
+		return Frame2Plugin.getString("EventHandlerWizard.windowTitle"); //$NON-NLS-1$
+	}
 
 	@Override
 	public boolean performFinish() {
@@ -135,7 +140,7 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 		} catch (final InvocationTargetException e) {
 			final Throwable realException = e.getTargetException();
 			MessageDialog.openError(getShell(), Frame2Plugin
-					.getResourceString("EventHandlerWizard.ErrorTitle"), //$NON-NLS-1$
+					.getString("EventHandlerWizard.ErrorTitle"), //$NON-NLS-1$
 					realException.getMessage());
 			return false;
 		}
@@ -149,12 +154,12 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 		monitor
 				.beginTask(
 						Frame2Plugin
-								.getResourceString("EventHandlerWizard.createHandlerStatus"), 3); //$NON-NLS-1$
+								.getString("EventHandlerWizard.createHandlerStatus"), 3); //$NON-NLS-1$
 		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		final IResource resource = root.findMember(new Path(containerName));
 		if (!resource.exists() || !(resource instanceof IContainer)) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("EventHandlerWizard.containerPre") + containerName + Frame2Plugin.getResourceString("EventHandlerWizard.containerPost")); //$NON-NLS-1$ //$NON-NLS-2$
+					.getString("EventHandlerWizard.containerPre") + containerName + Frame2Plugin.getString("EventHandlerWizard.containerPost")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		final IContainer container = (IContainer) resource;
 
@@ -162,7 +167,7 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 			this.page.createType(monitor);
 		} catch (final InterruptedException e1) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("EventHandlerWizard.createClassError") + e1.getMessage()); //$NON-NLS-1$
+					.getString("EventHandlerWizard.createClassError") + e1.getMessage()); //$NON-NLS-1$
 		}
 		final IType type = this.page.getCreatedType();
 		final IPath typePath = type.getPath();
@@ -174,7 +179,7 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 		final IFile file = container.getFile(newTypePath);
 		monitor.worked(1);
 		monitor.setTaskName(Frame2Plugin
-				.getResourceString("EventHandlerWizard.openFileStatus")); //$NON-NLS-1$
+				.getString("EventHandlerWizard.openFileStatus")); //$NON-NLS-1$
 		getShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				final IWorkbenchPage iwpage = PlatformUI.getWorkbench()
@@ -212,7 +217,7 @@ public class EventHandlerWizard extends BaseFrame2Wizard {
 			this.persistModel(monitor);
 		} catch (final Frame2ModelException e) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("EventHandlerWizard.errorAddingToConfig") + e.getMessage()); //$NON-NLS-1$
+					.getString("EventHandlerWizard.errorAddingToConfig") + e.getMessage()); //$NON-NLS-1$
 		}
 
 		monitor.worked(1);

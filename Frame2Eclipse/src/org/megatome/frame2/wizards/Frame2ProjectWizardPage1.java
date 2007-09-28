@@ -74,11 +74,11 @@ public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
 
 	public Frame2ProjectWizardPage1(boolean canUseServices) {
 		super(Frame2Plugin
-				.getResourceString("Frame2ProjectWizardPage1.wizardName")); //$NON-NLS-1$
+				.getString("Frame2ProjectWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
-				.getResourceString("Frame2ProjectWizardPage1.pageTitle")); //$NON-NLS-1$
+				.getString("Frame2ProjectWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
-				.getResourceString("Frame2ProjectWizardPage1.pageDescription")); //$NON-NLS-1$
+				.getString("Frame2ProjectWizardPage1.pageDescription")); //$NON-NLS-1$
 		this.canUseServices = canUseServices;
 	}
 
@@ -94,7 +94,7 @@ public class Frame2ProjectWizardPage1 extends WizardNewProjectCreationPage {
 		this.enableServicesButton = new Button(container, SWT.CHECK);
 		this.enableServicesButton
 				.setText(Frame2Plugin
-						.getResourceString("Frame2ProjectWizardPage1.enableWebServicesCtl")); //$NON-NLS-1$
+						.getString("Frame2ProjectWizardPage1.enableWebServicesCtl")); //$NON-NLS-1$
 		this.enableServicesButton.setEnabled(this.canUseServices);
 	}
 

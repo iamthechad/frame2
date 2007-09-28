@@ -77,14 +77,14 @@ public class Frame2Model {
 		} catch (final CoreException e) {
 			throw new Frame2ModelException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.errorLoadingConfig") + configFile, e); //$NON-NLS-1$
+							.getString("Frame2Model.errorLoadingConfig") + configFile, e); //$NON-NLS-1$
 		}
 		try {
 			config = Frame2Config.read(new InputSource(is), true,
 					new Frame2EntityResolver(), new Frame2ErrorHandler());
 		} catch (final Exception e1) {
 			throw new Frame2ModelException(Frame2Plugin
-					.getResourceString("Frame2Model.errorLoadingConfig"), e1); //$NON-NLS-1$
+					.getString("Frame2Model.errorLoadingConfig"), e1); //$NON-NLS-1$
 		}
 
 		if (is != null) {
@@ -122,7 +122,7 @@ public class Frame2Model {
 		} catch (final Exception e) {
 			throw new Frame2ModelException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.errorPersistingConfiguration"), e); //$NON-NLS-1$
+							.getString("Frame2Model.errorPersistingConfiguration"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -171,7 +171,7 @@ public class Frame2Model {
 		} catch (final ValidateException e) {
 			throw new Frame2ModelException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.errorAddingEventHandler"), e); //$NON-NLS-1$
+							.getString("Frame2Model.errorAddingEventHandler"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -184,7 +184,7 @@ public class Frame2Model {
 		} catch (final ValidateException e) {
 			throw new Frame2ModelException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.errorAddingEventMapping"), e); //$NON-NLS-1$
+							.getString("Frame2Model.errorAddingEventMapping"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -195,7 +195,7 @@ public class Frame2Model {
 			events.validate();
 		} catch (final ValidateException e) {
 			throw new Frame2ModelException(Frame2Plugin
-					.getResourceString("Frame2Model.errorAddingEvent"), e); //$NON-NLS-1$
+					.getString("Frame2Model.errorAddingEvent"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -208,7 +208,7 @@ public class Frame2Model {
 		} catch (final ValidateException e) {
 			throw new Frame2ModelException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.errorAddingSchemaMapping"), e); //$NON-NLS-1$
+							.getString("Frame2Model.errorAddingSchemaMapping"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -220,7 +220,7 @@ public class Frame2Model {
 			exceptions.validate();
 		} catch (final ValidateException e) {
 			throw new Frame2ModelException(Frame2Plugin
-					.getResourceString("Frame2Model.errorAddingException"), e); //$NON-NLS-1$
+					.getString("Frame2Model.errorAddingException"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -233,7 +233,7 @@ public class Frame2Model {
 		} catch (final ValidateException e) {
 			throw new Frame2ModelException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.errorAddingGlobalForward"), e); //$NON-NLS-1$
+							.getString("Frame2Model.errorAddingGlobalForward"), e); //$NON-NLS-1$
 		}
 	}
 

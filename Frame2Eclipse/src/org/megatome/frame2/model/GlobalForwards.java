@@ -126,17 +126,17 @@ public class GlobalForwards extends Frame2DomainObject {
 	public void writeNode(final Writer out, final String nodeName,
 			final String indent) throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
-				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+				+ Frame2Plugin.getString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
 		for (Forward element : this.forwards) {
 			index = writeCommentsAt(out, indent, index);
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
-						.getResourceString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
+						.getString("Frame2Model.forward"), nextIndent); //$NON-NLS-1$
 			}
 		}
 
@@ -144,7 +144,7 @@ public class GlobalForwards extends Frame2DomainObject {
 		out.write(indent);
 		out
 				.write(Frame2Plugin
-						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+						.getString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void readNode(final Node node) {
@@ -156,7 +156,7 @@ public class GlobalForwards extends Frame2DomainObject {
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
 			if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.forward"))) { //$NON-NLS-1$
+					.getString("Frame2Model.forward"))) { //$NON-NLS-1$
 				final Forward aForward = new Forward();
 				aForward.readNode(childNode);
 				this.forwards.add(aForward);
@@ -164,7 +164,7 @@ public class GlobalForwards extends Frame2DomainObject {
 			} else {
 				// Found extra unrecognized childNode
 				if (childNodeName.equals(Frame2Plugin
-						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+						.getString("Frame2Model.comment"))) { //$NON-NLS-1$
 					recordComment(childNode, elementCount++);
 				}
 			}

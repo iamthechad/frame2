@@ -86,14 +86,14 @@ public class ExceptionWizardPage1 extends WizardPage {
 	private Frame2Exception[] definedExceptions = new Frame2Exception[0];
 
 	private static String noneString = Frame2Plugin
-			.getResourceString("ExceptionWizardPage1.noneString"); //$NON-NLS-1$
+			.getString("ExceptionWizardPage1.noneString"); //$NON-NLS-1$
 
 	public ExceptionWizardPage1() {
-		super(Frame2Plugin.getResourceString("ExceptionWizardPage1.wizardName")); //$NON-NLS-1$
+		super(Frame2Plugin.getString("ExceptionWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
-				.getResourceString("ExceptionWizardPage1.pageTitle")); //$NON-NLS-1$
+				.getString("ExceptionWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
-				.getResourceString("ExceptionWizardPage1.pageDescription")); //$NON-NLS-1$
+				.getString("ExceptionWizardPage1.pageDescription")); //$NON-NLS-1$
 	}
 
 	public void createControl(final Composite parent) {
@@ -104,7 +104,7 @@ public class ExceptionWizardPage1 extends WizardPage {
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("ExceptionWizardPage1.requestKeyLabel")); //$NON-NLS-1$
+				.getString("ExceptionWizardPage1.requestKeyLabel")); //$NON-NLS-1$
 
 		this.requestKeyText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -118,7 +118,7 @@ public class ExceptionWizardPage1 extends WizardPage {
 
 		label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("ExceptionWizardPage1.exceptionTypeLabel")); //$NON-NLS-1$
+				.getString("ExceptionWizardPage1.exceptionTypeLabel")); //$NON-NLS-1$
 
 		this.typeText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -132,7 +132,7 @@ public class ExceptionWizardPage1 extends WizardPage {
 
 		label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("ExceptionWizardPage1.htmlViewLabel")); //$NON-NLS-1$
+				.getString("ExceptionWizardPage1.htmlViewLabel")); //$NON-NLS-1$
 
 		this.htmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -141,7 +141,7 @@ public class ExceptionWizardPage1 extends WizardPage {
 
 		label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("ExceptionWizardPage1.xmlViewLabel")); //$NON-NLS-1$
+				.getString("ExceptionWizardPage1.xmlViewLabel")); //$NON-NLS-1$
 
 		this.xmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -186,18 +186,18 @@ public class ExceptionWizardPage1 extends WizardPage {
 				final String forwardType = forwards[i].getType();
 				if (forwardType
 						.equals(Frame2Plugin
-								.getResourceString("ExceptionWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
+								.getString("ExceptionWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
 					this.htmlViewCombo.add(forwards[i].getName());
 				} else if (forwardType
 						.equals(Frame2Plugin
-								.getResourceString("ExceptionWizardPage1.xmlResource_type")) || //$NON-NLS-1$
+								.getString("ExceptionWizardPage1.xmlResource_type")) || //$NON-NLS-1$
 						forwardType
 								.equals(Frame2Plugin
-										.getResourceString("ExceptionWizardPage1.xmlResponse_type"))) { //$NON-NLS-1$
+										.getString("ExceptionWizardPage1.xmlResponse_type"))) { //$NON-NLS-1$
 					this.xmlViewCombo.add(forwards[i].getName());
 				} else if (forwardType
 						.equals(Frame2Plugin
-								.getResourceString("ExceptionWizardPage1.event_internal_type"))) { //$NON-NLS-1$
+								.getString("ExceptionWizardPage1.event_internal_type"))) { //$NON-NLS-1$
 					this.htmlViewCombo.add(forwards[i].getName());
 					this.xmlViewCombo.add(forwards[i].getName());
 				}
@@ -217,7 +217,7 @@ public class ExceptionWizardPage1 extends WizardPage {
 	void dialogChanged() {
 		if (this.badModel) {
 			updateStatus(Frame2Plugin
-					.getResourceString("ExceptionWizardPage1.errorConfig")); //$NON-NLS-1$
+					.getString("ExceptionWizardPage1.errorConfig")); //$NON-NLS-1$
 			return;
 		}
 
@@ -228,23 +228,23 @@ public class ExceptionWizardPage1 extends WizardPage {
 
 		if (requestKey.length() == 0) {
 			updateStatus(Frame2Plugin
-					.getResourceString("ExceptionWizardPage1.errorMissingRequestKey")); //$NON-NLS-1$
+					.getString("ExceptionWizardPage1.errorMissingRequestKey")); //$NON-NLS-1$
 			return;
 		}
 		if (exceptionType.length() == 0) {
 			updateStatus(Frame2Plugin
-					.getResourceString("ExceptionWizardPage1.errorMissingExceptionType")); //$NON-NLS-1$
+					.getString("ExceptionWizardPage1.errorMissingExceptionType")); //$NON-NLS-1$
 			return;
 		}
 		if (isDuplicateType()) {
 			updateStatus(Frame2Plugin
-					.getResourceString("ExceptionWizardPage1.errorDuplicateHandler")); //$NON-NLS-1$
+					.getString("ExceptionWizardPage1.errorDuplicateHandler")); //$NON-NLS-1$
 			return;
 		}
 
 		if ((htmlView.length() == 0) && (xmlView.length() == 0)) {
 			updateStatus(Frame2Plugin
-					.getResourceString("ExceptionWizardPage1.errorMissingView")); //$NON-NLS-1$
+					.getString("ExceptionWizardPage1.errorMissingView")); //$NON-NLS-1$
 			return;
 		}
 

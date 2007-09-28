@@ -128,11 +128,11 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 	public GlobalForwardWizardPage1(final IProject currentProject) {
 		super(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.wizardName")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.pageTitle")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.pageDescription")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.pageDescription")); //$NON-NLS-1$
 		this.rootProject = currentProject;
 	}
 
@@ -144,7 +144,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 		layout.verticalSpacing = 9;
 		this.nameLabel = new Label(container, SWT.NULL);
 		this.nameLabel.setText(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.nameCtl")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.nameCtl")); //$NON-NLS-1$
 
 		this.nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -162,7 +162,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		this.typeLabel = new Label(container, SWT.NULL);
 		this.typeLabel.setText(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.typeCtl")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.typeCtl")); //$NON-NLS-1$
 
 		this.typeLabel.setEnabled(false);
 
@@ -173,7 +173,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 		this.htmlResourceRadio = new Button(container, SWT.RADIO);
 		this.htmlResourceRadio
 				.setText(Frame2Plugin
-						.getResourceString("GlobalForwardWizardPage1.htmlResource_type")); //$NON-NLS-1$
+						.getString("GlobalForwardWizardPage1.htmlResource_type")); //$NON-NLS-1$
 		this.htmlResourceRadio.setSelection(true);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
@@ -182,7 +182,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		this.htmlResourceLabel = new Label(container, SWT.NULL);
 		this.htmlResourceLabel.setText(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
 
 		this.htmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -196,7 +196,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		this.htmlResourceBrowse = new Button(container, SWT.PUSH);
 		this.htmlResourceBrowse.setText(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.browseCtl")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.browseCtl")); //$NON-NLS-1$
 		gd = new GridData(GridData.END);
 		this.htmlResourceBrowse.setLayoutData(gd);
 		this.htmlResourceBrowse.addSelectionListener(new SelectionAdapter() {
@@ -215,7 +215,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 		this.xmlResourceRadio = new Button(container, SWT.RADIO);
 		this.xmlResourceRadio
 				.setText(Frame2Plugin
-						.getResourceString("GlobalForwardWizardPage1.xmlResource_type")); //$NON-NLS-1$
+						.getString("GlobalForwardWizardPage1.xmlResource_type")); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		this.xmlResourceRadio.setLayoutData(gd);
@@ -223,7 +223,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		this.xmlResourceLabel = new Label(container, SWT.NULL);
 		this.xmlResourceLabel.setText(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
 
 		this.xmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -243,7 +243,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 		this.xmlResponderRadio = new Button(container, SWT.RADIO);
 		this.xmlResponderRadio
 				.setText(Frame2Plugin
-						.getResourceString("GlobalForwardWizardPage1.xmlResponder_type")); //$NON-NLS-1$
+						.getString("GlobalForwardWizardPage1.xmlResponder_type")); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		this.xmlResponderRadio.setLayoutData(gd);
@@ -251,7 +251,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		this.xmlResponderLabel = new Label(container, SWT.NULL);
 		this.xmlResponderLabel.setText(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
 
 		this.xmlResponderText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -270,7 +270,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		this.eventRadio = new Button(container, SWT.RADIO);
 		this.eventRadio.setText(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.event_type")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.event_type")); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		this.eventRadio.setLayoutData(gd);
@@ -278,7 +278,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		this.eventLabel = new Label(container, SWT.NULL);
 		this.eventLabel.setText(Frame2Plugin
-				.getResourceString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
+				.getString("GlobalForwardWizardPage1.pathCtl")); //$NON-NLS-1$
 
 		this.eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -374,13 +374,13 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 			if ((fileExt != null)
 					&& (fileExt
 							.equalsIgnoreCase(Frame2Plugin
-									.getResourceString("GlobalForwardWizardPage1.jsp_file_type")) || //$NON-NLS-1$
+									.getString("GlobalForwardWizardPage1.jsp_file_type")) || //$NON-NLS-1$
 							fileExt
 									.equalsIgnoreCase(Frame2Plugin
-											.getResourceString("GlobalForwardWizardPage1.htm_file_type")) || //$NON-NLS-1$
+											.getString("GlobalForwardWizardPage1.htm_file_type")) || //$NON-NLS-1$
 					fileExt
 							.equalsIgnoreCase(Frame2Plugin
-									.getResourceString("GlobalForwardWizardPage1.html_file_type")))) { //$NON-NLS-1$
+									.getString("GlobalForwardWizardPage1.html_file_type")))) { //$NON-NLS-1$
 				resourceList.add(members[i]);
 			}
 		}
@@ -400,7 +400,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 					if (buttonText
 							.equals(Frame2Plugin
-									.getResourceString("GlobalForwardWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
+									.getString("GlobalForwardWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
 						GlobalForwardWizardPage1.this.htmlResourceLabel
 								.setEnabled(true);
 						GlobalForwardWizardPage1.this.htmlResourceText
@@ -424,7 +424,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 								.setEnabled(false);
 					} else if (buttonText
 							.equals(Frame2Plugin
-									.getResourceString("GlobalForwardWizardPage1.xmlResource_type"))) { //$NON-NLS-1$
+									.getString("GlobalForwardWizardPage1.xmlResource_type"))) { //$NON-NLS-1$
 						GlobalForwardWizardPage1.this.htmlResourceLabel
 								.setEnabled(false);
 						GlobalForwardWizardPage1.this.htmlResourceText
@@ -448,7 +448,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 								.setEnabled(false);
 					} else if (buttonText
 							.equals(Frame2Plugin
-									.getResourceString("GlobalForwardWizardPage1.xmlResponder_type"))) { //$NON-NLS-1$
+									.getString("GlobalForwardWizardPage1.xmlResponder_type"))) { //$NON-NLS-1$
 						GlobalForwardWizardPage1.this.htmlResourceLabel
 								.setEnabled(false);
 						GlobalForwardWizardPage1.this.htmlResourceText
@@ -472,7 +472,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 								.setEnabled(false);
 					} else if (buttonText
 							.equals(Frame2Plugin
-									.getResourceString("GlobalForwardWizardPage1.event_type"))) { //$NON-NLS-1$
+									.getString("GlobalForwardWizardPage1.event_type"))) { //$NON-NLS-1$
 						GlobalForwardWizardPage1.this.htmlResourceLabel
 								.setEnabled(false);
 						GlobalForwardWizardPage1.this.htmlResourceText
@@ -507,7 +507,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 	void dialogChanged() {
 		if (this.badModel) {
 			updateStatus(Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.configError")); //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.configError")); //$NON-NLS-1$
 			return;
 		}
 
@@ -517,17 +517,17 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		if (name.length() == 0) {
 			updateStatus(Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.missingNameMessage")); //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.missingNameMessage")); //$NON-NLS-1$
 			return;
 		}
 		if (type.length() == 0) {
 			updateStatus(Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.missingTypeMessage")); //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.missingTypeMessage")); //$NON-NLS-1$
 			return;
 		}
 		if (path.length() == 0) {
 			updateStatus(Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.missingPathMessage")); //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.missingPathMessage")); //$NON-NLS-1$
 			return;
 		}
 
@@ -554,16 +554,16 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 	public String getForwardType() {
 		if (this.htmlResourceRadio.getSelection()) {
 			return Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.htmlResource_type"); //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.htmlResource_type"); //$NON-NLS-1$
 		} else if (this.xmlResourceRadio.getSelection()) {
 			return Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.xmlResource_type"); //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.xmlResource_type"); //$NON-NLS-1$
 		} else if (this.xmlResponderRadio.getSelection()) {
 			return Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.xmlResponder_type"); //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.xmlResponder_type"); //$NON-NLS-1$
 		} else if (this.eventRadio.getSelection()) {
 			return Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.event_internal_type"); //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.event_internal_type"); //$NON-NLS-1$
 		}
 
 		return ""; //$NON-NLS-1$
@@ -590,7 +590,7 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 		for (int i = 0; i < allForwards.length; i++) {
 			if (forwardName.equals(allForwards[i].getName())) {
 				updateStatus(Frame2Plugin
-						.getResourceString("GlobalForwardWizardPage1.errorDuplicateName")); //$NON-NLS-1$
+						.getString("GlobalForwardWizardPage1.errorDuplicateName")); //$NON-NLS-1$
 				return false;
 			}
 		}
@@ -604,10 +604,10 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 
 		if (forwardType
 				.equals(Frame2Plugin
-						.getResourceString("GlobalForwardWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
+						.getString("GlobalForwardWizardPage1.htmlResource_type"))) { //$NON-NLS-1$
 
 			if (forwardPath.indexOf(Frame2Plugin
-					.getResourceString("GlobalForwardWizardPage1.uriPrefix")) != -1) { //$NON-NLS-1$
+					.getString("GlobalForwardWizardPage1.uriPrefix")) != -1) { //$NON-NLS-1$
 				return true;
 			}
 
@@ -615,27 +615,27 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 			if (filePath != null) {
 				if (!filePath.exists() || (!(filePath instanceof IFile))) {
 					updateStatus(Frame2Plugin
-							.getResourceString("GlobalForwardWizardPage1.missingForwardFile")); //$NON-NLS-1$
+							.getString("GlobalForwardWizardPage1.missingForwardFile")); //$NON-NLS-1$
 					return false;
 				}
 			} else {
 				updateStatus(Frame2Plugin
-						.getResourceString("GlobalForwardWizardPage1.missingForwardFile")); //$NON-NLS-1$
+						.getString("GlobalForwardWizardPage1.missingForwardFile")); //$NON-NLS-1$
 				return false;
 			}
 
-		} else if (forwardType.equals(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.xmlResponder_type"))) { //$NON-NLS-1$
+		} else if (forwardType.equals(Frame2Plugin.getString("GlobalForwardWizardPage1.xmlResponder_type"))) { //$NON-NLS-1$
 			IJavaProject javaProject = JavaCore.create(this.rootProject);
 			
 			try {
 				IType type = javaProject.findType(forwardPath);
 				if (type == null) {
 					updateStatus(Frame2Plugin
-							.getResourceString("GlobalForwardWizardPage1.missingResponderFile")); //$NON-NLS-1$
+							.getString("GlobalForwardWizardPage1.missingResponderFile")); //$NON-NLS-1$
 					return false;
 				}
 				
-				SearchPattern pattern = SearchPattern.createPattern(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.responderClassName"), IJavaSearchConstants.TYPE, IJavaSearchConstants.IMPLEMENTORS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE); //$NON-NLS-1$
+				SearchPattern pattern = SearchPattern.createPattern(Frame2Plugin.getString("GlobalForwardWizardPage1.responderClassName"), IJavaSearchConstants.TYPE, IJavaSearchConstants.IMPLEMENTORS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE); //$NON-NLS-1$
 				IJavaSearchScope scope = SearchEngine.createHierarchyScope(type);
 				
 				MatchSearchRequestor requestor = new MatchSearchRequestor();
@@ -644,14 +644,14 @@ public class GlobalForwardWizardPage1 extends WizardPage {
 			    searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
 
 				if (!requestor.hadMatch()) {
-					updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.notImplementResponderMessage")); //$NON-NLS-1$
+					updateStatus(Frame2Plugin.getString("GlobalForwardWizardPage1.notImplementResponderMessage")); //$NON-NLS-1$
 					return false;
 				}
 			} catch (JavaModelException e) {
-				updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.validateResponderError")); //$NON-NLS-1$
+				updateStatus(Frame2Plugin.getString("GlobalForwardWizardPage1.validateResponderError")); //$NON-NLS-1$
 				return false;
 			} catch (CoreException e) {
-				updateStatus(Frame2Plugin.getResourceString("GlobalForwardWizardPage1.validateResponderError")); //$NON-NLS-1$
+				updateStatus(Frame2Plugin.getString("GlobalForwardWizardPage1.validateResponderError")); //$NON-NLS-1$
 				return false;
 			}
 		}

@@ -90,6 +90,11 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 		this.page = new ExceptionWizardPage1();
 		addPage(this.page);
 	}
+	
+	@Override
+	public String getFrame2WizardTitle() {
+		return Frame2Plugin.getString("ExceptionWizard.windowTitle"); //$NON-NLS-1$
+	}
 
 	@Override
 	public boolean performFinish() {
@@ -120,7 +125,7 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 					.openError(
 							getShell(),
 							Frame2Plugin
-									.getResourceString("ExceptionWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
+									.getString("ExceptionWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;
@@ -131,7 +136,7 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 			final IProgressMonitor monitor) throws CoreException {
 		// create a sample file
 		monitor.beginTask(Frame2Plugin
-				.getResourceString("ExceptionWizard.creatingEntryStatus"), 1); //$NON-NLS-1$
+				.getString("ExceptionWizard.creatingEntryStatus"), 1); //$NON-NLS-1$
 
 		final Frame2Exception exception = new Frame2Exception();
 		exception.setRequestKey(requestKey);
@@ -142,21 +147,21 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 			final View view = new View();
 			view.setForwardName(htmlView);
 			view.setType(Frame2Plugin
-					.getResourceString("ExceptionWizard.both_type")); //$NON-NLS-1$
+					.getString("ExceptionWizard.both_type")); //$NON-NLS-1$
 			exception.addView(view);
 		} else {
 			if (htmlView.length() != 0) {
 				final View view = new View();
 				view.setForwardName(htmlView);
 				view.setType(Frame2Plugin
-						.getResourceString("ExceptionWizard.html_type")); //$NON-NLS-1$
+						.getString("ExceptionWizard.html_type")); //$NON-NLS-1$
 				exception.addView(view);
 			}
 			if (xmlView.length() != 0) {
 				final View view = new View();
 				view.setForwardName(xmlView);
 				view.setType(Frame2Plugin
-						.getResourceString("ExceptionWizard.xml_type")); //$NON-NLS-1$
+						.getString("ExceptionWizard.xml_type")); //$NON-NLS-1$
 				exception.addView(view);
 			}
 		}
@@ -166,7 +171,7 @@ public class ExceptionWizard extends BaseFrame2Wizard {
 			this.persistModel(monitor);
 		} catch (final Frame2ModelException e) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("ExceptionWizard.errorCreatingException") + e.getMessage()); //$NON-NLS-1$
+					.getString("ExceptionWizard.errorCreatingException") + e.getMessage()); //$NON-NLS-1$
 		}
 
 		monitor.worked(1);

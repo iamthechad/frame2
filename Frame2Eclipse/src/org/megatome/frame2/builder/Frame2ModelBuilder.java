@@ -134,7 +134,7 @@ public class Frame2ModelBuilder extends IncrementalProjectBuilder {
 	}
 
 	void checkXML(IResource resource) {
-		if (resource instanceof IFile && resource.getName().endsWith(Frame2Plugin.getResourceString("Frame2ModelBuilder.frame2ConfigFile"))) { //$NON-NLS-1$
+		if (resource instanceof IFile && resource.getName().endsWith(Frame2Plugin.getString("Frame2ModelBuilder.frame2ConfigFile"))) { //$NON-NLS-1$
 			IFile file = (IFile) resource;
 			deleteMarkers(file);
 			XMLErrorHandler reporter = new XMLErrorHandler(file);

@@ -38,8 +38,8 @@ public class ToggleFrame2ProjectAction implements IObjectActionDelegate {
 					Shell shell = new Shell();
 					MessageDialog.openInformation(
 						shell,
-						Frame2Plugin.getResourceString("ToggleFrame2ProjectAction.MessageTitle"), //$NON-NLS-1$
-						Frame2Plugin.getResourceString("ToggleFrame2ProjectAction.ErrorMessage")); //$NON-NLS-1$
+						Frame2Plugin.getString("ToggleFrame2ProjectAction.MessageTitle"), //$NON-NLS-1$
+						Frame2Plugin.getString("ToggleFrame2ProjectAction.ErrorMessage")); //$NON-NLS-1$
 				}
 			}
 		}

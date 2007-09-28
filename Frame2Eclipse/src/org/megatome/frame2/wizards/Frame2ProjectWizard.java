@@ -103,17 +103,17 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 	private Frame2ProjectWizardPage1 page;
 
 	private final static String WEBINF = Frame2Plugin
-			.getResourceString("Frame2ProjectWizard.WEB-INF"); //$NON-NLS-1$
+			.getString("Frame2ProjectWizard.WEB-INF"); //$NON-NLS-1$
 	private final static String CLASSES_DIR = Frame2Plugin
-			.getResourceString("Frame2ProjectWizard.classes"); //$NON-NLS-1$
+			.getString("Frame2ProjectWizard.classes"); //$NON-NLS-1$
 	private final static String LIB_DIR = Frame2Plugin
-			.getResourceString("Frame2ProjectWizard.lib"); //$NON-NLS-1$
+			.getString("Frame2ProjectWizard.lib"); //$NON-NLS-1$
 	private final static String COMMONS_DIR = Frame2Plugin
-			.getResourceString("Frame2ProjectWizard.commonsvalidator"); //$NON-NLS-1$
+			.getString("Frame2ProjectWizard.commonsvalidator"); //$NON-NLS-1$
 	private final static String SRC_DIR = Frame2Plugin
-			.getResourceString("Frame2ProjectWizard.src"); //$NON-NLS-1$
+			.getString("Frame2ProjectWizard.src"); //$NON-NLS-1$
 	private final static String TEMPLATES_DIR = Frame2Plugin
-			.getResourceString("Frame2ProjectWizard.inf-templates"); //$NON-NLS-1$
+			.getString("Frame2ProjectWizard.inf-templates"); //$NON-NLS-1$
 
 	private boolean canEnableServices = false;
 	private Bundle wsPlugin = null;
@@ -125,7 +125,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 				.getBundleContext().getBundles();
 		for (Bundle bundle : installed) {
 			String name = bundle.getSymbolicName();
-			if (Frame2Plugin.getResourceString("Frame2.WSPlugin").equals(name)) { //$NON-NLS-1$
+			if (Frame2Plugin.getString("Frame2.WSPlugin").equals(name)) { //$NON-NLS-1$
 				int state = bundle.getState();
 				switch (state) {
 				case Bundle.INSTALLED:
@@ -172,7 +172,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		} catch (final InvocationTargetException e) {
 			final Throwable realException = e.getTargetException();
 			MessageDialog.openError(getShell(), Frame2Plugin
-					.getResourceString("Frame2ProjectWizard.ErrorTitle"), //$NON-NLS-1$
+					.getString("Frame2ProjectWizard.ErrorTitle"), //$NON-NLS-1$
 					realException.getMessage());
 			return false;
 		}
@@ -186,7 +186,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		monitor
 				.beginTask(
 						Frame2Plugin
-								.getResourceString("Frame2ProjectWizard.CreatingWebApp_Status"), 5); //$NON-NLS-1$
+								.getString("Frame2ProjectWizard.CreatingWebApp_Status"), 5); //$NON-NLS-1$
 		// Create new project
 		final IProject newProject = createFrame2Project(project, projectPath,
 				monitor);
@@ -226,7 +226,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 			newProjectHandle.open(monitor);
 		} catch (final CoreException e) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("Frame2ProjectWizard.CreateProjectError")); //$NON-NLS-1$
+					.getString("Frame2ProjectWizard.CreateProjectError")); //$NON-NLS-1$
 		}
 
 		return newProjectHandle;
@@ -247,7 +247,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 			}
 		} catch (final CoreException e) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("Frame2ProjectWizard.CreateProjectError") + e.getMessage()); //$NON-NLS-1$
+					.getString("Frame2ProjectWizard.CreateProjectError") + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
@@ -290,7 +290,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 				.getFullPath(), monitor);
 
 		final IFolder binDir = newProject.getFolder(Frame2Plugin
-				.getResourceString("Frame2ProjectWizard.bin")); //$NON-NLS-1$
+				.getString("Frame2ProjectWizard.bin")); //$NON-NLS-1$
 		if (binDir.exists()) {
 			binDir.delete(true, monitor);
 		}
@@ -404,7 +404,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 			destFile.create(loadPluginFile(srcFileName, bundle), true, monitor);
 		} catch (final CoreException e) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
+					.getString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
 		}
 	}
 
@@ -420,14 +420,14 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 		try {
 			// final Bundle bundle = Frame2Plugin.getDefault().getBundle();
 			is = FileLocator.openStream(bundle, new Path(Frame2Plugin
-					.getResourceString("Frame2ProjectWizard.templates") //$NON-NLS-1$
+					.getString("Frame2ProjectWizard.templates") //$NON-NLS-1$
 					+ fileName), false);
 		} catch (final IOException e) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
+					.getString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
 		} catch (final Exception e) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
+					.getString("Frame2ProjectWizard.CopyFileError") + e.getMessage()); //$NON-NLS-1$
 		}
 
 		return is;
@@ -530,7 +530,7 @@ public class Frame2ProjectWizard extends Wizard implements INewWizard {
 
 	private String resourceString(final String resource) {
 		String resourceString = "Frame2ProjectWizard." + resource; //$NON-NLS-1$
-		return Frame2Plugin.getResourceString(resourceString);
+		return Frame2Plugin.getString(resourceString);
 	}
 
 	private void throwCoreException(final String message) throws CoreException {

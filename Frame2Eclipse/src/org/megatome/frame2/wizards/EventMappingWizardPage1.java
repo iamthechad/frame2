@@ -83,15 +83,15 @@ public class EventMappingWizardPage1 extends WizardPage {
 	private boolean badModel = false;
 
 	private final String noneString = Frame2Plugin
-			.getResourceString("EventMappingWizardPage1.noneString"); //$NON-NLS-1$
+			.getString("EventMappingWizardPage1.noneString"); //$NON-NLS-1$
 
 	public EventMappingWizardPage1() {
 		super(Frame2Plugin
-				.getResourceString("EventMappingWizardPage1.wizardName")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage1.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
-				.getResourceString("EventMappingWizardPage1.pageTitle")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
-				.getResourceString("EventMappingWizardPage1.pageDescription")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage1.pageDescription")); //$NON-NLS-1$
 	}
 
 	public void createControl(final Composite parent) {
@@ -102,7 +102,7 @@ public class EventMappingWizardPage1 extends WizardPage {
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage1.eventLabel")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage1.eventLabel")); //$NON-NLS-1$
 
 		this.eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -118,7 +118,7 @@ public class EventMappingWizardPage1 extends WizardPage {
 
 		label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage1.inputViewLabel")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage1.inputViewLabel")); //$NON-NLS-1$
 
 		this.inputViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -128,7 +128,7 @@ public class EventMappingWizardPage1 extends WizardPage {
 
 		label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage1.cancelViewLabel")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage1.cancelViewLabel")); //$NON-NLS-1$
 
 		this.cancelViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -198,7 +198,7 @@ public class EventMappingWizardPage1 extends WizardPage {
 	void dialogChanged() {
 		if (this.badModel) {
 			updateStatus(Frame2Plugin
-					.getResourceString("EventMappingWizardPage1.errorConfig")); //$NON-NLS-1$
+					.getString("EventMappingWizardPage1.errorConfig")); //$NON-NLS-1$
 			return;
 		}
 
@@ -206,7 +206,7 @@ public class EventMappingWizardPage1 extends WizardPage {
 
 		if (eventName.length() == 0) {
 			updateStatus(Frame2Plugin
-					.getResourceString("EventMappingWizardPage1.errorMissingEvent")); //$NON-NLS-1$
+					.getString("EventMappingWizardPage1.errorMissingEvent")); //$NON-NLS-1$
 			return;
 		}
 

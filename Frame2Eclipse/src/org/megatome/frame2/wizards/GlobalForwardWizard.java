@@ -88,6 +88,11 @@ public class GlobalForwardWizard extends BaseFrame2Wizard {
 		this.page = new GlobalForwardWizardPage1(getCurrentProject());
 		addPage(this.page);
 	}
+	
+	@Override
+	public String getFrame2WizardTitle() {
+		return Frame2Plugin.getString("GlobalForwardWizard.windowTitle"); //$NON-NLS-1$
+	}
 
 	@Override
 	public boolean performFinish() {
@@ -102,7 +107,7 @@ public class GlobalForwardWizard extends BaseFrame2Wizard {
 					monitor
 							.beginTask(
 									Frame2Plugin
-											.getResourceString("GlobalForwardWizard.creatingStatus"), 1); //$NON-NLS-1$
+											.getString("GlobalForwardWizard.creatingStatus"), 1); //$NON-NLS-1$
 					if (GlobalForwardWizard.this.getFrame2Model() != null) {
 						Forward forward = new Forward();
 						forward.setName(forwardName);
@@ -133,7 +138,7 @@ public class GlobalForwardWizard extends BaseFrame2Wizard {
 					.openError(
 							getShell(),
 							Frame2Plugin
-									.getResourceString("GlobalForwardWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
+									.getString("GlobalForwardWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;

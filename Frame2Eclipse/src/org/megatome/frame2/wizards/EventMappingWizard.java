@@ -100,6 +100,11 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 		addPage(this.page2);
 		addPage(this.page3);
 	}
+	
+	@Override
+	public String getFrame2WizardTitle() {
+		return Frame2Plugin.getString("EventMappingWizard.windowTitle"); //$NON-NLS-1$
+	}
 
 	@Override
 	public boolean performFinish() {
@@ -133,7 +138,7 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 					.openError(
 							getShell(),
 							Frame2Plugin
-									.getResourceString("EventMappingWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
+									.getString("EventMappingWizard.ErrorTitle"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;
@@ -147,7 +152,7 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 		monitor
 				.beginTask(
 						Frame2Plugin
-								.getResourceString("EventMappingWizard.creatingMappingStatus"), 1); //$NON-NLS-1$
+								.getString("EventMappingWizard.creatingMappingStatus"), 1); //$NON-NLS-1$
 
 		final EventMapping mapping = new EventMapping();
 		mapping.setEventName(eventName);
@@ -155,7 +160,7 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 		if (inputView.length() > 0) {
 			mapping.setInputView(inputView);
 			mapping.setValidate(Frame2Plugin
-					.getResourceString("EventMappingWizard.true_value")); //$NON-NLS-1$
+					.getString("EventMappingWizard.true_value")); //$NON-NLS-1$
 		}
 
 		if (cancelView.length() > 0) {
@@ -173,21 +178,21 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 			final View view = new View();
 			view.setForwardName(htmlView);
 			view.setType(Frame2Plugin
-					.getResourceString("EventMappingWizard.both_type")); //$NON-NLS-1$
+					.getString("EventMappingWizard.both_type")); //$NON-NLS-1$
 			mapping.addView(view);
 		} else {
 			if (htmlView.length() != 0) {
 				final View view = new View();
 				view.setForwardName(htmlView);
 				view.setType(Frame2Plugin
-						.getResourceString("EventMappingWizard.html_type")); //$NON-NLS-1$
+						.getString("EventMappingWizard.html_type")); //$NON-NLS-1$
 				mapping.addView(view);
 			}
 			if (xmlView.length() != 0) {
 				final View view = new View();
 				view.setForwardName(xmlView);
 				view.setType(Frame2Plugin
-						.getResourceString("EventMappingWizard.xml_type")); //$NON-NLS-1$
+						.getString("EventMappingWizard.xml_type")); //$NON-NLS-1$
 				mapping.addView(view);
 			}
 		}
@@ -207,7 +212,7 @@ public class EventMappingWizard extends BaseFrame2Wizard {
 			this.persistModel(monitor);
 		} catch (final Frame2ModelException e) {
 			throwCoreException(Frame2Plugin
-					.getResourceString("EventMappingWizard.createMappingError") + e.getMessage()); //$NON-NLS-1$
+					.getString("EventMappingWizard.createMappingError") + e.getMessage()); //$NON-NLS-1$
 		}
 
 		monitor.worked(1);

@@ -106,11 +106,11 @@ public abstract class XMLCommentPreserver {
 	private void writeComment(final Writer out, final String indent,
 			final Node comment) throws IOException {
 		final String commentIndent = indent
-				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+				+ Frame2Plugin.getString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		out.write(commentIndent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.commentStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.commentStart")); //$NON-NLS-1$
 		out.write(comment.getNodeValue().trim());
-		out.write(Frame2Plugin.getResourceString("Frame2Model.commentEnd")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.commentEnd")); //$NON-NLS-1$
 	}
 
 	protected Map<Integer, Node> getCommentMap() {

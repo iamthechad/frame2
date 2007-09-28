@@ -95,22 +95,22 @@ public class EventName extends Frame2DomainObject {
 		// Validating property name
 		if (getValue() == null) {
 			throw new Frame2Config.ValidateException(
-					Frame2Plugin.getResourceString("Frame2Model.getValueNull"), Frame2Plugin.getResourceString("Frame2Model.eventDashName"), this); //$NON-NLS-1$ //$NON-NLS-2$
+					Frame2Plugin.getString("Frame2Model.getValueNull"), Frame2Plugin.getString("Frame2Model.eventDashName"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
 	public void writeNode(Writer out, String nodeName, String indent)
 			throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinishNoNewLine")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinishNoNewLine")); //$NON-NLS-1$
 		if (this.value != null) {
 			Frame2Config.writeXML(out, this.value, true);
 		}
-		out.write(Frame2Plugin.getResourceString("Frame2Model.endTagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.endTagStart")); //$NON-NLS-1$
 		out.write(nodeName);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$
 	}
 
 	@Override

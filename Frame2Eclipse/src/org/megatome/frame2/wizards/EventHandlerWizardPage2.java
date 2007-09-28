@@ -126,11 +126,11 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 	public EventHandlerWizardPage2() {
 		super(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.wizardName")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.pageTitle")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.pageDescription")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.pageDescription")); //$NON-NLS-1$
 	}
 
 	public void createControl(final Composite parent) {
@@ -141,7 +141,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 		// layout.verticalSpacing = 9;
 		this.nameLabel = new Label(container, SWT.NULL);
 		this.nameLabel.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.nameLabel")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.nameLabel")); //$NON-NLS-1$
 
 		this.nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -159,7 +159,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.typeLabel = new Label(container, SWT.NULL);
 		this.typeLabel.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.typeLabel")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.typeLabel")); //$NON-NLS-1$
 
 		this.typeLabel.setEnabled(false);
 
@@ -170,7 +170,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 		this.htmlResourceRadio = new Button(container, SWT.RADIO);
 		this.htmlResourceRadio
 				.setText(Frame2Plugin
-						.getResourceString("EventHandlerWizardPage2.htmlResource_type")); //$NON-NLS-1$
+						.getString("EventHandlerWizardPage2.htmlResource_type")); //$NON-NLS-1$
 		this.htmlResourceRadio.setSelection(true);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 4;
@@ -179,7 +179,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.htmlResourceLabel = new Label(container, SWT.NULL);
 		this.htmlResourceLabel.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
 
 		this.htmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -193,7 +193,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.htmlResourceBrowse = new Button(container, SWT.PUSH);
 		this.htmlResourceBrowse.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.browseCtl")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.browseCtl")); //$NON-NLS-1$
 		gd = new GridData(GridData.END);
 		this.htmlResourceBrowse.setLayoutData(gd);
 		this.htmlResourceBrowse.addSelectionListener(new SelectionAdapter() {
@@ -211,7 +211,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.xmlResourceRadio = new Button(container, SWT.RADIO);
 		this.xmlResourceRadio.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.xmlResource_type")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.xmlResource_type")); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		this.xmlResourceRadio.setLayoutData(gd);
@@ -220,7 +220,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 		this.xmlResponderRadio = new Button(container, SWT.RADIO);
 		this.xmlResponderRadio
 				.setText(Frame2Plugin
-						.getResourceString("EventHandlerWizardPage2.xmlResponder_type")); //$NON-NLS-1$
+						.getString("EventHandlerWizardPage2.xmlResponder_type")); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		this.xmlResponderRadio.setLayoutData(gd);
@@ -228,7 +228,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.xmlResourceLabel = new Label(container, SWT.NULL);
 		this.xmlResourceLabel.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
 
 		this.xmlResourceText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -248,7 +248,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.eventRadio = new Button(container, SWT.RADIO);
 		this.eventRadio.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.event_type")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.event_type")); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 4;
 		this.eventRadio.setLayoutData(gd);
@@ -256,7 +256,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.eventLabel = new Label(container, SWT.NULL);
 		this.eventLabel.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.pathLabel")); //$NON-NLS-1$
 
 		this.eventCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -276,7 +276,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.addButton = new Button(container, SWT.PUSH);
 		this.addButton.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.addToTableCtl")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.addToTableCtl")); //$NON-NLS-1$
 		gd = new GridData(GridData.BEGINNING);
 		gd.horizontalSpan = 2;
 		this.addButton.setLayoutData(gd);
@@ -291,7 +291,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		this.removeButton = new Button(container, SWT.PUSH);
 		this.removeButton.setText(Frame2Plugin
-				.getResourceString("EventHandlerWizardPage2.removeCtl")); //$NON-NLS-1$
+				.getString("EventHandlerWizardPage2.removeCtl")); //$NON-NLS-1$
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		gd.horizontalSpan = 2;
 		this.removeButton.setLayoutData(gd);
@@ -316,19 +316,19 @@ public class EventHandlerWizardPage2 extends WizardPage {
 		final TableColumn tc1 = new TableColumn(this.forwardTable, SWT.NULL);
 		tc1
 				.setText(Frame2Plugin
-						.getResourceString("EventHandlerWizardPage2.forwardNameColumn")); //$NON-NLS-1$
+						.getString("EventHandlerWizardPage2.forwardNameColumn")); //$NON-NLS-1$
 		tc1.setWidth(120);
 
 		final TableColumn tc2 = new TableColumn(this.forwardTable, SWT.NULL);
 		tc2
 				.setText(Frame2Plugin
-						.getResourceString("EventHandlerWizardPage2.forwardTypeColumn")); //$NON-NLS-1$
+						.getString("EventHandlerWizardPage2.forwardTypeColumn")); //$NON-NLS-1$
 		tc2.setWidth(120);
 
 		final TableColumn tc3 = new TableColumn(this.forwardTable, SWT.NULL);
 		tc3
 				.setText(Frame2Plugin
-						.getResourceString("EventHandlerWizardPage2.forwardPathColumn")); //$NON-NLS-1$
+						.getString("EventHandlerWizardPage2.forwardPathColumn")); //$NON-NLS-1$
 		tc3.setWidth(120);
 
 		this.forwardTable.addSelectionListener(new SelectionListener() {
@@ -491,13 +491,13 @@ public class EventHandlerWizardPage2 extends WizardPage {
 			if ((fileExt != null)
 					&& (fileExt
 							.equalsIgnoreCase(Frame2Plugin
-									.getResourceString("EventHandlerWizardPage2.jsp_file_type")) //$NON-NLS-1$
+									.getString("EventHandlerWizardPage2.jsp_file_type")) //$NON-NLS-1$
 							|| fileExt
 									.equalsIgnoreCase(Frame2Plugin
-											.getResourceString("EventHandlerWizardPage2.htm_file_type")) //$NON-NLS-1$
+											.getString("EventHandlerWizardPage2.htm_file_type")) //$NON-NLS-1$
 					|| fileExt
 							.equalsIgnoreCase(Frame2Plugin
-									.getResourceString("EventHandlerWizardPage2.html_file_type")))) { //$NON-NLS-1$
+									.getString("EventHandlerWizardPage2.html_file_type")))) { //$NON-NLS-1$
 				resourceList.add(members[i]);
 			}
 		}
@@ -517,7 +517,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 					if (buttonText
 							.equals(Frame2Plugin
-									.getResourceString("EventHandlerWizardPage2.htmlResource_type"))) { //$NON-NLS-1$
+									.getString("EventHandlerWizardPage2.htmlResource_type"))) { //$NON-NLS-1$
 						EventHandlerWizardPage2.this.htmlResourceLabel
 								.setEnabled(true);
 						EventHandlerWizardPage2.this.htmlResourceText
@@ -536,7 +536,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 								.setEnabled(false);
 					} else if (buttonText
 							.equals(Frame2Plugin
-									.getResourceString("EventHandlerWizardPage2.xmlResource_type"))) { //$NON-NLS-1$
+									.getString("EventHandlerWizardPage2.xmlResource_type"))) { //$NON-NLS-1$
 						EventHandlerWizardPage2.this.htmlResourceLabel
 								.setEnabled(false);
 						EventHandlerWizardPage2.this.htmlResourceText
@@ -555,7 +555,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 								.setEnabled(false);
 					} else if (buttonText
 							.equals(Frame2Plugin
-									.getResourceString("EventHandlerWizardPage2.xmlResponder_type"))) { //$NON-NLS-1$
+									.getString("EventHandlerWizardPage2.xmlResponder_type"))) { //$NON-NLS-1$
 						EventHandlerWizardPage2.this.htmlResourceLabel
 								.setEnabled(false);
 						EventHandlerWizardPage2.this.htmlResourceText
@@ -574,7 +574,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 								.setEnabled(false);
 					} else if (buttonText
 							.equals(Frame2Plugin
-									.getResourceString("EventHandlerWizardPage2.event_type"))) { //$NON-NLS-1$
+									.getString("EventHandlerWizardPage2.event_type"))) { //$NON-NLS-1$
 						EventHandlerWizardPage2.this.htmlResourceLabel
 								.setEnabled(false);
 						EventHandlerWizardPage2.this.htmlResourceText
@@ -604,7 +604,7 @@ public class EventHandlerWizardPage2 extends WizardPage {
 	void dialogChanged() {
 		if (this.badModel) {
 			setErrorMessage(Frame2Plugin
-					.getResourceString("EventHandlerWizardPage2.errorConfig")); //$NON-NLS-1$
+					.getString("EventHandlerWizardPage2.errorConfig")); //$NON-NLS-1$
 			setPageComplete(false);
 			return;
 		}
@@ -630,16 +630,16 @@ public class EventHandlerWizardPage2 extends WizardPage {
 	private String getForwardType() {
 		if (this.htmlResourceRadio.getSelection()) {
 			return Frame2Plugin
-					.getResourceString("EventHandlerWizardPage2.htmlResource_type"); //$NON-NLS-1$
+					.getString("EventHandlerWizardPage2.htmlResource_type"); //$NON-NLS-1$
 		} else if (this.xmlResourceRadio.getSelection()) {
 			return Frame2Plugin
-					.getResourceString("EventHandlerWizardPage2.xmlResource_type"); //$NON-NLS-1$
+					.getString("EventHandlerWizardPage2.xmlResource_type"); //$NON-NLS-1$
 		} else if (this.xmlResponderRadio.getSelection()) {
 			return Frame2Plugin
-					.getResourceString("EventHandlerWizardPage2.xmlResponder_type"); //$NON-NLS-1$
+					.getString("EventHandlerWizardPage2.xmlResponder_type"); //$NON-NLS-1$
 		} else if (this.eventRadio.getSelection()) {
 			return Frame2Plugin
-					.getResourceString("EventHandlerWizardPage2.event_internal_type"); //$NON-NLS-1$
+					.getString("EventHandlerWizardPage2.event_internal_type"); //$NON-NLS-1$
 		}
 
 		return ""; //$NON-NLS-1$
@@ -681,9 +681,9 @@ public class EventHandlerWizardPage2 extends WizardPage {
 
 		if (forwardType
 				.equals(Frame2Plugin
-						.getResourceString("EventHandlerWizardPage2.htmlResource_type"))) { //$NON-NLS-1$
+						.getString("EventHandlerWizardPage2.htmlResource_type"))) { //$NON-NLS-1$
 			if (forwardPath.indexOf(Frame2Plugin
-					.getResourceString("EventHandlerWizardPage2.uri_prefix")) != -1) { //$NON-NLS-1$
+					.getString("EventHandlerWizardPage2.uri_prefix")) != -1) { //$NON-NLS-1$
 				return true;
 			}
 

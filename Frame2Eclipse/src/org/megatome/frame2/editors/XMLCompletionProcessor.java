@@ -125,7 +125,7 @@ public class XMLCompletionProcessor implements IContentAssistProcessor,
 	private String getContentInfoString(final String keyWord) {
 		String resourceString;
 		final String resourceKey = "ContextString." + keyWord; //$NON-NLS-1$
-		resourceString = Frame2Plugin.getResourceString(resourceKey);
+		resourceString = Frame2Plugin.getString(resourceKey);
 		if (resourceString.equals(keyWord)) {
 			resourceString = "No Context Info String"; //$NON-NLS-1$
 		}

@@ -101,16 +101,16 @@ public class EventMappingWizardPage3 extends WizardPage {
 	private boolean handlersSelected = false;
 
 	private final String noneString = Frame2Plugin
-			.getResourceString("EventMappingWizardPage3.noneString"); //$NON-NLS-1$
+			.getString("EventMappingWizardPage3.noneString"); //$NON-NLS-1$
 	static int roleIndex = 1;
 
 	public EventMappingWizardPage3() {
 		super(Frame2Plugin
-				.getResourceString("EventMappingWizardPage3.wizardName")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage3.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
-				.getResourceString("EventMappingWizardPage3.pageTitle")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage3.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
-				.getResourceString("EventMappingWizardPage3.pageDescription")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage3.pageDescription")); //$NON-NLS-1$
 	}
 
 	public void createControl(final Composite parent) {
@@ -121,7 +121,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage3.htmlViewLabel")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage3.htmlViewLabel")); //$NON-NLS-1$
 
 		this.htmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -131,7 +131,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 
 		label = new Label(container, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage3.xmlViewLabel")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage3.xmlViewLabel")); //$NON-NLS-1$
 
 		this.xmlViewCombo = new Combo(container, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -153,7 +153,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 
 		final TableColumn tc = new TableColumn(this.rolesTable, SWT.NULL);
 		tc.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage3.userRolesColumn")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage3.userRolesColumn")); //$NON-NLS-1$
 		tc.setWidth(200);
 
 		this.editor = new TableEditor(this.rolesTable);
@@ -228,7 +228,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 
 		this.addRowButton = new Button(container, SWT.PUSH);
 		this.addRowButton.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage3.addRowCtl")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage3.addRowCtl")); //$NON-NLS-1$
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 2;
 		this.addRowButton.setLayoutData(gd);
@@ -240,13 +240,13 @@ public class EventMappingWizardPage3 extends WizardPage {
 						EventMappingWizardPage3.this.rolesTable, SWT.NULL);
 				item
 						.setText(Frame2Plugin
-								.getResourceString("EventMappingWizardPage3.dummyRole") + roleIndex++); //$NON-NLS-1$
+								.getString("EventMappingWizardPage3.dummyRole") + roleIndex++); //$NON-NLS-1$
 			}
 		});
 
 		this.removeRowButton = new Button(container, SWT.PUSH);
 		this.removeRowButton.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage3.removeRowCtl")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage3.removeRowCtl")); //$NON-NLS-1$
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		gd.horizontalSpan = 1;
 		this.removeRowButton.setLayoutData(gd);
@@ -300,18 +300,18 @@ public class EventMappingWizardPage3 extends WizardPage {
 				final String forwardType = forwards[i].getType();
 				if (forwardType
 						.equals(Frame2Plugin
-								.getResourceString("EventMappingWizardPage3.htmlResource_type"))) { //$NON-NLS-1$
+								.getString("EventMappingWizardPage3.htmlResource_type"))) { //$NON-NLS-1$
 					this.htmlViewCombo.add(forwards[i].getName());
 				} else if (forwardType
 						.equals(Frame2Plugin
-								.getResourceString("EventMappingWizardPage3.xmlResource_type")) || //$NON-NLS-1$
+								.getString("EventMappingWizardPage3.xmlResource_type")) || //$NON-NLS-1$
 						forwardType
 								.equals(Frame2Plugin
-										.getResourceString("EventMappingWizardPage3.xmlResponse_type"))) { //$NON-NLS-1$
+										.getString("EventMappingWizardPage3.xmlResponse_type"))) { //$NON-NLS-1$
 					this.xmlViewCombo.add(forwards[i].getName());
 				} else if (forwardType
 						.equals(Frame2Plugin
-								.getResourceString("EventMappingWizardPage3.event_internal_type"))) { //$NON-NLS-1$
+								.getString("EventMappingWizardPage3.event_internal_type"))) { //$NON-NLS-1$
 					this.htmlViewCombo.add(forwards[i].getName());
 					this.xmlViewCombo.add(forwards[i].getName());
 				}
@@ -329,7 +329,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 	void dialogChanged() {
 		if (this.badModel) {
 			updateStatus(Frame2Plugin
-					.getResourceString("EventMappingWizardPage3.errorConfig")); //$NON-NLS-1$
+					.getString("EventMappingWizardPage3.errorConfig")); //$NON-NLS-1$
 			return;
 		}
 
@@ -339,7 +339,7 @@ public class EventMappingWizardPage3 extends WizardPage {
 		if ((htmlView.length() == 0) && (xmlView.length() == 0)
 				&& (!this.handlersSelected)) {
 			updateStatus(Frame2Plugin
-					.getResourceString("EventMappingWizardPage3.errorMissingInformation")); //$NON-NLS-1$
+					.getString("EventMappingWizardPage3.errorMissingInformation")); //$NON-NLS-1$
 			return;
 		}
 

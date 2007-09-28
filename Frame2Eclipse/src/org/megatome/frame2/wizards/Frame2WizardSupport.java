@@ -64,7 +64,7 @@ public class Frame2WizardSupport {
 
 	public static ImageDescriptor getFrame2Logo() {
 		final String logoFile = Frame2Plugin
-				.getResourceString("Frame2WizardSupport.frame2LogoLarge"); //$NON-NLS-1$
+				.getString("Frame2WizardSupport.frame2LogoLarge"); //$NON-NLS-1$
 
 		try {
 			final Frame2Plugin plugin = Frame2Plugin.getDefault();

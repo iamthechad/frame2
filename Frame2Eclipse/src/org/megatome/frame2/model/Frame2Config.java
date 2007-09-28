@@ -190,7 +190,7 @@ public class Frame2Config extends Frame2DomainObject {
 		Writer w;
 		String outEncoding = encoding;
 		if (outEncoding == null) {
-			outEncoding = Frame2Plugin.getResourceString("Frame2Model.utf8"); //$NON-NLS-1$
+			outEncoding = Frame2Plugin.getString("Frame2Model.utf8"); //$NON-NLS-1$
 		}
 		w = new BufferedWriter(new OutputStreamWriter(out, outEncoding));
 		write(w, encoding);
@@ -201,81 +201,81 @@ public class Frame2Config extends Frame2DomainObject {
 	// @param encoding is the encoding style that @param out was opened with.
 	public void write(final Writer out, final String encoding)
 			throws IOException {
-		out.write(Frame2Plugin.getResourceString("Frame2Model.xmlTagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.xmlTagStart")); //$NON-NLS-1$
 		if (encoding != null) {
 			out
 					.write(Frame2Plugin
-							.getResourceString("Frame2Model.encodingAttribute") + encoding + Frame2Plugin.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$ //$NON-NLS-2$
+							.getString("Frame2Model.encodingAttribute") + encoding + Frame2Plugin.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		out.write(Frame2Plugin.getResourceString("Frame2Model.xmlTagEnd")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.xmlTagEnd")); //$NON-NLS-1$
 
 		// We need to manually output the DTD - sigh
 		out.write(Frame2Plugin
-				.getResourceString("Frame2Model.frame2DocTypeStart")); //$NON-NLS-1$
+				.getString("Frame2Model.frame2DocTypeStart")); //$NON-NLS-1$
 		out.write(Frame2Plugin
-				.getResourceString("Frame2Model.frame2DocTypeSystemID")); //$NON-NLS-1$
+				.getString("Frame2Model.frame2DocTypeSystemID")); //$NON-NLS-1$
 		out.write(Frame2Plugin
-				.getResourceString("Frame2Model.frame2DocTypePublicID")); //$NON-NLS-1$
+				.getString("Frame2Model.frame2DocTypePublicID")); //$NON-NLS-1$
 
 		writeNode(out, Frame2Plugin
-				.getResourceString("Frame2Model.frame2-config"), ""); //$NON-NLS-1$ //$NON-NLS-2$
+				.getString("Frame2Model.frame2-config"), ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void writeNode(final Writer out, final String nodeName,
 			final String indent) throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
-				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+				+ Frame2Plugin.getString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		//if (!this.globalForwards.isEmpty()) {
 			this.globalForwards
 					.writeNode(
 							out,
 							Frame2Plugin
-									.getResourceString("Frame2Model.global-forwards"), nextIndent); //$NON-NLS-1$
+									.getString("Frame2Model.global-forwards"), nextIndent); //$NON-NLS-1$
 		//}
 		//if (!this.events.isEmpty()) {
 			this.events.writeNode(out, Frame2Plugin
-					.getResourceString("Frame2Model.events"), nextIndent); //$NON-NLS-1$
+					.getString("Frame2Model.events"), nextIndent); //$NON-NLS-1$
 		//}
 		//if (!this.schemaMappings.isEmpty()) {
-			this.schemaMappings.writeNode(out, Frame2Plugin.getResourceString("Frame2Model.schema-mappings"), nextIndent); //$NON-NLS-1$
+			this.schemaMappings.writeNode(out, Frame2Plugin.getString("Frame2Model.schema-mappings"), nextIndent); //$NON-NLS-1$
 		//}
 		//if (!this.eventMappings.isEmpty()) {
 			this.eventMappings
 					.writeNode(
 							out,
 							Frame2Plugin
-									.getResourceString("Frame2Model.event-mappings"), nextIndent); //$NON-NLS-1$
+									.getString("Frame2Model.event-mappings"), nextIndent); //$NON-NLS-1$
 		//}
 		//if (!this.eventHandlers.isEmpty()) {
 			this.eventHandlers
 					.writeNode(
 							out,
 							Frame2Plugin
-									.getResourceString("Frame2Model.event-handlers"), nextIndent); //$NON-NLS-1$
+									.getString("Frame2Model.event-handlers"), nextIndent); //$NON-NLS-1$
 		//}
 		//if (!this.exceptions.isEmpty()) {
 			this.exceptions.writeNode(out, Frame2Plugin
-					.getResourceString("Frame2Model.exceptions"), nextIndent); //$NON-NLS-1$
+					.getString("Frame2Model.exceptions"), nextIndent); //$NON-NLS-1$
 		//}
 		//if (!this.plugins.isEmpty()) {
 			this.plugins.writeNode(out, Frame2Plugin
-					.getResourceString("Frame2Model.plugins"), nextIndent); //$NON-NLS-1$
+					.getString("Frame2Model.plugins"), nextIndent); //$NON-NLS-1$
 		//}
 		//if (!this.requestProcessors.isEmpty()) {
 			this.requestProcessors
 					.writeNode(
 							out,
 							Frame2Plugin
-									.getResourceString("Frame2Model.request-processors"), nextIndent); //$NON-NLS-1$
+									.getString("Frame2Model.request-processors"), nextIndent); //$NON-NLS-1$
 		//}
 		out.write(indent);
 		out
 				.write(Frame2Plugin
-						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+						.getString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public static Frame2Config read(final InputStream in)
@@ -337,35 +337,35 @@ public class Frame2Config extends Frame2DomainObject {
 			 * childNode.getFirstChild().getNodeValue(); }
 			 */
 			if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.global-forwards"))) { //$NON-NLS-1$
+					.getString("Frame2Model.global-forwards"))) { //$NON-NLS-1$
 				this.globalForwards = new GlobalForwards();
 				this.globalForwards.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.events"))) { //$NON-NLS-1$
+					.getString("Frame2Model.events"))) { //$NON-NLS-1$
 				this.events = new Frame2Events();
 				this.events.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.schema-mappings"))) { //$NON-NLS-1$
+					.getString("Frame2Model.schema-mappings"))) { //$NON-NLS-1$
 				this.schemaMappings = new SchemaMappings();
 				this.schemaMappings.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.event-mappings"))) { //$NON-NLS-1$
+					.getString("Frame2Model.event-mappings"))) { //$NON-NLS-1$
 				this.eventMappings = new EventMappings();
 				this.eventMappings.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.event-handlers"))) { //$NON-NLS-1$
+					.getString("Frame2Model.event-handlers"))) { //$NON-NLS-1$
 				this.eventHandlers = new EventHandlers();
 				this.eventHandlers.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.exceptions"))) { //$NON-NLS-1$
+					.getString("Frame2Model.exceptions"))) { //$NON-NLS-1$
 				this.exceptions = new Exceptions();
 				this.exceptions.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.plugins"))) { //$NON-NLS-1$
+					.getString("Frame2Model.plugins"))) { //$NON-NLS-1$
 				this.plugins = new Plugins();
 				this.plugins.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.request-processors"))) { //$NON-NLS-1$
+					.getString("Frame2Model.request-processors"))) { //$NON-NLS-1$
 				this.requestProcessors = new RequestProcessors();
 				this.requestProcessors.readNode(childNode);
 			} else {
@@ -397,23 +397,23 @@ public class Frame2Config extends Frame2DomainObject {
 			final boolean attribute) throws IOException {
 		if (msg == '&') {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.ampersandEntity")); //$NON-NLS-1$
+					.getString("Frame2Model.ampersandEntity")); //$NON-NLS-1$
 		} else if (msg == '<') {
-			out.write(Frame2Plugin.getResourceString("Frame2Model.ltEntity")); //$NON-NLS-1$
+			out.write(Frame2Plugin.getString("Frame2Model.ltEntity")); //$NON-NLS-1$
 		} else if (msg == '>') {
-			out.write(Frame2Plugin.getResourceString("Frame2Model.gtEntity")); //$NON-NLS-1$
+			out.write(Frame2Plugin.getString("Frame2Model.gtEntity")); //$NON-NLS-1$
 		} else if (attribute && msg == '"') {
 			out
 					.write(Frame2Plugin
-							.getResourceString("Frame2Model.quoteEntity")); //$NON-NLS-1$
+							.getString("Frame2Model.quoteEntity")); //$NON-NLS-1$
 		} else if (attribute && msg == '\'') {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.apostropheEntity")); //$NON-NLS-1$
+					.getString("Frame2Model.apostropheEntity")); //$NON-NLS-1$
 		} else if (attribute && msg == '\n') {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.newlineEntity")); //$NON-NLS-1$
+					.getString("Frame2Model.newlineEntity")); //$NON-NLS-1$
 		} else if (attribute && msg == '\t') {
-			out.write(Frame2Plugin.getResourceString("Frame2Model.tabEntity")); //$NON-NLS-1$
+			out.write(Frame2Plugin.getString("Frame2Model.tabEntity")); //$NON-NLS-1$
 		} else {
 			out.write(msg);
 		}

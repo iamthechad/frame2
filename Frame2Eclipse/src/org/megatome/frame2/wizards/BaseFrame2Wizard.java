@@ -106,8 +106,11 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 		initialize(selection);
 	}
 	
+	public abstract String getFrame2WizardTitle();
+	
 	private void initialize(final IStructuredSelection iss) {
 		this.selection = iss;
+		setWindowTitle(getFrame2WizardTitle());
 		setDefaultPageImageDescriptor(Frame2WizardSupport.getFrame2Logo());
 		try {
 			this.model = initFrame2Model(iss);
@@ -122,32 +125,32 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 					"org.megatome.frame2", //$NON-NLS-1$
 					IStatus.ERROR,
 					Frame2Plugin
-							.getResourceString("NewEventWizard.configReadError"), e); //$NON-NLS-1$
+							.getString("NewEventWizard.configReadError"), e); //$NON-NLS-1$
 			final Status msg = new Status(IStatus.ERROR, "org.megatome.frame2", //$NON-NLS-1$
 					IStatus.ERROR, errorMsg, e);
 			info.add(msg);
 
 			ErrorDialog.openError(getShell(), Frame2Plugin
-					.getResourceString("NewEventWizard.wizardInitError"), //$NON-NLS-1$
+					.getString("NewEventWizard.wizardInitError"), //$NON-NLS-1$
 					null, info);
 		}
 
 		if (this.model == null) {
 			// Error
 			final String errorMsg = Frame2Plugin
-					.getResourceString("BaseFrame2Wizard.noFrame2ProjectSelected"); //$NON-NLS-1$
+					.getString("BaseFrame2Wizard.noFrame2ProjectSelected"); //$NON-NLS-1$
 			final Exception e = new Exception(errorMsg);
 			final MultiStatus info = new MultiStatus(
 					"org.megatome.frame2", //$NON-NLS-1$
 					IStatus.ERROR,
 					Frame2Plugin
-							.getResourceString("NewEventWizard.configReadError"), e); //$NON-NLS-1$
+							.getString("NewEventWizard.configReadError"), e); //$NON-NLS-1$
 			final Status msg = new Status(IStatus.ERROR, "org.megatome.frame2", //$NON-NLS-1$
 					IStatus.ERROR, errorMsg, e);
 			info.add(msg);
 
 			ErrorDialog.openError(getShell(), Frame2Plugin
-					.getResourceString("NewEventWizard.wizardInitError"), //$NON-NLS-1$
+					.getString("NewEventWizard.wizardInitError"), //$NON-NLS-1$
 					null, info);
 		}
 	}
@@ -160,7 +163,7 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 			if (selection.size() > 1) {
 				throw new Frame2ModelException(
 						Frame2Plugin
-								.getResourceString("NewEventWizard.errorMultipleSelection")); //$NON-NLS-1$
+								.getString("NewEventWizard.errorMultipleSelection")); //$NON-NLS-1$
 			}
 
 			final Object obj = selection.getFirstElement();
@@ -180,7 +183,7 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 			for (int i = 0; i < allProjects.length; i++) {
 				final IResource resource = allProjects[i]
 						.findMember(Frame2Plugin
-								.getResourceString("NewEventWizard.fullConfigPath")); //$NON-NLS-1$
+								.getString("NewEventWizard.fullConfigPath")); //$NON-NLS-1$
 				if (resource != null) {
 					f2Projects.add(allProjects[i]);
 				}
@@ -198,10 +201,10 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 						getShell(), new WorkbenchLabelProvider());
 				dlg
 						.setMessage(Frame2Plugin
-								.getResourceString("BaseFrame2Wizard.selectFrame2ProjectMessage")); //$NON-NLS-1$
+								.getString("BaseFrame2Wizard.selectFrame2ProjectMessage")); //$NON-NLS-1$
 				dlg
 						.setTitle(Frame2Plugin
-								.getResourceString("BaseFrame2Wizard.selectFrame2ProjectTitle")); //$NON-NLS-1$
+								.getString("BaseFrame2Wizard.selectFrame2ProjectTitle")); //$NON-NLS-1$
 				dlg.setMultipleSelection(false);
 				dlg.setElements(projects);
 				dlg.setBlockOnOpen(true);
@@ -228,16 +231,16 @@ public abstract class BaseFrame2Wizard extends Wizard implements INewWizard {
 	private Frame2Model loadFrame2Model(final IProject project)
 			throws Frame2ModelException {
 		final IResource resource = project.findMember(Frame2Plugin
-				.getResourceString("NewEventWizard.fullConfigPath")); //$NON-NLS-1$
+				.getString("NewEventWizard.fullConfigPath")); //$NON-NLS-1$
 		if (resource == null) {
 			throw new Frame2ModelException(Frame2Plugin
-					.getResourceString("NewEventWizard.errorLocatingConfig")); //$NON-NLS-1$
+					.getString("NewEventWizard.errorLocatingConfig")); //$NON-NLS-1$
 		}
 		IPath path = resource.getLocation();
 		if (path == null) {
 			throw new Frame2ModelException(
 					Frame2Plugin
-							.getResourceString("NewEventWizard.errorLocatingConfigPath")); //$NON-NLS-1$
+							.getString("NewEventWizard.errorLocatingConfigPath")); //$NON-NLS-1$
 		}
 		this.modelFile = (IFile) resource.getAdapter(IFile.class);
 		return Frame2Model.getInstance(this.modelFile);

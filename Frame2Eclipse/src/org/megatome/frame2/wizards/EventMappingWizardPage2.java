@@ -97,11 +97,11 @@ public class EventMappingWizardPage2 extends WizardPage {
 
 	public EventMappingWizardPage2() {
 		super(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.wizardName")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.wizardName")); //$NON-NLS-1$
 		setTitle(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.pageTitle")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.pageDescription")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.pageDescription")); //$NON-NLS-1$
 	}
 
 	public void createControl(final Composite parent) {
@@ -128,7 +128,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 
 		TableColumn tc = new TableColumn(this.availableHandlersTable, SWT.NULL);
 		tc.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.availableColumn")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.availableColumn")); //$NON-NLS-1$
 		tc.setWidth(200);
 
 		final Composite buttonContainer = new Composite(container, SWT.NULL);
@@ -139,7 +139,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 
 		this.addSingleButton = new Button(buttonContainer, SWT.PUSH);
 		this.addSingleButton.setImage(getImage(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.arrowRightImage"))); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.arrowRightImage"))); //$NON-NLS-1$
 		this.addSingleButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(@SuppressWarnings("unused")
@@ -150,7 +150,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 
 		this.removeSingleButton = new Button(buttonContainer, SWT.PUSH);
 		this.removeSingleButton.setImage(getImage(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.arrowLeftImage"))); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.arrowLeftImage"))); //$NON-NLS-1$
 		this.removeSingleButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(@SuppressWarnings("unused")
@@ -162,7 +162,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 		this.addAllButton = new Button(buttonContainer, SWT.PUSH);
 		this.addAllButton
 				.setImage(getImage(Frame2Plugin
-						.getResourceString("EventMappingWizardPage2.doubleArrowRightImage"))); //$NON-NLS-1$
+						.getString("EventMappingWizardPage2.doubleArrowRightImage"))); //$NON-NLS-1$
 		this.addAllButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(@SuppressWarnings("unused")
@@ -174,7 +174,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 		this.removeAllButton = new Button(buttonContainer, SWT.PUSH);
 		this.removeAllButton
 				.setImage(getImage(Frame2Plugin
-						.getResourceString("EventMappingWizardPage2.doubleArrowLeftImage"))); //$NON-NLS-1$
+						.getString("EventMappingWizardPage2.doubleArrowLeftImage"))); //$NON-NLS-1$
 		this.removeAllButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(@SuppressWarnings("unused")
@@ -203,7 +203,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 
 		tc = new TableColumn(this.selectedHandlersTable, SWT.NULL);
 		tc.setText(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.selectedColumn")); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.selectedColumn")); //$NON-NLS-1$
 		tc.setWidth(200);
 
 		final Composite buttonContainer2 = new Composite(container, SWT.NULL);
@@ -215,7 +215,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 
 		this.moveUpButton = new Button(buttonContainer2, SWT.PUSH);
 		this.moveUpButton.setImage(getImage(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.arrowUpImage"))); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.arrowUpImage"))); //$NON-NLS-1$
 		this.moveUpButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(@SuppressWarnings("unused")
@@ -226,7 +226,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 
 		this.moveDownButton = new Button(buttonContainer2, SWT.PUSH);
 		this.moveDownButton.setImage(getImage(Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.arrowDownImage"))); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.arrowDownImage"))); //$NON-NLS-1$
 		this.moveDownButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(@SuppressWarnings("unused")
@@ -267,7 +267,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 			setPageComplete(false);
 			this.badModel = true;
 			updateStatus(Frame2Plugin
-					.getResourceString("EventMappingWizardPage2.errorConfig")); //$NON-NLS-1$
+					.getString("EventMappingWizardPage2.errorConfig")); //$NON-NLS-1$
 		}
 	}
 
@@ -419,7 +419,7 @@ public class EventMappingWizardPage2 extends WizardPage {
 
 	private Image getImage(final String imageName) {
 		final String iconPath = Frame2Plugin
-				.getResourceString("EventMappingWizardPage2.iconDir"); //$NON-NLS-1$
+				.getString("EventMappingWizardPage2.iconDir"); //$NON-NLS-1$
 		ImageDescriptor id = null;
 		try {
 			final Frame2Plugin plugin = Frame2Plugin.getDefault();

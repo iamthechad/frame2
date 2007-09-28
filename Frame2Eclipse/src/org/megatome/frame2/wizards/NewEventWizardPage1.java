@@ -119,30 +119,30 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 	// private boolean initialized = false;
 
 	private static final String PAGE_NAME = Frame2Plugin
-			.getResourceString("NewEventWizardPage1.wizardName"); //$NON-NLS-1$
+			.getString("NewEventWizardPage1.wizardName"); //$NON-NLS-1$
 	private static final String NEW_CLASS_RADIO = Frame2Plugin
-			.getResourceString("NewEventWizardPage1.newClassRadio"); //$NON-NLS-1$
+			.getString("NewEventWizardPage1.newClassRadio"); //$NON-NLS-1$
 	private static final String EXISTING_CLASS_RADIO = Frame2Plugin
-			.getResourceString("NewEventWizardPage1.existingClassRadio"); //$NON-NLS-1$
+			.getString("NewEventWizardPage1.existingClassRadio"); //$NON-NLS-1$
 	private static final String NO_CLASS_RADIO = Frame2Plugin
-			.getResourceString("NewEventWizardPage1.noClassRadio"); //$NON-NLS-1$
+			.getString("NewEventWizardPage1.noClassRadio"); //$NON-NLS-1$
 	public static final String NEW_CLASS = Frame2Plugin
-			.getResourceString("NewEventWizardPage1.newClass_type"); //$NON-NLS-1$
+			.getString("NewEventWizardPage1.newClass_type"); //$NON-NLS-1$
 	public static final String EXISTING_CLASS = Frame2Plugin
-			.getResourceString("NewEventWizardPage1.existingClass_type"); //$NON-NLS-1$
+			.getString("NewEventWizardPage1.existingClass_type"); //$NON-NLS-1$
 	public static final String NO_CLASS = Frame2Plugin
-			.getResourceString("NewEventWizardPage1.noClass_type"); //$NON-NLS-1$
-	private static final String RESOLVE_PASSTHRU = Frame2Plugin.getResourceString("NewEventWizardPage1.passthru"); //$NON-NLS-1$
-	private static final String RESOLVE_PARENT = Frame2Plugin.getResourceString("NewEventWizardPage1.parent"); //$NON-NLS-1$
-	private static final String RESOLVE_CHILDREN = Frame2Plugin.getResourceString("NewEventWizardPage1.children"); //$NON-NLS-1$
+			.getString("NewEventWizardPage1.noClass_type"); //$NON-NLS-1$
+	private static final String RESOLVE_PASSTHRU = Frame2Plugin.getString("NewEventWizardPage1.passthru"); //$NON-NLS-1$
+	private static final String RESOLVE_PARENT = Frame2Plugin.getString("NewEventWizardPage1.parent"); //$NON-NLS-1$
+	private static final String RESOLVE_CHILDREN = Frame2Plugin.getString("NewEventWizardPage1.children"); //$NON-NLS-1$
 	private static final String[] RESOLVE_TYPES = { RESOLVE_PASSTHRU, RESOLVE_CHILDREN, RESOLVE_PARENT };
 
 	public NewEventWizardPage1(final IStructuredSelection selection, final IProject currentProject) {
 		super(true, PAGE_NAME);
 		setTitle(Frame2Plugin
-				.getResourceString("NewEventWizardPage1.pageTitle")); //$NON-NLS-1$
+				.getString("NewEventWizardPage1.pageTitle")); //$NON-NLS-1$
 		setDescription(Frame2Plugin
-				.getResourceString("NewEventWizardPage1.pageDescription")); //$NON-NLS-1$
+				.getString("NewEventWizardPage1.pageDescription")); //$NON-NLS-1$
 		this.selection = selection;
 		this.rootProject = currentProject;
 	}
@@ -161,7 +161,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		// pick & choose the wanted UI components
 		Label label = new Label(composite, SWT.NULL);
 		label.setText(Frame2Plugin
-				.getResourceString("NewEventWizardPage1.eventNameLabel")); //$NON-NLS-1$
+				.getString("NewEventWizardPage1.eventNameLabel")); //$NON-NLS-1$
 
 		this.eventNameText = new Text(composite, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -199,7 +199,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 
 		this.existingClassLabel = new Label(composite, SWT.NULL);
 		this.existingClassLabel.setText(Frame2Plugin
-				.getResourceString("NewEventWizardPage1.eventLabel")); //$NON-NLS-1$
+				.getString("NewEventWizardPage1.eventLabel")); //$NON-NLS-1$
 
 		this.existingClassCombo = new Combo(composite, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -214,7 +214,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		});
 		
 		this.resolveAsLabel = new Label(composite, SWT.NULL);
-		this.resolveAsLabel.setText(Frame2Plugin.getResourceString("NewEventWizardPage1.resolveAsLabel")); //$NON-NLS-1$
+		this.resolveAsLabel.setText(Frame2Plugin.getString("NewEventWizardPage1.resolveAsLabel")); //$NON-NLS-1$
 		
 		this.resolveAsCombo = new Combo(composite, SWT.BORDER | SWT.SINGLE
 				| SWT.READ_ONLY);
@@ -277,7 +277,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 			setPageComplete(false);
 			this.badModelStatus = StatusFactory
 					.error(Frame2Plugin
-							.getResourceString("NewEventWizardPage1.errorConfiguration")); //$NON-NLS-1$
+							.getString("NewEventWizardPage1.errorConfiguration")); //$NON-NLS-1$
 		}
 
 		if (this.selection != null && !this.selection.isEmpty()) {
@@ -293,7 +293,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		// initialized = true;
 		setSuperClass(
 				Frame2Plugin
-						.getResourceString("NewEventWizardPage1.commonsValidatorEventSuperClass"), //$NON-NLS-1$
+						.getString("NewEventWizardPage1.commonsValidatorEventSuperClass"), //$NON-NLS-1$
 				true);
 	}
 
@@ -321,7 +321,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 				return false;
 			}
 			
-			SearchPattern pattern = SearchPattern.createPattern(Frame2Plugin.getResourceString("NewEventWizardPage1.JaxbEventBase"), IJavaSearchConstants.TYPE, IJavaSearchConstants.IMPLEMENTORS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE); //$NON-NLS-1$
+			SearchPattern pattern = SearchPattern.createPattern(Frame2Plugin.getString("NewEventWizardPage1.JaxbEventBase"), IJavaSearchConstants.TYPE, IJavaSearchConstants.IMPLEMENTORS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE); //$NON-NLS-1$
 			IJavaSearchScope scope = SearchEngine.createHierarchyScope(type);
 			
 			MatchSearchRequestor requestor = new MatchSearchRequestor();
@@ -354,14 +354,14 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		if (eventName.length() == 0) {
 			return StatusFactory
 					.error(Frame2Plugin
-							.getResourceString("NewEventWizardPage1.errorMissingEventName")); //$NON-NLS-1$
+							.getString("NewEventWizardPage1.errorMissingEventName")); //$NON-NLS-1$
 		}
 
 		for (int i = 0; i < this.definedEvents.length; i++) {
 			if (eventName.equals(this.definedEvents[i].getName())) {
 				return StatusFactory
 						.error(Frame2Plugin
-								.getResourceString("NewEventWizardPage1.errorDuplicateEventName")); //$NON-NLS-1$
+								.getString("NewEventWizardPage1.errorDuplicateEventName")); //$NON-NLS-1$
 			}
 		}
 
@@ -374,7 +374,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 		if (eventClassType.length() == 0) {
 			return StatusFactory
 					.error(Frame2Plugin
-							.getResourceString("NewEventWizardPage1.errorSelectExisting")); //$NON-NLS-1$
+							.getString("NewEventWizardPage1.errorSelectExisting")); //$NON-NLS-1$
 		}
 
 		return StatusFactory.ok();
@@ -477,8 +477,7 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 
 		imports
 				.addImport(Frame2Plugin
-						.getResourceString("NewEventWizardPage1.commonsValidatorEventSuperClass")); //$NON-NLS-1$
-
+						.getString("NewEventWizardPage1.commonsValidatorEventSuperClass")); //$NON-NLS-1$
 	}
 
 	@Override
@@ -498,8 +497,8 @@ public class NewEventWizardPage1 extends NewTypeWizardPage {
 	private void findEventClasses(List<String> classes) {
 		IJavaProject javaProject = JavaCore.create(this.rootProject);
 		
-		findEventClasses(javaProject, classes, Frame2Plugin.getResourceString("NewEventWizardPage1.CommonsValidatorClass")); //$NON-NLS-1$
-		findEventClasses(javaProject, classes, Frame2Plugin.getResourceString("NewEventWizardPage1.JaxbEventBase")); //$NON-NLS-1$
+		findEventClasses(javaProject, classes, Frame2Plugin.getString("NewEventWizardPage1.CommonsValidatorClass")); //$NON-NLS-1$
+		findEventClasses(javaProject, classes, Frame2Plugin.getString("NewEventWizardPage1.JaxbEventBase")); //$NON-NLS-1$
 	}
 	
 	private void findEventClasses(final IJavaProject project, final List<String> classes, final String superClass) {

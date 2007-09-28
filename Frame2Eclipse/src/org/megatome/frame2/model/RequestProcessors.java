@@ -104,19 +104,19 @@ public class RequestProcessors extends Frame2DomainObject {
 	public void writeNode(final Writer out, final String nodeName,
 			final String indent) throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
-				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+				+ Frame2Plugin.getString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		if (this.httpRequestProcessor != null) {
 			this.httpRequestProcessor.writeNode(out, Frame2Plugin
-					.getResourceString("Frame2Model.http-request-processor"), //$NON-NLS-1$
+					.getString("Frame2Model.http-request-processor"), //$NON-NLS-1$
 					nextIndent);
 		}
 		if (this.soapRequestProcessor != null) {
 			this.soapRequestProcessor.writeNode(out, Frame2Plugin
-					.getResourceString("Frame2Model.soap-request-processor"), //$NON-NLS-1$
+					.getString("Frame2Model.soap-request-processor"), //$NON-NLS-1$
 					nextIndent);
 		}
 
@@ -124,7 +124,7 @@ public class RequestProcessors extends Frame2DomainObject {
 		out.write(indent);
 		out
 				.write(Frame2Plugin
-						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+						.getString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void readNode(final Node node) {
@@ -135,17 +135,17 @@ public class RequestProcessors extends Frame2DomainObject {
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
 			if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.http-request-processor"))) { //$NON-NLS-1$
+					.getString("Frame2Model.http-request-processor"))) { //$NON-NLS-1$
 				this.httpRequestProcessor = new HttpRequestProcessor();
 				this.httpRequestProcessor.readNode(childNode);
 			} else if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.soap-request-processor"))) { //$NON-NLS-1$
+					.getString("Frame2Model.soap-request-processor"))) { //$NON-NLS-1$
 				this.soapRequestProcessor = new SoapRequestProcessor();
 				this.soapRequestProcessor.readNode(childNode);
 			} else {
 				// Found extra unrecognized childNode
 				if (childNodeName.equals(Frame2Plugin
-						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+						.getString("Frame2Model.comment"))) { //$NON-NLS-1$
 					recordComment(childNode, i);
 				}
 			}

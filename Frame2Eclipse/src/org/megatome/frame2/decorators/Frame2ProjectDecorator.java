@@ -51,7 +51,7 @@ public class Frame2ProjectDecorator implements ILightweightLabelDecorator {
 	}
 
 	private ImageDescriptor loadDecoratorImage() {
-		final String imageFile = Frame2Plugin.getResourceString("Frame2ProjectDecorator.projectDecoratorIcon"); //$NON-NLS-1$
+		final String imageFile = Frame2Plugin.getString("Frame2ProjectDecorator.projectDecoratorIcon"); //$NON-NLS-1$
 
 		try {
 			final Frame2Plugin plugin = Frame2Plugin.getDefault();

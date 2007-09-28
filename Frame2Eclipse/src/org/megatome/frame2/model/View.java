@@ -101,29 +101,29 @@ public class View extends Frame2DomainObject {
 	public void writeNode(final Writer out, final String nodeName,
 			final String indent) throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
 		// type is an attribute
 		if (this.type != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.typeAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.type, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
 		// forwardName is an attribute
 		if (this.forwardName != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.forwardNameAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.forwardNameAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.forwardName, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
-		out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.endTagFinish")); //$NON-NLS-1$
 	}
 
 	public void readNode(final Node node) {
@@ -131,12 +131,12 @@ public class View extends Frame2DomainObject {
 			final NamedNodeMap attrs = node.getAttributes();
 			Attr attr;
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.type")); //$NON-NLS-1$
+					.getString("Frame2Model.type")); //$NON-NLS-1$
 			if (attr != null) {
 				this.type = attr.getValue();
 			}
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.forwardName")); //$NON-NLS-1$
+					.getString("Frame2Model.forwardName")); //$NON-NLS-1$
 			if (attr != null) {
 				this.forwardName = attr.getValue();
 			}
@@ -146,12 +146,12 @@ public class View extends Frame2DomainObject {
 	public void validate() throws Frame2Config.ValidateException {
 		if (getType() == null) {
 			throw new Frame2Config.ValidateException(
-					Frame2Plugin.getResourceString("Frame2Model.getTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
+					Frame2Plugin.getString("Frame2Model.getTypeNull"), Frame2Plugin.getString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (getForwardName() == null) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.getForwardNameNull"), Frame2Plugin.getResourceString("Frame2Model.forwardName"), this); //$NON-NLS-1$ //$NON-NLS-2$
+							.getString("Frame2Model.getForwardNameNull"), Frame2Plugin.getString("Frame2Model.forwardName"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

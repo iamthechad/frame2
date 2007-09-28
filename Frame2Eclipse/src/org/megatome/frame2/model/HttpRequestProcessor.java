@@ -88,19 +88,19 @@ public class HttpRequestProcessor extends Frame2DomainObject {
 	public void writeNode(final Writer out, final String nodeName,
 			final String indent) throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
 		// type is an attribute
 		if (this.type != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.typeAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.type, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
-		out.write(Frame2Plugin.getResourceString("Frame2Model.endTagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.endTagFinish")); //$NON-NLS-1$
 	}
 
 	public void readNode(final Node node) {
@@ -108,7 +108,7 @@ public class HttpRequestProcessor extends Frame2DomainObject {
 			final NamedNodeMap attrs = node.getAttributes();
 			Attr attr;
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.type")); //$NON-NLS-1$
+					.getString("Frame2Model.type")); //$NON-NLS-1$
 			if (attr != null) {
 				this.type = attr.getValue();
 			}
@@ -119,7 +119,7 @@ public class HttpRequestProcessor extends Frame2DomainObject {
 		// Validating property type
 		if (getType() == null) {
 			throw new Frame2Config.ValidateException(
-					Frame2Plugin.getResourceString("Frame2Model.getTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
+					Frame2Plugin.getString("Frame2Model.getTypeNull"), Frame2Plugin.getString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

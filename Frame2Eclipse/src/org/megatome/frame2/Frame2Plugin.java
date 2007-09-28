@@ -82,7 +82,7 @@ public class Frame2Plugin extends AbstractUIPlugin {
 		return ResourcesPlugin.getWorkspace();
 	}
 
-	public static String getResourceString(final String key) {
+	public static String getString(final String key) {
 		final ResourceBundle bundle = Frame2Plugin.getDefault()
 				.getResourceBundle();
 		try {
@@ -97,6 +97,6 @@ public class Frame2Plugin extends AbstractUIPlugin {
 	}
 	
 	public static String getPluginId() {
-		return getResourceString("Frame2Plugin.pluginId"); //$NON-NLS-1$
+		return getString("Frame2Plugin.pluginId"); //$NON-NLS-1$
 	}
 }

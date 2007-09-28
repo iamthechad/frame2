@@ -141,7 +141,7 @@ public class SchemaMapping extends Frame2DomainObject {
 			final NamedNodeMap attrs = node.getAttributes();
 			Attr attr;
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.schemaLocation")); //$NON-NLS-1$
+					.getString("Frame2Model.schemaLocation")); //$NON-NLS-1$
 			if (attr != null) {
 				this.schemaLocation = attr.getValue();
 			}
@@ -153,14 +153,14 @@ public class SchemaMapping extends Frame2DomainObject {
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
 			if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.eventDashName"))) { //$NON-NLS-1$
+					.getString("Frame2Model.eventDashName"))) { //$NON-NLS-1$
 				final EventName aEventName = new EventName();
 				aEventName.readNode(childNode);
 				this.eventNames.add(aEventName);
 			} else {
 				// Found extra unrecognized childNode
 				if (childNodeName.equals(Frame2Plugin
-						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+						.getString("Frame2Model.comment"))) { //$NON-NLS-1$
 					recordComment(childNode, i);
 				}
 			}
@@ -171,12 +171,12 @@ public class SchemaMapping extends Frame2DomainObject {
 		if (getSchemaLocation() == null) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.schemaLocationNull"), Frame2Plugin.getResourceString("Frame2Model.schemaLocation"), this); //$NON-NLS-1$ //$NON-NLS-2$
+							.getString("Frame2Model.schemaLocationNull"), Frame2Plugin.getString("Frame2Model.schemaLocation"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (this.eventNames.isEmpty()) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.sizeEventNameZero"), Frame2Plugin.getResourceString("Frame2Model.eventDashName"), this); //$NON-NLS-1$ //$NON-NLS-2$
+							.getString("Frame2Model.sizeEventNameZero"), Frame2Plugin.getString("Frame2Model.eventDashName"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		for (EventName element : this.eventNames) {
 			if (element != null) {
@@ -188,24 +188,24 @@ public class SchemaMapping extends Frame2DomainObject {
 	public void writeNode(Writer out, String nodeName, String indent)
 			throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
 		if (this.schemaLocation != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.schemaLocationAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.schemaLocationAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.schemaLocation, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
-				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+				+ Frame2Plugin.getString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		for (EventName element : this.eventNames) {
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
-						.getResourceString("Frame2Model.eventDashName"), nextIndent); //$NON-NLS-1$
+						.getString("Frame2Model.eventDashName"), nextIndent); //$NON-NLS-1$
 			}
 		}
 
@@ -213,7 +213,7 @@ public class SchemaMapping extends Frame2DomainObject {
 		out.write(indent);
 		out
 				.write(Frame2Plugin
-						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+						.getString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override

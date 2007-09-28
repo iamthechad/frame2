@@ -153,37 +153,37 @@ public class Frame2Exception extends Frame2DomainObject {
 	public void writeNode(final Writer out, final String nodeName,
 			final String indent) throws IOException {
 		out.write(indent);
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagStart")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagStart")); //$NON-NLS-1$
 		out.write(nodeName);
 		// requestKey is an attribute
 		if (this.requestKey != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.requestKeyAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.requestKeyAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.requestKey, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
 		// type is an attribute
 		if (this.type != null) {
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.typeAttribute")); //$NON-NLS-1$
+					.getString("Frame2Model.typeAttribute")); //$NON-NLS-1$
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueStart")); //$NON-NLS-1$
 			Frame2Config.writeXML(out, this.type, true);
 			out.write(Frame2Plugin
-					.getResourceString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
+					.getString("Frame2Model.attributeValueEnd")); //$NON-NLS-1$
 		}
-		out.write(Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$
+		out.write(Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$
 		final String nextIndent = indent
-				+ Frame2Plugin.getResourceString("Frame2Model.indentTabValue"); //$NON-NLS-1$
+				+ Frame2Plugin.getString("Frame2Model.indentTabValue"); //$NON-NLS-1$
 		int index = 0;
 		for (View element : this.views) {
 			index = writeCommentsAt(out, indent, index);
 			if (element != null) {
 				element.writeNode(out, Frame2Plugin
-						.getResourceString("Frame2Model.view"), nextIndent); //$NON-NLS-1$
+						.getString("Frame2Model.view"), nextIndent); //$NON-NLS-1$
 			}
 		}
 
@@ -191,7 +191,7 @@ public class Frame2Exception extends Frame2DomainObject {
 		out.write(indent);
 		out
 				.write(Frame2Plugin
-						.getResourceString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getResourceString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
+						.getString("Frame2Model.endTagStart") + nodeName + Frame2Plugin.getString("Frame2Model.tagFinish")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void readNode(final Node node) {
@@ -199,12 +199,12 @@ public class Frame2Exception extends Frame2DomainObject {
 			final NamedNodeMap attrs = node.getAttributes();
 			Attr attr;
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.requestKey")); //$NON-NLS-1$
+					.getString("Frame2Model.requestKey")); //$NON-NLS-1$
 			if (attr != null) {
 				this.requestKey = attr.getValue();
 			}
 			attr = (Attr) attrs.getNamedItem(Frame2Plugin
-					.getResourceString("Frame2Model.type")); //$NON-NLS-1$
+					.getString("Frame2Model.type")); //$NON-NLS-1$
 			if (attr != null) {
 				this.type = attr.getValue();
 			}
@@ -217,7 +217,7 @@ public class Frame2Exception extends Frame2DomainObject {
 					.getNodeName().intern()
 					: childNode.getLocalName().intern());
 			if (childNodeName.equals(Frame2Plugin
-					.getResourceString("Frame2Model.view"))) { //$NON-NLS-1$
+					.getString("Frame2Model.view"))) { //$NON-NLS-1$
 				final View aView = new View();
 				aView.readNode(childNode);
 				this.views.add(aView);
@@ -225,7 +225,7 @@ public class Frame2Exception extends Frame2DomainObject {
 			} else {
 				// Found extra unrecognized childNode
 				if (childNodeName.equals(Frame2Plugin
-						.getResourceString("Frame2Model.comment"))) { //$NON-NLS-1$
+						.getString("Frame2Model.comment"))) { //$NON-NLS-1$
 					recordComment(childNode, elementCount++);
 				}
 			}
@@ -237,17 +237,17 @@ public class Frame2Exception extends Frame2DomainObject {
 		if (getRequestKey() == null) {
 			throw new Frame2Config.ValidateException(
 					Frame2Plugin
-							.getResourceString("Frame2Model.getRequestKeyNull"), Frame2Plugin.getResourceString("Frame2Model.requestKey"), this); //$NON-NLS-1$ //$NON-NLS-2$
+							.getString("Frame2Model.getRequestKeyNull"), Frame2Plugin.getString("Frame2Model.requestKey"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		// Validating property type
 		if (getType() == null) {
 			throw new Frame2Config.ValidateException(
-					Frame2Plugin.getResourceString("Frame2Model.getTypeNull"), Frame2Plugin.getResourceString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
+					Frame2Plugin.getString("Frame2Model.getTypeNull"), Frame2Plugin.getString("Frame2Model.type"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		// Validating property view
 		if (this.views.isEmpty()) {
 			throw new Frame2Config.ValidateException(
-					Frame2Plugin.getResourceString("Frame2Model.sizeViewZero"), Frame2Plugin.getResourceString("Frame2Model.view"), this); //$NON-NLS-1$ //$NON-NLS-2$
+					Frame2Plugin.getString("Frame2Model.sizeViewZero"), Frame2Plugin.getString("Frame2Model.view"), this); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		for (View element : this.views) {
 			if (element != null) {
