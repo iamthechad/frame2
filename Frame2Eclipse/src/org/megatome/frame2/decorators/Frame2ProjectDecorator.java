@@ -23,20 +23,23 @@ public class Frame2ProjectDecorator implements ILightweightLabelDecorator {
 
 	public void decorate(Object element, IDecoration decoration) {
 		if (element instanceof IProject) {
-			IProject project = (IProject)element;
-			if ((this.decorator != null) && (hasFrame2Nature(project))) {
-				decoration.addOverlay(this.decorator, IDecoration.BOTTOM_LEFT);
+			IProject project = (IProject) element;
+			if (project.isOpen()) {
+				if ((this.decorator != null) && (hasFrame2Nature(project))) {
+					decoration.addOverlay(this.decorator,
+							IDecoration.BOTTOM_LEFT);
+				}
 			}
 		}
 	}
 
 	public void addListener(@SuppressWarnings("unused")
 	ILabelProviderListener listener) {
-		//NOOP
+		// NOOP
 	}
 
 	public void dispose() {
-		//NOOP
+		// NOOP
 	}
 
 	public boolean isLabelProperty(@SuppressWarnings("unused")
@@ -47,11 +50,12 @@ public class Frame2ProjectDecorator implements ILightweightLabelDecorator {
 
 	public void removeListener(@SuppressWarnings("unused")
 	ILabelProviderListener listener) {
-		//NOOP
+		// NOOP
 	}
 
 	private ImageDescriptor loadDecoratorImage() {
-		final String imageFile = Frame2Plugin.getString("Frame2ProjectDecorator.projectDecoratorIcon"); //$NON-NLS-1$
+		final String imageFile = Frame2Plugin
+				.getString("Frame2ProjectDecorator.projectDecoratorIcon"); //$NON-NLS-1$
 
 		try {
 			final Frame2Plugin plugin = Frame2Plugin.getDefault();
@@ -62,7 +66,7 @@ public class Frame2ProjectDecorator implements ILightweightLabelDecorator {
 			return null;
 		}
 	}
-	
+
 	private boolean hasFrame2Nature(final IProject project) {
 		try {
 			IProjectDescription description = project.getDescription();
@@ -75,7 +79,7 @@ public class Frame2ProjectDecorator implements ILightweightLabelDecorator {
 		} catch (CoreException e) {
 			PluginLogger.error("Could not get project description", e); //$NON-NLS-1$
 		}
-		
+
 		return false;
 	}
 }
