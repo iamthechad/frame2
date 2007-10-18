@@ -49,6 +49,7 @@
  * ====================================================================
  */
 package org.megatome.frame2.introspector;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -60,275 +61,282 @@ import org.junit.Test;
 
 public class TestConverter {
 
-   private void verifyConversion(String fromString, Class<?> type) {
-      Object converted = Converter.convertValueToType(fromString, type);
+	private void verifyConversion(String fromString, Class<?> type) {
+		try {
+			Object converted = Converter.convertValueToType(fromString, type);
 
-      assertEquals(type, converted.getClass());
-      assertEquals(fromString, String.valueOf(converted));
-   }
+			assertEquals(type, converted.getClass());
+			assertEquals(fromString, String.valueOf(converted));
+		} catch (Exception e) {
+			fail();
+		}
+	}
 
-   private void verifyArrayConversion(String fromString, Class<?> type) {
-      Object converted = Converter.convertValueToArrayType(fromString, type);
+	private void verifyArrayConversion(String fromString, Class<?> type) {
+		try {
+			Object converted = Converter.convertValueToArrayType(fromString,
+					type);
 
-      assertTrue(converted instanceof Object[]);
-      Object[] convertedArray = (Object[]) converted;
+			assertTrue(converted instanceof Object[]);
+			Object[] convertedArray = (Object[]) converted;
 
-      assertEquals(type, converted.getClass());
-      assertTrue(convertedArray.length == 1);
-      assertEquals(fromString, String.valueOf(convertedArray[0]));
-   }
+			assertEquals(type, converted.getClass());
+			assertTrue(convertedArray.length == 1);
+			assertEquals(fromString, String.valueOf(convertedArray[0]));
+		} catch (Exception e) {
+			fail();
+		}
+	}
 
-   private void verifyNegativeConversion(String fromString, Class<?> type) {
-      try {
-         Converter.convertValueToType(fromString, type);
-         fail();
-      } catch (Exception expected) {
-    	  //expected
-      }
-   }
+	private void verifyNegativeConversion(String fromString, Class<?> type) {
+		try {
+			Converter.convertValueToType(fromString, type);
+			fail();
+		} catch (Exception expected) {
+			// expected
+		}
+	}
 
-   private void verifyNegativeArrayConversion(String fromString, Class<?> type) {
-      try {
-         Converter.convertValueToArrayType(fromString, type);
-         fail();
-      } catch (Exception expected) {
-    	  //expected
-      }
-   }
+	private void verifyNegativeArrayConversion(String fromString, Class<?> type) {
+		try {
+			Converter.convertValueToArrayType(fromString, type);
+			fail();
+		} catch (Exception expected) {
+			// expected
+		}
+	}
 
-   @Test
-   public void testSingleStringConverter() {
-      verifyConversion("foo", String.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleStringConverter() {
+		verifyConversion("foo", String.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleBigDecimalConverter() {
-      verifyConversion("1000000", BigDecimal.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleBigDecimalConverter() {
+		verifyConversion("1000000", BigDecimal.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleBigIntegerConverter() {
-      verifyConversion("1000000", BigInteger.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleBigIntegerConverter() {
+		verifyConversion("1000000", BigInteger.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleBooleanConverter() {
-      verifyConversion("true", Boolean.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleBooleanConverter() {
+		verifyConversion("true", Boolean.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleByteConverter() {
-      verifyConversion("10", Byte.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleByteConverter() {
+		verifyConversion("10", Byte.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleCharacterConverter() {
-      verifyConversion("A", Character.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleCharacterConverter() {
+		verifyConversion("A", Character.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleDoubleConverter() {
-      verifyConversion("12.34", Double.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleDoubleConverter() {
+		verifyConversion("12.34", Double.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleFloatConverter() {
-      verifyConversion("12.34", Float.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleFloatConverter() {
+		verifyConversion("12.34", Float.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleIntegerConverter() {
-      verifyConversion("1000", Integer.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleIntegerConverter() {
+		verifyConversion("1000", Integer.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleLongConverter() {
-      verifyConversion("100000", Long.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleLongConverter() {
+		verifyConversion("100000", Long.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleShortConverter() {
-      verifyConversion("100", Short.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleShortConverter() {
+		verifyConversion("100", Short.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testSingleStringBufferConverter() {
-      verifyConversion("ABCD", StringBuffer.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testSingleStringBufferConverter() {
+		verifyConversion("ABCD", StringBuffer.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayStringConverter() {
-      verifyArrayConversion("foo", String[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayStringConverter() {
+		verifyArrayConversion("foo", String[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayBigDecimalConverter() {
-      verifyArrayConversion("1000000", BigDecimal[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayBigDecimalConverter() {
+		verifyArrayConversion("1000000", BigDecimal[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayBigIntegerConverter() {
-      verifyArrayConversion("1000000", BigInteger[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayBigIntegerConverter() {
+		verifyArrayConversion("1000000", BigInteger[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayBooleanConverter() {
-      verifyArrayConversion("true", Boolean[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayBooleanConverter() {
+		verifyArrayConversion("true", Boolean[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayByteConverter() {
-      verifyArrayConversion("10", Byte[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayByteConverter() {
+		verifyArrayConversion("10", Byte[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayCharacterConverter() {
-      verifyArrayConversion("A", Character[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayCharacterConverter() {
+		verifyArrayConversion("A", Character[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayDoubleConverter() {
-      verifyArrayConversion("12.34", Double[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayDoubleConverter() {
+		verifyArrayConversion("12.34", Double[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayFloatConverter() {
-      verifyArrayConversion("12.34", Float[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayFloatConverter() {
+		verifyArrayConversion("12.34", Float[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayIntegerConverter() {
-      verifyArrayConversion("1000", Integer[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayIntegerConverter() {
+		verifyArrayConversion("1000", Integer[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayLongConverter() {
-      verifyArrayConversion("100000", Long[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayLongConverter() {
+		verifyArrayConversion("100000", Long[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayShortConverter() {
-      verifyArrayConversion("100", Short[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayShortConverter() {
+		verifyArrayConversion("100", Short[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testArrayStringBufferConverter() {
-      verifyArrayConversion("ABCD", StringBuffer[].class); //$NON-NLS-1$
-   }
-   /*
-      public void testNegativeSingleStringConverter() {
-         verifyConversion("foo", String.class);
-      }
-   */
-   @Test
-   public void testNegativeSingleBigDecimalConverter() {
-      verifyNegativeConversion("ABCD", BigDecimal.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testArrayStringBufferConverter() {
+		verifyArrayConversion("ABCD", StringBuffer[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeSingleBigIntegerConverter() {
-      verifyNegativeConversion("ABCD", BigInteger.class); //$NON-NLS-1$
-   }
-   /*
-      public void testNegativeSingleBooleanConverter() {
-         verifyNegativeConversion("ABCD", Boolean.class);
-      }
-   */
-   @Test
-   public void testNegativeSingleByteConverter() {
-      verifyNegativeConversion("ABCD", Byte.class); //$NON-NLS-1$
-   }
+	/*
+	 * public void testNegativeSingleStringConverter() { verifyConversion("foo",
+	 * String.class); }
+	 */
+	@Test
+	public void testNegativeSingleBigDecimalConverter() {
+		verifyNegativeConversion("ABCD", BigDecimal.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeSingleCharacterConverter() {
-      verifyNegativeConversion("", Character.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeSingleBigIntegerConverter() {
+		verifyNegativeConversion("ABCD", BigInteger.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeSingleDoubleConverter() {
-      verifyNegativeConversion("ABCD", Double.class); //$NON-NLS-1$
-   }
+	/*
+	 * public void testNegativeSingleBooleanConverter() {
+	 * verifyNegativeConversion("ABCD", Boolean.class); }
+	 */
+	@Test
+	public void testNegativeSingleByteConverter() {
+		verifyNegativeConversion("ABCD", Byte.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeSingleFloatConverter() {
-      verifyNegativeConversion("ABCD", Float.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeSingleCharacterConverter() {
+		verifyNegativeConversion("", Character.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeSingleIntegerConverter() {
-      verifyNegativeConversion("ABCD", Integer.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeSingleDoubleConverter() {
+		verifyNegativeConversion("ABCD", Double.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeSingleLongConverter() {
-      verifyNegativeConversion("ABCD", Long.class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeSingleFloatConverter() {
+		verifyNegativeConversion("ABCD", Float.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeSingleShortConverter() {
-      verifyNegativeConversion("ABCD", Short.class); //$NON-NLS-1$
-   }
-   /*
-      public void testNegativeSingleStringBufferConverter() {
-         verifyNegativeConversion("ABCD", StringBuffer.class);
-      }
-   */
-   /*
-   public void testNegativeArrayStringConverter() {
-      verifyNegativeArrayConversion("foo", String[].class);
-   }
-   */
-   @Test
-   public void testNegativeArrayBigDecimalConverter() {
-      verifyNegativeArrayConversion("ABCD", BigDecimal[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeSingleIntegerConverter() {
+		verifyNegativeConversion("ABCD", Integer.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeArrayBigIntegerConverter() {
-      verifyNegativeArrayConversion("ABCD", BigInteger[].class); //$NON-NLS-1$
-   }
-   /*
-      public void testNegativeArrayBooleanConverter() {
-         verifyNegativeArrayConversion("true", Boolean[].class);
-      }
-   */
-   @Test
-   public void testNegativeArrayByteConverter() {
-      verifyNegativeArrayConversion("ABCD", Byte[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeSingleLongConverter() {
+		verifyNegativeConversion("ABCD", Long.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeArrayCharacterConverter() {
-      verifyNegativeArrayConversion("", Character[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeSingleShortConverter() {
+		verifyNegativeConversion("ABCD", Short.class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeArrayDoubleConverter() {
-      verifyNegativeArrayConversion("ABCD", Double[].class); //$NON-NLS-1$
-   }
+	/*
+	 * public void testNegativeSingleStringBufferConverter() {
+	 * verifyNegativeConversion("ABCD", StringBuffer.class); }
+	 */
+	/*
+	 * public void testNegativeArrayStringConverter() {
+	 * verifyNegativeArrayConversion("foo", String[].class); }
+	 */
+	@Test
+	public void testNegativeArrayBigDecimalConverter() {
+		verifyNegativeArrayConversion("ABCD", BigDecimal[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeArrayFloatConverter() {
-      verifyNegativeArrayConversion("ABCD", Float[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeArrayBigIntegerConverter() {
+		verifyNegativeArrayConversion("ABCD", BigInteger[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeArrayIntegerConverter() {
-      verifyNegativeArrayConversion("ABCD", Integer[].class); //$NON-NLS-1$
-   }
+	/*
+	 * public void testNegativeArrayBooleanConverter() {
+	 * verifyNegativeArrayConversion("true", Boolean[].class); }
+	 */
+	@Test
+	public void testNegativeArrayByteConverter() {
+		verifyNegativeArrayConversion("ABCD", Byte[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeArrayLongConverter() {
-      verifyNegativeArrayConversion("ABCD", Long[].class); //$NON-NLS-1$
-   }
+	@Test
+	public void testNegativeArrayCharacterConverter() {
+		verifyNegativeArrayConversion("", Character[].class); //$NON-NLS-1$
+	}
 
-   @Test
-   public void testNegativeArrayShortConverter() {
-      verifyNegativeArrayConversion("ABCD", Short[].class); //$NON-NLS-1$
-   }
-   /*
-      public void testNegativeArrayStringBufferConverter() {
-         verifyNegativeArrayConversion("ABCD", StringBuffer[].class);
-      }
-   */
+	@Test
+	public void testNegativeArrayDoubleConverter() {
+		verifyNegativeArrayConversion("ABCD", Double[].class); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testNegativeArrayFloatConverter() {
+		verifyNegativeArrayConversion("ABCD", Float[].class); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testNegativeArrayIntegerConverter() {
+		verifyNegativeArrayConversion("ABCD", Integer[].class); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testNegativeArrayLongConverter() {
+		verifyNegativeArrayConversion("ABCD", Long[].class); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testNegativeArrayShortConverter() {
+		verifyNegativeArrayConversion("ABCD", Short[].class); //$NON-NLS-1$
+	}
+	/*
+	 * public void testNegativeArrayStringBufferConverter() {
+	 * verifyNegativeArrayConversion("ABCD", StringBuffer[].class); }
+	 */
 }

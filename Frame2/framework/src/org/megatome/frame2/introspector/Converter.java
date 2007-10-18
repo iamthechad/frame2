@@ -105,7 +105,7 @@ final class Converter {
 	private Converter() { // Non-public ctor
 	}
 
-	static Object convertValueToType(Object value, Class<?> type) {
+	static Object convertValueToType(Object value, Class<?> type) throws Exception {
 		if ((value == null) || (type == null)) {
 			return null;
 		}
@@ -128,15 +128,21 @@ final class Converter {
 		}
 
 		TypeConverter converter = converterMap.get(type);
+		if (type.isEnum()) {
+			converter = new EnumConverter();
+		}
 
 		if (converter != null) {
+			if (type.isEnum()) {
+				((EnumConverter)converter).setType(type);
+			}
 			return converter.convert(strValue);
 		}
 
 		return null;
 	}
 
-	static Object convertValueToArrayType(Object value, Class<?> type) {
+	static Object convertValueToArrayType(Object value, Class<?> type) throws Exception {
 		if ((value == null) || (type == null)) {
 			return null;
 		}

@@ -50,7 +50,31 @@
  */
 package org.megatome.frame2.introspector;
 
-public interface TypeConverter {
-	abstract public Object convert(String fromString) throws Exception;
-    abstract public Object[] convertToArray(String fromString) throws Exception;
+
+public class EnumConverter implements TypeConverter {
+	@SuppressWarnings("unchecked")
+	private Class type;
+	
+	@SuppressWarnings("unchecked")
+	public void setType(Class type) {
+		this.type = type;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object convert(String fromString) throws Exception {
+		return valueOf(this.type, fromString);
+	}
+
+	@Override
+	public Object[] convertToArray(@SuppressWarnings("unused")
+	String fromString) {
+		return null;
+	}
+	
+	private static <T extends Enum<T>> T valueOf( Class<T> enumClass, String value ) throws Exception {
+        return Enum.valueOf(enumClass, value);
+	}
+
+
 }
