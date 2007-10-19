@@ -9,7 +9,7 @@
       <forward name="normal"  type="HTMLResource" path="/normal.jsp"/>
       <forward name="input"   type="HTMLResource" path="/input.jsp"/>
       <forward name="cancel"  type="HTMLResource" path="/cancel.jsp"/>
-      <forward name="chained" type="HTMLResource" path="/chained.jsp"/>
+      <forward name="chained" type="event" path="event1"/>
    </global-forwards>
    <events>
       <event name="event1" type="org.megatome.frame2.front.Event1"/>
@@ -18,6 +18,7 @@
    <event-mappings>
       <event-mapping eventName="event1" cancelView="cancel">
          <handler name="ev1handler1"/>
+         <view type="HTML" forwardName="normal"/>
       </event-mapping>
       <event-mapping eventName="event2" cancelView="chained">
          <handler name="ev2handler1"/>

@@ -795,7 +795,7 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 
 		request.processRequest();
 
-		verifyForwardPath("/chained.jsp"); //$NON-NLS-1$
+		verifyForwardPath("/normal.jsp"); //$NON-NLS-1$
 	}
 
 	/*
