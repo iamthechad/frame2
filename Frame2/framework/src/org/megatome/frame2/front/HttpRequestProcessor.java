@@ -301,7 +301,8 @@ public class HttpRequestProcessor extends RequestProcessorBase {
                     ForwardProxy result = callHandlers(eventName, event, ViewType.HTML);
                     proxy = callAndMapHandlers(result);
                 } else {
-                	proxy = new ViewProxy(getValidationFailedView(event, eventName));
+                	ForwardProxy result = getValidationFailedView(event, eventName);
+                	proxy = new ViewProxy(result, result.getPath());
                 }
             }
         } catch (Throwable ex) {
@@ -341,17 +342,25 @@ public class HttpRequestProcessor extends RequestProcessorBase {
         	if (valid) {
         		result = callHandlers(result.getPath(), next, ViewType.HTML);
         	} else {
-        		return new ViewProxy(result, getValidationFailedView(next, next.getEventName()));
+        		return new ViewProxy(result, getValidationFailedView(next, next.getEventName()).getPath());
         	}
         }
     	getContextWrapper().clearResponseURIAttributes();
     	return new ViewProxy(result, result.getPath());
     }
     
-    private String getValidationFailedView(final Event event, final String eventName) throws Exception {
+    private ForwardProxy getValidationFailedView(final Event event, final String eventName) throws Exception {
     	getContextWrapper().setRequestAttribute(eventName, event);
-        return getConfig().inputViewFor(eventName,
-                configResourceType());
+        //return getConfig().inputViewFor(eventName,
+        //        configResourceType());
+        ForwardProxy result = getConfig().inputViewFor(eventName, configResourceType());
+    	if (result.isEventType()) {
+            result = callHandlers(result.getPath(), getConfig()
+                    .getEventProxy(result.getPath()).getEvent(),
+                    ViewType.HTML);
+        }
+    	//proxy = new ViewProxy(getValidationFailedView(event, eventName));
+    	return result;
     }
 
     /**

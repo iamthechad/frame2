@@ -154,7 +154,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		Map<String, EventDef> events = config.getEvents();
 
 		assertNotNull(events);
-		assertEquals(29, events.size());
+		assertEquals(30, events.size());
 
 		Map<String, EventHandlerDef> eventHandlers = config.getEventHandlers();
 
@@ -164,7 +164,7 @@ public class TestHttpFrontController extends MockFrame2TestCase {
 		Map<String, EventMapping> eventMappings = config.getEventMappings();
 
 		assertNotNull(eventMappings);
-		assertEquals(24, eventMappings.size());
+		assertEquals(25, eventMappings.size());
 	}
 
 	// NIT: This test is really more of a test of the Mock framework.  Should it be

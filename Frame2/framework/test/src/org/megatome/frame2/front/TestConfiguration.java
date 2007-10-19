@@ -460,9 +460,9 @@ public class TestConfiguration {
 	@Test
 	public void testInputViewFor() {
 		try {
-			assertEquals(
-				"/view3.jsp", //$NON-NLS-1$
-				this.config.inputViewFor("event3", Configuration.HTML_TOKEN)); //$NON-NLS-1$
+			ForwardProxy proxy = this.config.inputViewFor("event3", Configuration.HTML_TOKEN); //$NON-NLS-1$
+			assertNotNull(proxy);
+			assertEquals("/view3.jsp",proxy.getPath()); //$NON-NLS-1$
 		} catch (ConfigException e) {
 			fail("Unexpected ConfigException: " + e.getMessage()); //$NON-NLS-1$
 		} catch (ViewException e) {

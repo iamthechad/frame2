@@ -904,6 +904,18 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 
 		verifyForwardPath("/fail.jsp"); //$NON-NLS-1$
 	}
+	
+	@Test
+	public void testEventAsInputView() throws Throwable {
+		Configuration config = new Configuration(
+				"org/megatome/frame2/front/test-config.xml"); //$NON-NLS-1$
+		setServletPath("/attributeEvent3.f2"); //$NON-NLS-1$
+		HttpRequestProcessor request = createHelper(config);
+
+		request.processRequest();
+
+		verifyForwardPath("/fail.jsp"); //$NON-NLS-1$
+	}
 
 	@Test
 	public void testViewExceptionForwardToPath() throws Throwable {
@@ -1056,10 +1068,11 @@ public class TestHttpRequestProcessor extends MockFrame2TestCase {
 			HttpServletRequest request = getRequest();
 			FailsValidationEvent event = (FailsValidationEvent) request
 					.getAttribute(EVENT_NAME);
+			assertNotNull(event);
 			String stillThere = event.getStillThere();
 
 			assertEquals("BABY", stillThere); //$NON-NLS-1$
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			fail("We should not have gotten an exception"); //$NON-NLS-1$
 		}
 	}
