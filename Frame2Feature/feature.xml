@@ -2,7 +2,7 @@
 <feature
       id="org.megatome.frame2.feature"
       label="Frame2"
-      version="1.4.4"
+      version="1.4.5"
       provider-name="Megatome Technologies"
       plugin="org.megatome.frame2"
       os="linux,macosx,solaris,win32"
