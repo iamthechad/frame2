@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Frame2 Changelog</title></head>
-<body><h1>Frame2&nbsp;Changelog</h1>I didn't maintain a list of changes before 1.3, changes to any version prior to 1.3 are not captured here.<br><br><h2>Changes in 1.3:</h2><h3>Major Updates</h3><ul><li>Version 1.3 requires Java 6</li><li>Removed dependencies on Java Web Services Developer Kit since JAXB support is now in Java 6</li><li>Updated
+<body><h1>Frame2&nbsp;Changelog</h1>I didn't maintain a list of changes before 1.3, changes to any version prior to 1.3 are not captured here.<br><br><h2>Changes in 1.3.1:</h2><ul><li>Support setting enum values in events. Frame2 uses the Enum.valueOf() method to convert a String value into an enum instance. Getters and setters that use enum values should get persisted through events and into views correctly.</li><li>Allow input views to be events<br></li></ul><h2>Changes in 1.3:</h2><h3>Major Updates</h3><ul><li>Version 1.3 requires Java 6</li><li>Removed dependencies on Java Web Services Developer Kit since JAXB support is now in Java 6</li><li>Updated
 Frame2 DTD to allow specification of schemas for JAXB events. Schemas
 are used when validating the contents of a SOAP message.<br></li></ul><h3>Minor Changes</h3><ul><li>Version
 1.2 and earlier used two separate files for Commons Validation - a

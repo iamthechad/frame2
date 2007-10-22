@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Frame2 for Eclipse
 Bundle-SymbolicName: org.megatome.frame2; singleton:=true
-Bundle-Version: 1.4.4
+Bundle-Version: 1.4.5
 Bundle-ClassPath: frame2_plugin.jar
 Bundle-Vendor: Megatome Technologies
 Require-Bundle: org.eclipse.ui.ide,
