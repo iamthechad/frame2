@@ -675,6 +675,8 @@
 		</tarfileset>
 	</tar>
 	<delete dir="${image_dist}"/>
+	<checksum file="${dist}/${image_dist_name}.tar.gz"
+	format="MD5SUM"/>
 </target>
 
 <target name="build_source_all" depends="init, dist, javadoc">
@@ -726,6 +728,8 @@
 		</tarfileset>
 	</tar>
 	<delete dir="${image_dist}"/>
+	<checksum file="${dist}/${image_src_all_dist_name}.tar.gz"
+		format="MD5SUM"/>
 </target>
 	
 <target name="build_source_only" depends="init, dist, javadoc">
@@ -777,6 +781,8 @@
 		</tarfileset>
 	</tar>
 	<delete dir="${image_dist}"/>
+	<checksum file="${dist}/${image_src_only_dist_name}.tar.gz"
+		format="MD5SUM"/>
 </target>
 
 </project>
