@@ -87,9 +87,28 @@ public abstract class BaseTemplateTagTest extends JspTestCase {
 	public void testNegativeLiveJsp() {
 		try {
 			this.pageContext.forward(JSP_TEST_DIR + this._testNegativeJspName);
-			fail();
+			fail("Did not catch Expected Exception");
 		} catch (Exception e) {
-			assertTrue(e.getMessage().indexOf(this._expectedNegativeLiveJsp) != -1);
+			boolean failed = false;
+			String failMessage = "Did not find expected error";
+			Throwable t = e;
+			while (!failed) {
+				String message = t.getMessage();
+				int idx = message.indexOf(this._expectedNegativeLiveJsp);
+				if (idx == -1) {
+					t = t.getCause();
+					if (t == null) {
+						failed = true;
+						failMessage = "Exhausted stack trace looking for message";
+					}
+				} else {
+					break;
+				}
+			}
+			
+			if (failed) {
+				fail(failMessage);
+			}
 		}
 	}
 
