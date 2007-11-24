@@ -140,24 +140,6 @@ public void tearDown() {
    }
 
    @Test
-   public void testSetResourceBundle_FR() throws Exception {
-      ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
-
-      ResourceBundle bundle = ResourceLocator.getBundle(Locale.FRENCH);
-
-      assertNotNull(bundle);
-
-      try {
-         assertEquals("{0}Êtes-vous Bob?",bundle.getString("tag.question")); //$NON-NLS-1$ //$NON-NLS-2$
-         assertEquals("{0}Êtes-vous {1} Bob?",bundle.getString("tag.question.with.parm")); //$NON-NLS-1$ //$NON-NLS-2$
-      } catch (MissingResourceException e) {
-         fail();
-      }
-      
-      assertSame(bundle,ResourceLocator.getBundle(Locale.FRENCH));
-   }
-
-   @Test
    public void testSetResourceBundle_DE() throws Exception {
       ResourceLocator.setBasename("frame2-resource"); //$NON-NLS-1$
 
