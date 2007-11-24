@@ -51,7 +51,6 @@
 package org.megatome.frame2.util;
 import static org.junit.Assert.assertEquals;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -73,19 +72,6 @@ public class TestURLHelper {
 	final static String PARAM_3_VALUE = "param3Value"; //$NON-NLS-1$
 
 	final static String BASE_URI = "test.f2"; //$NON-NLS-1$
-
-	@Test
-	public void testURLEncoding() throws Exception {
-
-		String expected = "The+string+%C3%BC%40foo-bar" //$NON-NLS-1$
-				+ URLEncoder.encode(URLHelper.SEP, URLHelper.ENC_UTF_8)
-				+ URLEncoder.encode(URLHelper.QUESTION_MARK,
-						URLHelper.ENC_UTF_8);
-
-		String actual = URLHelper
-				.encodeURL("The string ü@foo-bar" + URLHelper.SEP + URLHelper.QUESTION_MARK); //$NON-NLS-1$
-		assertEquals(expected, actual);
-	}
 
 	@Test
 	public void testNullHashMap() throws Exception {
