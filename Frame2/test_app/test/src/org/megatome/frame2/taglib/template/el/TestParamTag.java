@@ -258,8 +258,9 @@ public class TestParamTag extends BaseTemplateTagTest {
 	public void endLiveJspMultiParamNames(WebResponse webResponse)
 			throws Exception {
 		String actual = webResponse.getText().trim();
-
-		String expected = "value<br>\r\n\r\ndude_value<br>"; //$NON-NLS-1$
+		actual = actual.replaceAll("\\n", "");
+		actual = actual.replaceAll("\\r", "");
+		String expected = "value<br>dude_value<br>"; //$NON-NLS-1$
 
 		assertEquals(expected, actual);
 
